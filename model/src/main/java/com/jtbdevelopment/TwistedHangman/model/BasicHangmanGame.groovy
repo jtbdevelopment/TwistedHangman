@@ -1,7 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.model
 
 import groovy.transform.CompileStatic
-import org.codehaus.groovy.util.StringUtil
 import org.springframework.util.StringUtils
 
 /**
@@ -20,13 +19,13 @@ class BasicHangmanGame implements Serializable {
     private final SortedSet<Character> guessedLetters = new TreeSet<>();
 
     public BasicHangmanGame(final String wordPhraseAsString, final String category, int guessesUntilHung) {
-        if(guessesUntilHung <= 0) {
+        if (guessesUntilHung <= 0) {
             throw new IllegalArgumentException("max guesses must be positive number")
         }
-        if(StringUtils.isEmpty(wordPhraseAsString)) {
+        if (StringUtils.isEmpty(wordPhraseAsString)) {
             throw new IllegalArgumentException("invalid wordPhrase")
         }
-        if(StringUtils.isEmpty(category)) {
+        if (StringUtils.isEmpty(category)) {
             throw new IllegalArgumentException("category is invalid")
         }
         this.category = category.toUpperCase()
@@ -69,12 +68,12 @@ class BasicHangmanGame implements Serializable {
     }
 
     public int guessLetter(final Character letter) {
-        if(!letter.isLetter()) {
+        if (!letter.isLetter()) {
             throw new IllegalArgumentException("Non alphabetic guess");
         }
 
         char uppercaseLetter = letter.toUpperCase();
-        if(guessedLetters.contains(uppercaseLetter)) {
+        if (guessedLetters.contains(uppercaseLetter)) {
             throw new IllegalArgumentException("Already guessed this letter")
         }
 

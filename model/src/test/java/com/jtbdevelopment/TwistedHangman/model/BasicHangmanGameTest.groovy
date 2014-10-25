@@ -6,6 +6,9 @@ import org.junit.Test
  * Date: 10/25/2014
  * Time: 6:28 PM
  */
+
+//  TODO - test exceptions in constructor and guesser
+
 class BasicHangmanGameTest extends GroovyTestCase {
     @Test
     public void testInitialGameStateForBasicWord() {
