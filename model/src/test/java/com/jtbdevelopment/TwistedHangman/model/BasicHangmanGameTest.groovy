@@ -19,10 +19,8 @@ class BasicHangmanGameTest extends GroovyTestCase {
         assert game.badGuessedLetters.empty
         assert game.goodGuessedLetters.empty
         assert game.guessedLetters.empty
-        assert game.displayedWordPhrase == ['_', '_', '_']
-        assert game.displayedWordPhraseAsString == "___"
-        assert game.wordPhrase == ['C', 'A', 'T']
-        assert game.wordPhraseAsString == "CAT"
+        assert game.displayedWordPhrase == "___"
+        assert game.wordPhrase == "CAT"
         assert game.guessesUntilHung == 5
         assert game.hangingParts == 0
         assert game.category == "ANIMAL"
@@ -31,8 +29,8 @@ class BasicHangmanGameTest extends GroovyTestCase {
     @Test
     public void testInitialGameStateForPhraseWithNonAlphabeticCharacters() {
         BasicHangmanGame game = new BasicHangmanGame("It's a wonderful life.", "Movie", 7)
-        assert game.displayedWordPhraseAsString == "__'_ _ _________ ____."
-        assert game.wordPhraseAsString == "IT'S A WONDERFUL LIFE."
+        assert game.displayedWordPhrase == "__'_ _ _________ ____."
+        assert game.wordPhrase == "IT'S A WONDERFUL LIFE."
         assert game.guessesUntilHung == 7
         assert game.category == "MOVIE"
     }
@@ -45,7 +43,7 @@ class BasicHangmanGameTest extends GroovyTestCase {
         assert game.badGuessedLetters.empty
         assert game.guessedLetters == new TreeSet(['I'])
         assert game.goodGuessedLetters == new TreeSet(['I'])
-        assert game.displayedWordPhraseAsString == "_I__ _ ______"
+        assert game.displayedWordPhrase == "_I__ _ ______"
         assert game.category == "JUNK"
     }
 
@@ -59,7 +57,7 @@ class BasicHangmanGameTest extends GroovyTestCase {
         assert game.badGuessedLetters.empty
         assert game.guessedLetters == new TreeSet(['E', 'I'])
         assert game.goodGuessedLetters == new TreeSet(['E', 'I'])
-        assert game.displayedWordPhraseAsString == "_I__ _ _E__E_"
+        assert game.displayedWordPhrase == "_I__ _ _E__E_"
     }
 
     @Test
@@ -74,7 +72,7 @@ class BasicHangmanGameTest extends GroovyTestCase {
         assert game.badGuessedLetters == new TreeSet(['X', 'Z'])
         assert game.guessedLetters == new TreeSet(['E', 'I', 'X', 'Z'])
         assert game.goodGuessedLetters == new TreeSet(['E', 'I'])
-        assert game.displayedWordPhraseAsString == "_I__ _ _E__E_"
+        assert game.displayedWordPhrase == "_I__ _ _E__E_"
     }
 
     @Test
@@ -87,7 +85,7 @@ class BasicHangmanGameTest extends GroovyTestCase {
         assert game.gameOver
 
         assert game.hangingParts == game.guessesUntilHung
-        assert game.displayedWordPhraseAsString == "WI__ER"
+        assert game.displayedWordPhrase == "WI__ER"
         assert game.badGuessedLetters == new TreeSet(['G', 'X', 'L', 'M', 'T'])
         assert game.goodGuessedLetters == new TreeSet(['W', 'I', 'E', 'R'])
         assert game.guessedLetters == new TreeSet(['W', 'I', 'E', 'R', 'G', 'X', 'L', 'M', 'T'])
@@ -103,7 +101,7 @@ class BasicHangmanGameTest extends GroovyTestCase {
         assert game.gameOver
 
         assert game.hangingParts < game.guessesUntilHung
-        assert game.displayedWordPhraseAsString == "WINNER"
+        assert game.displayedWordPhrase == "WINNER"
         assert game.badGuessedLetters == new TreeSet(['G', 'X', 'L', 'M'])
         assert game.goodGuessedLetters == new TreeSet(['W', 'I', 'N', 'E', 'R'])
         assert game.guessedLetters == new TreeSet(['W', 'I', 'E', 'R', 'G', 'X', 'L', 'M', 'N'])
@@ -126,7 +124,7 @@ class BasicHangmanGameTest extends GroovyTestCase {
                 assert !game.gameOver
         }
         assert game.hangingParts == 4
-        assert game.displayedWordPhraseAsString == "WI__ER"
+        assert game.displayedWordPhrase == "WI__ER"
         game
     }
 }

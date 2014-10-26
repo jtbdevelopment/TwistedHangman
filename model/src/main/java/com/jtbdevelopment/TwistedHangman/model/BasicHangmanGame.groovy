@@ -10,8 +10,8 @@ import org.springframework.util.StringUtils
 @CompileStatic
 class BasicHangmanGame implements Serializable {
     final int guessesUntilHung;
-    final char[] wordPhrase;
-    final char[] displayedWordPhrase;
+    protected final char[] wordPhraseArray;
+    protected final char[] displayedWordPhraseArray;
     final String category;
     private final SortedSet<Character> distinctLetters = new TreeSet<>();
     private final SortedSet<Character> goodGuessedLetters = new TreeSet<>();
@@ -30,15 +30,15 @@ class BasicHangmanGame implements Serializable {
         }
         this.category = category.toUpperCase()
         this.guessesUntilHung = guessesUntilHung ?: 0
-        this.wordPhrase = wordPhraseAsString.toUpperCase().toCharArray()
-        displayedWordPhrase = new char[wordPhrase.length]
+        this.wordPhraseArray = wordPhraseAsString.toUpperCase().toCharArray()
+        displayedWordPhraseArray = new char[wordPhraseArray.length]
 
-        for (int i = 0; i < wordPhrase.length; ++i) {
-            if (Character.isLetter(wordPhrase[i])) {
-                distinctLetters.add(wordPhrase[i]);
-                displayedWordPhrase[i] = '_';
+        for (int i = 0; i < wordPhraseArray.length; ++i) {
+            if (Character.isLetter(wordPhraseArray[i])) {
+                distinctLetters.add(wordPhraseArray[i]);
+                displayedWordPhraseArray[i] = '_';
             } else {
-                displayedWordPhrase[i] = wordPhrase[i];
+                displayedWordPhraseArray[i] = wordPhraseArray[i];
             }
         }
     }
@@ -48,7 +48,7 @@ class BasicHangmanGame implements Serializable {
     }
 
     public boolean isGameWon() {
-        return distinctLetters.size() == goodGuessedLetters.size();
+        return displayedWordPhrase == wordPhrase;
     }
 
     public boolean isGameLost() {
@@ -59,12 +59,12 @@ class BasicHangmanGame implements Serializable {
         return (isGameLost() || isGameWon());
     }
 
-    public String getWordPhraseAsString() {
-        return new String(wordPhrase);
+    public String getWordPhrase() {
+        return new String(wordPhraseArray);
     }
 
-    public String getDisplayedWordPhraseAsString() {
-        return new String(displayedWordPhrase);
+    public String getDisplayedWordPhrase() {
+        return new String(displayedWordPhraseArray);
     }
 
     public int guessLetter(final Character letter) {
@@ -78,9 +78,9 @@ class BasicHangmanGame implements Serializable {
         }
 
         int found = 0;
-        for (int i = 0; i < wordPhrase.length; ++i) {
+        for (int i = 0; i < wordPhraseArray.length; ++i) {
             if (wordPhrase[i] == uppercaseLetter) {
-                displayedWordPhrase[i] = uppercaseLetter;
+                displayedWordPhraseArray[i] = uppercaseLetter;
                 ++found;
             }
         }
