@@ -24,6 +24,7 @@ class BasicHangmanGameTest extends GroovyTestCase {
         assert game.guessesUntilHung == 5
         assert game.hangingParts == 0
         assert game.category == "ANIMAL"
+        assert game.moveCount == 0
     }
 
     @Test
@@ -45,6 +46,7 @@ class BasicHangmanGameTest extends GroovyTestCase {
         assert game.goodGuessedLetters == new TreeSet(['I'])
         assert game.displayedWordPhrase == "_I__ _ ______"
         assert game.category == "JUNK"
+        assert game.moveCount == 1
     }
 
     @Test
@@ -58,6 +60,7 @@ class BasicHangmanGameTest extends GroovyTestCase {
         assert game.guessedLetters == new TreeSet(['E', 'I'])
         assert game.goodGuessedLetters == new TreeSet(['E', 'I'])
         assert game.displayedWordPhrase == "_I__ _ _E__E_"
+        assert game.moveCount == 2
     }
 
     @Test
@@ -73,6 +76,7 @@ class BasicHangmanGameTest extends GroovyTestCase {
         assert game.guessedLetters == new TreeSet(['E', 'I', 'X', 'Z'])
         assert game.goodGuessedLetters == new TreeSet(['E', 'I'])
         assert game.displayedWordPhrase == "_I__ _ _E__E_"
+        assert game.moveCount == 4
     }
 
     @Test
@@ -89,6 +93,7 @@ class BasicHangmanGameTest extends GroovyTestCase {
         assert game.badGuessedLetters == new TreeSet(['G', 'X', 'L', 'M', 'T'])
         assert game.goodGuessedLetters == new TreeSet(['W', 'I', 'E', 'R'])
         assert game.guessedLetters == new TreeSet(['W', 'I', 'E', 'R', 'G', 'X', 'L', 'M', 'T'])
+        assert game.moveCount == 9
     }
 
     @Test
@@ -105,6 +110,7 @@ class BasicHangmanGameTest extends GroovyTestCase {
         assert game.badGuessedLetters == new TreeSet(['G', 'X', 'L', 'M'])
         assert game.goodGuessedLetters == new TreeSet(['W', 'I', 'N', 'E', 'R'])
         assert game.guessedLetters == new TreeSet(['W', 'I', 'E', 'R', 'G', 'X', 'L', 'M', 'N'])
+        assert game.moveCount == 9
     }
 
     private BasicHangmanGame setUpAlmostFinishedGame() {

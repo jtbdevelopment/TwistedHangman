@@ -19,7 +19,29 @@ class ThievingHangmanGame extends BasicHangmanGame {
         }
     }
 
-    public void stealLetter(int position) {
+    boolean[] getStolenLetterMarkers() {
+        return (boolean[]) stolenLetterMarkers.clone()
+    }
+
+    @Override
+    int getHangingParts() {
+        return super.getHangingParts() + stolenLetters
+    }
+
+    @Override
+    boolean isGameLost() {
+        return (stolenLetters + badGuessedLetters.size()) == guessesUntilHung
+    }
+
+    @Override
+    int getMoveCount() {
+        return stolenLetters + super.getMoveCount()
+    }
+
+    void stealLetter(int position) {
+        if (gameOver) {
+            throw new IllegalArgumentException("game already over")
+        }
         if (position >= wordPhraseArray.length || position < 0) {
             throw new IllegalArgumentException("invalid position")
         }
@@ -28,12 +50,13 @@ class ThievingHangmanGame extends BasicHangmanGame {
         }
 
         ++stolenLetters
-        stolenLetterMarkers[position] == true
+        stolenLetterMarkers[position] = true
         displayedWordPhraseArray[position] = wordPhraseArray[position];
     }
 
     public int getStolenLetters() {
         return stolenLetters
     }
+
 
 }

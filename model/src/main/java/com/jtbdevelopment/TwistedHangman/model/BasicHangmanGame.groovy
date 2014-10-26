@@ -67,7 +67,14 @@ class BasicHangmanGame implements Serializable {
         return new String(displayedWordPhraseArray);
     }
 
+    public int getMoveCount() {
+        return guessedLetters.size()
+    }
+
     public int guessLetter(final Character letter) {
+        if (gameOver) {
+            throw new IllegalArgumentException("game is over")
+        }
         if (!letter.isLetter()) {
             throw new IllegalArgumentException("Non alphabetic guess");
         }
