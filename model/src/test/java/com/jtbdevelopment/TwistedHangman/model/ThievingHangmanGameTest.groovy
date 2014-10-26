@@ -6,8 +6,6 @@ import org.junit.Test
  * Date: 10/25/14
  * Time: 8:21 PM
  */
-
-//  TODO - test exceptions
 class ThievingHangmanGameTest extends GroovyTestCase {
     @Test
     public void testThievingGameWithoutTheft() {
@@ -64,4 +62,63 @@ class ThievingHangmanGameTest extends GroovyTestCase {
         assert game.moveCount == 4
     }
 
+    @Test
+    public void testExceptionOnStealingGameOver() {
+        ThievingHangmanGame game = new ThievingHangmanGame("Frog", "Animal", 3)
+        game.guessLetter((char) 'X')
+        game.guessLetter((char) 'Y')
+        game.guessLetter((char) 'Z')
+        try {
+            game.stealLetter(1)
+            fail("Should not get here.")
+        } catch (IllegalArgumentException e) {
+            assert e.message == ThievingHangmanGame.GAME_OVER_ERROR
+        }
+    }
+
+    @Test
+    public void testExceptionOnNegativePosition() {
+        ThievingHangmanGame game = new ThievingHangmanGame("Frog", "Animal", 3)
+        try {
+            game.stealLetter(-1)
+            fail("Should not get here.")
+        } catch (IllegalArgumentException e) {
+            assert e.message == ThievingHangmanGame.NEGATIVE_POSITION_ERROR
+        }
+    }
+
+    @Test
+    public void testExceptionOnBeyondEndPosition() {
+        ThievingHangmanGame game = new ThievingHangmanGame("Frog", "Animal", 3)
+        try {
+            game.stealLetter(10)
+            fail("Should not get here.")
+        } catch (IllegalArgumentException e) {
+            assert e.message == ThievingHangmanGame.POSITION_BEYOND_END_ERROR
+        }
+    }
+
+    @Test
+    public void testExceptionOnStealingPreviouslyStolenLetter() {
+        ThievingHangmanGame game = new ThievingHangmanGame("Frog", "Animal", 3)
+        game.stealLetter(1)
+        try {
+            game.stealLetter(1)
+            fail("Should not get here.")
+        } catch (IllegalArgumentException e) {
+            assert e.message == ThievingHangmanGame.STEALING_KNOWN_LETTER_ERROR
+        }
+    }
+
+    @Test
+    public void testExceptionOnStealingPreviouslyGuessedLetter() {
+        ThievingHangmanGame game = new ThievingHangmanGame("Frog", "Animal", 3)
+        game.guessLetter((char) 'F')
+        try {
+            game.stealLetter(0)
+            fail("Should not get here.")
+        } catch (IllegalArgumentException e) {
+            assert e.message == ThievingHangmanGame.STEALING_KNOWN_LETTER_ERROR
+        }
+    }
 }

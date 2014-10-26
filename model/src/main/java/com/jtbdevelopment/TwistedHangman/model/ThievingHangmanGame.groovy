@@ -8,6 +8,9 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 class ThievingHangmanGame extends BasicHangmanGame {
+    public static final String STEALING_KNOWN_LETTER_ERROR = "Letter already known at position."
+    public static final String POSITION_BEYOND_END_ERROR = "Position is beyond end of word/phrase."
+    public static final String NEGATIVE_POSITION_ERROR = "Negative position can't be stolen."
     final boolean[] stolenLetterMarkers;
     private int stolenLetters = 0;
 
@@ -40,13 +43,16 @@ class ThievingHangmanGame extends BasicHangmanGame {
 
     void stealLetter(int position) {
         if (gameOver) {
-            throw new IllegalArgumentException("game already over")
+            throw new IllegalArgumentException(GAME_OVER_ERROR)
         }
-        if (position >= wordPhraseArray.length || position < 0) {
-            throw new IllegalArgumentException("invalid position")
+        if (position < 0) {
+            throw new IllegalArgumentException(NEGATIVE_POSITION_ERROR)
+        }
+        if (position >= wordPhraseArray.length) {
+            throw new IllegalArgumentException(POSITION_BEYOND_END_ERROR)
         }
         if (super.wordPhraseArray[position] == displayedWordPhraseArray[position]) {
-            throw new IllegalArgumentException("alread known letter")
+            throw new IllegalArgumentException(STEALING_KNOWN_LETTER_ERROR)
         }
 
         ++stolenLetters

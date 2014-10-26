@@ -9,6 +9,12 @@ import org.springframework.util.StringUtils
  */
 @CompileStatic
 class BasicHangmanGame implements Serializable {
+    public static final String ALREADY_GUESSED_ERROR = "Letter previously guessed."
+    public static final String NOT_A_LETTER_ERROR = "Guess is not a letter."
+    public static final String GAME_OVER_ERROR = "Game is already over."
+    public static final String INVALID_MAX_GUESSES_ERROR = "Invalid maximum guesses."
+    public static final String EMPTY_WORD_PHRASE_ERROR = "Empty word/phrase."
+    public static final String EMPTY_CATEGORY_ERROR = "Category is invalid."
     final int guessesUntilHung;
     protected final char[] wordPhraseArray;
     protected final char[] displayedWordPhraseArray;
@@ -20,13 +26,13 @@ class BasicHangmanGame implements Serializable {
 
     public BasicHangmanGame(final String wordPhraseAsString, final String category, int guessesUntilHung) {
         if (guessesUntilHung <= 0) {
-            throw new IllegalArgumentException("max guesses must be positive number")
+            throw new IllegalArgumentException(INVALID_MAX_GUESSES_ERROR)
         }
         if (StringUtils.isEmpty(wordPhraseAsString)) {
-            throw new IllegalArgumentException("invalid wordPhrase")
+            throw new IllegalArgumentException(EMPTY_WORD_PHRASE_ERROR)
         }
         if (StringUtils.isEmpty(category)) {
-            throw new IllegalArgumentException("category is invalid")
+            throw new IllegalArgumentException(EMPTY_CATEGORY_ERROR)
         }
         this.category = category.toUpperCase()
         this.guessesUntilHung = guessesUntilHung ?: 0
@@ -73,15 +79,15 @@ class BasicHangmanGame implements Serializable {
 
     public int guessLetter(final Character letter) {
         if (gameOver) {
-            throw new IllegalArgumentException("game is over")
+            throw new IllegalArgumentException(GAME_OVER_ERROR)
         }
         if (!letter.isLetter()) {
-            throw new IllegalArgumentException("Non alphabetic guess");
+            throw new IllegalArgumentException(NOT_A_LETTER_ERROR);
         }
 
         char uppercaseLetter = letter.toUpperCase();
         if (guessedLetters.contains(uppercaseLetter)) {
-            throw new IllegalArgumentException("Already guessed this letter")
+            throw new IllegalArgumentException(ALREADY_GUESSED_ERROR)
         }
 
         int found = 0;
