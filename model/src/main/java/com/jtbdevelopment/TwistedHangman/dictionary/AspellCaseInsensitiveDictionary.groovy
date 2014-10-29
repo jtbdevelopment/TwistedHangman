@@ -38,7 +38,6 @@ import org.slf4j.LoggerFactory
 
  */
 
-//  TODO - get rid of naughty words in list
 @CompileStatic
 class AspellCaseInsensitiveDictionary implements Dictionary {
     private static final Logger log = LoggerFactory.getLogger(AspellCaseInsensitiveDictionary.class)
@@ -49,7 +48,7 @@ class AspellCaseInsensitiveDictionary implements Dictionary {
         boolean hitWords = false
         int counter = 0
         log.info("Loading dictionary..")
-        InputStream stream = new BufferedInputStream(AspellCaseInsensitiveDictionary.class.getResourceAsStream("/dictionary.txt"))
+        InputStream stream = new BufferedInputStream(AspellCaseInsensitiveDictionary.class.getResourceAsStream("/aspell/dictionary.txt"))
         stream.eachLine {
             String line ->
                 if (hitWords) {
@@ -64,7 +63,29 @@ class AspellCaseInsensitiveDictionary implements Dictionary {
                 }
         }
         log.info("Processed = " + counter)
-        log.info("Dictionary loaded.")
+        stream.close()
+        log.info("Loading taboo and offensive words")
+        for (String file in ['offensive.1', "offensive.2", "profane.1", "profane.3"]) {
+            counter = 0
+            log.info("Removing offensive/profane from " + file)
+            stream = new BufferedInputStream(AspellCaseInsensitiveDictionary.class.getResourceAsStream("/aspell/" + file))
+            stream.eachLine {
+                String line ->
+                    if (hitWords) {
+                        words.remove(line.toUpperCase())
+                        counter++
+                        if (counter % 50000 == 0) {
+                            log.info("Processed = " + counter)
+                        }
+                    } else if (line == "---") {
+                        log.info("Found dictionary start")
+                        hitWords = true
+                    }
+            }
+            log.info("Processed = " + counter)
+            stream.close()
+        }
+        log.info("Dictionaries loaded.")
     }
 
     @Override

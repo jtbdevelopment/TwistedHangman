@@ -39,4 +39,25 @@ class AspellCaseInsensitiveDictionaryTest extends GroovyTestCase {
     public void testInvalidWord() {
         assert !dictionary.isValidWord("AppleFudge")
     }
+
+    @Test
+    public void testOffensive1Exclusion() {
+        assert !dictionary.isValidWord("niggering")
+    }
+
+
+    @Test
+    public void testOffensive2Exclusion() {
+        assert !dictionary.isValidWord("KRAUT'S")
+    }
+
+    @Test
+    public void testProfane1Exclusion() {
+        assert !dictionary.isValidWord("sHittY")
+    }
+
+    @Test
+    public void testProfane3Exclusion() {
+        assert !dictionary.isValidWord("cunt")
+    }
 }
