@@ -7,15 +7,15 @@ import org.junit.Test
  * Date: 10/27/14
  * Time: 7:01 PM
  */
-class AspellCaseInsensitiveDictionaryTest extends GroovyTestCase {
-    private static AspellCaseInsensitiveDictionary dictionary;
+class AspellUSEnglishCaseInsensitiveDictionaryTest extends GroovyTestCase {
+    private static AspellUSEnglishCaseInsensitiveDictionary dictionary;
 
 
     @BeforeClass
     public synchronized void setUp() {
 
         if (!dictionary) {
-            dictionary = new AspellCaseInsensitiveDictionary();
+            dictionary = new AspellUSEnglishCaseInsensitiveDictionary();
         }
     }
 

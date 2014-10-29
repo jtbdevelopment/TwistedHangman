@@ -3,6 +3,7 @@ package com.jtbdevelopment.TwistedHangman.dictionary
 import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Component
 
 /**
  * Date: 10/27/14
@@ -39,16 +40,17 @@ import org.slf4j.LoggerFactory
  */
 
 @CompileStatic
-class AspellCaseInsensitiveDictionary implements Dictionary {
-    private static final Logger log = LoggerFactory.getLogger(AspellCaseInsensitiveDictionary.class)
+@Component
+class AspellUSEnglishCaseInsensitiveDictionary implements Dictionary {
+    private static final Logger log = LoggerFactory.getLogger(AspellUSEnglishCaseInsensitiveDictionary.class)
 
     private final Set<String> words = new HashSet<>(700000);
 
-    public AspellCaseInsensitiveDictionary() {
+    public AspellUSEnglishCaseInsensitiveDictionary() {
         boolean hitWords = false
         int counter = 0
         log.info("Loading dictionary..")
-        InputStream stream = new BufferedInputStream(AspellCaseInsensitiveDictionary.class.getResourceAsStream("/aspell/dictionary.txt"))
+        InputStream stream = new BufferedInputStream(AspellUSEnglishCaseInsensitiveDictionary.class.getResourceAsStream("/aspell/dictionary.txt"))
         stream.eachLine {
             String line ->
                 if (hitWords) {
@@ -68,7 +70,7 @@ class AspellCaseInsensitiveDictionary implements Dictionary {
         for (String file in ['offensive.1', "offensive.2", "profane.1", "profane.3"]) {
             counter = 0
             log.info("Removing offensive/profane from " + file)
-            stream = new BufferedInputStream(AspellCaseInsensitiveDictionary.class.getResourceAsStream("/aspell/" + file))
+            stream = new BufferedInputStream(AspellUSEnglishCaseInsensitiveDictionary.class.getResourceAsStream("/aspell/" + file))
             stream.eachLine {
                 String line ->
                     if (hitWords) {

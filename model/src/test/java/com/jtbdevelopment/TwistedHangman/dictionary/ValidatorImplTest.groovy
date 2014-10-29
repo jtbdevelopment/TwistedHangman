@@ -14,7 +14,7 @@ class ValidatorImplTest extends GroovyTestCase {
     public synchronized void setUp() {
         if (!validator) {
             validator = new ValidatorImpl();
-            validator.dictionary = new AspellCaseInsensitiveDictionary()
+            validator.dictionary = new AspellUSEnglishCaseInsensitiveDictionary()
         }
     }
 
