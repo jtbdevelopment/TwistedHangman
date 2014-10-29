@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.model
+package com.jtbdevelopment.TwistedHangman.game
 
 /**
  * Date: 10/25/2014

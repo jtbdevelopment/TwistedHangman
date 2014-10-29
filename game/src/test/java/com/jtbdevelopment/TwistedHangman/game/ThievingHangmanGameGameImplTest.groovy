@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.model
+package com.jtbdevelopment.TwistedHangman.game
 /**
  * Date: 10/25/14
  * Time: 8:21 PM

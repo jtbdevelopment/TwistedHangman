@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.model
+package com.jtbdevelopment.TwistedHangman.game
 
 import groovy.transform.CompileStatic
 import org.springframework.util.StringUtils
