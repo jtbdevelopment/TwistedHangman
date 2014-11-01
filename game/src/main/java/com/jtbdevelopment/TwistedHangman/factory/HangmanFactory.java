@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.factory;
 
-import com.jtbdevelopment.TwistedHangman.game.HangmanGame;
+import com.jtbdevelopment.TwistedHangman.game.mechanics.HangmanGame;
 
 /**
  * Date: 10/28/14
