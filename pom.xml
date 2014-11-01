@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>game</module>
+        <module>utilities</module>
     </modules>
 
     <build>
