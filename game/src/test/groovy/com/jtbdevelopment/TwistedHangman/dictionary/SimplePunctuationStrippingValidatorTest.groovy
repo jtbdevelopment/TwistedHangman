@@ -7,13 +7,13 @@ import org.junit.Test
  * Date: 10/28/14
  * Time: 10:12 PM
  */
-class ValidatorImplTest extends GroovyTestCase {
-    private static ValidatorImpl validator;
+class SimplePunctuationStrippingValidatorTest extends GroovyTestCase {
+    private static SimplePunctuationStrippingValidator validator;
 
     @BeforeClass
     public synchronized void setUp() {
         if (!validator) {
-            validator = new ValidatorImpl();
+            validator = new SimplePunctuationStrippingValidator();
             validator.dictionary = new AspellUSEnglishCaseInsensitiveDictionary()
         }
     }

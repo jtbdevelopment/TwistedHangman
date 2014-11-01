@@ -13,10 +13,10 @@ import org.springframework.util.StringUtils
  */
 @Component
 @CompileStatic
-class ValidatorImpl implements Validator {
-    private static Logger log = LoggerFactory.getLogger(ValidatorImpl.class)
+class SimplePunctuationStrippingValidator implements Validator {
+    private static Logger log = LoggerFactory.getLogger(SimplePunctuationStrippingValidator.class)
     @Autowired
-    Dictionary dictionary
+    com.jtbdevelopment.TwistedHangman.dictionary.Dictionary dictionary
 
     @Override
     String validateWordPhrase(final String wordPhrase) {
