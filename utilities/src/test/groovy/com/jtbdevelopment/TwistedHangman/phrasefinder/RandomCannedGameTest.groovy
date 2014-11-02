@@ -6,6 +6,7 @@ import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
+import org.springframework.util.StringUtils
 
 /**
  * Date: 11/2/14
@@ -21,14 +22,18 @@ class RandomCannedGameTest extends GroovyTestCase {
     public void testGeneral() {
         CannedGame game = randomCannedGame.getRandomGame()
         assert game != null
-        assert game.id != null
+        assertFalse StringUtils.isEmpty(game.id)
+        assertFalse StringUtils.isEmpty(game.wordPhrase)
+        assertFalse StringUtils.isEmpty(game.category)
     }
 
     @Test
     public void testSpecificSource() {
         CannedGame game = randomCannedGame.getRandomGame("WOFS")
         assert game != null
-        assert game.id != null
+        assertFalse StringUtils.isEmpty(game.id)
+        assertFalse StringUtils.isEmpty(game.wordPhrase)
+        assertFalse StringUtils.isEmpty(game.category)
     }
 
     @Test(expected = IllegalStateException.class)
