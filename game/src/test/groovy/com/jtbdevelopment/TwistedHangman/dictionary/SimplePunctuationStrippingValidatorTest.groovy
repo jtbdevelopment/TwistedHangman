@@ -60,6 +60,16 @@ class SimplePunctuationStrippingValidatorTest extends GroovyTestCase {
     }
 
     @Test
+    public void testValidPhraseWithHyphen() {
+        assertNull validator.validateWordPhrase("HOW-TO BREATHE FOR DUMMIES")
+    }
+
+    @Test
+    public void testValidPossessive() {
+        assertNull validator.validateWordPhrase("GIRLS' NIGHT OUT")
+    }
+
+    @Test
     public void testValidPhraseWithEndingPossesive() {
         assertNull validator.validateWordPhrase("That is Amadeus'")
     }

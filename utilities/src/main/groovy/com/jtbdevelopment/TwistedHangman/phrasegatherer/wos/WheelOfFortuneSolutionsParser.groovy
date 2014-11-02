@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.phrasegatherer
+package com.jtbdevelopment.TwistedHangman.phrasegatherer.wos
 
 import groovyx.gpars.GParsPool
 import org.cyberneko.html.parsers.SAXParser
@@ -13,7 +13,7 @@ class WheelOfFortuneSolutionsParser {
     public static final String BASEURL = "http://www.wheeloffortunesolutions.com/";
 
     public static parseTimeframe(int startMonth, int startYear, int endMonth, int endYear, final Closure callback) {
-        if (startYear < 2009 || (startYear == 2009 && startMonth < 9)) {
+        if (startYear < 2009 || (startYear == 2009 && startMonth < 10)) {
             throw new IllegalArgumentException("WOS Site format not usable prior to 7/2009")
         }
         int currentMonth = startMonth

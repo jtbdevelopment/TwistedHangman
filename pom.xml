@@ -4,12 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.jtbdevelopment</groupId>
+    <groupId>com.jtbdevelopment.TwistedHangman</groupId>
     <artifactId>TwistedHangman</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>game</module>
+        <module>dao</module>
         <module>utilities</module>
     </modules>
 
@@ -70,12 +71,12 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>4.0.1.RELEASE</version>
+            <version>4.1.1.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>3.2.4.RELEASE</version>
+            <version>4.1.1.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -100,7 +101,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>4.0.1.RELEASE</version>
+            <version>4.1.1.RELEASE</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

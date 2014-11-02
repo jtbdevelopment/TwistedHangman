@@ -33,6 +33,9 @@ class SimplePunctuationStrippingValidator implements Validator {
 
         String invalid = working.tokenize().find({
             String word ->
+                while (word.endsWith('\'')) {
+                    word = word.substring(0, word.length() - 1)
+                }
                 if (!dictionary.isValidWord(word)) {
                     return true
                 }
@@ -45,13 +48,12 @@ class SimplePunctuationStrippingValidator implements Validator {
     }
 
     private String fixUpInputString(final String wordPhrase) {
-        String working = new String((char[]) wordPhrase.toCharArray().findAll {
+        String working = new String((char[]) wordPhrase.toCharArray().collect({
             char c ->
                 if (c.isLetter() || c == '\'' || c == ' ')
-                    return true
-
-                return false
-        }.toArray()).trim()
+                    return c
+                return ' '
+        }).toArray()).trim()
 
         while (working.length() > 0 && working.charAt(working.length() - 1) == '\'') {
             working = working.substring(0, working.length() - 1)
