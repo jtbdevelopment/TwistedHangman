@@ -18,7 +18,7 @@ class WheelOfFortuneSolutionsLoader {
         CannedGameRepository repository = ctx.getBean(CannedGameRepository.class)
         Validator validator = ctx.getBean(Validator.class)
 
-        String WOS = "WOS"
+        String WOS = "WOFS"
         repository.removeBySource(WOS)
         WheelOfFortuneSolutionsParser.parseTimeframe(10, 2009, 12, 2013, {
             String category, String item ->
