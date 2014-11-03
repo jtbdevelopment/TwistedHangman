@@ -2,18 +2,24 @@ package com.jtbdevelopment.TwistedHangman.game.mechanics
 
 import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameState
 import groovy.transform.CompileStatic
+import org.springframework.stereotype.Component
 
 /**
  * Date: 10/25/2014
  * Time: 7:44 PM
  */
 @CompileStatic
-class ThievingHangmanGame extends HangmanGame {
+@Component
+class ThievingHangmanGameActions {
     public static final String STEALING_KNOWN_LETTER_ERROR = "Letter already known at position.";
     public static final String CANT_STEAL_ON_FINAL_PENALTY_ERROR = "Can't steal a letter with only one move to losing.";
     public static final String NOT_THIEVING_GAME_ERROR = "This game does not support thieving."
+    public static final String POSITION_BEYOND_END_ERROR = "Position is beyond end of word/phrase.";
+    public static final String NEGATIVE_POSITION_ERROR = "Can't reveal negative position.";
 
-    public ThievingHangmanGame(final HangmanGameState gameState) {
+    /*
+    //  TODO - this belongs elsewhere
+    public ThievingHangmanGameActions(final HangmanGameState gameState) {
         super(gameState)
         if (!gameState.features.contains(HangmanGameState.GameFeatures.ThievingCountTracking) ||
                 !gameState.features.contains(HangmanGameState.GameFeatures.ThievingPositionTracking)) {
@@ -27,11 +33,12 @@ class ThievingHangmanGame extends HangmanGame {
                     (1..(gameState.wordPhrase.length)).collect() { int c -> false }.toArray()
         }
     }
+     */
 
-    void stealLetter(int position) {
+    void stealLetter(final HangmanGameState gameState, int position) {
         boolean[] markers = gameState.featureData[HangmanGameState.GameFeatures.ThievingPositionTracking]
         if (gameState.isGameOver()) {
-            throw new IllegalStateException(GAME_OVER_ERROR)
+            throw new IllegalStateException(HangmanGameActions.GAME_OVER_ERROR)
         }
         if (position >= gameState.wordPhrase.length) {
             throw new IllegalArgumentException(POSITION_BEYOND_END_ERROR)

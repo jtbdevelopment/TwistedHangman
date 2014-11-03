@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.multiplayer;
 
 import com.jtbdevelopment.TwistedHangman.game.Player;
-import com.jtbdevelopment.TwistedHangman.game.mechanics.HangmanGame;
+import com.jtbdevelopment.TwistedHangman.game.mechanics.HangmanGameActions;
 
 import java.util.List;
 import java.util.Map;
@@ -27,9 +27,9 @@ public interface AlternatingPlayerHangmanGame extends PlayerHangmanGame {
 
     public Set<Player> getCurrentSolvers();
 
-    public Map<Player, HangmanGame> getCurrentRound();
+    public Map<Player, HangmanGameActions> getCurrentRound();
 
-    public List<Map<Player, HangmanGame>> getPreviousRounds();
+    public List<Map<Player, HangmanGameActions>> getPreviousRounds();
 
-    public List<Map<Player, HangmanGame>> getRemainingRounds();
+    public List<Map<Player, HangmanGameActions>> getRemainingRounds();
 }

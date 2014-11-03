@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.mechanics
 
 import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameState
 import groovy.transform.CompileStatic
+import org.springframework.stereotype.Component
 
 /**
  * Date: 10/25/2014
@@ -10,7 +11,8 @@ import groovy.transform.CompileStatic
  * Game presumes gameState has been uppercased
  */
 @CompileStatic
-class HangmanGame {
+@Component
+class HangmanGameActions {
     //  TODO
     public static final String ALREADY_GUESSED_ERROR = "Letter previously guessed.";
     public static final String NOT_A_LETTER_ERROR = "Guess is not a letter.";
@@ -18,14 +20,12 @@ class HangmanGame {
     public static final String INVALID_MAX_GUESSES_ERROR = "Invalid maximum guesses.";
     public static final String EMPTY_WORD_PHRASE_ERROR = "Empty word/phrase.";
     public static final String EMPTY_CATEGORY_ERROR = "Category is invalid.";
-    public static final String POSITION_BEYOND_END_ERROR = "Position is beyond end of word/phrase.";
-    public static final String NEGATIVE_POSITION_ERROR = "Can't reveal negative position.";
 
-    final HangmanGameState gameState
+    //final HangmanGameState gameState
 
+    /*
     public HangmanGame(final HangmanGameState gameState) {
         //  TODO - none of this validation belonged here - move it
-        /*
         if (gameState.maxPenalties <= 0) {
             throw new IllegalArgumentException(INVALID_MAX_GUESSES_ERROR)
         }
@@ -46,11 +46,11 @@ class HangmanGame {
                 workingWordPhraseArray[i] = wordPhraseArray[i];
             }
         }
-        */
         this.gameState = gameState
     }
+        */
 
-    public int guessLetter(final char letter) {
+    public int guessLetter(final HangmanGameState gameState, final char letter) {
         if (gameState.gameOver) {
             throw new IllegalStateException(GAME_OVER_ERROR)
         }
