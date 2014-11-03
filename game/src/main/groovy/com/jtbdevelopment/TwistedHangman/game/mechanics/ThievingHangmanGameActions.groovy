@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.mechanics
 
+import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeatures
 import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameState
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
@@ -36,7 +37,7 @@ class ThievingHangmanGameActions {
      */
 
     void stealLetter(final HangmanGameState gameState, int position) {
-        boolean[] markers = gameState.featureData[HangmanGameState.GameFeatures.ThievingPositionTracking]
+        boolean[] markers = gameState.featureData[HangmanGameFeatures.ThievingPositionTracking]
         if (gameState.isGameOver()) {
             throw new IllegalStateException(HangmanGameActions.GAME_OVER_ERROR)
         }
@@ -53,11 +54,11 @@ class ThievingHangmanGameActions {
             throw new IllegalStateException(CANT_STEAL_ON_FINAL_PENALTY_ERROR)
         }
 
-        Integer counter = (Integer) gameState.featureData[HangmanGameState.GameFeatures.ThievingCountTracking]
+        Integer counter = (Integer) gameState.featureData[HangmanGameFeatures.ThievingCountTracking]
         counter += 1
         markers[position] = true
-        gameState.featureData[HangmanGameState.GameFeatures.ThievingCountTracking] = counter
-        gameState.featureData[HangmanGameState.GameFeatures.ThievingPositionTracking] = markers
+        gameState.featureData[HangmanGameFeatures.ThievingCountTracking] = counter
+        gameState.featureData[HangmanGameFeatures.ThievingPositionTracking] = markers
         gameState.moveCount += 1
         gameState.penalties += 1
         gameState.workingWordPhrase[position] = gameState.wordPhrase[position]

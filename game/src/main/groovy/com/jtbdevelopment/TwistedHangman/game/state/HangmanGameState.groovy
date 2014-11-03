@@ -10,22 +10,16 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 class HangmanGameState {
-    public enum GameFeatures {
-        Thieving,
-        ThievingCountTracking,
-        ThievingPositionTracking
-    }
-
     final String category;
     final char[] wordPhrase;
     char[] workingWordPhrase
     final int maxPenalties;
     int moveCount = 0;
     int penalties = 0;
-    final Set<GameFeatures> features
+    final Set<HangmanGameFeatures> features
     final SortedSet<Character> badlyGuessedLetters = [] as SortedSet
     final SortedSet<Character> guessedLetters = [] as SortedSet
-    final Map<GameFeatures, Object> featureData = [:];
+    final Map<HangmanGameFeatures, Object> featureData = [:];
 
     public HangmanGameState(
             final char[] wordPhrase,
@@ -40,7 +34,7 @@ class HangmanGameState {
             final char[] workingWordPhrase,
             final String category,
             final int maxPenalties,
-            final Set<GameFeatures> features) {
+            final Set<HangmanGameFeatures> features) {
         this.wordPhrase = wordPhrase
         this.workingWordPhrase = workingWordPhrase
         this.category = category
@@ -72,7 +66,7 @@ class HangmanGameState {
         new String(workingWordPhrase)
     }
 
-    public <T> T getFeatureData(final GameFeatures feature) {
+    public <T> T getFeatureData(final HangmanGameFeatures feature) {
         (T) featureData[feature]
     }
 }

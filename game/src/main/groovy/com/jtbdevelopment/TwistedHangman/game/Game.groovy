@@ -1,5 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.game
 
+import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeatures
+import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameState
+import groovy.transform.CompileStatic
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.Version
 import org.springframework.data.mongodb.core.index.Indexed
@@ -12,7 +15,8 @@ import java.time.ZonedDateTime
  * Time: 9:36 PM
  */
 @Document
-abstract class Game {
+@CompileStatic
+class Game {
     public enum GamePhase {
         Challenge,  /*  Agreement from initial players  */
         Setup, /*  Setting word phrases  */
@@ -41,4 +45,20 @@ abstract class Game {
     ZonedDateTime completed
     @Indexed
     ZonedDateTime rematched
+
+    List<String> players
+
+    @Indexed
+    String challengerId
+
+    Set<HangmanGameFeatures> features
+    Map<HangmanGameFeatures, Object> featureData
+
+    Map<String, HangmanGameState> solverStates
+
+    Map<String, Integer> playerScores
+
+    public <T> T getFeatureData(final HangmanGameFeatures feature) {
+        (T) featureData[feature]
+    }
 }

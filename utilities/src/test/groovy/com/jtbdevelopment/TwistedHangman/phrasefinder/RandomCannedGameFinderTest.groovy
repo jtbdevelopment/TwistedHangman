@@ -14,9 +14,9 @@ import org.springframework.util.StringUtils
  */
 @ContextConfiguration("/spring-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-class RandomCannedGameTest extends GroovyTestCase {
+class RandomCannedGameFinderTest extends GroovyTestCase {
     @Autowired
-    RandomCannedGame randomCannedGame
+    RandomCannedGameFinder randomCannedGame
 
     @Test
     public void testGeneral() {

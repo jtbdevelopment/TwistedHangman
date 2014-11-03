@@ -12,7 +12,7 @@ import org.springframework.util.StringUtils
  * Time: 8:21 AM
  */
 @Component
-class RandomCannedGame {
+class RandomCannedGameFinder {
     @Autowired
     private CannedGameRepository repository
 

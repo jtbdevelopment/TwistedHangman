@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.mechanics
 
+import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeatures
 import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameState
 import org.junit.Test
 
@@ -14,16 +15,16 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
     @Override
     protected HangmanGameState makeGameState(final String wordPhrase, final String category, final int maxPenalties) {
         HangmanGameState gameState = super.makeGameState(wordPhrase, category, maxPenalties)
-        gameState.featureData[HangmanGameState.GameFeatures.Thieving] = true
-        gameState.featureData[HangmanGameState.GameFeatures.ThievingCountTracking] = 0
-        gameState.featureData[HangmanGameState.GameFeatures.ThievingPositionTracking] = (1..(gameState.wordPhrase.length)).collect({
+        gameState.featureData[HangmanGameFeatures.Thieving] = true
+        gameState.featureData[HangmanGameFeatures.ThievingCountTracking] = 0
+        gameState.featureData[HangmanGameFeatures.ThievingPositionTracking] = (1..(gameState.wordPhrase.length)).collect({
             int c -> false
         }).toArray(new boolean[gameState.wordPhrase.length])
         gameState
     }
 
-    protected Set<HangmanGameState.GameFeatures> getGameFeatures() {
-        return [HangmanGameState.GameFeatures.ThievingCountTracking, HangmanGameState.GameFeatures.ThievingPositionTracking, HangmanGameState.GameFeatures.Thieving] as Set
+    protected Set<HangmanGameFeatures> getGameFeatures() {
+        return [HangmanGameFeatures.ThievingCountTracking, HangmanGameFeatures.ThievingPositionTracking, HangmanGameFeatures.Thieving] as Set
     }
 
     @Test
@@ -38,8 +39,8 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         assert !gameState.gameOver
         assert gameState.penalties == 2
         assert gameState.penaltiesRemaining == 1
-        assert gameState.featureData[HangmanGameState.GameFeatures.ThievingCountTracking] == 0
-        assert gameState.featureData[HangmanGameState.GameFeatures.ThievingPositionTracking] == [false, false, false, false]
+        assert gameState.featureData[HangmanGameFeatures.ThievingCountTracking] == 0
+        assert gameState.featureData[HangmanGameFeatures.ThievingPositionTracking] == [false, false, false, false]
         assert gameState.workingWordPhraseString == "FR__"
         assert gameState.moveCount == 4
     }
@@ -56,8 +57,8 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         assert !gameState.gameOver
         assert gameState.penalties == 2
         assert gameState.penaltiesRemaining == 2
-        assert gameState.featureData[HangmanGameState.GameFeatures.ThievingCountTracking] == 1
-        assert gameState.featureData[HangmanGameState.GameFeatures.ThievingPositionTracking] == [false, false, false, true]
+        assert gameState.featureData[HangmanGameFeatures.ThievingCountTracking] == 1
+        assert gameState.featureData[HangmanGameFeatures.ThievingPositionTracking] == [false, false, false, true]
         assert gameState.workingWordPhraseString == "FR_G"
         assert gameState.guessedLetters == new TreeSet(['F', 'R', 'A'])
         assert gameState.moveCount == 4
@@ -75,8 +76,8 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.gameOver
         assert gameState.penalties == 1
         assert gameState.penaltiesRemaining == 2
-        assert gameState.featureData[HangmanGameState.GameFeatures.ThievingCountTracking] == 1
-        assert gameState.featureData[HangmanGameState.GameFeatures.ThievingPositionTracking] == [false, false, false, true]
+        assert gameState.featureData[HangmanGameFeatures.ThievingCountTracking] == 1
+        assert gameState.featureData[HangmanGameFeatures.ThievingPositionTracking] == [false, false, false, true]
         assert gameState.workingWordPhraseString == "FROG"
         assert gameState.guessedLetters == new TreeSet<>(['F', 'R', 'O'])
         assert gameState.badlyGuessedLetters.empty
