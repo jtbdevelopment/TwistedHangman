@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game
 
-import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeatures
+import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameState
 import groovy.transform.CompileStatic
 import org.springframework.data.annotation.Id
@@ -26,15 +26,16 @@ class Game {
         Declined,  /*  Challenge was rejected  */
     }
 
+    public enum PlayerChallengeState {
+        Pending,
+        Accepted,
+        Denied
+    }
+
     @Id
     String id
     @Version
     int version
-
-    String previousId
-    String remathId
-
-    GamePhase gamePhase
 
     @Indexed
     ZonedDateTime created
@@ -46,19 +47,26 @@ class Game {
     @Indexed
     ZonedDateTime rematched
 
-    List<String> players
+    String previousId
+    String rematchId
 
     @Indexed
-    String challengerId
+    GamePhase gamePhase
 
-    Set<HangmanGameFeatures> features
-    Map<HangmanGameFeatures, Object> featureData
+    @Indexed
+    String initiatingPlayer
+    List<String> players  //  Ordered by turns, challenges etc
+    Map<String, PlayerChallengeState> playerStates
 
+    Set<HangmanGameFeature> features
+    Map<HangmanGameFeature, Object> featureData
+
+    String challengingPlayer
     Map<String, HangmanGameState> solverStates
 
     Map<String, Integer> playerScores
 
-    public <T> T getFeatureData(final HangmanGameFeatures feature) {
+    public <T> T getFeatureData(final HangmanGameFeature feature) {
         (T) featureData[feature]
     }
 }

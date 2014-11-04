@@ -28,7 +28,7 @@ class HangmanGameStateTest extends GroovyTestCase {
 
     @Test
     public void testInitialGameStateWithFeatures() {
-        def features = [HangmanGameFeatures.Thieving, HangmanGameFeatures.ThievingCountTracking] as Set
+        def features = [HangmanGameFeature.Thieving, HangmanGameFeature.ThievingCountTracking] as Set
         HangmanGameState gameState = new HangmanGameState(
                 "CaT".toCharArray(),
                 "_x_".toCharArray(),

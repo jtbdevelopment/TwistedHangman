@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.mechanics
 
-import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeatures
+import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameState
 
 /**
@@ -29,5 +29,5 @@ abstract class AbstractGameActionsTest extends GroovyTestCase {
                 getGameFeatures())
     }
 
-    abstract protected Set<HangmanGameFeatures> getGameFeatures();
+    abstract protected Set<HangmanGameFeature> getGameFeatures();
 }

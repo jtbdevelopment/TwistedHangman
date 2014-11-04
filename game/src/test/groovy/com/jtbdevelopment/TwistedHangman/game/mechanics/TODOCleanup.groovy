@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.mechanics
 
-import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeatures
+import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameState
 import org.junit.Test
 
@@ -47,5 +47,5 @@ abstract class TODOCleanup<T extends HangmanGameActions> extends GroovyTestCase 
 
     //abstract protected T makeGame(final String wordPhrase, final String category, final int maxPenalties)
 
-    abstract protected Set<HangmanGameFeatures> getGameFeatures();
+    abstract protected Set<HangmanGameFeature> getGameFeatures();
 }

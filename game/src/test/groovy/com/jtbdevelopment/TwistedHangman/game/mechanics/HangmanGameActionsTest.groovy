@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.mechanics
 
-import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeatures
+import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameState
 import org.junit.Test
 
@@ -12,7 +12,7 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
     private HangmanGameActions hangmanGameActions = new HangmanGameActions()
 
     @Override
-    protected Set<HangmanGameFeatures> getGameFeatures() {
+    protected Set<HangmanGameFeature> getGameFeatures() {
         return [] as Set
     }
 

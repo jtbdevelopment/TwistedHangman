@@ -16,10 +16,10 @@ class HangmanGameState {
     final int maxPenalties;
     int moveCount = 0;
     int penalties = 0;
-    final Set<HangmanGameFeatures> features
+    final Set<HangmanGameFeature> features
     final SortedSet<Character> badlyGuessedLetters = [] as SortedSet
     final SortedSet<Character> guessedLetters = [] as SortedSet
-    final Map<HangmanGameFeatures, Object> featureData = [:];
+    final Map<HangmanGameFeature, Object> featureData = [:];
 
     public HangmanGameState(
             final char[] wordPhrase,
@@ -34,7 +34,7 @@ class HangmanGameState {
             final char[] workingWordPhrase,
             final String category,
             final int maxPenalties,
-            final Set<HangmanGameFeatures> features) {
+            final Set<HangmanGameFeature> features) {
         this.wordPhrase = wordPhrase
         this.workingWordPhrase = workingWordPhrase
         this.category = category
@@ -66,7 +66,7 @@ class HangmanGameState {
         new String(workingWordPhrase)
     }
 
-    public <T> T getFeatureData(final HangmanGameFeatures feature) {
+    public <T> T getFeatureData(final HangmanGameFeature feature) {
         (T) featureData[feature]
     }
 }
