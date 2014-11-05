@@ -16,26 +16,26 @@ import java.time.ZonedDateTime
  */
 @Document
 @CompileStatic
-class Game {
+public class Game {
     public enum GamePhase {
         Challenge,  /*  Agreement from initial players  */
+        Declined,  /*  Challenge was rejected by a player */
         Setup, /*  Setting word phrases  */
         Playing,
-        RematchOption,  /*  Option to continue to a new game  */
-        Closed,
-        Declined,  /*  Challenge was rejected  */
+        Rematch,  /*  Option to continue to a new game  */
+        Rematched,
     }
 
     public enum PlayerChallengeState {
         Pending,
         Accepted,
-        Denied
+        Rejected
     }
 
     @Id
     String id
     @Version
-    int version
+    Integer version
 
     @Indexed
     ZonedDateTime created
@@ -55,16 +55,16 @@ class Game {
 
     @Indexed
     String initiatingPlayer
-    List<String> players  //  Ordered by turns, challenges etc
-    Map<String, PlayerChallengeState> playerStates
+    List<String> players = []  //  Ordered by turns, challengers etc
+    Map<String, PlayerChallengeState> playerStates = [:]
 
-    Set<HangmanGameFeature> features
-    Map<HangmanGameFeature, Object> featureData
+    Set<HangmanGameFeature> features = [] as Set
+    Map<HangmanGameFeature, Object> featureData = [:]
 
-    String challengingPlayer
-    Map<String, HangmanGameState> solverStates
+    String wordPhraseSetter
+    Map<String, HangmanGameState> solverStates = [:]
 
-    Map<String, Integer> playerScores
+    Map<String, Integer> playerScores = [:]
 
     public <T> T getFeatureData(final HangmanGameFeature feature) {
         (T) featureData[feature]

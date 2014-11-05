@@ -23,7 +23,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="dao" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.TwistedHangman:dao:1.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.TwistedHangman:dao:1.0-SNAPSHOT" level="project" />
     <orderEntry type="module" module-name="game" />
     <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy-all:2.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.gpars:gpars:1.2.1" level="project" />

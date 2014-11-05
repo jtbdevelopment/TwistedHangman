@@ -10,8 +10,12 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 class HangmanGameState {
-    final String category;
-    final char[] wordPhrase;
+    public static final int BASE_PENALTIES = 6
+    public static final int GALLOWS_PENALTIES = 3
+    public static final int FACE_PENALTIES = 3
+
+    String category;
+    char[] wordPhrase;
     char[] workingWordPhrase
     final int maxPenalties;
     int moveCount = 0;
