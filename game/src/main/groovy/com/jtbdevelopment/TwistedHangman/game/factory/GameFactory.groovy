@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.factory
 
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
+import com.jtbdevelopment.TwistedHangman.exceptions.FailedToCreateValidGameException
 import com.jtbdevelopment.TwistedHangman.factory.FeatureExpander
 import com.jtbdevelopment.TwistedHangman.factory.GameInitializer
 import com.jtbdevelopment.TwistedHangman.factory.GameValidator
@@ -66,9 +67,11 @@ class GameFactory {
     }
 
     protected void validateGame(final Game game) {
-        GameValidator find = gameValidators.find { GameValidator it -> !it.validateGame(game) }
-        if (find != null) {
-            throw new IllegalStateException("Game is not valid somehow.")
+        Collection<GameValidator> invalid = gameValidators.findAll { GameValidator it -> !it.validateGame(game) }
+        if (!invalid.empty) {
+            StringBuilder error = new StringBuilder()
+            invalid.each { GameValidator gameValidator -> error.append(gameValidator.errorMessage()).append("  ") }
+            throw new FailedToCreateValidGameException(error.toString())
         }
     }
 
