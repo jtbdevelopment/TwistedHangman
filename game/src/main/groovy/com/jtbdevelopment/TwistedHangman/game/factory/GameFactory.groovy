@@ -1,6 +1,10 @@
 package com.jtbdevelopment.TwistedHangman.game.factory
 
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
+import com.jtbdevelopment.TwistedHangman.factory.FeatureExpander
+import com.jtbdevelopment.TwistedHangman.factory.GameInitializer
+import com.jtbdevelopment.TwistedHangman.factory.GameValidator
+import com.jtbdevelopment.TwistedHangman.factory.IndividualGamesInitializer
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import groovy.transform.CompileStatic

@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.mechanics
 
+import com.jtbdevelopment.TwistedHangman.exceptions.*
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import groovy.transform.CompileStatic
@@ -12,28 +13,10 @@ import org.springframework.stereotype.Component
 @CompileStatic
 @Component
 class ThievingHangmanGameActions {
-    public static final String STEALING_KNOWN_LETTER_ERROR = "Letter already known at position.";
-    public static final String CANT_STEAL_ON_FINAL_PENALTY_ERROR = "Can't steal a letter with only one move to losing.";
-    public static final String POSITION_BEYOND_END_ERROR = "Position is beyond end of word/phrase.";
-    public static final String NEGATIVE_POSITION_ERROR = "Can't reveal negative position.";
 
     void stealLetter(final IndividualGameState gameState, int position) {
         boolean[] markers = gameState.featureData[GameFeature.ThievingPositionTracking]
-        if (gameState.isGameOver()) {
-            throw new IllegalStateException(HangmanGameActions.GAME_OVER_ERROR)
-        }
-        if (position >= gameState.wordPhrase.length) {
-            throw new IllegalArgumentException(POSITION_BEYOND_END_ERROR)
-        }
-        if (position < 0) {
-            throw new IllegalArgumentException(NEGATIVE_POSITION_ERROR)
-        }
-        if (markers[position] || gameState.wordPhrase[position] == gameState.workingWordPhrase[position]) {
-            throw new IllegalArgumentException(STEALING_KNOWN_LETTER_ERROR)
-        }
-        if (gameState.penaltiesRemaining == 1) {
-            throw new IllegalStateException(CANT_STEAL_ON_FINAL_PENALTY_ERROR)
-        }
+        validateSteal(gameState, position, markers)
 
         Integer counter = (Integer) gameState.featureData[GameFeature.ThievingCountTracking]
         counter += 1
@@ -43,5 +26,23 @@ class ThievingHangmanGameActions {
         gameState.moveCount += 1
         gameState.penalties += 1
         gameState.workingWordPhrase[position] = gameState.wordPhrase[position]
+    }
+
+    protected void validateSteal(IndividualGameState gameState, int position, boolean[] markers) {
+        if (gameState.isGameOver()) {
+            throw new GameOverException()
+        }
+        if (position >= gameState.wordPhrase.length) {
+            throw new StealingPositionBeyondEndException()
+        }
+        if (position < 0) {
+            throw new StealingNegativePositionException()
+        }
+        if (markers[position] || gameState.wordPhrase[position] == gameState.workingWordPhrase[position]) {
+            throw new StealingKnownLetterException()
+        }
+        if (gameState.penaltiesRemaining == 1) {
+            throw new StealingOnFinalPenaltyException()
+        }
     }
 }

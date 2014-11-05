@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.gamevalidators
 
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
-import com.jtbdevelopment.TwistedHangman.game.factory.GameValidator
+import com.jtbdevelopment.TwistedHangman.factory.GameValidator
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils
 @Component
 @CompileStatic
 class PreviousGameValidator implements GameValidator {
+    public static final String ERROR = "Prior game is not valid for rematch."
     @Autowired
     GameRepository gameRepository
 
@@ -27,5 +28,10 @@ class PreviousGameValidator implements GameValidator {
             }
         }
         return true
+    }
+
+    @Override
+    String errorMessage() {
+        return ERROR
     }
 }

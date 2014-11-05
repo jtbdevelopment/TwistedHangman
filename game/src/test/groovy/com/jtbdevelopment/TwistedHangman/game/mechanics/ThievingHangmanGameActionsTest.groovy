@@ -1,5 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.mechanics
 
+import com.jtbdevelopment.TwistedHangman.exceptions.StealingKnownLetterException
+import com.jtbdevelopment.TwistedHangman.exceptions.StealingOnFinalPenaltyException
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import org.junit.Test
@@ -92,8 +94,8 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         try {
             thievingHangmanGameActions.stealLetter(gameState, 3)
             fail("Should not get here.")
-        } catch (IllegalArgumentException e) {
-            assert e.message == ThievingHangmanGameActions.STEALING_KNOWN_LETTER_ERROR
+        } catch (StealingKnownLetterException e) {
+            assert e.message == StealingKnownLetterException.STEALING_KNOWN_LETTER_ERROR
         }
     }
 
@@ -104,8 +106,8 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         try {
             thievingHangmanGameActions.stealLetter(gameState, 0)
             fail("Should not get here.")
-        } catch (IllegalArgumentException e) {
-            assert e.message == ThievingHangmanGameActions.STEALING_KNOWN_LETTER_ERROR
+        } catch (StealingKnownLetterException e) {
+            assert e.message == StealingKnownLetterException.STEALING_KNOWN_LETTER_ERROR
         }
     }
 
@@ -118,8 +120,8 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         try {
             thievingHangmanGameActions.stealLetter(gameState, 3)
             fail("Should not get here")
-        } catch (IllegalStateException e) {
-            assert e.message == ThievingHangmanGameActions.CANT_STEAL_ON_FINAL_PENALTY_ERROR
+        } catch (StealingOnFinalPenaltyException e) {
+            assert e.message == StealingOnFinalPenaltyException.CANT_STEAL_ON_FINAL_PENALTY_ERROR
         }
     }
 
