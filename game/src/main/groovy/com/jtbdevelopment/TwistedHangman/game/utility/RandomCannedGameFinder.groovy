@@ -1,7 +1,6 @@
-package com.jtbdevelopment.TwistedHangman.phrasefinder
+package com.jtbdevelopment.TwistedHangman.game.utility
 
 import com.jtbdevelopment.TwistedHangman.dao.CannedGameRepository
-import com.jtbdevelopment.TwistedHangman.game.CannedGame
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component

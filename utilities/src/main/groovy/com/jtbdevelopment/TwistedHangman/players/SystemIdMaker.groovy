@@ -11,7 +11,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext
 class SystemIdMaker {
 
     public static void main(final String[] args) {
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-context.xml");
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-context-game.xml");
         ctx.refresh();
 
         PlayerRepository repository = ctx.getBean(PlayerRepository.class)

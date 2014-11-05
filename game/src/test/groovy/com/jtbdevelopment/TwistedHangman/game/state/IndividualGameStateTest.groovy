@@ -6,10 +6,10 @@ import org.junit.Test
  * Date: 11/2/2014
  * Time: 9:22 PM
  */
-class HangmanGameStateTest extends GroovyTestCase {
+class IndividualGameStateTest extends GroovyTestCase {
     @Test
     public void testInitialGameStateWithDefaultFeatures() {
-        HangmanGameState gameState = new HangmanGameState("cat".toCharArray(), "xxx".toCharArray(), "animal", 5)
+        IndividualGameState gameState = new IndividualGameState("cat".toCharArray(), "xxx".toCharArray(), "animal", 5)
         assert !gameState.gameOver
         assert !gameState.gameLost
         assert !gameState.gameWon
@@ -28,8 +28,8 @@ class HangmanGameStateTest extends GroovyTestCase {
 
     @Test
     public void testInitialGameStateWithFeatures() {
-        def features = [HangmanGameFeature.Thieving, HangmanGameFeature.ThievingCountTracking] as Set
-        HangmanGameState gameState = new HangmanGameState(
+        def features = [GameFeature.Thieving, GameFeature.ThievingCountTracking] as Set
+        IndividualGameState gameState = new IndividualGameState(
                 "CaT".toCharArray(),
                 "_x_".toCharArray(),
                 "animal",

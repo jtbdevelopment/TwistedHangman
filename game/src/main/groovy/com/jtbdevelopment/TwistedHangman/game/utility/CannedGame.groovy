@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.game
+package com.jtbdevelopment.TwistedHangman.game.utility
 
 import groovy.transform.CompileStatic
 import org.springframework.data.annotation.Id

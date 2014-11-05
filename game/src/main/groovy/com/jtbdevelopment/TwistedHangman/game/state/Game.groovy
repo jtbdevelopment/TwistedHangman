@@ -1,7 +1,5 @@
-package com.jtbdevelopment.TwistedHangman.game
+package com.jtbdevelopment.TwistedHangman.game.state
 
-import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeature
-import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameState
 import groovy.transform.CompileStatic
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.Version
@@ -58,15 +56,15 @@ public class Game {
     List<String> players = []  //  Ordered by turns, challengers etc
     Map<String, PlayerChallengeState> playerStates = [:]
 
-    Set<HangmanGameFeature> features = [] as Set
-    Map<HangmanGameFeature, Object> featureData = [:]
+    Set<GameFeature> features = [] as Set
+    Map<GameFeature, Object> featureData = [:]
 
     String wordPhraseSetter
-    Map<String, HangmanGameState> solverStates = [:]
+    Map<String, IndividualGameState> solverStates = [:]
 
     Map<String, Integer> playerScores = [:]
 
-    public <T> T getFeatureData(final HangmanGameFeature feature) {
+    public <T> T getFeatureData(final GameFeature feature) {
         (T) featureData[feature]
     }
 }

@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.factory.featureexpanders
 
-import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import org.junit.Test
 
 /**
@@ -12,9 +12,9 @@ class ThievingExpanderTest extends GroovyTestCase {
 
     @Test
     public void testDoesNothingToNoneThievingOptions() {
-        HangmanGameFeature.values().findAll() { !HangmanGameFeature.Thieving.equals(it) }.each {
-            Set<HangmanGameFeature> set = [it] as Set
-            Set<HangmanGameFeature> expected = [it] as Set
+        GameFeature.values().findAll() { !GameFeature.Thieving.equals(it) }.each {
+            Set<GameFeature> set = [it] as Set
+            Set<GameFeature> expected = [it] as Set
             expander.enhanceFeatureSet(set, null)
             assert expected == set
         }
@@ -22,8 +22,8 @@ class ThievingExpanderTest extends GroovyTestCase {
 
     @Test
     public void testExpandsThievingOptions() {
-        Set<HangmanGameFeature> set = [HangmanGameFeature.Thieving] as Set
-        Set<HangmanGameFeature> expected = [HangmanGameFeature.ThievingPositionTracking, HangmanGameFeature.Thieving, HangmanGameFeature.ThievingCountTracking] as Set
+        Set<GameFeature> set = [GameFeature.Thieving] as Set
+        Set<GameFeature> expected = [GameFeature.ThievingPositionTracking, GameFeature.Thieving, GameFeature.ThievingCountTracking] as Set
         expander.enhanceFeatureSet(set, null)
         assert expected == set
     }

@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.mechanics
 
-import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameState
+import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
 
@@ -50,7 +50,7 @@ class HangmanGameActions {
     }
         */
 
-    public int guessLetter(final HangmanGameState gameState, final char letter) {
+    public int guessLetter(final IndividualGameState gameState, final char letter) {
         if (gameState.gameOver) {
             throw new IllegalStateException(GAME_OVER_ERROR)
         }

@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.dao
 
-import com.jtbdevelopment.TwistedHangman.game.Game
+import com.jtbdevelopment.TwistedHangman.game.state.Game
 import org.springframework.data.repository.PagingAndSortingRepository
 
 /**

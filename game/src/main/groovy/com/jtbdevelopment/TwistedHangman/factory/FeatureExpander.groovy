@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.factory
 
-import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import groovy.transform.CompileStatic
 
 /**
@@ -9,5 +9,5 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 public interface FeatureExpander {
-    void enhanceFeatureSet(final Set<HangmanGameFeature> features, final List<String> players)
+    void enhanceFeatureSet(final Set<GameFeature> features, final List<String> players)
 }

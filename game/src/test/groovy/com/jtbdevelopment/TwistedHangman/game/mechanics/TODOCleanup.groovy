@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.mechanics
 
-import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeature
-import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameState
+import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import org.junit.Test
 
 /**
@@ -15,7 +15,7 @@ abstract class TODOCleanup<T extends HangmanGameActions> extends GroovyTestCase 
 
     @Test
     public void testInitialGameStateForPhraseWithNonAlphabeticCharacters() {
-        HangmanGameState gameState = makeGame("It's a wonderful life.", "Movie", 7).gameState
+        IndividualGameState gameState = makeGame("It's a wonderful life.", "Movie", 7).gameState
         assert gameState.workingWordPhraseString == "__'_ _ _________ ____."
         assert gameState.wordPhraseString == "IT'S A WONDERFUL LIFE."
         assert gameState.maxPenalties == 7
@@ -36,8 +36,8 @@ abstract class TODOCleanup<T extends HangmanGameActions> extends GroovyTestCase 
         working
     }
 
-    protected HangmanGameState makeGameState(String wordPhrase, String category, int maxPenalties) {
-        new HangmanGameState(
+    protected IndividualGameState makeGameState(String wordPhrase, String category, int maxPenalties) {
+        new IndividualGameState(
                 wordPhrase.toUpperCase().toCharArray(),
                 makeWorkingPhraseFromPhrase(wordPhrase),
                 category,
@@ -47,5 +47,5 @@ abstract class TODOCleanup<T extends HangmanGameActions> extends GroovyTestCase 
 
     //abstract protected T makeGame(final String wordPhrase, final String category, final int maxPenalties)
 
-    abstract protected Set<HangmanGameFeature> getGameFeatures();
+    abstract protected Set<GameFeature> getGameFeatures();
 }

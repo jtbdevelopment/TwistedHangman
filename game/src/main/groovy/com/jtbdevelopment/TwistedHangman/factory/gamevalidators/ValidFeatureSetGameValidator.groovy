@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.factory.gamevalidators
 
 import com.jtbdevelopment.TwistedHangman.factory.GameValidator
-import com.jtbdevelopment.TwistedHangman.game.Game
-import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Component
 class ValidFeatureSetGameValidator implements GameValidator {
     @Override
     boolean validateGame(final Game game) {
-        return HangmanGameFeature.ALLOWED_COMBINATIONS.contains(game.features)
+        return GameFeature.ALLOWED_COMBINATIONS.contains(game.features)
     }
 }

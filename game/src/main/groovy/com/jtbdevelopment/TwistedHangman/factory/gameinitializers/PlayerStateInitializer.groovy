@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.factory.gameinitializers
 
 import com.jtbdevelopment.TwistedHangman.factory.GameInitializer
-import com.jtbdevelopment.TwistedHangman.game.Game
+import com.jtbdevelopment.TwistedHangman.game.state.Game
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
 

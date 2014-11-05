@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.dao
 
-import com.jtbdevelopment.TwistedHangman.game.CannedGame
+import com.jtbdevelopment.TwistedHangman.game.utility.CannedGame
 import groovy.transform.CompileStatic
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.PagingAndSortingRepository

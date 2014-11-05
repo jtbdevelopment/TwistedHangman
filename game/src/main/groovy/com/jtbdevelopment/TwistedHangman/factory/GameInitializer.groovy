@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.factory
 
-import com.jtbdevelopment.TwistedHangman.game.Game
+import com.jtbdevelopment.TwistedHangman.game.state.Game
 import groovy.transform.CompileStatic
 
 /**

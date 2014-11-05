@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.factory
 
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
-import com.jtbdevelopment.TwistedHangman.game.Game
-import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -28,7 +28,7 @@ class GameFactory {
     GameRepository gameRepository
 
     public Game createGame(
-            final Set<HangmanGameFeature> features,
+            final Set<GameFeature> features,
             final List<String> players,
             final String initiatingPlayer) {
         Game game = createFreshGame(features, players, initiatingPlayer)
@@ -73,7 +73,7 @@ class GameFactory {
         }
     }
 
-    protected Game createFreshGame(final Set<HangmanGameFeature> features,
+    protected Game createFreshGame(final Set<GameFeature> features,
                                    final List<String> players,
                                    final String initiatingPlayer) {
 

@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.mechanics
 
-import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeature
-import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameState
+import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 
 /**
  * Date: 10/25/2014
@@ -20,8 +20,8 @@ abstract class AbstractGameActionsTest extends GroovyTestCase {
         working
     }
 
-    protected HangmanGameState makeGameState(String wordPhrase, String category, int maxPenalties) {
-        new HangmanGameState(
+    protected IndividualGameState makeGameState(String wordPhrase, String category, int maxPenalties) {
+        new IndividualGameState(
                 wordPhrase.toUpperCase().toCharArray(),
                 makeWorkingPhraseFromPhrase(wordPhrase),
                 category,
@@ -29,5 +29,5 @@ abstract class AbstractGameActionsTest extends GroovyTestCase {
                 getGameFeatures())
     }
 
-    abstract protected Set<HangmanGameFeature> getGameFeatures();
+    abstract protected Set<GameFeature> getGameFeatures();
 }

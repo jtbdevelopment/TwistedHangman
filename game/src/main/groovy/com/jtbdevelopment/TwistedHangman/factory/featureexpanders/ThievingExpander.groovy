@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.factory.featureexpanders
 
 import com.jtbdevelopment.TwistedHangman.factory.FeatureExpander
-import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
 
@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component
 @Component
 class ThievingExpander implements FeatureExpander {
     @Override
-    void enhanceFeatureSet(final Set<HangmanGameFeature> features, final List<String> players) {
-        if (features.contains(HangmanGameFeature.Thieving)) {
-            features.add(HangmanGameFeature.ThievingPositionTracking)
-            features.add(HangmanGameFeature.ThievingCountTracking)
+    void enhanceFeatureSet(final Set<GameFeature> features, final List<String> players) {
+        if (features.contains(GameFeature.Thieving)) {
+            features.add(GameFeature.ThievingPositionTracking)
+            features.add(GameFeature.ThievingCountTracking)
         }
     }
 }

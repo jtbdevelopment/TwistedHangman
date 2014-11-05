@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.mechanics
 
-import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameFeature
-import com.jtbdevelopment.TwistedHangman.game.state.HangmanGameState
+import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import org.junit.Test
 
 /**
@@ -12,13 +12,13 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
     private HangmanGameActions hangmanGameActions = new HangmanGameActions()
 
     @Override
-    protected Set<HangmanGameFeature> getGameFeatures() {
+    protected Set<GameFeature> getGameFeatures() {
         return [] as Set
     }
 
     @Test
     public void testSingleLetterMatchGuess() {
-        HangmanGameState gameState = makeGameState("Find A Letter", "Junk", 10)
+        IndividualGameState gameState = makeGameState("Find A Letter", "Junk", 10)
         assert hangmanGameActions.guessLetter(gameState, (char) 'i') == 1;
         assert !gameState.gameOver
         assert gameState.badlyGuessedLetters.empty
@@ -31,7 +31,7 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
 
     @Test
     public void testMultipleLetterMatchGuess() {
-        HangmanGameState gameState = makeGameState("Find A Letter", "Junk", 10)
+        IndividualGameState gameState = makeGameState("Find A Letter", "Junk", 10)
         assert hangmanGameActions.guessLetter(gameState, (char) 'I') == 1;
         assert hangmanGameActions.guessLetter(gameState, (char) 'e') == 2;
         assert !gameState.gameOver
@@ -45,7 +45,7 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
 
     @Test
     public void testLetterMatchGuessFailure() {
-        HangmanGameState gameState = makeGameState("Find A Letter", "JUNK", 10)
+        IndividualGameState gameState = makeGameState("Find A Letter", "JUNK", 10)
         assert hangmanGameActions.guessLetter(gameState, (char) 'I') == 1;
         assert hangmanGameActions.guessLetter(gameState, (char) 'e') == 2;
         assert hangmanGameActions.guessLetter(gameState, (char) 'Z') == 0;
@@ -61,7 +61,7 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
 
     @Test
     public void testGameLost() {
-        HangmanGameState gameState = setUpAlmostFinishedGame()
+        IndividualGameState gameState = setUpAlmostFinishedGame()
         hangmanGameActions.guessLetter(gameState, (char) 'T')
         assert !gameState.gameWon
         assert gameState.gameLost
@@ -77,7 +77,7 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
 
     @Test
     public void testGameWon() {
-        HangmanGameState gameState = setUpAlmostFinishedGame()
+        IndividualGameState gameState = setUpAlmostFinishedGame()
         hangmanGameActions.guessLetter(gameState, (char) 'N')
 
         assert gameState.gameWon
@@ -92,8 +92,8 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.penaltiesRemaining == 1
     }
 
-    protected HangmanGameState setUpAlmostFinishedGame() {
-        HangmanGameState gameState = makeGameState("Winner", "Not a Loser", 5);
+    protected IndividualGameState setUpAlmostFinishedGame() {
+        IndividualGameState gameState = makeGameState("Winner", "Not a Loser", 5);
         ['w', 'i', 'e', 'r'].each {
             String guess ->
                 hangmanGameActions.guessLetter(gameState, guess.charAt(0))

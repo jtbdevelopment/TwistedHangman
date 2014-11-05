@@ -9,7 +9,7 @@ import groovy.transform.CompileStatic
  * Simple state class for transmission and storage of an individual hangman game
  */
 @CompileStatic
-class HangmanGameState {
+class IndividualGameState {
     public static final int BASE_PENALTIES = 6
     public static final int GALLOWS_PENALTIES = 3
     public static final int FACE_PENALTIES = 3
@@ -20,12 +20,12 @@ class HangmanGameState {
     final int maxPenalties;
     int moveCount = 0;
     int penalties = 0;
-    final Set<HangmanGameFeature> features
+    final Set<GameFeature> features
     final SortedSet<Character> badlyGuessedLetters = [] as SortedSet
     final SortedSet<Character> guessedLetters = [] as SortedSet
-    final Map<HangmanGameFeature, Object> featureData = [:];
+    final Map<GameFeature, Object> featureData = [:];
 
-    public HangmanGameState(
+    public IndividualGameState(
             final char[] wordPhrase,
             final char[] workingWordPhrase,
             final String category,
@@ -33,12 +33,12 @@ class HangmanGameState {
         this(wordPhrase, workingWordPhrase, category, maxPenalties, [] as Set)
     }
 
-    public HangmanGameState(
+    public IndividualGameState(
             final char[] wordPhrase,
             final char[] workingWordPhrase,
             final String category,
             final int maxPenalties,
-            final Set<HangmanGameFeature> features) {
+            final Set<GameFeature> features) {
         this.wordPhrase = wordPhrase
         this.workingWordPhrase = workingWordPhrase
         this.category = category
@@ -70,7 +70,7 @@ class HangmanGameState {
         new String(workingWordPhrase)
     }
 
-    public <T> T getFeatureData(final HangmanGameFeature feature) {
+    public <T> T getFeatureData(final GameFeature feature) {
         (T) featureData[feature]
     }
 }

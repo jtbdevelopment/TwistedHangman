@@ -7,7 +7,7 @@ import groovy.transform.CompileStatic
  * Time: 6:45 AM
  */
 @CompileStatic
-public enum HangmanGameFeature {
+public enum GameFeature {
     Thieving("Stealing Allowed"),
     ThievingCountTracking("Stolen Letter Count", true, false),
     ThievingPositionTracking("Stolen Letter Markers", true, false),
@@ -29,13 +29,13 @@ public enum HangmanGameFeature {
     final String description
 
 
-    public HangmanGameFeature(final String description, boolean internal = false, validate = true) {
+    public GameFeature(final String description, boolean internal = false, validate = true) {
         this.internal = internal
         this.description = description
         this.validate = validate
     }
 
-    static final List<Set<HangmanGameFeature>> ALLOWED_COMBINATIONS
+    static final List<Set<GameFeature>> ALLOWED_COMBINATIONS
     static {
         ALLOWED_COMBINATIONS = [
                 //  TWO PLAYER ONLY

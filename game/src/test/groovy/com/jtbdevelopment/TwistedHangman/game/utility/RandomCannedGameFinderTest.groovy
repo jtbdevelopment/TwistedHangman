@@ -1,6 +1,5 @@
-package com.jtbdevelopment.TwistedHangman.phrasefinder
+package com.jtbdevelopment.TwistedHangman.game.utility
 
-import com.jtbdevelopment.TwistedHangman.game.CannedGame
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,7 +11,7 @@ import org.springframework.util.StringUtils
  * Date: 11/2/14
  * Time: 4:01 PM
  */
-@ContextConfiguration("/spring-context.xml")
+@ContextConfiguration("/spring-context-game-test.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 class RandomCannedGameFinderTest extends GroovyTestCase {
     @Autowired
