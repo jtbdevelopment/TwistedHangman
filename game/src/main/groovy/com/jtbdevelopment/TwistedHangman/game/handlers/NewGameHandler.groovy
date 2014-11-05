@@ -1,10 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
-import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
-import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import groovy.transform.CompileStatic
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 /**
@@ -13,11 +11,14 @@ import org.springframework.stereotype.Component
  */
 @Component
 @CompileStatic
-class NewGameHandler {
-    @Autowired
-    GameFactory gameFactory
+class NewGameHandler extends AbstractNewGameHandler {
 
-    public Game createNewGame(final String initiatingPlayer, final Set<Player> players) {
+    public Game handleCreateNewGame(
+            final String initiatingPlayer, final List<String> players, final Set<GameFeature> features) {
+        Game game = gameFactory.createGame(features, players, initiatingPlayer)
+        game = gameRepository.save(game)
+        handleSystemPuzzleSetter(game)
 
+        //  TODO - state change and notification elsewhere
     }
 }

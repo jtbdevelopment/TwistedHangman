@@ -53,15 +53,6 @@ class GameFactory {
     protected Game prepareGame(final Game game) {
         initializeGame(game)
         validateGame(game)
-        /*
-        Game saved = gameRepository.save(game)
-        if (!StringUtils.isEmpty(saved.previousId)) {
-            Game previous = gameRepository.findOne(saved.previousId)
-            previous.gamePhase = Game.GamePhase.Rematched
-            previous.rematchId = saved.id
-            gameRepository.save(previous)
-        }
-        */
         game
     }
 

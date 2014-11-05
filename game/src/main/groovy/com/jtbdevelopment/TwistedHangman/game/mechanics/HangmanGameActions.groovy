@@ -35,19 +35,6 @@ class HangmanGameActions {
         if (StringUtils.isEmpty(category)) {
             throw new IllegalArgumentException(EMPTY_CATEGORY_ERROR)
         }
-        gameState.category = gameState.category.toUpperCase()
-        gameState.wordPhrase = new String(gameState.wordPhrase.toUpperCase().toCharArray()
-        workingWordPhraseArray = new char[wordPhraseArray.length]
-
-        for (int i = 0; i < wordPhraseArray.length; ++i) {
-            if (Character.isLetter(wordPhraseArray[i])) {
-                workingWordPhraseArray[i] = '_';
-            } else {
-                workingWordPhraseArray[i] = wordPhraseArray[i];
-            }
-        }
-        this.gameState = gameState
-    }
         */
 
     public int guessLetter(final IndividualGameState gameState, final char letter) {

@@ -14,20 +14,8 @@ import org.springframework.stereotype.Component
 class ThievingHangmanGameActions {
     public static final String STEALING_KNOWN_LETTER_ERROR = "Letter already known at position.";
     public static final String CANT_STEAL_ON_FINAL_PENALTY_ERROR = "Can't steal a letter with only one move to losing.";
-    public static final String NOT_THIEVING_GAME_ERROR = "This game does not support thieving."
     public static final String POSITION_BEYOND_END_ERROR = "Position is beyond end of word/phrase.";
     public static final String NEGATIVE_POSITION_ERROR = "Can't reveal negative position.";
-
-    /*
-    //  TODO - this belongs elsewhere
-    public ThievingHangmanGameActions(final HangmanGameState gameState) {
-        super(gameState)
-        if (!gameState.featureData[HangmanGameState.GameFeatures.ThievingPositionTracking]) {
-            gameState.featureData[HangmanGameState.GameFeatures.ThievingPositionTracking] =
-                    (1..(gameState.wordPhrase.length)).collect() { int c -> false }.toArray()
-        }
-    }
-     */
 
     void stealLetter(final IndividualGameState gameState, int position) {
         boolean[] markers = gameState.featureData[GameFeature.ThievingPositionTracking]
