@@ -22,13 +22,6 @@ class ThievingHangmanGameActions {
     //  TODO - this belongs elsewhere
     public ThievingHangmanGameActions(final HangmanGameState gameState) {
         super(gameState)
-        if (!gameState.features.contains(HangmanGameState.GameFeatures.ThievingCountTracking) ||
-                !gameState.features.contains(HangmanGameState.GameFeatures.ThievingPositionTracking)) {
-            throw new IllegalArgumentException(NOT_THIEVING_GAME_ERROR)
-        }
-        if (!gameState.featureData[HangmanGameState.GameFeatures.ThievingCountTracking]) {
-            gameState.featureData[HangmanGameState.GameFeatures.ThievingCountTracking] = 0
-        }
         if (!gameState.featureData[HangmanGameState.GameFeatures.ThievingPositionTracking]) {
             gameState.featureData[HangmanGameState.GameFeatures.ThievingPositionTracking] =
                     (1..(gameState.wordPhrase.length)).collect() { int c -> false }.toArray()

@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.factory
+package com.jtbdevelopment.TwistedHangman.game.factory
 
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
@@ -6,7 +6,6 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import org.springframework.util.StringUtils
 
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -24,6 +23,8 @@ class GameFactory {
     List<GameInitializer> gameInitializers
     @Autowired
     List<GameValidator> gameValidators
+    @Autowired
+    List<IndividualGamesInitializer> individualGamesInitializers
     @Autowired
     GameRepository gameRepository
 
@@ -52,6 +53,7 @@ class GameFactory {
     protected Game prepareGame(final Game game) {
         initializeGame(game)
         validateGame(game)
+        /*
         Game saved = gameRepository.save(game)
         if (!StringUtils.isEmpty(saved.previousId)) {
             Game previous = gameRepository.findOne(saved.previousId)
@@ -59,11 +61,13 @@ class GameFactory {
             previous.rematchId = saved.id
             gameRepository.save(previous)
         }
-        saved
+        */
+        game
     }
 
     protected void initializeGame(final Game game) {
         gameInitializers.each { GameInitializer it -> it.initializeGame(game) }
+        individualGamesInitializers.each { IndividualGamesInitializer it -> it.initializeIndividualGameStates(game) }
     }
 
     protected void validateGame(final Game game) {
@@ -76,7 +80,9 @@ class GameFactory {
     protected Game createFreshGame(final Set<GameFeature> features,
                                    final List<String> players,
                                    final String initiatingPlayer) {
-
+        if (!players.contains(initiatingPlayer)) {
+            players.add(initiatingPlayer)
+        }
         Game game = new Game()
         game.created = ZonedDateTime.now(ZoneId.of("GMT"))
         game.lastMove = game.created

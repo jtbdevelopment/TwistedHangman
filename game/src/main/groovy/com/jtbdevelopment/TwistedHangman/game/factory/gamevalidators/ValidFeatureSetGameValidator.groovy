@@ -1,6 +1,6 @@
-package com.jtbdevelopment.TwistedHangman.factory.gamevalidators
+package com.jtbdevelopment.TwistedHangman.game.factory.gamevalidators
 
-import com.jtbdevelopment.TwistedHangman.factory.GameValidator
+import com.jtbdevelopment.TwistedHangman.game.factory.GameValidator
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import groovy.transform.CompileStatic
