@@ -21,12 +21,12 @@ abstract class AbstractGameActionsTest extends GroovyTestCase {
     }
 
     protected IndividualGameState makeGameState(String wordPhrase, String category, int maxPenalties) {
-        new IndividualGameState(
-                wordPhrase.toUpperCase().toCharArray(),
-                makeWorkingPhraseFromPhrase(wordPhrase),
-                category,
-                maxPenalties,
-                getGameFeatures())
+        IndividualGameState gameState = new IndividualGameState(getGameFeatures())
+        gameState.wordPhrase = wordPhrase.toUpperCase().toCharArray()
+        gameState.workingWordPhrase = makeWorkingPhraseFromPhrase(wordPhrase)
+        gameState.category = category
+        gameState.maxPenalties = maxPenalties
+        gameState
     }
 
     abstract protected Set<GameFeature> getGameFeatures();

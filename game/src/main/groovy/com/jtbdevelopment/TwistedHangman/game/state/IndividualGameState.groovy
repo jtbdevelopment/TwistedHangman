@@ -17,7 +17,7 @@ class IndividualGameState {
     String category;
     char[] wordPhrase;
     char[] workingWordPhrase
-    final int maxPenalties;
+    int maxPenalties;
     int moveCount = 0;
     int penalties = 0;
     final Set<GameFeature> features
@@ -25,20 +25,7 @@ class IndividualGameState {
     final SortedSet<Character> guessedLetters = [] as SortedSet
     final Map<GameFeature, Object> featureData = [:];
 
-    public IndividualGameState(
-            final char[] wordPhrase,
-            final char[] workingWordPhrase,
-            final String category,
-            final int maxPenalties) {
-        this(wordPhrase, workingWordPhrase, category, maxPenalties, [] as Set)
-    }
-
-    public IndividualGameState(
-            final char[] wordPhrase,
-            final char[] workingWordPhrase,
-            final String category,
-            final int maxPenalties,
-            final Set<GameFeature> features) {
+    public IndividualGameState(final Set<GameFeature> features) {
         this.wordPhrase = wordPhrase
         this.workingWordPhrase = workingWordPhrase
         this.category = category

@@ -9,7 +9,11 @@ import org.junit.Test
 class IndividualGameStateTest extends GroovyTestCase {
     @Test
     public void testInitialGameStateWithDefaultFeatures() {
-        IndividualGameState gameState = new IndividualGameState("cat".toCharArray(), "xxx".toCharArray(), "animal", 5)
+        IndividualGameState gameState = new IndividualGameState([] as Set)
+        gameState.wordPhrase = "cat".toCharArray()
+        gameState.workingWordPhrase = "xxx".toCharArray()
+        gameState.category = "animal"
+        gameState.maxPenalties = 5
         assert !gameState.gameOver
         assert !gameState.gameLost
         assert !gameState.gameWon
@@ -29,12 +33,11 @@ class IndividualGameStateTest extends GroovyTestCase {
     @Test
     public void testInitialGameStateWithFeatures() {
         def features = [GameFeature.Thieving, GameFeature.ThievingCountTracking] as Set
-        IndividualGameState gameState = new IndividualGameState(
-                "CaT".toCharArray(),
-                "_x_".toCharArray(),
-                "animal",
-                7,
-                features)
+        IndividualGameState gameState = new IndividualGameState(features)
+        gameState.wordPhrase = "CaT".toCharArray()
+        gameState.workingWordPhrase = "_x_".toCharArray()
+        gameState.category = "animal"
+        gameState.maxPenalties = 7
         assert !gameState.gameOver
         assert !gameState.gameLost
         assert !gameState.gameWon
