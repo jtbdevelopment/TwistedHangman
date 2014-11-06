@@ -17,8 +17,8 @@ class InitializeThievingSubGames implements IndividualGamesInitializer {
         if (game.features.contains(GameFeature.Thieving)) {
             game.solverStates.values().each {
                 IndividualGameState gameState ->
-                    gameState.featureData[HangmanGameState.GameFeatures.ThievingCountTracking] = 0
-                    gameState.featureData[HangmanGameState.GameFeatures.ThievingPositionTracking] = new boolean[0]
+                    gameState.featureData[GameFeature.ThievingCountTracking] = 0
+                    gameState.featureData[GameFeature.ThievingPositionTracking] = new boolean[0]
             }
         }
     }

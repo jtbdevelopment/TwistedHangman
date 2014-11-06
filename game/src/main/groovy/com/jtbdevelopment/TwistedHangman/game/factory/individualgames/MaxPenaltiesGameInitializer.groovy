@@ -4,11 +4,15 @@ import com.jtbdevelopment.TwistedHangman.game.factory.IndividualGamesInitializer
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
+import groovy.transform.CompileStatic
+import org.springframework.stereotype.Component
 
 /**
  * Date: 11/5/14
  * Time: 6:59 PM
  */
+@Component
+@CompileStatic
 class MaxPenaltiesGameInitializer implements IndividualGamesInitializer {
     @Override
     void initializeIndividualGameStates(final Game game) {
