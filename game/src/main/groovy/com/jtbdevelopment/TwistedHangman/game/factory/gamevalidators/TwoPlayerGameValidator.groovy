@@ -25,6 +25,11 @@ class TwoPlayerGameValidator implements GameValidator {
                 LOGGER.warn("Managed to create two player game without 2 players. " + game)
                 return false
             }
+        } else {
+            if (game.players.size() == 2) {
+                LOGGER.warn("Managed to miss marking two player game with 2 players. " + game)
+                return false
+            }
         }
         return true
     }
