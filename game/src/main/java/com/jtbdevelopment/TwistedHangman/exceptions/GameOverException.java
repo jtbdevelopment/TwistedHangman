@@ -10,8 +10,4 @@ public class GameOverException extends TwistedHangmanException {
     public GameOverException() {
         super(GAME_OVER_ERROR);
     }
-
-    public GameOverException(final String s) {
-        super(s);
-    }
 }
