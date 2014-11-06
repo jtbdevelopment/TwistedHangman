@@ -29,7 +29,7 @@ class ChallengerInitializerTest extends GroovyTestCase {
         def expectedSolvers = ["XXX": null, "YYY": null]
         Game game = new Game()
         game.features += GameFeature.SystemPuzzles
-        game.features += GameFeature.TwoPlayersOnly
+        game.features += GameFeature.TwoPlayer
         game.solverStates = expectedSolvers
         initializer.initializeGame(game)
 
@@ -57,7 +57,7 @@ class ChallengerInitializerTest extends GroovyTestCase {
 
         Game game = new Game()
         game.features += GameFeature.AlternatingPuzzleSetter
-        game.features += GameFeature.TwoPlayersOnly
+        game.features += GameFeature.TwoPlayer
         game.solverStates = ["XXX": null, "YYY": null]
         game.players = ["XXX", "YYYY"]
         initializer.initializeGame(game)
@@ -71,7 +71,7 @@ class ChallengerInitializerTest extends GroovyTestCase {
         def expectedSolvers = ["XXX": null, "YYY": null]
 
         Game game = new Game()
-        game.features += GameFeature.TwoPlayersOnly
+        game.features += GameFeature.TwoPlayer
         game.solverStates = expectedSolvers
         initializer.initializeGame(game)
 

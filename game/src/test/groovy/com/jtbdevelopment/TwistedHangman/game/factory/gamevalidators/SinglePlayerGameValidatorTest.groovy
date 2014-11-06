@@ -8,19 +8,19 @@ import org.junit.Test
  * Date: 11/5/2014
  * Time: 10:12 PM
  */
-class TwoPlayerGameValidatorTest extends GroovyTestCase {
-    TwoPlayerGameValidator validator = new TwoPlayerGameValidator()
+class SinglePlayerGameValidatorTest extends GroovyTestCase {
+    SinglePlayerGameValidator validator = new SinglePlayerGameValidator()
 
     @Test
     void testErrorMessage() {
-        assert "Game marked as two player with more than two players." == validator.errorMessage()
+        assert "Game marked as one player with more than one player." == validator.errorMessage()
     }
 
     @Test
-    void testTwoPlayersIsGood() {
+    void testSinglePlayersIsGood() {
         Game game = new Game()
-        game.features += GameFeature.TwoPlayer
-        game.players = ["1", "2"]
+        game.features += GameFeature.SinglePlayer
+        game.players = ["1"]
 
         assert validator.validateGame(game)
     }
@@ -28,16 +28,16 @@ class TwoPlayerGameValidatorTest extends GroovyTestCase {
     @Test
     void testThreePlayersWithFlagIsGood() {
         Game game = new Game()
-        game.features += GameFeature.TwoPlayer
+        game.features += GameFeature.SinglePlayer
         game.players = ["1", "2", "3"]
 
         assertFalse validator.validateGame(game)
     }
 
     @Test
-    void testTwoPlayersWithoutFlagIsBad() {
+    void testSinglePlayerWithoutFlagIsBad() {
         Game game = new Game()
-        game.players = ["1", "2"]
+        game.players = ["1"]
 
         assertFalse validator.validateGame(game)
     }

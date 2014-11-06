@@ -20,7 +20,7 @@ class ChallengerInitializer implements GameInitializer {
             game.wordPhraseSetter = Player.SYSTEM_ID_ID
         } else if (game.features.contains(GameFeature.AlternatingPuzzleSetter)) {
             game.wordPhraseSetter = game.players[0]
-        } else if (game.features.contains(GameFeature.TwoPlayersOnly)) {
+        } else if (game.features.contains(GameFeature.TwoPlayer)) {
             game.wordPhraseSetter = null
         }
         if (game.wordPhraseSetter) {

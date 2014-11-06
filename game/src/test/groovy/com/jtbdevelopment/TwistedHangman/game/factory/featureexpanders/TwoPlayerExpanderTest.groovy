@@ -11,37 +11,23 @@ class TwoPlayerExpanderTest extends GroovyTestCase {
     TwoPlayerExpander expander = new TwoPlayerExpander()
 
     @Test
-    public void testExpandsWhenTwoPlayersAndNoOtherChallengerOption() {
+    public void testExpandsWhenTwoPlayers() {
         Set<GameFeature> features = [] as Set
         expander.enhanceFeatureSet(features, ["1", "2"])
-        assert features.contains(GameFeature.TwoPlayersOnly)
+        assert features.contains(GameFeature.TwoPlayer)
     }
 
     @Test
-    public void testDoesNotExpandsWhenTwoPlayersAndSystemChallengerOption() {
-        Set<GameFeature> features = [GameFeature.SystemPuzzles] as Set
-        expander.enhanceFeatureSet(features, ["1", "2"])
-        assert !features.contains(GameFeature.TwoPlayersOnly)
-    }
-
-    @Test
-    public void testDoesNotExpandsWhenTwoPlayersAndAlternatingChallengerOption() {
-        Set<GameFeature> features = [GameFeature.AlternatingPuzzleSetter] as Set
-        expander.enhanceFeatureSet(features, ["1", "2"])
-        assert !features.contains(GameFeature.TwoPlayersOnly)
-    }
-
-    @Test
-    public void testDoesNotExpandsWhenLessThanTwoPlayersAndNoOtherChallengerOption() {
+    public void testDoesNotExpandsWhenLessThanTwoPlayers() {
         Set<GameFeature> features = [] as Set
         expander.enhanceFeatureSet(features, ["1"])
-        assert !features.contains(GameFeature.TwoPlayersOnly)
+        assert !features.contains(GameFeature.TwoPlayer)
     }
 
     @Test
-    public void testDoesNotExpandsWhenMoreThanTwoPlayersAndNoOtherChallengerOption() {
+    public void testDoesNotExpandsWhenMoreThanTwoPlayers() {
         Set<GameFeature> features = [] as Set
         expander.enhanceFeatureSet(features, ["1", "2", "3"])
-        assert !features.contains(GameFeature.TwoPlayersOnly)
+        assert !features.contains(GameFeature.TwoPlayer)
     }
 }

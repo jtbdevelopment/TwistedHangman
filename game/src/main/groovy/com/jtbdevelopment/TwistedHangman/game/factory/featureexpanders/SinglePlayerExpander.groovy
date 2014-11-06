@@ -6,16 +6,19 @@ import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
 
 /**
- * Date: 11/3/14
- * Time: 9:39 PM
+ * Date: 11/6/14
+ * Time: 6:48 AM
  */
 @CompileStatic
 @Component
-class TwoPlayerExpander implements FeatureExpander {
+class SinglePlayerExpander implements FeatureExpander {
+
     @Override
     void enhanceFeatureSet(final Set<GameFeature> features, final List<String> players) {
-        if (players.size() == 2) {
-            features.add(GameFeature.TwoPlayer)
+        if (players.size() == 1) {
+            features.add(GameFeature.SinglePlayer)
+            features.add(GameFeature.SingleWinner)
+            features.add(GameFeature.SystemPuzzles)
         }
     }
 }

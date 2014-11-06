@@ -8,6 +8,10 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 public enum GameFeature {
+    SinglePlayer("Single Player", true, true, true),
+    TwoPlayer("2 Players", true, true, true),
+    ThreePlus("3+ Players", true, true, true),
+
     Thieving("Stealing Allowed"),
     ThievingCountTracking("Stolen Letter Count", true, false),
     ThievingPositionTracking("Stolen Letter Markers", true, false),
@@ -19,71 +23,106 @@ public enum GameFeature {
 
     SingleWinner("Only one winner."),
 
-    TwoPlayersOnly("2 Player Limit.", true, true),
 
     DrawGallows("Draw gallows.", false, true),
     DrawFace("Draw face.", false, true)
 
+    final boolean broadCategory
     final boolean internal
     final boolean validate
     final String description
 
 
-    public GameFeature(final String description, boolean internal = false, validate = true) {
+    public GameFeature(final String description, boolean internal = false, validate = true, broadCategory = false) {
         this.internal = internal
         this.description = description
         this.validate = validate
+        this.broadCategory = broadCategory
     }
 
     static final List<Set<GameFeature>> ALLOWED_COMBINATIONS
     static {
         ALLOWED_COMBINATIONS = [
+                //  Single Player
+                [SinglePlayer, SystemPuzzles, SingleWinner] as Set,
+                [SinglePlayer, SystemPuzzles, TurnBased, SingleWinner] as Set,
+                [SinglePlayer, SystemPuzzles, Thieving, TurnBased, SingleWinner] as Set,
+
                 //  TWO PLAYER ONLY
                 //  Two players playing regular hangman against each other with their phrases, live, multiple winners
-                [TwoPlayersOnly] as Set,
+                [TwoPlayer] as Set,
                 //  Two players playing regular hangman against each other with their phrases, turns, multiple winners
-                [TwoPlayersOnly, TurnBased] as Set,
+                [TwoPlayer, TurnBased] as Set,
                 //  Two players playing thieving hangman against each other with their phrases, live, multiple winners
-                [TwoPlayersOnly, Thieving] as Set,
+                [TwoPlayer, Thieving] as Set,
                 //  Two players playing regular hangman against each other with their phrases, live, single winners
-                [TwoPlayersOnly, SingleWinner] as Set,
+                [TwoPlayer, SingleWinner] as Set,
                 //  Two players playing thieving hangman against each other with their phrases, live, single winners
-                [TwoPlayersOnly, SingleWinner, Thieving] as Set,
+                [TwoPlayer, SingleWinner, Thieving] as Set,
                 //  Two players playing regular hangman against each other with their phrases, turns, single winners
-                [TwoPlayersOnly, SingleWinner, TurnBased] as Set,
+                [TwoPlayer, SingleWinner, TurnBased] as Set,
                 //  Two players playing thieving hangman against each other with their phrases, turns, single winners
-                [TwoPlayersOnly, SingleWinner, Thieving, TurnBased] as Set,
-
-                //  Multiple Players Not Using System ID - take turns against phrases
+                [TwoPlayer, SingleWinner, Thieving, TurnBased] as Set,
+                //  Two players playing regular hangman against system phrase, live, multiple winners
+                [TwoPlayer, SystemPuzzles] as Set,
+                //  Two players playing regular hangman against system phrase, turns, multiple winners
+                [TwoPlayer, SystemPuzzles, TurnBased] as Set,
+                //  Two players playing thieving hangman against system phrase, live, multiple winners
+                [TwoPlayer, SystemPuzzles, Thieving] as Set,
+                //  Two players playing thieving hangman against system phrase, turns, multiple winners
+                [TwoPlayer, SystemPuzzles, Thieving, TurnBased] as Set,
+                //  Two players playing regular hangman against system phrase, live, first to solve wins
+                [TwoPlayer, SystemPuzzles, SingleWinner] as Set,
+                //  Two players playing thieving hangman against system phrase, live, first to solve wins
+                [TwoPlayer, SystemPuzzles, SingleWinner, Thieving] as Set,
+                //  Two players playing thieving hangman against system phrase, turns, first to solve wins
+                [TwoPlayer, SystemPuzzles, SingleWinner, Thieving, TurnBased] as Set,
                 //  Two players playing regular hangman against each other with their phrases, live, multiple winners
-                [AlternatingPuzzleSetter] as Set,
+                [TwoPlayer, AlternatingPuzzleSetter] as Set,
                 //  Two players playing regular hangman against each other with their phrases, turns, multiple winners
-                [AlternatingPuzzleSetter, TurnBased] as Set,
+                [TwoPlayer, AlternatingPuzzleSetter, TurnBased] as Set,
                 //  Two players playing thieving hangman against each other with their phrases, live, multiple winners
-                [AlternatingPuzzleSetter, Thieving] as Set,
+                [TwoPlayer, AlternatingPuzzleSetter, Thieving] as Set,
                 //  Two players playing regular hangman against each other with their phrases, live, single winners
-                [AlternatingPuzzleSetter, SingleWinner] as Set,
+                [TwoPlayer, AlternatingPuzzleSetter, SingleWinner] as Set,
                 //  Two players playing thieving hangman against each other with their phrases, live, single winners
-                [AlternatingPuzzleSetter, SingleWinner, Thieving] as Set,
+                [TwoPlayer, AlternatingPuzzleSetter, SingleWinner, Thieving] as Set,
                 //  Two players playing regular hangman against each other with their phrases, turns, single winners
-                [AlternatingPuzzleSetter, SingleWinner, TurnBased] as Set,
+                [TwoPlayer, AlternatingPuzzleSetter, SingleWinner, TurnBased] as Set,
                 //  Two players playing thieving hangman against each other with their phrases, turns, single winners
-                [AlternatingPuzzleSetter, SingleWinner, Thieving, TurnBased] as Set,
+                [TwoPlayer, AlternatingPuzzleSetter, SingleWinner, Thieving, TurnBased] as Set,
 
-                //  One or more players playing regular hangman against system phrase, live, multiple winners
-                [SystemPuzzles] as Set,
-                //  One or more players playing regular hangman against system phrase, turns, multiple winners
-                [SystemPuzzles, TurnBased] as Set,
-                //  One or more players playing thieving hangman against system phrase, live, multiple winners
-                [SystemPuzzles, Thieving] as Set,
-                //  One or more players playing thieving hangman against system phrase, turns, multiple winners
-                [SystemPuzzles, Thieving, TurnBased] as Set,
-                //  One or more players playing regular hangman against system phrase, live, first to solve wins
-                [SystemPuzzles, SingleWinner] as Set,
-                //  One or more players playing thieving hangman against system phrase, live, first to solve wins
-                [SystemPuzzles, SingleWinner, Thieving] as Set,
-                //  One or more players playing thieving hangman against system phrase, turns, first to solve wins
-                [SystemPuzzles, SingleWinner, Thieving, TurnBased] as Set,
+                //  Multiple Players Not Using System ID - take turns setting phrases
+                //  Three+ players playing regular hangman against each other with their phrases, live, multiple winners
+                [ThreePlus, AlternatingPuzzleSetter] as Set,
+                //  Three+ players playing regular hangman against each other with their phrases, turns, multiple winners
+                [ThreePlus, AlternatingPuzzleSetter, TurnBased] as Set,
+                //  Three+ players playing thieving hangman against each other with their phrases, live, multiple winners
+                [ThreePlus, AlternatingPuzzleSetter, Thieving] as Set,
+                //  Three+ players playing regular hangman against each other with their phrases, live, single winners
+                [ThreePlus, AlternatingPuzzleSetter, SingleWinner] as Set,
+                //  Three+ players playing thieving hangman against each other with their phrases, live, single winners
+                [ThreePlus, AlternatingPuzzleSetter, SingleWinner, Thieving] as Set,
+                //  Three+ players playing regular hangman against each other with their phrases, turns, single winners
+                [ThreePlus, AlternatingPuzzleSetter, SingleWinner, TurnBased] as Set,
+                //  Three+ players playing thieving hangman against each other with their phrases, turns, single winners
+                [ThreePlus, AlternatingPuzzleSetter, SingleWinner, Thieving, TurnBased] as Set,
+
+                //  Multiple Players Using System Puzzles
+                //  Three+ players playing regular hangman against system phrase, live, multiple winners
+                [ThreePlus, SystemPuzzles] as Set,
+                //  Three+ players playing regular hangman against system phrase, turns, multiple winners
+                [ThreePlus, SystemPuzzles, TurnBased] as Set,
+                //  Three+ players playing thieving hangman against system phrase, live, multiple winners
+                [ThreePlus, SystemPuzzles, Thieving] as Set,
+                //  Three+ players playing thieving hangman against system phrase, turns, multiple winners
+                [ThreePlus, SystemPuzzles, Thieving, TurnBased] as Set,
+                //  Three+ players playing regular hangman against system phrase, live, first to solve wins
+                [ThreePlus, SystemPuzzles, SingleWinner] as Set,
+                //  Three+ players playing thieving hangman against system phrase, live, first to solve wins
+                [ThreePlus, SystemPuzzles, SingleWinner, Thieving] as Set,
+                //  Three+ players playing thieving hangman against system phrase, turns, first to solve wins
+                [ThreePlus, SystemPuzzles, SingleWinner, Thieving, TurnBased] as Set,
         ]
     }
 }

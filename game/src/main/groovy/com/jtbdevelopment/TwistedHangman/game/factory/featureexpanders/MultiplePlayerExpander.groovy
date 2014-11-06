@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component
  */
 @CompileStatic
 @Component
-class TwoPlayerExpander implements FeatureExpander {
+class MultiplePlayerExpander implements FeatureExpander {
     @Override
     void enhanceFeatureSet(final Set<GameFeature> features, final List<String> players) {
-        if (players.size() == 2) {
-            features.add(GameFeature.TwoPlayer)
+        if (players.size() > 2) {
+            features.add(GameFeature.ThreePlus)
         }
     }
 }
