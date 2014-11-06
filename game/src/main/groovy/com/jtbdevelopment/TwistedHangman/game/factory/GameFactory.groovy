@@ -2,10 +2,10 @@ package com.jtbdevelopment.TwistedHangman.game.factory
 
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.FailedToCreateValidGameException
-import com.jtbdevelopment.TwistedHangman.factory.FeatureExpander
-import com.jtbdevelopment.TwistedHangman.factory.GameInitializer
-import com.jtbdevelopment.TwistedHangman.factory.GameValidator
-import com.jtbdevelopment.TwistedHangman.factory.IndividualGamesInitializer
+import com.jtbdevelopment.TwistedHangman.game.factory.FeatureExpander
+import com.jtbdevelopment.TwistedHangman.game.factory.GameInitializer
+import com.jtbdevelopment.TwistedHangman.game.factory.GameValidator
+import com.jtbdevelopment.TwistedHangman.game.factory.IndividualGamesInitializer
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import groovy.transform.CompileStatic

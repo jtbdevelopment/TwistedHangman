@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.individualgames
 
-import com.jtbdevelopment.TwistedHangman.factory.IndividualGamesInitializer
+import com.jtbdevelopment.TwistedHangman.game.factory.IndividualGamesInitializer
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState

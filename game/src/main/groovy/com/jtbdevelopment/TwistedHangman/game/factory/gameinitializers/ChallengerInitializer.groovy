@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 
-import com.jtbdevelopment.TwistedHangman.factory.GameInitializer
+import com.jtbdevelopment.TwistedHangman.game.factory.GameInitializer
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.players.Player
@@ -20,7 +20,7 @@ class ChallengerInitializer implements GameInitializer {
             game.wordPhraseSetter = Player.SYSTEM_ID_ID
         } else if (game.features.contains(GameFeature.AlternatingPuzzleSetter)) {
             game.wordPhraseSetter = game.players[0]
-        } else {
+        } else if (game.features.contains(GameFeature.TwoPlayersOnly)) {
             game.wordPhraseSetter = null
         }
         if (game.wordPhraseSetter) {

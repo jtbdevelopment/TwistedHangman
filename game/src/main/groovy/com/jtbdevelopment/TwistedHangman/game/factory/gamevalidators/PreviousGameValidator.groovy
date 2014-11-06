@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.gamevalidators
 
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
-import com.jtbdevelopment.TwistedHangman.factory.GameValidator
+import com.jtbdevelopment.TwistedHangman.game.factory.GameValidator
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired

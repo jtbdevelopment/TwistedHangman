@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.factory;
+package com.jtbdevelopment.TwistedHangman.game.factory;
 
 import com.jtbdevelopment.TwistedHangman.game.state.Game;
 
