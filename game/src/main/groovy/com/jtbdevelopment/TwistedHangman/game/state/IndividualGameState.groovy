@@ -12,7 +12,7 @@ import groovy.transform.CompileStatic
 class IndividualGameState {
     public static final int BASE_PENALTIES = 6
     public static final int GALLOWS_PENALTIES = 3
-    public static final int FACE_PENALTIES = 3
+    public static final int FACE_PENALTIES = 4
 
     String category;
     char[] wordPhrase;
