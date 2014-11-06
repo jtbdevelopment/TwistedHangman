@@ -13,7 +13,7 @@ class TwoPlayerGameValidatorTest extends GroovyTestCase {
 
     @Test
     void testErrorMessage() {
-        assert "Game marked as two player with more than two players." == validator.errorMessage()
+        assert "Game's two player marker is wrong." == validator.errorMessage()
     }
 
     @Test

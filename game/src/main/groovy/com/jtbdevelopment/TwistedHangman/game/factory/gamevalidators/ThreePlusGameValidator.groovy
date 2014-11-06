@@ -14,20 +14,20 @@ import org.springframework.stereotype.Component
  */
 @Component
 @CompileStatic
-class TwoPlayerGameValidator implements GameValidator {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TwoPlayerGameValidator.class)
-    public static final String ERROR = "Game's two player marker is wrong."
+class ThreePlusGameValidator implements GameValidator {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ThreePlusGameValidator.class)
+    public static final String ERROR = "Game's 3+ player marker is wrong."
 
     @Override
     boolean validateGame(final Game game) {
-        if (game.features.contains(GameFeature.TwoPlayer)) {
-            if (game.players.size() != 2) {
-                LOGGER.warn("Managed to create two player game without 2 players. " + game)
+        if (game.features.contains(GameFeature.ThreePlus)) {
+            if (game.players.size() != 3) {
+                LOGGER.warn("Managed to create 3+ game incorrectly. " + game)
                 return false
             }
         } else {
-            if (game.players.size() == 2) {
-                LOGGER.warn("Managed to miss marking two player game with 2 players. " + game)
+            if (game.players.size() > 2) {
+                LOGGER.warn("Managed to miss marking 3+ game. " + game)
                 return false
             }
         }

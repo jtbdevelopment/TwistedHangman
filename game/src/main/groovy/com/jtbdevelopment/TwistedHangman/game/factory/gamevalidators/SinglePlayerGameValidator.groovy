@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component
 @CompileStatic
 class SinglePlayerGameValidator implements GameValidator {
     private static final Logger LOGGER = LoggerFactory.getLogger(SinglePlayerGameValidator.class)
-    public static final String ERROR = "Game marked as one player with more than one player."
+    public static final String ERROR = "Game's single player marker is wrong."
 
     @Override
     boolean validateGame(final Game game) {

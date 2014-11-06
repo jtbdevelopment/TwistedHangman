@@ -13,7 +13,7 @@ class SinglePlayerGameValidatorTest extends GroovyTestCase {
 
     @Test
     void testErrorMessage() {
-        assert "Game marked as one player with more than one player." == validator.errorMessage()
+        assert "Game's single player marker is wrong." == validator.errorMessage()
     }
 
     @Test
