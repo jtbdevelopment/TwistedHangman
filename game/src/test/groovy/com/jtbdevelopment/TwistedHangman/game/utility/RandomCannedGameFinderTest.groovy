@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils
  */
 @ContextConfiguration("/spring-context-game-test.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
+//  TODO - despring and mock
 class RandomCannedGameFinderTest extends GroovyTestCase {
     @Autowired
     RandomCannedGameFinder randomCannedGame
