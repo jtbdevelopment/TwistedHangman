@@ -22,10 +22,11 @@ abstract class AbstractNewGameHandler {
     protected GameFactory gameFactory
 
 
-    protected void handleSystemPuzzleSetter(Game game) {
+    protected Game handleSystemPuzzleSetter(Game game) {
         if (game.features.contains(GameFeature.SystemPuzzles)) {
             systemPuzzlerSetter.setWordPhraseFromSystem(game)
+            return gameRepository.save(game)
         }
-        game = gameRepository.save(game)
+        game
     }
 }

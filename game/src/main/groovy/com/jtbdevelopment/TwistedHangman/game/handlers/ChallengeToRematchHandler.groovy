@@ -12,7 +12,7 @@ import org.springframework.util.StringUtils
 @CompileStatic
 @Component
 class ChallengeToRematchHandler extends AbstractNewGameHandler {
-    public handleRematchRequest(
+    public Game handleRematchRequest(
             final String initiatingPlayer, final Game previousGame) {
 
         Game game = gameFactory.createGame(previousGame, initiatingPlayer)
@@ -23,8 +23,9 @@ class ChallengeToRematchHandler extends AbstractNewGameHandler {
             previous.rematchId = saved.id
             gameRepository.save(previous)
         }
-        handleSystemPuzzleSetter(game)
+        game = handleSystemPuzzleSetter(game)
 
         //  TODO change state and notifications
+        game
     }
 }

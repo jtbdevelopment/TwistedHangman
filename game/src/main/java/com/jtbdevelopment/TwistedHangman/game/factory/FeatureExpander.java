@@ -10,5 +10,5 @@ import java.util.Set;
  * Time: 9:25 PM
  */
 public interface FeatureExpander {
-    public abstract void enhanceFeatureSet(final Set<GameFeature> features, final List<String> players);
+    public void enhanceFeatureSet(final Set<GameFeature> features, final List<String> players);
 }

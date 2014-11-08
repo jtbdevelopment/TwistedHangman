@@ -2,10 +2,6 @@ package com.jtbdevelopment.TwistedHangman.game.factory
 
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.FailedToCreateValidGameException
-import com.jtbdevelopment.TwistedHangman.game.factory.FeatureExpander
-import com.jtbdevelopment.TwistedHangman.game.factory.GameInitializer
-import com.jtbdevelopment.TwistedHangman.game.factory.GameValidator
-import com.jtbdevelopment.TwistedHangman.game.factory.IndividualGamesInitializer
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import groovy.transform.CompileStatic
@@ -62,8 +58,18 @@ class GameFactory {
     }
 
     protected void initializeGame(final Game game) {
-        gameInitializers.each { GameInitializer it -> it.initializeGame(game) }
-        individualGamesInitializers.each { IndividualGamesInitializer it -> it.initializeIndividualGameStates(game) }
+        featureExpanders.each {
+            FeatureExpander it ->
+                it.enhanceFeatureSet(game.features, game.players)
+        }
+        gameInitializers.each {
+            GameInitializer it ->
+                it.initializeGame(game)
+        }
+        individualGamesInitializers.each {
+            IndividualGamesInitializer it ->
+                it.initializeIndividualGameStates(game)
+        }
     }
 
     protected void validateGame(final Game game) {
@@ -78,17 +84,17 @@ class GameFactory {
     protected Game createFreshGame(final Set<GameFeature> features,
                                    final List<String> players,
                                    final String initiatingPlayer) {
-        if (!players.contains(initiatingPlayer)) {
-            players.add(initiatingPlayer)
-        }
         Game game = new Game()
         game.created = ZonedDateTime.now(ZoneId.of("GMT"))
         game.lastMove = game.created
         game.initiatingPlayer = initiatingPlayer
-        game.version = 0
+        game.version = null
         game.gamePhase = Game.GamePhase.Challenge
         game.features.addAll(features)
         game.players.addAll(players)
+        if (!game.players.contains(initiatingPlayer)) {
+            game.players.add(initiatingPlayer)
+        }
         game.wordPhraseSetter = ""
         game
     }
