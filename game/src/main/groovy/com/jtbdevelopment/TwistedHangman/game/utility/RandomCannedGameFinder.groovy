@@ -1,6 +1,10 @@
 package com.jtbdevelopment.TwistedHangman.game.utility
 
 import com.jtbdevelopment.TwistedHangman.dao.CannedGameRepository
+import com.jtbdevelopment.TwistedHangman.exceptions.RandomCannedGameFinderException
+import groovy.transform.CompileStatic
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
@@ -11,7 +15,10 @@ import org.springframework.util.StringUtils
  * Time: 8:21 AM
  */
 @Component
+@CompileStatic
 class RandomCannedGameFinder {
+    private static final Logger logger = LoggerFactory.getLogger(RandomCannedGameFinder.class)
+
     @Autowired
     private CannedGameRepository repository
 
@@ -32,10 +39,12 @@ class RandomCannedGameFinder {
 
     protected int getRandomIndex(long max) {
         if (max > Integer.MAX_VALUE) {
-            throw new IllegalStateException("Too many choices!")
+            logger.warn("More than max integer random games! (" + max + ")")
+            max = Integer.MAX_VALUE
         }
         if (max < 1) {
-            throw new IllegalStateException("Not enough choices!")
+            logger.warn("No random games! (" + max + ")")
+            throw new RandomCannedGameFinderException(RandomCannedGameFinderException.NO_GAMES_FOUND)
         }
         return random.nextInt((int) max)
     }
@@ -44,7 +53,8 @@ class RandomCannedGameFinder {
         if (games.size() == 1) {
             return games[0]
         } else {
-            throw new IllegalStateException("Expected a single game! Not " + games.size())
+            logger.warn("Failed to load random games! (" + games + ")")
+            throw new RandomCannedGameFinderException(RandomCannedGameFinderException.GAME_NOT_LOADED)
         }
     }
 }

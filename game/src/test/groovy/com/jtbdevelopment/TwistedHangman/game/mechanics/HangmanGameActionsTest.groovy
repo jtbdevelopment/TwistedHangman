@@ -1,5 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.game.mechanics
 
+import com.jtbdevelopment.TwistedHangman.exceptions.GameOverException
+import com.jtbdevelopment.TwistedHangman.exceptions.LetterAlreadyGuessedException
+import com.jtbdevelopment.TwistedHangman.exceptions.NotALetterGuessException
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import org.junit.Test
@@ -112,4 +115,60 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.workingWordPhraseString == "WI__ER"
         gameState
     }
+
+    @Test
+    public void testStealingLostGame() {
+        IndividualGameState gameState = makeGameState("Frog", "Animal", 1)
+        hangmanGameActions.guessLetter(gameState, (char) "x")
+        assert gameState.gameLost
+        assert gameState.gameOver
+        try {
+            hangmanGameActions.guessLetter(gameState, (char) "e")
+            fail("Should not get here")
+        } catch (GameOverException e) {
+            assert GameOverException.GAME_OVER_ERROR == e.message
+        }
+    }
+
+    @Test
+    public void testStealingWonGame() {
+        IndividualGameState gameState = makeGameState("Frog", "Animal", 1)
+        hangmanGameActions.guessLetter(gameState, (char) "f")
+        hangmanGameActions.guessLetter(gameState, (char) "r")
+        hangmanGameActions.guessLetter(gameState, (char) "o")
+        hangmanGameActions.guessLetter(gameState, (char) "g")
+        assert gameState.gameWon
+        assert gameState.gameOver
+        try {
+            hangmanGameActions.guessLetter(gameState, (char) "e")
+            fail("Should not get here")
+        } catch (GameOverException e) {
+            assert GameOverException.GAME_OVER_ERROR == e.message
+        }
+    }
+
+    @Test
+    public void testDuplicateGuess() {
+        IndividualGameState gameState = makeGameState("Frog", "Animal", 1)
+        hangmanGameActions.guessLetter(gameState, (char) "f")
+        try {
+            hangmanGameActions.guessLetter(gameState, (char) "f")
+            fail("Should not get here")
+        } catch (LetterAlreadyGuessedException e) {
+            assert LetterAlreadyGuessedException.ALREADY_GUESSED_ERROR == e.message
+        }
+    }
+
+    @Test
+    public void testNonLetterGuess() {
+        IndividualGameState gameState = makeGameState("Frog", "Animal", 1)
+        hangmanGameActions.guessLetter(gameState, (char) "f")
+        try {
+            hangmanGameActions.guessLetter(gameState, (char) "1")
+            fail("Should not get here")
+        } catch (NotALetterGuessException e) {
+            assert NotALetterGuessException.NOT_A_LETTER_ERROR == e.message
+        }
+    }
 }
+

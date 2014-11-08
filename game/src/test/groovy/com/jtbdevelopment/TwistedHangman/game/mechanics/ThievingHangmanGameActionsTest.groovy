@@ -1,7 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.mechanics
 
-import com.jtbdevelopment.TwistedHangman.exceptions.StealingKnownLetterException
-import com.jtbdevelopment.TwistedHangman.exceptions.StealingOnFinalPenaltyException
+import com.jtbdevelopment.TwistedHangman.exceptions.*
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import org.junit.Test
@@ -125,4 +124,56 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         }
     }
 
+    @Test
+    public void testStealingNegativePosition() {
+        IndividualGameState gameState = makeGameState("Frog", "Animal", 2)
+        try {
+            thievingHangmanGameActions.stealLetter(gameState, -1)
+            fail("Should not get here")
+        } catch (StealingNegativePositionException e) {
+            assert StealingNegativePositionException.NEGATIVE_POSITION_ERROR == e.message
+        }
+    }
+
+    @Test
+    public void testStealingTooLongPosition() {
+        IndividualGameState gameState = makeGameState("Frog", "Animal", 2)
+        try {
+            thievingHangmanGameActions.stealLetter(gameState, 4)
+            fail("Should not get here")
+        } catch (StealingPositionBeyondEndException e) {
+            assert StealingPositionBeyondEndException.POSITION_BEYOND_END_ERROR == e.message
+        }
+    }
+
+    @Test
+    public void testStealingLostGame() {
+        IndividualGameState gameState = makeGameState("Frog", "Animal", 1)
+        hangmanGameActions.guessLetter(gameState, (char) "x")
+        assert gameState.gameLost
+        assert gameState.gameOver
+        try {
+            thievingHangmanGameActions.stealLetter(gameState, 1)
+            fail("Should not get here")
+        } catch (GameOverException e) {
+            assert GameOverException.GAME_OVER_ERROR == e.message
+        }
+    }
+
+    @Test
+    public void testStealingWonGame() {
+        IndividualGameState gameState = makeGameState("Frog", "Animal", 1)
+        hangmanGameActions.guessLetter(gameState, (char) "f")
+        hangmanGameActions.guessLetter(gameState, (char) "r")
+        hangmanGameActions.guessLetter(gameState, (char) "o")
+        hangmanGameActions.guessLetter(gameState, (char) "g")
+        assert gameState.gameWon
+        assert gameState.gameOver
+        try {
+            thievingHangmanGameActions.stealLetter(gameState, 1)
+            fail("Should not get here")
+        } catch (GameOverException e) {
+            assert GameOverException.GAME_OVER_ERROR == e.message
+        }
+    }
 }

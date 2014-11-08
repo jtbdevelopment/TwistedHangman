@@ -40,7 +40,7 @@ public enum GameFeature {
         this.broadCategory = broadCategory
     }
 
-    static final List<Set<GameFeature>> ALLOWED_COMBINATIONS
+    static final Set<Set<GameFeature>> ALLOWED_COMBINATIONS
     static {
         ALLOWED_COMBINATIONS = [
                 //  Single Player
@@ -123,6 +123,6 @@ public enum GameFeature {
                 [ThreePlus, SystemPuzzles, SingleWinner, Thieving] as Set,
                 //  Three+ players playing thieving hangman against system phrase, turns, first to solve wins
                 [ThreePlus, SystemPuzzles, SingleWinner, Thieving, TurnBased] as Set,
-        ]
+        ] as Set
     }
 }

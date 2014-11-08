@@ -40,14 +40,41 @@ class ValidFeatureSetGameValidatorTest extends GroovyTestCase {
         }
     }
 
+    @Test
+    void testInvalidAreInvalidPartialSet() {
+        //  Full set takes too long for unit
+        List<GameFeature> features = [GameFeature.SingleWinner, GameFeature.SystemPuzzles, GameFeature.ThreePlus, GameFeature.AlternatingPuzzleSetter, GameFeature.TwoPlayer, GameFeature.DrawFace]
+        Game game = new Game()
+        features.subsequences().each {
+            it.permutations().each {
+                game.features = it
+                if (!GameFeature.ALLOWED_COMBINATIONS.contains(it as Set)) {
+                    assertFalse validator.validateGame(game)
+                } else {
+                    assert validator.validateGame(game)
+                }
+            }
+
+        }
+
+    }
+
     /*
     @Test
-    void testInvalidAreInvalid() {
-        List<Set<GameFeature>> featureCombos = []
+    void testInvalidAreInvalidFull() {
         List<GameFeature> features = GameFeature.values().toList()
-        println features
-        features.permutations().each {  }
+        Game game = new Game()
+        features.subsequences().each {
+            it.permutations().each {
+                game.features = it
+                if (!GameFeature.ALLOWED_COMBINATIONS.contains(it as Set)) {
+                    assertFalse validator.validateGame(game)
+                } else {
+                    assert validator.validateGame(game)
+                }
+            }
+
+        }
     }
     */
-
 }

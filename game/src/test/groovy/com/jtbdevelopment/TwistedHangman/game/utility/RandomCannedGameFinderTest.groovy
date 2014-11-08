@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.utility
 
+import com.jtbdevelopment.TwistedHangman.exceptions.RandomCannedGameFinderException
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -36,7 +37,7 @@ class RandomCannedGameFinderTest extends GroovyTestCase {
         assertFalse StringUtils.isEmpty(game.category)
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = RandomCannedGameFinderException.class)
     public void testNonexistent() {
         randomCannedGame.getRandomGame("NEVEREXISTS")
         fail("Exception expected")
