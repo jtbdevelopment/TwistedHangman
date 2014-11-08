@@ -17,7 +17,7 @@ class ChallengerInitializer implements GameInitializer {
     @Override
     void initializeGame(final Game game) {
         if (game.features.contains(GameFeature.SystemPuzzles)) {
-            game.wordPhraseSetter = Player.SYSTEM_ID_ID
+            game.wordPhraseSetter = Player.SYSTEM_PLAYER
         } else if (game.features.contains(GameFeature.AlternatingPuzzleSetter)) {
             game.wordPhraseSetter = game.players[0]
         } else if (game.features.contains(GameFeature.TwoPlayer)) {

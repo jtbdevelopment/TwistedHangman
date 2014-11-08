@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
+import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
@@ -20,6 +21,8 @@ abstract class AbstractNewGameHandler {
     protected SystemPuzzlerSetter systemPuzzlerSetter
     @Autowired
     protected GameFactory gameFactory
+    @Autowired
+    protected PlayerRepository playerRepository
 
 
     protected Game handleSystemPuzzleSetter(Game game) {

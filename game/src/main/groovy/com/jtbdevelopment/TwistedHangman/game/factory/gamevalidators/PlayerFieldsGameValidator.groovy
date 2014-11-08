@@ -3,6 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gamevalidators
 import com.jtbdevelopment.TwistedHangman.game.factory.GameValidator
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -20,36 +21,57 @@ class PlayerFieldsGameValidator implements GameValidator {
 
     @Override
     boolean validateGame(final Game game) {
-        if (!game.players.contains(game.initiatingPlayer)) {
-            LOGGER.warn("Game missing initiating player " + game)
-            return false
-        }
+        boolean valid = true
+        Set<Player> playerSet = game.players as Set
+        valid &= validateInitiatingPlayer(game)
 
-        Set<String> playerSet = game.players as Set
-        if (playerSet != game.playerStates.keySet()) {
-            LOGGER.warn("Game missing player states " + game)
-            return false
-        }
+        valid &= validatePlayerStates(playerSet, game)
 
-        if (playerSet != game.playerScores.keySet()) {
-            LOGGER.warn("Game missing player scores " + game)
-            return false
-        }
+        valid &= validatePlayerScores(playerSet, game)
 
+        valid &= validatePuzzleStates(game, playerSet)
+
+        return valid
+    }
+
+    private boolean validatePuzzleStates(final Game game, final Set<Player> playerSet) {
         if (game.features.contains(GameFeature.SystemPuzzles)) {
             if (game.solverStates.keySet() != playerSet) {
                 LOGGER.warn("Game missing player games " + game)
                 return false
             }
         } else {
-            Set<String> nonChallengerPlayers = (playerSet.toList()) as Set
+            Set<Player> nonChallengerPlayers = (playerSet.toList()) as Set
             nonChallengerPlayers.remove(game.wordPhraseSetter)
             if (game.solverStates.keySet() != nonChallengerPlayers) {
                 LOGGER.warn("Game missing player games " + game)
                 return false
             }
         }
+        return true
+    }
 
+    private boolean validatePlayerScores(final Set<Player> playerSet, final Game game) {
+        if (playerSet != game.playerScores.keySet()) {
+            LOGGER.warn("Game missing player scores " + game)
+            return false
+        }
+        return true
+    }
+
+    private boolean validatePlayerStates(final Set<Player> playerSet, final Game game) {
+        if (playerSet != game.playerStates.keySet()) {
+            LOGGER.warn("Game missing player states " + game)
+            return false
+        }
+        return true
+    }
+
+    private boolean validateInitiatingPlayer(Game game) {
+        if (!game.players.contains(game.initiatingPlayer)) {
+            LOGGER.warn("Game missing initiating player " + game)
+            return false
+        }
         return true
     }
 

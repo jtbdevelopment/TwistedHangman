@@ -1,19 +1,21 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 
+import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.players.Player
 import org.junit.Test
 
 /**
  * Date: 11/5/14
  * Time: 7:24 PM
  */
-class PlayerScoreInitializerTest extends GroovyTestCase {
+class PlayerScoreInitializerTest extends THGroovyTestCase {
     PlayerScoreInitializer initializer = new PlayerScoreInitializer()
 
     @Test
     public void testInitializesScoresToZeroForAllPlayersIfNotSet() {
         Game game = new Game()
-        def players = ["1", "2", "3", "4"]
+        def players = [PONE, PTWO, PTHREE, PFOUR]
         game.players = players
         initializer.initializeGame(game)
         players.each {
@@ -25,9 +27,9 @@ class PlayerScoreInitializerTest extends GroovyTestCase {
     @Test
     public void testLeavesExistingScoresAlone() {
         Game game = new Game()
-        def players = ["1": 2, "2": 0, "3": 1, "4": 0]
+        Map<Player, Integer> players = [(PONE): 2, (PTWO): 0, (PTHREE): 1, (PFOUR): 0]
         game.players = players.keySet().toList()
-        game.playerScores = ["1": 2, "3": 1]
+        game.playerScores = [(PONE): 2, (PTHREE): 1]
         initializer.initializeGame(game)
         players.keySet().each {
             assert game.playerScores.containsKey(it)

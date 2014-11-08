@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 
 import com.jtbdevelopment.TwistedHangman.game.factory.GameInitializer
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
 
@@ -15,7 +16,7 @@ class PlayerScoreInitializer implements GameInitializer {
     @Override
     void initializeGame(final Game game) {
         game.players.each {
-            String it ->
+            Player it ->
                 if (!game.playerScores.containsKey(it)) {
                     game.playerScores[it] = 0
                 }

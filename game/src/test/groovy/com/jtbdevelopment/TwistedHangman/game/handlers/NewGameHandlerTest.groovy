@@ -1,24 +1,27 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
+import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
+import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
+import com.jtbdevelopment.TwistedHangman.players.Player
 import org.junit.Test
 
 /**
  * Date: 11/7/14
  * Time: 9:26 PM
  */
-class NewGameHandlerTest extends GroovyTestCase {
+class NewGameHandlerTest extends THGroovyTestCase {
     NewGameHandler handler = new NewGameHandler()
 
     @Test
     public void testCreateNonSystemPuzzlerGame() {
         Set<GameFeature> features = [GameFeature.AlternatingPuzzleSetter, GameFeature.Thieving]
-        List<String> players = ["X", "Y", "Z"]
-        String initiatingPlayer = "A"
+        List<Player> players = [PONE, PTWO, PTHREE]
+        Player initiatingPlayer = PFOUR
         Game game = new Game()
         game.features.addAll(features)
         Game savedGame = new Game()
@@ -34,16 +37,27 @@ class NewGameHandlerTest extends GroovyTestCase {
                     savedGame
                 }
         ] as GameRepository
+        handler.playerRepository = [
+                findAll: {
+                    Iterable<String> it ->
+                        assert it.collect { it } as Set == players.collect { it.id } as Set
+                        return players
+                },
+                findOne: {
+                    assert it == PFOUR.id
+                    return PFOUR
+                }
+        ] as PlayerRepository
 
-        assert savedGame == handler.handleCreateNewGame(initiatingPlayer, players, features)
+        assert savedGame == handler.handleCreateNewGame(initiatingPlayer.id, players.collect { it.id }, features)
     }
 
 
     @Test
     public void testSystemPuzzler() {
         Set<GameFeature> features = [GameFeature.SystemPuzzles, GameFeature.Thieving]
-        List<String> players = ["X", "Y", "Z"]
-        String initiatingPlayer = "A"
+        List<Player> players = [PTWO, PTHREE, PFOUR]
+        Player initiatingPlayer = PONE
         Game game = new Game()
         game.features.addAll(features)
         Game savedGame1 = new Game()
@@ -72,7 +86,18 @@ class NewGameHandlerTest extends GroovyTestCase {
                     assert it == savedGame1
                 }
         ] as SystemPuzzlerSetter
+        handler.playerRepository = [
+                findAll: {
+                    Iterable<String> it ->
+                        assert it.collect { it } as Set == players.collect { it.id } as Set
+                        return players
+                },
+                findOne: {
+                    assert it == PONE.id
+                    return PONE
+                }
+        ] as PlayerRepository
 
-        assert savedGame2 == handler.handleCreateNewGame(initiatingPlayer, players, features)
+        assert savedGame2 == handler.handleCreateNewGame(initiatingPlayer.id, players.collect { it.id }, features)
     }
 }

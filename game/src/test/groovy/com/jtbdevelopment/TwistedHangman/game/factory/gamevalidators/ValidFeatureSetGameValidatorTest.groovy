@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.gamevalidators
 
+import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import org.junit.Test
@@ -8,7 +9,7 @@ import org.junit.Test
  * Date: 11/6/14
  * Time: 8:40 PM
  */
-class ValidFeatureSetGameValidatorTest extends GroovyTestCase {
+class ValidFeatureSetGameValidatorTest extends THGroovyTestCase {
     ValidFeatureSetGameValidator validator = new ValidFeatureSetGameValidator()
 
     @Test
@@ -45,6 +46,7 @@ class ValidFeatureSetGameValidatorTest extends GroovyTestCase {
         //  Full set takes too long for unit
         List<GameFeature> features = [GameFeature.SingleWinner, GameFeature.SystemPuzzles, GameFeature.ThreePlus, GameFeature.AlternatingPuzzleSetter, GameFeature.TwoPlayer, GameFeature.DrawFace]
         Game game = new Game()
+        game.id = "X"
         features.subsequences().each {
             it.permutations().each {
                 game.features = it

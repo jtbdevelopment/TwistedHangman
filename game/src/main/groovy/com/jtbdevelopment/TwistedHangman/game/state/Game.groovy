@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
+import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.Version
@@ -52,19 +53,54 @@ public class Game {
     GamePhase gamePhase
 
     @Indexed
-    String initiatingPlayer
-    List<String> players = []  //  Ordered by turns, challengers etc
-    Map<String, PlayerChallengeState> playerStates = [:]
+    Player initiatingPlayer
+    List<Player> players = []  //  Ordered by turns, challengers etc
+    Map<Player, PlayerChallengeState> playerStates = [:]
 
     Set<GameFeature> features = [] as Set
     Map<GameFeature, Object> featureData = [:]
 
-    String wordPhraseSetter
-    Map<String, IndividualGameState> solverStates = [:]
+    Player wordPhraseSetter
+    Map<Player, IndividualGameState> solverStates = [:]
 
-    Map<String, Integer> playerScores = [:]
+    Map<Player, Integer> playerScores = [:]
 
-    public <T> T getFeatureData(final GameFeature feature) {
-        (T) featureData[feature]
+    boolean equals(final o) {
+        if (this.is(o)) return true
+        if (!(o instanceof Game)) return false
+
+        final Game game = (Game) o
+
+        if (id != game.id) return false
+
+        return true
+    }
+
+    int hashCode() {
+        return id.hashCode()
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "id='" + id + '\'' +
+                ", version=" + version +
+                ", created=" + created +
+                ", declined=" + declined +
+                ", lastMove=" + lastMove +
+                ", completed=" + completed +
+                ", rematched=" + rematched +
+                ", previousId='" + previousId + '\'' +
+                ", rematchId='" + rematchId + '\'' +
+                ", gamePhase=" + gamePhase +
+                ", initiatingPlayer=" + initiatingPlayer +
+                ", players=" + players +
+                ", playerStates=" + playerStates +
+                ", features=" + features +
+                ", featureData=" + featureData +
+                ", wordPhraseSetter=" + wordPhraseSetter +
+                ", solverStates=" + solverStates +
+                ", playerScores=" + playerScores +
+                '}';
     }
 }

@@ -1,8 +1,10 @@
 package com.jtbdevelopment.TwistedHangman.game.factory
 
+import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
 import com.jtbdevelopment.TwistedHangman.exceptions.FailedToCreateValidGameException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.players.Player
 import org.junit.Test
 
 import java.time.ZoneId
@@ -12,7 +14,7 @@ import java.time.ZonedDateTime
  * Date: 11/7/14
  * Time: 8:19 PM
  */
-class GameFactoryTest extends GroovyTestCase {
+class GameFactoryTest extends THGroovyTestCase {
     GameFactory gameFactory = new GameFactory();
 
     @Test
@@ -37,8 +39,8 @@ class GameFactoryTest extends GroovyTestCase {
 
 
         Set<GameFeature> expectedFeatures = [GameFeature.DrawFace, GameFeature.SinglePlayer] as Set
-        String initiatingPlayer = "1"
-        List<String> players = ["2", "3", "4"]
+        Player initiatingPlayer = PONE
+        List<Player> players = [PTWO, PTHREE, PFOUR]
         def now = ZonedDateTime.now(ZoneId.of("GMT"))
         Thread.sleep(1)
         Game game = gameFactory.createGame(expectedFeatures, players, initiatingPlayer)
@@ -49,11 +51,11 @@ class GameFactoryTest extends GroovyTestCase {
         assert expandersCalled == 3
         assert individualCalled == 2
         assert game.features == expectedFeatures
-        assert game.players == ["2", "3", "4", "1"]
+        assert game.players == [PTWO, PTHREE, PFOUR, PONE]
         assert game.initiatingPlayer == initiatingPlayer
         assert game.lastMove == game.created
         assert game.gamePhase == Game.GamePhase.Challenge
-        assert game.wordPhraseSetter == ""
+        assert game.wordPhraseSetter == null
         assert game.created > now
         assertNull game.version
     }
@@ -80,16 +82,16 @@ class GameFactoryTest extends GroovyTestCase {
 
 
         Set<GameFeature> expectedFeatures = [GameFeature.DrawFace, GameFeature.SinglePlayer] as Set
-        String initiatingPlayer = "1"
-        List<String> players = ["2", "3", "4"]
+        Player initiatingPlayer = PONE
+        List<Player> players = [PTWO, PTHREE, PFOUR]
         def now = ZonedDateTime.now(ZoneId.of("GMT"))
         Thread.sleep(1)
 
         Game priorGame = new Game();
         priorGame.features = expectedFeatures
         priorGame.players = players
-        priorGame.players.add("1")
-        priorGame.initiatingPlayer = "3"
+        priorGame.players.add(PONE)
+        priorGame.initiatingPlayer = PTHREE
         Game game = gameFactory.createGame(priorGame, initiatingPlayer)
 
         assertNotNull game
@@ -98,11 +100,11 @@ class GameFactoryTest extends GroovyTestCase {
         assert expandersCalled == 3
         assert individualCalled == 2
         assert game.features == expectedFeatures
-        assert game.players == ["3", "4", "1", "2"]
+        assert game.players == [PTHREE, PFOUR, PONE, PTWO]
         assert game.initiatingPlayer == initiatingPlayer
         assert game.lastMove == game.created
         assert game.gamePhase == Game.GamePhase.Challenge
-        assert game.wordPhraseSetter == ""
+        assert game.wordPhraseSetter == null
         assert game.created > now
         assertNull game.version
     }
@@ -120,14 +122,14 @@ class GameFactoryTest extends GroovyTestCase {
 
 
         Set<GameFeature> expectedFeatures = [GameFeature.DrawFace, GameFeature.SinglePlayer] as Set
-        String initiatingPlayer = "1"
-        List<String> players = ["2", "3", "4"]
+        Player initiatingPlayer = PONE
+        List<Player> players = [PTWO, PTHREE, PFOUR]
 
         Game priorGame = new Game();
         priorGame.features = expectedFeatures
         priorGame.players = players
-        priorGame.players.add("1")
-        priorGame.initiatingPlayer = "3"
+        priorGame.players.add(PONE)
+        priorGame.initiatingPlayer = PTHREE
         try {
             Game game = gameFactory.createGame(priorGame, initiatingPlayer)
             fail("Should have failed")

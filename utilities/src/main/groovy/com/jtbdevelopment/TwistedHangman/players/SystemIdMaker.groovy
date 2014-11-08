@@ -19,10 +19,7 @@ class SystemIdMaker {
         Player player = repository.findOne(Player.SYSTEM_ID_ID)
         if (player == null) {
             println "Making system id"
-            repository.save(new Player(
-                    id: Player.SYSTEM_ID_ID,
-                    source: Player.SYSTEM_ID_SOURCE,
-                    displayName: Player.SYSTEM_ID_DISPLAY_NAME))
+            repository.save(Player.SYSTEM_PLAYER)
         } else {
             println "Verifying system id"
             assert player.source == Player.SYSTEM_ID_SOURCE

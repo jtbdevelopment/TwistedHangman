@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.gamevalidators
 
+import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import org.junit.Test
@@ -8,7 +9,7 @@ import org.junit.Test
  * Date: 11/6/14
  * Time: 7:07 AM
  */
-class ThreePlusGameValidatorTest extends GroovyTestCase {
+class ThreePlusGameValidatorTest extends THGroovyTestCase {
     ThreePlusGameValidator validator = new ThreePlusGameValidator()
 
     @Test
@@ -18,26 +19,26 @@ class ThreePlusGameValidatorTest extends GroovyTestCase {
 
     @Test
     void testThreePlayersIsGood() {
-        Game game = new Game()
+        Game game = new Game(id: "Y")
         game.features += GameFeature.ThreePlus
-        game.players = ["1", "2", "3"]
+        game.players = [PONE, PTWO, PTHREE]
 
         assert validator.validateGame(game)
     }
 
     @Test
     void testTwoPlayersWithFlagIsBad() {
-        Game game = new Game()
+        Game game = new Game(id: "Y")
         game.features += GameFeature.ThreePlus
-        game.players = ["1", "2"]
+        game.players = [PTWO, PFOUR]
 
         assertFalse validator.validateGame(game)
     }
 
     @Test
     void testFourPlayersWithoutFlagIsBad() {
-        Game game = new Game()
-        game.players = ["1", "2", "3", "4"]
+        Game game = new Game(id: "Y")
+        game.players = [PONE, PTHREE, PFOUR, PTWO]
 
         assertFalse validator.validateGame(game)
     }

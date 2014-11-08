@@ -56,8 +56,4 @@ class IndividualGameState {
     public String getWorkingWordPhraseString() {
         new String(workingWordPhrase)
     }
-
-    public <T> T getFeatureData(final GameFeature feature) {
-        (T) featureData[feature]
-    }
 }
