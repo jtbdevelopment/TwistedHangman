@@ -5,6 +5,7 @@ import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,6 +24,8 @@ abstract class AbstractNewGameHandler {
     protected GameFactory gameFactory
     @Autowired
     protected PlayerRepository playerRepository
+    @Autowired
+    protected GamePhaseTransitionEngine transitionEngine
 
 
     protected Game handleSystemPuzzleSetter(Game game) {

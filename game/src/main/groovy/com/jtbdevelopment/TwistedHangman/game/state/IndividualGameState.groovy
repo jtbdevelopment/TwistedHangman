@@ -25,6 +25,9 @@ class IndividualGameState {
     final SortedSet<Character> guessedLetters = [] as SortedSet
     final Map<GameFeature, Object> featureData = [:];
 
+    public IndividualGameState() {
+        this([] as Set)
+    }
     public IndividualGameState(final Set<GameFeature> features) {
         this.wordPhrase = wordPhrase
         this.workingWordPhrase = workingWordPhrase

@@ -1,10 +1,11 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
+import com.jtbdevelopment.TwistedHangman.exceptions.FailedToFindGameException
+import com.jtbdevelopment.TwistedHangman.exceptions.FailedToFindPlayersException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
-import org.springframework.util.StringUtils
 
 /**
  * Date: 11/4/2014
@@ -20,17 +21,31 @@ class ChallengeToRematchHandler extends AbstractNewGameHandler {
         Game previousGame = gameRepository.findOne(previousGameID)
         Player initiatingPlayer = playerRepository.findOne(initiatingPlayerID)
 
-        Game game = gameFactory.createGame(previousGame, initiatingPlayer)
-        Game saved = gameRepository.save(game)
-        if (!StringUtils.isEmpty(saved.previousId)) {
-            Game previous = gameRepository.findOne(saved.previousId)
-            previous.gamePhase = Game.GamePhase.Rematched
-            previous.rematchId = saved.id
-            gameRepository.save(previous)
-        }
-        game = handleSystemPuzzleSetter(game)
+        validate(previousGame, initiatingPlayer)
 
-        //  TODO change state and notifications
+        Game game = setupGame(previousGame, initiatingPlayer)
+
+        previousGame.rematchId = game.id
+        previousGame = transitionEngine.evaluateGamePhaseForGame(game)
+        //  TODO notification of previous game
+
+        //  TODO notifications
         game
+    }
+
+    private Game setupGame(final Game previousGame, final Player initiatingPlayer) {
+        return transitionEngine.evaluateGamePhaseForGame(
+                handleSystemPuzzleSetter(
+                        gameRepository.save(
+                                gameFactory.createGame(previousGame, initiatingPlayer))))
+    }
+
+    private void validate(final Game previousGame, final Player initiatingPlayer) {
+        if (previousGame == null) {
+            throw new FailedToFindGameException()
+        }
+        if (initiatingPlayer == null) {
+            throw new FailedToFindPlayersException()
+        }
     }
 }
