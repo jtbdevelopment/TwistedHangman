@@ -29,10 +29,10 @@ class IndividualGameState {
         this([] as Set)
     }
     public IndividualGameState(final Set<GameFeature> features) {
-        this.wordPhrase = wordPhrase
-        this.workingWordPhrase = workingWordPhrase
-        this.category = category
-        this.maxPenalties = maxPenalties
+        this.wordPhrase = new char[0]
+        this.workingWordPhrase = new char[0]
+        this.category = ""
+        this.maxPenalties = BASE_PENALTIES
         this.features = Collections.unmodifiableSet(features ?: Collections.emptySet())
     }
 

@@ -15,7 +15,7 @@ import java.time.ZonedDateTime
  */
 @Document
 @CompileStatic
-public class Game {
+public class Game implements Cloneable {
     public enum GamePhase {
         Challenge,  /*  Agreement from initial players  */
         Declined,  /*  Challenge was rejected by a player */
