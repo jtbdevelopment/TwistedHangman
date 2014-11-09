@@ -20,14 +20,15 @@ class IndividualGameState {
     int maxPenalties;
     int moveCount = 0;
     int penalties = 0;
-    final Set<GameFeature> features
-    final SortedSet<Character> badlyGuessedLetters = [] as SortedSet
-    final SortedSet<Character> guessedLetters = [] as SortedSet
-    final Map<GameFeature, Object> featureData = [:];
+    Set<GameFeature> features
+    SortedSet<Character> badlyGuessedLetters = [] as SortedSet
+    SortedSet<Character> guessedLetters = [] as SortedSet
+    Map<GameFeature, Object> featureData = [:];
 
     public IndividualGameState() {
         this([] as Set)
     }
+
     public IndividualGameState(final Set<GameFeature> features) {
         this.wordPhrase = new char[0]
         this.workingWordPhrase = new char[0]
@@ -58,5 +59,21 @@ class IndividualGameState {
 
     public String getWorkingWordPhraseString() {
         new String(workingWordPhrase)
+    }
+
+    @Override
+    public String toString() {
+        return "IndividualGameState{" +
+                "category='" + category + '\'' +
+                ", wordPhrase=" + Arrays.toString(wordPhrase) +
+                ", workingWordPhrase=" + Arrays.toString(workingWordPhrase) +
+                ", maxPenalties=" + maxPenalties +
+                ", moveCount=" + moveCount +
+                ", penalties=" + penalties +
+                ", features=" + features +
+                ", badlyGuessedLetters=" + badlyGuessedLetters +
+                ", guessedLetters=" + guessedLetters +
+                ", featureData=" + featureData +
+                '}';
     }
 }

@@ -54,4 +54,18 @@ class IndividualGameStateTest extends GroovyTestCase {
         assert gameState.features == features
     }
 
+    @Test
+    public void testToString() {
+        assert new IndividualGameState(
+                badlyGuessedLetters: [(char) 'A'] as SortedSet,
+                category: "CATEGORY",
+                features: [GameFeature.SingleWinner] as Set,
+                featureData: [(GameFeature.DrawFace): "da"],
+                guessedLetters: [(char) 'B'] as SortedSet,
+                maxPenalties: 10,
+                moveCount: 5,
+                penalties: 4,
+                wordPhrase: "WORD",
+                workingWordPhrase: "W___D",).toString() == "IndividualGameState{category='CATEGORY', wordPhrase=[W, O, R, D], workingWordPhrase=[W, _, _, _, D], maxPenalties=10, moveCount=5, penalties=4, features=[SingleWinner], badlyGuessedLetters=[A], guessedLetters=[B], featureData=[DrawFace:da]}"
+    }
 }
