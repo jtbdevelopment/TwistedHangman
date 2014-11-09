@@ -39,17 +39,17 @@ class GameTest extends THGroovyTestCase {
                 completed: ZonedDateTime.parse("2014-05-31T10:15:30+01:00[Europe/Paris]"),
                 declined: ZonedDateTime.parse("2013-05-31T10:15:30+01:00[Europe/Paris]"),
                 gamePhase: Game.GamePhase.Playing,
-                features: [GameFeature.SingleWinner, GameFeature.DrawGallows],
+                features: [GameFeature.SingleWinner],
                 initiatingPlayer: PONE,
                 lastMove: ZonedDateTime.parse("2013-01-31T10:15:30+01:00[Europe/Paris]"),
                 players: [PONE, PTWO],
-                playerScores: [(PONE): 5, (PTWO): 10],
-                playerStates: [(PONE): Game.PlayerChallengeState.Accepted, (PTWO): Game.PlayerChallengeState.Rejected],
+                playerScores: [(PONE): 5],
+                playerStates: [(PONE): Game.PlayerChallengeState.Accepted],
                 rematched: ZonedDateTime.parse("2013-05-29T10:15:30+01:00[Europe/Paris]"),
                 solverStates: [(PONE): new IndividualGameState()],
                 wordPhraseSetter: PTWO,
                 previousId: "033",
-                featureData: [(GameFeature.DrawGallows): "y", (GameFeature.SinglePlayer): 1],
-                rematchId: "345").toString() == "Game{id='0x123', version=23, created=2014-05-30T10:15:30+02:00[Europe/Paris], declined=2013-05-31T10:15:30+02:00[Europe/Paris], lastMove=2013-01-31T10:15:30+01:00[Europe/Paris], completed=2014-05-31T10:15:30+02:00[Europe/Paris], rematched=2013-05-29T10:15:30+02:00[Europe/Paris], previousId='033', rematchId='345', gamePhase=Playing, initiatingPlayer=Player{id='1', source='MADEUP', displayName='1', disabled=false}, players=[Player{id='1', source='MADEUP', displayName='1', disabled=false}, Player{id='2', source='MADEUP', displayName='2', disabled=false}], playerStates=[Player{id='1', source='MADEUP', displayName='1', disabled=false}:Accepted, Player{id='2', source='MADEUP', displayName='2', disabled=false}:Rejected], features=[DrawGallows, SingleWinner], featureData=[DrawGallows:y, SinglePlayer:1], wordPhraseSetter=Player{id='2', source='MADEUP', displayName='2', disabled=false}, solverStates=[Player{id='1', source='MADEUP', displayName='1', disabled=false}:com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState@a4102b8], playerScores=[Player{id='1', source='MADEUP', displayName='1', disabled=false}:5, Player{id='2', source='MADEUP', displayName='2', disabled=false}:10]}"
+                featureData: [(GameFeature.DrawGallows): "y"],
+                rematchId: "345").toString() == "Game{id='0x123', version=23, created=2014-05-30T10:15:30+02:00[Europe/Paris], declined=2013-05-31T10:15:30+02:00[Europe/Paris], lastMove=2013-01-31T10:15:30+01:00[Europe/Paris], completed=2014-05-31T10:15:30+02:00[Europe/Paris], rematched=2013-05-29T10:15:30+02:00[Europe/Paris], previousId='033', rematchId='345', gamePhase=Playing, initiatingPlayer=Player{id='1', source='MADEUP', displayName='1', disabled=false}, players=[Player{id='1', source='MADEUP', displayName='1', disabled=false}, Player{id='2', source='MADEUP', displayName='2', disabled=false}], playerStates=[Player{id='1', source='MADEUP', displayName='1', disabled=false}:Accepted], features=[SingleWinner], featureData=[DrawGallows:y], wordPhraseSetter=Player{id='2', source='MADEUP', displayName='2', disabled=false}, solverStates=[Player{id='1', source='MADEUP', displayName='1', disabled=false}:com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState@4278284b], playerScores=[Player{id='1', source='MADEUP', displayName='1', disabled=false}:5]}"
     }
 }
