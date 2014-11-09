@@ -40,7 +40,7 @@ class GamePhaseTransitionEngineTest extends THGroovyTestCase {
                 }
         ] as GameRepository
 
-        assert playing == transitionEngine.evaluateGamePhaseForGame(game)
+        assert playing.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
     @Test
@@ -53,17 +53,52 @@ class GamePhaseTransitionEngineTest extends THGroovyTestCase {
                 playerStates: [(PONE): Game.PlayerChallengeState.Accepted, (PTWO): Game.PlayerChallengeState.Pending],
         )
 
-        assert game == transitionEngine.evaluateGamePhaseForGame(game)
+        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
     @Test
     public void testChallengeToDeclined() {
+        assert transitionEngine.gameScorer == null
+        Game game = new Game(
+                gamePhase: Game.GamePhase.Challenge,
+                features: [GameFeature.SystemPuzzles] as Set,
+                playerStates: [(PONE): Game.PlayerChallengeState.Rejected, (PTWO): Game.PlayerChallengeState.Pending],
+        )
+        Game saved = game.clone()
+        saved.gamePhase = Game.GamePhase.Declined
+        transitionEngine.gameRepository = [
+                save: {
+                    Game it ->
+                        assert it.gamePhase == Game.GamePhase.Declined
+                        return saved
+                }
+        ] as GameRepository
 
+
+        assert saved.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
     @Test
     public void testChallengeToSetup() {
+        assert transitionEngine.gameScorer == null
+        Game game = new Game(
+                gamePhase: Game.GamePhase.Challenge,
+                features: [GameFeature.SystemPuzzles] as Set,
+                playerStates: [(PONE): Game.PlayerChallengeState.Accepted, (PTWO): Game.PlayerChallengeState.Accepted],
+                solverStates: [(PONE): new IndividualGameState(), (PTWO): new IndividualGameState()]
+        )
+        Game saved = game.clone()
+        saved.gamePhase = Game.GamePhase.Setup
+        transitionEngine.gameRepository = [
+                save: {
+                    Game it ->
+                        assert it.gamePhase == Game.GamePhase.Setup
+                        return saved
+                }
+        ] as GameRepository
 
+
+        assert saved.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
     @Test
@@ -79,12 +114,31 @@ class GamePhaseTransitionEngineTest extends THGroovyTestCase {
                 ]
         )
 
-        assert game == transitionEngine.evaluateGamePhaseForGame(game)
+        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
     @Test
     public void testSetupToPlaying() {
+        assert transitionEngine.gameScorer == null
+        Game game = new Game(
+                gamePhase: Game.GamePhase.Setup,
+                features: [GameFeature.SystemPuzzles] as Set,
+                solverStates: [
+                        (PONE): new IndividualGameState(wordPhrase: "SETUP", maxPenalties: 5),
+                        (PTWO): new IndividualGameState(wordPhrase: "SETUP", maxPenalties: 5),
+                ]
+        )
+        Game saved = game.clone()
+        saved.gamePhase = Game.GamePhase.Playing
+        transitionEngine.gameRepository = [
+                save: {
+                    Game it ->
+                        assert it.gamePhase == Game.GamePhase.Playing
+                        return saved
+                }
+        ] as GameRepository
 
+        assert saved.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
     @Test
@@ -100,28 +154,73 @@ class GamePhaseTransitionEngineTest extends THGroovyTestCase {
                 ]
         )
 
-        assert game == transitionEngine.evaluateGamePhaseForGame(game)
+        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
     @Test
     public void testPlayingToRematchMultipleWinners() {
-        assert transitionEngine.gameScorer == null
-        assert transitionEngine.gameRepository == null
         Game game = new Game(
                 gamePhase: Game.GamePhase.Playing,
                 features: [] as Set,
                 solverStates: [
-                        (PONE): new IndividualGameState(wordPhrase: "SETUP"),
-                        (PTWO): new IndividualGameState(wordPhrase: "SETUP"),
+                        (PONE)  : new IndividualGameState(wordPhrase: "SETUP", workingWordPhrase: "SETUP"),
+                        (PTWO)  : new IndividualGameState(wordPhrase: "SETUP", workingWordPhrase: "SETUP"),
+                        (PTHREE): new IndividualGameState(wordPhrase: "SETUP", penalties: IndividualGameState.BASE_PENALTIES)
                 ]
         )
+        Game saved = game.clone()
+        saved.gamePhase = Game.GamePhase.Rematch
+        Game scored = saved.clone()
+        transitionEngine.gameRepository = [
+                save: {
+                    Game it ->
+                        assert it.gamePhase == Game.GamePhase.Rematch
+                        return saved
+                }
+        ] as GameRepository
+        transitionEngine.gameScorer = [
+                scoreGame: {
+                    Game it ->
+                        assert it.is(saved)
+                        return scored
+                }
+        ] as GameScorer
 
-        assert game == transitionEngine.evaluateGamePhaseForGame(game)
+
+        assert scored.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
     @Test
     public void testPlayingToRematchSingleWinner() {
+        Game game = new Game(
+                gamePhase: Game.GamePhase.Playing,
+                features: [GameFeature.SingleWinner] as Set,
+                solverStates: [
+                        (PONE)  : new IndividualGameState(wordPhrase: "SETUP", workingWordPhrase: "SETUP"),
+                        (PTWO)  : new IndividualGameState(wordPhrase: "SETUP", workingWordPhrase: "SET__"),
+                        (PTHREE): new IndividualGameState(wordPhrase: "SETUP", penalties: IndividualGameState.BASE_PENALTIES)
+                ]
+        )
+        Game saved = game.clone()
+        saved.gamePhase = Game.GamePhase.Rematch
+        Game scored = saved.clone()
+        transitionEngine.gameRepository = [
+                save: {
+                    Game it ->
+                        assert it.gamePhase == Game.GamePhase.Rematch
+                        return saved
+                }
+        ] as GameRepository
+        transitionEngine.gameScorer = [
+                scoreGame: {
+                    Game it ->
+                        assert it.is(saved)
+                        return scored
+                }
+        ] as GameScorer
 
+
+        assert scored.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
     @Test
@@ -129,7 +228,7 @@ class GamePhaseTransitionEngineTest extends THGroovyTestCase {
         assert transitionEngine.gameRepository == null
         assert transitionEngine.gameScorer == null
         Game game = new Game(gamePhase: Game.GamePhase.Rematch, rematchId: "")
-        assert game == transitionEngine.evaluateGamePhaseForGame(game)
+        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
     @Test
@@ -146,7 +245,7 @@ class GamePhaseTransitionEngineTest extends THGroovyTestCase {
                         return saved
                 }
         ] as GameRepository
-        assert saved == transitionEngine.evaluateGamePhaseForGame(game)
+        assert saved.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
     @Test
@@ -154,7 +253,7 @@ class GamePhaseTransitionEngineTest extends THGroovyTestCase {
         assert transitionEngine.gameRepository == null
         assert transitionEngine.gameScorer == null
         Game game = new Game(gamePhase: Game.GamePhase.Rematched)
-        assert game == transitionEngine.evaluateGamePhaseForGame(game)
+        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
     @Test
@@ -162,6 +261,6 @@ class GamePhaseTransitionEngineTest extends THGroovyTestCase {
         assert transitionEngine.gameRepository == null
         assert transitionEngine.gameScorer == null
         Game game = new Game(gamePhase: Game.GamePhase.Declined)
-        assert game == transitionEngine.evaluateGamePhaseForGame(game)
+        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 }
