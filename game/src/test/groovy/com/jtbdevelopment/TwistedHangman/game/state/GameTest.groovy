@@ -1,7 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
-import com.jtbdevelopment.TwistedHangman.players.Player
 import org.junit.Test
 
 import java.time.ZonedDateTime
@@ -26,8 +25,8 @@ class GameTest extends THGroovyTestCase {
     @Test
     void testHashCode() {
         String SOMEID = "SOMEID"
-        Player player = new Player(id: SOMEID)
-        assert SOMEID.hashCode() == player.hashCode()
+        Game game = new Game(id: SOMEID)
+        assert SOMEID.hashCode() == game.hashCode()
     }
 
     @Test
