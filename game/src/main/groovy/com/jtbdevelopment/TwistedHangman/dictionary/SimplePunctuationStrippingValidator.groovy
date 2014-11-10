@@ -5,7 +5,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import org.springframework.util.StringUtils
 
 /**
  * Date: 10/28/14
@@ -19,19 +18,19 @@ class SimplePunctuationStrippingValidator implements Validator {
     com.jtbdevelopment.TwistedHangman.dictionary.Dictionary dictionary
 
     @Override
-    String validateWordPhrase(final String wordPhrase) {
+    List<String> validateWordPhrase(final String wordPhrase) {
         if (wordPhrase == null) {
             log.info("Invalidating null word phrase " + wordPhrase);
-            return "";
+            return [""];
         }
 
         String working = fixUpInputString(wordPhrase)
-        if (StringUtils.isEmpty(working)) {
+        if (working.empty) {
             log.info("Invalidating word phrase as empty " + wordPhrase);
-            return wordPhrase
+            return [wordPhrase]
         }
 
-        String invalid = working.tokenize().find({
+        Collection<String> invalid = working.tokenize().findAll {
             String word ->
                 while (word.endsWith('\'')) {
                     word = word.substring(0, word.length() - 1)
@@ -39,15 +38,15 @@ class SimplePunctuationStrippingValidator implements Validator {
                 if (!dictionary.isValidWord(word)) {
                     return true
                 }
-        })
+        }
         if (invalid) {
             log.info("Invalidating word phrase " + wordPhrase + " for " + invalid);
-            return invalid
+            return invalid.toList()
         }
-        return null
+        return []
     }
 
-    private String fixUpInputString(final String wordPhrase) {
+    private static String fixUpInputString(final String wordPhrase) {
         String working = new String((char[]) wordPhrase.toCharArray().collect({
             char c ->
                 if (c.isLetter() || c == '\'' || c == ' ')

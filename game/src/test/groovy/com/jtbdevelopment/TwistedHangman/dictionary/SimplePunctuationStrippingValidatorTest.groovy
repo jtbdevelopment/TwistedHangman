@@ -20,83 +20,88 @@ class SimplePunctuationStrippingValidatorTest extends GroovyTestCase {
 
     @Test
     public void testValidPhrase() {
-        assertNull validator.validateWordPhrase("To be or not to be")
+        assert validator.validateWordPhrase("To be or not to be").size() == 0
     }
 
     @Test
     public void testInvalidJunkWord() {
-        assert validator.validateWordPhrase("To be or not to bestaffingle") == "bestaffingle"
+        assert validator.validateWordPhrase("To be or not to bestaffingle") == ["bestaffingle"]
     }
 
     @Test
     public void testInvalidOffensiveWord() {
-        assert validator.validateWordPhrase("To be or not to wop") == "wop"
+        assert validator.validateWordPhrase("To be or not to wop") == ["wop"]
     }
 
     @Test
     public void testInvalidProfaneWord() {
-        assert validator.validateWordPhrase("To cunts or not to be") == "cunts"
+        assert validator.validateWordPhrase("To cunts or not to be") == ["cunts"]
     }
 
     @Test
     public void testValidPhraseWithPeriod() {
-        assertNull validator.validateWordPhrase("To be or not to be.")
+        assert validator.validateWordPhrase("To be or not to be.").size() == 0
     }
 
     @Test
     public void testValidPhraseWithQuestion() {
-        assertNull validator.validateWordPhrase("To be or not to be?")
+        assert validator.validateWordPhrase("To be or not to be?").size() == 0
     }
 
     @Test
     public void testValidPhraseWithExclamation() {
-        assertNull validator.validateWordPhrase("To be or not to be!")
+        assert validator.validateWordPhrase("To be or not to be!").size() == 0
     }
 
     @Test
     public void testValidPhraseWithRandom() {
         //  Valid because || will be shown
-        assertNull validator.validateWordPhrase("To be || not to be!")
+        assert validator.validateWordPhrase("To be || not to be!").size() == 0
     }
 
     @Test
     public void testValidPhraseWithHyphen() {
-        assertNull validator.validateWordPhrase("HOW-TO BREATHE FOR DUMMIES")
+        assert validator.validateWordPhrase("HOW-TO BREATHE FOR DUMMIES").size() == 0
     }
 
     @Test
     public void testValidPossessive() {
-        assertNull validator.validateWordPhrase("GIRLS' NIGHT OUT")
+        assert validator.validateWordPhrase("GIRLS' NIGHT OUT").size() == 0
     }
 
     @Test
     public void testValidPhraseWithEndingPossesive() {
-        assertNull validator.validateWordPhrase("That is Amadeus'")
+        assert validator.validateWordPhrase("That is Amadeus'").size() == 0
     }
 
     @Test
     public void testMultiSentenceWordPhrase() {
-        assertNull validator.validateWordPhrase("To be or not to be.  That is the question.")
+        assert validator.validateWordPhrase("To be or not to be.  That is the question.").size() == 0
+    }
+
+    @Test
+    public void testExcessSpacingPhrase() {
+        assert validator.validateWordPhrase("To  be  or  not   to  be.  That   is   the   question .  ").size() == 0
     }
 
     @Test
     public void testInvalidEmptyPhrase() {
-        assert validator.validateWordPhrase("") == ""
+        assert validator.validateWordPhrase("") == [""]
     }
 
     @Test
     public void testInvalidNullPhrase() {
-        assert validator.validateWordPhrase(null) == ""
+        assert validator.validateWordPhrase(null) == [""]
     }
 
 
     @Test
     public void testInvalidSpacePhrase() {
-        assert validator.validateWordPhrase("  ") == "  "
+        assert validator.validateWordPhrase("  ") == ["  "]
     }
 
     @Test
     public void testInvalidPuncationOnlyPhrase() {
-        assert validator.validateWordPhrase(" . ") == " . "
+        assert validator.validateWordPhrase(" . ") == [" . "]
     }
 }
