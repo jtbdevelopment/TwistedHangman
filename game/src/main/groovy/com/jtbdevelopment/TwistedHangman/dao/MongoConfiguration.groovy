@@ -1,11 +1,14 @@
 package com.jtbdevelopment.TwistedHangman.dao
 
+import com.jtbdevelopment.TwistedHangman.dao.converters.MongoConverter
 import com.mongodb.Mongo
 import com.mongodb.WriteConcern
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.authentication.UserCredentials
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration
+import org.springframework.data.mongodb.core.convert.CustomConversions
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 
 /**
@@ -24,6 +27,8 @@ class MongoConfiguration extends AbstractMongoConfiguration {
     String dbUser;
     @Value('${mongo.userPassword:twistedhangman}')
     String dbPassword;
+    @Autowired
+    List<MongoConverter> mongoConverters
 
     @Override
     protected String getDatabaseName() {
@@ -38,6 +43,11 @@ class MongoConfiguration extends AbstractMongoConfiguration {
     @Override
     protected UserCredentials getUserCredentials() {
         return new UserCredentials(dbUser, dbPassword)
+    }
+
+    @Override
+    CustomConversions customConversions() {
+        return new CustomConversions(mongoConverters)
     }
 
     @Override
