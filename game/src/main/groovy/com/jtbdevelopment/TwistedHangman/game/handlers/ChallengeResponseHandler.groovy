@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
+import com.jtbdevelopment.TwistedHangman.exceptions.TooLateToRespondToChallenge
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
@@ -11,17 +12,16 @@ import org.springframework.stereotype.Component
  */
 @CompileStatic
 @Component
-class ChallengeResponseHandler extends AbstractHandler {
-    public Game acceptChallenge(final String gameId, final String playerId, final Game.PlayerChallengeState response) {
-        Game game = loadGame(gameId)
-        if (game.gamePhase == Game.GamePhase.Challenge) {
-            Player player = loadPlayer(playerId)
-            validatePlayerForGame(game, player)
-            if (Game.PlayerChallengeState.Pending != game.playerStates[player]) {
-
-            }
-            game.playerStates[player] = response
-            return transitionEngine.evaluateGamePhaseForGame(gameRepository.save(game))
+class ChallengeResponseHandler extends AbstractGameActionHandler<Game.PlayerChallengeState> {
+    @Override
+    protected Game handleActionInternal(final Player player, final Game game, final Game.PlayerChallengeState param) {
+        // We will at least record further ack/nacks for information
+        if (game.gamePhase == Game.GamePhase.Challenge ||
+                game.gamePhase == Game.GamePhase.Declined) {
+            game.playerStates[player] = param         //  Players can change their mind in the server side
+            return game
+        } else {
+            throw new TooLateToRespondToChallenge()
         }
     }
 }

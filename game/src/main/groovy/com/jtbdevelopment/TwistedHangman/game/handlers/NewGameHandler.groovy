@@ -1,9 +1,12 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
+import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 /**
@@ -12,7 +15,12 @@ import org.springframework.stereotype.Component
  */
 @Component
 @CompileStatic
-class NewGameHandler extends AbstractNewGameHandler {
+class NewGameHandler extends AbstractHandler {
+    @Autowired
+    protected SystemPuzzlerSetter systemPuzzlerSetter
+    @Autowired
+    protected GameFactory gameFactory
+
     public Game handleCreateNewGame(
             final String initiatingPlayerID, final Set<String> playersIDs, final Set<GameFeature> features) {
         LinkedHashSet<Player> players = loadPlayers(playersIDs)
@@ -29,7 +37,7 @@ class NewGameHandler extends AbstractNewGameHandler {
             final LinkedHashSet<Player> players,
             final Player initiatingPlayer) {
         transitionEngine.evaluateGamePhaseForGame(
-                handleSystemPuzzleSetter(
+                systemPuzzlerSetter.setWordPhraseFromSystem(
                         gameRepository.save(
                                 gameFactory.createGame(features, players, initiatingPlayer))))
     }

@@ -20,60 +20,15 @@ class NewGameHandlerTest extends THGroovyTestCase {
     NewGameHandler handler = new NewGameHandler()
 
     @Test
-    public void testCreateNonSystemPuzzlerGame() {
-        Set<GameFeature> features = [GameFeature.AlternatingPuzzleSetter, GameFeature.Thieving]
-        LinkedHashSet<Player> players = [PONE, PTWO, PTHREE] as LinkedHashSet
-        Player initiatingPlayer = PFOUR
-        Game game = new Game()
-        game.features.addAll(features)
-        Game savedGame = new Game()
-        Game transitionedGame = new Game()
-        handler.gameFactory = [createGame: { a, b, c ->
-            assert a == features
-            assert b == players
-            assert c == initiatingPlayer
-            game
-        }] as GameFactory
-        handler.gameRepository = [
-                save: {
-                    assert it.is(game)
-                    savedGame
-                }
-        ] as GameRepository
-        handler.playerRepository = [
-                findAll: {
-                    Iterable<String> it ->
-                        assert it.collect { it } as Set == players.collect { it.id } as Set
-                        return players
-                },
-                findOne: {
-                    assert it == PFOUR.id
-                    return PFOUR
-                }
-        ] as PlayerRepository
-        handler.transitionEngine = [
-                evaluateGamePhaseForGame: {
-                    assert it == savedGame
-                    return transitionedGame
-                }
-        ] as GamePhaseTransitionEngine
-
-        assert transitionedGame == handler.handleCreateNewGame(initiatingPlayer.id, players.collect {
-            it.id
-        } as LinkedHashSet, features)
-    }
-
-
-    @Test
-    public void testSystemPuzzler() {
+    public void testCreateGame() {
         Set<GameFeature> features = [GameFeature.SystemPuzzles, GameFeature.Thieving]
         LinkedHashSet<Player> players = [PTWO, PTHREE, PFOUR] as Set
         Player initiatingPlayer = PONE
         Game game = new Game()
         game.features.addAll(features)
-        Game savedGame1 = new Game()
-        savedGame1.features = features
-        Game savedGame2 = new Game()
+        Game savedGame = new Game()
+        Game puzzled = new Game()
+        savedGame.features = features
         Game transitionedGame = new Game()
         handler.gameFactory = [createGame: { a, b, c ->
             assert a == features
@@ -86,16 +41,15 @@ class NewGameHandlerTest extends THGroovyTestCase {
                 save: {
                     assert it.is(expectedSave)
                     if (game.is(it)) {
-                        expectedSave = savedGame1
-                        return savedGame1
-                    } else {
-                        savedGame2
+                        expectedSave = savedGame
+                        return savedGame
                     }
                 }
         ] as GameRepository
         handler.systemPuzzlerSetter = [
                 setWordPhraseFromSystem: {
-                    assert it == savedGame1
+                    assert it.is(savedGame)
+                    return puzzled
                 }
         ] as SystemPuzzlerSetter
         handler.playerRepository = [
@@ -111,7 +65,7 @@ class NewGameHandlerTest extends THGroovyTestCase {
         ] as PlayerRepository
         handler.transitionEngine = [
                 evaluateGamePhaseForGame: {
-                    assert it == savedGame2
+                    assert it.is(puzzled)
                     return transitionedGame
                 }
         ] as GamePhaseTransitionEngine

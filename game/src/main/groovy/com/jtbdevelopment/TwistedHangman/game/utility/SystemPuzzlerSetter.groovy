@@ -1,7 +1,9 @@
 package com.jtbdevelopment.TwistedHangman.game.utility
 
+import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import groovy.transform.CompileStatic
 import org.slf4j.Logger
@@ -21,13 +23,19 @@ class SystemPuzzlerSetter {
     RandomCannedGameFinder randomCannedGameFinder
     @Autowired
     PhraseSetter phraseSetter
+    @Autowired
+    GameRepository gameRepository
 
-    public void setWordPhraseFromSystem(final Game game) {
-        CannedGame cannedGame = randomCannedGameFinder.getRandomGame()
-        logger.info("System Challenger setting for " + game.id + " using canned id " + cannedGame.id)
-        game.solverStates.values().each {
-            IndividualGameState gameState ->
-                phraseSetter.setWordPhrase(gameState, cannedGame.wordPhrase, cannedGame.category)
+    public Game setWordPhraseFromSystem(final Game game) {
+        if (game.features.contains(GameFeature.SystemPuzzles)) {
+            CannedGame cannedGame = randomCannedGameFinder.getRandomGame()
+            logger.info("System Challenger setting for " + game.id + " using canned id " + cannedGame.id)
+            game.solverStates.values().each {
+                IndividualGameState gameState ->
+                    phraseSetter.setWordPhrase(gameState, cannedGame.wordPhrase, cannedGame.category)
+            }
+            return gameRepository.save(game)
         }
+        return game
     }
 }

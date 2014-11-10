@@ -2,10 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
-import com.jtbdevelopment.TwistedHangman.exceptions.FailedToFindGameException
 import com.jtbdevelopment.TwistedHangman.exceptions.FailedToFindPlayersException
-import com.jtbdevelopment.TwistedHangman.exceptions.PlayerNotPartOfGameException
-import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
@@ -28,13 +25,6 @@ abstract class AbstractHandler {
     @Autowired
     protected GamePhaseTransitionEngine transitionEngine
 
-    protected void validatePlayerForGame(final Game game, final Player player) {
-        if (!game.players.contains(player)) {
-            throw new PlayerNotPartOfGameException()
-        }
-
-    }
-
     protected LinkedHashSet<Player> loadPlayers(final Set<String> playerIDs) {
         LinkedHashSet<Player> players = new LinkedHashSet<>(playerRepository.findAll(playerIDs).collect { Player it -> it })
         if (players.size() != playerIDs.size()) {
@@ -53,12 +43,4 @@ abstract class AbstractHandler {
         player
     }
 
-    protected Game loadGame(final String gameID) {
-        Game game = gameRepository.findOne(gameID)
-        if (game == null) {
-            logger.info("Game was not loaded " + gameID)
-            throw new FailedToFindGameException()
-        }
-        game
-    }
 }

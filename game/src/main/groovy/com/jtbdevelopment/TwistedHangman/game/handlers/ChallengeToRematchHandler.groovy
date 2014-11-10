@@ -1,8 +1,11 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
+import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 import java.time.ZoneId
@@ -14,30 +17,30 @@ import java.time.ZonedDateTime
  */
 @CompileStatic
 @Component
-class ChallengeToRematchHandler extends AbstractNewGameHandler {
+class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
+    //  TODO - revisit rematch later on
     public static final ZoneId GMT = ZoneId.of("GMT")
+    @Autowired
+    protected SystemPuzzlerSetter systemPuzzlerSetter
+    @Autowired
+    protected GameFactory gameFactory
 
-    public Game handleRematchRequest(
-            final String initiatingPlayerID, final String previousGameID) {
+    @Override
+    protected Game handleActionInternal(final Player player, final Game previousGame, final Object param = null) {
+        Game newGame = setupGame(previousGame, player)
 
-        Game previousGame = loadGame(previousGameID)
-        Player initiatingPlayer = loadPlayer(initiatingPlayerID)
-
-        Game game = setupGame(previousGame, initiatingPlayer)
-
-        previousGame.rematchId = game.id
+        previousGame.rematchId = newGame.id
         previousGame.rematched = ZonedDateTime.now(GMT)
-        previousGame = transitionEngine.evaluateGamePhaseForGame(game)
+        Game transitioned = transitionEngine.evaluateGamePhaseForGame(previousGame)
         //  TODO notification of previous game
 
         //  TODO notifications
-        game
+        newGame
     }
 
     private Game setupGame(final Game previousGame, final Player initiatingPlayer) {
-        return transitionEngine.evaluateGamePhaseForGame(
-                handleSystemPuzzleSetter(
-                        gameRepository.save(
-                                gameFactory.createGame(previousGame, initiatingPlayer))))
+        return systemPuzzlerSetter.setWordPhraseFromSystem(
+                gameRepository.save(
+                        gameFactory.createGame(previousGame, initiatingPlayer)))
     }
 }

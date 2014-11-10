@@ -1,10 +1,13 @@
 package com.jtbdevelopment.TwistedHangman.game.utility
 
+import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import org.junit.Before
 import org.junit.Test
+import org.springframework.util.StringUtils
 
 /**
  * Date: 11/6/14
@@ -33,14 +36,35 @@ class SystemPuzzlerSetterTest {
 
     @Test
     public void testSystemPuzzler() {
+        puzzlerSetter
+        Game game = new Game()
+        game.features.add(GameFeature.SystemPuzzles)
+        game.solverStates = ["1": new IndividualGameState([] as Set),
+                             "2": new IndividualGameState([] as Set),
+                             "3": new IndividualGameState([] as Set)]
+        Game saved = game.clone();
+        puzzlerSetter.gameRepository = [
+                save: {
+                    return saved
+                }
+        ] as GameRepository
+        assert saved.is(puzzlerSetter.setWordPhraseFromSystem(game))
+        game.solverStates.values().each {
+            assert it.category == category
+            assert it.wordPhraseString == phrase
+        }
+    }
+
+    @Test
+    public void testNonSystemPuzzler() {
         Game game = new Game()
         game.solverStates = ["1": new IndividualGameState([] as Set),
                              "2": new IndividualGameState([] as Set),
                              "3": new IndividualGameState([] as Set)]
-        puzzlerSetter.setWordPhraseFromSystem(game)
+        assert game.is(puzzlerSetter.setWordPhraseFromSystem(game))
         game.solverStates.values().each {
-            assert it.category == category
-            assert it.wordPhraseString == phrase
+            assert StringUtils.isEmpty(it.category)
+            assert StringUtils.isEmpty(it.wordPhraseString)
         }
     }
 }
