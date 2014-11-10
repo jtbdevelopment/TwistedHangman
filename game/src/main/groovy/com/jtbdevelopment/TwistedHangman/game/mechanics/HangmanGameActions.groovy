@@ -26,9 +26,6 @@ class HangmanGameActions {
     /*
     public HangmanGame(final HangmanGameState gameState) {
         //  TODO - none of this validation belonged here - move it
-        if (gameState.maxPenalties <= 0) {
-            throw new IllegalArgumentException(INVALID_MAX_GUESSES_ERROR)
-        }
         if (StringUtils.isEmpty(new Wor gameState.wordPhraseAsString)) {
             throw new IllegalArgumentException(EMPTY_WORD_PHRASE_ERROR)
         }
