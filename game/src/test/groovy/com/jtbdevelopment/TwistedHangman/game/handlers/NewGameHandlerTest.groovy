@@ -22,7 +22,7 @@ class NewGameHandlerTest extends THGroovyTestCase {
     @Test
     public void testCreateNonSystemPuzzlerGame() {
         Set<GameFeature> features = [GameFeature.AlternatingPuzzleSetter, GameFeature.Thieving]
-        List<Player> players = [PONE, PTWO, PTHREE]
+        LinkedHashSet<Player> players = [PONE, PTWO, PTHREE] as LinkedHashSet
         Player initiatingPlayer = PFOUR
         Game game = new Game()
         game.features.addAll(features)
@@ -58,14 +58,16 @@ class NewGameHandlerTest extends THGroovyTestCase {
                 }
         ] as GamePhaseTransitionEngine
 
-        assert transitionedGame == handler.handleCreateNewGame(initiatingPlayer.id, players.collect { it.id }, features)
+        assert transitionedGame == handler.handleCreateNewGame(initiatingPlayer.id, players.collect {
+            it.id
+        } as LinkedHashSet, features)
     }
 
 
     @Test
     public void testSystemPuzzler() {
         Set<GameFeature> features = [GameFeature.SystemPuzzles, GameFeature.Thieving]
-        List<Player> players = [PTWO, PTHREE, PFOUR]
+        LinkedHashSet<Player> players = [PTWO, PTHREE, PFOUR] as Set
         Player initiatingPlayer = PONE
         Game game = new Game()
         game.features.addAll(features)
@@ -114,14 +116,16 @@ class NewGameHandlerTest extends THGroovyTestCase {
                 }
         ] as GamePhaseTransitionEngine
 
-        assert transitionedGame == handler.handleCreateNewGame(initiatingPlayer.id, players.collect { it.id }, features)
+        assert transitionedGame == handler.handleCreateNewGame(initiatingPlayer.id, players.collect {
+            it.id
+        } as LinkedHashSet, features)
     }
 
 
     @Test
     public void testInvalidInitiator() {
         Set<GameFeature> features = [GameFeature.AlternatingPuzzleSetter, GameFeature.Thieving]
-        List<Player> players = [PONE, PTWO, PTHREE]
+        LinkedHashSet<Player> players = [PONE, PTWO, PTHREE] as LinkedHashSet
         handler.playerRepository = [
                 findAll: {
                     Iterable<String> it ->
@@ -135,7 +139,7 @@ class NewGameHandlerTest extends THGroovyTestCase {
         ] as PlayerRepository
 
         try {
-            handler.handleCreateNewGame("LOST", players.collect { it.id }, features)
+            handler.handleCreateNewGame("LOST", players.collect { it.id } as LinkedHashSet, features)
             fail("Should have failed")
         } catch (FailedToFindPlayersException e) {
             //
@@ -145,7 +149,7 @@ class NewGameHandlerTest extends THGroovyTestCase {
     @Test
     public void testNotAllPlayersFound() {
         Set<GameFeature> features = [GameFeature.AlternatingPuzzleSetter, GameFeature.Thieving]
-        List<Player> players = [PONE, PTWO, PTHREE]
+        LinkedHashSet<Player> players = [PONE, PTWO, PTHREE] as LinkedHashSet
         Player initiatingPlayer = PFOUR
         handler.playerRepository = [
                 findAll: {
@@ -160,7 +164,7 @@ class NewGameHandlerTest extends THGroovyTestCase {
         ] as PlayerRepository
 
         try {
-            handler.handleCreateNewGame(initiatingPlayer.id, players.collect { it.id }, features)
+            handler.handleCreateNewGame(initiatingPlayer.id, players.collect { it.id } as LinkedHashSet, features)
             fail("Should have failed")
         } catch (FailedToFindPlayersException e) {
             //

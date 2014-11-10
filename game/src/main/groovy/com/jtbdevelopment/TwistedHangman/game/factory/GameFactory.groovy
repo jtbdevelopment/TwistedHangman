@@ -9,9 +9,6 @@ import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
-import java.time.ZoneId
-import java.time.ZonedDateTime
-
 /**
  * Date: 11/3/14
  * Time: 9:24 PM
@@ -32,7 +29,7 @@ class GameFactory {
 
     public Game createGame(
             final Set<GameFeature> features,
-            final List<Player> players,
+            final LinkedHashSet<Player> players,
             final Player initiatingPlayer) {
         Game game = createFreshGame(features, players, initiatingPlayer)
 
@@ -40,7 +37,7 @@ class GameFactory {
     }
 
     public Game createGame(final Game previousGame, final Player initiatingPlayer) {
-        List<Player> players = rotatePlayers(previousGame)
+        LinkedHashSet<Player> players = rotatePlayers(previousGame)
 
         Game game = createFreshGame(previousGame.features, players, initiatingPlayer)
         game.previousId = previousGame.id
@@ -49,11 +46,13 @@ class GameFactory {
         prepareGame(game)
     }
 
-    private List<Player> rotatePlayers(Game previousGame) {
+    private static LinkedHashSet<Player> rotatePlayers(final Game previousGame) {
         //  Rotate players
-        List<Player> players = []
+        Set<Player> players = new LinkedHashSet<>();
         players.addAll(previousGame.players)
-        players.add(players.remove(0))
+        Player first = players.iterator().next()
+        players.remove(first)
+        players.add(first)
         players
     }
 
@@ -87,12 +86,10 @@ class GameFactory {
         }
     }
 
-    private Game createFreshGame(final Set<GameFeature> features,
-                                 final List<Player> players,
+    private static Game createFreshGame(final Set<GameFeature> features,
+                                        final LinkedHashSet<Player> players,
                                  final Player initiatingPlayer) {
         Game game = new Game()
-        game.created = ZonedDateTime.now(ZoneId.of("GMT"))
-        game.lastMove = game.created
         game.initiatingPlayer = initiatingPlayer
         game.version = null
         game.gamePhase = Game.GamePhase.Challenge

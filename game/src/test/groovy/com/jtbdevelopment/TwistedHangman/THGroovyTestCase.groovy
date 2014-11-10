@@ -11,6 +11,7 @@ abstract class THGroovyTestCase extends GroovyTestCase {
     protected static final Player PTWO = makeSimplePlayer("2")
     protected static final Player PTHREE = makeSimplePlayer("3")
     protected static final Player PFOUR = makeSimplePlayer("4")
+    protected static final Player PFIVE = makeSimplePlayer("5")
     protected static final Player PINACTIVE1 = makeSimplePlayer("I1", true)
     protected static final Player PINACTIVE2 = makeSimplePlayer("I2", true)
 

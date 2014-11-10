@@ -2,7 +2,9 @@ package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
+import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
+import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.Version
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
@@ -37,13 +39,14 @@ public class Game implements Cloneable {
     Integer version
 
     @Indexed
+    @CreatedDate
     ZonedDateTime created
-    ZonedDateTime declined
     @Indexed
+    @LastModifiedDate
     ZonedDateTime lastMove
-    @Indexed
+
+    ZonedDateTime declined
     ZonedDateTime completed
-    @Indexed
     ZonedDateTime rematched
 
     String previousId
@@ -54,7 +57,8 @@ public class Game implements Cloneable {
 
     @Indexed
     Player initiatingPlayer
-    List<Player> players = []  //  Ordered by turns, challengers etc
+    @Indexed
+    LinkedHashSet<Player> players = new LinkedHashSet<>()  //  Ordered by turns, challengers etc
     Map<Player, PlayerChallengeState> playerStates = [:]
 
     Set<GameFeature> features = [] as Set

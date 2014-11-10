@@ -7,9 +7,6 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.players.Player
 import org.junit.Test
 
-import java.time.ZoneId
-import java.time.ZonedDateTime
-
 /**
  * Date: 11/7/14
  * Time: 8:19 PM
@@ -40,8 +37,7 @@ class GameFactoryTest extends THGroovyTestCase {
 
         Set<GameFeature> expectedFeatures = [GameFeature.DrawFace, GameFeature.SinglePlayer] as Set
         Player initiatingPlayer = PONE
-        List<Player> players = [PTWO, PTHREE, PFOUR]
-        def now = ZonedDateTime.now(ZoneId.of("GMT"))
+        LinkedHashSet<Player> players = [PTWO, PTHREE, PFOUR] as Set
         Thread.sleep(1)
         Game game = gameFactory.createGame(expectedFeatures, players, initiatingPlayer)
 
@@ -51,12 +47,12 @@ class GameFactoryTest extends THGroovyTestCase {
         assert expandersCalled == 3
         assert individualCalled == 2
         assert game.features == expectedFeatures
-        assert game.players == [PTWO, PTHREE, PFOUR, PONE]
+        assert game.players == [PTWO, PTHREE, PFOUR, PONE] as Set
         assert game.initiatingPlayer == initiatingPlayer
         assert game.lastMove == game.created
         assert game.gamePhase == Game.GamePhase.Challenge
         assert game.wordPhraseSetter == null
-        assert game.created > now
+        assert game.created == null
         assertNull game.version
     }
 
@@ -83,8 +79,7 @@ class GameFactoryTest extends THGroovyTestCase {
 
         Set<GameFeature> expectedFeatures = [GameFeature.DrawFace, GameFeature.SinglePlayer] as Set
         Player initiatingPlayer = PONE
-        List<Player> players = [PTWO, PTHREE, PFOUR]
-        def now = ZonedDateTime.now(ZoneId.of("GMT"))
+        LinkedHashSet<Player> players = [PTWO, PTHREE, PFOUR] as Set
         Thread.sleep(1)
 
         Game priorGame = new Game();
@@ -100,12 +95,12 @@ class GameFactoryTest extends THGroovyTestCase {
         assert expandersCalled == 3
         assert individualCalled == 2
         assert game.features == expectedFeatures
-        assert game.players == [PTHREE, PFOUR, PONE, PTWO]
+        assert game.players == [PTHREE, PFOUR, PONE, PTWO] as Set
         assert game.initiatingPlayer == initiatingPlayer
         assert game.lastMove == game.created
         assert game.gamePhase == Game.GamePhase.Challenge
         assert game.wordPhraseSetter == null
-        assert game.created > now
+        assert game.created == null
         assertNull game.version
     }
 
