@@ -3,7 +3,8 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
 import com.jtbdevelopment.TwistedHangman.dictionary.Validator
 import com.jtbdevelopment.TwistedHangman.exceptions.InvalidPuzzleWordsException
-import com.jtbdevelopment.TwistedHangman.exceptions.PuzzlesAlreadySetException
+import com.jtbdevelopment.TwistedHangman.exceptions.PuzzleIsNotInSetupPhaseException
+import com.jtbdevelopment.TwistedHangman.exceptions.PuzzlesAreAlreadySetException
 import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
@@ -20,7 +21,7 @@ class SetPuzzleHandlerTest extends THGroovyTestCase {
     public void testMultiPlayerSettingPuzzle() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
-        Game game = new Game()
+        Game game = new Game(gamePhase: Game.GamePhase.Setup)
         game.wordPhraseSetter = PTHREE
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
@@ -57,7 +58,7 @@ class SetPuzzleHandlerTest extends THGroovyTestCase {
     public void testTwoPlayerSettingPuzzle() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
-        Game game = new Game()
+        Game game = new Game(gamePhase: Game.GamePhase.Setup)
         game.wordPhraseSetter = null
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
@@ -94,7 +95,7 @@ class SetPuzzleHandlerTest extends THGroovyTestCase {
     public void testMultiPlayerSettingPuzzleSecondTimeExceptions() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
-        Game game = new Game()
+        Game game = new Game(gamePhase: Game.GamePhase.Setup)
         game.wordPhraseSetter = PTHREE
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
@@ -131,7 +132,7 @@ class SetPuzzleHandlerTest extends THGroovyTestCase {
                     game,
                     [(SetPuzzleHandler.WORDPHRASE_KEY): wp, (SetPuzzleHandler.CATEGORY_KEY): c])
             fail("should not get here")
-        } catch (PuzzlesAlreadySetException e) {
+        } catch (PuzzlesAreAlreadySetException e) {
             //
         }
     }
@@ -140,7 +141,7 @@ class SetPuzzleHandlerTest extends THGroovyTestCase {
     public void testTwoPlayerSettingPuzzleSecondTimeExceptions() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
-        Game game = new Game()
+        Game game = new Game(gamePhase: Game.GamePhase.Setup)
         game.wordPhraseSetter = null
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
@@ -177,7 +178,7 @@ class SetPuzzleHandlerTest extends THGroovyTestCase {
                     game,
                     [(SetPuzzleHandler.WORDPHRASE_KEY): wp, (SetPuzzleHandler.CATEGORY_KEY): c])
             fail("Should not get here")
-        } catch (PuzzlesAlreadySetException e) {
+        } catch (PuzzlesAreAlreadySetException e) {
 
         }
     }
@@ -187,7 +188,7 @@ class SetPuzzleHandlerTest extends THGroovyTestCase {
     public void testInvalidWordPhraseCategory() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
-        Game game = new Game()
+        Game game = new Game(gamePhase: Game.GamePhase.Setup)
         game.wordPhraseSetter = null
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
@@ -218,10 +219,44 @@ class SetPuzzleHandlerTest extends THGroovyTestCase {
     }
 
     @Test
+    public void testPuzzleNotInSetupPhase() {
+        String wp = "A PUZZLE"
+        String c = "CATEGORY"
+        Game game = new Game(gamePhase: Game.GamePhase.Playing)
+        game.wordPhraseSetter = null
+        IndividualGameState poneState = new IndividualGameState()
+        IndividualGameState ptwoState = new IndividualGameState()
+        game.solverStates = [(PONE): poneState, (PTWO): ptwoState]
+        handler.validator = [
+                validateWordPhrase: {
+                    String it ->
+                        assert it == wp || it == c
+                        if (it == wp) {
+                            return ["1", "2"]
+                        } else {
+                            return [""]
+                        }
+
+                }
+
+        ] as Validator
+
+        try {
+            handler.handleActionInternal(
+                    PONE,
+                    game,
+                    [(SetPuzzleHandler.WORDPHRASE_KEY): wp, (SetPuzzleHandler.CATEGORY_KEY): c])
+            fail("Should not get here")
+        } catch (PuzzleIsNotInSetupPhaseException e) {
+
+        }
+    }
+
+    @Test
     public void testMultiPlayerInvalidPlayerSettingPuzzle() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
-        Game game = new Game()
+        Game game = new Game(gamePhase: Game.GamePhase.Setup)
         game.wordPhraseSetter = PTHREE
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
@@ -241,7 +276,7 @@ class SetPuzzleHandlerTest extends THGroovyTestCase {
                     game,
                     [(SetPuzzleHandler.WORDPHRASE_KEY): wp, (SetPuzzleHandler.CATEGORY_KEY): c])
             fail("should have failed")
-        } catch (PuzzlesAlreadySetException e) {
+        } catch (PuzzlesAreAlreadySetException e) {
 
         }
 
