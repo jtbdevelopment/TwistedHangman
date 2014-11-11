@@ -1,8 +1,10 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
+import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
@@ -20,6 +22,10 @@ class NewGameHandler extends AbstractHandler {
     protected SystemPuzzlerSetter systemPuzzlerSetter
     @Autowired
     protected GameFactory gameFactory
+    @Autowired
+    protected GameRepository gameRepository
+    @Autowired
+    protected GamePhaseTransitionEngine transitionEngine
 
     public Game handleCreateNewGame(
             final String initiatingPlayerID, final Set<String> playersIDs, final Set<GameFeature> features) {

@@ -1,9 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
-import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.FailedToFindPlayersException
-import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.slf4j.Logger
@@ -19,11 +17,7 @@ abstract class AbstractHandler {
     private static final Logger logger = LoggerFactory.getLogger(AbstractHandler.class)
 
     @Autowired
-    protected GameRepository gameRepository
-    @Autowired
     protected PlayerRepository playerRepository
-    @Autowired
-    protected GamePhaseTransitionEngine transitionEngine
 
     protected LinkedHashSet<Player> loadPlayers(final Set<String> playerIDs) {
         LinkedHashSet<Player> players = new LinkedHashSet<>(playerRepository.findAll(playerIDs).collect { Player it -> it })

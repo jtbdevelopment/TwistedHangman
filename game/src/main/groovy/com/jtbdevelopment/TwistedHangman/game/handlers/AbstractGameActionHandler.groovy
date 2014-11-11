@@ -1,17 +1,26 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
+import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.FailedToFindGameException
 import com.jtbdevelopment.TwistedHangman.exceptions.PlayerNotPartOfGameException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.players.Player
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * Date: 11/9/2014
  * Time: 8:36 PM
  */
 abstract class AbstractGameActionHandler<T> extends AbstractHandler {
+    @Autowired
+    protected GameRepository gameRepository
+
+    @Autowired
+    protected GamePhaseTransitionEngine transitionEngine
+
     private static final Logger logger = LoggerFactory.getLogger(AbstractGameActionHandler.class)
 
     abstract protected Game handleActionInternal(final Player player, final Game game, T param);
