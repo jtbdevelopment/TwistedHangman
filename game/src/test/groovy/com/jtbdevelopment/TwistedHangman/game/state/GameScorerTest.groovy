@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
-import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
+import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.players.Player
 import org.junit.Test
@@ -9,7 +9,7 @@ import org.junit.Test
  * Date: 11/8/2014
  * Time: 6:57 PM
  */
-class GameScorerTest extends THGroovyTestCase {
+class GameScorerTest extends TwistedHangmanTestCase {
     GameScorer gameScorer = new GameScorer()
 
     @Test

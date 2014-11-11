@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.dictionary.Validator
+import com.jtbdevelopment.TwistedHangman.exceptions.GameIsNotInSetupPhaseException
 import com.jtbdevelopment.TwistedHangman.exceptions.InvalidPuzzleWordsException
-import com.jtbdevelopment.TwistedHangman.exceptions.PuzzleIsNotInSetupPhaseException
 import com.jtbdevelopment.TwistedHangman.exceptions.PuzzlesAreAlreadySetException
 import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter
 import com.jtbdevelopment.TwistedHangman.game.state.Game
@@ -55,7 +55,7 @@ class SetPuzzleHandler extends AbstractGameActionHandler<Map<String, String>> {
 
     protected static void validatePuzzleStates(Game game, Player player) {
         if (game.gamePhase != Game.GamePhase.Setup) {
-            throw new PuzzleIsNotInSetupPhaseException();
+            throw new GameIsNotInSetupPhaseException();
         }
         if (game.wordPhraseSetter == null || game.wordPhraseSetter == player) {
             if (findPuzzlesToSetForPlayer(game, player).size() == 0) {

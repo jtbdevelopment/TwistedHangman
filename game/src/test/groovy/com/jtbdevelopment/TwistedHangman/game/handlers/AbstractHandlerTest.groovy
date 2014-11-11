@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
-import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
+import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.FailedToFindPlayersException
 import org.junit.Test
@@ -9,7 +9,7 @@ import org.junit.Test
  * Date: 11/10/14
  * Time: 6:56 PM
  */
-class AbstractHandlerTest extends THGroovyTestCase {
+class AbstractHandlerTest extends TwistedHangmanTestCase {
     private class TestHandler extends AbstractHandler {
 
     }

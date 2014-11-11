@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
-import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
+import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.exceptions.TooLateToRespondToChallenge
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import org.junit.Test
@@ -9,7 +9,7 @@ import org.junit.Test
  * Date: 11/9/2014
  * Time: 8:21 PM
  */
-class ChallengeResponseHandlerTest extends THGroovyTestCase {
+class ChallengeResponseHandlerTest extends TwistedHangmanTestCase {
     ChallengeResponseHandler handler = new ChallengeResponseHandler()
 
     @Test

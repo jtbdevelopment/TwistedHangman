@@ -16,25 +16,7 @@ import org.springframework.stereotype.Component
 @CompileStatic
 @Component
 class HangmanGameActions {
-    //  TODO
-    public static final String INVALID_MAX_GUESSES_ERROR = "Invalid maximum guesses.";
-    public static final String EMPTY_WORD_PHRASE_ERROR = "Empty word/phrase.";
-    public static final String EMPTY_CATEGORY_ERROR = "Category is invalid.";
-
-    //final HangmanGameState gameState
-
-    /*
-    public HangmanGame(final HangmanGameState gameState) {
-        //  TODO - none of this validation belonged here - move it
-        if (StringUtils.isEmpty(new Wor gameState.wordPhraseAsString)) {
-            throw new IllegalArgumentException(EMPTY_WORD_PHRASE_ERROR)
-        }
-        if (StringUtils.isEmpty(category)) {
-            throw new IllegalArgumentException(EMPTY_CATEGORY_ERROR)
-        }
-        */
-
-    public int guessLetter(final IndividualGameState gameState, final char letter) {
+    public static int guessLetter(final IndividualGameState gameState, final char letter) {
         char uppercaseLetter = letter.toUpperCase();
 
         validateGuess(gameState, letter, uppercaseLetter)
@@ -57,7 +39,7 @@ class HangmanGameActions {
         return found;
     }
 
-    protected void validateGuess(IndividualGameState gameState, char letter, char uppercaseLetter) {
+    protected static void validateGuess(IndividualGameState gameState, char letter, char uppercaseLetter) {
         if (gameState.gameOver) {
             throw new GameOverException()
         }

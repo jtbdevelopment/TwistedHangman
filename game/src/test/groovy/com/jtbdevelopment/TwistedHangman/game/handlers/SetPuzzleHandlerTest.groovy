@@ -1,9 +1,9 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
-import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
+import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dictionary.Validator
+import com.jtbdevelopment.TwistedHangman.exceptions.GameIsNotInSetupPhaseException
 import com.jtbdevelopment.TwistedHangman.exceptions.InvalidPuzzleWordsException
-import com.jtbdevelopment.TwistedHangman.exceptions.PuzzleIsNotInSetupPhaseException
 import com.jtbdevelopment.TwistedHangman.exceptions.PuzzlesAreAlreadySetException
 import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter
 import com.jtbdevelopment.TwistedHangman.game.state.Game
@@ -14,7 +14,7 @@ import org.junit.Test
  * Date: 11/10/14
  * Time: 7:04 AM
  */
-class SetPuzzleHandlerTest extends THGroovyTestCase {
+class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
     SetPuzzleHandler handler = new SetPuzzleHandler()
 
     @Test
@@ -247,7 +247,7 @@ class SetPuzzleHandlerTest extends THGroovyTestCase {
                     game,
                     [(SetPuzzleHandler.WORDPHRASE_KEY): wp, (SetPuzzleHandler.CATEGORY_KEY): c])
             fail("Should not get here")
-        } catch (PuzzleIsNotInSetupPhaseException e) {
+        } catch (GameIsNotInSetupPhaseException e) {
 
         }
     }

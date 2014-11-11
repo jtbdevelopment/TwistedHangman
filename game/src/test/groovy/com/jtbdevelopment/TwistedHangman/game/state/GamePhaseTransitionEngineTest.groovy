@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
-import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
+import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import org.junit.Test
 
@@ -8,7 +8,7 @@ import org.junit.Test
  * Date: 11/9/14
  * Time: 9:33 AM
  */
-class GamePhaseTransitionEngineTest extends THGroovyTestCase {
+class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     GamePhaseTransitionEngine transitionEngine = new GamePhaseTransitionEngine()
 
 

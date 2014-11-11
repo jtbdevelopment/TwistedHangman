@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
-import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
+import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import org.junit.Test
 
 import java.time.ZonedDateTime
@@ -9,7 +9,7 @@ import java.time.ZonedDateTime
  * Date: 11/9/14
  * Time: 3:50 PM
  */
-class GameTest extends THGroovyTestCase {
+class GameTest extends TwistedHangmanTestCase {
     @Test
     void testEquals() {
         Game one = new Game(id: "1")

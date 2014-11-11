@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.factory
 
-import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
+import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.exceptions.FailedToCreateValidGameException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
@@ -11,7 +11,7 @@ import org.junit.Test
  * Date: 11/7/14
  * Time: 8:19 PM
  */
-class GameFactoryTest extends THGroovyTestCase {
+class GameFactoryTest extends TwistedHangmanTestCase {
     GameFactory gameFactory = new GameFactory();
 
     @Test

@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
-import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
+import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.FailedToFindPlayersException
@@ -16,7 +16,7 @@ import org.junit.Test
  * Date: 11/7/14
  * Time: 9:26 PM
  */
-class NewGameHandlerTest extends THGroovyTestCase {
+class NewGameHandlerTest extends TwistedHangmanTestCase {
     NewGameHandler handler = new NewGameHandler()
 
     @Test

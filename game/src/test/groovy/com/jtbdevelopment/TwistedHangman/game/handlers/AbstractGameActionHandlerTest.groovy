@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
-import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
+import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.FailedToFindGameException
@@ -14,7 +14,7 @@ import org.junit.Test
  * Date: 11/10/14
  * Time: 7:06 PM
  */
-class AbstractGameActionHandlerTest extends THGroovyTestCase {
+class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
     private static final String testParam = "TESTPARAM"
     private static final Game handledGame = new Game();
     private final Game gameParam = new Game()

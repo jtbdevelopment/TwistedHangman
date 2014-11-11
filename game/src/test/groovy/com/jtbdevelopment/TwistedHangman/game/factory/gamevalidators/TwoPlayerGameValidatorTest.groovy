@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.gamevalidators
 
-import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
+import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import org.junit.Test
@@ -9,7 +9,7 @@ import org.junit.Test
  * Date: 11/5/2014
  * Time: 10:12 PM
  */
-class TwoPlayerGameValidatorTest extends THGroovyTestCase {
+class TwoPlayerGameValidatorTest extends TwistedHangmanTestCase {
     TwoPlayerGameValidator validator = new TwoPlayerGameValidator()
 
     @Test

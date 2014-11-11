@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.featureexpanders
 
-import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
+import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import org.junit.Test
 
@@ -8,7 +8,7 @@ import org.junit.Test
  * Date: 11/3/14
  * Time: 9:42 PM
  */
-class TwoPlayerExpanderTest extends THGroovyTestCase {
+class TwoPlayerExpanderTest extends TwistedHangmanTestCase {
     TwoPlayerExpander expander = new TwoPlayerExpander()
 
     @Test

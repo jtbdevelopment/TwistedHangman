@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 
-import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
+import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
@@ -11,7 +11,7 @@ import org.junit.Test
  * Date: 11/5/14
  * Time: 8:00 PM
  */
-class PuzzleInitializerTest extends THGroovyTestCase {
+class PuzzleInitializerTest extends TwistedHangmanTestCase {
     PuzzleInitializer initializer = new PuzzleInitializer()
 
     @Test

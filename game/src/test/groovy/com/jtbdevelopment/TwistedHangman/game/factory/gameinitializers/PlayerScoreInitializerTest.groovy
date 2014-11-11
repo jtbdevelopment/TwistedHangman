@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 
-import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
+import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.players.Player
 import org.junit.Test
@@ -9,7 +9,7 @@ import org.junit.Test
  * Date: 11/5/14
  * Time: 7:24 PM
  */
-class PlayerScoreInitializerTest extends THGroovyTestCase {
+class PlayerScoreInitializerTest extends TwistedHangmanTestCase {
     PlayerScoreInitializer initializer = new PlayerScoreInitializer()
 
     @Test

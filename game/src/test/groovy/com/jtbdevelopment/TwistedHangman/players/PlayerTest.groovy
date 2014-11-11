@@ -1,13 +1,13 @@
 package com.jtbdevelopment.TwistedHangman.players
 
-import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
+import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import org.junit.Test
 
 /**
  * Date: 11/9/14
  * Time: 3:44 PM
  */
-class PlayerTest extends THGroovyTestCase {
+class PlayerTest extends TwistedHangmanTestCase {
     @Test
     void testEquals() {
         assert PONE.equals(PONE)

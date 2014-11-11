@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 
-import com.jtbdevelopment.TwistedHangman.THGroovyTestCase
+import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import org.junit.Test
 
@@ -8,7 +8,7 @@ import org.junit.Test
  * Date: 11/5/14
  * Time: 7:34 PM
  */
-class PlayerStateInitializerTest extends THGroovyTestCase {
+class PlayerStateInitializerTest extends TwistedHangmanTestCase {
     PlayerStateInitializer playerStateInitializer = new PlayerStateInitializer()
 
     @Test
