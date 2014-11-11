@@ -6,6 +6,7 @@ import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
@@ -20,16 +21,19 @@ class RandomCannedGameFinder {
     private static final Logger logger = LoggerFactory.getLogger(RandomCannedGameFinder.class)
 
     @Autowired
-    private CannedGameRepository repository
+    CannedGameRepository repository
 
     private final Random random = new Random()
 
     public CannedGame getRandomGame(final String source = "") {
-        new Random().ints()
         if (StringUtils.isEmpty(source)) {
-            long max = repository.count()
-            int index = getRandomIndex(max)
-            return extractGame(repository.findAll(new PageRequest(index, 1)).content)
+            long count = repository.count()
+            int index = getRandomIndex(count)
+
+            Page<CannedGame> all = repository.findAll(new PageRequest(index, 1))
+
+            List<CannedGame> content = all.content
+            return extractGame(content)
         } else {
             long max = repository.countBySource(source)
             int index = getRandomIndex(max)
@@ -37,16 +41,16 @@ class RandomCannedGameFinder {
         }
     }
 
-    protected int getRandomIndex(long max) {
-        if (max > Integer.MAX_VALUE) {
-            logger.warn("More than max integer random games! (" + max + ")")
-            max = Integer.MAX_VALUE
-        }
-        if (max < 1) {
-            logger.warn("No random games! (" + max + ")")
+    protected int getRandomIndex(long count) {
+        if (count < 1) {
+            logger.warn("No random games! (" + count + ")")
             throw new RandomCannedGameFinderException(RandomCannedGameFinderException.NO_GAMES_FOUND)
         }
-        return random.nextInt((int) max)
+        if (count <= Integer.MAX_VALUE) {
+            return random.nextInt(((int) count))
+        } else {
+            return random.nextInt(Integer.MAX_VALUE)
+        }
     }
 
     static protected CannedGame extractGame(final List<CannedGame> games) {

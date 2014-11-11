@@ -1,45 +1,131 @@
 package com.jtbdevelopment.TwistedHangman.game.utility
 
+import com.jtbdevelopment.TwistedHangman.dao.CannedGameRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.RandomCannedGameFinderException
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
-import org.springframework.util.StringUtils
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 
 /**
  * Date: 11/2/14
  * Time: 4:01 PM
  */
-@ContextConfiguration("/spring-context-game-test.xml")
-@RunWith(SpringJUnit4ClassRunner.class)
-//  TODO - despring and mock
 class RandomCannedGameFinderTest extends GroovyTestCase {
-    @Autowired
-    RandomCannedGameFinder randomCannedGame
+    RandomCannedGameFinder finder = new RandomCannedGameFinder()
 
     @Test
-    public void testGeneral() {
-        CannedGame game = randomCannedGame.getRandomGame()
-        assert game != null
-        assertFalse StringUtils.isEmpty(game.id)
-        assertFalse StringUtils.isEmpty(game.wordPhrase)
-        assertFalse StringUtils.isEmpty(game.category)
+    public void testReturnsARandomGameFromSingleItemUniverse() {
+        CannedGame game = [] as CannedGame
+        Page<CannedGame> page = [getContent: { [game] }] as Page<CannedGame>
+        finder.repository = [
+                count  : {
+                    1L
+                },
+                findAll: {
+                    PageRequest it ->
+                        assert it.pageNumber == 0
+                        assert it.pageSize == 1
+                        page
+                }
+        ] as CannedGameRepository
+        assert game.is(finder.getRandomGame())
     }
 
     @Test
-    public void testSpecificSource() {
-        CannedGame game = randomCannedGame.getRandomGame("WOFS")
-        assert game != null
-        assertFalse StringUtils.isEmpty(game.id)
-        assertFalse StringUtils.isEmpty(game.wordPhrase)
-        assertFalse StringUtils.isEmpty(game.category)
+    public void testExceptionIfNoGames() {
+        finder.repository = [
+                count: {
+                    0L
+                }
+        ] as CannedGameRepository
+        try {
+            finder.getRandomGame()
+        } catch (RandomCannedGameFinderException e) {
+            assert e.message == "No pre-made games were found."
+        }
     }
 
-    @Test(expected = RandomCannedGameFinderException.class)
-    public void testNonexistent() {
-        randomCannedGame.getRandomGame("NEVEREXISTS")
-        fail("Exception expected")
+    @Test
+    public void testExceptionIfNoContent() {
+        Page<CannedGame> page = [getContent: { [] }] as Page<CannedGame>
+        finder.repository = [
+                count  : {
+                    1L
+                },
+                findAll: {
+                    PageRequest it ->
+                        assert it.pageNumber == 0
+                        assert it.pageSize == 1
+                        page
+                }
+        ] as CannedGameRepository
+        try {
+            finder.getRandomGame()
+        } catch (RandomCannedGameFinderException e) {
+            assert e.message == "Pre-made game failed to load."
+        }
+    }
+
+    @Test
+    public void testExceptionIfTooMuchContent() {
+        CannedGame game = [] as CannedGame
+        Page<CannedGame> page = [getContent: { [game, game] }] as Page<CannedGame>
+        finder.repository = [
+                count  : {
+                    1L
+                },
+                findAll: {
+                    PageRequest it ->
+                        assert it.pageNumber == 0
+                        assert it.pageSize == 1
+                        page
+                }
+        ] as CannedGameRepository
+        try {
+            finder.getRandomGame()
+        } catch (RandomCannedGameFinderException e) {
+            assert e.message == "Pre-made game failed to load."
+        }
+    }
+
+    @Test
+    public void testReturnsARandomGameFromLargeUniverse() {
+        CannedGame game = [] as CannedGame
+        long top = Long.MAX_VALUE / 2
+        Page<CannedGame> page = [getContent: { [game] }] as Page<CannedGame>
+        finder.repository = [
+                count  : {
+                    top
+                },
+                findAll: {
+                    PageRequest it ->
+                        assert it.pageNumber < Integer.MAX_VALUE
+                        assert it.pageSize == 1
+                        page
+                }
+        ] as CannedGameRepository
+        assert game.is(finder.getRandomGame())
+    }
+
+    @Test
+    public void testReturnsARandomGameFromWithSource() {
+        String source = "Interwebs"
+        CannedGame game = [] as CannedGame
+        long top = Integer.MAX_VALUE / 2
+        finder.repository = [
+                countBySource: {
+                    String it ->
+                        assert it == source
+                        top
+                },
+                findBySource : {
+                    String s, PageRequest p ->
+                        assert s == source
+                        assert p.pageNumber < top
+                        assert p.pageSize == 1
+                        [game]
+                }
+        ] as CannedGameRepository
+        assert game.is(finder.getRandomGame(source))
     }
 }
