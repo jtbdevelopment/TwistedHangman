@@ -49,7 +49,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assert game.features == expectedFeatures
         assert game.players == [PTWO, PTHREE, PFOUR, PONE] as Set
         assert game.initiatingPlayer == initiatingPlayer
-        assert game.lastMove == game.created
+        assert game.lastUpdate == game.created
         assert game.gamePhase == Game.GamePhase.Challenge
         assert game.wordPhraseSetter == null
         assert game.created == null
@@ -97,7 +97,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assert game.features == expectedFeatures
         assert game.players == [PTHREE, PFOUR, PONE, PTWO] as Set
         assert game.initiatingPlayer == initiatingPlayer
-        assert game.lastMove == game.created
+        assert game.lastUpdate == game.created
         assert game.gamePhase == Game.GamePhase.Challenge
         assert game.wordPhraseSetter == null
         assert game.created == null

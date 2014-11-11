@@ -43,14 +43,14 @@ public class Game implements Cloneable {
     ZonedDateTime created
     @Indexed
     @LastModifiedDate
-    ZonedDateTime lastMove
+    ZonedDateTime lastUpdate
 
     ZonedDateTime declined
     ZonedDateTime completed
     ZonedDateTime rematched
 
+    @Indexed
     String previousId
-    String rematchId
 
     @Indexed
     GamePhase gamePhase
@@ -91,11 +91,10 @@ public class Game implements Cloneable {
                 ", version=" + version +
                 ", created=" + created +
                 ", declined=" + declined +
-                ", lastMove=" + lastMove +
+                ", lastUpdate=" + lastUpdate +
                 ", completed=" + completed +
                 ", rematched=" + rematched +
                 ", previousId='" + previousId + '\'' +
-                ", rematchId='" + rematchId + '\'' +
                 ", gamePhase=" + gamePhase +
                 ", initiatingPlayer=" + initiatingPlayer +
                 ", players=" + players +

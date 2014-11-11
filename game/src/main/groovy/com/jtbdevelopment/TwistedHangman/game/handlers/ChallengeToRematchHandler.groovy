@@ -29,7 +29,6 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
     protected Game handleActionInternal(final Player player, final Game previousGame, final Object param = null) {
         Game newGame = setupGame(previousGame, player)
 
-        previousGame.rematchId = newGame.id
         previousGame.rematched = ZonedDateTime.now(GMT)
         Game transitioned = transitionEngine.evaluateGamePhaseForGame(previousGame)
         //  TODO notification of previous game

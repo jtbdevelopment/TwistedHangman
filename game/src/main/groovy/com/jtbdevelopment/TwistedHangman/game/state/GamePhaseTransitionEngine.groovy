@@ -45,7 +45,7 @@ class GamePhaseTransitionEngine {
                 }
                 break;
             case Game.GamePhase.Rematch:
-                if (!StringUtils.isEmpty(game.rematchId)) {
+                if (game.rematched != null) {
                     return changeStateAndReevaluate(Game.GamePhase.Rematched, game)
                 }
                 break;

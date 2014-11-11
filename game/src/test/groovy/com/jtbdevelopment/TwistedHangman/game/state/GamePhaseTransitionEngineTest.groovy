@@ -4,6 +4,8 @@ import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import org.junit.Test
 
+import java.time.ZonedDateTime
+
 /**
  * Date: 11/9/14
  * Time: 9:33 AM
@@ -227,7 +229,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     public void testRematchToRematch() {
         assert transitionEngine.gameRepository == null
         assert transitionEngine.gameScorer == null
-        Game game = new Game(gamePhase: Game.GamePhase.Rematch, rematchId: "")
+        Game game = new Game(gamePhase: Game.GamePhase.Rematch, rematched: null)
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
@@ -235,7 +237,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     public void testRematchToRematched() {
         assert transitionEngine.gameScorer == null
 
-        Game game = new Game(gamePhase: Game.GamePhase.Rematch, rematchId: "XYZ")
+        Game game = new Game(gamePhase: Game.GamePhase.Rematch, rematched: ZonedDateTime.now())
         Game saved = new Game()
         transitionEngine.gameRepository = [
                 save: {
