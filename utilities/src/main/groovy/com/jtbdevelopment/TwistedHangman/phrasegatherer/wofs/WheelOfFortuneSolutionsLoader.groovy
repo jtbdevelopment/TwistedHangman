@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.phrasegatherer.wos
+package com.jtbdevelopment.TwistedHangman.phrasegatherer.wofs
 
 import com.jtbdevelopment.TwistedHangman.dao.CannedGameRepository
 import com.jtbdevelopment.TwistedHangman.dictionary.Validator

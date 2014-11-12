@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.phrasegatherer.wos
+package com.jtbdevelopment.TwistedHangman.phrasegatherer.wofs
 
 import groovyx.gpars.GParsPool
 import org.cyberneko.html.parsers.SAXParser
