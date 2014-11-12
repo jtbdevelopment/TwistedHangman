@@ -27,9 +27,9 @@ class PuzzleInitializerTest extends TwistedHangmanTestCase {
 
         assert game.solverStates.size() == players.size()
         players.each {
-            assert game.solverStates.containsKey(it)
-            assert game.solverStates[it] in IndividualGameState
-            assert game.solverStates[it].features == features
+            assert game.solverStates.containsKey(it.id)
+            assert game.solverStates[it.id] in IndividualGameState
+            assert game.solverStates[it.id].features == features
         }
     }
 
@@ -46,9 +46,9 @@ class PuzzleInitializerTest extends TwistedHangmanTestCase {
 
         assert game.solverStates.size() == players.size()
         players.each {
-            assert game.solverStates.containsKey(it)
-            assert game.solverStates[it] in IndividualGameState
-            assert game.solverStates[it].features == features
+            assert game.solverStates.containsKey(it.id)
+            assert game.solverStates[it.id] in IndividualGameState
+            assert game.solverStates[it.id].features == features
         }
     }
 
@@ -65,9 +65,9 @@ class PuzzleInitializerTest extends TwistedHangmanTestCase {
 
         assert game.solverStates.size() == players.size() - 1
         players.findAll { it != PTHREE }.each {
-            assert game.solverStates.containsKey(it)
-            assert game.solverStates[it] in IndividualGameState
-            assert game.solverStates[it].features == features
+            assert game.solverStates.containsKey(it.id)
+            assert game.solverStates[it.id] in IndividualGameState
+            assert game.solverStates[it.id].features == features
         }
     }
 }

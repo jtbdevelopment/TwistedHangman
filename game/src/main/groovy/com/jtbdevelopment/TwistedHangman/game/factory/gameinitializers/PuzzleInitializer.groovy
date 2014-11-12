@@ -19,7 +19,7 @@ class PuzzleInitializer implements GameInitializer {
 
         game.players.findAll { Player it -> game.wordPhraseSetter != it }.each {
             Player it ->
-                game.solverStates[it] = new IndividualGameState(game.features)
+                game.solverStates[it.id] = new IndividualGameState(game.features)
         }
     }
 }

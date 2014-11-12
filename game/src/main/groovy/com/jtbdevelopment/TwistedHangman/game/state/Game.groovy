@@ -17,6 +17,7 @@ import java.time.ZonedDateTime
  */
 @Document
 @CompileStatic
+//@CompoundIndex(def = "{players.id: 1, gamePhase: 1")
 public class Game implements Cloneable {
     public enum GamePhase {
         Challenge,  /*  Agreement from initial players  */
@@ -59,15 +60,16 @@ public class Game implements Cloneable {
     Player initiatingPlayer
     @Indexed
     LinkedHashSet<Player> players = new LinkedHashSet<>()  //  Ordered by turns, challengers etc
-    Map<Player, PlayerChallengeState> playerStates = [:]
+    Map<String, PlayerChallengeState> playerStates = [:]
 
+    @Indexed
     Set<GameFeature> features = [] as Set
     Map<GameFeature, Object> featureData = [:]
 
     Player wordPhraseSetter
-    Map<Player, IndividualGameState> solverStates = [:]
+    Map<String, IndividualGameState> solverStates = [:]
 
-    Map<Player, Integer> playerScores = [:]
+    Map<String, Integer> playerScores = [:]
 
     boolean equals(final o) {
         if (this.is(o)) return true

@@ -26,6 +26,7 @@ class ThievingHangmanGameActions {
         gameState.moveCount += 1
         gameState.penalties += 1
         gameState.workingWordPhrase[position] = gameState.wordPhrase[position]
+        gameState.workingWordPhraseString = new String(gameState.workingWordPhrase)
     }
 
     protected void validateSteal(IndividualGameState gameState, int position, boolean[] markers) {

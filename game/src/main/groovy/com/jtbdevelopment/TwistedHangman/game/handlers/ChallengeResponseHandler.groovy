@@ -18,7 +18,7 @@ class ChallengeResponseHandler extends AbstractGameActionHandler<Game.PlayerChal
         // We will at least record further ack/nacks for information
         if (game.gamePhase == Game.GamePhase.Challenge ||
                 game.gamePhase == Game.GamePhase.Declined) {
-            game.playerStates[player] = param         //  Players can change their mind in the server side
+            game.playerStates[player.id] = param         //  Players can change their mind in the server side
             return game
         } else {
             throw new TooLateToRespondToChallenge()

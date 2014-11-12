@@ -33,16 +33,16 @@ class ChallengeResponseHandlerTest extends TwistedHangmanTestCase {
                     Game.PlayerChallengeState response ->
                         Game game = new Game(
                                 gamePhase: gamePhase,
-                                playerStates: [(PONE)  : Game.PlayerChallengeState.Pending,
-                                               (PTWO)  : Game.PlayerChallengeState.Rejected,
-                                               (PTHREE): Game.PlayerChallengeState.Pending,
-                                               (PFOUR) : Game.PlayerChallengeState.Accepted,
+                                playerStates: [(PONE.id)  : Game.PlayerChallengeState.Pending,
+                                               (PTWO.id)  : Game.PlayerChallengeState.Rejected,
+                                               (PTHREE.id): Game.PlayerChallengeState.Pending,
+                                               (PFOUR.id) : Game.PlayerChallengeState.Accepted,
                                 ])
                         handler.handleActionInternal(PONE, game, response)
-                        assert game.playerStates[PONE] == response
-                        assert game.playerStates[PTWO] == Game.PlayerChallengeState.Rejected
-                        assert game.playerStates[PTHREE] == Game.PlayerChallengeState.Pending
-                        assert game.playerStates[PFOUR] == Game.PlayerChallengeState.Accepted
+                        assert game.playerStates[PONE.id] == response
+                        assert game.playerStates[PTWO.id] == Game.PlayerChallengeState.Rejected
+                        assert game.playerStates[PTHREE.id] == Game.PlayerChallengeState.Pending
+                        assert game.playerStates[PFOUR.id] == Game.PlayerChallengeState.Accepted
                 }
         }
     }
@@ -55,16 +55,16 @@ class ChallengeResponseHandlerTest extends TwistedHangmanTestCase {
                     Game.PlayerChallengeState response ->
                         Game game = new Game(
                                 gamePhase: gamePhase,
-                                playerStates: [(PONE)  : Game.PlayerChallengeState.Accepted,
-                                               (PTWO)  : Game.PlayerChallengeState.Rejected,
-                                               (PTHREE): Game.PlayerChallengeState.Pending,
-                                               (PFOUR) : Game.PlayerChallengeState.Accepted,
+                                playerStates: [(PONE.id)  : Game.PlayerChallengeState.Accepted,
+                                               (PTWO.id)  : Game.PlayerChallengeState.Rejected,
+                                               (PTHREE.id): Game.PlayerChallengeState.Pending,
+                                               (PFOUR.id) : Game.PlayerChallengeState.Accepted,
                                 ])
                         handler.handleActionInternal(PONE, game, response)
-                        assert game.playerStates[PONE] == response
-                        assert game.playerStates[PTWO] == Game.PlayerChallengeState.Rejected
-                        assert game.playerStates[PTHREE] == Game.PlayerChallengeState.Pending
-                        assert game.playerStates[PFOUR] == Game.PlayerChallengeState.Accepted
+                        assert game.playerStates[PONE.id] == response
+                        assert game.playerStates[PTWO.id] == Game.PlayerChallengeState.Rejected
+                        assert game.playerStates[PTHREE.id] == Game.PlayerChallengeState.Pending
+                        assert game.playerStates[PFOUR.id] == Game.PlayerChallengeState.Accepted
                 }
         }
     }

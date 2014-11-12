@@ -20,26 +20,26 @@ class GameScorer {
         int winners = 0
         int losers = 0
         game.solverStates.each {
-            Player player, IndividualGameState gameState ->
+            String playerId, IndividualGameState gameState ->
                 if (gameState.gameWon) {
                     winners++
-                    game.playerScores[player] = game.playerScores[player] + 1
+                    game.playerScores[playerId] = game.playerScores[playerId] + 1
                     //  Move to list of post-scorers?
                     if (game.features.contains(GameFeature.SingleWinner)) {
-                        game.featureData[GameFeature.SingleWinner] = player
+                        game.featureData[GameFeature.SingleWinner] = game.players.find { Player player -> player.id == playerId }
                     }
                 }
         }
         game.solverStates.each {
-            Player player, IndividualGameState gameState ->
+            String id, IndividualGameState gameState ->
                 if (gameState.gameLost) {
                     losers++
-                    game.playerScores[player] = game.playerScores[player] - 1
+                    game.playerScores[id] = game.playerScores[id] - 1
                 }
         }
 
         if (game.wordPhraseSetter != null && game.wordPhraseSetter != Player.SYSTEM_PLAYER) {
-            game.playerScores[game.wordPhraseSetter] = game.playerScores[game.wordPhraseSetter] + losers - winners
+            game.playerScores[game.wordPhraseSetter.id] = game.playerScores[game.wordPhraseSetter.id] + losers - winners
         }
         return gameRepository.save(game)
     }

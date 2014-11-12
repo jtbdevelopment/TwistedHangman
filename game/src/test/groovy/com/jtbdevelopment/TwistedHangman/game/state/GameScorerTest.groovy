@@ -17,20 +17,20 @@ class GameScorerTest extends TwistedHangmanTestCase {
         Game game = new Game()
         Game savedGame = new Game()
         game.players = [PONE, PTWO, PTHREE, PFOUR]
-        game.playerScores = [(PONE): 1, (PTWO): -2, (PTHREE): 4, (PFOUR): 0]
+        game.playerScores = [(PONE.id): 1, (PTWO.id): -2, (PTHREE.id): 4, (PFOUR.id): 0]
         game.solverStates = [
-                (PONE)  : [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
-                (PTWO)  : [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
-                (PTHREE): [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
-                (PFOUR) : [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
+                (PONE.id)  : [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
+                (PTWO.id)  : [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
+                (PTHREE.id): [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
+                (PFOUR.id) : [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
         ]
         gameScorer.gameRepository = [save: { assert it == game; savedGame }] as GameRepository
         assert gameScorer.scoreGame(game) == savedGame
         assert game.featureData[GameFeature.SingleWinner] == null
-        assert game.playerScores[PONE] == 0
-        assert game.playerScores[PTWO] == -1
-        assert game.playerScores[PTHREE] == 5
-        assert game.playerScores[PFOUR] == -1
+        assert game.playerScores[PONE.id] == 0
+        assert game.playerScores[PTWO.id] == -1
+        assert game.playerScores[PTHREE.id] == 5
+        assert game.playerScores[PFOUR.id] == -1
     }
 
     @Test
@@ -39,19 +39,19 @@ class GameScorerTest extends TwistedHangmanTestCase {
         Game savedGame = new Game()
         game.players = [PONE, PTWO, PTHREE, PFOUR]
         game.wordPhraseSetter = PTHREE
-        game.playerScores = [(PONE): 1, (PTWO): -2, (PTHREE): 4, (PFOUR): 0]
+        game.playerScores = [(PONE.id): 1, (PTWO.id): -2, (PTHREE.id): 4, (PFOUR.id): 0]
         game.solverStates = [
-                (PONE) : [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
-                (PTWO) : [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
-                (PFOUR): [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
+                (PONE.id) : [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
+                (PTWO.id) : [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
+                (PFOUR.id): [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
         ]
         gameScorer.gameRepository = [save: { assert it == game; savedGame }] as GameRepository
         assert gameScorer.scoreGame(game) == savedGame
         assert game.featureData[GameFeature.SingleWinner] == null
-        assert game.playerScores[PONE] == 0
-        assert game.playerScores[PTWO] == -1
-        assert game.playerScores[PTHREE] == 5
-        assert game.playerScores[PFOUR] == -1
+        assert game.playerScores[PONE.id] == 0
+        assert game.playerScores[PTWO.id] == -1
+        assert game.playerScores[PTHREE.id] == 5
+        assert game.playerScores[PFOUR.id] == -1
     }
 
     @Test
@@ -60,16 +60,16 @@ class GameScorerTest extends TwistedHangmanTestCase {
         Game savedGame = new Game()
         game.players = [PONE, PTWO]
         game.wordPhraseSetter = null
-        game.playerScores = [(PONE): 1, (PTWO): -2]
+        game.playerScores = [(PONE.id): 1, (PTWO.id): -2]
         game.solverStates = [
-                (PONE): [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
-                (PTWO): [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
+                (PONE.id): [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
+                (PTWO.id): [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
         ]
         gameScorer.gameRepository = [save: { assert it == game; savedGame }] as GameRepository
         assert gameScorer.scoreGame(game) == savedGame
         assert game.featureData[GameFeature.SingleWinner] == null
-        assert game.playerScores[PONE] == 2
-        assert game.playerScores[PTWO] == -1
+        assert game.playerScores[PONE.id] == 2
+        assert game.playerScores[PTWO.id] == -1
     }
 
     @Test
@@ -78,20 +78,24 @@ class GameScorerTest extends TwistedHangmanTestCase {
         game.features.add(GameFeature.SingleWinner)
         Game savedGame = new Game()
         game.players = [PONE, PTWO, PTHREE, PFOUR]
-        game.playerScores = [(PONE): 1, (PTWO): -2, (PTHREE): 4, (PFOUR): 0]
+        game.playerScores = [(PONE.id): 1, (PTWO.id): -2, (PTHREE.id): 4, (PFOUR.id): 0]
         game.solverStates = [
-                (PONE)  : [isGameWon: { false }, isGameLost: { false }, isGameOver: { false }] as IndividualGameState,
-                (PTWO)  : [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
-                (PTHREE): [isGameWon: { false }, isGameLost: { false }, isGameOver: { false }] as IndividualGameState,
-                (PFOUR) : [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
+                (PONE.id)  : [isGameWon: { false }, isGameLost: { false }, isGameOver: {
+                    false
+                }] as IndividualGameState,
+                (PTWO.id)  : [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
+                (PTHREE.id): [isGameWon: { false }, isGameLost: { false }, isGameOver: {
+                    false
+                }] as IndividualGameState,
+                (PFOUR.id) : [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
         ]
         gameScorer.gameRepository = [save: { assert it == game; savedGame }] as GameRepository
         assert gameScorer.scoreGame(game) == savedGame
         assert game.featureData[GameFeature.SingleWinner] == PTWO
-        assert game.playerScores[PONE] == 1
-        assert game.playerScores[PTWO] == -1
-        assert game.playerScores[PTHREE] == 4
-        assert game.playerScores[PFOUR] == -1
+        assert game.playerScores[PONE.id] == 1
+        assert game.playerScores[PTWO.id] == -1
+        assert game.playerScores[PTHREE.id] == 4
+        assert game.playerScores[PFOUR.id] == -1
     }
 
     @Test
@@ -101,19 +105,19 @@ class GameScorerTest extends TwistedHangmanTestCase {
         Game savedGame = new Game()
         game.players = [PONE, PTWO, PTHREE, PFOUR]
         game.wordPhraseSetter = PTHREE
-        game.playerScores = [(PONE): 1, (PTWO): -2, (PTHREE): 4, (PFOUR): 0]
+        game.playerScores = [(PONE.id): 1, (PTWO.id): -2, (PTHREE.id): 4, (PFOUR.id): 0]
         game.solverStates = [
-                (PONE) : [isGameWon: { false }, isGameLost: { false }, isGameOver: { false }] as IndividualGameState,
-                (PTWO) : [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
-                (PFOUR): [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
+                (PONE.id) : [isGameWon: { false }, isGameLost: { false }, isGameOver: { false }] as IndividualGameState,
+                (PTWO.id) : [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
+                (PFOUR.id): [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
         ]
         gameScorer.gameRepository = [save: { assert it == game; savedGame }] as GameRepository
         assert gameScorer.scoreGame(game) == savedGame
         assert game.featureData[GameFeature.SingleWinner] == PTWO
-        assert game.playerScores[PONE] == 1
-        assert game.playerScores[PTWO] == -1
-        assert game.playerScores[PTHREE] == 4
-        assert game.playerScores[PFOUR] == -1
+        assert game.playerScores[PONE.id] == 1
+        assert game.playerScores[PTWO.id] == -1
+        assert game.playerScores[PTHREE.id] == 4
+        assert game.playerScores[PFOUR.id] == -1
     }
 
     @Test
@@ -123,16 +127,16 @@ class GameScorerTest extends TwistedHangmanTestCase {
         Game savedGame = new Game()
         game.players = [PONE, PTWO]
         game.wordPhraseSetter = null
-        game.playerScores = [(PONE): 1, (PTWO): -2]
+        game.playerScores = [(PONE.id): 1, (PTWO.id): -2]
         game.solverStates = [
-                (PONE): [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
-                (PTWO): [isGameWon: { false }, isGameLost: { false }, isGameOver: { false }] as IndividualGameState,
+                (PONE.id): [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
+                (PTWO.id): [isGameWon: { false }, isGameLost: { false }, isGameOver: { false }] as IndividualGameState,
         ]
         gameScorer.gameRepository = [save: { assert it == game; savedGame }] as GameRepository
         assert gameScorer.scoreGame(game) == savedGame
         assert game.featureData[GameFeature.SingleWinner] == PONE
-        assert game.playerScores[PONE] == 2
-        assert game.playerScores[PTWO] == -2
+        assert game.playerScores[PONE.id] == 2
+        assert game.playerScores[PTWO.id] == -2
     }
 
 
@@ -140,16 +144,16 @@ class GameScorerTest extends TwistedHangmanTestCase {
     public void testScoreWinForSinglePlayerGame() {
         Game game = new Game()
         Game savedGame = new Game()
-        game.players = [PONE]
+        game.players = [PONE.id]
         game.wordPhraseSetter = Player.SYSTEM_PLAYER
-        game.playerScores = [(PONE): 1]
+        game.playerScores = [(PONE.id): 1]
         game.solverStates = [
-                (PONE): [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
+                (PONE.id): [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
         ]
         gameScorer.gameRepository = [save: { assert it == game; savedGame }] as GameRepository
         assert gameScorer.scoreGame(game) == savedGame
         assert game.featureData[GameFeature.SingleWinner] == null
-        assert game.playerScores[PONE] == 2
+        assert game.playerScores[PONE.id] == 2
     }
 
     @Test
@@ -158,14 +162,14 @@ class GameScorerTest extends TwistedHangmanTestCase {
         Game savedGame = new Game()
         game.players = [PONE]
         game.wordPhraseSetter = Player.SYSTEM_PLAYER
-        game.playerScores = [(PONE): 1]
+        game.playerScores = [(PONE.id): 1]
         game.solverStates = [
-                (PONE): [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
+                (PONE.id): [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
         ]
         gameScorer.gameRepository = [save: { assert it == game; savedGame }] as GameRepository
         assert gameScorer.scoreGame(game) == savedGame
         assert game.featureData[GameFeature.SingleWinner] == null
-        assert game.playerScores[PONE] == 0
+        assert game.playerScores[PONE.id] == 0
     }
 }
 

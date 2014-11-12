@@ -26,7 +26,7 @@ class GuessLetterHandler extends AbstractGameActionHandler<Character> {
             throw new GameIsNotInPlayModeException()
         }
 
-        IndividualGameState state = game.solverStates[player]
+        IndividualGameState state = game.solverStates[player.id]
         if (state) {
             gameActions.guessLetter(state, param)
         } else {

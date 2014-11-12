@@ -20,7 +20,7 @@ class GuessLetterHandlerTest extends TwistedHangmanTestCase {
         Game game = new Game(gamePhase: Game.GamePhase.Playing)
         char letter = 'e'
         IndividualGameState state = new IndividualGameState(wordPhrase: "Test", category: "Test")
-        game.solverStates = [(PONE): state]
+        game.solverStates = [(PONE.id): state]
         handler.gameActions = [
                 guessLetter: {
                     IndividualGameState s, char c ->

@@ -19,9 +19,9 @@ class PlayerStateInitializerTest extends TwistedHangmanTestCase {
         game.initiatingPlayer = PTHREE
         playerStateInitializer.initializeGame(game)
         assert game.playerStates.size() == 4
-        assert game.playerStates[(PTHREE)] == Game.PlayerChallengeState.Accepted
+        assert game.playerStates[(PTHREE.id)] == Game.PlayerChallengeState.Accepted
         players.findAll { it != PTHREE }.each {
-            assert game.playerStates[it] == Game.PlayerChallengeState.Pending
+            assert game.playerStates[it.id] == Game.PlayerChallengeState.Pending
         }
     }
 }

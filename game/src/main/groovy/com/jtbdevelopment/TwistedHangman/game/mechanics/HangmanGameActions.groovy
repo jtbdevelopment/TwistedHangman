@@ -25,6 +25,7 @@ class HangmanGameActions {
         for (int i = 0; i < gameState.wordPhrase.length; ++i) {
             if (gameState.wordPhrase[i] == uppercaseLetter) {
                 gameState.workingWordPhrase[i] = uppercaseLetter;
+                gameState.workingWordPhraseString = new String(gameState.workingWordPhrase)
                 ++found;
             }
         }

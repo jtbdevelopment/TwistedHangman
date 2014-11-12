@@ -15,14 +15,15 @@ class WorkingWordPhraseInitializer implements PhraseFeatureInitializer {
     @Override
     void initializeForPhrase(final IndividualGameState gameState) {
         int length = gameState.wordPhrase.length
-        gameState.workingWordPhrase = new char[length]
+        char[] workingWordPhrase = new char[length]
 
         for (int i = 0; i < length; ++i) {
             if (Character.isLetter(gameState.wordPhrase[i])) {
-                gameState.workingWordPhrase[i] = '_';
+                workingWordPhrase[i] = '_';
             } else {
-                gameState.workingWordPhrase[i] = gameState.wordPhrase[i];
+                workingWordPhrase[i] = gameState.wordPhrase[i];
             }
         }
+        gameState.workingWordPhrase = workingWordPhrase
     }
 }

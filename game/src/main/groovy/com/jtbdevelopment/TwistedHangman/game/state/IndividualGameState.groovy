@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
 import groovy.transform.CompileStatic
+import org.springframework.data.annotation.Transient
 
 /**
  * Date: 10/31/14
@@ -15,8 +16,13 @@ class IndividualGameState {
     public static final int FACE_PENALTIES = 4
 
     String category;
-    char[] wordPhrase;
-    char[] workingWordPhrase
+
+    @Transient
+    private char[] wordPhrase;
+    @Transient
+    private char[] workingWordPhrase
+    private String wordPhraseString
+    private String workingWordPhraseString
     int maxPenalties;
     int moveCount = 0;
     int penalties = 0;
@@ -32,6 +38,8 @@ class IndividualGameState {
     public IndividualGameState(final Set<GameFeature> features) {
         this.wordPhrase = new char[0]
         this.workingWordPhrase = new char[0]
+        this.wordPhraseString = ""
+        this.workingWordPhraseString = ""
         this.category = ""
         this.maxPenalties = BASE_PENALTIES
         this.features = Collections.unmodifiableSet(features ?: Collections.emptySet())
@@ -54,11 +62,39 @@ class IndividualGameState {
     }
 
     public String getWordPhraseString() {
-        new String(wordPhrase)
+        wordPhraseString
+    }
+
+    public void setWordPhraseString(final String wordPhraseString) {
+        this.wordPhraseString = wordPhraseString
+        this.wordPhrase = wordPhraseString.toCharArray()
     }
 
     public String getWorkingWordPhraseString() {
-        new String(workingWordPhrase)
+        workingWordPhraseString
+    }
+
+    public void setWorkingWordPhraseString(final String workingWordPhraseString) {
+        this.workingWordPhraseString = workingWordPhraseString
+        this.workingWordPhrase = workingWordPhraseString.toCharArray()
+    }
+
+    char[] getWordPhrase() {
+        return wordPhrase
+    }
+
+    void setWordPhrase(final char[] wordPhrase) {
+        this.wordPhrase = wordPhrase
+        this.wordPhraseString = new String(wordPhrase)
+    }
+
+    char[] getWorkingWordPhrase() {
+        return workingWordPhrase
+    }
+
+    void setWorkingWordPhrase(final char[] workingWordPhrase) {
+        this.workingWordPhrase = workingWordPhrase
+        this.workingWordPhraseString = new String(workingWordPhrase)
     }
 
     @Override

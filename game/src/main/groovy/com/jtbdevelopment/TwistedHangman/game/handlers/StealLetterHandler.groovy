@@ -26,7 +26,7 @@ class StealLetterHandler extends AbstractGameActionHandler<Integer> {
             throw new GameIsNotInPlayModeException()
         }
 
-        IndividualGameState state = game.solverStates[player]
+        IndividualGameState state = game.solverStates[player.id]
         if (state) {
             gameActions.stealLetter(state, param.intValue())
         } else {

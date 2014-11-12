@@ -20,7 +20,7 @@ class StealLetterHandlerTest extends TwistedHangmanTestCase {
         Game game = new Game(gamePhase: Game.GamePhase.Playing)
         int spot = 1
         IndividualGameState state = new IndividualGameState(wordPhrase: "Test", category: "Test")
-        game.solverStates = [(PONE): state]
+        game.solverStates = [(PONE.id): state]
         handler.gameActions = [
                 stealLetter: {
                     IndividualGameState s, int p ->
@@ -37,7 +37,7 @@ class StealLetterHandlerTest extends TwistedHangmanTestCase {
         Game game = new Game(gamePhase: Game.GamePhase.Playing)
         int spot = 1
         IndividualGameState state = new IndividualGameState(wordPhrase: "Test", category: "Test")
-        game.solverStates = [(PONE): state]
+        game.solverStates = [(PONE.id): state]
 
         try {
             handler.handleActionInternal(PTHREE, game, spot)
@@ -52,7 +52,7 @@ class StealLetterHandlerTest extends TwistedHangmanTestCase {
         Game game = new Game(gamePhase: Game.GamePhase.Setup)
         int spot = 1
         IndividualGameState state = new IndividualGameState(wordPhrase: "Test", category: "Test")
-        game.solverStates = [(PONE): state]
+        game.solverStates = [(PONE.id): state]
 
         try {
             handler.handleActionInternal(PTHREE, game, spot)

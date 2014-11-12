@@ -15,10 +15,10 @@ import org.springframework.stereotype.Component
 class PlayerStateInitializer implements GameInitializer {
     @Override
     void initializeGame(final Game game) {
-        game.playerStates.put(game.initiatingPlayer, Game.PlayerChallengeState.Accepted)
+        game.playerStates.put(game.initiatingPlayer.id, Game.PlayerChallengeState.Accepted)
         game.players.findAll { Player it -> game.initiatingPlayer != it }.each {
             Player it ->
-                game.playerStates[it] = Game.PlayerChallengeState.Pending
+                game.playerStates[it.id] = Game.PlayerChallengeState.Pending
         }
     }
 }
