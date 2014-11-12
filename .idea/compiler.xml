@@ -24,9 +24,9 @@
         <processorPath useClasspath="true" />
         <module name="game" />
         <module name="model" />
+        <module name="rest" />
         <module name="utilities" />
       </profile>
     </annotationProcessing>
   </component>
 </project>
-
