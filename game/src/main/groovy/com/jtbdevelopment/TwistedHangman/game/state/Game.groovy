@@ -59,7 +59,7 @@ public class Game implements Cloneable {
     @Indexed
     Player initiatingPlayer
     @Indexed
-    LinkedHashSet<Player> players = new LinkedHashSet<>()  //  Ordered by turns, challengers etc
+    List<Player> players = []  //  Ordered by turns, challengers etc
     Map<String, PlayerChallengeState> playerStates = [:]
 
     @Indexed

@@ -16,7 +16,7 @@ class TurnInitializer implements GameInitializer {
     @Override
     void initializeGame(final Game game) {
         if (game.features.contains(GameFeature.TurnBased)) {
-            game.featureData[GameFeature.TurnBased] = game.players[0]
+            game.featureData[GameFeature.TurnBased] = game.players[0].id
         }
     }
 }

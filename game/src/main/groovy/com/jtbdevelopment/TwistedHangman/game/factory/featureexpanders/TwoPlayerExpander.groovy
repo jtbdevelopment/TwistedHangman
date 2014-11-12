@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
 @Component
 class TwoPlayerExpander implements FeatureExpander {
     @Override
-    void enhanceFeatureSet(final Set<GameFeature> features, final LinkedHashSet<Player> players) {
+    void enhanceFeatureSet(final Set<GameFeature> features, final Collection<Player> players) {
         if (players.size() == 2) {
             features.add(GameFeature.TwoPlayer)
         }

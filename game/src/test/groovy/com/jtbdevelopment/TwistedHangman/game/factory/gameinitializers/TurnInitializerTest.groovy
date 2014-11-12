@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 
+import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import org.junit.Test
@@ -8,23 +9,23 @@ import org.junit.Test
  * Date: 11/5/14
  * Time: 8:11 PM
  */
-class TurnInitializerTest extends GroovyTestCase {
+class TurnInitializerTest extends TwistedHangmanTestCase {
     TurnInitializer initializer = new TurnInitializer()
 
     @Test
     public void testInitializesTurnToFirstPlayer() {
         Game game = new Game()
         game.features += GameFeature.TurnBased
-        game.players = ["4", "3", "6"]
+        game.players = [PFOUR, PONE, PTWO, PTHREE]
         initializer.initializeGame(game)
 
-        assert game.featureData[GameFeature.TurnBased] == "4"
+        assert game.featureData[GameFeature.TurnBased] == PFOUR.id
     }
 
     @Test
     public void testNotSetWhenNotAFeature() {
         Game game = new Game()
-        game.players = ["4", "3", "6"]
+        game.players = [PONE, PTWO, PTHREE]
         initializer.initializeGame(game)
 
         assert game.featureData[GameFeature.TurnBased] == null

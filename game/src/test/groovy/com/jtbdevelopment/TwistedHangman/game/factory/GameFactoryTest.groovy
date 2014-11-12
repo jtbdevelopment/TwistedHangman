@@ -37,7 +37,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
 
         Set<GameFeature> expectedFeatures = [GameFeature.DrawFace, GameFeature.SinglePlayer] as Set
         Player initiatingPlayer = PONE
-        LinkedHashSet<Player> players = [PTWO, PTHREE, PFOUR] as Set
+        List<Player> players = [PTWO, PTHREE, PFOUR]
         Thread.sleep(1)
         Game game = gameFactory.createGame(expectedFeatures, players, initiatingPlayer)
 
@@ -47,7 +47,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assert expandersCalled == 3
         assert individualCalled == 2
         assert game.features == expectedFeatures
-        assert game.players == [PTWO, PTHREE, PFOUR, PONE] as Set
+        assert game.players == [PTWO, PTHREE, PFOUR, PONE]
         assert game.initiatingPlayer == initiatingPlayer
         assert game.lastUpdate == game.created
         assert game.gamePhase == Game.GamePhase.Challenge
@@ -79,7 +79,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
 
         Set<GameFeature> expectedFeatures = [GameFeature.DrawFace, GameFeature.SinglePlayer] as Set
         Player initiatingPlayer = PONE
-        LinkedHashSet<Player> players = [PTWO, PTHREE, PFOUR] as Set
+        List<Player> players = [PTWO, PTHREE, PFOUR]
         Thread.sleep(1)
 
         Game priorGame = new Game();
@@ -95,7 +95,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assert expandersCalled == 3
         assert individualCalled == 2
         assert game.features == expectedFeatures
-        assert game.players == [PTHREE, PFOUR, PONE, PTWO] as Set
+        assert game.players == [PTHREE, PFOUR, PONE, PTWO]
         assert game.initiatingPlayer == initiatingPlayer
         assert game.lastUpdate == game.created
         assert game.gamePhase == Game.GamePhase.Challenge

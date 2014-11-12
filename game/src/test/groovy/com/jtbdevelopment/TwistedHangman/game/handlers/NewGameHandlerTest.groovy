@@ -22,7 +22,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
     @Test
     public void testCreateGame() {
         Set<GameFeature> features = [GameFeature.SystemPuzzles, GameFeature.Thieving]
-        LinkedHashSet<Player> players = [PTWO, PTHREE, PFOUR] as Set
+        List<Player> players = [PTWO, PTHREE, PFOUR]
         Player initiatingPlayer = PONE
         Game game = new Game()
         game.features.addAll(features)
@@ -70,16 +70,14 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                 }
         ] as GamePhaseTransitionEngine
 
-        assert transitionedGame == handler.handleCreateNewGame(initiatingPlayer.id, players.collect {
-            it.id
-        } as LinkedHashSet, features)
+        assert transitionedGame == handler.handleCreateNewGame(initiatingPlayer.id, players.collect { it.id }, features)
     }
 
 
     @Test
     public void testInvalidInitiator() {
         Set<GameFeature> features = [GameFeature.AlternatingPuzzleSetter, GameFeature.Thieving]
-        LinkedHashSet<Player> players = [PONE, PTWO, PTHREE] as LinkedHashSet
+        List<Player> players = [PONE, PTWO, PTHREE]
         handler.playerRepository = [
                 findAll: {
                     Iterable<String> it ->
@@ -93,7 +91,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
         ] as PlayerRepository
 
         try {
-            handler.handleCreateNewGame("LOST", players.collect { it.id } as LinkedHashSet, features)
+            handler.handleCreateNewGame("LOST", players.collect { it.id }, features)
             fail("Should have failed")
         } catch (FailedToFindPlayersException e) {
             //
@@ -103,7 +101,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
     @Test
     public void testNotAllPlayersFound() {
         Set<GameFeature> features = [GameFeature.AlternatingPuzzleSetter, GameFeature.Thieving]
-        LinkedHashSet<Player> players = [PONE, PTWO, PTHREE] as LinkedHashSet
+        List<Player> players = [PONE, PTWO, PTHREE]
         Player initiatingPlayer = PFOUR
         handler.playerRepository = [
                 findAll: {
@@ -118,7 +116,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
         ] as PlayerRepository
 
         try {
-            handler.handleCreateNewGame(initiatingPlayer.id, players.collect { it.id } as LinkedHashSet, features)
+            handler.handleCreateNewGame(initiatingPlayer.id, players.collect { it.id }, features)
             fail("Should have failed")
         } catch (FailedToFindPlayersException e) {
             //

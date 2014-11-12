@@ -29,7 +29,7 @@ class GameFactory {
 
     public Game createGame(
             final Set<GameFeature> features,
-            final LinkedHashSet<Player> players,
+            final List<Player> players,
             final Player initiatingPlayer) {
         Game game = createFreshGame(features, players, initiatingPlayer)
 
@@ -37,7 +37,7 @@ class GameFactory {
     }
 
     public Game createGame(final Game previousGame, final Player initiatingPlayer) {
-        LinkedHashSet<Player> players = rotatePlayers(previousGame)
+        List<Player> players = rotatePlayers(previousGame)
 
         Game game = createFreshGame(previousGame.features, players, initiatingPlayer)
         game.previousId = previousGame.id
@@ -46,13 +46,11 @@ class GameFactory {
         prepareGame(game)
     }
 
-    private static LinkedHashSet<Player> rotatePlayers(final Game previousGame) {
+    private static List<Player> rotatePlayers(final Game previousGame) {
         //  Rotate players
-        Set<Player> players = new LinkedHashSet<>();
+        List<Player> players = []
         players.addAll(previousGame.players)
-        Player first = players.iterator().next()
-        players.remove(first)
-        players.add(first)
+        players.add(players.remove(0))
         players
     }
 
@@ -87,7 +85,7 @@ class GameFactory {
     }
 
     private static Game createFreshGame(final Set<GameFeature> features,
-                                        final LinkedHashSet<Player> players,
+                                        final List<Player> players,
                                  final Player initiatingPlayer) {
         Game game = new Game()
         game.initiatingPlayer = initiatingPlayer

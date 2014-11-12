@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
 @Component
 class ThievingExpander implements FeatureExpander {
     @Override
-    void enhanceFeatureSet(final Set<GameFeature> features, final LinkedHashSet<Player> players) {
+    void enhanceFeatureSet(final Set<GameFeature> features, final Collection<Player> players) {
         if (features.contains(GameFeature.Thieving)) {
             features.add(GameFeature.ThievingPositionTracking)
             features.add(GameFeature.ThievingCountTracking)

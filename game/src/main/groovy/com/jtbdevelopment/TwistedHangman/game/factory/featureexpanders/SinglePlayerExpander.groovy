@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component
 class SinglePlayerExpander implements FeatureExpander {
 
     @Override
-    void enhanceFeatureSet(final Set<GameFeature> features, final LinkedHashSet<Player> players) {
+    void enhanceFeatureSet(final Set<GameFeature> features, final Collection<Player> players) {
         if (players.size() == 1) {
             features.add(GameFeature.SinglePlayer)
             features.add(GameFeature.SingleWinner)

@@ -27,7 +27,7 @@ class GameCreateService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("new")
-    Game createNewGame(final String playerID, final Set<String> players, final Set<GameFeature> gameFeatures) {
+    Game createNewGame(final String playerID, final List<String> players, final Set<GameFeature> gameFeatures) {
         return newGameHandler.handleCreateNewGame(playerID, players, gameFeatures)
     }
 }

@@ -3,9 +3,12 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.FailedToFindGameException
 import com.jtbdevelopment.TwistedHangman.exceptions.PlayerNotPartOfGameException
+import com.jtbdevelopment.TwistedHangman.exceptions.PlayerOutOfTurnException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.players.Player
+import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired
  * Date: 11/9/2014
  * Time: 8:36 PM
  */
+@CompileStatic
 abstract class AbstractGameActionHandler<T> extends AbstractHandler {
     @Autowired
     protected GameRepository gameRepository
@@ -29,12 +33,30 @@ abstract class AbstractGameActionHandler<T> extends AbstractHandler {
         Player player = loadPlayer(playerID)
         Game game = loadGame(gameID)
         validatePlayerForGame(game, player)
-        return transitionEngine.evaluateGamePhaseForGame(gameRepository.save(handleActionInternal(player, game, param)))
+        Game internal = rotateTurnBasedGame(handleActionInternal(player, game, param), player)
+
+        return transitionEngine.evaluateGamePhaseForGame(gameRepository.save(internal))
+    }
+
+    private static Game rotateTurnBasedGame(final Game game, final Player player) {
+        if (game.gamePhase == Game.GamePhase.Playing && game.features.contains(GameFeature.TurnBased)) {
+            int index = game.players.indexOf(player) + 1
+            if (index >= game.players.size()) {
+                index = 0
+            }
+            game.featureData[GameFeature.TurnBased] = game.players[index].id
+        }
+        game
     }
 
     private static void validatePlayerForGame(final Game game, final Player player) {
         if (!game.players.contains(player)) {
             throw new PlayerNotPartOfGameException()
+        }
+        if (game.features.contains(GameFeature.TurnBased)) {
+            if (game.featureData[GameFeature.TurnBased] != player.id) {
+                throw new PlayerOutOfTurnException()
+            }
         }
     }
 

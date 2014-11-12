@@ -6,6 +6,7 @@ import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.FailedToFindGameException
 import com.jtbdevelopment.TwistedHangman.exceptions.PlayerNotPartOfGameException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.players.Player
 import org.junit.Test
@@ -115,5 +116,146 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         } catch (PlayerNotPartOfGameException e) {
 
         }
+    }
+
+    @Test
+    public void testAbstractHandlerBaseRotatesTurn() {
+        gameParam.players = [PTWO, PONE]
+        gameParam.features.add(GameFeature.TurnBased)
+        gameParam.featureData[GameFeature.TurnBased] = PONE.id
+        handledGame.featureData.clear()
+        handledGame.featureData.putAll(gameParam.featureData)
+        handledGame.features.clear()
+        handledGame.features.addAll(gameParam.features)
+        handledGame.players.clone()
+        handledGame.players.addAll(gameParam.players)
+        handledGame.gamePhase = Game.GamePhase.Playing
+        gameParam.gamePhase = Game.GamePhase.Playing
+
+        Game saved = gameParam.clone()
+        Game transitioned = gameParam.clone();
+        handler.gameRepository = [
+                findOne: {
+                    String it ->
+                        assert it == gameId
+                        return gameParam
+                },
+                save   : {
+                    Game it ->
+                        assert it.is(handledGame)
+                        assert handledGame.featureData[GameFeature.TurnBased] == PTWO.id
+                        return saved
+                }
+        ] as GameRepository
+        handler.playerRepository = [
+                findOne: {
+                    String it ->
+                        assert it == PONE.id
+                        return PONE
+                }
+        ] as PlayerRepository
+        handler.transitionEngine = [
+                evaluateGamePhaseForGame: {
+                    Game it ->
+                        assert it.is(saved)
+                        return transitioned
+                }
+        ] as GamePhaseTransitionEngine
+
+        assert transitioned.is(handler.handleAction(PONE.id, gameId, testParam))
+    }
+
+    @Test
+    public void testAbstractHandlerBaseDoesNotRotateTurnWhenNotPlaying() {
+        gameParam.players = [PTWO, PONE]
+        gameParam.features.add(GameFeature.TurnBased)
+        gameParam.featureData[GameFeature.TurnBased] = PONE.id
+        handledGame.featureData.clear()
+        handledGame.featureData.putAll(gameParam.featureData)
+        handledGame.features.clear()
+        handledGame.features.addAll(gameParam.features)
+        handledGame.players.clone()
+        handledGame.players.addAll(gameParam.players)
+        handledGame.gamePhase = Game.GamePhase.Setup
+        gameParam.gamePhase = Game.GamePhase.Setup
+
+        Game saved = gameParam.clone()
+        Game transitioned = gameParam.clone();
+        handler.gameRepository = [
+                findOne: {
+                    String it ->
+                        assert it == gameId
+                        return gameParam
+                },
+                save   : {
+                    Game it ->
+                        assert it.is(handledGame)
+                        assert handledGame.featureData[GameFeature.TurnBased] == PONE.id
+                        return saved
+                }
+        ] as GameRepository
+        handler.playerRepository = [
+                findOne: {
+                    String it ->
+                        assert it == PONE.id
+                        return PONE
+                }
+        ] as PlayerRepository
+        handler.transitionEngine = [
+                evaluateGamePhaseForGame: {
+                    Game it ->
+                        assert it.is(saved)
+                        return transitioned
+                }
+        ] as GamePhaseTransitionEngine
+
+        assert transitioned.is(handler.handleAction(PONE.id, gameId, testParam))
+    }
+
+    @Test
+    public void testAbstractHandlerBaseDoesNotRotateTurnWhenPlayingNonTurnedBasedGame() {
+        gameParam.players = [PTWO, PONE]
+        gameParam.features.remove(GameFeature.TurnBased)
+        gameParam.featureData = [(GameFeature.TurnBased): PONE.id]
+        handledGame.featureData.clear()
+        handledGame.featureData.putAll(gameParam.featureData)
+        handledGame.features.clear()
+        handledGame.features.addAll(gameParam.features)
+        handledGame.players.clone()
+        handledGame.players.addAll(gameParam.players)
+        handledGame.gamePhase = Game.GamePhase.Playing
+        gameParam.gamePhase = Game.GamePhase.Playing
+
+        Game saved = gameParam.clone()
+        Game transitioned = gameParam.clone();
+        handler.gameRepository = [
+                findOne: {
+                    String it ->
+                        assert it == gameId
+                        return gameParam
+                },
+                save   : {
+                    Game it ->
+                        assert it.is(handledGame)
+                        assert handledGame.featureData[GameFeature.TurnBased] == PONE.id
+                        return saved
+                }
+        ] as GameRepository
+        handler.playerRepository = [
+                findOne: {
+                    String it ->
+                        assert it == PONE.id
+                        return PONE
+                }
+        ] as PlayerRepository
+        handler.transitionEngine = [
+                evaluateGamePhaseForGame: {
+                    Game it ->
+                        assert it.is(saved)
+                        return transitioned
+                }
+        ] as GamePhaseTransitionEngine
+
+        assert transitioned.is(handler.handleAction(PONE.id, gameId, testParam))
     }
 }

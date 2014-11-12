@@ -19,7 +19,7 @@ abstract class AbstractHandler {
     @Autowired
     protected PlayerRepository playerRepository
 
-    protected LinkedHashSet<Player> loadPlayers(final Set<String> playerIDs) {
+    protected Set<Player> loadPlayers(final Collection<String> playerIDs) {
         LinkedHashSet<Player> players = new LinkedHashSet<>(playerRepository.findAll(playerIDs).collect { Player it -> it })
         if (players.size() != playerIDs.size()) {
             logger.info("Not all players were loaded " + playerIDs + " vs. " + players)

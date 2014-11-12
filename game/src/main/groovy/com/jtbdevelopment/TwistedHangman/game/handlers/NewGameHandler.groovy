@@ -28,8 +28,8 @@ class NewGameHandler extends AbstractHandler {
     protected GamePhaseTransitionEngine transitionEngine
 
     public Game handleCreateNewGame(
-            final String initiatingPlayerID, final Set<String> playersIDs, final Set<GameFeature> features) {
-        LinkedHashSet<Player> players = loadPlayers(playersIDs)
+            final String initiatingPlayerID, final List<String> playersIDs, final Set<GameFeature> features) {
+        Set<Player> players = loadPlayers(playersIDs)  //  Load as set to prevent dupes in initial setup
         Player initiatingPlayer = players.find { Player player -> player.id == initiatingPlayerID }
         if (initiatingPlayer == null) {
             initiatingPlayer = loadPlayer(initiatingPlayerID)
@@ -40,12 +40,12 @@ class NewGameHandler extends AbstractHandler {
 
     private Game setupGame(
             final Set<GameFeature> features,
-            final LinkedHashSet<Player> players,
+            final Set<Player> players,
             final Player initiatingPlayer) {
         transitionEngine.evaluateGamePhaseForGame(
                 systemPuzzlerSetter.setWordPhraseFromSystem(
                         gameRepository.save(
-                                gameFactory.createGame(features, players, initiatingPlayer))))
+                                gameFactory.createGame(features, players.toList(), initiatingPlayer))))
     }
 
 }
