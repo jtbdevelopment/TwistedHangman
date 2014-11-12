@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
+import com.jtbdevelopment.TwistedHangman.exceptions.GameIsNotAvailableToRematchException
 import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
@@ -27,13 +28,13 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
 
     @Override
     protected Game handleActionInternal(final Player player, final Game previousGame, final Object param = null) {
-        Game newGame = setupGame(previousGame, player)
-
+        if (previousGame.gamePhase != Game.GamePhase.Rematch) {
+            throw new GameIsNotAvailableToRematchException()
+        }
         previousGame.rematched = ZonedDateTime.now(GMT)
         Game transitioned = transitionEngine.evaluateGamePhaseForGame(previousGame)
         //  TODO notification of previous game
-
-        //  TODO notifications
+        Game newGame = setupGame(transitioned, player)
         newGame
     }
 
