@@ -1,6 +1,5 @@
 package com.jtbdevelopment.TwistedHangman.game.factory
 
-import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.FailedToCreateValidGameException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
@@ -24,8 +23,6 @@ class GameFactory {
     List<GameValidator> gameValidators
     @Autowired
     List<IndividualGamesInitializer> individualGamesInitializers
-    @Autowired
-    GameRepository gameRepository
 
     public Game createGame(
             final Set<GameFeature> features,

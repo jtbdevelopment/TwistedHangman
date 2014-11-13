@@ -36,19 +36,15 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
             assert c == initiatingPlayer
             game
         }] as GameFactory
-        Game expectedSave = game
         handler.gameRepository = [
                 save: {
-                    assert it.is(expectedSave)
-                    if (game.is(it)) {
-                        expectedSave = savedGame
-                        return savedGame
-                    }
+                    assert it.is(transitionedGame)
+                    return savedGame
                 }
         ] as GameRepository
         handler.systemPuzzlerSetter = [
                 setWordPhraseFromSystem: {
-                    assert it.is(savedGame)
+                    assert it.is(game)
                     return puzzled
                 }
         ] as SystemPuzzlerSetter
@@ -70,7 +66,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                 }
         ] as GamePhaseTransitionEngine
 
-        assert transitionedGame == handler.handleCreateNewGame(initiatingPlayer.id, players.collect { it.id }, features)
+        assert savedGame.is(handler.handleCreateNewGame(initiatingPlayer.id, players.collect { it.id }, features))
     }
 
 

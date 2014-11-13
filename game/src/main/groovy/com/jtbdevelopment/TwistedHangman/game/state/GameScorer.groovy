@@ -1,9 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
-import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 /**
@@ -13,9 +11,6 @@ import org.springframework.stereotype.Component
 @Component
 @CompileStatic
 class GameScorer {
-    @Autowired
-    GameRepository gameRepository
-
     public Game scoreGame(final Game game) {
         int winners = 0
         int losers = 0
@@ -41,6 +36,6 @@ class GameScorer {
         if (game.wordPhraseSetter != null && game.wordPhraseSetter != Player.SYSTEM_PLAYER) {
             game.playerScores[game.wordPhraseSetter.id] = game.playerScores[game.wordPhraseSetter.id] + losers - winners
         }
-        return gameRepository.save(game)
+        return game
     }
 }

@@ -1,7 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import org.junit.Test
 
 import java.time.ZonedDateTime
@@ -20,29 +19,12 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         Game game = new Game(
                 gamePhase: Game.GamePhase.Challenge,
                 features: [GameFeature.SinglePlayer, GameFeature.SystemPuzzles] as Set,
-                playerStates: [(PONE): Game.PlayerChallengeState.Accepted],
-                solverStates: [(PONE): new IndividualGameState(maxPenalties: 10, wordPhrase: "SET".toCharArray())]
+                playerStates: [(PONE.id): Game.PlayerChallengeState.Accepted],
+                solverStates: [(PONE.id): new IndividualGameState(maxPenalties: 10, wordPhrase: "SET".toCharArray())]
         )
-        Game setup = game.clone()
-        setup.gamePhase = Game.GamePhase.Setup
-        Game playing = game.clone()
-        playing.gamePhase = Game.GamePhase.Playing
 
-        transitionEngine.gameRepository = [
-                save: {
-                    Game it ->
-                        if (it.is(game)) {
-                            assert it.gamePhase == Game.GamePhase.Setup
-                            return setup
-                        } else if (it.is(setup)) {
-                            assert it.gamePhase == Game.GamePhase.Playing
-                            return playing
-                        }
-                        fail("unexpected call to save")
-                }
-        ] as GameRepository
-
-        assert playing.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.gamePhase == Game.GamePhase.Playing
     }
 
     @Test
@@ -52,7 +34,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         Game game = new Game(
                 gamePhase: Game.GamePhase.Challenge,
                 features: [GameFeature.SystemPuzzles] as Set,
-                playerStates: [(PONE): Game.PlayerChallengeState.Accepted, (PTWO): Game.PlayerChallengeState.Pending],
+                playerStates: [(PONE.id): Game.PlayerChallengeState.Accepted, (PTWO.id): Game.PlayerChallengeState.Pending],
         )
 
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
@@ -64,20 +46,11 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         Game game = new Game(
                 gamePhase: Game.GamePhase.Challenge,
                 features: [GameFeature.SystemPuzzles] as Set,
-                playerStates: [(PONE): Game.PlayerChallengeState.Rejected, (PTWO): Game.PlayerChallengeState.Pending],
+                playerStates: [(PONE.id): Game.PlayerChallengeState.Rejected, (PTWO.id): Game.PlayerChallengeState.Pending],
         )
-        Game saved = game.clone()
-        saved.gamePhase = Game.GamePhase.Declined
-        transitionEngine.gameRepository = [
-                save: {
-                    Game it ->
-                        assert it.gamePhase == Game.GamePhase.Declined
-                        return saved
-                }
-        ] as GameRepository
 
-
-        assert saved.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.gamePhase == Game.GamePhase.Declined
     }
 
     @Test
@@ -86,21 +59,12 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         Game game = new Game(
                 gamePhase: Game.GamePhase.Challenge,
                 features: [GameFeature.SystemPuzzles] as Set,
-                playerStates: [(PONE): Game.PlayerChallengeState.Accepted, (PTWO): Game.PlayerChallengeState.Accepted],
-                solverStates: [(PONE): new IndividualGameState(), (PTWO): new IndividualGameState()]
+                playerStates: [(PONE.id): Game.PlayerChallengeState.Accepted, (PTWO.id): Game.PlayerChallengeState.Accepted],
+                solverStates: [(PONE.id): new IndividualGameState(), (PTWO.id): new IndividualGameState()]
         )
-        Game saved = game.clone()
-        saved.gamePhase = Game.GamePhase.Setup
-        transitionEngine.gameRepository = [
-                save: {
-                    Game it ->
-                        assert it.gamePhase == Game.GamePhase.Setup
-                        return saved
-                }
-        ] as GameRepository
 
-
-        assert saved.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.gamePhase == Game.GamePhase.Setup
     }
 
     @Test
@@ -111,8 +75,8 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                 gamePhase: Game.GamePhase.Setup,
                 features: [GameFeature.SystemPuzzles] as Set,
                 solverStates: [
-                        (PONE): new IndividualGameState(wordPhrase: "SETUP", maxPenalties: 5),
-                        (PTWO): new IndividualGameState(maxPenalties: 5),
+                        (PONE.id): new IndividualGameState(wordPhrase: "SETUP", maxPenalties: 5),
+                        (PTWO.id): new IndividualGameState(maxPenalties: 5),
                 ]
         )
 
@@ -126,21 +90,13 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                 gamePhase: Game.GamePhase.Setup,
                 features: [GameFeature.SystemPuzzles] as Set,
                 solverStates: [
-                        (PONE): new IndividualGameState(wordPhrase: "SETUP", maxPenalties: 5),
-                        (PTWO): new IndividualGameState(wordPhrase: "SETUP", maxPenalties: 5),
+                        (PONE.id): new IndividualGameState(wordPhrase: "SETUP", maxPenalties: 5),
+                        (PTWO.id): new IndividualGameState(wordPhrase: "SETUP", maxPenalties: 5),
                 ]
         )
-        Game saved = game.clone()
-        saved.gamePhase = Game.GamePhase.Playing
-        transitionEngine.gameRepository = [
-                save: {
-                    Game it ->
-                        assert it.gamePhase == Game.GamePhase.Playing
-                        return saved
-                }
-        ] as GameRepository
 
-        assert saved.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.gamePhase == Game.GamePhase.Playing
     }
 
     @Test
@@ -151,8 +107,8 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                 gamePhase: Game.GamePhase.Playing,
                 features: [] as Set,
                 solverStates: [
-                        (PONE): new IndividualGameState(wordPhrase: "SETUP"),
-                        (PTWO): new IndividualGameState(wordPhrase: "SETUP"),
+                        (PONE.id): new IndividualGameState(wordPhrase: "SETUP"),
+                        (PTWO.id): new IndividualGameState(wordPhrase: "SETUP"),
                 ]
         )
 
@@ -165,25 +121,17 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                 gamePhase: Game.GamePhase.Playing,
                 features: [] as Set,
                 solverStates: [
-                        (PONE)  : new IndividualGameState(wordPhrase: "SETUP", workingWordPhrase: "SETUP"),
-                        (PTWO)  : new IndividualGameState(wordPhrase: "SETUP", workingWordPhrase: "SETUP"),
-                        (PTHREE): new IndividualGameState(wordPhrase: "SETUP", penalties: IndividualGameState.BASE_PENALTIES)
+                        (PONE.id)  : new IndividualGameState(wordPhrase: "SETUP", workingWordPhrase: "SETUP"),
+                        (PTWO.id)  : new IndividualGameState(wordPhrase: "SETUP", workingWordPhrase: "SETUP"),
+                        (PTHREE.id): new IndividualGameState(wordPhrase: "SETUP", penalties: IndividualGameState.BASE_PENALTIES)
                 ]
         )
-        Game saved = game.clone()
-        saved.gamePhase = Game.GamePhase.Rematch
-        Game scored = saved.clone()
-        transitionEngine.gameRepository = [
-                save: {
-                    Game it ->
-                        assert it.gamePhase == Game.GamePhase.Rematch
-                        return saved
-                }
-        ] as GameRepository
+        Game scored = game.clone()
         transitionEngine.gameScorer = [
                 scoreGame: {
                     Game it ->
-                        assert it.is(saved)
+                        assert it.is(game)
+                        assert it.gamePhase == Game.GamePhase.Rematch
                         return scored
                 }
         ] as GameScorer
@@ -198,29 +146,20 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                 gamePhase: Game.GamePhase.Playing,
                 features: [GameFeature.SingleWinner] as Set,
                 solverStates: [
-                        (PONE)  : new IndividualGameState(wordPhrase: "SETUP", workingWordPhrase: "SETUP"),
-                        (PTWO)  : new IndividualGameState(wordPhrase: "SETUP", workingWordPhrase: "SET__"),
-                        (PTHREE): new IndividualGameState(wordPhrase: "SETUP", penalties: IndividualGameState.BASE_PENALTIES)
+                        (PONE.id)  : new IndividualGameState(wordPhrase: "SETUP", workingWordPhrase: "SETUP"),
+                        (PTWO.id)  : new IndividualGameState(wordPhrase: "SETUP", workingWordPhrase: "SET__"),
+                        (PTHREE.id): new IndividualGameState(wordPhrase: "SETUP", penalties: IndividualGameState.BASE_PENALTIES)
                 ]
         )
-        Game saved = game.clone()
-        saved.gamePhase = Game.GamePhase.Rematch
-        Game scored = saved.clone()
-        transitionEngine.gameRepository = [
-                save: {
-                    Game it ->
-                        assert it.gamePhase == Game.GamePhase.Rematch
-                        return saved
-                }
-        ] as GameRepository
+        Game scored = game.clone()
         transitionEngine.gameScorer = [
                 scoreGame: {
                     Game it ->
-                        assert it.is(saved)
+                        assert it.is(game)
+                        assert it.gamePhase == Game.GamePhase.Rematch
                         return scored
                 }
         ] as GameScorer
-
 
         assert scored.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
@@ -238,16 +177,8 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         assert transitionEngine.gameScorer == null
 
         Game game = new Game(gamePhase: Game.GamePhase.Rematch, rematched: ZonedDateTime.now())
-        Game saved = new Game()
-        transitionEngine.gameRepository = [
-                save: {
-                    Game it ->
-                        assert it == game
-                        assert it.gamePhase == Game.GamePhase.Rematched
-                        return saved
-                }
-        ] as GameRepository
-        assert saved.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.gamePhase == Game.GamePhase.Rematched
     }
 
     @Test

@@ -1,6 +1,5 @@
 package com.jtbdevelopment.TwistedHangman.game.utility
 
-import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
@@ -42,13 +41,7 @@ class SystemPuzzlerSetterTest {
         game.solverStates = ["1": new IndividualGameState([] as Set),
                              "2": new IndividualGameState([] as Set),
                              "3": new IndividualGameState([] as Set)]
-        Game saved = game.clone();
-        puzzlerSetter.gameRepository = [
-                save: {
-                    return saved
-                }
-        ] as GameRepository
-        assert saved.is(puzzlerSetter.setWordPhraseFromSystem(game))
+        assert game.is(puzzlerSetter.setWordPhraseFromSystem(game))
         game.solverStates.values().each {
             assert it.category == category
             assert it.wordPhraseString == phrase

@@ -58,6 +58,6 @@ class GamePhaseTransitionEngine {
 
     private Game changeStateAndReevaluate(final Game.GamePhase setup, final Game game) {
         game.gamePhase = setup
-        evaluateGamePhaseForGame(gameRepository.save(game))
+        evaluateGamePhaseForGame(game)
     }
 }

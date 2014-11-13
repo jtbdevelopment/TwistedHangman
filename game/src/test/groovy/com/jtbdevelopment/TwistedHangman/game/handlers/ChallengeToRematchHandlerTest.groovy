@@ -32,7 +32,7 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
         handler.gameFactory = [
                 createGame: {
                     Game g, Player p ->
-                        assert g.is(previousT)
+                        assert g.is(newSaved)
                         assert p.is(PONE)
                         newGame
                 }
@@ -49,14 +49,14 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
         handler.gameRepository = [
                 save: {
                     Game g ->
-                        assert g.is(newGame)
+                        assert g.is(previousT)
                         return newSaved
                 }
         ] as GameRepository
         handler.systemPuzzlerSetter = [
                 setWordPhraseFromSystem: {
                     Game g ->
-                        assert g.is(newSaved)
+                        assert g.is(newGame)
                         return puzzled
                 }
         ] as SystemPuzzlerSetter

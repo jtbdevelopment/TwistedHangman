@@ -1,6 +1,5 @@
 package com.jtbdevelopment.TwistedHangman.game.utility
 
-import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
@@ -23,8 +22,6 @@ class SystemPuzzlerSetter {
     RandomCannedGameFinder randomCannedGameFinder
     @Autowired
     PhraseSetter phraseSetter
-    @Autowired
-    GameRepository gameRepository
 
     public Game setWordPhraseFromSystem(final Game game) {
         if (game.features.contains(GameFeature.SystemPuzzles)) {
@@ -34,7 +31,6 @@ class SystemPuzzlerSetter {
                 IndividualGameState gameState ->
                     phraseSetter.setWordPhrase(gameState, cannedGame.wordPhrase, cannedGame.category)
             }
-            return gameRepository.save(game)
         }
         return game
     }

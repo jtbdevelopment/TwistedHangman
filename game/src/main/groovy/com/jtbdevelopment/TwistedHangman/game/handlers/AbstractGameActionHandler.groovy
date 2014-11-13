@@ -33,9 +33,10 @@ abstract class AbstractGameActionHandler<T> extends AbstractHandler {
         Player player = loadPlayer(playerID)
         Game game = loadGame(gameID)
         validatePlayerForGame(game, player)
-        Game internal = rotateTurnBasedGame(handleActionInternal(player, game, param), player)
-
-        return transitionEngine.evaluateGamePhaseForGame(gameRepository.save(internal))
+        return gameRepository.save(
+                transitionEngine.evaluateGamePhaseForGame(
+                        rotateTurnBasedGame(
+                                handleActionInternal(player, game, param), player)))
     }
 
     private static Game rotateTurnBasedGame(final Game game, final Player player) {

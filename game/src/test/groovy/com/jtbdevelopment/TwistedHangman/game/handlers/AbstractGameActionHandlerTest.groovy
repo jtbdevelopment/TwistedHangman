@@ -44,7 +44,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                 },
                 save   : {
                     Game it ->
-                        assert it.is(handledGame)
+                        assert it.is(transitioned)
                         return saved
                 }
         ] as GameRepository
@@ -58,12 +58,12 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         handler.transitionEngine = [
                 evaluateGamePhaseForGame: {
                     Game it ->
-                        assert it.is(saved)
+                        assert it.is(handledGame)
                         return transitioned
                 }
         ] as GamePhaseTransitionEngine
 
-        assert transitioned.is(handler.handleAction(PONE.id, gameId, testParam))
+        assert saved.is(handler.handleAction(PONE.id, gameId, testParam))
     }
 
     @Test
@@ -142,8 +142,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                 },
                 save   : {
                     Game it ->
-                        assert it.is(handledGame)
-                        assert handledGame.featureData[GameFeature.TurnBased] == PTWO.id
+                        assert it.is(transitioned)
                         return saved
                 }
         ] as GameRepository
@@ -157,12 +156,13 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         handler.transitionEngine = [
                 evaluateGamePhaseForGame: {
                     Game it ->
-                        assert it.is(saved)
+                        assert it.is(handledGame)
+                        assert handledGame.featureData[GameFeature.TurnBased] == PTWO.id
                         return transitioned
                 }
         ] as GamePhaseTransitionEngine
 
-        assert transitioned.is(handler.handleAction(PONE.id, gameId, testParam))
+        assert saved.is(handler.handleAction(PONE.id, gameId, testParam))
     }
 
     @Test
@@ -189,8 +189,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                 },
                 save   : {
                     Game it ->
-                        assert it.is(handledGame)
-                        assert handledGame.featureData[GameFeature.TurnBased] == PONE.id
+                        assert it.is(transitioned)
                         return saved
                 }
         ] as GameRepository
@@ -204,12 +203,13 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         handler.transitionEngine = [
                 evaluateGamePhaseForGame: {
                     Game it ->
-                        assert it.is(saved)
+                        assert it.is(handledGame)
+                        assert handledGame.featureData[GameFeature.TurnBased] == PONE.id
                         return transitioned
                 }
         ] as GamePhaseTransitionEngine
 
-        assert transitioned.is(handler.handleAction(PONE.id, gameId, testParam))
+        assert saved.is(handler.handleAction(PONE.id, gameId, testParam))
     }
 
     @Test
@@ -236,8 +236,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                 },
                 save   : {
                     Game it ->
-                        assert it.is(handledGame)
-                        assert handledGame.featureData[GameFeature.TurnBased] == PONE.id
+                        assert it.is(transitioned)
                         return saved
                 }
         ] as GameRepository
@@ -251,11 +250,12 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         handler.transitionEngine = [
                 evaluateGamePhaseForGame: {
                     Game it ->
-                        assert it.is(saved)
+                        assert it.is(handledGame)
+                        assert handledGame.featureData[GameFeature.TurnBased] == PONE.id
                         return transitioned
                 }
         ] as GamePhaseTransitionEngine
 
-        assert transitioned.is(handler.handleAction(PONE.id, gameId, testParam))
+        assert saved.is(handler.handleAction(PONE.id, gameId, testParam))
     }
 }

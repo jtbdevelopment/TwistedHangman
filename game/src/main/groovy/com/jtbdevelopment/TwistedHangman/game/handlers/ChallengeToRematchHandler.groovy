@@ -32,7 +32,7 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
             throw new GameIsNotAvailableToRematchException()
         }
         previousGame.rematched = ZonedDateTime.now(GMT)
-        Game transitioned = transitionEngine.evaluateGamePhaseForGame(previousGame)
+        Game transitioned = gameRepository.save(transitionEngine.evaluateGamePhaseForGame(previousGame))
         //  TODO notification of previous game
         Game newGame = setupGame(transitioned, player)
         newGame
@@ -40,7 +40,6 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
 
     private Game setupGame(final Game previousGame, final Player initiatingPlayer) {
         return systemPuzzlerSetter.setWordPhraseFromSystem(
-                gameRepository.save(
-                        gameFactory.createGame(previousGame, initiatingPlayer)))
+                gameFactory.createGame(previousGame, initiatingPlayer))
     }
 }
