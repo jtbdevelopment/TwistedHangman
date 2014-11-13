@@ -33,6 +33,7 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
         }
         previousGame.rematched = ZonedDateTime.now(GMT)
         Game transitioned = gameRepository.save(transitionEngine.evaluateGamePhaseForGame(previousGame))
+        //  TODO - handle newGame setup failing..
         //  TODO notification of previous game
         Game newGame = setupGame(transitioned, player)
         newGame
