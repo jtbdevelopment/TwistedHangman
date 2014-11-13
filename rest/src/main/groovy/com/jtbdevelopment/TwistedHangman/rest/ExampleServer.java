@@ -28,7 +28,7 @@ public class ExampleServer {
         public JerseyConfig() {
             register(RequestContextFilter.class);
             packages("com.jtbdevelopment.TwistedHangman");
-            property("contextConfigLocation", "spring-context-game.xml");
+            property("contextConfigLocation", "classpath:spring-context-rest.xml");
             register(LoggingFilter.class);
         }
     }
