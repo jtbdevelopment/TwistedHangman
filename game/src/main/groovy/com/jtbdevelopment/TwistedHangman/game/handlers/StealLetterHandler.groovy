@@ -4,6 +4,7 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.GameIsNotInPlayModeExc
 import com.jtbdevelopment.TwistedHangman.exceptions.input.PlayerNotSolvingAPuzzleException
 import com.jtbdevelopment.TwistedHangman.game.mechanics.ThievingHangmanGameActions
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
@@ -22,7 +23,7 @@ class StealLetterHandler extends AbstractGameActionHandler<Integer> {
 
     @Override
     protected Game handleActionInternal(final Player player, final Game game, final Integer param) {
-        if (game.gamePhase != Game.GamePhase.Playing) {
+        if (game.gamePhase != GamePhase.Playing) {
             throw new GameIsNotInPlayModeException()
         }
 

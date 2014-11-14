@@ -3,6 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 import com.jtbdevelopment.TwistedHangman.exceptions.input.GameIsNotAvailableToRematchException
 import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
@@ -28,7 +29,7 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
 
     @Override
     protected Game handleActionInternal(final Player player, final Game previousGame, final Object param = null) {
-        if (previousGame.gamePhase != Game.GamePhase.Rematch) {
+        if (previousGame.gamePhase != GamePhase.Rematch) {
             throw new GameIsNotAvailableToRematchException()
         }
         previousGame.rematched = ZonedDateTime.now(GMT)

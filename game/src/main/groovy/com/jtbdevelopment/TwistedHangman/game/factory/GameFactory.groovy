@@ -3,6 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.factory
 import com.jtbdevelopment.TwistedHangman.exceptions.input.FailedToCreateValidGameException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
@@ -87,7 +88,7 @@ class GameFactory {
         Game game = new Game()
         game.initiatingPlayer = initiatingPlayer
         game.version = null
-        game.gamePhase = Game.GamePhase.Challenge
+        game.gamePhase = GamePhase.Challenge
         game.features.addAll(features)
         game.players.addAll(players)
         if (!game.players.contains(initiatingPlayer)) {

@@ -7,6 +7,7 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.PlayerNotPartOfGameExc
 import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindGameException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.players.Player
 
@@ -128,8 +129,8 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         handledGame.features.addAll(gameParam.features)
         handledGame.players.clone()
         handledGame.players.addAll(gameParam.players)
-        handledGame.gamePhase = Game.GamePhase.Playing
-        gameParam.gamePhase = Game.GamePhase.Playing
+        handledGame.gamePhase = GamePhase.Playing
+        gameParam.gamePhase = GamePhase.Playing
 
         Game saved = gameParam.clone()
         Game transitioned = gameParam.clone();
@@ -175,8 +176,8 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         handledGame.features.addAll(gameParam.features)
         handledGame.players.clone()
         handledGame.players.addAll(gameParam.players)
-        handledGame.gamePhase = Game.GamePhase.Setup
-        gameParam.gamePhase = Game.GamePhase.Setup
+        handledGame.gamePhase = GamePhase.Setup
+        gameParam.gamePhase = GamePhase.Setup
 
         Game saved = gameParam.clone()
         Game transitioned = gameParam.clone();
@@ -222,8 +223,8 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         handledGame.features.addAll(gameParam.features)
         handledGame.players.clone()
         handledGame.players.addAll(gameParam.players)
-        handledGame.gamePhase = Game.GamePhase.Playing
-        gameParam.gamePhase = Game.GamePhase.Playing
+        handledGame.gamePhase = GamePhase.Playing
+        gameParam.gamePhase = GamePhase.Playing
 
         Game saved = gameParam.clone()
         Game transitioned = gameParam.clone();

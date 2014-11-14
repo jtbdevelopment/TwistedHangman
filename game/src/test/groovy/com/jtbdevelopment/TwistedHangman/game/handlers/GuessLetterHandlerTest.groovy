@@ -5,6 +5,7 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.GameIsNotInPlayModeExc
 import com.jtbdevelopment.TwistedHangman.exceptions.input.PlayerNotSolvingAPuzzleException
 import com.jtbdevelopment.TwistedHangman.game.mechanics.HangmanGameActions
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 
 /**
@@ -16,7 +17,7 @@ class GuessLetterHandlerTest extends TwistedHangmanTestCase {
 
 
     public void testHandleGoodMove() {
-        Game game = new Game(gamePhase: Game.GamePhase.Playing)
+        Game game = new Game(gamePhase: GamePhase.Playing)
         char letter = 'e'
         IndividualGameState state = new IndividualGameState(wordPhrase: "Test", category: "Test")
         game.solverStates = [(PONE.id): state]
@@ -33,7 +34,7 @@ class GuessLetterHandlerTest extends TwistedHangmanTestCase {
 
 
     public void testHandleBadPlayer() {
-        Game game = new Game(gamePhase: Game.GamePhase.Playing)
+        Game game = new Game(gamePhase: GamePhase.Playing)
         char letter = 'e'
         IndividualGameState state = new IndividualGameState(wordPhrase: "Test", category: "Test")
         game.solverStates = [(PONE): state]
@@ -48,7 +49,7 @@ class GuessLetterHandlerTest extends TwistedHangmanTestCase {
 
 
     public void testHandleBadGame() {
-        Game game = new Game(gamePhase: Game.GamePhase.Setup)
+        Game game = new Game(gamePhase: GamePhase.Setup)
         char letter = 'e'
         IndividualGameState state = new IndividualGameState(wordPhrase: "Test", category: "Test")
         game.solverStates = [(PONE): state]

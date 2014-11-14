@@ -4,6 +4,7 @@ package com.jtbdevelopment.TwistedHangman.rest;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 
@@ -29,6 +30,7 @@ public class ExampleServer {
             register(RequestContextFilter.class);
             packages("com.jtbdevelopment.TwistedHangman");
             property("contextConfigLocation", "classpath:spring-context-rest.xml");
+            register(JacksonFeature.class);
             register(LoggingFilter.class);
         }
     }

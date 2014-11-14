@@ -20,43 +20,43 @@ class GamePhaseTransitionEngine {
 
     public Game evaluateGamePhaseForGame(final Game game) {
         switch (game.gamePhase) {
-            case Game.GamePhase.Challenge:
-                def reject = game.playerStates.values().find { Game.PlayerChallengeState it -> it == Game.PlayerChallengeState.Rejected }
+            case GamePhase.Challenge:
+                def reject = game.playerStates.values().find { PlayerChallengeState it -> it == PlayerChallengeState.Rejected }
                 if (reject != null) {
-                    return changeStateAndReevaluate(Game.GamePhase.Declined, game)
+                    return changeStateAndReevaluate(GamePhase.Declined, game)
                 } else {
-                    def pending = game.playerStates.values().find { Game.PlayerChallengeState it -> it == Game.PlayerChallengeState.Pending }
+                    def pending = game.playerStates.values().find { PlayerChallengeState it -> it == PlayerChallengeState.Pending }
                     if (pending == null) {
-                        return changeStateAndReevaluate(Game.GamePhase.Setup, game)
+                        return changeStateAndReevaluate(GamePhase.Setup, game)
                     }
                 }
                 break;
-            case Game.GamePhase.Setup:
+            case GamePhase.Setup:
                 def pendingWP = game.solverStates.values().find { IndividualGameState gameState -> StringUtils.isEmpty(gameState.wordPhraseString) }
                 if (pendingWP == null) {
-                    return changeStateAndReevaluate(Game.GamePhase.Playing, game)
+                    return changeStateAndReevaluate(GamePhase.Playing, game)
                 }
                 break;
-            case Game.GamePhase.Playing:
+            case GamePhase.Playing:
                 def won = game.solverStates.values().find { IndividualGameState it -> it.gameWon }
                 def pending = game.solverStates.values().find { IndividualGameState it -> !it.gameOver }
                 if (pending == null || (won != null && game.features.contains(GameFeature.SingleWinner))) {
-                    return gameScorer.scoreGame(changeStateAndReevaluate(Game.GamePhase.Rematch, game))
+                    return gameScorer.scoreGame(changeStateAndReevaluate(GamePhase.Rematch, game))
                 }
                 break;
-            case Game.GamePhase.Rematch:
+            case GamePhase.Rematch:
                 if (game.rematched != null) {
-                    return changeStateAndReevaluate(Game.GamePhase.Rematched, game)
+                    return changeStateAndReevaluate(GamePhase.Rematched, game)
                 }
                 break;
-            case Game.GamePhase.Declined:
-            case Game.GamePhase.Rematched:
+            case GamePhase.Declined:
+            case GamePhase.Rematched:
                 break;
         }
         return game
     }
 
-    private Game changeStateAndReevaluate(final Game.GamePhase setup, final Game game) {
+    private Game changeStateAndReevaluate(final GamePhase setup, final Game game) {
         game.gamePhase = setup
         evaluateGamePhaseForGame(game)
     }

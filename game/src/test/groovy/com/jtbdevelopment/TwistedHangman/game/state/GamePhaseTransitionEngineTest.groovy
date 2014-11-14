@@ -15,14 +15,14 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     public void testSinglePlayerChallengeTransitionsToPlaying() {
         assert transitionEngine.gameScorer == null
         Game game = new Game(
-                gamePhase: Game.GamePhase.Challenge,
+                gamePhase: GamePhase.Challenge,
                 features: [GameFeature.SinglePlayer, GameFeature.SystemPuzzles] as Set,
-                playerStates: [(PONE.id): Game.PlayerChallengeState.Accepted],
+                playerStates: [(PONE.id): PlayerChallengeState.Accepted],
                 solverStates: [(PONE.id): new IndividualGameState(maxPenalties: 10, wordPhrase: "SET".toCharArray())]
         )
 
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
-        assert game.gamePhase == Game.GamePhase.Playing
+        assert game.gamePhase == GamePhase.Playing
     }
 
 
@@ -30,9 +30,9 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         assert transitionEngine.gameScorer == null
         assert transitionEngine.gameRepository == null
         Game game = new Game(
-                gamePhase: Game.GamePhase.Challenge,
+                gamePhase: GamePhase.Challenge,
                 features: [GameFeature.SystemPuzzles] as Set,
-                playerStates: [(PONE.id): Game.PlayerChallengeState.Accepted, (PTWO.id): Game.PlayerChallengeState.Pending],
+                playerStates: [(PONE.id): PlayerChallengeState.Accepted, (PTWO.id): PlayerChallengeState.Pending],
         )
 
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
@@ -42,27 +42,27 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     public void testChallengeToDeclined() {
         assert transitionEngine.gameScorer == null
         Game game = new Game(
-                gamePhase: Game.GamePhase.Challenge,
+                gamePhase: GamePhase.Challenge,
                 features: [GameFeature.SystemPuzzles] as Set,
-                playerStates: [(PONE.id): Game.PlayerChallengeState.Rejected, (PTWO.id): Game.PlayerChallengeState.Pending],
+                playerStates: [(PONE.id): PlayerChallengeState.Rejected, (PTWO.id): PlayerChallengeState.Pending],
         )
 
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
-        assert game.gamePhase == Game.GamePhase.Declined
+        assert game.gamePhase == GamePhase.Declined
     }
 
 
     public void testChallengeToSetup() {
         assert transitionEngine.gameScorer == null
         Game game = new Game(
-                gamePhase: Game.GamePhase.Challenge,
+                gamePhase: GamePhase.Challenge,
                 features: [GameFeature.SystemPuzzles] as Set,
-                playerStates: [(PONE.id): Game.PlayerChallengeState.Accepted, (PTWO.id): Game.PlayerChallengeState.Accepted],
+                playerStates: [(PONE.id): PlayerChallengeState.Accepted, (PTWO.id): PlayerChallengeState.Accepted],
                 solverStates: [(PONE.id): new IndividualGameState(), (PTWO.id): new IndividualGameState()]
         )
 
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
-        assert game.gamePhase == Game.GamePhase.Setup
+        assert game.gamePhase == GamePhase.Setup
     }
 
 
@@ -70,7 +70,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         assert transitionEngine.gameScorer == null
         assert transitionEngine.gameRepository == null
         Game game = new Game(
-                gamePhase: Game.GamePhase.Setup,
+                gamePhase: GamePhase.Setup,
                 features: [GameFeature.SystemPuzzles] as Set,
                 solverStates: [
                         (PONE.id): new IndividualGameState(wordPhrase: "SETUP", maxPenalties: 5),
@@ -85,7 +85,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     public void testSetupToPlaying() {
         assert transitionEngine.gameScorer == null
         Game game = new Game(
-                gamePhase: Game.GamePhase.Setup,
+                gamePhase: GamePhase.Setup,
                 features: [GameFeature.SystemPuzzles] as Set,
                 solverStates: [
                         (PONE.id): new IndividualGameState(wordPhrase: "SETUP", maxPenalties: 5),
@@ -94,7 +94,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         )
 
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
-        assert game.gamePhase == Game.GamePhase.Playing
+        assert game.gamePhase == GamePhase.Playing
     }
 
 
@@ -102,7 +102,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         assert transitionEngine.gameScorer == null
         assert transitionEngine.gameRepository == null
         Game game = new Game(
-                gamePhase: Game.GamePhase.Playing,
+                gamePhase: GamePhase.Playing,
                 features: [] as Set,
                 solverStates: [
                         (PONE.id): new IndividualGameState(wordPhrase: "SETUP"),
@@ -116,7 +116,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
 
     public void testPlayingToRematchMultipleWinners() {
         Game game = new Game(
-                gamePhase: Game.GamePhase.Playing,
+                gamePhase: GamePhase.Playing,
                 features: [] as Set,
                 solverStates: [
                         (PONE.id)  : new IndividualGameState(wordPhrase: "SETUP", workingWordPhrase: "SETUP"),
@@ -129,7 +129,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                 scoreGame: {
                     Game it ->
                         assert it.is(game)
-                        assert it.gamePhase == Game.GamePhase.Rematch
+                        assert it.gamePhase == GamePhase.Rematch
                         return scored
                 }
         ] as GameScorer
@@ -141,7 +141,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
 
     public void testPlayingToRematchSingleWinner() {
         Game game = new Game(
-                gamePhase: Game.GamePhase.Playing,
+                gamePhase: GamePhase.Playing,
                 features: [GameFeature.SingleWinner] as Set,
                 solverStates: [
                         (PONE.id)  : new IndividualGameState(wordPhrase: "SETUP", workingWordPhrase: "SETUP"),
@@ -154,7 +154,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                 scoreGame: {
                     Game it ->
                         assert it.is(game)
-                        assert it.gamePhase == Game.GamePhase.Rematch
+                        assert it.gamePhase == GamePhase.Rematch
                         return scored
                 }
         ] as GameScorer
@@ -166,7 +166,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     public void testRematchToRematch() {
         assert transitionEngine.gameRepository == null
         assert transitionEngine.gameScorer == null
-        Game game = new Game(gamePhase: Game.GamePhase.Rematch, rematched: null)
+        Game game = new Game(gamePhase: GamePhase.Rematch, rematched: null)
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
@@ -174,16 +174,16 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     public void testRematchToRematched() {
         assert transitionEngine.gameScorer == null
 
-        Game game = new Game(gamePhase: Game.GamePhase.Rematch, rematched: ZonedDateTime.now())
+        Game game = new Game(gamePhase: GamePhase.Rematch, rematched: ZonedDateTime.now())
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
-        assert game.gamePhase == Game.GamePhase.Rematched
+        assert game.gamePhase == GamePhase.Rematched
     }
 
 
     public void testRematchedToRematched() {
         assert transitionEngine.gameRepository == null
         assert transitionEngine.gameScorer == null
-        Game game = new Game(gamePhase: Game.GamePhase.Rematched)
+        Game game = new Game(gamePhase: GamePhase.Rematched)
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
@@ -191,7 +191,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     public void testDeclinedToDeclined() {
         assert transitionEngine.gameRepository == null
         assert transitionEngine.gameScorer == null
-        Game game = new Game(gamePhase: Game.GamePhase.Declined)
+        Game game = new Game(gamePhase: GamePhase.Declined)
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 }

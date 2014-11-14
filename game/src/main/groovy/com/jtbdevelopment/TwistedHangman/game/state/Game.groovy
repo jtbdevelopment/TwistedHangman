@@ -19,21 +19,6 @@ import java.time.ZonedDateTime
 @CompileStatic
 //@CompoundIndex(def = "{players.id: 1, gamePhase: 1")
 public class Game implements Cloneable {
-    public enum GamePhase {
-        Challenge,  /*  Agreement from initial players  */
-        Declined,  /*  Challenge was rejected by a player */
-        Setup, /*  Setting word phrases  */
-        Playing,
-        Rematch,  /*  Option to continue to a new game  */
-        Rematched,
-    }
-
-    public enum PlayerChallengeState {
-        Pending,
-        Accepted,
-        Rejected
-    }
-
     @Id
     String id
     @Version

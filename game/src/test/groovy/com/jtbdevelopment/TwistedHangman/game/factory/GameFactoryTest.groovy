@@ -4,6 +4,7 @@ import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.exceptions.input.FailedToCreateValidGameException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.players.Player
 
 /**
@@ -49,7 +50,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assert game.players == [PTWO, PTHREE, PFOUR, PONE]
         assert game.initiatingPlayer == initiatingPlayer
         assert game.lastUpdate == game.created
-        assert game.gamePhase == Game.GamePhase.Challenge
+        assert game.gamePhase == GamePhase.Challenge
         assert game.wordPhraseSetter == null
         assert game.created == null
         assertNull game.version
@@ -97,7 +98,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assert game.players == [PTHREE, PFOUR, PONE, PTWO]
         assert game.initiatingPlayer == initiatingPlayer
         assert game.lastUpdate == game.created
-        assert game.gamePhase == Game.GamePhase.Challenge
+        assert game.gamePhase == GamePhase.Challenge
         assert game.wordPhraseSetter == null
         assert game.created == null
         assertNull game.version

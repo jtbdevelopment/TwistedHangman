@@ -5,6 +5,7 @@ import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.input.GameIsNotAvailableToRematchException
 import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.players.Player
@@ -23,7 +24,7 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
     public void testSetsUpRematch() {
         ZonedDateTime now = ZonedDateTime.now(ZoneId.of("GMT"))
         Thread.sleep(100);
-        Game previous = new Game(gamePhase: Game.GamePhase.Rematch, id: "X")
+        Game previous = new Game(gamePhase: GamePhase.Rematch, id: "X")
         Game previousT = previous.clone()
         Game newGame = new Game(previousId: previous.id)
         Game newSaved = newGame.clone()
@@ -65,7 +66,7 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
 
 
     public void testNotInRematchPhase() {
-        Game.GamePhase.values().find { it != Game.GamePhase.Rematch }.each {
+        GamePhase.values().find { it != GamePhase.Rematch }.each {
             Game previous = new Game(gamePhase: it, id: "X")
             try {
                 handler.handleActionInternal(PONE, previous)

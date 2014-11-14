@@ -6,6 +6,7 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.PlayerOutOfTurnExcepti
 import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindGameException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
@@ -40,7 +41,7 @@ abstract class AbstractGameActionHandler<T> extends AbstractHandler {
     }
 
     private static Game rotateTurnBasedGame(final Game game, final Player player) {
-        if (game.gamePhase == Game.GamePhase.Playing && game.features.contains(GameFeature.TurnBased)) {
+        if (game.gamePhase == GamePhase.Playing && game.features.contains(GameFeature.TurnBased)) {
             int index = game.players.indexOf(player) + 1
             if (index >= game.players.size()) {
                 index = 0

@@ -7,6 +7,7 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.InvalidPuzzleWordsExce
 import com.jtbdevelopment.TwistedHangman.exceptions.input.PuzzlesAreAlreadySetException
 import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 
 /**
@@ -20,11 +21,11 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
     public void testMultiPlayerSettingPuzzle() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
-        Game game = new Game(gamePhase: Game.GamePhase.Setup)
+        Game game = new Game(gamePhase: GamePhase.Setup)
         game.wordPhraseSetter = PTHREE
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
-        game.solverStates = [(PONE): poneState, (PTWO): ptwoState]
+        game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
         handler.validator = [
                 validateWordPhrase: {
                     String it ->
@@ -57,11 +58,11 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
     public void testTwoPlayerSettingPuzzle() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
-        Game game = new Game(gamePhase: Game.GamePhase.Setup)
+        Game game = new Game(gamePhase: GamePhase.Setup)
         game.wordPhraseSetter = null
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
-        game.solverStates = [(PONE): poneState, (PTWO): ptwoState]
+        game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
         handler.validator = [
                 validateWordPhrase: {
                     String it ->
@@ -94,11 +95,11 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
     public void testMultiPlayerSettingPuzzleSecondTimeExceptions() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
-        Game game = new Game(gamePhase: Game.GamePhase.Setup)
+        Game game = new Game(gamePhase: GamePhase.Setup)
         game.wordPhraseSetter = PTHREE
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
-        game.solverStates = [(PONE): poneState, (PTWO): ptwoState]
+        game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
         handler.validator = [
                 validateWordPhrase: {
                     String it ->
@@ -140,11 +141,11 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
     public void testTwoPlayerSettingPuzzleSecondTimeExceptions() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
-        Game game = new Game(gamePhase: Game.GamePhase.Setup)
+        Game game = new Game(gamePhase: GamePhase.Setup)
         game.wordPhraseSetter = null
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
-        game.solverStates = [(PONE): poneState, (PTWO): ptwoState]
+        game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
         handler.validator = [
                 validateWordPhrase: {
                     String it ->
@@ -186,11 +187,11 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
     public void testInvalidWordPhraseCategory() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
-        Game game = new Game(gamePhase: Game.GamePhase.Setup)
+        Game game = new Game(gamePhase: GamePhase.Setup)
         game.wordPhraseSetter = null
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
-        game.solverStates = [(PONE): poneState, (PTWO): ptwoState]
+        game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
         handler.validator = [
                 validateWordPhrase: {
                     String it ->
@@ -220,11 +221,11 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
     public void testPuzzleNotInSetupPhase() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
-        Game game = new Game(gamePhase: Game.GamePhase.Playing)
+        Game game = new Game(gamePhase: GamePhase.Playing)
         game.wordPhraseSetter = null
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
-        game.solverStates = [(PONE): poneState, (PTWO): ptwoState]
+        game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
         handler.validator = [
                 validateWordPhrase: {
                     String it ->
@@ -254,11 +255,11 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
     public void testMultiPlayerInvalidPlayerSettingPuzzle() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
-        Game game = new Game(gamePhase: Game.GamePhase.Setup)
+        Game game = new Game(gamePhase: GamePhase.Setup)
         game.wordPhraseSetter = PTHREE
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
-        game.solverStates = [(PONE): poneState, (PTWO): ptwoState]
+        game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
         handler.validator = [
                 validateWordPhrase: {
                     String it ->

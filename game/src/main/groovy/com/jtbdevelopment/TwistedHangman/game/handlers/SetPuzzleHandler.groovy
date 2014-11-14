@@ -6,6 +6,7 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.InvalidPuzzleWordsExce
 import com.jtbdevelopment.TwistedHangman.exceptions.input.PuzzlesAreAlreadySetException
 import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
@@ -54,7 +55,7 @@ class SetPuzzleHandler extends AbstractGameActionHandler<Map<String, String>> {
     }
 
     protected static void validatePuzzleStates(Game game, Player player) {
-        if (game.gamePhase != Game.GamePhase.Setup) {
+        if (game.gamePhase != GamePhase.Setup) {
             throw new GameIsNotInSetupPhaseException();
         }
         if (game.wordPhraseSetter == null || game.wordPhraseSetter == player) {
@@ -68,8 +69,8 @@ class SetPuzzleHandler extends AbstractGameActionHandler<Map<String, String>> {
 
     protected static Map<Player, IndividualGameState> findPuzzlesToSetForPlayer(final Game game, final Player player) {
         game.solverStates.findAll {
-            Player gamePlayer, IndividualGameState gameState ->
-                (player != gamePlayer) &&
+            String gamePlayer, IndividualGameState gameState ->
+                (player.id != gamePlayer) &&
                         StringUtils.isEmpty(gameState.wordPhraseString)
         }
     }

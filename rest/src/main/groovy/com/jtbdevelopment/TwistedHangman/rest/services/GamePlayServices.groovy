@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.game.handlers.*
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.PlayerChallengeState
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -50,7 +51,7 @@ class GamePlayServices {
     @Path("reject")
     @Produces(MediaType.APPLICATION_JSON)
     Game rejectGame() {
-        Game game = responseHandler.handleAction(playerID.get(), gameID.get(), Game.PlayerChallengeState.Rejected)
+        Game game = responseHandler.handleAction(playerID.get(), gameID.get(), PlayerChallengeState.Rejected)
         return game
     }
 
@@ -58,13 +59,14 @@ class GamePlayServices {
     @Path("accept")
     @Produces(MediaType.APPLICATION_JSON)
     Game acceptGame() {
-        Game game = responseHandler.handleAction(playerID.get(), gameID.get(), Game.PlayerChallengeState.Accepted)
+        Game game = responseHandler.handleAction(playerID.get(), gameID.get(), PlayerChallengeState.Accepted)
         return game
     }
 
     @PUT
     @Path("setpuzzle")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     Game setPuzzle(@FormParam("category") final String category, @FormParam("wordPhrase") final String wordPhrase
     ) {
         Game game = puzzleHandler.handleAction(
@@ -77,6 +79,7 @@ class GamePlayServices {
     @PUT
     @Path("steal/{position}")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     Game stealLetter(@PathParam("position") final int position) {
         Game game = stealLetterHandler.handleAction(playerID.get(), gameID.get(), position)
         return game
@@ -85,6 +88,7 @@ class GamePlayServices {
     @PUT
     @Path("guess/{letter}")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     Game guessLetter(@PathParam("letter") String letter) {
         if (letter.isEmpty()) {
             letter = " "
