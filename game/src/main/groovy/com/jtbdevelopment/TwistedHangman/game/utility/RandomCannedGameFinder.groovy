@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.utility
 
 import com.jtbdevelopment.TwistedHangman.dao.CannedGameRepository
-import com.jtbdevelopment.TwistedHangman.exceptions.RandomCannedGameFinderException
+import com.jtbdevelopment.TwistedHangman.exceptions.system.RandomCannedGameFinderException
 import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

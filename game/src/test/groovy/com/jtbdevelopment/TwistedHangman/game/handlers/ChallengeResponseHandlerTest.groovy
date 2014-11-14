@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.exceptions.TooLateToRespondToChallenge
+import com.jtbdevelopment.TwistedHangman.exceptions.input.TooLateToRespondToChallenge
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import org.junit.Test
 

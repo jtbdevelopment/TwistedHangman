@@ -1,4 +1,6 @@
-package com.jtbdevelopment.TwistedHangman.exceptions;
+package com.jtbdevelopment.TwistedHangman.exceptions.input;
+
+import com.jtbdevelopment.TwistedHangman.exceptions.TwistedHangmanInputException;
 
 import java.util.List;
 

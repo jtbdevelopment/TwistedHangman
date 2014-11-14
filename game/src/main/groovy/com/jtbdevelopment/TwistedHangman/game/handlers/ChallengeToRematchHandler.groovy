@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
-import com.jtbdevelopment.TwistedHangman.exceptions.GameIsNotAvailableToRematchException
+import com.jtbdevelopment.TwistedHangman.exceptions.input.GameIsNotAvailableToRematchException
 import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter

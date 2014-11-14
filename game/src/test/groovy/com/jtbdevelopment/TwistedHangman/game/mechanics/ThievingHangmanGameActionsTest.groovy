@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.mechanics
 
-import com.jtbdevelopment.TwistedHangman.exceptions.*
+import com.jtbdevelopment.TwistedHangman.exceptions.input.*
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import org.junit.Test

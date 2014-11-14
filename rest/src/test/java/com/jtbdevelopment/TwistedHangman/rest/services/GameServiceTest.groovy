@@ -1,9 +1,11 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
+
+import org.glassfish.jersey.test.JerseyTest
+
 /**
  * Date: 11/13/14
  * Time: 6:45 AM
  */
-/*
 class GameServiceTest extends JerseyTest {
     GameService gameService = new GameService()
 
@@ -40,4 +42,3 @@ class GameServiceTest extends JerseyTest {
     }
 }
 
-*/

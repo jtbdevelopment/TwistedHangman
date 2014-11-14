@@ -3,8 +3,8 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
-import com.jtbdevelopment.TwistedHangman.exceptions.FailedToFindGameException
-import com.jtbdevelopment.TwistedHangman.exceptions.PlayerNotPartOfGameException
+import com.jtbdevelopment.TwistedHangman.exceptions.input.PlayerNotPartOfGameException
+import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindGameException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine

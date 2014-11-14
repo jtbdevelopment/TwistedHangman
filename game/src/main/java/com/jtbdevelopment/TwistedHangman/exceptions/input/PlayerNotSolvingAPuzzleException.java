@@ -1,4 +1,6 @@
-package com.jtbdevelopment.TwistedHangman.exceptions;
+package com.jtbdevelopment.TwistedHangman.exceptions.input;
+
+import com.jtbdevelopment.TwistedHangman.exceptions.TwistedHangmanInputException;
 
 /**
  * Date: 11/10/14

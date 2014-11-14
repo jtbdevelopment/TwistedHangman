@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.game.mechanics
 
-import com.jtbdevelopment.TwistedHangman.exceptions.GameOverException
-import com.jtbdevelopment.TwistedHangman.exceptions.LetterAlreadyGuessedException
-import com.jtbdevelopment.TwistedHangman.exceptions.NotALetterGuessException
+import com.jtbdevelopment.TwistedHangman.exceptions.input.GameOverException
+import com.jtbdevelopment.TwistedHangman.exceptions.input.LetterAlreadyGuessedException
+import com.jtbdevelopment.TwistedHangman.exceptions.input.NotALetterGuessException
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import org.junit.Test

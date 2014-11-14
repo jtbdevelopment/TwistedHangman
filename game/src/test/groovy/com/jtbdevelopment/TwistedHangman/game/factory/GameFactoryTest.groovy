@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.factory
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.exceptions.FailedToCreateValidGameException
+import com.jtbdevelopment.TwistedHangman.exceptions.input.FailedToCreateValidGameException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.players.Player

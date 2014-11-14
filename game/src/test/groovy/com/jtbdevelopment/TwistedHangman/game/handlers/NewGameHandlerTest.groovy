@@ -3,7 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
-import com.jtbdevelopment.TwistedHangman.exceptions.FailedToFindPlayersException
+import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindPlayersException
 import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
