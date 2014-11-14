@@ -8,7 +8,6 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.PuzzlesAreAlreadySetEx
 import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
-import org.junit.Test
 
 /**
  * Date: 11/10/14
@@ -17,7 +16,7 @@ import org.junit.Test
 class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
     SetPuzzleHandler handler = new SetPuzzleHandler()
 
-    @Test
+
     public void testMultiPlayerSettingPuzzle() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
@@ -54,7 +53,7 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         assert gamesSeen.size() == 2
     }
 
-    @Test
+
     public void testTwoPlayerSettingPuzzle() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
@@ -91,7 +90,7 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         assert gamesSeen.size() == 1
     }
 
-    @Test
+
     public void testMultiPlayerSettingPuzzleSecondTimeExceptions() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
@@ -137,7 +136,7 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         }
     }
 
-    @Test
+
     public void testTwoPlayerSettingPuzzleSecondTimeExceptions() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
@@ -184,7 +183,6 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
     }
 
 
-    @Test
     public void testInvalidWordPhraseCategory() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
@@ -218,7 +216,7 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         }
     }
 
-    @Test
+
     public void testPuzzleNotInSetupPhase() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
@@ -252,7 +250,7 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         }
     }
 
-    @Test
+
     public void testMultiPlayerInvalidPlayerSettingPuzzle() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"

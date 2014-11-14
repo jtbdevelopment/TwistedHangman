@@ -3,7 +3,6 @@ package com.jtbdevelopment.TwistedHangman.game.factory.individualgames
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
-import org.junit.Test
 
 /**
  * Date: 11/5/2014
@@ -12,7 +11,7 @@ import org.junit.Test
 class MaxPenaltiesGameInitializerTest extends GroovyTestCase {
     MaxPenaltiesGameInitializer initializer = new MaxPenaltiesGameInitializer()
 
-    @Test
+
     public void testBaseGame() {
         Game game = new Game()
         game.features += GameFeature.Thieving
@@ -24,7 +23,7 @@ class MaxPenaltiesGameInitializerTest extends GroovyTestCase {
         }
     }
 
-    @Test
+
     public void testDrawBoth() {
         Game game = new Game()
         game.features += GameFeature.Thieving
@@ -38,7 +37,7 @@ class MaxPenaltiesGameInitializerTest extends GroovyTestCase {
         }
     }
 
-    @Test
+
     public void testDrawGallows() {
         Game game = new Game()
         game.features += GameFeature.Thieving
@@ -51,7 +50,7 @@ class MaxPenaltiesGameInitializerTest extends GroovyTestCase {
         }
     }
 
-    @Test
+
     public void testDrawFace() {
         Game game = new Game()
         game.features += GameFeature.Thieving

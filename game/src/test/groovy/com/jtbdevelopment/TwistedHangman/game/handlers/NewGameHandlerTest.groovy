@@ -10,7 +10,6 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.players.Player
-import org.junit.Test
 
 /**
  * Date: 11/7/14
@@ -19,7 +18,7 @@ import org.junit.Test
 class NewGameHandlerTest extends TwistedHangmanTestCase {
     NewGameHandler handler = new NewGameHandler()
 
-    @Test
+
     public void testCreateGame() {
         Set<GameFeature> features = [GameFeature.SystemPuzzles, GameFeature.Thieving]
         List<Player> players = [PTWO, PTHREE, PFOUR]
@@ -70,7 +69,6 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
     }
 
 
-    @Test
     public void testInvalidInitiator() {
         Set<GameFeature> features = [GameFeature.AlternatingPuzzleSetter, GameFeature.Thieving]
         List<Player> players = [PONE, PTWO, PTHREE]
@@ -94,7 +92,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
         }
     }
 
-    @Test
+
     public void testNotAllPlayersFound() {
         Set<GameFeature> features = [GameFeature.AlternatingPuzzleSetter, GameFeature.Thieving]
         List<Player> players = [PONE, PTWO, PTHREE]

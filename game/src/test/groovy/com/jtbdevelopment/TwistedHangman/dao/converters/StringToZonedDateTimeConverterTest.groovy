@@ -1,7 +1,5 @@
 package com.jtbdevelopment.TwistedHangman.dao.converters
 
-import org.junit.Test
-
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
@@ -10,7 +8,7 @@ import java.time.ZonedDateTime
  * Time: 7:37 PM
  */
 class StringToZonedDateTimeConverterTest extends GroovyTestCase {
-    @Test
+
     void testConvert() {
         assert new StringToZonedDateTimeConverter().convert("2014-11-10T00:35:15.809Z") == ZonedDateTime.of(2014, 11, 10, 00, 35, 15, 809 * 1000000, ZoneId.of("GMT"))
     }

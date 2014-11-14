@@ -38,12 +38,22 @@
     <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-server:2.13" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.1.0.Final" level="project" />
     <orderEntry type="library" name="Maven: javax.ws.rs:javax.ws.rs-api:2.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.media:jersey-media-json-jackson:2.13" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:2.3.2" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.3.2" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.3.2" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.3.2" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.3.2" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.3.2" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.security:oauth1-client:2.13" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.security:oauth1-signature:2.13" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-client:2.13" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.security:oauth2-client:2.13" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet:javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:4.1.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.8.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-inmemory:2.13" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.glassfish.jersey.test-framework:jersey-test-framework-core:2.13" level="project" />
-    <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-client:2.13" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.ow2.asm:asm-debug-all:5.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy-all:2.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.gpars:gpars:1.1.0" level="project" />

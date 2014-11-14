@@ -1,7 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import org.junit.Test
 
 import java.time.ZonedDateTime
 
@@ -13,7 +12,6 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     GamePhaseTransitionEngine transitionEngine = new GamePhaseTransitionEngine()
 
 
-    @Test
     public void testSinglePlayerChallengeTransitionsToPlaying() {
         assert transitionEngine.gameScorer == null
         Game game = new Game(
@@ -27,7 +25,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         assert game.gamePhase == Game.GamePhase.Playing
     }
 
-    @Test
+
     public void testChallengeStayingChallenge() {
         assert transitionEngine.gameScorer == null
         assert transitionEngine.gameRepository == null
@@ -40,7 +38,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
-    @Test
+
     public void testChallengeToDeclined() {
         assert transitionEngine.gameScorer == null
         Game game = new Game(
@@ -53,7 +51,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         assert game.gamePhase == Game.GamePhase.Declined
     }
 
-    @Test
+
     public void testChallengeToSetup() {
         assert transitionEngine.gameScorer == null
         Game game = new Game(
@@ -67,7 +65,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         assert game.gamePhase == Game.GamePhase.Setup
     }
 
-    @Test
+
     public void testSetupToSetup() {
         assert transitionEngine.gameScorer == null
         assert transitionEngine.gameRepository == null
@@ -83,7 +81,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
-    @Test
+
     public void testSetupToPlaying() {
         assert transitionEngine.gameScorer == null
         Game game = new Game(
@@ -99,7 +97,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         assert game.gamePhase == Game.GamePhase.Playing
     }
 
-    @Test
+
     public void testPlayingToPlaying() {
         assert transitionEngine.gameScorer == null
         assert transitionEngine.gameRepository == null
@@ -115,7 +113,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
-    @Test
+
     public void testPlayingToRematchMultipleWinners() {
         Game game = new Game(
                 gamePhase: Game.GamePhase.Playing,
@@ -140,7 +138,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         assert scored.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
-    @Test
+
     public void testPlayingToRematchSingleWinner() {
         Game game = new Game(
                 gamePhase: Game.GamePhase.Playing,
@@ -164,7 +162,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         assert scored.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
-    @Test
+
     public void testRematchToRematch() {
         assert transitionEngine.gameRepository == null
         assert transitionEngine.gameScorer == null
@@ -172,7 +170,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
-    @Test
+
     public void testRematchToRematched() {
         assert transitionEngine.gameScorer == null
 
@@ -181,7 +179,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         assert game.gamePhase == Game.GamePhase.Rematched
     }
 
-    @Test
+
     public void testRematchedToRematched() {
         assert transitionEngine.gameRepository == null
         assert transitionEngine.gameScorer == null
@@ -189,7 +187,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
-    @Test
+
     public void testDeclinedToDeclined() {
         assert transitionEngine.gameRepository == null
         assert transitionEngine.gameScorer == null

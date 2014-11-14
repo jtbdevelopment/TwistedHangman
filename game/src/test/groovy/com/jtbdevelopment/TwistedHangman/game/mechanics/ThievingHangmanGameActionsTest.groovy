@@ -3,7 +3,6 @@ package com.jtbdevelopment.TwistedHangman.game.mechanics
 import com.jtbdevelopment.TwistedHangman.exceptions.input.*
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
-import org.junit.Test
 
 /**
  * Date: 10/25/14
@@ -29,7 +28,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         return [GameFeature.ThievingCountTracking, GameFeature.ThievingPositionTracking, GameFeature.Thieving] as Set
     }
 
-    @Test
+
     public void testThievingGameWithoutTheft() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 3)
         hangmanGameActions.guessLetter(gameState, (char) 'F')
@@ -47,7 +46,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.moveCount == 4
     }
 
-    @Test
+
     public void testStealingALetter() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 4)
         hangmanGameActions.guessLetter(gameState, (char) 'F')
@@ -66,7 +65,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.moveCount == 4
     }
 
-    @Test
+
     public void testStealingToWin() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 3)
         hangmanGameActions.guessLetter(gameState, (char) 'F')
@@ -86,7 +85,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.moveCount == 4
     }
 
-    @Test
+
     public void testExceptionOnStealingPreviouslyStolenLetter() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 3)
         thievingHangmanGameActions.stealLetter(gameState, 3)
@@ -98,7 +97,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         }
     }
 
-    @Test
+
     public void testExceptionOnStealingPreviouslyGuessedLetter() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 3)
         hangmanGameActions.guessLetter(gameState, (char) 'F')
@@ -110,7 +109,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         }
     }
 
-    @Test
+
     public void testExceptionOnStealingOnFinalPenalty() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 2)
         hangmanGameActions.guessLetter(gameState, (char) 'F')
@@ -124,7 +123,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         }
     }
 
-    @Test
+
     public void testStealingNegativePosition() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 2)
         try {
@@ -135,7 +134,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         }
     }
 
-    @Test
+
     public void testStealingTooLongPosition() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 2)
         try {
@@ -146,7 +145,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         }
     }
 
-    @Test
+
     public void testStealingLostGame() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 1)
         hangmanGameActions.guessLetter(gameState, (char) "x")
@@ -160,7 +159,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         }
     }
 
-    @Test
+
     public void testStealingWonGame() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 1)
         hangmanGameActions.guessLetter(gameState, (char) "f")

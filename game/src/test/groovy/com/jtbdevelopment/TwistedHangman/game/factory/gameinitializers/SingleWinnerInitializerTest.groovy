@@ -2,7 +2,6 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import org.junit.Test
 
 /**
  * Date: 11/5/14
@@ -11,7 +10,7 @@ import org.junit.Test
 class SingleWinnerInitializerTest extends GroovyTestCase {
     SingleWinnerInitializer initializer = new SingleWinnerInitializer()
 
-    @Test
+
     public void testInitializesWinner() {
         Game game = new Game()
         game.features += GameFeature.SingleWinner
@@ -21,7 +20,7 @@ class SingleWinnerInitializerTest extends GroovyTestCase {
         assert game.featureData[GameFeature.SingleWinner] == ""
     }
 
-    @Test
+
     public void testOverwritesWinner() {
         Game game = new Game()
         game.features += GameFeature.SingleWinner
@@ -32,7 +31,7 @@ class SingleWinnerInitializerTest extends GroovyTestCase {
         assert game.featureData[GameFeature.SingleWinner] == ""
     }
 
-    @Test
+
     public void testLeavesUnsetIfNotInFeatures() {
         Game game = new Game()
 

@@ -2,7 +2,6 @@ package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.players.Player
-import org.junit.Test
 
 /**
  * Date: 11/8/2014
@@ -11,7 +10,7 @@ import org.junit.Test
 class GameScorerTest extends TwistedHangmanTestCase {
     GameScorer gameScorer = new GameScorer()
 
-    @Test
+
     public void testScoreForMultiWinMultiPlayerSystemGame() {
         Game game = new Game()
         game.players = [PONE, PTWO, PTHREE, PFOUR]
@@ -30,7 +29,7 @@ class GameScorerTest extends TwistedHangmanTestCase {
         assert game.playerScores[PFOUR.id] == -1
     }
 
-    @Test
+
     public void testScoreForMultiWinMultiPlayerAlternatingGame() {
         Game game = new Game()
         game.players = [PONE, PTWO, PTHREE, PFOUR]
@@ -49,7 +48,7 @@ class GameScorerTest extends TwistedHangmanTestCase {
         assert game.playerScores[PFOUR.id] == -1
     }
 
-    @Test
+
     public void testScoreForMultiWinTwoPlayerHeadToHead() {
         Game game = new Game()
         game.players = [PONE, PTWO]
@@ -65,7 +64,7 @@ class GameScorerTest extends TwistedHangmanTestCase {
         assert game.playerScores[PTWO.id] == -1
     }
 
-    @Test
+
     public void testScoreForSingleWinMultiPlayerSystemGame() {
         Game game = new Game()
         game.features.add(GameFeature.SingleWinner)
@@ -89,7 +88,7 @@ class GameScorerTest extends TwistedHangmanTestCase {
         assert game.playerScores[PFOUR.id] == -1
     }
 
-    @Test
+
     public void testScoreForSingleWinMultiPlayerAlternatingGame() {
         Game game = new Game()
         game.features.add(GameFeature.SingleWinner)
@@ -109,7 +108,7 @@ class GameScorerTest extends TwistedHangmanTestCase {
         assert game.playerScores[PFOUR.id] == -1
     }
 
-    @Test
+
     public void testScoreForSingleWinTwoPlayerHeadToHead() {
         Game game = new Game()
         game.features.add(GameFeature.SingleWinner)
@@ -127,7 +126,6 @@ class GameScorerTest extends TwistedHangmanTestCase {
     }
 
 
-    @Test
     public void testScoreWinForSinglePlayerGame() {
         Game game = new Game()
         game.players = [PONE.id]
@@ -141,7 +139,7 @@ class GameScorerTest extends TwistedHangmanTestCase {
         assert game.playerScores[PONE.id] == 2
     }
 
-    @Test
+
     public void testLossWinForSinglePlayerGame() {
         Game game = new Game()
         game.players = [PONE]

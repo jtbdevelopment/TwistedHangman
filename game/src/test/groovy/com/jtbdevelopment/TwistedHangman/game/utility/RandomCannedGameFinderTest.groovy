@@ -2,7 +2,6 @@ package com.jtbdevelopment.TwistedHangman.game.utility
 
 import com.jtbdevelopment.TwistedHangman.dao.CannedGameRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.system.RandomCannedGameFinderException
-import org.junit.Test
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 
@@ -13,7 +12,7 @@ import org.springframework.data.domain.PageRequest
 class RandomCannedGameFinderTest extends GroovyTestCase {
     RandomCannedGameFinder finder = new RandomCannedGameFinder()
 
-    @Test
+
     public void testReturnsARandomGameFromSingleItemUniverse() {
         CannedGame game = [] as CannedGame
         Page<CannedGame> page = [getContent: { [game] }] as Page<CannedGame>
@@ -31,7 +30,7 @@ class RandomCannedGameFinderTest extends GroovyTestCase {
         assert game.is(finder.getRandomGame())
     }
 
-    @Test
+
     public void testExceptionIfNoGames() {
         finder.repository = [
                 count: {
@@ -45,7 +44,7 @@ class RandomCannedGameFinderTest extends GroovyTestCase {
         }
     }
 
-    @Test
+
     public void testExceptionIfNoContent() {
         Page<CannedGame> page = [getContent: { [] }] as Page<CannedGame>
         finder.repository = [
@@ -66,7 +65,7 @@ class RandomCannedGameFinderTest extends GroovyTestCase {
         }
     }
 
-    @Test
+
     public void testExceptionIfTooMuchContent() {
         CannedGame game = [] as CannedGame
         Page<CannedGame> page = [getContent: { [game, game] }] as Page<CannedGame>
@@ -88,7 +87,7 @@ class RandomCannedGameFinderTest extends GroovyTestCase {
         }
     }
 
-    @Test
+
     public void testReturnsARandomGameFromLargeUniverse() {
         CannedGame game = [] as CannedGame
         long top = Long.MAX_VALUE / 2
@@ -107,7 +106,7 @@ class RandomCannedGameFinderTest extends GroovyTestCase {
         assert game.is(finder.getRandomGame())
     }
 
-    @Test
+
     public void testReturnsARandomGameFromWithSource() {
         String source = "Interwebs"
         CannedGame game = [] as CannedGame

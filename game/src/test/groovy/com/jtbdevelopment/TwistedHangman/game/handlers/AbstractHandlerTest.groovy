@@ -3,7 +3,6 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindPlayersException
-import org.junit.Test
 
 /**
  * Date: 11/10/14
@@ -15,7 +14,7 @@ class AbstractHandlerTest extends TwistedHangmanTestCase {
     }
     TestHandler handler = new TestHandler()
 
-    @Test
+
     public void testLoadPlayer() {
         handler.playerRepository = [
                 findOne: {
@@ -28,7 +27,7 @@ class AbstractHandlerTest extends TwistedHangmanTestCase {
         assert PTWO.is(handler.loadPlayer(PTWO.id))
     }
 
-    @Test
+
     public void testLoadPlayerFindsNull() {
 
         handler.playerRepository = [
@@ -46,7 +45,7 @@ class AbstractHandlerTest extends TwistedHangmanTestCase {
         }
     }
 
-    @Test
+
     public void testLoadPlayers() {
         handler.playerRepository = [
                 findAll: {
@@ -59,7 +58,7 @@ class AbstractHandlerTest extends TwistedHangmanTestCase {
         assert [PONE, PTWO, PTHREE] as Set == handler.loadPlayers([PONE.id, PTWO.id, PTHREE.id] as Set)
     }
 
-    @Test
+
     public void testLoadPlayersFindsNull() {
         handler.playerRepository = [
                 findAll: {

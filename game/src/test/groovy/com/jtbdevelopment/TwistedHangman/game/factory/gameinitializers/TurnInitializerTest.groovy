@@ -3,7 +3,6 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import org.junit.Test
 
 /**
  * Date: 11/5/14
@@ -12,7 +11,7 @@ import org.junit.Test
 class TurnInitializerTest extends TwistedHangmanTestCase {
     TurnInitializer initializer = new TurnInitializer()
 
-    @Test
+
     public void testInitializesTurnToFirstPlayer() {
         Game game = new Game()
         game.features += GameFeature.TurnBased
@@ -22,7 +21,7 @@ class TurnInitializerTest extends TwistedHangmanTestCase {
         assert game.featureData[GameFeature.TurnBased] == PFOUR.id
     }
 
-    @Test
+
     public void testNotSetWhenNotAFeature() {
         Game game = new Game()
         game.players = [PONE, PTWO, PTHREE]

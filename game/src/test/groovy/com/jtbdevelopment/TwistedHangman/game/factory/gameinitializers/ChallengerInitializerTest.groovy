@@ -4,7 +4,6 @@ import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.players.Player
-import org.junit.Test
 
 /**
  * Date: 11/5/14
@@ -13,7 +12,7 @@ import org.junit.Test
 class ChallengerInitializerTest extends TwistedHangmanTestCase {
     ChallengerInitializer initializer = new ChallengerInitializer()
 
-    @Test
+
     public void testSystemPuzzles() {
         def expectedSolvers = [PONE: null, PTHREE: null]
         Game game = new Game()
@@ -25,7 +24,7 @@ class ChallengerInitializerTest extends TwistedHangmanTestCase {
         assert game.solverStates == expectedSolvers
     }
 
-    @Test
+
     public void testTwoPlayerSystemPuzzles() {
         def expectedSolvers = [(PONE): null, (PTHREE): null]
         Game game = new Game()
@@ -38,7 +37,7 @@ class ChallengerInitializerTest extends TwistedHangmanTestCase {
         assert game.solverStates == expectedSolvers
     }
 
-    @Test
+
     public void testAlternatingChallenger() {
         def expectedSolvers = [(PTHREE): null]
 
@@ -52,7 +51,7 @@ class ChallengerInitializerTest extends TwistedHangmanTestCase {
         assert game.solverStates == expectedSolvers
     }
 
-    @Test
+
     public void testTwoPlayerAlternatingChallenger() {
         def expectedSolvers = [(PTHREE): null]
 
@@ -67,7 +66,7 @@ class ChallengerInitializerTest extends TwistedHangmanTestCase {
         assert game.solverStates == expectedSolvers
     }
 
-    @Test
+
     public void testTwoPlayerSimulataneous() {
         def expectedSolvers = [(PONE): null, (PTHREE): null]
 

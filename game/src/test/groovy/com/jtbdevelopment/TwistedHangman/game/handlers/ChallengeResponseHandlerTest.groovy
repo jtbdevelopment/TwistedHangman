@@ -3,7 +3,6 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.exceptions.input.TooLateToRespondToChallenge
 import com.jtbdevelopment.TwistedHangman.game.state.Game
-import org.junit.Test
 
 /**
  * Date: 11/9/2014
@@ -12,7 +11,7 @@ import org.junit.Test
 class ChallengeResponseHandlerTest extends TwistedHangmanTestCase {
     ChallengeResponseHandler handler = new ChallengeResponseHandler()
 
-    @Test
+
     public void testExceptionOnBadPhases() {
         Game.GamePhase.values().findAll { it != Game.GamePhase.Declined && it != Game.GamePhase.Challenge }.each {
             Game game = new Game(gamePhase: it)
@@ -25,7 +24,7 @@ class ChallengeResponseHandlerTest extends TwistedHangmanTestCase {
         }
     }
 
-    @Test
+
     public void testSetsStateForPlayer() {
         [Game.GamePhase.Declined, Game.GamePhase.Challenge].each {
             Game.GamePhase gamePhase ->
@@ -47,7 +46,7 @@ class ChallengeResponseHandlerTest extends TwistedHangmanTestCase {
         }
     }
 
-    @Test
+
     public void testOverridesResponseForPlayer() {
         [Game.GamePhase.Declined, Game.GamePhase.Challenge].each {
             Game.GamePhase gamePhase ->

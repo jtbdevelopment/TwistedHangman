@@ -1,13 +1,10 @@
 package com.jtbdevelopment.TwistedHangman.game.state
-
-import org.junit.Test
-
 /**
  * Date: 11/2/2014
  * Time: 9:22 PM
  */
 class IndividualGameStateTest extends GroovyTestCase {
-    @Test
+
     public void testInitialGameStateWithDefaultFeatures() {
         IndividualGameState gameState = new IndividualGameState([] as Set)
         gameState.wordPhrase = "cat".toCharArray()
@@ -30,7 +27,7 @@ class IndividualGameStateTest extends GroovyTestCase {
         assert gameState.features.empty
     }
 
-    @Test
+
     public void testInitialGameStateWithFeatures() {
         def features = [GameFeature.Thieving, GameFeature.ThievingCountTracking] as Set
         IndividualGameState gameState = new IndividualGameState(features)
@@ -54,7 +51,7 @@ class IndividualGameStateTest extends GroovyTestCase {
         assert gameState.features == features
     }
 
-    @Test
+
     public void testToString() {
         assert new IndividualGameState(
                 badlyGuessedLetters: [(char) 'A'] as SortedSet,

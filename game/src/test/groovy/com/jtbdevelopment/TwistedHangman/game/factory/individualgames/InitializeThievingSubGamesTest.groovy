@@ -3,7 +3,6 @@ package com.jtbdevelopment.TwistedHangman.game.factory.individualgames
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
-import org.junit.Test
 
 /**
  * Date: 11/5/2014
@@ -12,7 +11,7 @@ import org.junit.Test
 class InitializeThievingSubGamesTest extends GroovyTestCase {
     InitializeThievingSubGames initializer = new InitializeThievingSubGames()
 
-    @Test
+
     public void testInitializedThievingVariables() {
         Game game = new Game()
         game.features += GameFeature.Thieving
@@ -25,7 +24,7 @@ class InitializeThievingSubGamesTest extends GroovyTestCase {
         }
     }
 
-    @Test
+
     public void testNoInitializedIfNoThievingVariables() {
         Game game = new Game()
         game.solverStates = ["1": new IndividualGameState([] as Set), "2": new IndividualGameState([] as Set)]

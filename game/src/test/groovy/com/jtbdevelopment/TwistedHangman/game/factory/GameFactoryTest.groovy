@@ -5,7 +5,6 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.FailedToCreateValidGam
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.players.Player
-import org.junit.Test
 
 /**
  * Date: 11/7/14
@@ -14,7 +13,7 @@ import org.junit.Test
 class GameFactoryTest extends TwistedHangmanTestCase {
     GameFactory gameFactory = new GameFactory();
 
-    @Test
+
     public void testCreatingNewGame() {
         int validatorsCalled = 0
         int expandersCalled = 0
@@ -56,7 +55,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assertNull game.version
     }
 
-    @Test
+
     public void testCreatingRematchGame() {
         int validatorsCalled = 0
         int expandersCalled = 0
@@ -104,7 +103,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assertNull game.version
     }
 
-    @Test
+
     public void testErrorOnValidationFail() {
         int validatorsCalled = 0
         def validator = [

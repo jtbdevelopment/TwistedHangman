@@ -1,7 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import org.junit.Test
 
 import java.time.ZonedDateTime
 
@@ -10,7 +9,7 @@ import java.time.ZonedDateTime
  * Time: 3:50 PM
  */
 class GameTest extends TwistedHangmanTestCase {
-    @Test
+
     void testEquals() {
         Game one = new Game(id: "1")
         Game oneClone = one.clone()
@@ -22,14 +21,14 @@ class GameTest extends TwistedHangmanTestCase {
         assertFalse one.equals(null)
     }
 
-    @Test
+
     void testHashCode() {
         String SOMEID = "SOMEID"
         Game game = new Game(id: SOMEID)
         assert SOMEID.hashCode() == game.hashCode()
     }
 
-    @Test
+
     void testToString() {
         assert new Game(
                 id: "0x123",

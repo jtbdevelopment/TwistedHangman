@@ -8,7 +8,6 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.players.Player
-import org.junit.Test
 
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -20,7 +19,7 @@ import java.time.ZonedDateTime
 class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
     ChallengeToRematchHandler handler = new ChallengeToRematchHandler()
 
-    @Test
+
     public void testSetsUpRematch() {
         ZonedDateTime now = ZonedDateTime.now(ZoneId.of("GMT"))
         Thread.sleep(100);
@@ -64,7 +63,7 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
         puzzled.is(handler.handleActionInternal(PONE, previous))
     }
 
-    @Test
+
     public void testNotInRematchPhase() {
         Game.GamePhase.values().find { it != Game.GamePhase.Rematch }.each {
             Game previous = new Game(gamePhase: it, id: "X")

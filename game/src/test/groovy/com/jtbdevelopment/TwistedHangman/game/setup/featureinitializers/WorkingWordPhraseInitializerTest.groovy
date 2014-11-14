@@ -1,7 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.setup.featureinitializers
 
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
-import org.junit.Test
 
 /**
  * Date: 11/6/14
@@ -10,7 +9,7 @@ import org.junit.Test
 class WorkingWordPhraseInitializerTest extends GroovyTestCase {
     WorkingWordPhraseInitializer initializer = new WorkingWordPhraseInitializer()
 
-    @Test
+
     public void testInitSimplePhrase() {
         IndividualGameState gameState = new IndividualGameState([] as Set)
         gameState.wordPhrase = "cat".toCharArray()
@@ -18,7 +17,7 @@ class WorkingWordPhraseInitializerTest extends GroovyTestCase {
         assert gameState.workingWordPhraseString == "___"
     }
 
-    @Test
+
     public void testInitPunctuation() {
         IndividualGameState gameState = new IndividualGameState([] as Set)
         gameState.wordPhrase = "'cat'".toCharArray()
@@ -26,7 +25,7 @@ class WorkingWordPhraseInitializerTest extends GroovyTestCase {
         assert gameState.workingWordPhraseString == "'___'"
     }
 
-    @Test
+
     public void testNumerics() {
         IndividualGameState gameState = new IndividualGameState([] as Set)
         gameState.wordPhrase = "1 cat".toCharArray()

@@ -9,7 +9,6 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.players.Player
-import org.junit.Test
 
 /**
  * Date: 11/10/14
@@ -31,7 +30,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
     }
     private TestHandler handler = new TestHandler()
 
-    @Test
+
     public void testAbstractHandlerBase() {
         Game saved = new Game();
         Game transitioned = new Game();
@@ -66,7 +65,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         assert saved.is(handler.handleAction(PONE.id, gameId, testParam))
     }
 
-    @Test
+
     public void testAbstractHandlerCantLoadGame() {
         gameParam.players = [PONE, PTWO]
         handler.gameRepository = [
@@ -92,7 +91,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         }
     }
 
-    @Test
+
     public void testAbstractHandlerInvalidPlayer() {
         gameParam.players = [PONE, PTWO]
         handler.gameRepository = [
@@ -118,7 +117,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         }
     }
 
-    @Test
+
     public void testAbstractHandlerBaseRotatesTurn() {
         gameParam.players = [PTWO, PONE]
         gameParam.features.add(GameFeature.TurnBased)
@@ -165,7 +164,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         assert saved.is(handler.handleAction(PONE.id, gameId, testParam))
     }
 
-    @Test
+
     public void testAbstractHandlerBaseDoesNotRotateTurnWhenNotPlaying() {
         gameParam.players = [PTWO, PONE]
         gameParam.features.add(GameFeature.TurnBased)
@@ -212,7 +211,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         assert saved.is(handler.handleAction(PONE.id, gameId, testParam))
     }
 
-    @Test
+
     public void testAbstractHandlerBaseDoesNotRotateTurnWhenPlayingNonTurnedBasedGame() {
         gameParam.players = [PTWO, PONE]
         gameParam.features.remove(GameFeature.TurnBased)

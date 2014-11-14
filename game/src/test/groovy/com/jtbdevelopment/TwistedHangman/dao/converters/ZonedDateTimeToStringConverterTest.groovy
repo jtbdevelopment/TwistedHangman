@@ -1,7 +1,5 @@
 package com.jtbdevelopment.TwistedHangman.dao.converters
 
-import org.junit.Test
-
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
@@ -10,7 +8,7 @@ import java.time.ZonedDateTime
  * Time: 7:54 PM
  */
 class ZonedDateTimeToStringConverterTest extends GroovyTestCase {
-    @Test
+
     void testConvert() {
 
         def zonedTime = ZonedDateTime.of(2014, 1, 1, 14, 32, 19, 800 * 1000000, ZoneId.of("Europe/Paris"))

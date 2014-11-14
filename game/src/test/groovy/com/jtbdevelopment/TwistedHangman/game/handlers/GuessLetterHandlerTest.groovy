@@ -6,7 +6,6 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.PlayerNotSolvingAPuzzl
 import com.jtbdevelopment.TwistedHangman.game.mechanics.HangmanGameActions
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
-import org.junit.Test
 
 /**
  * Date: 11/10/14
@@ -15,7 +14,7 @@ import org.junit.Test
 class GuessLetterHandlerTest extends TwistedHangmanTestCase {
     GuessLetterHandler handler = new GuessLetterHandler()
 
-    @Test
+
     public void testHandleGoodMove() {
         Game game = new Game(gamePhase: Game.GamePhase.Playing)
         char letter = 'e'
@@ -32,7 +31,7 @@ class GuessLetterHandlerTest extends TwistedHangmanTestCase {
         handler.handleActionInternal(PONE, game, letter)
     }
 
-    @Test
+
     public void testHandleBadPlayer() {
         Game game = new Game(gamePhase: Game.GamePhase.Playing)
         char letter = 'e'
@@ -47,7 +46,7 @@ class GuessLetterHandlerTest extends TwistedHangmanTestCase {
         }
     }
 
-    @Test
+
     public void testHandleBadGame() {
         Game game = new Game(gamePhase: Game.GamePhase.Setup)
         char letter = 'e'

@@ -2,7 +2,6 @@ package com.jtbdevelopment.TwistedHangman.game.setup.featureinitializers
 
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
-import org.junit.Test
 
 /**
  * Date: 11/6/14
@@ -11,7 +10,7 @@ import org.junit.Test
 class ThievingPositionTrackerPhraseInitializerTest extends GroovyTestCase {
     ThievingPositionTrackerPhraseInitializer initializer = new ThievingPositionTrackerPhraseInitializer()
 
-    @Test
+
     void testIgnoresNonThieving() {
         IndividualGameState gameState = new IndividualGameState([] as Set)
         gameState.featureData[GameFeature.ThievingPositionTracking] = "X"
@@ -19,7 +18,7 @@ class ThievingPositionTrackerPhraseInitializerTest extends GroovyTestCase {
         assert gameState.featureData[GameFeature.ThievingPositionTracking] == "X"
     }
 
-    @Test
+
     void testSetsThieving() {
         IndividualGameState gameState = new IndividualGameState([GameFeature.Thieving] as Set)
         gameState.featureData[GameFeature.ThievingPositionTracking] = "X"

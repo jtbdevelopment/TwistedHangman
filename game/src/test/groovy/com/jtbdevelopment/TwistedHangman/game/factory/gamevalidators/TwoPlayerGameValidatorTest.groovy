@@ -3,7 +3,6 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gamevalidators
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import org.junit.Test
 
 /**
  * Date: 11/5/2014
@@ -12,12 +11,12 @@ import org.junit.Test
 class TwoPlayerGameValidatorTest extends TwistedHangmanTestCase {
     TwoPlayerGameValidator validator = new TwoPlayerGameValidator()
 
-    @Test
+
     void testErrorMessage() {
         assert "Game's two player marker is wrong." == validator.errorMessage()
     }
 
-    @Test
+
     void testTwoPlayersIsGood() {
         Game game = new Game(id: "X")
         game.features += GameFeature.TwoPlayer
@@ -26,7 +25,7 @@ class TwoPlayerGameValidatorTest extends TwistedHangmanTestCase {
         assert validator.validateGame(game)
     }
 
-    @Test
+
     void testThreePlayersWithFlagIsGood() {
         Game game = new Game(id: "X")
         game.features += GameFeature.TwoPlayer
@@ -35,7 +34,7 @@ class TwoPlayerGameValidatorTest extends TwistedHangmanTestCase {
         assertFalse validator.validateGame(game)
     }
 
-    @Test
+
     void testTwoPlayersWithoutFlagIsBad() {
         Game game = new Game(id: "X")
         game.players = [PONE, PFOUR]

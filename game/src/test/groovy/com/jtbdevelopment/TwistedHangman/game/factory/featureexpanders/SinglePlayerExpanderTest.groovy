@@ -2,7 +2,6 @@ package com.jtbdevelopment.TwistedHangman.game.factory.featureexpanders
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import org.junit.Test
 
 /**
  * Date: 11/6/14
@@ -11,7 +10,7 @@ import org.junit.Test
 class SinglePlayerExpanderTest extends TwistedHangmanTestCase {
     SinglePlayerExpander expander = new SinglePlayerExpander()
 
-    @Test
+
     public void testIgnoresNonSinglePlayer() {
         Set<GameFeature> expected = [GameFeature.AlternatingPuzzleSetter, GameFeature.Thieving]
         Set<GameFeature> input = expected.toList() as Set
@@ -19,7 +18,7 @@ class SinglePlayerExpanderTest extends TwistedHangmanTestCase {
         assert expected == input
     }
 
-    @Test
+
     public void testSetsForSinglePlayer() {
         Set<GameFeature> expected = [GameFeature.SystemPuzzles, GameFeature.SinglePlayer, GameFeature.SingleWinner]
         Set<GameFeature> input = [] as Set
@@ -27,7 +26,7 @@ class SinglePlayerExpanderTest extends TwistedHangmanTestCase {
         assert expected == input
     }
 
-    @Test
+
     public void testSetsForSinglePlayerWithConflictingOptions() {
         Set<GameFeature> expected = [GameFeature.SystemPuzzles, GameFeature.SinglePlayer, GameFeature.SingleWinner, GameFeature.TwoPlayer, GameFeature.AlternatingPuzzleSetter]
         Set<GameFeature> input = [GameFeature.TwoPlayer, GameFeature.AlternatingPuzzleSetter] as Set
