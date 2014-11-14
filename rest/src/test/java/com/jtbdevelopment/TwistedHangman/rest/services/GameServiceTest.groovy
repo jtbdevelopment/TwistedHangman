@@ -7,10 +7,10 @@ import org.glassfish.jersey.test.JerseyTest
  * Time: 6:45 AM
  */
 class GameServiceTest extends JerseyTest {
-    GameService gameService = new GameService()
+    GamePlayServices gameService = new GamePlayServices()
 
     void testPing() {
-        assert GameService.PING_RESULT == gameService.ping()
+        assert GamePlayServices.PING_RESULT == gameService.ping()
     }
 
     void testCreateNewGame() {
