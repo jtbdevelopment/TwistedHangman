@@ -50,7 +50,7 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         assert game.is(handler.handleActionInternal(
                 PTHREE,
                 game,
-                [(SetPuzzleHandler.WORDPHRASE_KEY): wp, (SetPuzzleHandler.CATEGORY_KEY): c]))
+                new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp)))
         assert gamesSeen.size() == 2
     }
 
@@ -87,7 +87,7 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         assert game.is(handler.handleActionInternal(
                 PONE,
                 game,
-                [(SetPuzzleHandler.WORDPHRASE_KEY): wp, (SetPuzzleHandler.CATEGORY_KEY): c]))
+                new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp)))
         assert gamesSeen.size() == 1
     }
 
@@ -124,13 +124,13 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         assert game.is(handler.handleActionInternal(
                 PTHREE,
                 game,
-                [(SetPuzzleHandler.WORDPHRASE_KEY): wp, (SetPuzzleHandler.CATEGORY_KEY): c]))
+                new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp)))
         assert gamesSeen.size() == 2
         try {
             handler.handleActionInternal(
                     PTHREE,
                     game,
-                    [(SetPuzzleHandler.WORDPHRASE_KEY): wp, (SetPuzzleHandler.CATEGORY_KEY): c])
+                    new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp))
             fail("should not get here")
         } catch (PuzzlesAreAlreadySetException e) {
             //
@@ -170,13 +170,13 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         assert game.is(handler.handleActionInternal(
                 PONE,
                 game,
-                [(SetPuzzleHandler.WORDPHRASE_KEY): wp, (SetPuzzleHandler.CATEGORY_KEY): c]))
+                new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp)))
         assert gamesSeen.size() == 1
         try {
             handler.handleActionInternal(
                     PONE,
                     game,
-                    [(SetPuzzleHandler.WORDPHRASE_KEY): wp, (SetPuzzleHandler.CATEGORY_KEY): c])
+                    new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp))
             fail("Should not get here")
         } catch (PuzzlesAreAlreadySetException e) {
 
@@ -210,7 +210,7 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
             handler.handleActionInternal(
                     PONE,
                     game,
-                    [(SetPuzzleHandler.WORDPHRASE_KEY): wp, (SetPuzzleHandler.CATEGORY_KEY): c])
+                    new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp))
             fail("Should not get here")
         } catch (InvalidPuzzleWordsException e) {
             assert e.message == "Your puzzle has invalid words [1, 2, ]."
@@ -244,7 +244,7 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
             handler.handleActionInternal(
                     PONE,
                     game,
-                    [(SetPuzzleHandler.WORDPHRASE_KEY): wp, (SetPuzzleHandler.CATEGORY_KEY): c])
+                    new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp))
             fail("Should not get here")
         } catch (GameIsNotInSetupPhaseException e) {
 
@@ -273,7 +273,7 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
             handler.handleActionInternal(
                     PONE,
                     game,
-                    [(SetPuzzleHandler.WORDPHRASE_KEY): wp, (SetPuzzleHandler.CATEGORY_KEY): c])
+                    new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp))
             fail("should have failed")
         } catch (PuzzlesAreAlreadySetException e) {
 

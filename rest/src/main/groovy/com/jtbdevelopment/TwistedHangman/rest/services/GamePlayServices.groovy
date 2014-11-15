@@ -6,6 +6,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import org.springframework.util.StringUtils
 
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
@@ -56,19 +57,15 @@ class GamePlayServices {
     @PUT
     @Path("setpuzzle")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    MaskedGame setPuzzle(@FormParam("category") final String category, @FormParam("wordPhrase") final String wordPhrase
-    ) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    MaskedGame setPuzzle(SetPuzzleHandler.CategoryAndWordPhrase categoryAndWordPhrase) {
         puzzleHandler.handleAction(
-                playerID.get(),
-                gameID.get(),
-                [(SetPuzzleHandler.CATEGORY_KEY): category, (SetPuzzleHandler.WORDPHRASE_KEY): wordPhrase])
+                playerID.get(), gameID.get(), categoryAndWordPhrase)
     }
 
     @PUT
     @Path("steal/{position}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     MaskedGame stealLetter(@PathParam("position") final int position) {
         stealLetterHandler.handleAction(playerID.get(), gameID.get(), position)
     }
@@ -76,11 +73,11 @@ class GamePlayServices {
     @PUT
     @Path("guess/{letter}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    MaskedGame guessLetter(@PathParam("letter") String letter) {
-        if (letter.isEmpty()) {
-            letter = " "
+    MaskedGame guessLetter(@PathParam("letter") final String letter) {
+        String validated = letter
+        if (StringUtils.isEmpty(letter) || StringUtils.isEmpty(letter.trim())) {
+            validated = " "
         }
-        guessLetterHandler.handleAction(playerID.get(), gameID.get(), letter.charAt(0))
+        guessLetterHandler.handleAction(playerID.get(), gameID.get(), validated.charAt(0))
     }
 }

@@ -22,7 +22,11 @@ import org.springframework.util.StringUtils
  */
 @CompileStatic
 @Component
-class SetPuzzleHandler extends AbstractGameActionHandler<Map<String, String>> {
+class SetPuzzleHandler extends AbstractGameActionHandler<CategoryAndWordPhrase> {
+    public static class CategoryAndWordPhrase {
+        String category
+        String wordPhrase
+    }
     public static final String CATEGORY_KEY = "CATEGORY"
     public static final String WORDPHRASE_KEY = "WORDPHRASE"
 
@@ -32,11 +36,11 @@ class SetPuzzleHandler extends AbstractGameActionHandler<Map<String, String>> {
     PhraseSetter phraseSetter
 
     @Override
-    protected Game handleActionInternal(final Player player, final Game game, final Map<String, String> param) {
+    protected Game handleActionInternal(final Player player, final Game game, final CategoryAndWordPhrase param) {
         validatePuzzleStates(game, player)
 
-        String wordPhrase = param[WORDPHRASE_KEY]
-        String category = param[CATEGORY_KEY]
+        String wordPhrase = param.wordPhrase
+        String category = param.category
         validateWordPhraseAndCategory(wordPhrase, category)
 
         findPuzzlesToSetForPlayer(game, player).values().each {

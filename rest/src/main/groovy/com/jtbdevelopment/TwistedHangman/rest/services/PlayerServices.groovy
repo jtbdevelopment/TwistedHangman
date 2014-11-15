@@ -4,13 +4,13 @@ import com.jtbdevelopment.TwistedHangman.game.handlers.NewGameHandler
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import groovy.transform.CompileStatic
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import org.springframework.util.StringUtils
 
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
 
 /**
  * Date: 11/14/14
@@ -19,8 +19,6 @@ import javax.ws.rs.core.MediaType
 @Component
 @CompileStatic
 class PlayerServices {
-    private static final Logger logger = LoggerFactory.getLogger(PlayerServices.class)
-
     ThreadLocal<String> playerID = new ThreadLocal<>()
 
     @Autowired
@@ -28,18 +26,17 @@ class PlayerServices {
     @Autowired
     NewGameHandler newGameHandler
 
-    public PlayerServices() {
-        logger.info("Created PlayerServices")
-    }
-
     @Path("play/{gameID}")
-    GamePlayServices gamePlay(@PathParam("gameID") final String gameID) {
+    Object gamePlay(@PathParam("gameID") final String gameID) {
+        if (StringUtils.isEmpty(gameID) || StringUtils.isEmpty(gameID.trim())) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Missing game identity").build()
+        }
         gamePlayServices.gameID.set(gameID)
         gamePlayServices.playerID.set(playerID.get())
         return gamePlayServices
     }
 
-    private static class FeaturesAndPlayers {
+    protected static class FeaturesAndPlayers {
         List<String> players
         Set<GameFeature> features
     }
@@ -48,9 +45,7 @@ class PlayerServices {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("new")
-    MaskedGame createNewGame(
-            FeaturesAndPlayers featuresAndPlayers
-    ) {
+    MaskedGame createNewGame(final FeaturesAndPlayers featuresAndPlayers) {
         newGameHandler.handleCreateNewGame(playerID.get(), featuresAndPlayers.players, featuresAndPlayers.features)
     }
 
