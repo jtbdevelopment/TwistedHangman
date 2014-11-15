@@ -31,4 +31,8 @@ class PlayerTest extends TwistedHangmanTestCase {
                 displayName: "BAYMAX",
                 source: "BIG HERO 6").toString() == "Player{id='0x123', source='BIG HERO 6', displayName='BAYMAX', disabled=false}"
     }
+
+    void testMD5() {
+        assert PONE.md5Hex == "e5a416518d04ca37dce22096ab77003a"
+    }
 }

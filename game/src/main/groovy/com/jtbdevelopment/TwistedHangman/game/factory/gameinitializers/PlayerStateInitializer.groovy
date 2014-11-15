@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component
 class PlayerStateInitializer implements GameInitializer {
     @Override
     void initializeGame(final Game game) {
-        game.playerStates.put(game.initiatingPlayer.id, PlayerChallengeState.Accepted)
-        game.players.findAll { Player it -> game.initiatingPlayer != it }.each {
+        game.playerStates.put(game.initiatingPlayer, PlayerChallengeState.Accepted)
+        game.players.findAll { Player it -> game.initiatingPlayer != it.id }.each {
             Player it ->
                 game.playerStates[it.id] = PlayerChallengeState.Pending
         }

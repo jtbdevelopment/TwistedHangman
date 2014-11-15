@@ -14,61 +14,61 @@ class ChallengerInitializerTest extends TwistedHangmanTestCase {
 
 
     public void testSystemPuzzles() {
-        def expectedSolvers = [PONE: null, PTHREE: null]
+        def expectedSolvers = [(PONE.id): null, (PTHREE.id): null]
         Game game = new Game()
         game.features += GameFeature.SystemPuzzles
         game.solverStates = expectedSolvers
         initializer.initializeGame(game)
 
-        assert game.wordPhraseSetter == Player.SYSTEM_PLAYER
+        assert game.wordPhraseSetter == Player.SYSTEM_PLAYER.id
         assert game.solverStates == expectedSolvers
     }
 
 
     public void testTwoPlayerSystemPuzzles() {
-        def expectedSolvers = [(PONE): null, (PTHREE): null]
+        def expectedSolvers = [(PONE.id): null, (PTHREE.id): null]
         Game game = new Game()
         game.features += GameFeature.SystemPuzzles
         game.features += GameFeature.TwoPlayer
         game.solverStates = expectedSolvers
         initializer.initializeGame(game)
 
-        assert game.wordPhraseSetter == Player.SYSTEM_PLAYER
+        assert game.wordPhraseSetter == Player.SYSTEM_PLAYER.id
         assert game.solverStates == expectedSolvers
     }
 
 
     public void testAlternatingChallenger() {
-        def expectedSolvers = [(PTHREE): null]
+        def expectedSolvers = [(PTHREE.id): null]
 
         Game game = new Game()
         game.features += GameFeature.AlternatingPuzzleSetter
-        game.solverStates = [(PONE): null, (PTHREE): null]
+        game.solverStates = [(PONE.id): null, (PTHREE.id): null]
         game.players = [PONE, PTHREE]
         initializer.initializeGame(game)
 
-        assert game.wordPhraseSetter == PONE
+        assert game.wordPhraseSetter == PONE.id
         assert game.solverStates == expectedSolvers
     }
 
 
     public void testTwoPlayerAlternatingChallenger() {
-        def expectedSolvers = [(PTHREE): null]
+        def expectedSolvers = [(PTHREE.id): null]
 
         Game game = new Game()
         game.features += GameFeature.AlternatingPuzzleSetter
         game.features += GameFeature.TwoPlayer
-        game.solverStates = [(PONE): null, (PTHREE): null]
+        game.solverStates = [(PONE.id): null, (PTHREE.id): null]
         game.players = [(PONE), (PTHREE)]
         initializer.initializeGame(game)
 
-        assert game.wordPhraseSetter == PONE
+        assert game.wordPhraseSetter == PONE.id
         assert game.solverStates == expectedSolvers
     }
 
 
     public void testTwoPlayerSimulataneous() {
-        def expectedSolvers = [(PONE): null, (PTHREE): null]
+        def expectedSolvers = [(PONE.id): null, (PTHREE.id): null]
 
         Game game = new Game()
         game.features += GameFeature.TwoPlayer

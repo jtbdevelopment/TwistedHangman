@@ -58,7 +58,7 @@ class SetPuzzleHandler extends AbstractGameActionHandler<Map<String, String>> {
         if (game.gamePhase != GamePhase.Setup) {
             throw new GameIsNotInSetupPhaseException();
         }
-        if (game.wordPhraseSetter == null || game.wordPhraseSetter == player) {
+        if (game.wordPhraseSetter == null || game.wordPhraseSetter == player.id) {
             if (findPuzzlesToSetForPlayer(game, player).size() == 0) {
                 throw new PuzzlesAreAlreadySetException();
             }
@@ -67,7 +67,7 @@ class SetPuzzleHandler extends AbstractGameActionHandler<Map<String, String>> {
         }
     }
 
-    protected static Map<Player, IndividualGameState> findPuzzlesToSetForPlayer(final Game game, final Player player) {
+    protected static Map<String, IndividualGameState> findPuzzlesToSetForPlayer(final Game game, final Player player) {
         game.solverStates.findAll {
             String gamePlayer, IndividualGameState gameState ->
                 (player.id != gamePlayer) &&

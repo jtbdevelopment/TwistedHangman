@@ -20,7 +20,7 @@ class PuzzleInitializerTest extends TwistedHangmanTestCase {
         def features = [GameFeature.DrawFace, GameFeature.ThievingCountTracking] as Set
         game.players = players
         game.features += features
-        game.wordPhraseSetter = Player.SYSTEM_PLAYER
+        game.wordPhraseSetter = Player.SYSTEM_PLAYER.id
         game.features
         initializer.initializeGame(game)
 
@@ -58,7 +58,7 @@ class PuzzleInitializerTest extends TwistedHangmanTestCase {
         def features = [GameFeature.DrawFace, GameFeature.ThievingCountTracking] as Set
         game.players = players
         game.features += features
-        game.wordPhraseSetter = PTHREE
+        game.wordPhraseSetter = PTHREE.id
         game.features
         initializer.initializeGame(game)
 

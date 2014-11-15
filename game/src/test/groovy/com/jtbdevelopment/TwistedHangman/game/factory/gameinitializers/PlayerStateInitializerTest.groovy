@@ -16,7 +16,7 @@ class PlayerStateInitializerTest extends TwistedHangmanTestCase {
         Game game = new Game()
         def players = [PONE, PTWO, PTHREE, PFOUR]
         game.players = players
-        game.initiatingPlayer = PTHREE
+        game.initiatingPlayer = PTHREE.id
         playerStateInitializer.initializeGame(game)
         assert game.playerStates.size() == 4
         assert game.playerStates[(PTHREE.id)] == PlayerChallengeState.Accepted

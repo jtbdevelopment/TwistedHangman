@@ -22,7 +22,7 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
         Game game = new Game(gamePhase: GamePhase.Setup)
-        game.wordPhraseSetter = PTHREE
+        game.wordPhraseSetter = PTHREE.id
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
         game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
@@ -96,7 +96,7 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
         Game game = new Game(gamePhase: GamePhase.Setup)
-        game.wordPhraseSetter = PTHREE
+        game.wordPhraseSetter = PTHREE.id
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
         game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
@@ -256,7 +256,7 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
         Game game = new Game(gamePhase: GamePhase.Setup)
-        game.wordPhraseSetter = PTHREE
+        game.wordPhraseSetter = PTHREE.id
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
         game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]

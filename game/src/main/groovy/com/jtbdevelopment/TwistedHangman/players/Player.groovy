@@ -1,6 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.players
 
+import org.apache.commons.codec.digest.DigestUtils
 import org.springframework.data.annotation.Id
+import org.springframework.data.annotation.Transient
 import org.springframework.data.mongodb.core.mapping.Document
 
 /**
@@ -47,5 +49,15 @@ class Player {
                 ", displayName='" + displayName + '\'' +
                 ", disabled=" + disabled +
                 '}';
+    }
+
+    @Transient
+    private String md5Hex
+
+    String getMd5Hex() {
+        if (md5Hex == null) {
+            md5Hex = DigestUtils.md5Hex((id + source + displayName))
+        }
+        return md5Hex
     }
 }

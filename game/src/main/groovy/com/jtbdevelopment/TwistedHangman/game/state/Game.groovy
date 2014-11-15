@@ -42,7 +42,7 @@ public class Game implements Cloneable {
     GamePhase gamePhase
 
     @Indexed
-    Player initiatingPlayer
+    String initiatingPlayer
     @Indexed
     List<Player> players = []  //  Ordered by turns, challengers etc
     Map<String, PlayerChallengeState> playerStates = [:]
@@ -51,7 +51,7 @@ public class Game implements Cloneable {
     Set<GameFeature> features = [] as Set
     Map<GameFeature, Object> featureData = [:]
 
-    Player wordPhraseSetter
+    String wordPhraseSetter
     Map<String, IndividualGameState> solverStates = [:]
 
     Map<String, Integer> playerScores = [:]

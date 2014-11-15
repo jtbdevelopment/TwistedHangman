@@ -17,7 +17,7 @@ class PuzzleInitializer implements GameInitializer {
     @Override
     void initializeGame(final Game game) {
 
-        game.players.findAll { Player it -> game.wordPhraseSetter != it }.each {
+        game.players.findAll { Player it -> game.wordPhraseSetter != it.id }.each {
             Player it ->
                 game.solverStates[it.id] = new IndividualGameState(game.features)
         }

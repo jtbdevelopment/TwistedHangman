@@ -86,7 +86,7 @@ class GameFactory {
                                         final List<Player> players,
                                  final Player initiatingPlayer) {
         Game game = new Game()
-        game.initiatingPlayer = initiatingPlayer
+        game.initiatingPlayer = initiatingPlayer.id
         game.version = null
         game.gamePhase = GamePhase.Challenge
         game.features.addAll(features)

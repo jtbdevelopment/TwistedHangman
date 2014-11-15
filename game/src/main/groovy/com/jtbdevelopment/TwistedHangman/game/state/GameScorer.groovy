@@ -21,7 +21,7 @@ class GameScorer {
                     game.playerScores[playerId] = game.playerScores[playerId] + 1
                     //  Move to list of post-scorers?
                     if (game.features.contains(GameFeature.SingleWinner)) {
-                        game.featureData[GameFeature.SingleWinner] = game.players.find { Player player -> player.id == playerId }
+                        game.featureData[GameFeature.SingleWinner] = (game.players.find { Player player -> player.id == playerId }).id
                     }
                 }
         }
@@ -33,8 +33,8 @@ class GameScorer {
                 }
         }
 
-        if (game.wordPhraseSetter != null && game.wordPhraseSetter != Player.SYSTEM_PLAYER) {
-            game.playerScores[game.wordPhraseSetter.id] = game.playerScores[game.wordPhraseSetter.id] + losers - winners
+        if (game.wordPhraseSetter != null && game.wordPhraseSetter != Player.SYSTEM_PLAYER.id) {
+            game.playerScores[game.wordPhraseSetter] = game.playerScores[game.wordPhraseSetter] + losers - winners
         }
         return game
     }

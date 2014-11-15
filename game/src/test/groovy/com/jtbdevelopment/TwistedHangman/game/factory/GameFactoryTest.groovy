@@ -48,7 +48,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assert individualCalled == 2
         assert game.features == expectedFeatures
         assert game.players == [PTWO, PTHREE, PFOUR, PONE]
-        assert game.initiatingPlayer == initiatingPlayer
+        assert game.initiatingPlayer == initiatingPlayer.id
         assert game.lastUpdate == game.created
         assert game.gamePhase == GamePhase.Challenge
         assert game.wordPhraseSetter == null
@@ -86,7 +86,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         priorGame.features = expectedFeatures
         priorGame.players = players
         priorGame.players.add(PONE)
-        priorGame.initiatingPlayer = PTHREE
+        priorGame.initiatingPlayer = PTHREE.id
         Game game = gameFactory.createGame(priorGame, initiatingPlayer)
 
         assertNotNull game
@@ -96,7 +96,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assert individualCalled == 2
         assert game.features == expectedFeatures
         assert game.players == [PTHREE, PFOUR, PONE, PTWO]
-        assert game.initiatingPlayer == initiatingPlayer
+        assert game.initiatingPlayer == initiatingPlayer.id
         assert game.lastUpdate == game.created
         assert game.gamePhase == GamePhase.Challenge
         assert game.wordPhraseSetter == null
@@ -124,7 +124,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         priorGame.features = expectedFeatures
         priorGame.players = players
         priorGame.players.add(PONE)
-        priorGame.initiatingPlayer = PTHREE
+        priorGame.initiatingPlayer = PTHREE.id
         try {
             Game game = gameFactory.createGame(priorGame, initiatingPlayer)
             fail("Should have failed")

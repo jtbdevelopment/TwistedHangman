@@ -33,7 +33,7 @@ class GameScorerTest extends TwistedHangmanTestCase {
     public void testScoreForMultiWinMultiPlayerAlternatingGame() {
         Game game = new Game()
         game.players = [PONE, PTWO, PTHREE, PFOUR]
-        game.wordPhraseSetter = PTHREE
+        game.wordPhraseSetter = PTHREE.id
         game.playerScores = [(PONE.id): 1, (PTWO.id): -2, (PTHREE.id): 4, (PFOUR.id): 0]
         game.solverStates = [
                 (PONE.id) : [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
@@ -81,7 +81,7 @@ class GameScorerTest extends TwistedHangmanTestCase {
                 (PFOUR.id) : [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
         ]
         assert gameScorer.scoreGame(game).is(game)
-        assert game.featureData[GameFeature.SingleWinner] == PTWO
+        assert game.featureData[GameFeature.SingleWinner] == PTWO.id
         assert game.playerScores[PONE.id] == 1
         assert game.playerScores[PTWO.id] == -1
         assert game.playerScores[PTHREE.id] == 4
@@ -93,7 +93,7 @@ class GameScorerTest extends TwistedHangmanTestCase {
         Game game = new Game()
         game.features.add(GameFeature.SingleWinner)
         game.players = [PONE, PTWO, PTHREE, PFOUR]
-        game.wordPhraseSetter = PTHREE
+        game.wordPhraseSetter = PTHREE.id
         game.playerScores = [(PONE.id): 1, (PTWO.id): -2, (PTHREE.id): 4, (PFOUR.id): 0]
         game.solverStates = [
                 (PONE.id) : [isGameWon: { false }, isGameLost: { false }, isGameOver: { false }] as IndividualGameState,
@@ -101,7 +101,7 @@ class GameScorerTest extends TwistedHangmanTestCase {
                 (PFOUR.id): [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
         ]
         assert gameScorer.scoreGame(game).is(game)
-        assert game.featureData[GameFeature.SingleWinner] == PTWO
+        assert game.featureData[GameFeature.SingleWinner] == PTWO.id
         assert game.playerScores[PONE.id] == 1
         assert game.playerScores[PTWO.id] == -1
         assert game.playerScores[PTHREE.id] == 4
@@ -120,7 +120,7 @@ class GameScorerTest extends TwistedHangmanTestCase {
                 (PTWO.id): [isGameWon: { false }, isGameLost: { false }, isGameOver: { false }] as IndividualGameState,
         ]
         assert gameScorer.scoreGame(game).is(game)
-        assert game.featureData[GameFeature.SingleWinner] == PONE
+        assert game.featureData[GameFeature.SingleWinner] == PONE.id
         assert game.playerScores[PONE.id] == 2
         assert game.playerScores[PTWO.id] == -2
     }
@@ -128,8 +128,8 @@ class GameScorerTest extends TwistedHangmanTestCase {
 
     public void testScoreWinForSinglePlayerGame() {
         Game game = new Game()
-        game.players = [PONE.id]
-        game.wordPhraseSetter = Player.SYSTEM_PLAYER
+        game.players = [PONE]
+        game.wordPhraseSetter = Player.SYSTEM_PLAYER.id
         game.playerScores = [(PONE.id): 1]
         game.solverStates = [
                 (PONE.id): [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
@@ -143,7 +143,7 @@ class GameScorerTest extends TwistedHangmanTestCase {
     public void testLossWinForSinglePlayerGame() {
         Game game = new Game()
         game.players = [PONE]
-        game.wordPhraseSetter = Player.SYSTEM_PLAYER
+        game.wordPhraseSetter = Player.SYSTEM_PLAYER.id
         game.playerScores = [(PONE.id): 1]
         game.solverStates = [
                 (PONE.id): [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
