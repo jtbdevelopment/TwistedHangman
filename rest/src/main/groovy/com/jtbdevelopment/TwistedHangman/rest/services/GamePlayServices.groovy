@@ -31,13 +31,6 @@ class GamePlayServices {
     @Autowired
     SetPuzzleHandler puzzleHandler
 
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    //  TODO - remove me
-    String diagnostic() {
-        return playerID.get() + " " + gameID.get()
-    }
-
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Path("rematch")
