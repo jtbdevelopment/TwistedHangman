@@ -9,6 +9,8 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
+import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
+import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
 
 /**
@@ -62,8 +64,17 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                         return transitioned
                 }
         ] as GamePhaseTransitionEngine
+        MaskedGame maskedGame = new MaskedGame()
+        handler.gameMasker = [
+                maskGameForPlayer: {
+                    Game g, Player p ->
+                        assert g.is(saved)
+                        assert p.is(PONE)
+                        return maskedGame
+                }
+        ] as GameMasker
 
-        assert saved.is(handler.handleAction(PONE.id, gameId, testParam))
+        assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
     }
 
 
@@ -161,8 +172,17 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                         return transitioned
                 }
         ] as GamePhaseTransitionEngine
+        MaskedGame maskedGame = new MaskedGame()
+        handler.gameMasker = [
+                maskGameForPlayer: {
+                    Game g, Player p ->
+                        assert g.is(saved)
+                        assert p.is(PONE)
+                        return maskedGame
+                }
+        ] as GameMasker
 
-        assert saved.is(handler.handleAction(PONE.id, gameId, testParam))
+        assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
     }
 
 
@@ -208,8 +228,17 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                         return transitioned
                 }
         ] as GamePhaseTransitionEngine
+        MaskedGame maskedGame = new MaskedGame()
+        handler.gameMasker = [
+                maskGameForPlayer: {
+                    Game g, Player p ->
+                        assert g.is(saved)
+                        assert p.is(PONE)
+                        return maskedGame
+                }
+        ] as GameMasker
 
-        assert saved.is(handler.handleAction(PONE.id, gameId, testParam))
+        assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
     }
 
 
@@ -255,7 +284,16 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                         return transitioned
                 }
         ] as GamePhaseTransitionEngine
+        MaskedGame maskedGame = new MaskedGame()
+        handler.gameMasker = [
+                maskGameForPlayer: {
+                    Game g, Player p ->
+                        assert g.is(saved)
+                        assert p.is(PONE)
+                        return maskedGame
+                }
+        ] as GameMasker
 
-        assert saved.is(handler.handleAction(PONE.id, gameId, testParam))
+        assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
     }
 }

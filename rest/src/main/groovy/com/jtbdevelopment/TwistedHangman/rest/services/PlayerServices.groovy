@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.game.handlers.NewGameHandler
-import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -43,12 +43,10 @@ class PlayerServices {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("new")
-    String createNewGame(
+    MaskedGame createNewGame(
             @FormParam("players") final List<String> players,
             @FormParam("features") final Set<GameFeature> gameFeatures) {
-        //  TODO send back cleaned up one
-        Game game = newGameHandler.handleCreateNewGame(playerID.get(), players, gameFeatures)
-        return game.id
+        newGameHandler.handleCreateNewGame(playerID.get(), players, gameFeatures)
     }
 
 }

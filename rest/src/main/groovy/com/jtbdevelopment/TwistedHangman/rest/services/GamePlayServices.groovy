@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.game.handlers.*
-import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.PlayerChallengeState
+import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -41,59 +41,53 @@ class GamePlayServices {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Path("rematch")
-    String createRematch() {
+    MaskedGame createRematch() {
         //  TODO send back cleaned up one
-        Game game = rematchHandler.handleAction(playerID.get(), gameID.get())
-        return game.id
+        rematchHandler.handleAction(playerID.get(), gameID.get())
     }
 
     @PUT
     @Path("reject")
     @Produces(MediaType.APPLICATION_JSON)
-    Game rejectGame() {
-        Game game = responseHandler.handleAction(playerID.get(), gameID.get(), PlayerChallengeState.Rejected)
-        return game
+    MaskedGame rejectGame() {
+        responseHandler.handleAction(playerID.get(), gameID.get(), PlayerChallengeState.Rejected)
     }
 
     @PUT
     @Path("accept")
     @Produces(MediaType.APPLICATION_JSON)
-    Game acceptGame() {
-        Game game = responseHandler.handleAction(playerID.get(), gameID.get(), PlayerChallengeState.Accepted)
-        return game
+    MaskedGame acceptGame() {
+        responseHandler.handleAction(playerID.get(), gameID.get(), PlayerChallengeState.Accepted)
     }
 
     @PUT
     @Path("setpuzzle")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    Game setPuzzle(@FormParam("category") final String category, @FormParam("wordPhrase") final String wordPhrase
+    MaskedGame setPuzzle(@FormParam("category") final String category, @FormParam("wordPhrase") final String wordPhrase
     ) {
-        Game game = puzzleHandler.handleAction(
+        puzzleHandler.handleAction(
                 playerID.get(),
                 gameID.get(),
                 [(SetPuzzleHandler.CATEGORY_KEY): category, (SetPuzzleHandler.WORDPHRASE_KEY): wordPhrase])
-        return game
     }
 
     @PUT
     @Path("steal/{position}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    Game stealLetter(@PathParam("position") final int position) {
-        Game game = stealLetterHandler.handleAction(playerID.get(), gameID.get(), position)
-        return game
+    MaskedGame stealLetter(@PathParam("position") final int position) {
+        stealLetterHandler.handleAction(playerID.get(), gameID.get(), position)
     }
 
     @PUT
     @Path("guess/{letter}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    Game guessLetter(@PathParam("letter") String letter) {
+    MaskedGame guessLetter(@PathParam("letter") String letter) {
         if (letter.isEmpty()) {
             letter = " "
         }
-        Game game = guessLetterHandler.handleAction(playerID.get(), gameID.get(), letter.charAt(0))
-        return game
+        guessLetterHandler.handleAction(playerID.get(), gameID.get(), letter.charAt(0))
     }
 }

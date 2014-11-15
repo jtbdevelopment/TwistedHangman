@@ -8,6 +8,8 @@ import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
+import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
+import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.players.Player
 
@@ -64,8 +66,17 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                     return transitionedGame
                 }
         ] as GamePhaseTransitionEngine
+        MaskedGame maskedGame = new MaskedGame()
+        handler.gameMasker = [
+                maskGameForPlayer: {
+                    Game g, Player p ->
+                        assert g.is(savedGame)
+                        assert p.is(initiatingPlayer)
+                        return maskedGame
+                }
+        ] as GameMasker
 
-        assert savedGame.is(handler.handleCreateNewGame(initiatingPlayer.id, players.collect { it.id }, features))
+        assert maskedGame.is(handler.handleCreateNewGame(initiatingPlayer.id, players.collect { it.id }, features))
     }
 
 

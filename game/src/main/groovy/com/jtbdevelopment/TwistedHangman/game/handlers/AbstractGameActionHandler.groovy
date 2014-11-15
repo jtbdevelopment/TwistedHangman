@@ -8,6 +8,8 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
+import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
+import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.slf4j.Logger
@@ -26,18 +28,23 @@ abstract class AbstractGameActionHandler<T> extends AbstractHandler {
     @Autowired
     protected GamePhaseTransitionEngine transitionEngine
 
+    @Autowired
+    protected GameMasker gameMasker
+
     private static final Logger logger = LoggerFactory.getLogger(AbstractGameActionHandler.class)
 
     abstract protected Game handleActionInternal(final Player player, final Game game, T param);
 
-    public Game handleAction(final String playerID, final String gameID, T param = null) {
+    public MaskedGame handleAction(final String playerID, final String gameID, T param = null) {
         Player player = loadPlayer(playerID)
         Game game = loadGame(gameID)
         validatePlayerForGame(game, player)
-        return gameRepository.save(
-                transitionEngine.evaluateGamePhaseForGame(
-                        rotateTurnBasedGame(
-                                handleActionInternal(player, game, param), player)))
+        return gameMasker.maskGameForPlayer(
+                gameRepository.save(
+                        transitionEngine.evaluateGamePhaseForGame(
+                                rotateTurnBasedGame(
+                                        handleActionInternal(player, game, param), player))),
+                player)
     }
 
     private static Game rotateTurnBasedGame(final Game game, final Player player) {
