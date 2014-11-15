@@ -24,9 +24,9 @@ public class MaskedGame implements Cloneable {
 
     String id
 
+    //  TODO - these dates serialize hugely...
     ZonedDateTime created
     ZonedDateTime lastUpdate
-
     ZonedDateTime declined
     ZonedDateTime completed
     ZonedDateTime rematched

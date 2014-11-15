@@ -39,14 +39,19 @@ class PlayerServices {
         return gamePlayServices
     }
 
+    private static class FeaturesAndPlayers {
+        List<String> players
+        Set<GameFeature> features
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("new")
     MaskedGame createNewGame(
-            @FormParam("players") final List<String> players,
-            @FormParam("features") final Set<GameFeature> gameFeatures) {
-        newGameHandler.handleCreateNewGame(playerID.get(), players, gameFeatures)
+            FeaturesAndPlayers featuresAndPlayers
+    ) {
+        newGameHandler.handleCreateNewGame(playerID.get(), featuresAndPlayers.players, featuresAndPlayers.features)
     }
 
 }
