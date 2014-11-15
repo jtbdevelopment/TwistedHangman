@@ -55,7 +55,7 @@ class GamePlayServices {
     }
 
     @PUT
-    @Path("setpuzzle")
+    @Path("puzzle")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     MaskedGame setPuzzle(SetPuzzleHandler.CategoryAndWordPhrase categoryAndWordPhrase) {
