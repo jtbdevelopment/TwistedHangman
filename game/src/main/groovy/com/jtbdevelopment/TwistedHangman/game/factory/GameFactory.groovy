@@ -17,13 +17,13 @@ import org.springframework.stereotype.Component
 @CompileStatic
 class GameFactory {
     @Autowired
-    List<FeatureExpander> featureExpanders
+    List<FeatureExpander> featureExpanders = []
     @Autowired
-    List<GameInitializer> gameInitializers
+    List<GameInitializer> gameInitializers = []
     @Autowired
-    List<GameValidator> gameValidators
+    List<GameValidator> gameValidators = []
     @Autowired
-    List<IndividualGamesInitializer> individualGamesInitializers
+    List<IndividualGamesInitializer> individualGamesInitializers = []
 
     public Game createGame(
             final Set<GameFeature> features,

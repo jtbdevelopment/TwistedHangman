@@ -126,7 +126,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         priorGame.players.add(PONE)
         priorGame.initiatingPlayer = PTHREE.id
         try {
-            Game game = gameFactory.createGame(priorGame, initiatingPlayer)
+            gameFactory.createGame(priorGame, initiatingPlayer)
             fail("Should have failed")
         } catch (FailedToCreateValidGameException e) {
             assert validatorsCalled == 2

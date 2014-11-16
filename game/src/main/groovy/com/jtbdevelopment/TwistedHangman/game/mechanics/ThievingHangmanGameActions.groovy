@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component
 class ThievingHangmanGameActions {
 
     void stealLetter(final IndividualGameState gameState, int position) {
-        boolean[] markers = gameState.featureData[GameFeature.ThievingPositionTracking]
+        boolean[] markers = (boolean[]) gameState.featureData[GameFeature.ThievingPositionTracking]
         validateSteal(gameState, position, markers)
 
         Integer counter = (Integer) gameState.featureData[GameFeature.ThievingCountTracking]

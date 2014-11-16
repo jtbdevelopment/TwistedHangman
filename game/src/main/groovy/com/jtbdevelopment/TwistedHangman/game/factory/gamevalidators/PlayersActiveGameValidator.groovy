@@ -22,7 +22,15 @@ class PlayersActiveGameValidator implements GameValidator {
     @Override
     boolean validateGame(final Game game) {
         Iterable<Player> loaded = playerRepository.findAll(game.players.collect { Player player -> player.id })
-        Collection<String> loadedActivePlayers = loaded.findAll { Player player -> !player.disabled }.collect { Player player -> player.id }
+
+        Collection<Player> all = loaded.findAll {
+            Player player ->
+                !player.disabled
+        }
+        Collection<String> loadedActivePlayers = all.collect {
+            Player player ->
+                player.id
+        }
         return loadedActivePlayers.size() == game.players.size()
     }
 

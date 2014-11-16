@@ -61,7 +61,7 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
                 }
         ] as SystemPuzzlerSetter
 
-        puzzled.is(handler.handleActionInternal(PONE, previous))
+        puzzled.is(handler.handleActionInternal(PONE, previous, null))
     }
 
 
@@ -69,7 +69,7 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
         GamePhase.values().find { it != GamePhase.Rematch }.each {
             Game previous = new Game(gamePhase: it, id: "X")
             try {
-                handler.handleActionInternal(PONE, previous)
+                handler.handleActionInternal(PONE, previous, null)
                 fail("Should have exceptioned in phase " + it)
             } catch (GameIsNotAvailableToRematchException e) {
                 //

@@ -1,21 +1,15 @@
 package com.jtbdevelopment.TwistedHangman
 
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.datatype.jsr310.JSR310Module
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.rest.config.JerseyConfig
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerGatewayService
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerServices
 import org.glassfish.grizzly.http.server.HttpServer
-import org.glassfish.jersey.filter.LoggingFilter
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory
-import org.glassfish.jersey.jackson.JacksonFeature
 import org.glassfish.jersey.server.ResourceConfig
-import org.glassfish.jersey.server.spring.scope.RequestContextFilter
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
@@ -29,8 +23,6 @@ import javax.ws.rs.client.ClientBuilder
 import javax.ws.rs.client.Entity
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.UriBuilder
-import javax.ws.rs.ext.ContextResolver
-import javax.ws.rs.ext.Provider
 
 /**
  * Date: 11/15/2014
@@ -60,43 +52,9 @@ class ServerIntegration {
         }
     }
 
-    @Provider
-    public static class JacksonJSR310MapperProvider implements ContextResolver<ObjectMapper> {
-        final ObjectMapper defaultObjectMapper
-
-        public JacksonJSR310MapperProvider() {
-            defaultObjectMapper = createDefaultMapper();
-        }
-
-        @Override
-        public ObjectMapper getContext(final Class<?> type) {
-            return defaultObjectMapper;
-        }
-
-        private static ObjectMapper createDefaultMapper() {
-            final ObjectMapper result = new ObjectMapper();
-            result.enable(SerializationFeature.INDENT_OUTPUT);
-            result.registerModule(new JSR310Module())
-            result.disable(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS)
-            result.disable(DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS)
-            return result;
-        }
-    }
-
-    public static class JerseyConfig extends ResourceConfig {
-        public JerseyConfig() {
-            register(RequestContextFilter.class);
-            packages("com.jtbdevelopment.TwistedHangman");
-            property("contextConfigLocation", "classpath:spring-context-integration.xml");
-            register(JacksonJSR310MapperProvider.class)
-            register(JacksonFeature.class);
-            register(LoggingFilter.class);
-        }
-    }
-
     @BeforeClass
     public static void initialize() {
-        ResourceConfig config = new JerseyConfig();
+        ResourceConfig config = new JerseyConfig("spring-context-integration.xml");
         SERVER = GrizzlyHttpServerFactory.createHttpServer(BASE_URI, config);
         assert applicationContext != null
         PlayerRepository playerRepository = applicationContext.getBean(PlayerRepository.class)
