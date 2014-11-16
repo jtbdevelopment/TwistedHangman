@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository
  */
 @Repository
 interface PlayerRepository extends CrudRepository<Player, String> {
+    List<Player> findByMd5In(final Collection<String> md5s)
 }

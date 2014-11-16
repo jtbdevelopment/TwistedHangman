@@ -48,7 +48,8 @@ class ValidFeatureSetGameValidatorTest extends TwistedHangmanTestCase {
         features.subsequences().each {
             it.permutations().each {
                 game.features = it
-                if (!GameFeature.ALLOWED_COMBINATIONS.contains(it as Set)) {
+
+                if (!GameFeature.ALLOWED_COMBINATIONS.contains(it.findAll { it.validate } as Set)) {
                     assertFalse validator.validateGame(game)
                 } else {
                     assert validator.validateGame(game)

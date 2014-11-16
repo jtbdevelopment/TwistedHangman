@@ -19,6 +19,15 @@ abstract class AbstractHandler {
     @Autowired
     protected PlayerRepository playerRepository
 
+    protected Set<Player> loadPlayerMD5s(final Collection<String> playerMD5s) {
+        LinkedHashSet<Player> players = new LinkedHashSet<>(playerRepository.findByMd5In(playerMD5s).collect { Player it -> it })
+        if (players.size() != playerMD5s.size()) {
+            logger.info("Not all players were loaded " + playerMD5s + " vs. " + players)
+            throw new FailedToFindPlayersException()
+        }
+        players
+    }
+
     protected Set<Player> loadPlayers(final Collection<String> playerIDs) {
         LinkedHashSet<Player> players = new LinkedHashSet<>(playerRepository.findAll(playerIDs).collect { Player it -> it })
         if (players.size() != playerIDs.size()) {

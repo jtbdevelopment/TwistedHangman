@@ -33,6 +33,6 @@ class PlayerTest extends TwistedHangmanTestCase {
     }
 
     void testMD5() {
-        assert PONE.md5Hex == "e5a416518d04ca37dce22096ab77003a"
+        assert PONE.md5 == "e5a416518d04ca37dce22096ab77003a"
     }
 }

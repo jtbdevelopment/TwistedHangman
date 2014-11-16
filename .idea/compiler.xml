@@ -23,6 +23,7 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="game" />
+        <module name="integration-tests" />
         <module name="model" />
         <module name="rest" />
         <module name="utilities" />

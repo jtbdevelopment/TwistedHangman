@@ -19,7 +19,7 @@ class GameMasker {
         MaskedGame playerMaskedGame = new MaskedGame()
 
         playerMaskedGame.maskedForPlayer = player
-        playerMaskedGame.maskedForPlayerMD5 = player.md5Hex
+        playerMaskedGame.maskedForPlayerMD5 = player.md5
         copyUnmaskedData(game, playerMaskedGame)
         copyMaskedData(game, player, playerMaskedGame)
 
@@ -30,36 +30,36 @@ class GameMasker {
         Map<String, Player> idmap = [:]
         game.players.each {
             Player p ->
-                playerMaskedGame.players[p.md5Hex] = p.displayName
+                playerMaskedGame.players[p.md5] = p.displayName
                 idmap[p.id] = p
         }
-        playerMaskedGame.initiatingPlayer = idmap[game.initiatingPlayer].md5Hex
+        playerMaskedGame.initiatingPlayer = idmap[game.initiatingPlayer].md5
         game.playerScores.each {
             String p, Integer score ->
-                playerMaskedGame.playerScores[idmap[p].md5Hex] = score
+                playerMaskedGame.playerScores[idmap[p].md5] = score
         }
         game.playerStates.each {
             String p, PlayerChallengeState state ->
-                playerMaskedGame.playerStates[idmap[p].md5Hex] = state
+                playerMaskedGame.playerStates[idmap[p].md5] = state
         }
         game.featureData.each {
             GameFeature feature, Object data ->
                 playerMaskedGame.featureData[feature] =
                         (data in String && idmap.containsKey(data)) ?
-                                idmap[(String) data].md5Hex :
+                                idmap[(String) data].md5 :
                                 data
         }
         game.solverStates.findAll {
             String p, IndividualGameState gameState ->
                 if (p == player.id || game.wordPhraseSetter == null || game.wordPhraseSetter == player.id) {
-                    playerMaskedGame.solverStates[idmap[p].md5Hex] = maskGameState(gameState, idmap)
+                    playerMaskedGame.solverStates[idmap[p].md5] = maskGameState(gameState, idmap)
                 }
         }
         playerMaskedGame.wordPhraseSetter =
                 game.wordPhraseSetter ?
                         game.wordPhraseSetter == Player.SYSTEM_PLAYER.id ?
-                                Player.SYSTEM_PLAYER.md5Hex :
-                                idmap[game.wordPhraseSetter].md5Hex : null
+                                Player.SYSTEM_PLAYER.md5 :
+                                idmap[game.wordPhraseSetter].md5 : null
     }
 
     protected MaskedIndividualGameState maskGameState(
@@ -81,7 +81,7 @@ class GameMasker {
             GameFeature feature, Object data ->
                 masked.featureData[feature] =
                         (data in String && idmap.containsKey(data)) ?
-                                idmap[(String) data].md5Hex :
+                                idmap[(String) data].md5 :
                                 data
         }
         masked

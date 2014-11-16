@@ -24,8 +24,8 @@ public enum GameFeature {
     SingleWinner("Only one winner."),
 
 
-    DrawGallows("Draw gallows.", false, true),
-    DrawFace("Draw face.", false, true)
+    DrawGallows("Draw gallows.", false, false),
+    DrawFace("Draw face.", false, false)
 
     final boolean broadCategory
     final boolean internal

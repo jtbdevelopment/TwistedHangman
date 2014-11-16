@@ -36,8 +36,8 @@ class PlayerServices {
         return gamePlayServices
     }
 
-    protected static class FeaturesAndPlayers {
-        List<String> players
+    static class FeaturesAndPlayers {
+        List<String> players    // md5 list
         Set<GameFeature> features
     }
 

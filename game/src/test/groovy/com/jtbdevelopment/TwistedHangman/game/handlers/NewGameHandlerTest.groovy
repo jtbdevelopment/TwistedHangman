@@ -50,9 +50,9 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                 }
         ] as SystemPuzzlerSetter
         handler.playerRepository = [
-                findAll: {
+                findByMd5In: {
                     Iterable<String> it ->
-                        assert it.collect { it } as Set == players.collect { it.id } as Set
+                        assert it.collect { it } as Set == players.collect { it.md5 } as Set
                         return players
                 },
                 findOne: {
@@ -76,7 +76,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                 }
         ] as GameMasker
 
-        assert maskedGame.is(handler.handleCreateNewGame(initiatingPlayer.id, players.collect { it.id }, features))
+        assert maskedGame.is(handler.handleCreateNewGame(initiatingPlayer.id, players.collect { it.md5 }, features))
     }
 
 
@@ -84,9 +84,9 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
         Set<GameFeature> features = [GameFeature.AlternatingPuzzleSetter, GameFeature.Thieving]
         List<Player> players = [PONE, PTWO, PTHREE]
         handler.playerRepository = [
-                findAll: {
+                findByMd5In: {
                     Iterable<String> it ->
-                        assert it.collect { it } as Set == players.collect { it.id } as Set
+                        assert it.collect { it } as Set == players.collect { it.md5 } as Set
                         return players
                 },
                 findOne: {
@@ -96,7 +96,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
         ] as PlayerRepository
 
         try {
-            handler.handleCreateNewGame("LOST", players.collect { it.id }, features)
+            handler.handleCreateNewGame("LOST", players.collect { it.md5 }, features)
             fail("Should have failed")
         } catch (FailedToFindPlayersException e) {
             //
@@ -109,9 +109,9 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
         List<Player> players = [PONE, PTWO, PTHREE]
         Player initiatingPlayer = PFOUR
         handler.playerRepository = [
-                findAll: {
+                findByMd5In: {
                     Iterable<String> it ->
-                        assert it.collect { it } as Set == players.collect { it.id } as Set
+                        assert it.collect { it } as Set == players.collect { it.md5 } as Set
                         return [PONE, PTHREE]
                 },
                 findOne: {
@@ -121,7 +121,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
         ] as PlayerRepository
 
         try {
-            handler.handleCreateNewGame(initiatingPlayer.id, players.collect { it.id }, features)
+            handler.handleCreateNewGame(initiatingPlayer.id, players.collect { it.md5 }, features)
             fail("Should have failed")
         } catch (FailedToFindPlayersException e) {
             //

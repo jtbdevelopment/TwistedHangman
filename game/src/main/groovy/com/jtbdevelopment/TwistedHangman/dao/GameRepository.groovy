@@ -8,5 +8,5 @@ import org.springframework.data.repository.PagingAndSortingRepository
  * Time: 6:58 AM
  */
 public interface GameRepository extends PagingAndSortingRepository<Game, String> {
-
+    List<Game> findByPlayersId(final String id)
 }

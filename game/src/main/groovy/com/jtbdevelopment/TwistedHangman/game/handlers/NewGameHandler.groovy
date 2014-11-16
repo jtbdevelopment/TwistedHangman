@@ -33,23 +33,26 @@ class NewGameHandler extends AbstractHandler {
 
     public MaskedGame handleCreateNewGame(
             final String initiatingPlayerID, final List<String> playersIDs, final Set<GameFeature> features) {
-        Set<Player> players = loadPlayers(playersIDs)  //  Load as set to prevent dupes in initial setup
+        Set<Player> players = loadPlayerMD5s(playersIDs)  //  Load as set to prevent dupes in initial setup
         Player initiatingPlayer = players.find { Player player -> player.id == initiatingPlayerID }
         if (initiatingPlayer == null) {
             initiatingPlayer = loadPlayer(initiatingPlayerID)
         }
 
-        gameMasker.maskGameForPlayer(setupGame(features, players, initiatingPlayer), initiatingPlayer)
+
+        def game = setupGame(features, players, initiatingPlayer)
+        def playerGame = gameMasker.maskGameForPlayer(game, initiatingPlayer)
+        playerGame
     }
 
     private Game setupGame(
             final Set<GameFeature> features,
             final Set<Player> players,
             final Player initiatingPlayer) {
-        gameRepository.save(
-                transitionEngine.evaluateGamePhaseForGame(
-                        systemPuzzlerSetter.setWordPhraseFromSystem(
-                                gameFactory.createGame(features, players.toList(), initiatingPlayer))))
+        Game game = transitionEngine.evaluateGamePhaseForGame(
+                systemPuzzlerSetter.setWordPhraseFromSystem(
+                        gameFactory.createGame(features, players.toList(), initiatingPlayer)))
+        gameRepository.save(game)
     }
 
 }

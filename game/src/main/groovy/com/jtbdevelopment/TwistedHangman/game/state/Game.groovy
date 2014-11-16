@@ -6,6 +6,8 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.Version
+import org.springframework.data.mongodb.core.index.CompoundIndex
+import org.springframework.data.mongodb.core.index.CompoundIndexes
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 
@@ -17,7 +19,10 @@ import java.time.ZonedDateTime
  */
 @Document
 @CompileStatic
-//@CompoundIndex(def = "{players.id: 1, gamePhase: 1")
+@CompoundIndexes([
+        @CompoundIndex(name = "player_phase", def = "{'players._id': 1, 'gamePhase': 1}"),
+        @CompoundIndex(name = "player_id", def = "{'players._id':1}")
+])
 public class Game implements Cloneable {
     @Id
     String id

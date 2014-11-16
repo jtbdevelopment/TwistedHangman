@@ -21,7 +21,7 @@ class ThreePlusGameValidator implements GameValidator {
     @Override
     boolean validateGame(final Game game) {
         if (game.features.contains(GameFeature.ThreePlus)) {
-            if (game.players.size() != 3) {
+            if (game.players.size() < 3) {
                 LOGGER.warn("Managed to create 3+ game incorrectly. " + game)
                 return false
             }

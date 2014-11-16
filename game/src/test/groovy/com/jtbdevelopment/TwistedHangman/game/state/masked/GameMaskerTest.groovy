@@ -49,19 +49,19 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         MaskedGame maskedGame = masker.maskGameForPlayer(game, PONE)
         checkUnmaskedGameFields(maskedGame, game)
 
-        assert maskedGame.players == [(PONE.md5Hex): PONE.displayName]
-        assert maskedGame.initiatingPlayer == PONE.md5Hex
-        assert maskedGame.playerStates == [(PONE.md5Hex): PlayerChallengeState.Accepted]
-        assert maskedGame.playerScores == [(PONE.md5Hex): 5]
-        assert maskedGame.maskedForPlayerMD5 == PONE.md5Hex
+        assert maskedGame.players == [(PONE.md5): PONE.displayName]
+        assert maskedGame.initiatingPlayer == PONE.md5
+        assert maskedGame.playerStates == [(PONE.md5): PlayerChallengeState.Accepted]
+        assert maskedGame.playerScores == [(PONE.md5): 5]
+        assert maskedGame.maskedForPlayerMD5 == PONE.md5
         assert maskedGame.maskedForPlayer == PONE
-        assert maskedGame.wordPhraseSetter == Player.SYSTEM_PLAYER.md5Hex
+        assert maskedGame.wordPhraseSetter == Player.SYSTEM_PLAYER.md5
         assert maskedGame.featureData == game.featureData
 
-        assert maskedGame.solverStates.size() == 1 && maskedGame.solverStates.containsKey(PONE.md5Hex)
+        assert maskedGame.solverStates.size() == 1 && maskedGame.solverStates.containsKey(PONE.md5)
 
-        MaskedIndividualGameState maskedState = maskedGame.solverStates[PONE.md5Hex]
-        assert maskedState.featureData == [(GameFeature.DrawGallows): PONE.md5Hex, (GameFeature.Thieving): [true, true, false]]
+        MaskedIndividualGameState maskedState = maskedGame.solverStates[PONE.md5]
+        assert maskedState.featureData == [(GameFeature.DrawGallows): PONE.md5, (GameFeature.Thieving): [true, true, false]]
         checkUnmaskedState(maskedState, state)
     }
 
@@ -113,24 +113,24 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         MaskedGame maskedGame = masker.maskGameForPlayer(game, PONE)
         checkUnmaskedGameFields(maskedGame, game)
 
-        assert maskedGame.players == [(PONE.md5Hex): PONE.displayName, (PTWO.md5Hex): PTWO.displayName]
-        assert maskedGame.initiatingPlayer == PTWO.md5Hex
-        assert maskedGame.playerStates == [(PONE.md5Hex): PlayerChallengeState.Accepted, (PTWO.md5Hex): PlayerChallengeState.Rejected]
-        assert maskedGame.playerScores == [(PONE.md5Hex): 5, (PTWO.md5Hex): 7]
-        assert maskedGame.maskedForPlayerMD5 == PONE.md5Hex
+        assert maskedGame.players == [(PONE.md5): PONE.displayName, (PTWO.md5): PTWO.displayName]
+        assert maskedGame.initiatingPlayer == PTWO.md5
+        assert maskedGame.playerStates == [(PONE.md5): PlayerChallengeState.Accepted, (PTWO.md5): PlayerChallengeState.Rejected]
+        assert maskedGame.playerScores == [(PONE.md5): 5, (PTWO.md5): 7]
+        assert maskedGame.maskedForPlayerMD5 == PONE.md5
         assert maskedGame.maskedForPlayer == PONE
         assert maskedGame.wordPhraseSetter == null
-        assert maskedGame.featureData == [(GameFeature.DrawFace): "", (GameFeature.SingleWinner): PTWO.md5Hex]
+        assert maskedGame.featureData == [(GameFeature.DrawFace): "", (GameFeature.SingleWinner): PTWO.md5]
 
-        assert maskedGame.solverStates.size() == 2 && maskedGame.solverStates.containsKey(PONE.md5Hex) && maskedGame.solverStates.containsKey(PTWO.md5Hex)
+        assert maskedGame.solverStates.size() == 2 && maskedGame.solverStates.containsKey(PONE.md5) && maskedGame.solverStates.containsKey(PTWO.md5)
 
-        MaskedIndividualGameState maskedState = maskedGame.solverStates[PONE.md5Hex]
+        MaskedIndividualGameState maskedState = maskedGame.solverStates[PONE.md5]
         checkUnmaskedState(maskedState, state1)
-        assert maskedState.featureData == [(GameFeature.DrawGallows): PONE.md5Hex, (GameFeature.Thieving): [true, true, false]]
+        assert maskedState.featureData == [(GameFeature.DrawGallows): PONE.md5, (GameFeature.Thieving): [true, true, false]]
 
-        maskedState = maskedGame.solverStates[PTWO.md5Hex]
+        maskedState = maskedGame.solverStates[PTWO.md5]
         checkUnmaskedState(maskedState, state2)
-        assert maskedState.featureData == [(GameFeature.DrawGallows): PTWO.md5Hex, (GameFeature.Thieving): [true, true, false]]
+        assert maskedState.featureData == [(GameFeature.DrawGallows): PTWO.md5, (GameFeature.Thieving): [true, true, false]]
     }
 
     public void testMaskingMultiPlayerSystemPuzzler() {
@@ -178,25 +178,25 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         MaskedGame maskedGame = masker.maskGameForPlayer(game, PONE)
         checkUnmaskedGameFields(maskedGame, game)
         checkMultiPlayerGame(maskedGame)
-        assert maskedGame.wordPhraseSetter == Player.SYSTEM_PLAYER.md5Hex
-        assert maskedGame.maskedForPlayerMD5 == PONE.md5Hex
+        assert maskedGame.wordPhraseSetter == Player.SYSTEM_PLAYER.md5
+        assert maskedGame.maskedForPlayerMD5 == PONE.md5
         assert maskedGame.maskedForPlayer == PONE
-        assert maskedGame.solverStates.size() == 1 && maskedGame.solverStates.containsKey(PONE.md5Hex)
-        MaskedIndividualGameState maskedState = maskedGame.solverStates[PONE.md5Hex]
+        assert maskedGame.solverStates.size() == 1 && maskedGame.solverStates.containsKey(PONE.md5)
+        MaskedIndividualGameState maskedState = maskedGame.solverStates[PONE.md5]
         checkUnmaskedState(maskedState, state1)
-        assert maskedState.featureData == [(GameFeature.DrawGallows): PONE.md5Hex, (GameFeature.Thieving): [true, true, false]]
+        assert maskedState.featureData == [(GameFeature.DrawGallows): PONE.md5, (GameFeature.Thieving): [true, true, false]]
 
 
         maskedGame = masker.maskGameForPlayer(game, PTHREE)
         checkUnmaskedGameFields(maskedGame, game)
         checkMultiPlayerGame(maskedGame)
-        assert maskedGame.wordPhraseSetter == Player.SYSTEM_PLAYER.md5Hex
-        assert maskedGame.maskedForPlayerMD5 == PTHREE.md5Hex
+        assert maskedGame.wordPhraseSetter == Player.SYSTEM_PLAYER.md5
+        assert maskedGame.maskedForPlayerMD5 == PTHREE.md5
         assert maskedGame.maskedForPlayer == PTHREE
-        assert maskedGame.solverStates.size() == 1 && maskedGame.solverStates.containsKey(PTHREE.md5Hex)
-        maskedState = maskedGame.solverStates[PTHREE.md5Hex]
+        assert maskedGame.solverStates.size() == 1 && maskedGame.solverStates.containsKey(PTHREE.md5)
+        maskedState = maskedGame.solverStates[PTHREE.md5]
         checkUnmaskedState(maskedState, state3)
-        assert maskedState.featureData == [(GameFeature.DrawGallows): PTWO.md5Hex, (GameFeature.Thieving): [true, true, false]]
+        assert maskedState.featureData == [(GameFeature.DrawGallows): PTWO.md5, (GameFeature.Thieving): [true, true, false]]
     }
 
     public void testMaskingMultiPlayerNonSystemPuzzler() {
@@ -232,28 +232,28 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         MaskedGame maskedGame = masker.maskGameForPlayer(game, PTWO)
         checkUnmaskedGameFields(maskedGame, game)
         checkMultiPlayerGame(maskedGame)
-        assert maskedGame.maskedForPlayerMD5 == PTWO.md5Hex
+        assert maskedGame.maskedForPlayerMD5 == PTWO.md5
         assert maskedGame.maskedForPlayer == PTWO
-        assert maskedGame.solverStates.size() == 2 && maskedGame.solverStates.containsKey(PONE.md5Hex) && maskedGame.solverStates.containsKey(PTHREE.md5Hex)
-        assert maskedGame.wordPhraseSetter == PTWO.md5Hex
-        MaskedIndividualGameState maskedState = maskedGame.solverStates[PONE.md5Hex]
+        assert maskedGame.solverStates.size() == 2 && maskedGame.solverStates.containsKey(PONE.md5) && maskedGame.solverStates.containsKey(PTHREE.md5)
+        assert maskedGame.wordPhraseSetter == PTWO.md5
+        MaskedIndividualGameState maskedState = maskedGame.solverStates[PONE.md5]
         checkUnmaskedState(maskedState, state1)
-        assert maskedState.featureData == [(GameFeature.DrawGallows): PONE.md5Hex, (GameFeature.Thieving): [true, true, false]]
-        maskedState = maskedGame.solverStates[PONE.md5Hex]
+        assert maskedState.featureData == [(GameFeature.DrawGallows): PONE.md5, (GameFeature.Thieving): [true, true, false]]
+        maskedState = maskedGame.solverStates[PONE.md5]
         checkUnmaskedState(maskedState, state1)
-        assert maskedState.featureData == [(GameFeature.DrawGallows): PONE.md5Hex, (GameFeature.Thieving): [true, true, false]]
+        assert maskedState.featureData == [(GameFeature.DrawGallows): PONE.md5, (GameFeature.Thieving): [true, true, false]]
 
 
         maskedGame = masker.maskGameForPlayer(game, PTHREE)
         checkUnmaskedGameFields(maskedGame, game)
         checkMultiPlayerGame(maskedGame)
-        assert maskedGame.maskedForPlayerMD5 == PTHREE.md5Hex
+        assert maskedGame.maskedForPlayerMD5 == PTHREE.md5
         assert maskedGame.maskedForPlayer == PTHREE
-        assert maskedGame.solverStates.size() == 1 && maskedGame.solverStates.containsKey(PTHREE.md5Hex)
-        assert maskedGame.wordPhraseSetter == PTWO.md5Hex
-        maskedState = maskedGame.solverStates[PTHREE.md5Hex]
+        assert maskedGame.solverStates.size() == 1 && maskedGame.solverStates.containsKey(PTHREE.md5)
+        assert maskedGame.wordPhraseSetter == PTWO.md5
+        maskedState = maskedGame.solverStates[PTHREE.md5]
         checkUnmaskedState(maskedState, state3)
-        assert maskedState.featureData == [(GameFeature.DrawGallows): PTWO.md5Hex, (GameFeature.Thieving): [true, true, false]]
+        assert maskedState.featureData == [(GameFeature.DrawGallows): PTWO.md5, (GameFeature.Thieving): [true, true, false]]
     }
 
     protected void checkUnmaskedState(MaskedIndividualGameState maskedState, IndividualGameState state) {
@@ -281,11 +281,11 @@ class GameMaskerTest extends TwistedHangmanTestCase {
     }
 
     protected void checkMultiPlayerGame(MaskedGame maskedGame) {
-        assert maskedGame.players == [(PONE.md5Hex): PONE.displayName, (PTWO.md5Hex): PTWO.displayName, (PTHREE.md5Hex): PTHREE.displayName]
-        assert maskedGame.initiatingPlayer == PTWO.md5Hex
-        assert maskedGame.playerStates == [(PONE.md5Hex): PlayerChallengeState.Accepted, (PTWO.md5Hex): PlayerChallengeState.Rejected, (PTHREE.md5Hex): PlayerChallengeState.Pending]
-        assert maskedGame.playerScores == [(PONE.md5Hex): 5, (PTWO.md5Hex): 7, (PTHREE.md5Hex): -10]
-        assert maskedGame.featureData == [(GameFeature.DrawFace): "", (GameFeature.SingleWinner): PTWO.md5Hex]
+        assert maskedGame.players == [(PONE.md5): PONE.displayName, (PTWO.md5): PTWO.displayName, (PTHREE.md5): PTHREE.displayName]
+        assert maskedGame.initiatingPlayer == PTWO.md5
+        assert maskedGame.playerStates == [(PONE.md5): PlayerChallengeState.Accepted, (PTWO.md5): PlayerChallengeState.Rejected, (PTHREE.md5): PlayerChallengeState.Pending]
+        assert maskedGame.playerScores == [(PONE.md5): 5, (PTWO.md5): 7, (PTHREE.md5): -10]
+        assert maskedGame.featureData == [(GameFeature.DrawFace): "", (GameFeature.SingleWinner): PTWO.md5]
     }
 
     protected Game makeMultiPlayerGame(Player puzzler, LinkedHashMap<String, IndividualGameState> states) {
