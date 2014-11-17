@@ -1,7 +1,9 @@
 package com.jtbdevelopment.TwistedHangman
 
+import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.TwistedHangman.rest.config.JerseyConfig
@@ -68,6 +70,13 @@ class ServerIntegration {
 
     @AfterClass
     public static void tearDown() {
+        GameRepository gameRepository = applicationContext.getBean(GameRepository.class)
+        [TEST_PLAYER1, TEST_PLAYER2, TEST_PLAYER3].each {
+            Player p ->
+                gameRepository.findByPlayersId(p.id).each {
+                    gameRepository.delete(it)
+                }
+        }
         PlayerRepository playerRepository = applicationContext.getBean(PlayerRepository.class)
         playerRepository.delete(TEST_PLAYER1.id)
         playerRepository.delete(TEST_PLAYER2.id)
@@ -95,15 +104,50 @@ class ServerIntegration {
                 ),
                 MediaType.APPLICATION_JSON)
 
-        def path = ClientBuilder
+        def P1 = ClientBuilder
                 .newClient()
                 .target(PLAYERS_URI)
                 .path(TEST_PLAYER1.id)
-                .path("new")
-        MaskedGame p1Game = path
+        def P2 = ClientBuilder
+                .newClient()
+                .target(PLAYERS_URI)
+                .path(TEST_PLAYER2.id)
+        def P3 = ClientBuilder
+                .newClient()
+                .target(PLAYERS_URI)
+                .path(TEST_PLAYER3.id)
+
+        MaskedGame game
+        game = P1.path("new")
                 .request(MediaType.APPLICATION_JSON)
                 .post(entity, MaskedGame.class)
-        println p1Game
+
+        assert game.gamePhase == GamePhase.Challenge
+        assert game.solverStates[TEST_PLAYER1.md5] != null
+        assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase != ""
+        def P1G = P1.path("play").path(game.id)
+        def P2G = P2.path("play").path(game.id)
+        def P3G = P3.path("play").path(game.id)
+
+        def empty = Entity.entity("", MediaType.TEXT_PLAIN)
+
+        game = P2G.path("accept").request(MediaType.APPLICATION_JSON).put(empty, MaskedGame.class)
+        assert game.gamePhase == GamePhase.Challenge
+        assert game.solverStates[TEST_PLAYER2.md5] != null
+        assert game.solverStates[TEST_PLAYER2.md5].workingWordPhrase != ""
+        game = P3G.path("accept").request(MediaType.APPLICATION_JSON).put(empty, MaskedGame.class)
+        assert game.gamePhase == GamePhase.Playing
+        assert game.solverStates[TEST_PLAYER3.md5] != null
+        assert game.solverStates[TEST_PLAYER3.md5].workingWordPhrase != ""
+
+        game = P1G.path("steal").path("0").request(MediaType.APPLICATION_JSON).put(empty, MaskedGame.class)
+        assert game.gamePhase == GamePhase.Playing
+        assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase.charAt(0).letter
+        assert game.solverStates[TEST_PLAYER1.md5].penalties == 1
+        assert game.solverStates[TEST_PLAYER1.md5].penaltiesRemaining == 9
+        assert game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingCountTracking] == 1
+        assert game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingPositionTracking][0] == true
+        assert game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingPositionTracking][1] == false
     }
 
     @Test

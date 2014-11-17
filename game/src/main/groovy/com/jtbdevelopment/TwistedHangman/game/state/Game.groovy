@@ -21,7 +21,7 @@ import java.time.ZonedDateTime
 @CompileStatic
 @CompoundIndexes([
         @CompoundIndex(name = "player_phase", def = "{'players._id': 1, 'gamePhase': 1}"),
-        @CompoundIndex(name = "player_id", def = "{'players._id':1}")
+        //@CompoundIndex(name = "player_id", def = "{'players._id':1}")
 ])
 public class Game implements Cloneable {
     @Id
@@ -48,7 +48,6 @@ public class Game implements Cloneable {
 
     @Indexed
     String initiatingPlayer
-    @Indexed
     List<Player> players = []  //  Ordered by turns, challengers etc
     Map<String, PlayerChallengeState> playerStates = [:]
 

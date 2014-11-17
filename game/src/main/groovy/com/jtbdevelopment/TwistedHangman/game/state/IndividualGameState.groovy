@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
 import groovy.transform.CompileStatic
+import org.springframework.data.annotation.PersistenceConstructor
 import org.springframework.data.annotation.Transient
 
 /**
@@ -43,6 +44,14 @@ class IndividualGameState {
         this.category = ""
         this.maxPenalties = BASE_PENALTIES
         this.features = Collections.unmodifiableSet(features ?: Collections.emptySet())
+    }
+
+    @PersistenceConstructor
+    public IndividualGameState(
+            final Set<GameFeature> features, final String wordPhraseString, final String workingWordPhraseString) {
+        this.features = features
+        setWorkingWordPhraseString(workingWordPhraseString)
+        setWordPhraseString(wordPhraseString)
     }
 
     public boolean isGameWon() {
