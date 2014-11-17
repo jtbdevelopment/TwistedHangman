@@ -31,12 +31,19 @@ class GamePlayServices {
     ChallengeResponseHandler responseHandler
     @Autowired
     SetPuzzleHandler puzzleHandler
+    @Autowired
+    GameGetterHandler gameGetterHandler
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    MaskedGame getGame() {
+        gameGetterHandler.handleAction(playerID.get(), gameID.get())
+    }
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Path("rematch")
     MaskedGame createRematch() {
-        //  TODO send back cleaned up one
         rematchHandler.handleAction(playerID.get(), gameID.get())
     }
 

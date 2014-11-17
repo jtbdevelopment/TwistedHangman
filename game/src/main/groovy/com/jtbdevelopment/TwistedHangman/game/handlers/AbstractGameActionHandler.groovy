@@ -47,7 +47,7 @@ abstract class AbstractGameActionHandler<T> extends AbstractHandler {
                 player)
     }
 
-    private static Game rotateTurnBasedGame(final Game game, final Player player) {
+    protected Game rotateTurnBasedGame(final Game game, final Player player) {
         if (game.gamePhase == GamePhase.Playing && game.features.contains(GameFeature.TurnBased)) {
             int index = game.players.indexOf(player) + 1
             if (index >= game.players.size()) {

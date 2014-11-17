@@ -20,6 +20,7 @@ import org.springframework.context.ApplicationContext
 
 import javax.ws.rs.client.ClientBuilder
 import javax.ws.rs.client.Entity
+import javax.ws.rs.client.WebTarget
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.UriBuilder
 
@@ -37,6 +38,7 @@ class ServerIntegration {
     static Player TEST_PLAYER3 = new Player(source: "MANUAL", id: "INTEGRATION-TEST-PLAYER3", disabled: false, displayName: "TEST PLAYER3")
 
     static ApplicationContext applicationContext
+    public static final EMPTY_PUTPOST = Entity.entity("", MediaType.TEXT_PLAIN)
 
     @BeforeClass
     public static void initialize() {
@@ -113,18 +115,19 @@ class ServerIntegration {
         def P2G = P2.path("play").path(game.id)
         def P3G = P3.path("play").path(game.id)
 
-        def empty = Entity.entity("", MediaType.TEXT_PLAIN)
 
-        game = P2G.path("accept").request(MediaType.APPLICATION_JSON).put(empty, MaskedGame.class)
+        game = putMG(P2G.path("accept"))
+        game = P2G.request(MediaType.APPLICATION_JSON).get(MaskedGame.class)
         assert game.gamePhase == GamePhase.Challenge
         assert game.solverStates[TEST_PLAYER2.md5] != null
         assert game.solverStates[TEST_PLAYER2.md5].workingWordPhrase != ""
-        game = P3G.path("accept").request(MediaType.APPLICATION_JSON).put(empty, MaskedGame.class)
+        game = putMG(P3G.path("accept"))
+        game = P3G.request(MediaType.APPLICATION_JSON).get(MaskedGame.class)
         assert game.gamePhase == GamePhase.Playing
         assert game.solverStates[TEST_PLAYER3.md5] != null
         assert game.solverStates[TEST_PLAYER3.md5].workingWordPhrase != ""
 
-        game = P1G.path("steal").path("0").request(MediaType.APPLICATION_JSON).put(empty, MaskedGame.class)
+        game = putMG(P1G.path("steal").path("0"))
         assert game.gamePhase == GamePhase.Playing
         assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase.charAt(0).letter
         assert game.solverStates[TEST_PLAYER1.md5].penalties == 1
@@ -138,19 +141,19 @@ class ServerIntegration {
         String wordPhrase = dbLoaded1.solverStates[TEST_PLAYER1.id].wordPhraseString
         Set<Character> chars = wordPhrase.toCharArray().findAll { it.letter }.collect { it } as Set
         def letter = chars.iterator().next()
-        game = P2G.path("guess").path(letter.toString()).request(MediaType.APPLICATION_JSON).put(empty, MaskedGame.class)
+        game = putMG(P2G.path("guess").path(letter.toString()))
         assert game.gamePhase == GamePhase.Playing
         assert game.solverStates[TEST_PLAYER2.md5].guessedLetters == [letter] as Set
 
         chars.each {
-            game = P3G.path("guess").path(it.toString()).request(MediaType.APPLICATION_JSON).put(empty, MaskedGame.class)
+            game = putMG(P3G.path("guess").path(it.toString()))
         }
         assert game.gamePhase == GamePhase.Rematch
         assert game.solverStates[TEST_PLAYER3.md5].guessedLetters == chars
         assert game.playerScores == [(TEST_PLAYER1.md5): 0, (TEST_PLAYER2.md5): 0, (TEST_PLAYER3.md5): 1]
         assert game.featureData[GameFeature.SingleWinner] == TEST_PLAYER3.md5
 
-        MaskedGame newGame = P2G.path("rematch").request(MediaType.APPLICATION_JSON).put(empty, MaskedGame.class)
+        MaskedGame newGame = putMG(P2G.path("rematch"))
         assert newGame.id != dbLoaded1.id
         Game dbLoaded2 = gameRepository.findOne(newGame.id)
         dbLoaded1 = gameRepository.findOne(dbLoaded1.id)
@@ -160,7 +163,11 @@ class ServerIntegration {
         assert newGame.players == game.players
         assert newGame.playerScores == game.playerScores
 
-        newGame = P1.path("play").path(newGame.id).path("reject").request(MediaType.APPLICATION_JSON).put(empty, MaskedGame.class)
+        newGame = putMG(P1.path("play").path(newGame.id).path("reject"))
         assert newGame.gamePhase == GamePhase.Declined
+    }
+
+    private static MaskedGame putMG(WebTarget webTarget) {
+        return webTarget.request(MediaType.APPLICATION_JSON).put(EMPTY_PUTPOST, MaskedGame.class)
     }
 }

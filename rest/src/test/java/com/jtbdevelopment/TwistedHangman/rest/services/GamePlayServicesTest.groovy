@@ -25,7 +25,32 @@ class GamePlayServicesTest extends GroovyTestCase {
         services.gameID.set(GID)
     }
 
-    void testAnnotations() {
+    void testGet() {
+        services.gameGetterHandler = [
+                handleAction: {
+                    String p, String g ->
+                        assert p == PID
+                        assert g == GID
+                        result
+                }
+        ] as GameGetterHandler
+        assert result.is(services.getGame())
+    }
+
+    void testGetAnnotations() {
+        def m = GamePlayServices.getMethod("getGame", [] as Class[])
+        assert (m.annotations.size() == 2 ||
+                (m.annotations.size() == (3) && m.isAnnotationPresent(TypeChecked.TypeCheckingInfo.class))
+        )
+        assert m.isAnnotationPresent(GET.class)
+        assert m.isAnnotationPresent(Produces.class)
+        assert m.getAnnotation(Produces.class).value() == [MediaType.APPLICATION_JSON]
+        assertFalse m.isAnnotationPresent(Path.class)
+    }
+
+
+    void testActionAnnotations() {
+
         Map<String, List<Object>> stuff = [
                 //  method: [name, params, path, path param values, consumes
                 "createRematch": ["rematch", [], [], []],
