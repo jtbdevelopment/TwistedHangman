@@ -14,7 +14,7 @@ import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 public class JerseyConfig extends ResourceConfig {
     public JerseyConfig(final String configFile) {
         register(RequestContextFilter.class);
-        packages("com.jtbdevelopment");
+        packages("com.jtbdevelopment.TwistedHangman");
         property("contextConfigLocation", "classpath:" + configFile);
         register(JacksonFeature.class);
         register(LoggingFilter.class);
