@@ -8,6 +8,8 @@ import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 /**
  * Date: 11/16/2014
  * Time: 3:50 PM
+ *
+ * Resource overrides some items which causes groovy issues
  */
 public class JerseyConfig extends ResourceConfig {
     public JerseyConfig(final String configFile) {

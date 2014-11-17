@@ -13,7 +13,7 @@ import java.net.URI;
  * Date: 11/11/14
  * Time: 10:12 PM
  */
-public class ExampleServer {
+public class ExampleGrizzlyServer {
     public static void main(final String[] args) throws Exception {
 
         URI baseUri = UriBuilder.fromUri("http://localhost/").port(9998).build();
