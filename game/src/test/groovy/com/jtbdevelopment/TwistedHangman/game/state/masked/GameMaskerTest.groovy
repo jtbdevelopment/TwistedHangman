@@ -53,8 +53,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         assert maskedGame.initiatingPlayer == PONE.md5
         assert maskedGame.playerStates == [(PONE.md5): PlayerChallengeState.Accepted]
         assert maskedGame.playerScores == [(PONE.md5): 5]
+        assert maskedGame.maskedForPlayerID == PONE.id
         assert maskedGame.maskedForPlayerMD5 == PONE.md5
-        assert maskedGame.maskedForPlayer == PONE
         assert maskedGame.wordPhraseSetter == Player.SYSTEM_PLAYER.md5
         assert maskedGame.featureData == game.featureData
 
@@ -117,8 +117,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         assert maskedGame.initiatingPlayer == PTWO.md5
         assert maskedGame.playerStates == [(PONE.md5): PlayerChallengeState.Accepted, (PTWO.md5): PlayerChallengeState.Rejected]
         assert maskedGame.playerScores == [(PONE.md5): 5, (PTWO.md5): 7]
+        assert maskedGame.maskedForPlayerID == PONE.id
         assert maskedGame.maskedForPlayerMD5 == PONE.md5
-        assert maskedGame.maskedForPlayer == PONE
         assert maskedGame.wordPhraseSetter == null
         assert maskedGame.featureData == [(GameFeature.DrawFace): "", (GameFeature.SingleWinner): PTWO.md5]
 
@@ -179,8 +179,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         checkUnmaskedGameFields(maskedGame, game)
         checkMultiPlayerGame(maskedGame)
         assert maskedGame.wordPhraseSetter == Player.SYSTEM_PLAYER.md5
+        assert maskedGame.maskedForPlayerID == PONE.id
         assert maskedGame.maskedForPlayerMD5 == PONE.md5
-        assert maskedGame.maskedForPlayer == PONE
         assert maskedGame.solverStates.size() == 1 && maskedGame.solverStates.containsKey(PONE.md5)
         MaskedIndividualGameState maskedState = maskedGame.solverStates[PONE.md5]
         checkUnmaskedState(maskedState, state1)
@@ -192,7 +192,6 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         checkMultiPlayerGame(maskedGame)
         assert maskedGame.wordPhraseSetter == Player.SYSTEM_PLAYER.md5
         assert maskedGame.maskedForPlayerMD5 == PTHREE.md5
-        assert maskedGame.maskedForPlayer == PTHREE
         assert maskedGame.solverStates.size() == 1 && maskedGame.solverStates.containsKey(PTHREE.md5)
         maskedState = maskedGame.solverStates[PTHREE.md5]
         checkUnmaskedState(maskedState, state3)
@@ -232,8 +231,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         MaskedGame maskedGame = masker.maskGameForPlayer(game, PTWO)
         checkUnmaskedGameFields(maskedGame, game)
         checkMultiPlayerGame(maskedGame)
+        assert maskedGame.maskedForPlayerID == PTWO.id
         assert maskedGame.maskedForPlayerMD5 == PTWO.md5
-        assert maskedGame.maskedForPlayer == PTWO
         assert maskedGame.solverStates.size() == 2 && maskedGame.solverStates.containsKey(PONE.md5) && maskedGame.solverStates.containsKey(PTHREE.md5)
         assert maskedGame.wordPhraseSetter == PTWO.md5
         MaskedIndividualGameState maskedState = maskedGame.solverStates[PONE.md5]
@@ -248,7 +247,6 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         checkUnmaskedGameFields(maskedGame, game)
         checkMultiPlayerGame(maskedGame)
         assert maskedGame.maskedForPlayerMD5 == PTHREE.md5
-        assert maskedGame.maskedForPlayer == PTHREE
         assert maskedGame.solverStates.size() == 1 && maskedGame.solverStates.containsKey(PTHREE.md5)
         assert maskedGame.wordPhraseSetter == PTWO.md5
         maskedState = maskedGame.solverStates[PTHREE.md5]
@@ -272,12 +270,12 @@ class GameMaskerTest extends TwistedHangmanTestCase {
     protected void checkUnmaskedGameFields(MaskedGame maskedGame, Game game) {
         assert maskedGame.id == game.id
         assert maskedGame.gamePhase == game.gamePhase
-        assert maskedGame.completed == game.completed
-        assert maskedGame.created == game.created
-        assert maskedGame.declined == game.declined
-        assert maskedGame.lastUpdate == game.lastUpdate
+        assert maskedGame.completed == (game.completed ? game.completed.toEpochSecond() : null)
+        assert maskedGame.created == (game.created ? game.created.toEpochSecond() : null)
+        assert maskedGame.declined == (game.declined ? game.declined.toEpochSecond() : null)
+        assert maskedGame.lastUpdate == (game.lastUpdate ? game.lastUpdate.toEpochSecond() : null)
+        assert maskedGame.rematched == (game.rematched ? game.rematched.toEpochSecond() : null)
         assert maskedGame.features == game.features
-        assert maskedGame.rematched == game.rematched
     }
 
     protected void checkMultiPlayerGame(MaskedGame maskedGame) {

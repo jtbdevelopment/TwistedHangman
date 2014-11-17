@@ -8,6 +8,8 @@ import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
 
+import java.time.ZonedDateTime
+
 /**
  * Date: 11/14/14
  * Time: 6:17 PM
@@ -18,7 +20,7 @@ class GameMasker {
     MaskedGame maskGameForPlayer(final Game game, final Player player) {
         MaskedGame playerMaskedGame = new MaskedGame()
 
-        playerMaskedGame.maskedForPlayer = player
+        playerMaskedGame.maskedForPlayerID = player.id
         playerMaskedGame.maskedForPlayerMD5 = player.md5
         copyUnmaskedData(game, playerMaskedGame)
         copyMaskedData(game, player, playerMaskedGame)
@@ -88,13 +90,17 @@ class GameMasker {
     }
 
     protected void copyUnmaskedData(final Game game, final MaskedGame playerMaskedGame) {
-        playerMaskedGame.completed = game.completed
-        playerMaskedGame.created = game.created
-        playerMaskedGame.declined = game.declined
-        playerMaskedGame.lastUpdate = game.lastUpdate
-        playerMaskedGame.rematched = game.rematched
+        playerMaskedGame.completed = convertTime(game.completed)
+        playerMaskedGame.created = convertTime(game.created)
+        playerMaskedGame.declined = convertTime(game.declined)
+        playerMaskedGame.lastUpdate = convertTime(game.lastUpdate)
+        playerMaskedGame.rematched = convertTime(game.rematched)
         playerMaskedGame.features.addAll(game.features)
         playerMaskedGame.gamePhase = game.gamePhase
         playerMaskedGame.id = game.id
+    }
+
+    protected Long convertTime(final ZonedDateTime value) {
+        value ? value.toEpochSecond() : null
     }
 }

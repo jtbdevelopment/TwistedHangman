@@ -3,11 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.state.masked
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.PlayerChallengeState
-import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
-import org.springframework.data.annotation.Transient
-
-import java.time.ZonedDateTime
 
 /**
  * Date: 11/2/2014
@@ -16,20 +12,17 @@ import java.time.ZonedDateTime
  * Represents the Game as masked for a specific player
  */
 @CompileStatic
-public class MaskedGame implements Cloneable {
-    @Transient
-    Player maskedForPlayer
-
+class MaskedGame implements Cloneable {
+    String maskedForPlayerID
     String maskedForPlayerMD5
 
     String id
 
-    //  TODO - these dates serialize hugely...
-    ZonedDateTime created
-    ZonedDateTime lastUpdate
-    ZonedDateTime declined
-    ZonedDateTime completed
-    ZonedDateTime rematched
+    Long created
+    Long lastUpdate
+    Long declined
+    Long completed
+    Long rematched
 
     GamePhase gamePhase
 

@@ -11,17 +11,17 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 class MaskedIndividualGameState {
-    String category;
-    String workingWordPhrase
-    int maxPenalties;
-    int moveCount = 0;
-    int penalties = 0;
-    Set<GameFeature> features = [] as Set
-    SortedSet<Character> badlyGuessedLetters = [] as SortedSet
-    SortedSet<Character> guessedLetters = [] as SortedSet
-    Map<GameFeature, Object> featureData = [:];  //  Any
-    boolean isGameWon;
-    boolean isGameLost;
-    boolean isGameOver;
-    int penaltiesRemaining;
+    public String category;
+    public String workingWordPhrase
+    public int maxPenalties;
+    public int moveCount = 0;
+    public int penalties = 0;
+    public Set<GameFeature> features = [] as Set
+    public SortedSet<Character> badlyGuessedLetters = [] as SortedSet
+    public SortedSet<Character> guessedLetters = [] as SortedSet
+    public Map<GameFeature, Object> featureData = [:];  //  Any
+    public boolean isGameWon;
+    public boolean isGameLost;
+    public boolean isGameOver;
+    public int penaltiesRemaining;
 }

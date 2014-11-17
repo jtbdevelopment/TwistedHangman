@@ -14,7 +14,6 @@ public class JerseyConfig extends ResourceConfig {
         register(RequestContextFilter.class);
         packages("com.jtbdevelopment");
         property("contextConfigLocation", "classpath:" + configFile);
-        register(JacksonConfig.class);
         register(JacksonFeature.class);
         register(LoggingFilter.class);
     }
