@@ -20,7 +20,6 @@ import java.time.ZonedDateTime
 @CompileStatic
 @Component
 class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
-    //  TODO - revisit rematch later on
     public static final ZoneId GMT = ZoneId.of("GMT")
     @Autowired
     protected SystemPuzzlerSetter systemPuzzlerSetter
