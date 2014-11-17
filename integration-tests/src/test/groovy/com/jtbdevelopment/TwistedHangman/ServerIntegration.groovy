@@ -7,12 +7,10 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
-import com.jtbdevelopment.TwistedHangman.rest.config.JerseyConfig
+import com.jtbdevelopment.TwistedHangman.rest.GrizzlyServerBuilder
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerGatewayService
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerServices
 import org.glassfish.grizzly.http.server.HttpServer
-import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory
-import org.glassfish.jersey.server.ResourceConfig
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
@@ -30,8 +28,8 @@ import javax.ws.rs.core.UriBuilder
  */
 class ServerIntegration {
     private static HttpServer SERVER;
-    private static final URI BASE_URI = UriBuilder.fromUri("http://localhost/").port(8998).build();
-    private static final URI PLAYERS_URI = BASE_URI.resolve("player")
+    private static final URI BASE_URI = UriBuilder.fromUri("http://localhost/api").port(8998).build();
+    private static final URI PLAYERS_URI = BASE_URI.resolve("api/player")
 
     static Player TEST_PLAYER1 = new Player(source: "MANUAL", id: "INTEGRATION-TEST-PLAYER1", disabled: false, displayName: "TEST PLAYER1")
     static Player TEST_PLAYER2 = new Player(source: "MANUAL", id: "INTEGRATION-TEST-PLAYER2", disabled: false, displayName: "TEST PLAYER2")
@@ -42,8 +40,7 @@ class ServerIntegration {
 
     @BeforeClass
     public static void initialize() {
-        ResourceConfig config = new JerseyConfig("spring-context-integration.xml");
-        SERVER = GrizzlyHttpServerFactory.createHttpServer(BASE_URI, config);
+        SERVER = GrizzlyServerBuilder.makeServer(BASE_URI, "spring-context-integration.xml")
         assert applicationContext != null
         PlayerRepository playerRepository = applicationContext.getBean(PlayerRepository.class)
         playerRepository.delete(TEST_PLAYER1.id)
