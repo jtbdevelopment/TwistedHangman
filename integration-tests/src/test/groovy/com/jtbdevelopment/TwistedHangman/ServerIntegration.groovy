@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman
 
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
+import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
@@ -15,11 +16,7 @@ import org.glassfish.jersey.server.ResourceConfig
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
-import org.springframework.beans.BeansException
 import org.springframework.context.ApplicationContext
-import org.springframework.context.ApplicationContextAware
-import org.springframework.context.annotation.Lazy
-import org.springframework.stereotype.Component
 
 import javax.ws.rs.client.ClientBuilder
 import javax.ws.rs.client.Entity
@@ -34,25 +31,12 @@ class ServerIntegration {
     private static HttpServer SERVER;
     private static final URI BASE_URI = UriBuilder.fromUri("http://localhost/").port(8998).build();
     private static final URI PLAYERS_URI = BASE_URI.resolve("player")
-    private static URI TEST_PLAYER1_URI;
-    private static URI TEST_PLAYER2_URI;
-    private static URI TEST_PLAYER3_URI;
 
-    private
     static Player TEST_PLAYER1 = new Player(source: "MANUAL", id: "INTEGRATION-TEST-PLAYER1", disabled: false, displayName: "TEST PLAYER1")
     static Player TEST_PLAYER2 = new Player(source: "MANUAL", id: "INTEGRATION-TEST-PLAYER2", disabled: false, displayName: "TEST PLAYER2")
     static Player TEST_PLAYER3 = new Player(source: "MANUAL", id: "INTEGRATION-TEST-PLAYER3", disabled: false, displayName: "TEST PLAYER3")
 
     static ApplicationContext applicationContext
-
-    @Component
-    @Lazy(false)
-    static class ContextListener implements ApplicationContextAware {
-        @Override
-        void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
-            ServerIntegration.applicationContext = applicationContext
-        }
-    }
 
     @BeforeClass
     public static void initialize() {
@@ -99,7 +83,7 @@ class ServerIntegration {
     void testPlayingAMultiPlayerGame() {
         def entity = Entity.entity(
                 new PlayerServices.FeaturesAndPlayers(
-                        features: [GameFeature.SystemPuzzles, GameFeature.Thieving, GameFeature.DrawFace] as Set,
+                        features: [GameFeature.SystemPuzzles, GameFeature.Thieving, GameFeature.DrawFace, GameFeature.SingleWinner] as Set,
                         players: [TEST_PLAYER2.md5, TEST_PLAYER3.md5]
                 ),
                 MediaType.APPLICATION_JSON)
@@ -148,10 +132,35 @@ class ServerIntegration {
         assert game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingCountTracking] == 1
         assert game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingPositionTracking][0] == true
         assert game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingPositionTracking][1] == false
-    }
 
-    @Test
-    void testY() {
-        println "t2"
+        GameRepository gameRepository = applicationContext.getBean(GameRepository.class)
+        Game dbLoaded1 = gameRepository.findOne(game.id)
+        String wordPhrase = dbLoaded1.solverStates[TEST_PLAYER1.id].wordPhraseString
+        Set<Character> chars = wordPhrase.toCharArray().findAll { it.letter }.collect { it } as Set
+        def letter = chars.iterator().next()
+        game = P2G.path("guess").path(letter.toString()).request(MediaType.APPLICATION_JSON).put(empty, MaskedGame.class)
+        assert game.gamePhase == GamePhase.Playing
+        assert game.solverStates[TEST_PLAYER2.md5].guessedLetters == [letter] as Set
+
+        chars.each {
+            game = P3G.path("guess").path(it.toString()).request(MediaType.APPLICATION_JSON).put(empty, MaskedGame.class)
+        }
+        assert game.gamePhase == GamePhase.Rematch
+        assert game.solverStates[TEST_PLAYER3.md5].guessedLetters == chars
+        assert game.playerScores == [(TEST_PLAYER1.md5): 0, (TEST_PLAYER2.md5): 0, (TEST_PLAYER3.md5): 1]
+        assert game.featureData[GameFeature.SingleWinner] == TEST_PLAYER3.md5
+
+        MaskedGame newGame = P2G.path("rematch").request(MediaType.APPLICATION_JSON).put(empty, MaskedGame.class)
+        assert newGame.id != dbLoaded1.id
+        Game dbLoaded2 = gameRepository.findOne(newGame.id)
+        dbLoaded1 = gameRepository.findOne(dbLoaded1.id)
+        assert dbLoaded2.previousId == dbLoaded1.id
+        assert dbLoaded1.rematched != null
+        assert newGame.gamePhase == GamePhase.Challenge
+        assert newGame.players == game.players
+        assert newGame.playerScores == game.playerScores
+
+        newGame = P1.path("play").path(newGame.id).path("reject").request(MediaType.APPLICATION_JSON).put(empty, MaskedGame.class)
+        assert newGame.gamePhase == GamePhase.Declined
     }
 }
