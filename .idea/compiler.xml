@@ -27,6 +27,7 @@
         <module name="model" />
         <module name="rest" />
         <module name="utilities" />
+        <module name="webUI" />
       </profile>
     </annotationProcessing>
   </component>
