@@ -1,7 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.rest
 
 import com.jtbdevelopment.TwistedHangman.rest.config.JerseyConfig
-import org.glassfish.grizzly.http.server.CLStaticHttpHandler
 import org.glassfish.grizzly.http.server.HttpServer
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory
 import org.glassfish.jersey.server.ResourceConfig
@@ -16,8 +15,6 @@ class GrizzlyServerBuilder {
     static HttpServer makeServer(final URI baseUri, final String context) {
         ResourceConfig config = new JerseyConfig(context)
         HttpServer server = GrizzlyHttpServerFactory.createHttpServer(baseUri, config)
-        server.getServerConfiguration()
-                .addHttpHandler(new CLStaticHttpHandler(GrizzlyServerBuilder.class.getClassLoader(), "/static/"))
         server;
     }
 
