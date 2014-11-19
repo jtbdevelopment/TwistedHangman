@@ -19,6 +19,7 @@ import org.springframework.context.ApplicationContext
 import javax.ws.rs.client.ClientBuilder
 import javax.ws.rs.client.Entity
 import javax.ws.rs.client.WebTarget
+import javax.ws.rs.core.GenericType
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.UriBuilder
 
@@ -36,7 +37,7 @@ class ServerIntegration {
     static Player TEST_PLAYER3 = new Player(source: "MANUAL", id: "INTEGRATION-TEST-PLAYER3", disabled: false, displayName: "TEST PLAYER3")
 
     static ApplicationContext applicationContext
-    public static final EMPTY_PUTPOST = Entity.entity("", MediaType.TEXT_PLAIN)
+    public static final EMPTY_PUT_POST = Entity.entity("", MediaType.TEXT_PLAIN)
 
     @BeforeClass
     public static void initialize() {
@@ -160,11 +161,19 @@ class ServerIntegration {
         assert newGame.players == game.players
         assert newGame.playerScores == game.playerScores
 
+
+        GenericType<Collection<MaskedGame>> type = new GenericType<Collection<MaskedGame>>(Collection.class) {}
+        List<MaskedGame> games = P1.path("games/Playing").request(MediaType.APPLICATION_JSON).get(type)
+        assert games.empty
+        games = P1.path("games/Challenge").request(MediaType.APPLICATION_JSON).get(type)
+        assert games.size() == 1
+        assert games[0].id == newGame.id
+
         newGame = putMG(P1.path("play").path(newGame.id).path("reject"))
         assert newGame.gamePhase == GamePhase.Declined
     }
 
     private static MaskedGame putMG(WebTarget webTarget) {
-        return webTarget.request(MediaType.APPLICATION_JSON).put(EMPTY_PUTPOST, MaskedGame.class)
+        return webTarget.request(MediaType.APPLICATION_JSON).put(EMPTY_PUT_POST, MaskedGame.class)
     }
 }

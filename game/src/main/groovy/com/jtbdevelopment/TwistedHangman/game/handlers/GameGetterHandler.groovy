@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
@@ -11,15 +12,11 @@ import org.springframework.stereotype.Component
  */
 @Component
 @CompileStatic
-class GameGetterHandler extends AbstractGameActionHandler<Object> {
-    @Override
-    protected Game handleActionInternal(final Player player, final Game game, final Object param) {
-        return game
+class GameGetterHandler extends AbstractGameGetterHandler {
+    MaskedGame handleAction(final String playerID, final String gameID) {
+        Player player = loadPlayer(playerID)
+        Game game = loadGame(gameID)
+        validatePlayerForGame(game, player)
+        return gameMasker.maskGameForPlayer(game, player)
     }
-
-    @Override
-    protected Game rotateTurnBasedGame(final Game game, final Player player) {
-        return game
-    }
-
 }

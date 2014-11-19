@@ -1,6 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.dao
 
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.PagingAndSortingRepository
 
 /**
@@ -9,4 +11,6 @@ import org.springframework.data.repository.PagingAndSortingRepository
  */
 public interface GameRepository extends PagingAndSortingRepository<Game, String> {
     List<Game> findByPlayersId(final String id)
+
+    List<Game> findByPlayersIdAndGamePhase(final String id, final GamePhase gamePhase, final Pageable pageable)
 }
