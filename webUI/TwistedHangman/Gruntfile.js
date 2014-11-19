@@ -71,18 +71,72 @@ module.exports = function (grunt) {
         hostname: 'localhost',
         livereload: 35729
       },
+      proxies: [{
+        context: '/api', // the context of the data service
+        host: 'localhost', // wherever the data service is running
+        port: 9998 // the port that the data service is running on
+      }],
       livereload: {
         options: {
           open: true,
-          middleware: function (connect) {
+          middleware: function (connect, options) {
+            /*
+             // Setup the proxy
+             if (!Array.isArray(options.base)) {
+             options.base = [options.base];
+             }
+
+             // Setup the proxy
+             var middlewares = [require('grunt-connect-proxy/lib/utils').proxyRequest];
+
+             // Serve static files.
+             options.base.forEach(function(base) {
+             middlewares.push(connect.static(base));
+             });
+             var middlewares = [require('grunt-connect-proxy/lib/utils').proxyRequest];
+
+             // Make directory browse-able.
+             var directory = options.directory || options.base[options.base.length - 1];
+             middlewares.push(connect.directory(directory));
+             */
+            /*
+             var middlewares = [];
+
+             if (!Array.isArray(options.base)) {
+             options.base = [options.base];
+             }
+
+             // Setup the proxy
+             middlewares.push(require('grunt-connect-proxy/lib/utils').proxyRequest);
+
+             // Serve static files
+             options.base.forEach(function(base) {
+             middlewares.push(connect.static(base));
+             });
+             */
+
+            /*
+             middlewares.push([
+             connect.static('.tmp'),
+             connect().use(
+             '/bower_components',
+             connect.static('./bower_components')
+             ),
+             connect.static(appConfig.app)
+             ]);
+
+             return middlewares;
+             */
             return [
               connect.static('.tmp'),
               connect().use(
                 '/bower_components',
                 connect.static('./bower_components')
               ),
-              connect.static(appConfig.app)
+              connect.static(appConfig.app),
+              require('grunt-connect-proxy/lib/utils').proxyRequest
             ];
+
           }
         }
       },
@@ -365,6 +419,7 @@ module.exports = function (grunt) {
       'wiredep',
       'concurrent:server',
       'autoprefixer',
+      'configureProxies:server',
       'connect:livereload',
       'watch'
     ]);

@@ -2,8 +2,8 @@
 <html class="no-js">
 <head>
   <meta charset="utf-8">
-  <title></title>
-  <meta name="description" content="">
+  <title>Twisted Hangman!</title>
+  <meta name="description" conNtent="">
   <meta name="viewport" content="width=device-width">
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <!-- build:css(.) styles/vendor.css -->
@@ -22,21 +22,51 @@
 <![endif]-->
 
 <!-- Add your site or application content here -->
-<div class="container">
+<div class="container-fluid">
   <div class="header">
     <ul class="nav nav-pills pull-right">
       <li class="active"><a ng-href="#">Home</a></li>
       <li><a ng-href="#/about">About</a></li>
-      <li><a ng-href="#">Contact</a></li>
+      <li><a ng-href="#/ping">Ping</a></li>
     </ul>
-    <h3 class="text-muted">twistedHangman</h3>
+    <h3 class="text-muted">Twisted Hangman</h3>
+  </div>
+</div>
+
+<div class="container-fluid">
+
+
+  <div class="row">
+    <div id="leftsidebar" class="col-sm-2">
+      <div class="btn-group-vertical" id="activegamesX" ng-controller="ActiveGames">
+        <a ng-repeat="activeGame in activeGames" href="#/{{activeGame.id}}" role="button"
+           class="btn-group btn activeGameButton">
+          <span class="glyphicon glyphicon-heart"></span>
+            <span ng-repeat="(key, value) in activeGame.players">{{value}}
+              <span ng-show=" ! $last ">, </span>
+            </span>
+        </a>
+      </div>
+      <div id="pendinggames">
+        <ul>
+
+        </ul>
+      </div>
+      <div id="createchallenge"></div>
+      <div id="pastgames"></div>
+    </div>
+
+    <div ng-view="" class="col-sm-6"></div>
+
+    <div id="adbar" class="col-sm-2">
+    </div>
+
+
   </div>
 
-  <div ng-view=""></div>
-
-  <div class="footer">
+  <!--div class="footer">
     <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
-  </div>
+  </div-->
 </div>
 
 
@@ -83,6 +113,7 @@
 <script src="scripts/app.js"></script>
 <script src="scripts/controllers/main.js"></script>
 <script src="scripts/controllers/about.js"></script>
+<script src="scripts/controllers/activeGames.js"></script>
 <!-- endbuild -->
 </body>
 </html>
