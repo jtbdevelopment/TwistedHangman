@@ -20,7 +20,7 @@ class GameGetterHandlerTest extends TwistedHangmanTestCase {
     private final Game gameParam = new Game()
     private final String gameId = "GAMEID"
 
-    public void testHandlerBaseOverridesRotatesTurn() {
+    public void testHandlerBasisc() {
         gameParam.players = [PTWO, PONE]
         gameParam.features.add(GameFeature.TurnBased)
         gameParam.featureData[GameFeature.TurnBased] = PONE.id

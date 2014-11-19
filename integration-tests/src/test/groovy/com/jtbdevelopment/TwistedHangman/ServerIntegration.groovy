@@ -165,9 +165,11 @@ class ServerIntegration {
         GenericType<Collection<MaskedGame>> type = new GenericType<Collection<MaskedGame>>(Collection.class) {}
         List<MaskedGame> games = P1.path("games/Playing").request(MediaType.APPLICATION_JSON).get(type)
         assert games.empty
-        games = P1.path("games/Challenge").request(MediaType.APPLICATION_JSON).get(type)
+        games = P1.path("games/Challenge").queryParam("page", 0).queryParam("pageSize", 5).request(MediaType.APPLICATION_JSON).get(type)
         assert games.size() == 1
         assert games[0].id == newGame.id
+        games = P1.path("games/Challenge").queryParam("page", 1).queryParam("pageSize", 5).request(MediaType.APPLICATION_JSON).get(type)
+        assert games.size() == 0
 
         newGame = putMG(P1.path("play").path(newGame.id).path("reject"))
         assert newGame.gamePhase == GamePhase.Declined
