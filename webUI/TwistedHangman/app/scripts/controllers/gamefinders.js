@@ -20,10 +20,11 @@ phases.map(function (phase) {
 
     var url = root + phase;
     var params = {params: {pageSize: 100}};
-    $http.get(url, params).success(function (data, status, headers, config) {
+    $http.get(url, params).success(function (data) {
       $scope.games = data;
     }).error(function (data, status, headers, config) {
       //  TODO
+      console.log(data + status + headers + config);
     });
   });
 });
