@@ -7,6 +7,10 @@ html * {
   box-sizing: border-box;
 }
 
+.btn-group-vertical {
+  width: 100%;
+}
+
 .btn-group {
   border: 1px;
   alignment: left;

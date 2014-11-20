@@ -34,12 +34,11 @@
 </div>
 
 <div class="container-fluid">
-
-
   <div class="row">
     <div id="leftsidebar" class="col-sm-2">
       <div id="createchallenge"></div>
-      <div class="btn-group-vertical" id="activegames" ng-controller="PlayingGames">
+      <div class="btn-group-vertical" ng-controller="PlayingGames">
+        <h4>Playing</h4>
         <a ng-repeat="game in games" href="#/{{game.id}}" role="button"
            class="btn-group btn activeGameButton">
           <span class="glyphicon glyphicon-heart"></span>
@@ -48,13 +47,58 @@
             </span>
         </a>
       </div>
-      <div id="pendinggames">
-        <ul>
-
-        </ul>
+      <div class="btn-group-vertical" ng-controller="SetupGames">
+        <h4>Setup</h4>
+        <a ng-repeat="game in games" href="#/{{game.id}}" role="button"
+           class="btn-group btn setupGameButton">
+          <span class="glyphicon glyphicon-bookmark"></span>
+            <span ng-repeat="(key, value) in game.players">{{value}}
+              <span ng-show=" ! $last ">, </span>
+            </span>
+        </a>
       </div>
-      <div id="pastgames"></div>
+      <div class="btn-group-vertical" ng-controller="ChallengeGames">
+        <h4>Challenges</h4>
+        <a ng-repeat="game in games" href="#/{{game.id}}" role="button"
+           class="btn-group btn challengeGameButton">
+          <span class="glyphicon glyphicon-bookmark"></span>
+            <span ng-repeat="(key, value) in game.players">{{value}}
+              <span ng-show=" ! $last ">, </span>
+            </span>
+        </a>
+      </div>
+      <div class="btn-group-vertical" ng-controller="RematchGames">
+        <h4>Rematch?</h4>
+        <a ng-repeat="game in games" href="#/{{game.id}}" role="button"
+           class="btn-group btn rematchGameButton">
+          <span class="glyphicon glyphicon-bookmark"></span>
+            <span ng-repeat="(key, value) in game.players">{{value}}
+              <span ng-show=" ! $last ">, </span>
+            </span>
+        </a>
+      </div>
+      <div class="btn-group-vertical" ng-controller="DeclinedGames">
+        <h4>Declined</h4>
+        <a ng-repeat="game in games" href="#/{{game.id}}" role="button"
+           class="btn-group btn declinedGameButton">
+          <span class="glyphicon glyphicon-bookmark"></span>
+            <span ng-repeat="(key, value) in game.players">{{value}}
+              <span ng-show=" ! $last ">, </span>
+            </span>
+        </a>
+      </div>
+      <div class="btn-group-vertical" ng-controller="RematchedGames">
+        <h4>Older Games</h4>
+        <a ng-repeat="game in games" href="#/{{game.id}}" role="button"
+           class="btn-group btn rematchedGameButton">
+          <span class="glyphicon glyphicon-bookmark"></span>
+            <span ng-repeat="(key, value) in game.players">{{value}}
+              <span ng-show=" ! $last ">, </span>
+            </span>
+        </a>
+      </div>
     </div>
+
 
     <div ng-view="" class="col-sm-6"></div>
 
