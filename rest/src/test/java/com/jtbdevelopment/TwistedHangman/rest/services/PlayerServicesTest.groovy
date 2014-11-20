@@ -1,7 +1,9 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
+import com.jtbdevelopment.TwistedHangman.game.handlers.GameFinderHandler
 import com.jtbdevelopment.TwistedHangman.game.handlers.NewGameHandler
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import groovy.transform.TypeChecked
 import org.glassfish.jersey.message.internal.OutboundJaxrsResponse
@@ -99,5 +101,73 @@ class PlayerServicesTest extends GroovyTestCase {
         def params = gameServices.parameterAnnotations
         assert params.length == 1
         assert params[0].length == 0
+    }
+
+    void testCreateFindGameAnnotations() {
+        def gameServices = PlayerServices.getMethod(
+                "gamesForPhase", [
+                GamePhase.class,
+                Integer.class,
+                Integer.class
+        ] as Class[])
+        assert (gameServices.annotations.size() == 3 ||
+                (gameServices.isAnnotationPresent(TypeChecked.TypeCheckingInfo) && gameServices.annotations.size() == 4)
+        )
+        assert gameServices.isAnnotationPresent(Path.class)
+        assert gameServices.getAnnotation(Path.class).value() == "games/{phase}"
+        assert gameServices.isAnnotationPresent(Produces.class)
+        assert gameServices.getAnnotation(Produces.class).value() == [MediaType.APPLICATION_JSON]
+        assert gameServices.isAnnotationPresent(GET.class)
+        def params = gameServices.parameterAnnotations
+        assert params.length == 3
+        assert params[0].length == 1
+        assert params[0][0].annotationType() == PathParam.class
+        assert ((PathParam) params[0][0]).value() == "phase"
+        assert params[1].length == 1
+        assert params[1][0].annotationType() == QueryParam.class
+        assert ((QueryParam) params[1][0]).value() == "page"
+        assert params[2].length == 1
+        assert params[2][0].annotationType() == QueryParam.class
+        assert ((QueryParam) params[2][0]).value() == "pageSize"
+    }
+
+    void testFindGames() {
+        List<MaskedGame> games = []
+        def APLAYER = "APLAYER"
+        playerServices.playerID.set(APLAYER)
+        GamePhase.values().each {
+            GamePhase gamePhase ->
+                playerServices.gameFinderHandler = [
+                        findGames: {
+                            String pid, GamePhase gp, int p, int ps ->
+                                assert pid == APLAYER
+                                assert gp == gamePhase
+                                assert p == 1
+                                assert ps == 20
+                                games
+                        }
+                ] as GameFinderHandler
+                assert games.is(playerServices.gamesForPhase(gamePhase, 1, 20))
+        }
+    }
+
+    void testFindGamesDefaults() {
+        List<MaskedGame> games = []
+        def APLAYER = "APLAYER"
+        playerServices.playerID.set(APLAYER)
+        GamePhase.values().each {
+            GamePhase gamePhase ->
+                playerServices.gameFinderHandler = [
+                        findGames: {
+                            String pid, GamePhase gp, int p, int ps ->
+                                assert pid == APLAYER
+                                assert gp == gamePhase
+                                assert p == PlayerServices.DEFAULT_PAGE
+                                assert ps == PlayerServices.DEFAULT_PAGE_SIZE
+                                games
+                        }
+                ] as GameFinderHandler
+                assert games.is(playerServices.gamesForPhase(gamePhase, null, null))
+        }
     }
 }

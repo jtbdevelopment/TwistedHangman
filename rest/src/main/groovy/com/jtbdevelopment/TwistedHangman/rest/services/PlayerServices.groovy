@@ -21,6 +21,9 @@ import javax.ws.rs.core.Response
 @Component
 @CompileStatic
 class PlayerServices {
+    public static int DEFAULT_PAGE_SIZE = 10
+    public static int DEFAULT_PAGE = 0
+
     ThreadLocal<String> playerID = new ThreadLocal<>()
 
     @Autowired
@@ -60,7 +63,7 @@ class PlayerServices {
             @PathParam("phase") final GamePhase gamePhase,
             @QueryParam("page") final Integer page,
             @QueryParam("pageSize") final Integer pageSize) {
-        gameFinderHandler.findGames(playerID.get(), gamePhase, page ?: 0, pageSize ?: 100)
+        gameFinderHandler.findGames(playerID.get(), gamePhase, page ?: DEFAULT_PAGE, pageSize ?: DEFAULT_PAGE_SIZE)
     }
 
 }
