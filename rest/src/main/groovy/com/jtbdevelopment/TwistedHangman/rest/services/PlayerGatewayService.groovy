@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
+import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -40,5 +41,15 @@ class PlayerGatewayService {
     @Path("ping")
     String ping() {
         return PING_RESULT
+    }
+
+    @GET
+    @Path("features")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<GameFeature, String> featuresAndDescriptions() {
+        GameFeature.values().findAll { GameFeature it -> !it.internal }.collectEntries() {
+            GameFeature it ->
+                [(it): it.description]
+        }
     }
 }

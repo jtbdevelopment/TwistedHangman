@@ -80,6 +80,13 @@ class ServerIntegration {
     }
 
     @Test
+    void testGetFeatures() {
+        //  TODO find out how to request map
+        String features = ClientBuilder.newClient().target(PLAYERS_URI).path("features").request(MediaType.APPLICATION_JSON_TYPE).get(String.class)
+        assert features == '{"Thieving":"Stealing A Puzzle Letter Allowed.","TurnBased":"Turn-based guessing.","SystemPuzzles":"Twisted Hangman provide the puzzles.","AlternatingPuzzleSetter":"Take turns setting the puzzle and watching others.","SingleWinner":"Only one winner.","DrawGallows":"Draw gallows too.","DrawFace":"Draw face too."}'
+    }
+
+    @Test
     void testPlayingAMultiPlayerGame() {
         def entity = Entity.entity(
                 new PlayerServices.FeaturesAndPlayers(
