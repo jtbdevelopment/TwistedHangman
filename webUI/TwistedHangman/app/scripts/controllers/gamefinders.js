@@ -18,6 +18,10 @@ phases.map(function (phase) {
   angular.module('twistedHangmanApp').controller(name, function ($scope, $http) {
     $scope.games = [];
 
+    $scope.style = phase.toLowerCase() + 'Button';
+    //  TODO - images
+    $scope.glyph = 'glyphicon-bookmark';
+    $scope.label = phase;
     var url = root + phase;
     var params = {params: {pageSize: 100}};
     $http.get(url, params).success(function (data) {

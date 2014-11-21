@@ -42,7 +42,12 @@
         </a>
       </div>
 
-      <div ng-include src="'views/gameButtons.html'"></div>
+      <twisted-game-button ng-controller="PlayingGames" ng-show="games.length > 0"></twisted-game-button>
+      <twisted-game-button ng-controller="SetupGames" ng-show="games.length > 0"></twisted-game-button>
+      <twisted-game-button ng-controller="ChallengeGames" ng-show="games.length > 0"></twisted-game-button>
+      <twisted-game-button ng-controller="RematchGames" ng-show="games.length > 0"></twisted-game-button>
+      <twisted-game-button ng-controller="DeclinedGames" ng-show="games.length > 0"></twisted-game-button>
+      <twisted-game-button ng-controller="RematchedGames" ng-show="games.length > 0"></twisted-game-button>
     </div>
 
 
@@ -104,6 +109,7 @@
 <script src="scripts/controllers/main.js"></script>
 <script src="scripts/controllers/about.js"></script>
 <script src="scripts/controllers/gamefinders.js"></script>
+<script src="scripts/directives/gameButtons.js"></script>
 <!-- endbuild -->
 </body>
 </html>
