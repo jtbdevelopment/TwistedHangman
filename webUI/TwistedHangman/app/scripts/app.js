@@ -23,9 +23,17 @@ angular
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .when('/create', {
-        templateUrl: 'views/create.html',
-        controller: 'CreateCtrl'
+      .when('/singleplayer', {
+        templateUrl: 'views/singleplayer.html',
+        controller: 'SinglePlayerCtrl'
+      })
+      .when('/twoplayer', {
+        templateUrl: 'views/twoplayer.html',
+        controller: 'TwoPlayerCtrl'
+      })
+      .when('/multiplayer', {
+        templateUrl: 'views/multiplayer.html',
+        controller: 'MultiPlayerCtrl'
       })
       .when('/about', {
         templateUrl: 'views/about.html',

@@ -8,5 +8,5 @@
  * Controller of the twistedHangmanApp
  */
 angular.module('twistedHangmanApp')
-  .controller('AboutCtrl', function ($scope) {
+  .controller('AboutCtrl', function () {
   });

@@ -26,6 +26,9 @@ phases.map(function (phase) {
 
     it('sets games to empty initially and then calls http', function () {
       expect(scope.games).toEqual([]);
+      expect(scope.label).toEqual(phase);
+      expect(scope.glyph).toEqual('glyphicon-bookmark');
+      expect(scope.style).toEqual(phase.toLowerCase() + 'Button');
       httpBackend.flush();
       expect(scope.games).toEqual(status);
     });
