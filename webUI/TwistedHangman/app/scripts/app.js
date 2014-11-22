@@ -15,7 +15,8 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'ui.bootstrap'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -24,7 +25,7 @@ angular
         controller: 'MainCtrl'
       })
       .when('/create', {
-        templateUrl: 'views/creategame/create.html',
+        templateUrl: 'views/create.html',
         controller: 'CreateCtrl'
       })
       .when('/about', {
