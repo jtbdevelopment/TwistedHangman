@@ -8,5 +8,9 @@
  * Controller of the twistedHangmanApp
  */
 angular.module('twistedHangmanApp')
-  .controller('MainCtrl', function () {
+  .controller('MainCtrl', function ($scope, twCurrentPlayerService) {
+    $scope.playerGreeting = 'Welcome ';
+    twCurrentPlayerService.currentPlayer().then(function (data) {
+      $scope.playerGreeting = $scope.playerGreeting + data.displayName;
+    });
   });

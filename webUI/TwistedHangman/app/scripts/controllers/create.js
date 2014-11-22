@@ -20,8 +20,12 @@ angular.module('twistedHangmanApp').controller('TwoPlayerCtrl', function ($scope
   });
 });
 
-angular.module('twistedHangmanApp').controller('MultiPlayerCtrl', function ($scope) {
+angular.module('twistedHangmanApp').controller('MultiPlayerCtrl', function ($scope, twGameFeatureService) {
   $scope.active = 'multi';
   $scope.baseFeatures = ['SinglePlayer, SystemPuzzles, SingleWinner'];
   $scope.thieving = true;
+  $scope.featureData = {};
+  twGameFeatureService.features().then(function (data) {
+    $scope.featureData = data;
+  });
 });
