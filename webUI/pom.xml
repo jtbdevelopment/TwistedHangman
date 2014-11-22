@@ -30,7 +30,7 @@
                         </goals>
                         <configuration>
                             <nodeVersion>v0.10.33</nodeVersion>
-                            <npmVersion>1.4.28</npmVersion>
+                            <npmVersion>2.1.9</npmVersion>
                         </configuration>
                     </execution>
 
