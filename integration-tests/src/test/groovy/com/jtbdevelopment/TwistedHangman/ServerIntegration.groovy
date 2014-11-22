@@ -80,10 +80,31 @@ class ServerIntegration {
     }
 
     @Test
+    void testGetCurrentPlayer() {
+        def p = ClientBuilder.newClient().target(PLAYERS_URI).path(TEST_PLAYER1.id).request(MediaType.APPLICATION_JSON).get(Player.class);
+        assert p.id == TEST_PLAYER1.id
+        assert p.disabled == TEST_PLAYER1.disabled
+        assert p.displayName == TEST_PLAYER1.displayName
+        assert p.md5 == TEST_PLAYER1.md5
+    }
+
+    @Test
     void testGetFeatures() {
-        //  TODO find out how to request map
-        String features = ClientBuilder.newClient().target(PLAYERS_URI).path("features").request(MediaType.APPLICATION_JSON_TYPE).get(String.class)
-        assert features == '{"Thieving":"Stealing A Puzzle Letter Allowed.","TurnBased":"Turn-based guessing.","SystemPuzzles":"Twisted Hangman provide the puzzles.","AlternatingPuzzleSetter":"Take turns setting the puzzle and watching others.","SingleWinner":"Only one winner.","DrawGallows":"Draw gallows too.","DrawFace":"Draw face too."}'
+        def features = ClientBuilder.newClient()
+                .target(PLAYERS_URI)
+                .path("features")
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .get(new GenericType<Map<String, String>>() {
+        })
+        assert features == [
+                "Thieving"               : "Stealing A Puzzle Letter Allowed.",
+                "TurnBased"              : "Turn-based guessing.",
+                "SystemPuzzles"          : "Twisted Hangman provide the puzzles.",
+                "AlternatingPuzzleSetter": "Take turns setting the puzzle and watching others.",
+                "SingleWinner"           : "Only one winner.",
+                "DrawGallows"            : "Draw gallows too.",
+                "DrawFace"               : "Draw face too."
+        ]
     }
 
     @Test

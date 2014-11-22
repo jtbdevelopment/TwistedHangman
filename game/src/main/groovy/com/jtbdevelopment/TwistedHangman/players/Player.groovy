@@ -15,7 +15,7 @@ import org.springframework.util.StringUtils
 //  This propagating to game table...
 //@CompoundIndex(unique = true, name = "id_source", def = "{'_id':1, 'source':1}")
 @CompileStatic
-class Player {
+class Player implements Cloneable {
 
     public static final String SYSTEM_ID_DISPLAY_NAME = "TwistedHangman"
     public static final String SYSTEM_ID_SOURCE = "System"

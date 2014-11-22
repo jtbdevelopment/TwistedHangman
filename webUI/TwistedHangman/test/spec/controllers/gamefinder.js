@@ -5,7 +5,7 @@ var phases = ['Playing', 'Setup', 'Challenge', 'Rematch', 'Declined', 'Rematched
 phases.map(function (phase) {
   var name = phase + 'Games';
   var test = 'Controller: ' + name + 'Games';
-  var url = '/api/player/54581119a962efc67353a45c/games/' + phase + '?pageSize=100';
+  var url = '/api/player/MANUAL1/games/' + phase + '?pageSize=100';
 
   describe(test, function () {
     // load the controller's module

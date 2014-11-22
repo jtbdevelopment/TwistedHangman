@@ -1,10 +1,12 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
+import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.handlers.GameFinderHandler
 import com.jtbdevelopment.TwistedHangman.game.handlers.NewGameHandler
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
+import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.TypeChecked
 import org.glassfish.jersey.message.internal.OutboundJaxrsResponse
 
@@ -169,5 +171,21 @@ class PlayerServicesTest extends GroovyTestCase {
                 ] as GameFinderHandler
                 assert games.is(playerServices.gamesForPhase(gamePhase, null, null))
         }
+    }
+
+    void testPlayerInfo() {
+        Player p = new Player(id: "x", displayName: "y", disabled: true, source: "here");
+        playerServices.playerRepository = [
+                findOne: {
+                    assert it == p.id
+                    return p.clone()
+                }
+        ] as PlayerRepository
+
+        playerServices.playerID.set(p.id)
+
+        def returned = playerServices.playerInfo()
+        assert p == returned
+        assert returned.toString() == p.toString()
     }
 }

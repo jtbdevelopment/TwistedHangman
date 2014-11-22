@@ -1,10 +1,12 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
+import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.handlers.GameFinderHandler
 import com.jtbdevelopment.TwistedHangman.game.handlers.NewGameHandler
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
+import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -32,6 +34,8 @@ class PlayerServices {
     NewGameHandler newGameHandler
     @Autowired
     GameFinderHandler gameFinderHandler
+    @Autowired
+    PlayerRepository playerRepository
 
     @Path("play/{gameID}")
     Object gamePlay(@PathParam("gameID") final String gameID) {
@@ -66,4 +70,9 @@ class PlayerServices {
         gameFinderHandler.findGames(playerID.get(), gamePhase, page ?: DEFAULT_PAGE, pageSize ?: DEFAULT_PAGE_SIZE)
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Player playerInfo() {
+        return playerRepository.findOne(playerID.get())
+    }
 }
