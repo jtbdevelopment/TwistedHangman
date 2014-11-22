@@ -24,15 +24,15 @@ angular
         controller: 'MainCtrl'
       })
       .when('/singleplayer', {
-        templateUrl: 'views/singleplayer.html',
+        templateUrl: 'views/creategame/singleplayer.html',
         controller: 'SinglePlayerCtrl'
       })
       .when('/twoplayer', {
-        templateUrl: 'views/twoplayer.html',
+        templateUrl: 'views/creategame/twoplayer.html',
         controller: 'TwoPlayerCtrl'
       })
       .when('/multiplayer', {
-        templateUrl: 'views/multiplayer.html',
+        templateUrl: 'views/creategame/multiplayer.html',
         controller: 'MultiPlayerCtrl'
       })
       .when('/about', {
