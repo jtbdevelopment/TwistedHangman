@@ -1,0 +1,46 @@
+<div ng-controller="CreateCtrl" role="tabpanel">
+  <ul class="nav nav-tabs">
+    <li role="presentation" class="active">
+      <a href="#singleplayer" target="_blank" data-toggle="tab">Single Player</a>
+    </li>
+    <li role="presentation">
+      <a href="#twoplayer" target="_blank" data-toggle="tab">Two Players</a>
+    </li>
+    <li role="presentation">
+      <a href="#multiplayer" target="_blank" data-toggle="tab">3+ Players</a>
+    </li>
+    <!--li role="presentation" ng-click="changeActive('single')" class="{{active == 'single' ? 'active' : 'inactive'}}"><a
+      href="#singleplayer">Single
+      Player</a></li>
+    <li role="presentation" ng-click="changeActive('two')" class="{{active == 'two' ? 'active' : 'inactive'}}"><a
+      href="#twoplayer">Two Players</a>
+    </li>
+    <li role="presentation" ng-click="changeActive('multi')" class="{{active == 'multi' ? 'active' : 'inactive'}}"><a
+      href="#multiplayer">3+ Players</a>
+    </li-->
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="singleplayer">
+      <form ng-submit="" ng-controller="SinglePlayerCtrl">
+        <div class="form-horizontal">
+          <span>Create A Single Player Game</span>
+
+          <div class="form-group">
+            <div class="check-box">
+              <input type="checkbox" ng-model="thieving">Thieving
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="tab-pane" id="twoplayer">
+      <form ng-submit="" ng-controller="TwoPlayerCtrl">
+        y
+        <p>{{featureData}}</p>
+      </form>
+    </div>
+    <div class="tab-pane" id="multiplayer">
+      3 or more
+    </div>
+  </div>
+</div>

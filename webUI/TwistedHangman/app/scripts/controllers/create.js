@@ -1,5 +1,11 @@
 'use strict';
 
+//  TODO - test
+
+
+angular.module('twistedHangmanApp').controller('CreateCtrl', function () {
+});
+
 angular.module('twistedHangmanApp').controller('SinglePlayerCtrl', function ($scope, twGameFeatureService) {
   $scope.active = 'single';
   $scope.baseFeatures = ['SinglePlayer, SystemPuzzles, SingleWinner'];
