@@ -1,19 +1,27 @@
 'use strict';
 
-angular.module('twistedHangmanApp').controller('SinglePlayerCtrl', function ($scope) {
-  $scope.active = 'single'
+angular.module('twistedHangmanApp').controller('SinglePlayerCtrl', function ($scope, twGameFeatureService) {
+  $scope.active = 'single';
   $scope.baseFeatures = ['SinglePlayer, SystemPuzzles, SingleWinner'];
   $scope.thieving = true;
+  $scope.featureData = {};
+  twGameFeatureService.features().then(function (data) {
+    $scope.featureData = data;
+  });
 });
 
-angular.module('twistedHangmanApp').controller('TwoPlayerCtrl', function ($scope) {
-  $scope.active = 'two'
+angular.module('twistedHangmanApp').controller('TwoPlayerCtrl', function ($scope, twGameFeatureService) {
+  $scope.active = 'two';
   $scope.baseFeatures = ['SinglePlayer, SystemPuzzles, SingleWinner'];
   $scope.thieving = true;
+  $scope.featureData = {};
+  twGameFeatureService.features().then(function (data) {
+    $scope.featureData = data;
+  });
 });
 
 angular.module('twistedHangmanApp').controller('MultiPlayerCtrl', function ($scope) {
-  $scope.active = 'multi'
+  $scope.active = 'multi';
   $scope.baseFeatures = ['SinglePlayer, SystemPuzzles, SingleWinner'];
   $scope.thieving = true;
 });

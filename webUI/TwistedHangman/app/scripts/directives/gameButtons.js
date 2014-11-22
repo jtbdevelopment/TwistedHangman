@@ -1,5 +1,6 @@
 'use strict';
 
+//  TODO - test
 angular.module('twistedHangmanApp').directive('twistedGameButton', function () {
   return {
     restrict: 'AE',
