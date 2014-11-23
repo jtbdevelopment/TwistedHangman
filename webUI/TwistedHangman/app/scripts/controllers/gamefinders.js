@@ -36,7 +36,6 @@ phases.map(function (phase) {
 
     $scope.$on('refreshGames', function (event, data) {
       if (data === '' || data === $scope.label) {
-        console.log('reload data=[' + data + '] for ' + $scope.label);
         $scope.reload();
       }
     });

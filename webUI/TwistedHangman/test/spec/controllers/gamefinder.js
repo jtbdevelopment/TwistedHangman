@@ -42,7 +42,7 @@ phases.map(function (phase) {
       rootScope.$broadcast('refreshGames', '');
       httpBackend.flush();
       expect(scope.games).toEqual(newStatus);
-    })
+    });
 
     it('refreshes on "refreshGames" broadcast with  params', function () {
       httpBackend.flush();
@@ -52,7 +52,7 @@ phases.map(function (phase) {
       rootScope.$broadcast('refreshGames', phase);
       httpBackend.flush();
       expect(scope.games).toEqual(newStatus);
-    })
+    });
 
     it('does not refreshes on "refreshGames" broadcast with non-matching param', function () {
       httpBackend.flush();
@@ -62,6 +62,6 @@ phases.map(function (phase) {
       expect(scope.games).toEqual(status);
       httpBackend.verifyNoOutstandingRequest();
       httpBackend.verifyNoOutstandingExpectation();
-    })
+    });
   });
 });
