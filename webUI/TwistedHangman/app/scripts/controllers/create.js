@@ -34,11 +34,8 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($scope, t
     if ($scope.players.length > 1) {
       $scope.players = [];
     }
-    if ($scope.puzzleSetter === 'AlternatingPuzzleSetter') {
-      $scope.puzzleSetter = 'SystemPuzzles';
-    }
     $scope.h2hEnabled = true;
-    $scope.alternatingEnabled = false;
+    $scope.alternatingEnabled = true;
     $scope.allFinishedEnabled = true;
     $scope.turnBasedEnabled = true;
   };
