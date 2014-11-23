@@ -3,11 +3,15 @@
 //  TODO - test
 
 
-var baseUrl = '/api/player/';
-var restUrl = '/new';
+var BASE_URL = '/api/player/';
+var REST_URL = '/new';
+var SINGLE_PLAYER = 'SinglePlayer';
+var TWO_PLAYERS = 'TwoPlayer';
+var MULTI_PLAYER = 'ThreePlus';
+var SYSTEM_PUZZLES = 'SystemPuzzles';
 
 angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScope, $scope, twGameFeatureService, twCurrentPlayerService, $http) {
-  $scope.url = baseUrl + twCurrentPlayerService.currentID() + restUrl;
+  $scope.url = BASE_URL + twCurrentPlayerService.currentID() + REST_URL;
   $scope.featureData = {};
   twGameFeatureService.features().then(function (data) {
     $scope.featureData = data;
@@ -16,21 +20,42 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
   $scope.drawGallows = '';
   $scope.drawFace = '';
   $scope.gamePace = '';
+  $scope.submitEnabled = false;
+  $scope.players = [];
+  $scope.playerCount = '';
+
+  $scope.calcSubmitEnabled = function () {
+    switch ($scope.playerCount) {
+      case    SINGLE_PLAYER:
+        $scope.submitEnabled = ($scope.players.length === 0);
+        break;
+      case    TWO_PLAYERS:
+        $scope.submitEnabled = ($scope.players.length === 1);
+        break;
+      case    MULTI_PLAYER:
+        $scope.submitEnabled = ($scope.players.length > 1);
+        break;
+      default:
+        $scope.submitEnabled = false;
+        break;
+    }
+  };
 
   $scope.setSinglePlayer = function () {
-    $scope.playerCount = 'SinglePlayer';
+    $scope.playerCount = SINGLE_PLAYER;
     $scope.players = [];
     $scope.gamePace = '';
-    $scope.puzzleSetter = 'SystemPuzzles';
+    $scope.puzzleSetter = SYSTEM_PUZZLES;
     $scope.winners = 'SingleWinner';
     $scope.h2hEnabled = false;
     $scope.alternatingEnabled = false;
     $scope.allFinishedEnabled = false;
     $scope.turnBasedEnabled = false;
+    $scope.calcSubmitEnabled();
   };
 
   $scope.setTwoPlayers = function () {
-    $scope.playerCount = 'TwoPlayer';
+    $scope.playerCount = TWO_PLAYERS;
     if ($scope.players.length > 1) {
       $scope.players = [];
     }
@@ -38,17 +63,19 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
     $scope.alternatingEnabled = true;
     $scope.allFinishedEnabled = true;
     $scope.turnBasedEnabled = true;
+    $scope.calcSubmitEnabled();
   };
 
   $scope.setThreePlayers = function () {
-    $scope.playerCount = 'ThreePlus';
+    $scope.playerCount = MULTI_PLAYER;
     if ($scope.puzzleSetter === '') {
-      $scope.puzzleSetter = 'SystemPuzzles';
+      $scope.puzzleSetter = SYSTEM_PUZZLES;
     }
     $scope.h2hEnabled = false;
     $scope.alternatingEnabled = true;
     $scope.allFinishedEnabled = true;
     $scope.turnBasedEnabled = true;
+    $scope.calcSubmitEnabled();
   };
 
   $scope.createGame = function () {
