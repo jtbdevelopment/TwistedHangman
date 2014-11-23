@@ -63,6 +63,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
     });
     $http.post($scope.url, {'players': players, 'features': featureSet}).success(function (data) {
       $rootScope.$broadcast('refreshGames', '');
+      // TODO
       console.log(data);
     }).error(function (data, status, headers, config) {
       //  TODO
