@@ -97,13 +97,13 @@ class ServerIntegration {
                 .get(new GenericType<Map<String, String>>() {
         })
         assert features == [
-                "Thieving"               : "Stealing A Puzzle Letter Allowed.",
-                "TurnBased"              : "Turn-based guessing.",
-                "SystemPuzzles"          : "Twisted Hangman provide the puzzles.",
-                "AlternatingPuzzleSetter": "Take turns setting the puzzle and watching others.",
-                "SingleWinner"           : "Only one winner.",
-                "DrawGallows"            : "Draw gallows too.",
-                "DrawFace"               : "Draw face too."
+                "Thieving"               : GameFeature.Thieving.description,
+                "TurnBased"              : GameFeature.TurnBased.description,
+                "SystemPuzzles"          : GameFeature.SystemPuzzles.description,
+                "AlternatingPuzzleSetter": GameFeature.AlternatingPuzzleSetter.description,
+                "SingleWinner"           : GameFeature.SingleWinner.description,
+                "DrawGallows"            : GameFeature.DrawGallows.description,
+                "DrawFace"               : GameFeature.DrawFace.description
         ]
     }
 
