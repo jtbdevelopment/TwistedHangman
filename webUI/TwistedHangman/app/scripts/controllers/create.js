@@ -7,9 +7,13 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function () {
 });
 
 angular.module('twistedHangmanApp').controller('SinglePlayerCtrl', function ($scope, twGameFeatureService) {
-  $scope.active = 'single';
-  $scope.baseFeatures = ['SinglePlayer, SystemPuzzles, SingleWinner'];
-  $scope.thieving = true;
+  $scope.puzzleSetter = 'SystemPuzzles';
+  $scope.winners = 'SingleWinner';
+  $scope.players = 'SinglePlayer';
+  $scope.thieving = 'Thieving';
+  $scope.drawGallows = '';
+  $scope.drawFace = '';
+  $scope.gamePace = '';
   $scope.featureData = {};
   twGameFeatureService.features().then(function (data) {
     $scope.featureData = data;
@@ -17,7 +21,6 @@ angular.module('twistedHangmanApp').controller('SinglePlayerCtrl', function ($sc
 });
 
 angular.module('twistedHangmanApp').controller('TwoPlayerCtrl', function ($scope, twGameFeatureService) {
-  $scope.active = 'two';
   $scope.baseFeatures = ['SinglePlayer, SystemPuzzles, SingleWinner'];
   $scope.thieving = true;
   $scope.featureData = {};
@@ -27,7 +30,6 @@ angular.module('twistedHangmanApp').controller('TwoPlayerCtrl', function ($scope
 });
 
 angular.module('twistedHangmanApp').controller('MultiPlayerCtrl', function ($scope, twGameFeatureService) {
-  $scope.active = 'multi';
   $scope.baseFeatures = ['SinglePlayer, SystemPuzzles, SingleWinner'];
   $scope.thieving = true;
   $scope.featureData = {};

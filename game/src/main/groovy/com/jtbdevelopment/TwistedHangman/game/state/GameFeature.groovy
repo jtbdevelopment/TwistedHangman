@@ -12,20 +12,20 @@ public enum GameFeature {
     TwoPlayer("2 Players", true, true, true),
     ThreePlus("3+ Players", true, true, true),
 
-    Thieving("Stealing A Puzzle Letter Allowed."),
+    Thieving("For a penalty, steal a letter from the puzzle."),
     ThievingCountTracking("Stolen Letter Count.", true, false),
     ThievingPositionTracking("Stolen Letter Markers.", true, false),
 
-    TurnBased("Turn-based guessing."),
+    TurnBased("Guessing and stealing is turn-based instead of live."),
 
     SystemPuzzles("Twisted Hangman provide the puzzles."),
-    AlternatingPuzzleSetter("Take turns setting the puzzle and watching others."),
+    AlternatingPuzzleSetter("Take turns setting the puzzle for other players.  The player does not play that round but can see the other players progress."),
 
-    SingleWinner("Only one winner."),
+    SingleWinner("Only one player can lose.  Game finishes when first person wins or all lose.  Unfinished games are counted as draws."),
 
 
-    DrawGallows("Draw gallows too.", false, false),
-    DrawFace("Draw face too.", false, false)
+    DrawGallows("Draw the gallows too, giving three extra chances.", false, false),
+    DrawFace("Draw the face too, giving four extra chances.", false, false)
 
     final boolean broadCategory
     final boolean internal

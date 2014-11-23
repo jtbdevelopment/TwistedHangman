@@ -15,8 +15,6 @@ describe('Controller: SinglePlayerCtrl', function () {
   }));
 
   it('initializes', function () {
-    expect(scope.active).toEqual('single');
-    expect(scope.thieving).toEqual(true);
   });
 });
 
@@ -35,8 +33,6 @@ describe('Controller: TwoPlayerCtrl', function () {
   }));
 
   it('initializes', function () {
-    expect(scope.active).toEqual('two');
-    expect(scope.thieving).toEqual(true);
   });
 });
 
@@ -56,7 +52,5 @@ describe('Controller: MultiPlayerCtrl', function () {
   }));
 
   it('initializes', function () {
-    expect(scope.active).toEqual('multi');
-    expect(scope.thieving).toEqual(true);
   });
 });
