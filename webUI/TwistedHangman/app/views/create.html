@@ -1,98 +1,97 @@
-<tabset justified="true" ng-controller="CreateCtrl" xmlns="http://www.w3.org/1999/html"
-        xmlns="http://www.w3.org/1999/html">
-  <tab heading="Single Player">
-    <form ng-submit="createGame()" ng-controller="SinglePlayerCtrl">
-      <table>
-        <thead></thead>
-        <tbody>
-        <tr>
-          <td><label>Puzzles Set By:</label></td>
-          <td>
-            <div class="btn-group">
-              <label class="btn" ng-model="puzzleSetter" btn-radio="'SystemPuzzles'"
-                     tooltip-placement="left" tooltip="{{featureData.SystemPuzzles}}">Generated Puzzles</label>
-              <!--  TODO tt -->
-              <label class="btn disabled" ng-model="puzzleSetter" btn-radio="''"
-                     tooltip-placement="left" tooltip="TODO">Head 2 Head</label>
-              <label class="btn disabled" ng-model="puzzleSetter" btn-radio="'AlternatingPuzzleSetter'"
-                     tooltip-placement="left" tooltip="{{featureData.AlternatingPuzzleSetter}}">Alternating
-                Player</label>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label>Game Ends When:</label>
-          </td>
-          <td>
-            <div class="btn-group">
-              <label class="btn disabled" ng-model="winners" btn-radio="''"
-                     tooltip-placement="left" tooltip="TODO">All Players Finish</label>
-              <label class="btn" ng-model="winners" btn-radio="'SingleWinner'"
-                     tooltip-placement="left" tooltip="{{featureData.SingleWinner}}">First Player Solves Puzzle</label>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label>Game Pace:</label>
-          </td>
-          <td>
-            <div class="btn-group">
-              <!--  TODO tt -->
-              <label class="btn" ng-model="gamePace" btn-radio="''"
-                     tooltip-placement="left" tooltip="TODO">Live</label>
-              <label class="btn disabled" ng-model="gamePace" btn-radio="'TurnBased'"
-                     tooltip-placement="left" tooltip="{{featureData.TurnBased}}">Turn Based</label>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label tooltip-placement="left" tooltip="{{featureData.Thieving}}">Allow Thieving:</label>
-          </td>
-          <td>
-            <div class="btn-group">
-              <label class=" btn" ng-model="thieving" btn-radio="'Thieving'">Yes</label>
-              <label class="btn" ng-model="thieving" btn-radio="''">No</label>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label tooltip-placement="left" tooltip="{{featureData.DrawFace}}">Draw Face:</label>
-          </td>
-          <td>
-            <div class="btn-group">
-              <label class=" btn" ng-model="drawFace" btn-radio="'DrawFace'">Yes</label>
-              <label class="btn" ng-model="drawFace" btn-radio="''">No</label>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label tooltip-placement="left" tooltip="{{featureData.DrawGallows}}">Draw Gallows:</label>
-          </td>
-          <td>
-            <div class="btn-group">
-              <label class=" btn" ng-model="drawGallows" btn-radio="'DrawGallows'">Yes</label>
-              <label class="btn" ng-model="drawGallows" btn-radio="''">No</label>
-            </div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <button class="submit">Go!</button>
-
-    </form>
-  </tab>
-  <tab heading="Two Players">
-    <form ng-submit="" ng-controller="TwoPlayerCtrl">
-      y
-      <p>{{featureData}}</p>
-    </form>
-  </tab>
-  <tab heading="3+ Players">
-    3 or more
-  </tab>
-</tabset>
+<form ng-submit="createGame()" ng-controller="CreateCtrl">
+  <table>
+    <thead></thead>
+    <tbody>
+    <tr>
+      <td><label>Number of Players:</label></td>
+      <td>
+        <div class="btn-group">
+          <label class="btn" ng-model="playerCount" ng-click="setSinglePlayer()" btn-radio="'SinglePlayer'">Single
+            Player</label>
+          <label class="btn" ng-model="playerCount" ng-click="setTwoPlayers()" btn-radio="'TwoPlayer'">Two
+            Players</label>
+          <label class="btn" ng-model="playerCount" ng-click="setThreePlayers()" btn-radio="'ThreePlus'">3+
+            Players</label>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td><label>Puzzles Set By:</label></td>
+      <td>
+        <div class="btn-group">
+          <label class="btn" ng-model="puzzleSetter" btn-radio="'SystemPuzzles'"
+                 tooltip-placement="bottom" tooltip="{{featureData.SystemPuzzles}}">Generated Puzzles</label>
+          <!--  TODO tt -->
+          <label class="btn" ng-disabled="!h2hEnabled" ng-model="puzzleSetter" btn-radio="''"
+                 tooltip-placement="bottom" tooltip="TODO">Head 2 Head</label>
+          <label class="btn" ng-disabled="!alternatingEnabled" ng-model="puzzleSetter"
+                 btn-radio="'AlternatingPuzzleSetter'"
+                 tooltip-placement="bottom" tooltip="{{featureData.AlternatingPuzzleSetter}}">Alternating
+            Player</label>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label>Game Ends When:</label>
+      </td>
+      <td>
+        <div class="btn-group">
+          <label class="btn" ng-disabled="!allFinishedEnabled" ng-model="winners" btn-radio="''"
+                 tooltip-placement="bottom" tooltip="TODO">All Players Finish</label>
+          <label class="btn" ng-model="winners" btn-radio="'SingleWinner'"
+                 tooltip-placement="bottom" tooltip="{{featureData.SingleWinner}}">First Player Solves Puzzle</label>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label>Game Pace:</label>
+      </td>
+      <td>
+        <div class="btn-group">
+          <!--  TODO tt -->
+          <label class="btn" ng-model="gamePace" btn-radio="''"
+                 tooltip-placement="bottom" tooltip="TODO">Live</label>
+          <label class="btn" ng-disabled="!turnBasedEnabled" ng-model="gamePace" btn-radio="'TurnBased'"
+                 tooltip-placement="bottom" tooltip="{{featureData.TurnBased}}">Turn Based</label>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label tooltip-placement="bottom" tooltip="{{featureData.Thieving}}">Allow Thieving:</label>
+      </td>
+      <td>
+        <div class="btn-group">
+          <label class=" btn" ng-model="thieving" btn-radio="'Thieving'">Yes</label>
+          <label class="btn" ng-model="thieving" btn-radio="''">No</label>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label tooltip-placement="bottom" tooltip="{{featureData.DrawFace}}">Draw Face:</label>
+      </td>
+      <td>
+        <div class="btn-group">
+          <label class=" btn" ng-model="drawFace" btn-radio="'DrawFace'">Yes</label>
+          <label class="btn" ng-model="drawFace" btn-radio="''">No</label>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label tooltip-placement="bottom" tooltip="{{featureData.DrawGallows}}">Draw Gallows:</label>
+      </td>
+      <td>
+        <div class="btn-group">
+          <label class=" btn" ng-model="drawGallows" btn-radio="'DrawGallows'">Yes</label>
+          <label class="btn" ng-model="drawGallows" btn-radio="''">No</label>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <button class="submit">Go!</button>
+</form>
