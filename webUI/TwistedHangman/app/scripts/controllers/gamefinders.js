@@ -23,11 +23,22 @@ phases.map(function (phase) {
     $scope.label = phase;
     var url = root + twCurrentPlayerService.currentID() + '/games/' + phase;
     var params = {params: {pageSize: 100}};
-    $http.get(url, params).success(function (data) {
-      $scope.games = data;
-    }).error(function (data, status, headers, config) {
-      //  TODO
-      console.log(data + status + headers + config);
+
+    $scope.reload = function () {
+      $http.get(url, params).success(function (data) {
+        $scope.games = data;
+      }).error(function (data, status, headers, config) {
+        //  TODO
+        console.log(data + status + headers + config);
+      });
+    };
+    $scope.reload();
+
+    $scope.$on('refreshGames', function (event, data) {
+      if (data === '' || data === $scope.label) {
+        console.log('reload data=[' + data + '] for ' + $scope.label);
+        $scope.reload();
+      }
     });
   });
 });

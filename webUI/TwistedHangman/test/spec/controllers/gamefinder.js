@@ -11,7 +11,7 @@ phases.map(function (phase) {
     // load the controller's module
     beforeEach(module('twistedHangmanApp'));
 
-    var ctrl, httpBackend, scope;
+    var ctrl, httpBackend, scope, rootScope;
     var status = [{'X': 1}, {'Y': 2}];
 
     // Initialize the controller and a mock scope
@@ -19,6 +19,7 @@ phases.map(function (phase) {
       scope = $rootScope.$new();
       httpBackend = $httpBackend;
       httpBackend.expectGET(url).respond(status);
+      rootScope = $rootScope;
       ctrl = $controller(name, {
         $scope: scope
       });
@@ -32,5 +33,35 @@ phases.map(function (phase) {
       httpBackend.flush();
       expect(scope.games).toEqual(status);
     });
+
+    it('refreshes on "refreshGames" broadcast with no params', function () {
+      httpBackend.flush();
+      expect(scope.games).toEqual(status);
+      var newStatus = [{'Y': 2}];
+      httpBackend.expectGET(url).respond(newStatus);
+      rootScope.$broadcast('refreshGames', '');
+      httpBackend.flush();
+      expect(scope.games).toEqual(newStatus);
+    })
+
+    it('refreshes on "refreshGames" broadcast with  params', function () {
+      httpBackend.flush();
+      expect(scope.games).toEqual(status);
+      var newStatus = [{'Y': 2}, {'Z': 5}];
+      httpBackend.expectGET(url).respond(newStatus);
+      rootScope.$broadcast('refreshGames', phase);
+      httpBackend.flush();
+      expect(scope.games).toEqual(newStatus);
+    })
+
+    it('does not refreshes on "refreshGames" broadcast with non-matching param', function () {
+      httpBackend.flush();
+      httpBackend.resetExpectations();
+      expect(scope.games).toEqual(status);
+      rootScope.$broadcast('refreshGames', 'BAD');
+      expect(scope.games).toEqual(status);
+      httpBackend.verifyNoOutstandingRequest();
+      httpBackend.verifyNoOutstandingExpectation();
+    })
   });
 });

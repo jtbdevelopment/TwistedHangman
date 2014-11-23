@@ -6,7 +6,7 @@
 var baseUrl = '/api/player/';
 var restUrl = '/new';
 
-angular.module('twistedHangmanApp').controller('CreateCtrl', function ($scope, twGameFeatureService, $window, twCurrentPlayerService, $http) {
+angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScope, $scope, twGameFeatureService, twCurrentPlayerService, $http) {
   $scope.url = baseUrl + twCurrentPlayerService.currentID() + restUrl;
   $scope.featureData = {};
   twGameFeatureService.features().then(function (data) {
@@ -61,7 +61,13 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($scope, t
         featureSet.push(data);
       }
     });
-    $http.post($scope.url, {'players': players, 'features': featureSet});
+    $http.post($scope.url, {'players': players, 'features': featureSet}).success(function (data) {
+      $rootScope.$broadcast('refreshGames', '');
+      console.log(data);
+    }).error(function (data, status, headers, config) {
+      //  TODO
+      console.log(data + status + headers + config);
+    });
   };
 
   //  Initialize
