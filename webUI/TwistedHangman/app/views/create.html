@@ -1,7 +1,7 @@
 <tabset justified="true" ng-controller="CreateCtrl" xmlns="http://www.w3.org/1999/html"
         xmlns="http://www.w3.org/1999/html">
   <tab heading="Single Player">
-    <form ng-submit="" ng-controller="SinglePlayerCtrl">
+    <form ng-submit="createGame()" ng-controller="SinglePlayerCtrl">
       <table>
         <thead></thead>
         <tbody>
@@ -80,13 +80,9 @@
             </div>
           </td>
         </tr>
-        <tr>
-          <td colspan="2">
-            <button class="submit">Go!</button>
-          </td>
-        </tr>
         </tbody>
       </table>
+      <button class="submit">Go!</button>
 
     </form>
   </tab>

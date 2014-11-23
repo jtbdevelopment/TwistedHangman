@@ -45,8 +45,7 @@ public enum GameFeature {
         ALLOWED_COMBINATIONS = [
                 //  Single Player
                 [SinglePlayer, SystemPuzzles, SingleWinner] as Set,
-                [SinglePlayer, SystemPuzzles, TurnBased, SingleWinner] as Set,
-                [SinglePlayer, SystemPuzzles, Thieving, TurnBased, SingleWinner] as Set,
+                [SinglePlayer, SystemPuzzles, Thieving, SingleWinner] as Set,
 
                 //  TWO PLAYER ONLY
                 //  Two players playing regular hangman against each other with their phrases, live, multiple winners

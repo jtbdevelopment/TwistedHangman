@@ -6,10 +6,13 @@
 angular.module('twistedHangmanApp').controller('CreateCtrl', function () {
 });
 
-angular.module('twistedHangmanApp').controller('SinglePlayerCtrl', function ($scope, twGameFeatureService) {
+var baseUrl = '/api/player/';
+var restUrl = '/new';
+
+angular.module('twistedHangmanApp').controller('SinglePlayerCtrl', function ($scope, twGameFeatureService, $window, twCurrentPlayerService, $http) {
   $scope.puzzleSetter = 'SystemPuzzles';
   $scope.winners = 'SingleWinner';
-  $scope.players = 'SinglePlayer';
+  $scope.playerCount = 'SinglePlayer';
   $scope.thieving = 'Thieving';
   $scope.drawGallows = '';
   $scope.drawFace = '';
@@ -18,6 +21,33 @@ angular.module('twistedHangmanApp').controller('SinglePlayerCtrl', function ($sc
   twGameFeatureService.features().then(function (data) {
     $scope.featureData = data;
   });
+  $scope.players = [];
+  $scope.url = baseUrl + twCurrentPlayerService.currentID() + restUrl;
+
+  $scope.createGame = function () {
+    $window.alert('puzzleSetter=' + $scope.puzzleSetter +
+      ', winners=' + $scope.winners +
+      ', playerCount=' + $scope.playerCount +
+      ', thieving=' + $scope.thieving +
+      ', drawGallows=' + $scope.drawGallows +
+      ', drawFace=' + $scope.drawFace +
+      ', gamePace=' + $scope.gamePace
+    );
+    var featureNames = ['puzzleSetter', 'playerCount', 'thieving', 'drawGallows', 'drawFace', 'gamePace'];
+    var featureSet = [];
+    featureNames.forEach(function (name) {
+      var data = $scope[name];
+      if ((typeof data !== 'undefined') && (data !== '')) {
+        featureSet.push(data);
+      }
+    });
+    var players = [];
+    $window.alert(featureSet);
+    $window.alert(players);
+    $window.alert($scope.url);
+    $window.alert(twCurrentPlayerService.currentID());
+    $http.post($scope.url, {'players': players, 'features': featureSet});
+  };
 });
 
 angular.module('twistedHangmanApp').controller('TwoPlayerCtrl', function ($scope, twGameFeatureService) {
