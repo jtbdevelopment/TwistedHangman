@@ -8,9 +8,10 @@ describe('Controller: CreateCtrl', function () {
   var ctrl, scope, http, q, rootScope, deferred;
 
   beforeEach(inject(function ($rootScope, $httpBackend, $q) {
-    rootScope = $rootScope.$new();
+    rootScope = $rootScope;
     http = $httpBackend;
     q = $q;
+    spyOn(rootScope, '$broadcast');
   }));
 
   // Initialize the controller and a mock scope
@@ -226,9 +227,10 @@ describe('Controller: CreateCtrl', function () {
     http.expectPOST('/api/player/MANUAL1/new', {
       players: [],
       features: ['SystemPuzzles', 'SinglePlayer', 'Thieving', 'SingleWinner']
-    }).respond();
+    }).respond({gamePhase: 'test'});
     scope.createGame();
     http.flush();
+    expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'test');
   });
 
   it('test create game submission 2player', function () {
@@ -241,20 +243,25 @@ describe('Controller: CreateCtrl', function () {
     http.expectPOST('/api/player/MANUAL1/new', {
       players: [],
       features: ['TwoPlayer', 'TurnBased', 'SingleWinner']
-    }).respond();
+    }).respond({gamePhase: 'test2'});
     scope.createGame();
     http.flush();
+    expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'test2');
   });
 
-  it('test create game submission 2player', function () {
+  it('test create game submission 3+player', function () {
     scope.setThreePlayers();
     scope.thieving = '';
     scope.players = ['x', 'y'];
     scope.winners = '';
     scope.gamePace = '';
-    http.expectPOST('/api/player/MANUAL1/new', {players: [], features: ['SystemPuzzles', 'ThreePlus']}).respond();
+    http.expectPOST('/api/player/MANUAL1/new', {
+      players: [],
+      features: ['SystemPuzzles', 'ThreePlus']
+    }).respond({gamePhase: 'test3'});
     scope.createGame();
     http.flush();
+    expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'test3');
   });
 
 });
