@@ -1,6 +1,6 @@
 <div class="btn-group-vertical">
   <h4>{{label}}<span class="badge">{{games.length}}</span></h4>
-  <a ng-repeat="game in games" href="#/{{game.id}}" role="button"
+  <a ng-repeat="game in games" href="#/show/{{game.id}}" role="button"
      class="btn-group btn {{style}}">
     <span class="glyphicon {{glyph}}"></span>
             <span ng-repeat="(key, value) in game.players">{{value}}

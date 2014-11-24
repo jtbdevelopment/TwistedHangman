@@ -8,6 +8,9 @@ angular.module('twistedHangmanApp').factory('twCurrentPlayerService', function (
     currentID: function () {
       return pid;
     },
+    currentPlayerBaseURL: function () {
+      return '/api/player/' + pid + '/';
+    },
     currentPlayer: function () {
       return $http.get('/api/player/' + pid, {cache: true}).then(function (response) {
         if (response.status === 200) {

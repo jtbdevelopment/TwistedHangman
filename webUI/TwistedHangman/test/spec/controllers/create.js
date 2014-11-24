@@ -27,6 +27,9 @@ describe('Controller: CreateCtrl', function () {
     var mockPlayerService = {
       currentID: function () {
         return 'MANUAL1';
+      },
+      currentPlayerBaseURL: function () {
+        return '/api/player/MANUAL1/';
       }
     };
 

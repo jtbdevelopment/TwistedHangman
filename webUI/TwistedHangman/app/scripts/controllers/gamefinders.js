@@ -1,7 +1,5 @@
 'use strict';
 
-var root = '/api/player/';
-
 /**
  * @ngdoc function
  * @name twistedHangmanApp.controller:MainCtrl
@@ -21,7 +19,7 @@ phases.map(function (phase) {
     //  TODO - images
     $scope.glyph = 'glyphicon-bookmark';
     $scope.label = phase;
-    var url = root + twCurrentPlayerService.currentID() + '/games/' + phase;
+    var url = twCurrentPlayerService.currentPlayerBaseURL() + 'games/' + phase;
     var params = {params: {pageSize: 100}};
 
     $scope.reload = function () {

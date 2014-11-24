@@ -1,20 +1,17 @@
 'use strict';
 
-//  TODO - test
-
-
-var BASE_URL = '/api/player/';
-var REST_URL = '/new';
 var SINGLE_PLAYER = 'SinglePlayer';
 var TWO_PLAYERS = 'TwoPlayer';
 var MULTI_PLAYER = 'ThreePlus';
 var SYSTEM_PUZZLES = 'SystemPuzzles';
 
 angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScope, $scope, twGameFeatureService, twCurrentPlayerService, $http) {
-  $scope.url = BASE_URL + twCurrentPlayerService.currentID() + REST_URL;
+  $scope.url = twCurrentPlayerService.currentPlayerBaseURL() + 'new';
   $scope.featureData = {};
   twGameFeatureService.features().then(function (data) {
     $scope.featureData = data;
+  }, function () {
+    //  TODO
   });
   $scope.thieving = 'Thieving';
   $scope.drawGallows = '';

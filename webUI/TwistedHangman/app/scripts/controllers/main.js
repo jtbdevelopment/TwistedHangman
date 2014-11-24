@@ -12,5 +12,7 @@ angular.module('twistedHangmanApp')
     $scope.playerGreeting = 'Welcome ';
     twCurrentPlayerService.currentPlayer().then(function (data) {
       $scope.playerGreeting = $scope.playerGreeting + data.displayName;
+    }, function () {
+      //  TODO
     });
   });
