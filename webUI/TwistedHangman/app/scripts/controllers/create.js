@@ -79,8 +79,9 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
   };
 
   $scope.createGame = function () {
-    var featureNames = ['puzzleSetter', 'playerCount', 'thieving', 'drawGallows', 'drawFace', 'gamePace'];
+    var featureNames = ['puzzleSetter', 'playerCount', 'thieving', 'drawGallows', 'drawFace', 'gamePace', 'winners'];
     var featureSet = [];
+    //  TODO - get md5s
     var players = [];
     featureNames.forEach(function (name) {
       var data = $scope[name];

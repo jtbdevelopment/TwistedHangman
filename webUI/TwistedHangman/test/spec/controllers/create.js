@@ -1,18 +1,43 @@
 'use strict';
 
 describe('Controller: CreateCtrl', function () {
+
   // load the controller's module
   beforeEach(module('twistedHangmanApp'));
 
-  var ctrl, scope, http;
+  var ctrl, scope, http, q, rootScope, deferred;
+
+  beforeEach(inject(function ($rootScope, $httpBackend, $q) {
+    rootScope = $rootScope.$new();
+    http = $httpBackend;
+    q = $q;
+  }));
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, $httpBackend) {
-    scope = $rootScope.$new();
-    http = $httpBackend;
+  beforeEach(inject(function ($controller) {
+    scope = rootScope.$new();
+    var mockFeatureService = {
+      features: function () {
+        deferred = q.defer();
+        return deferred.promise;
+      }
+    };
+
+    var mockPlayerService = {
+      currentID: function () {
+        return 'MANUAL1';
+      }
+    };
+
+
     ctrl = $controller('CreateCtrl', {
-      $scope: scope
+      $scope: scope,
+      twGameFeatureService: mockFeatureService,
+      twCurrentPlayerService: mockPlayerService
     });
+
+    deferred.resolve({});
+    rootScope.$apply();
   }));
 
   it('initializes', function () {
@@ -195,5 +220,42 @@ describe('Controller: CreateCtrl', function () {
     expect(scope.players).toEqual(['1', '2', '3']);
     expect(scope.submitEnabled).toBe(true);
   });
+
+  it('test create game submission sp', function () {
+    scope.setSinglePlayer();
+    http.expectPOST('/api/player/MANUAL1/new', {
+      players: [],
+      features: ['SystemPuzzles', 'SinglePlayer', 'Thieving', 'SingleWinner']
+    }).respond();
+    scope.createGame();
+    http.flush();
+  });
+
+  it('test create game submission 2player', function () {
+    scope.setTwoPlayers();
+    scope.thieving = '';
+    scope.players = ['x'];
+    scope.winners = 'SingleWinner';
+    scope.gamePace = 'TurnBased';
+    scope.puzzleSetter = '';
+    http.expectPOST('/api/player/MANUAL1/new', {
+      players: [],
+      features: ['TwoPlayer', 'TurnBased', 'SingleWinner']
+    }).respond();
+    scope.createGame();
+    http.flush();
+  });
+
+  it('test create game submission 2player', function () {
+    scope.setThreePlayers();
+    scope.thieving = '';
+    scope.players = ['x', 'y'];
+    scope.winners = '';
+    scope.gamePace = '';
+    http.expectPOST('/api/player/MANUAL1/new', {players: [], features: ['SystemPuzzles', 'ThreePlus']}).respond();
+    scope.createGame();
+    http.flush();
+  });
+
 });
 
