@@ -45,6 +45,7 @@ class GamePhaseTransitionEngine {
                 }
                 break;
             case GamePhase.Rematch:
+                //  TODO - auto-rematch?
                 if (game.rematched != null) {
                     return changeStateAndReevaluate(GamePhase.Rematched, game)
                 }
