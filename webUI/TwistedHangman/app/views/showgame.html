@@ -1,14 +1,22 @@
 <table>
   <tbody>
   <tr>
-    <td rowspan="5">
+    <td rowspan="6">
       <img ng-src="images/{{image}}"/>
     </td>
     <td>
-      <label>Last Update:</label>
+      <label>Category:</label>
     </td>
     <td>
-      {{lastUpdate |date:'short'}}
+      {{gameState.category}}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label>Status:</label>
+    </td>
+    <td>
+      <label>{{game.gamePhase}}</label>
     </td>
   </tr>
   <tr>
@@ -21,10 +29,10 @@
   </tr>
   <tr>
     <td>
-      <label>Category:</label>
+      <label>Last Update:</label>
     </td>
     <td>
-      {{gameState.category}}
+      {{lastUpdate |date:'short'}}
     </td>
   </tr>
   <tr>
@@ -45,17 +53,13 @@
   </tr>
 
   <!--  End Picture  -->
-  <tr>
-    <td colspan="3">
-      <span ng-repeat="position in workingWordPhraseArray track by $index"
-            class="phrase {{workingWordPhraseClasses[$index]}}" ng-click="stealLetter({{$index}})">{{position}}</span>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="3">
-      <span ng-repeat="letter in letters track by $index" ng-click="sendGuess('{{letter}}')"
-            class="letter {{letterClasses[$index]}}"> {{letter}} </span>
-    </td>
-  </tr>
   </tbody>
 </table>
+<div ng-show="sharedScope.game.gamePhase === 'Playing'" ng-controller="PlayCtrl">
+      <span ng-repeat="position in workingWordPhraseArray track by $index"
+            class="phrase {{workingWordPhraseClasses[$index]}}" ng-click="stealLetter({{$index}})">{{position}}</span>
+
+  <p></p>
+      <span ng-repeat="letter in letters track by $index" ng-click="sendGuess('{{letter}}')"
+            class="letter {{letterClasses[$index]}}"> {{letter}} </span>
+</div>

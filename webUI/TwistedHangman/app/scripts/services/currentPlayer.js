@@ -12,6 +12,7 @@ angular.module('twistedHangmanApp').factory('twCurrentPlayerService', function (
       return '/api/player/' + pid + '/';
     },
     currentPlayer: function () {
+      //  TODO - local cookie?
       return $http.get('/api/player/' + pid, {cache: true}).then(function (response) {
         if (response.status === 200) {
           return response.data;
