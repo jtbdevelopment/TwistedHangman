@@ -28,6 +28,16 @@ html * {
   background-color: #ac2925;
 }
 
+.stolen {
+  color: red;
+}
 
+.badguess {
+  color: red;
+}
+
+.guessed {
+  color: green;
+}
 
 

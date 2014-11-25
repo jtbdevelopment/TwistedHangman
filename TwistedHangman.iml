@@ -20,8 +20,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: org.springframework.social:spring-social-config:1.1.0.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.social:spring-social-security:1.1.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy-all:2.3.7" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.gpars:gpars:1.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.multiverse:multiverse-core:0.7.0" level="project" />

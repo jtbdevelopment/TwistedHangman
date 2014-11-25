@@ -1,8 +1,60 @@
-<span>x{{gameID}}</span>
-<span>y{{gameState.maxPenalties}}</span>
-<span>z{{gameState.penalties}}</span>
-<span>e{{image}}</span>
-<img ng-src="images/{{image}}"/>
-{{game}}
-<p></p>
-{{player}}
+<table>
+  <tbody>
+  <tr>
+    <td rowspan="5">
+      <img ng-src="images/{{image}}"/>
+    </td>
+    <td>
+      <label>Last Update:</label>
+    </td>
+    <td>
+      {{lastUpdate |date:'short'}}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label>Started:</label>
+    </td>
+    <td>
+      {{created |date:'short'}}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label>Category:</label>
+    </td>
+    <td>
+      {{gameState.category}}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label>Penalties Remaining:</label>
+    </td>
+    <td>
+      {{gameState.penaltiesRemaining}}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label>Moves:</label>
+    </td>
+    <td>
+      {{gameState.moveCount}}
+    </td>
+  </tr>
+
+  <!--  End Picture  -->
+  <tr>
+    <td colspan="3">
+      <span ng-repeat="position in workingWordPhraseArray track by $index"
+            class="phrase {{workingWordPhraseClasses[$index]}}">{{position}}</span>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3">
+      <span ng-repeat="letter in letters track by $index" class="letter {{letterClasses[$index]}}"> {{letter}} </span>
+    </td>
+  </tr>
+  </tbody>
+</table>
