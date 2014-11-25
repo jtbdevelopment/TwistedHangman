@@ -48,12 +48,13 @@
   <tr>
     <td colspan="3">
       <span ng-repeat="position in workingWordPhraseArray track by $index"
-            class="phrase {{workingWordPhraseClasses[$index]}}">{{position}}</span>
+            class="phrase {{workingWordPhraseClasses[$index]}}" ng-click="stealLetter({{$index}})">{{position}}</span>
     </td>
   </tr>
   <tr>
     <td colspan="3">
-      <span ng-repeat="letter in letters track by $index" class="letter {{letterClasses[$index]}}"> {{letter}} </span>
+      <span ng-repeat="letter in letters track by $index" ng-click="sendGuess('{{letter}}')"
+            class="letter {{letterClasses[$index]}}"> {{letter}} </span>
     </td>
   </tr>
   </tbody>

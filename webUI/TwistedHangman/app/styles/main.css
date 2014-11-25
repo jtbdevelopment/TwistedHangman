@@ -1,6 +1,6 @@
 html * {
   margin: 0;
-  background-color: #e1c29d;
+  background-color: #c4e3f3;
   height: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -40,4 +40,12 @@ html * {
   color: green;
 }
 
+.phrase {
+  font-size: large;
+  letter-spacing: 3px;
+}
+
+.letter {
+  font-size: large;
+}
 

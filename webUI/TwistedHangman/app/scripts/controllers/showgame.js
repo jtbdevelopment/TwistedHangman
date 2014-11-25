@@ -2,7 +2,7 @@
 
 var LETTERA = 'A'.charCodeAt(0);
 
-angular.module('twistedHangmanApp').controller('ShowCtrl', function ($scope, $routeParams, $http, twCurrentPlayerService, $window) {
+angular.module('twistedHangmanApp').controller('ShowCtrl', function ($scope, $routeParams, $http, twCurrentPlayerService) {
   $scope.gameID = $routeParams.gameID;
   $scope.workingWordPhraseArray = [];
   $scope.workingWordPhraseClasses = [];
@@ -20,10 +20,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($scope, $ro
   });
 
   $http.get(twCurrentPlayerService.currentPlayerBaseURL() + 'play/' + $scope.gameID).success(function (data) {
-    $scope.game = data;
-    $scope.lastUpdate = new Date($scope.game.lastUpdate * 1000);
-    $scope.created = new Date($scope.game.created * 1000);
-    $scope.computeGameState();
+    processGame(data);
     //  TODO
     console.log(data);
   }).error(function (data, status, headers, config) {
@@ -31,17 +28,24 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($scope, $ro
     console.log(data + status + headers + config);
   });
 
-  $scope.computeGameState = function () {
+  function processGame(data) {
+    $scope.game = data;
+    $scope.lastUpdate = new Date($scope.game.lastUpdate * 1000);
+    $scope.created = new Date($scope.game.created * 1000);
+    computeGameState();
+  }
+
+  function computeGameState() {
     if (typeof $scope.player === 'undefined' || typeof $scope.game === 'undefined') {
       return;
     }
     $scope.gameState = $scope.game.solverStates[$scope.player.md5];
-    $scope.computeImage();
-    $scope.computeWordPhrase();
-    $scope.computeKeyboard();
-  };
+    computeImage();
+    computeWordPhrase();
+    computeKeyboard();
+  }
 
-  $scope.computeWordPhrase = function () {
+  function computeWordPhrase() {
     $scope.workingWordPhraseArray = $scope.gameState.workingWordPhrase.split('');
     for (var i = 0; i < $scope.workingWordPhraseArray.length; i++) {
       var r = 'regular';
@@ -50,9 +54,9 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($scope, $ro
       }
       $scope.workingWordPhraseClasses[i] = r;
     }
-  };
+  }
 
-  $scope.computeImage = function () {
+  function computeImage() {
     if ($scope.gameState.penalties === $scope.gameState.maxPenalties) {
       $scope.image = 'hangman13.png';
       return;
@@ -68,14 +72,36 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($scope, $ro
         break;
     }
     $scope.image = 'hangman' + n + '.png';
-  };
+  }
 
-  $scope.computeKeyboard = function () {
+  function computeKeyboard() {
     $scope.gameState.guessedLetters.forEach(function (item) {
       $scope.letterClasses[item.charCodeAt(0) - LETTERA] = 'guessed';
     });
     $scope.gameState.badlyGuessedLetters.forEach(function (item) {
       $scope.letterClasses[item.charCodeAt(0) - LETTERA] = 'badguess';
+    });
+  }
+
+  $scope.sendGuess = function (letter) {
+    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + 'play/' + $scope.gameID + '/guess/' + letter).success(function (data) {
+      processGame(data);
+      //  TODO
+      console.log(data);
+    }).error(function (data, status, headers, config) {
+      //  TODO
+      console.log(data + status + headers + config);
+    });
+  };
+
+  $scope.stealLetter = function (position) {
+    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + 'play/' + $scope.gameID + '/steal/' + position).success(function (data) {
+      processGame(data);
+      //  TODO
+      console.log(data);
+    }).error(function (data, status, headers, config) {
+      //  TODO
+      console.log(data + status + headers + config);
     });
   };
 });
