@@ -1,6 +1,6 @@
 'use strict';
 
-var sharedScope = {
+var sharedScopePlayCtrl = {
   game: {
     id: 'id',
     players: {'md1': 'P1', 'md2': 'P2', 'md3': 'P3', 'md4': 'P4'},
@@ -35,7 +35,7 @@ describe('Controller: PlayCtrl', function () {
     var mockShowGameCache = {
       get: function (key) {
         if (key === 'scope') {
-          return sharedScope;
+          return sharedScopePlayCtrl;
         }
         return null;
       }
@@ -50,7 +50,7 @@ describe('Controller: PlayCtrl', function () {
   }));
 
   it('initializes', function () {
-    expect(scope.sharedScope).toEqual(sharedScope);
+    expect(scope.sharedScope).toEqual(sharedScopePlayCtrl);
   });
 
   it('guess letter', function () {

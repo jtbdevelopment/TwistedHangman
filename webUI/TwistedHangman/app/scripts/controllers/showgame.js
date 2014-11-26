@@ -60,7 +60,6 @@ angular.module('twistedHangmanApp').controller('RematchCtrl', function ($rootSco
   };
 });
 
-//  TODO - test
 angular.module('twistedHangmanApp').controller('GameSummaryCtrl', function ($scope, twShowGameCache) {
   $scope.sharedScope = twShowGameCache.get(SCOPE);
 
@@ -77,6 +76,9 @@ angular.module('twistedHangmanApp').controller('GameSummaryCtrl', function ($sco
     }
 
     var solverState = $scope.sharedScope.game.solverStates[md5];
+    if (typeof solverState === 'undefined') {
+      return 'Unknown';
+    }
     return solverState.isGameOver ? (solverState.isGameWon ? 'Solved' : 'Hung') : 'Incomplete';
   };
 
