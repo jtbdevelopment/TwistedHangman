@@ -7,9 +7,9 @@ var sharedScope;
 function computeWordPhrase() {
   sharedScope.workingWordPhraseArray = sharedScope.gameState.workingWordPhrase.split('');
   for (var i = 0; i < sharedScope.workingWordPhraseArray.length; i++) {
-    var r = 'regular';
+    var r = 'regularwp';
     if (typeof sharedScope.gameState.featureData.ThievingPositionTracking !== 'undefined') {
-      r = (sharedScope.gameState.featureData.ThievingPositionTracking[i] === true) ? 'stolen' : 'notstolen';
+      r = (sharedScope.gameState.featureData.ThievingPositionTracking[i] === true) ? 'stolenwp' : 'stealablewp';
     }
     sharedScope.workingWordPhraseClasses[i] = r;
   }
@@ -34,11 +34,12 @@ function computeImage() {
 }
 
 function computeKeyboard() {
+  //  TODO - show stolen letters when stealing auto gets the rest
   sharedScope.gameState.guessedLetters.forEach(function (item) {
-    sharedScope.letterClasses[item.charCodeAt(0) - LETTERA] = 'guessed';
+    sharedScope.letterClasses[item.charCodeAt(0) - LETTERA] = 'guessedkb';
   });
   sharedScope.gameState.badlyGuessedLetters.forEach(function (item) {
-    sharedScope.letterClasses[item.charCodeAt(0) - LETTERA] = 'badguess';
+    sharedScope.letterClasses[item.charCodeAt(0) - LETTERA] = 'badguesskb';
   });
 }
 
@@ -114,6 +115,25 @@ angular.module('twistedHangmanApp').controller('PlayCtrl', function ($rootScope,
   $scope.stealLetter = function (position) {
     $http.put(twCurrentPlayerService.currentPlayerBaseURL() + 'play/' + sharedScope.gameID + '/steal/' + position).success(function (data) {
       processUpdate($rootScope, data);
+    }).error(function (data, status, headers, config) {
+      //  TODO
+      console.log(data + status + headers + config);
+    });
+  };
+});
+
+angular.module('twistedHangmanApp').controller('RematchCtrl', function ($rootScope, $scope, $http, twCurrentPlayerService) {
+  $scope.sharedScope = sharedScope;
+
+  $scope.startRematch = function () {
+    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + 'play/' + sharedScope.gameID + '/rematch').success(function (data) {
+      $rootScope.$broadcast('refreshGames', data.gamePhase);
+      $rootScope.$broadcast('refreshGames', 'Rematched');
+      $rootScope.$broadcast('refreshGames', 'Rematch');
+      processGame(data);
+      //  TODO
+      console.log(data);
+      //  TODO - auto-navigate?
     }).error(function (data, status, headers, config) {
       //  TODO
       console.log(data + status + headers + config);

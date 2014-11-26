@@ -88,6 +88,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
     });
     $http.post($scope.url, {'players': players, 'features': featureSet}).success(function (data) {
       $rootScope.$broadcast('refreshGames', data.gamePhase);
+      // TODO - auto-navigate?
       // TODO
       console.log(data);
     }).error(function (data, status, headers, config) {

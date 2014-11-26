@@ -24,28 +24,33 @@ html * {
   color: #008800;
 }
 
-.playingButton span {
+.playingButton * {
   background-color: #ac2925;
+  color: #008800;
 }
 
-.stolen {
+.stolenwp {
   color: red;
 }
 
-.badguess {
+.stealablewp {
+  /*  TODO  */
+}
+
+.badguesskb {
   color: red;
 }
 
-.guessed {
+.guessedkb {
   color: green;
 }
 
-.phrase {
+.wordphrase {
   font-size: large;
   letter-spacing: 3px;
 }
 
-.letter {
+.keyboard {
   font-size: large;
 }
 

@@ -11,6 +11,9 @@ import groovy.transform.CompileStatic
  *
  * Represents the Game as masked for a specific player
  */
+
+//  TODO - add round counter
+//  TODO - add round score
 @CompileStatic
 class MaskedGame implements Cloneable {
     String maskedForPlayerID

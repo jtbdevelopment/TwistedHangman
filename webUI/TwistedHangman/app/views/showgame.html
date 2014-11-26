@@ -1,17 +1,9 @@
 <table>
   <tbody>
   <tr>
-    <td rowspan="6">
+    <td rowspan="5">
       <img ng-src="images/{{image}}"/>
     </td>
-    <td>
-      <label>Category:</label>
-    </td>
-    <td>
-      {{gameState.category}}
-    </td>
-  </tr>
-  <tr>
     <td>
       <label>Status:</label>
     </td>
@@ -56,10 +48,24 @@
   </tbody>
 </table>
 <div ng-show="sharedScope.game.gamePhase === 'Playing'" ng-controller="PlayCtrl">
-      <span ng-repeat="position in workingWordPhraseArray track by $index"
-            class="phrase {{workingWordPhraseClasses[$index]}}" ng-click="stealLetter({{$index}})">{{position}}</span>
+  <p>
+    {{gameState.category}}
+  </p>
 
-  <p></p>
+  <p>
+        <span ng-repeat="position in workingWordPhraseArray track by $index"
+              class="wordphrase {{workingWordPhraseClasses[$index]}}" ng-click="stealLetter({{$index}})" onfocus="">{{position}}</span>
+  </p>
+
+  <p>
       <span ng-repeat="letter in letters track by $index" ng-click="sendGuess('{{letter}}')"
-            class="letter {{letterClasses[$index]}}"> {{letter}} </span>
+            class="keyboard {{letterClasses[$index]}}"> {{letter}} </span>
+  </p>
+  <!--  TODO - disable stealing and keyboard when individial game is over but still playing... show word phrase on lost-->
+</div>
+<div ng-show="sharedScope.game.gamePhase === 'Rematch' || sharedScope.game.gamePhase === 'Rematched'">
+  <p>show score and final game state</p>
+</div>
+<div ng-show="sharedScope.game.gamePhase === 'Rematch'" ng-controller="RematchCtrl">
+  <button ng-click="startRematch()">Start Rematch</button>
 </div>

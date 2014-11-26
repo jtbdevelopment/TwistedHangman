@@ -53,6 +53,7 @@ class GameMasker {
         }
         game.solverStates.findAll {
             String p, IndividualGameState gameState ->
+                //  TODO - show other players games when game over
                 if (p == player.id || game.wordPhraseSetter == null || game.wordPhraseSetter == player.id) {
                     playerMaskedGame.solverStates[idmap[p].md5] = maskGameState(gameState, idmap)
                 }

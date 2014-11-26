@@ -17,11 +17,13 @@ import java.time.ZonedDateTime
  * Date: 11/2/2014
  * Time: 9:36 PM
  */
+
+//  TODO - add round counter
+//  TODO - add round score
 @Document
 @CompileStatic
 @CompoundIndexes([
         @CompoundIndex(name = "player_phase", def = "{'players._id': 1, 'gamePhase': 1}"),
-        //@CompoundIndex(name = "player_id", def = "{'players._id':1}")
 ])
 public class Game implements Cloneable {
     @Id
