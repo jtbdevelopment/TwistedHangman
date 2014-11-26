@@ -32,18 +32,9 @@ describe('Controller: ShowCtrl', function () {
       }
     };
 
-    var mockShowGameCache = {
-      get: function (key) {
-        if (key === 'scope') {
-          return sharedScope;
-        }
-        return null;
-      }
-    };
-
     var routeParams = {
       gameID: 'gameid'
-    }
+    };
 
     http.expectGET('/api/player/MANUAL1/play/gameid').respond(game);
 
@@ -53,7 +44,6 @@ describe('Controller: ShowCtrl', function () {
       $scope: scope,
       $window: window,
       twCurrentPlayerService: mockPlayerService,
-      twShowGameCache: mockShowGameCache,
       twShowGameService: showGameService
     });
 
