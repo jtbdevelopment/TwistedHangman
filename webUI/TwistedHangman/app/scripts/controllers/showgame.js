@@ -140,3 +140,32 @@ angular.module('twistedHangmanApp').controller('RematchCtrl', function ($rootSco
     });
   };
 });
+
+angular.module('twistedHangmanApp').controller('GameSummaryCtrl', function ($rootScope, $scope, $http, twCurrentPlayerService) {
+  $scope.sharedScope = sharedScope;
+
+  $scope.roleForPlayer = function (md5) {
+    if (md5 === sharedScope.game.puzzleSetter) {
+      return 'Set Puzzle';
+    }
+    return 'Solver';
+  };
+
+  $scope.gameEndForPlayer = function (md5) {
+    if (md5 === sharedScope.game.puzzleSetter) {
+      return 'N/A';
+    }
+
+    var solverState = sharedScope.game.solverStates[md5];
+    return solverState.isGameOver ? (solverState.isGameWon ? 'Solved' : 'Hung') : 'Incomplete';
+  };
+
+  $scope.gameScoreForPlayer = function (md5) {
+    //  TODO
+    return 0;
+  };
+
+  $scope.runningScoreForPlayer = function (md5) {
+    return sharedScope.game.playerScores[md5];
+  };
+});

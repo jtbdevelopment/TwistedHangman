@@ -61,10 +61,28 @@
       <span ng-repeat="letter in letters track by $index" ng-click="sendGuess('{{letter}}')"
             class="keyboard {{letterClasses[$index]}}"> {{letter}} </span>
   </p>
-  <!--  TODO - disable stealing and keyboard when individial game is over but still playing... show word phrase on lost-->
+  <!--  TODO - disable stealing and keyboard when individual game is over but still playing... show word phrase on lost-->
 </div>
-<div ng-show="sharedScope.game.gamePhase === 'Rematch' || sharedScope.game.gamePhase === 'Rematched'">
-  <p>show score and final game state</p>
+<div ng-show="sharedScope.game.gamePhase === 'Rematch' || sharedScope.game.gamePhase === 'Rematched'"
+     ng-controller="GameSummaryCtrl">
+  <table>
+    <thead>
+    <tr>
+      <th>Player</th>
+      <th>Role</th>
+      <th>Outcome</th>
+      <th>Score</th>
+      <th>Running Score</th>
+    </tr>
+    <tr ng-repeat="(md5, name) in sharedScope.game.players">
+      <td>{{name}}</td>
+      <td>{{roleForPlayer(md5)}}</td>
+      <td>{{gameEndForPlayer(md5)}}</td>
+      <td>{{gameScoreForPlayer(md5)}}</td>
+      <td>{{runningScoreForPlayer(md5)}}</td>
+    </tr>
+    </thead>
+  </table>
 </div>
 <div ng-show="sharedScope.game.gamePhase === 'Rematch'" ng-controller="RematchCtrl">
   <button ng-click="startRematch()">Start Rematch</button>
