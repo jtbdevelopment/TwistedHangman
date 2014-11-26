@@ -3,6 +3,7 @@ package com.jtbdevelopment.TwistedHangman.players
 import groovy.transform.CompileStatic
 import org.apache.commons.codec.digest.DigestUtils
 import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.index.CompoundIndex
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.util.StringUtils
@@ -14,6 +15,7 @@ import org.springframework.util.StringUtils
 @Document
 //  This propagating to game table...
 //@CompoundIndex(unique = true, name = "id_source", def = "{'_id':1, 'source':1}")
+@CompoundIndex(name = "id")
 @CompileStatic
 class Player implements Cloneable {
 
@@ -29,6 +31,7 @@ class Player implements Cloneable {
     @Id
     String id
     String source
+    @Indexed
     String displayName
     @Indexed
     private String md5
