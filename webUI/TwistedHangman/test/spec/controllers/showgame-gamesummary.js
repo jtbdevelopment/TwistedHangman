@@ -64,16 +64,4 @@ describe('Controller: GameSummary', function () {
   it('runningScoreForPlayer for player', function () {
 
   });
-  /*
-   game: {
-   id: 'id',
-   players: {'md1': 'P1', 'md2': 'P2', 'md3': 'P3', 'md4': 'P4'},
-   puzzleSetter: 'md4',
-   solverStates: {
-   'md1': {}
-   },
-   playerScores: {'md1': 0, 'md2': 2, 'md3': 10, 'md4': -3}
-   },
-   gameID: 'id'
-   */
 });
