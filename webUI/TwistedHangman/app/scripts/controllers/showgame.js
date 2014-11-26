@@ -1,5 +1,6 @@
 'use strict';
 
+var SCOPE = 'scope';
 var LETTERA = 'A'.charCodeAt(0);
 
 var sharedScope;
@@ -73,9 +74,13 @@ function processUpdate(rootScope, data) {
 
 
 //  TODO - testing
+angular.module('twistedHangmanApp').factory('showGameCache', ['$cacheFactory', function ($cacheFactory) {
+  return $cacheFactory('ShowGameCache');
+}]);
 
-angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope, $scope, $routeParams, $http, twCurrentPlayerService) {
+angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope, $scope, $routeParams, $http, twCurrentPlayerService, showGameCache) {
   sharedScope = $scope;
+  showGameCache.put(SCOPE, $scope);
   $scope.gameID = $routeParams.gameID;
   $scope.workingWordPhraseArray = [];
   $scope.workingWordPhraseClasses = [];
@@ -100,8 +105,8 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
   });
 });
 
-angular.module('twistedHangmanApp').controller('PlayCtrl', function ($rootScope, $scope, $http, twCurrentPlayerService) {
-  $scope.sharedScope = sharedScope;
+angular.module('twistedHangmanApp').controller('PlayCtrl', function ($rootScope, $scope, $http, twCurrentPlayerService, showGameCache) {
+  $scope.sharedScope = showGameCache.get(SCOPE);
 
   $scope.sendGuess = function (letter) {
     $http.put(twCurrentPlayerService.currentPlayerBaseURL() + 'play/' + sharedScope.gameID + '/guess/' + letter).success(function (data) {
@@ -122,8 +127,8 @@ angular.module('twistedHangmanApp').controller('PlayCtrl', function ($rootScope,
   };
 });
 
-angular.module('twistedHangmanApp').controller('RematchCtrl', function ($rootScope, $scope, $http, twCurrentPlayerService, $window) {
-  $scope.sharedScope = sharedScope;
+angular.module('twistedHangmanApp').controller('RematchCtrl', function ($rootScope, $scope, $http, twCurrentPlayerService, $window, showGameCache) {
+  $scope.sharedScope = showGameCache.get(SCOPE);
 
   $scope.startRematch = function () {
     $http.put(twCurrentPlayerService.currentPlayerBaseURL() + 'play/' + sharedScope.gameID + '/rematch').success(function (data) {
@@ -132,8 +137,6 @@ angular.module('twistedHangmanApp').controller('RematchCtrl', function ($rootSco
       $rootScope.$broadcast('refreshGames', 'Rematch');
       processGame(data);
       $window.location.replace('#/show/' + data.id);
-      //  TODO
-      console.log(data);
     }).error(function (data, status, headers, config) {
       //  TODO
       console.log(data + status + headers + config);
@@ -141,8 +144,8 @@ angular.module('twistedHangmanApp').controller('RematchCtrl', function ($rootSco
   };
 });
 
-angular.module('twistedHangmanApp').controller('GameSummaryCtrl', function ($rootScope, $scope, $http, twCurrentPlayerService) {
-  $scope.sharedScope = sharedScope;
+angular.module('twistedHangmanApp').controller('GameSummaryCtrl', function ($rootScope, $scope, showGameCache) {
+  $scope.sharedScope = showGameCache.get(SCOPE);
 
   $scope.roleForPlayer = function (md5) {
     if (md5 === sharedScope.game.puzzleSetter) {
