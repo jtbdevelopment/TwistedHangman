@@ -122,7 +122,7 @@ angular.module('twistedHangmanApp').controller('PlayCtrl', function ($rootScope,
   };
 });
 
-angular.module('twistedHangmanApp').controller('RematchCtrl', function ($rootScope, $scope, $http, twCurrentPlayerService) {
+angular.module('twistedHangmanApp').controller('RematchCtrl', function ($rootScope, $scope, $http, twCurrentPlayerService, $window) {
   $scope.sharedScope = sharedScope;
 
   $scope.startRematch = function () {
@@ -131,9 +131,9 @@ angular.module('twistedHangmanApp').controller('RematchCtrl', function ($rootSco
       $rootScope.$broadcast('refreshGames', 'Rematched');
       $rootScope.$broadcast('refreshGames', 'Rematch');
       processGame(data);
+      $window.location.replace('#/show/' + data.id);
       //  TODO
       console.log(data);
-      //  TODO - auto-navigate?
     }).error(function (data, status, headers, config) {
       //  TODO
       console.log(data + status + headers + config);

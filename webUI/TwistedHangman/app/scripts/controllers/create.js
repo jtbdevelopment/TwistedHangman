@@ -5,7 +5,7 @@ var TWO_PLAYERS = 'TwoPlayer';
 var MULTI_PLAYER = 'ThreePlus';
 var SYSTEM_PUZZLES = 'SystemPuzzles';
 
-angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScope, $scope, twGameFeatureService, twCurrentPlayerService, $http) {
+angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScope, $scope, twGameFeatureService, twCurrentPlayerService, $http, $window) {
   $scope.url = twCurrentPlayerService.currentPlayerBaseURL() + 'new';
   $scope.featureData = {};
   twGameFeatureService.features().then(function (data) {
@@ -88,7 +88,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
     });
     $http.post($scope.url, {'players': players, 'features': featureSet}).success(function (data) {
       $rootScope.$broadcast('refreshGames', data.gamePhase);
-      // TODO - auto-navigate?
+      $window.location.replace('#/show/' + data.id);
       // TODO
       console.log(data);
     }).error(function (data, status, headers, config) {

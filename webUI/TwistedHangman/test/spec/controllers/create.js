@@ -5,13 +5,14 @@ describe('Controller: CreateCtrl', function () {
   // load the controller's module
   beforeEach(module('twistedHangmanApp'));
 
-  var ctrl, scope, http, q, rootScope, deferred;
+  var ctrl, scope, http, q, rootScope, deferred, window;
 
   beforeEach(inject(function ($rootScope, $httpBackend, $q) {
     rootScope = $rootScope;
     http = $httpBackend;
     q = $q;
     spyOn(rootScope, '$broadcast');
+    window = {location: {replace: jasmine.createSpy()}};
   }));
 
   // Initialize the controller and a mock scope
@@ -33,11 +34,11 @@ describe('Controller: CreateCtrl', function () {
       }
     };
 
-
     ctrl = $controller('CreateCtrl', {
       $scope: scope,
       twGameFeatureService: mockFeatureService,
-      twCurrentPlayerService: mockPlayerService
+      twCurrentPlayerService: mockPlayerService,
+      $window: window
     });
 
     deferred.resolve({});
@@ -227,13 +228,15 @@ describe('Controller: CreateCtrl', function () {
 
   it('test create game submission sp', function () {
     scope.setSinglePlayer();
+    var varid = 'anid';
     http.expectPOST('/api/player/MANUAL1/new', {
       players: [],
       features: ['SystemPuzzles', 'SinglePlayer', 'Thieving', 'SingleWinner']
-    }).respond({gamePhase: 'test'});
+    }).respond({gamePhase: 'test', id: varid});
     scope.createGame();
     http.flush();
     expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'test');
+    expect(window.location.replace).toHaveBeenCalledWith('#/show/anid');
   });
 
   it('test create game submission 2player', function () {
@@ -243,13 +246,15 @@ describe('Controller: CreateCtrl', function () {
     scope.winners = 'SingleWinner';
     scope.gamePace = 'TurnBased';
     scope.puzzleSetter = '';
+    var varid = 'anid';
     http.expectPOST('/api/player/MANUAL1/new', {
       players: [],
       features: ['TwoPlayer', 'TurnBased', 'SingleWinner']
-    }).respond({gamePhase: 'test2'});
+    }).respond({gamePhase: 'test2', id: varid});
     scope.createGame();
     http.flush();
     expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'test2');
+    expect(window.location.replace).toHaveBeenCalledWith('#/show/anid');
   });
 
   it('test create game submission 3+player', function () {
@@ -258,13 +263,15 @@ describe('Controller: CreateCtrl', function () {
     scope.players = ['x', 'y'];
     scope.winners = '';
     scope.gamePace = '';
+    var varid = 'anid';
     http.expectPOST('/api/player/MANUAL1/new', {
       players: [],
       features: ['SystemPuzzles', 'ThreePlus']
-    }).respond({gamePhase: 'test3'});
+    }).respond({gamePhase: 'test3', id: varid});
     scope.createGame();
     http.flush();
     expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'test3');
+    expect(window.location.replace).toHaveBeenCalledWith('#/show/anid');
   });
 
 });
