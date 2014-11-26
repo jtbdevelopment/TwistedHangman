@@ -52,8 +52,6 @@ describe('Controller: RematchCtrl', function () {
       twShowGameCache: mockShowGameCache,
       twShowGameService: showGameService
     });
-
-    rootScope.$apply();
   }));
 
   it('initializes', function () {

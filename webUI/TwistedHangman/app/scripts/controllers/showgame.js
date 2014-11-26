@@ -23,7 +23,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
 });
 
 //  TODO - test
-angular.module('twistedHangmanApp').controller('PlayCtrl', function ($rootScope, $scope, $http, twCurrentPlayerService, twShowGameCache, twShowGameService) {
+angular.module('twistedHangmanApp').controller('PlayCtrl', function ($scope, $http, twCurrentPlayerService, twShowGameCache, twShowGameService) {
   $scope.sharedScope = twShowGameCache.get(SCOPE);
 
   $scope.sendGuess = function (letter) {
