@@ -45,6 +45,16 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
   }
 
   return {
+    initializeScope: function ($scope) {
+      twShowGameCache.put(SCOPE, $scope);
+      $scope.workingWordPhraseArray = [];
+      $scope.workingWordPhraseClasses = [];
+      $scope.letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+      $scope.letterClasses = [];
+      $scope.letters.forEach(function () {
+        $scope.letterClasses.push('regular');
+      });
+    },
     computeGameState: function () {
       var sharedScope = twShowGameCache.get(SCOPE);
       if (typeof sharedScope.player === 'undefined' || typeof sharedScope.game === 'undefined') {

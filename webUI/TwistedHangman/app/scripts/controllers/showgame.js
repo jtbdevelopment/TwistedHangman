@@ -3,15 +3,8 @@
 var SCOPE = 'scope';
 
 angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope, $scope, $routeParams, $http, twCurrentPlayerService, twShowGameCache, twShowGameService) {
-  twShowGameCache.put(SCOPE, $scope);
   $scope.gameID = $routeParams.gameID;
-  $scope.workingWordPhraseArray = [];
-  $scope.workingWordPhraseClasses = [];
-  $scope.letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-  $scope.letterClasses = [];
-  $scope.letters.forEach(function () {
-    $scope.letterClasses.push('regular');
-  });
+  twShowGameService.initializeScope($scope);
 
   twCurrentPlayerService.currentPlayer().then(function (data) {
     $scope.player = data;
@@ -50,7 +43,7 @@ angular.module('twistedHangmanApp').controller('PlayCtrl', function ($rootScope,
   };
 });
 
-angular.module('twistedHangmanApp').controller('RematchCtrl', function ($rootScope, $scope, $http, twCurrentPlayerService, $window, twShowGameCache, twShowGameService) {
+angular.module('twistedHangmanApp').controller('RematchCtrl', function ($rootScope, $scope, $http, $window, twCurrentPlayerService, twShowGameCache, twShowGameService) {
   $scope.sharedScope = twShowGameCache.get(SCOPE);
 
   $scope.startRematch = function () {

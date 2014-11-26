@@ -9,20 +9,21 @@ var sharedScope = {
       'md1': {}
     },
     playerScores: {'md1': 0, 'md2': 2, 'md3': 10, 'md4': -3}
-  }
+  },
+  gameID: 'id'
 };
 describe('Controller: RematchCtrl', function () {
   // load the controller's module
   beforeEach(module('twistedHangmanApp'));
 
-  var ctrl, scope, http, q, rootScope, deferred, window;
+  var ctrl, scope, http, rootScope, window, showGameService;
 
-  beforeEach(inject(function ($rootScope, $httpBackend, $q) {
+  beforeEach(inject(function ($rootScope, $httpBackend) {
     rootScope = $rootScope;
     http = $httpBackend;
-    q = $q;
     spyOn(rootScope, '$broadcast');
     window = {location: {replace: jasmine.createSpy()}};
+    showGameService = {processGame: jasmine.createSpy()};
   }));
 
   // Initialize the controller and a mock scope
@@ -36,18 +37,20 @@ describe('Controller: RematchCtrl', function () {
 
     var mockShowGameCache = {
       get: function (key) {
-        if (key == 'scope') {
-          return sharedScope
+        if (key === 'scope') {
+          return sharedScope;
         }
         return null;
       }
     };
 
     ctrl = $controller('RematchCtrl', {
+      $rootScope: rootScope,
       $scope: scope,
-      twCurrentPlayerService: mockPlayerService,
       $window: window,
-      showGameCache: mockShowGameCache
+      twCurrentPlayerService: mockPlayerService,
+      twShowGameCache: mockShowGameCache,
+      twShowGameService: showGameService
     });
 
     rootScope.$apply();
@@ -55,5 +58,18 @@ describe('Controller: RematchCtrl', function () {
 
   it('initializes', function () {
     expect(scope.sharedScope).toEqual(sharedScope);
+  });
+
+  it('post rematch', function () {
+    var newGame = {id: 'newid', gamePhase: 'X'};
+    http.expectPUT('/api/player/MANUAL1/play/id/rematch').respond(newGame);
+    scope.startRematch();
+    http.flush();
+
+    expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'X');
+    expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'Rematch');
+    expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'Rematched');
+    expect(window.location.replace).toHaveBeenCalledWith('#/show/newid');
+    expect(showGameService.processGame).toHaveBeenCalledWith(newGame);
   });
 });
