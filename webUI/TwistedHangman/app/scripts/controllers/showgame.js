@@ -2,6 +2,7 @@
 
 var SCOPE = 'scope';
 
+//  TODO - test
 angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope, $scope, $routeParams, $http, twCurrentPlayerService, twShowGameCache, twShowGameService) {
   $scope.gameID = $routeParams.gameID;
   twShowGameService.initializeScope($scope);
@@ -21,6 +22,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
   });
 });
 
+//  TODO - test
 angular.module('twistedHangmanApp').controller('PlayCtrl', function ($rootScope, $scope, $http, twCurrentPlayerService, twShowGameCache, twShowGameService) {
   $scope.sharedScope = twShowGameCache.get(SCOPE);
 
@@ -60,7 +62,8 @@ angular.module('twistedHangmanApp').controller('RematchCtrl', function ($rootSco
   };
 });
 
-angular.module('twistedHangmanApp').controller('GameSummaryCtrl', function ($rootScope, $scope, twShowGameCache, twShowGameService) {
+//  TODO - test
+angular.module('twistedHangmanApp').controller('GameSummaryCtrl', function ($rootScope, $scope, twShowGameCache) {
   $scope.sharedScope = twShowGameCache.get(SCOPE);
 
   $scope.roleForPlayer = function (md5) {
@@ -81,7 +84,7 @@ angular.module('twistedHangmanApp').controller('GameSummaryCtrl', function ($roo
 
   $scope.gameScoreForPlayer = function (md5) {
     //  TODO
-    return 0;
+    return md5.length - md5.length;
   };
 
   $scope.runningScoreForPlayer = function (md5) {
