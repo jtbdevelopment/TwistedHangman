@@ -94,7 +94,7 @@
     <tr>
       <td colspan="2">
         <div class="playerselect checkbox form-group ">
-          <label ng-repeat="friend in friends"
+          <label ng-repeat="friend in friends | orderBy:['-selected','name']"
                  class="form-control {{friend.enabled ? (friend.selected ? 'playerselected' : 'playerselectable'): 'disabled playerdisabled' }}">
             <input type="checkbox" ng-model="friend.selected" ng-disabled="!friend.enabled" ng-change="changePlayer()"/>
             {{friend.name}}
