@@ -73,7 +73,7 @@ describe('Service: currentPlayer', function () {
   });
 
   it('sets current friends with http', function () {
-    httpBackend.expectGET('/api/player/' + testID + '/friends').respond(friendResult)
+    httpBackend.expectGET('/api/player/' + testID + '/friends').respond(friendResult);
     expect(service.currentID()).toEqual(testID);
     var friends = null;
     service.friends().then(function (data) {
@@ -87,7 +87,7 @@ describe('Service: currentPlayer', function () {
   });
 
   it('multiple calls only one http friends', function () {
-    httpBackend.expectGET('/api/player/' + testID + '/friends').respond(friendResult)
+    httpBackend.expectGET('/api/player/' + testID + '/friends').respond(friendResult);
     expect(service.currentID()).toEqual(testID);
     var friends = null;
     service.friends().then(function (data) {

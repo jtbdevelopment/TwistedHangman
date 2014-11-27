@@ -13,6 +13,19 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
   }, function () {
     //  TODO
   });
+  $scope.friends = [];
+  twCurrentPlayerService.friends().then(function (data) {
+    angular.forEach(data, function (displayName, hash) {
+      $scope.friends.push({
+        md5: hash,
+        name: displayName,
+        selected: false,
+        enabled: false
+      });
+    });
+  }, function () {
+    //  TODO
+  });
   $scope.thieving = 'Thieving';
   $scope.drawGallows = '';
   $scope.drawFace = '';
@@ -21,7 +34,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
   $scope.players = [];
   $scope.playerCount = '';
 
-  $scope.calcSubmitEnabled = function () {
+  function calcSubmitEnabled() {
     switch ($scope.playerCount) {
       case    SINGLE_PLAYER:
         $scope.submitEnabled = ($scope.players.length === 0);
@@ -36,6 +49,41 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
         $scope.submitEnabled = false;
         break;
     }
+  }
+
+  function calcFriendsEnabledAndSelected() {
+    switch ($scope.playerCount) {
+      case    TWO_PLAYERS:
+        var moreFriendsEnabled = ($scope.players.length < 1);
+        $scope.friends.forEach(function (friend) {
+          if (!friend.selected) {
+            friend.enabled = moreFriendsEnabled;
+          }
+        });
+        break;
+      case    MULTI_PLAYER:
+        $scope.friends.forEach(function (friend) {
+          friend.enabled = true;
+        });
+        break;
+      default:
+        $scope.friends.forEach(function (friend) {
+          friend.enabled = false;
+          friend.selected = false;
+        });
+        break;
+    }
+  }
+
+  $scope.changePlayer = function () {
+    $scope.players = [];
+    $scope.friends.forEach(function (friend) {
+      if (friend.selected) {
+        $scope.players.push(friend.md5);
+      }
+    });
+    calcFriendsEnabledAndSelected();
+    calcSubmitEnabled();
   };
 
   $scope.setSinglePlayer = function () {
@@ -48,19 +96,24 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
     $scope.alternatingEnabled = false;
     $scope.allFinishedEnabled = false;
     $scope.turnBasedEnabled = false;
-    $scope.calcSubmitEnabled();
+    calcSubmitEnabled();
+    calcFriendsEnabledAndSelected();
   };
 
   $scope.setTwoPlayers = function () {
     $scope.playerCount = TWO_PLAYERS;
     if ($scope.players.length > 1) {
       $scope.players = [];
+      $scope.friends.forEach(function (friend) {
+        friend.selected = false;
+      });
     }
     $scope.h2hEnabled = true;
     $scope.alternatingEnabled = true;
     $scope.allFinishedEnabled = true;
     $scope.turnBasedEnabled = true;
-    $scope.calcSubmitEnabled();
+    calcSubmitEnabled();
+    calcFriendsEnabledAndSelected();
   };
 
   $scope.setThreePlayers = function () {
@@ -72,28 +125,27 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
     $scope.alternatingEnabled = true;
     $scope.allFinishedEnabled = true;
     $scope.turnBasedEnabled = true;
-    $scope.calcSubmitEnabled();
+    calcSubmitEnabled();
+    calcFriendsEnabledAndSelected();
   };
 
   $scope.createGame = function () {
     var featureNames = ['puzzleSetter', 'playerCount', 'thieving', 'drawGallows', 'drawFace', 'gamePace', 'winners'];
     var featureSet = [];
-    //  TODO - get md5s
-    var players = [];
     featureNames.forEach(function (name) {
       var data = $scope[name];
       if ((typeof data !== 'undefined') && (data !== '')) {
         featureSet.push(data);
       }
     });
-    $http.post($scope.url, {'players': players, 'features': featureSet}).success(function (data) {
+    $http.post($scope.url, {'players': $scope.players, 'features': featureSet}).success(function (data) {
       $rootScope.$broadcast('refreshGames', data.gamePhase);
       $window.location.replace('#/show/' + data.id);
       // TODO
       console.log(data);
     }).error(function (data, status, headers, config) {
       //  TODO
-      console.log(data + status + headers + config);
+      console.error(data + status + headers + config);
     });
   };
 

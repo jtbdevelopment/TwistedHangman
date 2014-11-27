@@ -1,3 +1,4 @@
+/*
 html * {
   margin: 0;
   background-color: #c4e3f3;
@@ -28,6 +29,7 @@ html * {
   background-color: #ac2925;
   color: #008800;
 }
+*/
 
 .stolenwp {
   color: red;
@@ -52,5 +54,38 @@ html * {
 
 .keyboard {
   font-size: large;
+}
+
+.playerselect {
+  margin: 4px;
+  border-radius: 4px;
+  border: 1px solid #D0D0D0;
+  overflow: auto;
+  float: left;
+  overflow-scrolling: auto;
+}
+
+.playerselect label {
+  float: left;
+}
+
+.playerselect label span {
+  text-align: center;
+  padding: 3px 0px;
+  display: block;
+}
+
+.playerselect label input {
+  position: absolute;
+  top: -20px;
+}
+
+.playerdisabled {
+  background-color: lightgray;
+}
+
+.playerselected {
+  background-color: darkgreen;
+  color: #000000;
 }
 
