@@ -7,6 +7,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.players.friendfinder.FriendFinder
 import groovy.transform.TypeChecked
 import org.glassfish.jersey.message.internal.OutboundJaxrsResponse
 
@@ -187,5 +188,18 @@ class PlayerServicesTest extends GroovyTestCase {
         def returned = playerServices.playerInfo()
         assert p == returned
         assert returned.toString() == p.toString()
+    }
+
+    void testGetFriends() {
+        playerServices.playerID.set('PID')
+        playerServices.friendFinder = [
+                findFriends: {
+                    String it ->
+                        assert it == 'PID'
+                        return ['1': '2', '3': '4', '5': '6']
+                }
+        ] as FriendFinder
+
+        assert playerServices.getFriends() == ['1': '2', '3': '4', '5': '6']
     }
 }

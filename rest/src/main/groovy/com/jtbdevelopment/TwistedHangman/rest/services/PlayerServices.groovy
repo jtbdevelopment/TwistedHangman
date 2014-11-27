@@ -7,6 +7,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.players.friendfinder.FriendFinder
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -36,6 +37,8 @@ class PlayerServices {
     GameFinderHandler gameFinderHandler
     @Autowired
     PlayerRepository playerRepository
+    @Autowired
+    FriendFinder friendFinder
 
     @Path("play/{gameID}")
     Object gamePlay(@PathParam("gameID") final String gameID) {
@@ -74,5 +77,12 @@ class PlayerServices {
     @Produces(MediaType.APPLICATION_JSON)
     public Player playerInfo() {
         return playerRepository.findOne(playerID.get())
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("friends")
+    public Map<String, String> getFriends() {
+        return friendFinder.findFriends(playerID.get())
     }
 }

@@ -89,6 +89,19 @@ class ServerIntegration {
     }
 
     @Test
+    void testGetFriends() {
+        WebTarget path = ClientBuilder.newClient()
+                .target(PLAYERS_URI)
+                .path(TEST_PLAYER1.id)
+                .path("friends")
+        Map<String, String> friends = path
+                .request(MediaType.APPLICATION_JSON)
+                .get(new GenericType<Map<String, String>>() {});
+        assert friends[TEST_PLAYER2.md5] == TEST_PLAYER2.displayName
+        assert friends[TEST_PLAYER3.md5] == TEST_PLAYER3.displayName
+    }
+
+    @Test
     void testGetFeatures() {
         def features = ClientBuilder.newClient()
                 .target(PLAYERS_URI)
