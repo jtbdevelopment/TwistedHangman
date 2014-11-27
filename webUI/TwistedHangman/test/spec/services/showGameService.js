@@ -83,7 +83,7 @@ describe('Service: showGameSevice', function () {
     scope.game = showGameServiceGame;
     service.initializeScope(scope);
     service.computeGameState();
-    expect(scope.gameState).toBe(md1SS)
+    expect(scope.gameState).toBe(md1SS);
     expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
     expect(scope.image).toEqual('hangman5.png');
     expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'regular']);
@@ -94,16 +94,16 @@ describe('Service: showGameSevice', function () {
     scope.player = player;
     scope.game = angular.copy(showGameServiceGame);
     service.initializeScope(scope);
-    scope.game.solverStates['md1'].maxPenalties = 13;
+    scope.game.solverStates.md1.maxPenalties = 13;
     service.computeGameState();
     expect(scope.image).toEqual('hangman2.png');
-    scope.game.solverStates['md1'].maxPenalties = 10;
+    scope.game.solverStates.md1.maxPenalties = 10;
     service.computeGameState();
     expect(scope.image).toEqual('hangman5.png');
-    scope.game.solverStates['md1'].maxPenalties = 9;
+    scope.game.solverStates.md1.maxPenalties = 9;
     service.computeGameState();
     expect(scope.image).toEqual('hangman2.png');
-    scope.game.solverStates['md1'].maxPenalties = 2;
+    scope.game.solverStates.md1.maxPenalties = 2;
     service.computeGameState();
     expect(scope.image).toEqual('hangman13.png');
   });
@@ -112,7 +112,7 @@ describe('Service: showGameSevice', function () {
     var scope = rootscope.$new();
     scope.player = player;
     scope.game = angular.copy(showGameServiceGame);
-    scope.game.solverStates['md1'].featureData.ThievingPositionTracking = [false, true, false, false, true];
+    scope.game.solverStates.md1.featureData.ThievingPositionTracking = [false, true, false, false, true];
     service.initializeScope(scope);
 
     service.computeGameState();
@@ -131,8 +131,8 @@ describe('Service: showGameSevice', function () {
     var update = angular.copy(showGameServiceGame);
     update.lastUpdate = 1345100;
     update.created = 1345000;
-    update.solverStates['md1'].penalties = 3;
-    update.solverStates['md1'].badlyGuessedLetters = ['X', 'Y', 'Z'];
+    update.solverStates.md1.penalties = 3;
+    update.solverStates.md1.badlyGuessedLetters = ['X', 'Y', 'Z'];
 
     service.processGame(update);
     expect(scope.lastUpdate).toEqual(new Date(1345100000));
@@ -152,8 +152,8 @@ describe('Service: showGameSevice', function () {
     var update = angular.copy(showGameServiceGame);
     update.lastUpdate = 1345100;
     update.created = 1345000;
-    update.solverStates['md1'].penalties = 3;
-    update.solverStates['md1'].badlyGuessedLetters = ['X', 'Y', 'Z'];
+    update.solverStates.md1.penalties = 3;
+    update.solverStates.md1.badlyGuessedLetters = ['X', 'Y', 'Z'];
 
 
     service.processUpdate(update);
@@ -176,8 +176,8 @@ describe('Service: showGameSevice', function () {
     var update = angular.copy(showGameServiceGame);
     update.lastUpdate = 1345100;
     update.created = 1345000;
-    update.solverStates['md1'].penalties = 3;
-    update.solverStates['md1'].badlyGuessedLetters = ['X', 'Y', 'Z'];
+    update.solverStates.md1.penalties = 3;
+    update.solverStates.md1.badlyGuessedLetters = ['X', 'Y', 'Z'];
     update.gamePhase = 'Y';
 
     service.processUpdate(update);
