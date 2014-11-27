@@ -1,8 +1,14 @@
 'use strict';
 
-var phases = ['Playing', 'Setup', 'Challenge', 'Rematch', 'Declined', 'Rematched'];
-
-phases.map(function (phase) {
+var phasesAndSymbols = {
+  Playing: 'play',
+  Setup: 'comment',
+  Challenge: 'inbox',
+  Rematch: 'repeat',
+  Declined: 'remove',
+  Rematched: 'flag'
+};
+angular.forEach(phasesAndSymbols, function (glyph, phase) {
   var name = phase + 'Games';
   var test = 'Controller: ' + name + 'Games';
   var url = '/api/player/MANUAL1/games/' + phase + '?pageSize=100';
@@ -28,7 +34,7 @@ phases.map(function (phase) {
     it('sets games to empty initially and then calls http', function () {
       expect(scope.games).toEqual([]);
       expect(scope.label).toEqual(phase);
-      expect(scope.glyph).toEqual('glyphicon-bookmark');
+      expect(scope.glyph).toEqual('glyphicon-' + glyph);
       expect(scope.style).toEqual(phase.toLowerCase() + 'Button');
       httpBackend.flush();
       expect(scope.games).toEqual(status);

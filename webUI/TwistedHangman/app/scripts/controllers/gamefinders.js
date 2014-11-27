@@ -8,16 +8,22 @@
  * Controller of the twistedHangmanApp
  */
 
-
-var phases = ['Playing', 'Setup', 'Challenge', 'Rematch', 'Declined', 'Rematched'];
-phases.map(function (phase) {
+var phasesAndSymbols = {
+  Playing: 'play',
+  Setup: 'comment',
+  Challenge: 'inbox',
+  Rematch: 'repeat',
+  Declined: 'remove',
+  Rematched: 'flag'
+};
+angular.forEach(phasesAndSymbols, function (glyph, phase) {
   var name = phase + 'Games';
   angular.module('twistedHangmanApp').controller(name, function ($scope, $http, twCurrentPlayerService) {
     $scope.games = [];
 
     $scope.style = phase.toLowerCase() + 'Button';
     //  TODO - images
-    $scope.glyph = 'glyphicon-bookmark';
+    $scope.glyph = 'glyphicon-' + glyph;
     $scope.label = phase;
     var url = twCurrentPlayerService.currentPlayerBaseURL() + '/games/' + phase;
     var params = {params: {pageSize: 100}};
