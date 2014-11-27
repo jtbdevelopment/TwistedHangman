@@ -3,7 +3,6 @@
 var SCOPE = 'scope';
 var LETTERA = 'A'.charCodeAt(0);
 
-//  TODO - testing
 angular.module('twistedHangmanApp').factory('twShowGameService', function ($rootScope, twShowGameCache) {
   function computeWordPhrase(sharedScope) {
     sharedScope.workingWordPhraseArray = sharedScope.gameState.workingWordPhrase.split('');
@@ -69,6 +68,7 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
     processGame: function (data) {
       var sharedScope = twShowGameCache.get(SCOPE);
       sharedScope.game = data;
+      //  TODO - convert to millis on server
       sharedScope.lastUpdate = new Date(sharedScope.game.lastUpdate * 1000);
       sharedScope.created = new Date(sharedScope.game.created * 1000);
       this.computeGameState();
@@ -82,8 +82,6 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
       if (data.gamePhase !== beforePhase) {
         $rootScope.$broadcast('refreshGames', beforePhase);
       }
-      //  TODO
-      console.log(data);
     }
   };
 
