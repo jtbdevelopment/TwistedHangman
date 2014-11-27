@@ -9,11 +9,23 @@ angular.module('twistedHangmanApp').factory('twCurrentPlayerService', function (
       return pid;
     },
     currentPlayerBaseURL: function () {
-      return '/api/player/' + pid + '/';
+      return '/api/player/' + pid;
+    },
+    friends: function () {
+      //  TODO - local cookie?
+      return $http.get(this.currentPlayerBaseURL() + '/friends', {cache: true}).then(function (response) {
+        if (response.status === 200) {
+          return response.data;
+        } else {
+          $q.reject(response);
+        }
+      }, function (response) {
+        $q.reject(response);
+      });
     },
     currentPlayer: function () {
       //  TODO - local cookie?
-      return $http.get('/api/player/' + pid, {cache: true}).then(function (response) {
+      return $http.get(this.currentPlayerBaseURL(), {cache: true}).then(function (response) {
         if (response.status === 200) {
           return response.data;
         } else {

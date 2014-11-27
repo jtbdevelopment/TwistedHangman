@@ -30,7 +30,7 @@ describe('Controller: CreateCtrl', function () {
         return 'MANUAL1';
       },
       currentPlayerBaseURL: function () {
-        return '/api/player/MANUAL1/';
+        return '/api/player/MANUAL1';
       }
     };
 

@@ -13,7 +13,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($scope, $ro
     // TODO
   });
 
-  $http.get(twCurrentPlayerService.currentPlayerBaseURL() + 'play/' + $scope.gameID).success(function (data) {
+  $http.get(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID).success(function (data) {
     twShowGameService.processGame(data);
   }).error(function (data, status, headers, config) {
     //  TODO
@@ -25,7 +25,7 @@ angular.module('twistedHangmanApp').controller('PlayCtrl', function ($scope, $ht
   $scope.sharedScope = twShowGameCache.get(SCOPE);
 
   $scope.sendGuess = function (letter) {
-    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + 'play/' + $scope.sharedScope.gameID + '/guess/' + letter).success(function (data) {
+    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.sharedScope.gameID + '/guess/' + letter).success(function (data) {
       twShowGameService.processUpdate(data);
     }).error(function (data, status, headers, config) {
       //  TODO
@@ -34,7 +34,7 @@ angular.module('twistedHangmanApp').controller('PlayCtrl', function ($scope, $ht
   };
 
   $scope.stealLetter = function (position) {
-    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + 'play/' + $scope.sharedScope.gameID + '/steal/' + position).success(function (data) {
+    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.sharedScope.gameID + '/steal/' + position).success(function (data) {
       twShowGameService.processUpdate(data);
     }).error(function (data, status, headers, config) {
       //  TODO
@@ -47,7 +47,7 @@ angular.module('twistedHangmanApp').controller('RematchCtrl', function ($rootSco
   $scope.sharedScope = twShowGameCache.get(SCOPE);
 
   $scope.startRematch = function () {
-    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + 'play/' + $scope.sharedScope.gameID + '/rematch').success(function (data) {
+    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.sharedScope.gameID + '/rematch').success(function (data) {
       $rootScope.$broadcast('refreshGames', data.gamePhase);
       $rootScope.$broadcast('refreshGames', 'Rematched');
       $rootScope.$broadcast('refreshGames', 'Rematch');

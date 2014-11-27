@@ -19,7 +19,7 @@ phases.map(function (phase) {
     //  TODO - images
     $scope.glyph = 'glyphicon-bookmark';
     $scope.label = phase;
-    var url = twCurrentPlayerService.currentPlayerBaseURL() + 'games/' + phase;
+    var url = twCurrentPlayerService.currentPlayerBaseURL() + '/games/' + phase;
     var params = {params: {pageSize: 100}};
 
     $scope.reload = function () {

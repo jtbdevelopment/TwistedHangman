@@ -6,7 +6,7 @@ var MULTI_PLAYER = 'ThreePlus';
 var SYSTEM_PUZZLES = 'SystemPuzzles';
 
 angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScope, $scope, twGameFeatureService, twCurrentPlayerService, $http, $window) {
-  $scope.url = twCurrentPlayerService.currentPlayerBaseURL() + 'new';
+  $scope.url = twCurrentPlayerService.currentPlayerBaseURL() + '/new';
   $scope.featureData = {};
   twGameFeatureService.features().then(function (data) {
     $scope.featureData = data;

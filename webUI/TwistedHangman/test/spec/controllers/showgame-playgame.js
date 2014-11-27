@@ -28,7 +28,7 @@ describe('Controller: PlayCtrl', function () {
     scope = $rootScope.$new();
     var mockPlayerService = {
       currentPlayerBaseURL: function () {
-        return '/api/player/MANUAL1/';
+        return '/api/player/MANUAL1';
       }
     };
 
