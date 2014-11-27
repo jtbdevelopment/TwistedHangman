@@ -50,7 +50,15 @@ class FriendFinderTest extends TwistedHangmanTestCase {
                         return param
                 }
         ] as PlayerRepository
+        def masked = ['x': 'y', '1': '2']
+        finder.friendMasker = [
+                maskFriends: {
+                    Set<Player> friends ->
+                        assert friends == [PONE, PTWO, PTHREE] as Set
+                        return masked
+                }
+        ] as FriendMasker
 
-        assert finder.findFriends(param.id) == [PONE, PTWO, PTHREE] as Set
+        assert finder.findFriends(param.id) == masked
     }
 }

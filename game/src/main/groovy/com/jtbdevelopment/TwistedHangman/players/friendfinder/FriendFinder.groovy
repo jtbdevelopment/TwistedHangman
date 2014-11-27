@@ -18,8 +18,10 @@ class FriendFinder {
     List<SourceBasedFriendFinder> friendFinders
     @Autowired
     PlayerRepository playerRepository
+    @Autowired
+    FriendMasker friendMasker
 
-    Set<Player> findFriends(final String playerId) {
+    Map<String, String> findFriends(final String playerId) {
         Player player = playerRepository.findOne(playerId)
         if (player == null || player.disabled) {
             throw new FailedToFindPlayersException()
@@ -31,6 +33,6 @@ class FriendFinder {
                     friends.addAll(friendFinder.findFriends(player))
                 }
         }
-        return friends;
+        return friendMasker.maskFriends(friends);
     }
 }
