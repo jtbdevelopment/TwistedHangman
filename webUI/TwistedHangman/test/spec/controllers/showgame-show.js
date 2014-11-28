@@ -16,6 +16,7 @@ describe('Controller: ShowCtrl', function () {
     showGameService = {
       computeGameState: jasmine.createSpy(),
       initializeScope: jasmine.createSpy(),
+      processUpdate: jasmine.createSpy(),
       processGame: jasmine.createSpy()
     };
     location = {path: jasmine.createSpy()};
@@ -76,5 +77,23 @@ describe('Controller: ShowCtrl', function () {
     expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'Rematched');
     expect(location.path).toHaveBeenCalledWith('/show/newid');
     expect(showGameService.processGame).toHaveBeenCalledWith(newGame);
+  });
+
+  it('guess letter', function () {
+    var updatedGame = {id: 'newid', gamePhase: 'X'};
+    http.expectPUT('/api/player/MANUAL1/play/gameid/guess/a').respond(updatedGame);
+    scope.sendGuess('a');
+    http.flush();
+
+    expect(showGameService.processUpdate).toHaveBeenCalledWith(updatedGame);
+  });
+
+  it('steal letter', function () {
+    var updatedGame = {id: 'newid', gamePhase: 'X'};
+    http.expectPUT('/api/player/MANUAL1/play/gameid/steal/2').respond(updatedGame);
+    scope.stealLetter('2');
+    http.flush();
+
+    expect(showGameService.processUpdate).toHaveBeenCalledWith(updatedGame);
   });
 });

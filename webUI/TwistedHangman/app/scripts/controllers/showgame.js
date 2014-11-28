@@ -35,7 +35,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
 
   //  TODO - test
   $scope.accept = function () {
-    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.sharedScope.gameID + '/accept').success(function (data) {
+    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/accept').success(function (data) {
       twShowGameService.processUpdate(data);
     }).error(function (data, status, headers, config) {
       //  TODO
@@ -44,20 +44,16 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
   };
   //  TODO - test
   $scope.reject = function () {
-    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.sharedScope.gameID + '/reject').success(function (data) {
+    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/reject').success(function (data) {
       twShowGameService.processUpdate(data);
     }).error(function (data, status, headers, config) {
       //  TODO
       console.error(data + status + headers + config);
     });
   };
-});
-
-angular.module('twistedHangmanApp').controller('PlayCtrl', function ($scope, $http, twCurrentPlayerService, twShowGameCache, twShowGameService) {
-  $scope.sharedScope = twShowGameCache.get(SCOPE);
 
   $scope.sendGuess = function (letter) {
-    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.sharedScope.gameID + '/guess/' + letter).success(function (data) {
+    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/guess/' + letter).success(function (data) {
       twShowGameService.processUpdate(data);
     }).error(function (data, status, headers, config) {
       //  TODO
@@ -66,7 +62,7 @@ angular.module('twistedHangmanApp').controller('PlayCtrl', function ($scope, $ht
   };
 
   $scope.stealLetter = function (position) {
-    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.sharedScope.gameID + '/steal/' + position).success(function (data) {
+    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/steal/' + position).success(function (data) {
       twShowGameService.processUpdate(data);
     }).error(function (data, status, headers, config) {
       //  TODO
