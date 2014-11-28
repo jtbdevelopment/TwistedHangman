@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.players.friendfinder
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
+import com.jtbdevelopment.TwistedHangman.players.Player
 
 /**
  * Date: 11/26/14
@@ -15,5 +16,15 @@ class FriendMaskerTest extends TwistedHangmanTestCase {
                 (PTWO.md5)  : PTWO.displayName,
                 (PTHREE.md5): PTHREE.displayName
         ]
+    }
+
+    void testSetsPlayerSalt() {
+        String existingSalt = Player.ID_SALT
+
+        masker.md5Salter = 'THISSALT'
+        masker.applySalt()
+        assert Player.ID_SALT == masker.md5Salter
+
+        Player.ID_SALT = existingSalt
     }
 }

@@ -16,6 +16,8 @@ import org.springframework.util.StringUtils
 //@CompoundIndex(unique = true, name = "id_source", def = "{'sourceId':1, 'source':1}")
 @CompileStatic
 class Player implements Cloneable {
+    //  Klunky - but initialized by FriendMasker
+    public static String ID_SALT = ""
 
     public static final String SYSTEM_ID_DISPLAY_NAME = "TwistedHangman"
     public static final String SYSTEM_ID_SOURCE = "System"
@@ -83,9 +85,8 @@ class Player implements Cloneable {
         return md5
     }
 
-    //  TODO - add salting
     private String computeMD5Hex() {
-        String key = id + source + displayName
+        String key = id + source + displayName + sourceId + ID_SALT
         md5 = DigestUtils.md5Hex(key)
         md5
     }
