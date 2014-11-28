@@ -42,6 +42,55 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
     });
   }
 
+  //  TODO - test this function
+  function computeShowVariables(scope) {
+    scope.showPlaySection = false;
+    scope.allowPlayMoves = false;
+    scope.showPlayerStates = false;
+    scope.showChallengeButtons = false;
+    scope.showPuzzleEnty = false;         //  TODO - use
+    scope.allowPuzzleEntry = false;       //  TODO - use
+    scope.showGameSummary = true;
+    scope.showRematchButtons = false;
+    if (typeof scope.game === 'undefined' || typeof scope.player === 'undefined') {
+      return;
+    }
+    switch (scope.game.gamePhase) {
+      case 'Challenge':
+        scope.showPlayerStates = true;
+        scope.showChallengeButtons = true;
+        break;
+      case 'Declined':
+        scope.showPlayerStates = true;
+        break;
+      case 'Setup':
+        scope.showPuzzleEnty = true;
+        if (scope.game.puzzleSetter === null) {
+          angular.forEach(scope.game.solverStates, function (state, md5) {
+            if (md5 !== scope.player.md5) {
+              scope.allowPuzzleEntry = (state.workingWordPhrase === '');
+            }
+          });
+        } else {
+          scope.allowPuzzleEntry = (scope.game.puzzleSetter === scope.player.md5);
+        }
+        break;
+      case 'Playing':
+        scope.showPlaySection = true;
+        if (typeof scope.game.featureData.TurnBased === 'undefined') {
+          scope.allowPlayMoves = true;
+        } else {
+          scope.allowPlayMoves = (scope.player.md5 === scope.game.gameFeatures.TurnBased);
+        }
+        break;
+      case 'Rematch':
+        scope.showRematchButtons = true;
+        break;
+      case 'Rematched':
+        break;
+    }
+  }
+
   return {
     initializeScope: function (scope) {
       scope.workingWordPhraseArray = [];
@@ -51,12 +100,14 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
       scope.letters.forEach(function () {
         scope.letterClasses.push('regular');
       });
+      computeShowVariables(scope);
     },
     computeGameState: function (scope) {
       if (typeof scope.player === 'undefined' || typeof scope.game === 'undefined') {
         return;
       }
       scope.gameState = scope.game.solverStates[scope.player.md5];
+      computeShowVariables(scope);
       computeImage(scope);
       computeWordPhrase(scope);
       computeKeyboard(scope);

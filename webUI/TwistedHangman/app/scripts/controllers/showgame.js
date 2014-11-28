@@ -84,6 +84,8 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
     if (typeof solverState === 'undefined') {
       return 'Unknown';
     }
+    //  TODO - take into account different states before this...
+
     return solverState.isGameOver ? (solverState.isGameWon ? 'Solved' : 'Hung') : 'Incomplete';
   };
 
