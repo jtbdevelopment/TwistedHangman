@@ -18,6 +18,7 @@ class ThievingExpander implements FeatureExpander {
         if (features.contains(GameFeature.Thieving)) {
             features.add(GameFeature.ThievingPositionTracking)
             features.add(GameFeature.ThievingCountTracking)
+            features.add(GameFeature.ThievingLetters)
         }
     }
 }

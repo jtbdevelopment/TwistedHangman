@@ -15,6 +15,7 @@ public enum GameFeature {
     Thieving("For a penalty, steal a letter from the puzzle."),
     ThievingCountTracking("Stolen Letter Count.", true, false),
     ThievingPositionTracking("Stolen Letter Markers.", true, false),
+    ThievingLetters("Set of letters similar to guessLetter", true, false),
 
     TurnBased("Guessing and stealing is turn-based instead of live."),
 

@@ -109,12 +109,13 @@ describe('Service: showGameSevice', function () {
     scope.player = player;
     scope.game = angular.copy(showGameServiceGame);
     scope.game.solverStates.md1.featureData.ThievingPositionTracking = [false, true, false, false, true];
+    scope.game.solverStates.md1.featureData.ThievingLetters = ['B'];
     service.initializeScope(scope);
 
     service.computeGameState(scope);
     expect(scope.workingWordPhraseClasses).toEqual(['stealablewp', 'stolenwp', 'stealablewp', 'stealablewp', 'stolenwp']);
     expect(scope.image).toEqual('hangman5.png');
-    expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'regular']);
+    expect(scope.letterClasses).toEqual(['guessedkb', 'stolenkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'regular']);
   });
 
   it('processGame with new coy', function () {

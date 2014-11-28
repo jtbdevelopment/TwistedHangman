@@ -21,6 +21,7 @@ class InitializeThievingSubGamesTest extends GroovyTestCase {
         game.solverStates.values().each {
             assert it.featureData[GameFeature.ThievingCountTracking] == 0
             assert it.featureData[GameFeature.ThievingPositionTracking] == new char[0]
+            assert it.featureData[GameFeature.ThievingLetters] == []
         }
     }
 

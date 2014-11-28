@@ -32,7 +32,7 @@ abstract class AbstractGameActionHandler<T> extends AbstractGameGetterHandler {
                 player)
     }
 
-    protected static Game rotateTurnBasedGame(final Game game) {
+    protected Game rotateTurnBasedGame(final Game game) {
         if (game.gamePhase == GamePhase.Playing && game.features.contains(GameFeature.TurnBased)) {
             rotateOnePlayer(game)
 

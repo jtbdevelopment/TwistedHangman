@@ -22,7 +22,7 @@ class ThievingExpanderTest extends GroovyTestCase {
 
     public void testExpandsThievingOptions() {
         Set<GameFeature> set = [GameFeature.Thieving] as Set
-        Set<GameFeature> expected = [GameFeature.ThievingPositionTracking, GameFeature.Thieving, GameFeature.ThievingCountTracking] as Set
+        Set<GameFeature> expected = [GameFeature.ThievingPositionTracking, GameFeature.Thieving, GameFeature.ThievingCountTracking, GameFeature.ThievingLetters] as Set
         expander.enhanceFeatureSet(set, null)
         assert expected == set
     }

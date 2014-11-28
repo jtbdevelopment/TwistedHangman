@@ -15,18 +15,24 @@ import org.springframework.stereotype.Component
 class ThievingHangmanGameActions {
 
     void stealLetter(final IndividualGameState gameState, int position) {
-        //  TODO - steal the rest and mark them and close out letter as stolen
         boolean[] markers = (boolean[]) gameState.featureData[GameFeature.ThievingPositionTracking]
         validateSteal(gameState, position, markers)
 
         Integer counter = (Integer) gameState.featureData[GameFeature.ThievingCountTracking]
         counter += 1
-        markers[position] = true
+        char c = gameState.wordPhrase[position]
+        ((List<Character>) gameState.featureData[GameFeature.ThievingLetters]).add(c)
+        for (int i = 0; i < gameState.workingWordPhrase.length; i++) {
+            if (gameState.wordPhrase[i] == c) {
+                gameState.workingWordPhrase[i] = c
+                markers[i] = true
+            }
+        }
         gameState.featureData[GameFeature.ThievingCountTracking] = counter
         gameState.featureData[GameFeature.ThievingPositionTracking] = markers
         gameState.moveCount += 1
         gameState.penalties += 1
-        gameState.workingWordPhrase[position] = gameState.wordPhrase[position]
+
         gameState.workingWordPhraseString = new String(gameState.workingWordPhrase)
     }
 

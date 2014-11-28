@@ -39,6 +39,13 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
         newGame
     }
 
+    //  TODO - test for this
+    @Override
+    protected Game rotateTurnBasedGame(final Game game) {
+        //  Don't rotate, create already did
+        return game
+    }
+
     private Game setupGame(final Game previousGame, final Player initiatingPlayer) {
         return systemPuzzlerSetter.setWordPhraseFromSystem(
                 gameFactory.createGame(previousGame, initiatingPlayer))

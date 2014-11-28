@@ -38,13 +38,17 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
   }
 
   function computeKeyboard(scope) {
-    //  TODO - show stolen letters when stealing auto gets the rest
     scope.gameState.guessedLetters.forEach(function (item) {
       scope.letterClasses[item.charCodeAt(0) - LETTERA] = 'guessedkb';
     });
     scope.gameState.badlyGuessedLetters.forEach(function (item) {
       scope.letterClasses[item.charCodeAt(0) - LETTERA] = 'badguesskb';
     });
+    if (typeof scope.gameState.featureData.ThievingLetters !== 'undefined') {
+      scope.gameState.featureData.ThievingLetters.forEach(function (item) {
+        scope.letterClasses[item.charCodeAt(0) - LETTERA] = 'stolenkb';
+      });
+    }
   }
 
   //  TODO - test this function

@@ -19,6 +19,7 @@ class InitializeThievingSubGames implements IndividualGamesInitializer {
                 IndividualGameState gameState ->
                     gameState.featureData[GameFeature.ThievingCountTracking] = 0
                     gameState.featureData[GameFeature.ThievingPositionTracking] = new boolean[0]
+                    gameState.featureData[GameFeature.ThievingLetters] = []
             }
         }
     }

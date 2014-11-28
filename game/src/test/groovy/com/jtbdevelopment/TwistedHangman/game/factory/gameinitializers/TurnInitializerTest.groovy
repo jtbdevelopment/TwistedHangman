@@ -21,6 +21,15 @@ class TurnInitializerTest extends TwistedHangmanTestCase {
         assert game.featureData[GameFeature.TurnBased] == PFOUR.id
     }
 
+    public void testInitializesTurnToSecondPlayerIfFirstPlayerAlsoPuzzleSetter() {
+        Game game = new Game()
+        game.features += GameFeature.TurnBased
+        game.players = [PFOUR, PONE, PTWO, PTHREE]
+        game.wordPhraseSetter = PFOUR.id
+        initializer.initializeGame(game)
+
+        assert game.featureData[GameFeature.TurnBased] == PONE.id
+    }
 
     public void testNotSetWhenNotAFeature() {
         Game game = new Game()
