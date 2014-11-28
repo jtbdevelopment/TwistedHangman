@@ -6,17 +6,19 @@ describe('Controller: ShowCtrl', function () {
 
   var game = {'mygame': 'game'};
   var player = {'player': 'player'};
-  var ctrl, scope, http, rootScope, showGameService, q, deferred;
+  var ctrl, scope, http, rootScope, showGameService, q, playerDeferred, location;
 
   beforeEach(inject(function ($rootScope, $httpBackend, $q) {
     rootScope = $rootScope;
     http = $httpBackend;
     q = $q;
+    spyOn(rootScope, '$broadcast');
     showGameService = {
       computeGameState: jasmine.createSpy(),
       initializeScope: jasmine.createSpy(),
       processGame: jasmine.createSpy()
     };
+    location = {path: jasmine.createSpy()};
   }));
 
   // Initialize the controller and a mock scope
@@ -27,8 +29,8 @@ describe('Controller: ShowCtrl', function () {
         return '/api/player/MANUAL1';
       },
       currentPlayer: function () {
-        deferred = q.defer();
-        return deferred.promise;
+        playerDeferred = q.defer();
+        return playerDeferred.promise;
       }
     };
 
@@ -42,6 +44,7 @@ describe('Controller: ShowCtrl', function () {
       $routeParams: routeParams,
       $rootScope: rootScope,
       $scope: scope,
+      $location: location,
       $window: window,
       twCurrentPlayerService: mockPlayerService,
       twShowGameService: showGameService
@@ -53,7 +56,7 @@ describe('Controller: ShowCtrl', function () {
     expect(showGameService.initializeScope).toHaveBeenCalledWith(scope);
 
     expect(typeof scope.player).toEqual('undefined');
-    deferred.resolve(player);
+    playerDeferred.resolve(player);
     rootScope.$apply();
     expect(scope.player).toEqual(player);
     expect(showGameService.computeGameState).toHaveBeenCalled();
@@ -62,4 +65,16 @@ describe('Controller: ShowCtrl', function () {
     expect(showGameService.processGame).toHaveBeenCalledWith(game);
   });
 
+  it('post rematch', function () {
+    var newGame = {id: 'newid', gamePhase: 'X'};
+    http.expectPUT('/api/player/MANUAL1/play/gameid/rematch').respond(newGame);
+    scope.startRematch();
+    http.flush();
+
+    expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'X');
+    expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'Rematch');
+    expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'Rematched');
+    expect(location.path).toHaveBeenCalledWith('/show/newid');
+    expect(showGameService.processGame).toHaveBeenCalledWith(newGame);
+  });
 });

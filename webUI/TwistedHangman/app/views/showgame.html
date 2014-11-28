@@ -63,8 +63,7 @@
   </p>
   <!--  TODO - disable stealing and keyboard when individual game is over but still playing... show word phrase on lost-->
 </div>
-<div ng-show="sharedScope.game.gamePhase === 'Challenge' || sharedScope.game.gamePhase === 'Declined'"
-     ng-controller="ChallengeCtrl">
+<div ng-show="sharedScope.game.gamePhase === 'Challenge' || sharedScope.game.gamePhase === 'Declined'">
   <table>
     <thead>
     <tr>
@@ -109,6 +108,6 @@
     </thead>
   </table>
 </div>
-<div ng-show="sharedScope.game.gamePhase === 'Rematch'" ng-controller="RematchCtrl">
+<div ng-show="game.gamePhase === 'Rematch'">
   <button ng-click="startRematch()">Start Rematch</button>
 </div>

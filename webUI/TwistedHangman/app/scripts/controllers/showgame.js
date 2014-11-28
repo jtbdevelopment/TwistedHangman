@@ -2,7 +2,7 @@
 
 var SCOPE = 'scope';
 
-angular.module('twistedHangmanApp').controller('ShowCtrl', function ($scope, $routeParams, $http, twCurrentPlayerService, twShowGameCache, twShowGameService) {
+angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope, $scope, $routeParams, $http, $location, twCurrentPlayerService, twShowGameCache, twShowGameService) {
   $scope.gameID = $routeParams.gameID;
   twShowGameService.initializeScope($scope);
 
@@ -19,6 +19,38 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($scope, $ro
     //  TODO
     console.error(data + status + headers + config);
   });
+
+  $scope.startRematch = function () {
+    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/rematch').success(function (data) {
+      $rootScope.$broadcast('refreshGames', data.gamePhase);
+      $rootScope.$broadcast('refreshGames', 'Rematched');
+      $rootScope.$broadcast('refreshGames', 'Rematch');
+      twShowGameService.processGame(data);
+      $location.path('/show/' + data.id);
+    }).error(function (data, status, headers, config) {
+      //  TODO
+      console.error(data + status + headers + config);
+    });
+  };
+
+  //  TODO - test
+  $scope.accept = function () {
+    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.sharedScope.gameID + '/accept').success(function (data) {
+      twShowGameService.processUpdate(data);
+    }).error(function (data, status, headers, config) {
+      //  TODO
+      console.error(data + status + headers + config);
+    });
+  };
+  //  TODO - test
+  $scope.reject = function () {
+    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.sharedScope.gameID + '/reject').success(function (data) {
+      twShowGameService.processUpdate(data);
+    }).error(function (data, status, headers, config) {
+      //  TODO
+      console.error(data + status + headers + config);
+    });
+  };
 });
 
 angular.module('twistedHangmanApp').controller('PlayCtrl', function ($scope, $http, twCurrentPlayerService, twShowGameCache, twShowGameService) {
@@ -36,44 +68,6 @@ angular.module('twistedHangmanApp').controller('PlayCtrl', function ($scope, $ht
   $scope.stealLetter = function (position) {
     $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.sharedScope.gameID + '/steal/' + position).success(function (data) {
       twShowGameService.processUpdate(data);
-    }).error(function (data, status, headers, config) {
-      //  TODO
-      console.error(data + status + headers + config);
-    });
-  };
-});
-
-angular.module('twistedHangmanApp').controller('ChallengeCtrl', function ($scope, $http, twCurrentPlayerService, twShowGameCache, twShowGameService) {
-  $scope.sharedScope = twShowGameCache.get(SCOPE);
-
-  $scope.accept = function () {
-    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.sharedScope.gameID + '/accept').success(function (data) {
-      twShowGameService.processUpdate(data);
-    }).error(function (data, status, headers, config) {
-      //  TODO
-      console.error(data + status + headers + config);
-    });
-  };
-  $scope.reject = function () {
-    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.sharedScope.gameID + '/reject').success(function (data) {
-      twShowGameService.processUpdate(data);
-    }).error(function (data, status, headers, config) {
-      //  TODO
-      console.error(data + status + headers + config);
-    });
-  };
-});
-
-angular.module('twistedHangmanApp').controller('RematchCtrl', function ($rootScope, $scope, $http, $location, twCurrentPlayerService, twShowGameCache, twShowGameService) {
-  $scope.sharedScope = twShowGameCache.get(SCOPE);
-
-  $scope.startRematch = function () {
-    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.sharedScope.gameID + '/rematch').success(function (data) {
-      $rootScope.$broadcast('refreshGames', data.gamePhase);
-      $rootScope.$broadcast('refreshGames', 'Rematched');
-      $rootScope.$broadcast('refreshGames', 'Rematch');
-      twShowGameService.processGame(data);
-      $location.path('/show/' + data.id);
     }).error(function (data, status, headers, config) {
       //  TODO
       console.error(data + status + headers + config);
