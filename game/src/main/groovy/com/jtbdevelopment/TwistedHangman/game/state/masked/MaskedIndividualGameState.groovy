@@ -11,15 +11,24 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 class MaskedIndividualGameState {
-    public String category;
+
+    //  Provided for puzzle setter at all times
+    //  Provided for other players only at game end
+    public String wordPhrase;
+
+    //  Provided for puzzle setter at all times
+    //  Only provided for current player during play, provided for all players post-game
     public String workingWordPhrase
+    public SortedSet<Character> badlyGuessedLetters = [] as SortedSet
+    public SortedSet<Character> guessedLetters = [] as SortedSet
+    public Map<GameFeature, Object> featureData = [:];  //  Any
+
+    //  Provided for all players for all other players
+    public String category;
     public int maxPenalties;
     public int moveCount = 0;
     public int penalties = 0;
     public Set<GameFeature> features = [] as Set
-    public SortedSet<Character> badlyGuessedLetters = [] as SortedSet
-    public SortedSet<Character> guessedLetters = [] as SortedSet
-    public Map<GameFeature, Object> featureData = [:];  //  Any
     public boolean isGameWon;
     public boolean isGameLost;
     public boolean isGameOver;

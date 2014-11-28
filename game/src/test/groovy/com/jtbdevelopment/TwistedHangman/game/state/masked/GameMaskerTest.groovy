@@ -59,10 +59,16 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         assert maskedGame.featureData == game.featureData
 
         assert maskedGame.solverStates.size() == 1 && maskedGame.solverStates.containsKey(PONE.md5)
-
         MaskedIndividualGameState maskedState = maskedGame.solverStates[PONE.md5]
         assert maskedState.featureData == [(GameFeature.DrawGallows): PONE.md5, (GameFeature.Thieving): [true, true, false]]
-        checkUnmaskedState(maskedState, state)
+        assert maskedState.wordPhrase == "";
+        checkUnmaskedData(maskedState, state)
+
+        //  Flip game over and check word phrase
+        game.gamePhase = GamePhase.Rematch
+        maskedGame = masker.maskGameForPlayer(game, PONE)
+        maskedState = maskedGame.solverStates[PONE.md5]
+        assert maskedState.wordPhrase == state.wordPhraseString
     }
 
     public void testMaskingTwoPlayerHeadToHead() {
@@ -91,7 +97,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 wordPhraseString: "SAY",
         )
         Game game = new Game(
-                gamePhase: GamePhase.Rematch,
+                gamePhase: GamePhase.Playing,
                 players: [PONE, PTWO],
                 wordPhraseSetter: null,
                 created: ZonedDateTime.now(),
@@ -125,12 +131,32 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         assert maskedGame.solverStates.size() == 2 && maskedGame.solverStates.containsKey(PONE.md5) && maskedGame.solverStates.containsKey(PTWO.md5)
 
         MaskedIndividualGameState maskedState = maskedGame.solverStates[PONE.md5]
-        checkUnmaskedState(maskedState, state1)
+        checkUnmaskedData(maskedState, state1)
         assert maskedState.featureData == [(GameFeature.DrawGallows): PONE.md5, (GameFeature.Thieving): [true, true, false]]
+        assert maskedState.wordPhrase == ""
 
         maskedState = maskedGame.solverStates[PTWO.md5]
-        checkUnmaskedState(maskedState, state2)
+        checkUnmaskedData(maskedState, state2)
         assert maskedState.featureData == [(GameFeature.DrawGallows): PTWO.md5, (GameFeature.Thieving): [true, true, false]]
+        assert maskedState.wordPhrase == state2.wordPhraseString
+        assert maskedState.badlyGuessedLetters == state2.badlyGuessedLetters
+        assert maskedState.guessedLetters == state2.guessedLetters
+
+        //  Flip over
+        game.gamePhase = GamePhase.Rematched
+        maskedGame = masker.maskGameForPlayer(game, PONE)
+
+        maskedState = maskedGame.solverStates[PONE.md5]
+        checkUnmaskedData(maskedState, state1)
+        assert maskedState.featureData == [(GameFeature.DrawGallows): PONE.md5, (GameFeature.Thieving): [true, true, false]]
+        assert maskedState.wordPhrase == state1.wordPhraseString
+
+        maskedState = maskedGame.solverStates[PTWO.md5]
+        checkUnmaskedData(maskedState, state2)
+        assert maskedState.featureData == [(GameFeature.DrawGallows): PTWO.md5, (GameFeature.Thieving): [true, true, false]]
+        assert maskedState.wordPhrase == state2.wordPhraseString
+        assert maskedState.badlyGuessedLetters == state2.badlyGuessedLetters
+        assert maskedState.guessedLetters == state2.guessedLetters
     }
 
     public void testMaskingMultiPlayerSystemPuzzler() {
@@ -171,9 +197,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 wordPhraseString: "SAY",
         )
 
-        Player puzzler = Player.SYSTEM_PLAYER
         LinkedHashMap<String, IndividualGameState> states = [(PONE.id): state1, (PTWO.id): state2, (PTHREE.id): state3]
-        Game game = makeMultiPlayerGame(puzzler, states)
+        Game game = makeMultiPlayerGame(Player.SYSTEM_PLAYER, states)
 
         MaskedGame maskedGame = masker.maskGameForPlayer(game, PONE)
         checkUnmaskedGameFields(maskedGame, game)
@@ -181,21 +206,48 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         assert maskedGame.wordPhraseSetter == Player.SYSTEM_PLAYER.md5
         assert maskedGame.maskedForPlayerID == PONE.id
         assert maskedGame.maskedForPlayerMD5 == PONE.md5
-        assert maskedGame.solverStates.size() == 1 && maskedGame.solverStates.containsKey(PONE.md5)
+        assert maskedGame.solverStates.size() == 3 && maskedGame.solverStates.containsKey(PONE.md5)
         MaskedIndividualGameState maskedState = maskedGame.solverStates[PONE.md5]
-        checkUnmaskedState(maskedState, state1)
+        checkUnmaskedData(maskedState, state1)
         assert maskedState.featureData == [(GameFeature.DrawGallows): PONE.md5, (GameFeature.Thieving): [true, true, false]]
-
+        assert maskedState.wordPhrase == ""
+        assert maskedState.badlyGuessedLetters == state1.badlyGuessedLetters
+        assert maskedState.guessedLetters == state1.guessedLetters
+        maskedState = maskedGame.solverStates[PTWO.md5]
+        checkPartialMaskedData(maskedState, state2)
+        maskedState = maskedGame.solverStates[PTHREE.md5]
+        checkPartialMaskedData(maskedState, state3)
 
         maskedGame = masker.maskGameForPlayer(game, PTHREE)
         checkUnmaskedGameFields(maskedGame, game)
         checkMultiPlayerGame(maskedGame)
         assert maskedGame.wordPhraseSetter == Player.SYSTEM_PLAYER.md5
         assert maskedGame.maskedForPlayerMD5 == PTHREE.md5
-        assert maskedGame.solverStates.size() == 1 && maskedGame.solverStates.containsKey(PTHREE.md5)
+        assert maskedGame.solverStates.size() == 3 && maskedGame.solverStates.containsKey(PTHREE.md5)
         maskedState = maskedGame.solverStates[PTHREE.md5]
-        checkUnmaskedState(maskedState, state3)
+        checkUnmaskedData(maskedState, state3)
         assert maskedState.featureData == [(GameFeature.DrawGallows): PTWO.md5, (GameFeature.Thieving): [true, true, false]]
+        assert maskedState.wordPhrase == ""
+        maskedState = maskedGame.solverStates[PTWO.md5]
+        checkPartialMaskedData(maskedState, state2)
+
+        maskedState = maskedGame.solverStates[PONE.md5]
+        checkPartialMaskedData(maskedState, state1)
+
+
+        game.gamePhase = GamePhase.Rematched
+        maskedGame = masker.maskGameForPlayer(game, PTHREE)
+        assert maskedGame.solverStates.size() == 3 && maskedGame.solverStates.containsKey(PTHREE.md5)
+        maskedState = maskedGame.solverStates[PTHREE.md5]
+        checkUnmaskedData(maskedState, state3)
+        assert maskedState.featureData == [(GameFeature.DrawGallows): PTWO.md5, (GameFeature.Thieving): [true, true, false]]
+        assert maskedState.wordPhrase == state3.wordPhraseString
+        maskedState = maskedGame.solverStates[PTWO.md5]
+        checkUnmaskedData(maskedState, state2)
+        assert maskedState.wordPhrase == state2.wordPhraseString
+        maskedState = maskedGame.solverStates[PONE.md5]
+        checkUnmaskedData(maskedState, state1)
+        assert maskedState.wordPhrase == state1.wordPhraseString
     }
 
     public void testMaskingMultiPlayerNonSystemPuzzler() {
@@ -224,9 +276,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 wordPhraseString: "SAY",
         )
 
-        Player puzzler = PTWO
         LinkedHashMap<String, IndividualGameState> states = [(PONE.id): state1, (PTHREE.id): state3]
-        Game game = makeMultiPlayerGame(puzzler, states)
+        Game game = makeMultiPlayerGame(PTWO, states)
 
         MaskedGame maskedGame = masker.maskGameForPlayer(game, PTWO)
         checkUnmaskedGameFields(maskedGame, game)
@@ -236,25 +287,45 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         assert maskedGame.solverStates.size() == 2 && maskedGame.solverStates.containsKey(PONE.md5) && maskedGame.solverStates.containsKey(PTHREE.md5)
         assert maskedGame.wordPhraseSetter == PTWO.md5
         MaskedIndividualGameState maskedState = maskedGame.solverStates[PONE.md5]
-        checkUnmaskedState(maskedState, state1)
+        checkUnmaskedData(maskedState, state1)
         assert maskedState.featureData == [(GameFeature.DrawGallows): PONE.md5, (GameFeature.Thieving): [true, true, false]]
-        maskedState = maskedGame.solverStates[PONE.md5]
-        checkUnmaskedState(maskedState, state1)
-        assert maskedState.featureData == [(GameFeature.DrawGallows): PONE.md5, (GameFeature.Thieving): [true, true, false]]
+        assert maskedState.wordPhrase == state1.wordPhraseString
+        maskedState = maskedGame.solverStates[PTHREE.md5]
+        checkUnmaskedData(maskedState, state3)
+        assert maskedState.featureData == [(GameFeature.DrawGallows): PTWO.md5, (GameFeature.Thieving): [true, true, false]]
+        assert maskedState.wordPhrase == state3.wordPhraseString
 
 
         maskedGame = masker.maskGameForPlayer(game, PTHREE)
         checkUnmaskedGameFields(maskedGame, game)
         checkMultiPlayerGame(maskedGame)
         assert maskedGame.maskedForPlayerMD5 == PTHREE.md5
-        assert maskedGame.solverStates.size() == 1 && maskedGame.solverStates.containsKey(PTHREE.md5)
+        assert maskedGame.solverStates.size() == 2 && maskedGame.solverStates.containsKey(PTHREE.md5)
         assert maskedGame.wordPhraseSetter == PTWO.md5
         maskedState = maskedGame.solverStates[PTHREE.md5]
-        checkUnmaskedState(maskedState, state3)
+        checkUnmaskedData(maskedState, state3)
         assert maskedState.featureData == [(GameFeature.DrawGallows): PTWO.md5, (GameFeature.Thieving): [true, true, false]]
+        assert maskedState.wordPhrase == ""
+
+        maskedState = maskedGame.solverStates[PONE.md5]
+        checkPartialMaskedData(maskedState, state1)
+
+        game.gamePhase = GamePhase.Rematch
+        maskedGame = masker.maskGameForPlayer(game, PTHREE)
+        maskedState = maskedGame.solverStates[PTHREE.md5]
+        checkUnmaskedData(maskedState, state3)
+        assert maskedState.featureData == [(GameFeature.DrawGallows): PTWO.md5, (GameFeature.Thieving): [true, true, false]]
+        assert maskedState.wordPhrase == state3.wordPhraseString
+
+        maskedState = maskedGame.solverStates[PONE.md5]
+        checkUnmaskedData(maskedState, state1)
+        assert maskedState.featureData == [(GameFeature.DrawGallows): PONE.md5, (GameFeature.Thieving): [true, true, false]]
+        assert maskedState.wordPhrase == state1.wordPhraseString
+        assert maskedState.badlyGuessedLetters == state1.badlyGuessedLetters
+        assert maskedState.guessedLetters == state1.guessedLetters
     }
 
-    protected void checkUnmaskedState(MaskedIndividualGameState maskedState, IndividualGameState state) {
+    protected void checkUnmaskedData(MaskedIndividualGameState maskedState, IndividualGameState state) {
         assert maskedState.badlyGuessedLetters == state.badlyGuessedLetters
         assert maskedState.category == state.category
         assert maskedState.features == state.features
@@ -265,6 +336,21 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         assert maskedState.isGameOver == state.isGameOver()
         assert maskedState.isGameWon == state.isGameWon()
         assert maskedState.isGameLost == state.isGameLost()
+    }
+
+    protected void checkPartialMaskedData(MaskedIndividualGameState maskedState, IndividualGameState state) {
+        assert maskedState.category == state.category
+        assert maskedState.features == state.features
+        assert maskedState.penalties == state.penalties
+        assert maskedState.penaltiesRemaining == state.penaltiesRemaining
+        assert maskedState.maxPenalties == state.maxPenalties
+        assert maskedState.isGameOver == state.isGameOver()
+        assert maskedState.isGameWon == state.isGameWon()
+        assert maskedState.isGameLost == state.isGameLost()
+        assert maskedState.featureData.isEmpty()
+        assert maskedState.wordPhrase == ""
+        assert maskedState.badlyGuessedLetters.isEmpty()
+        assert maskedState.guessedLetters.isEmpty()
     }
 
     protected void checkUnmaskedGameFields(MaskedGame maskedGame, Game game) {
@@ -288,7 +374,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
 
     protected Game makeMultiPlayerGame(Player puzzler, LinkedHashMap<String, IndividualGameState> states) {
         Game game = new Game(
-                gamePhase: GamePhase.Rematch,
+                gamePhase: GamePhase.Playing,
                 players: [PONE, PTWO, PTHREE],
                 wordPhraseSetter: puzzler.id,
                 created: ZonedDateTime.now(),

@@ -1,9 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.state.masked
 
-import com.jtbdevelopment.TwistedHangman.game.state.Game
-import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
-import com.jtbdevelopment.TwistedHangman.game.state.PlayerChallengeState
+import com.jtbdevelopment.TwistedHangman.game.state.*
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
@@ -53,10 +50,7 @@ class GameMasker {
         }
         game.solverStates.findAll {
             String p, IndividualGameState gameState ->
-                //  TODO - show other players games when game over
-                if (p == player.id || game.wordPhraseSetter == null || game.wordPhraseSetter == player.id) {
-                    playerMaskedGame.solverStates[idmap[p].md5] = maskGameState(gameState, idmap)
-                }
+                playerMaskedGame.solverStates[idmap[p].md5] = maskGameState(player, game, idmap[p], gameState, idmap)
         }
         playerMaskedGame.wordPhraseSetter =
                 game.wordPhraseSetter ?
@@ -66,12 +60,44 @@ class GameMasker {
     }
 
     protected MaskedIndividualGameState maskGameState(
-            final IndividualGameState gameState, final Map<String, Player> idmap) {
+            final Player playerMaskingFor,
+            final Game game,
+            final Player gameStatePlayer,
+            final IndividualGameState gameState,
+            final Map<String, Player> idmap) {
         MaskedIndividualGameState masked = new MaskedIndividualGameState()
-        masked.badlyGuessedLetters.addAll(gameState.badlyGuessedLetters)
+
+        if (game.gamePhase == GamePhase.Rematch ||
+                game.gamePhase == GamePhase.Rematched ||
+                (game.gamePhase == GamePhase.Playing && playerMaskingFor == gameStatePlayer) ||
+                (game.gamePhase == GamePhase.Playing && game.wordPhraseSetter == playerMaskingFor.id) ||
+                (game.gamePhase == GamePhase.Playing && game.wordPhraseSetter == null && playerMaskingFor != gameStatePlayer)
+        ) {
+            masked.workingWordPhrase = gameState.workingWordPhraseString
+            masked.guessedLetters.addAll(gameState.guessedLetters)
+            masked.badlyGuessedLetters.addAll(gameState.badlyGuessedLetters)
+            gameState.featureData.each {
+                GameFeature feature, Object data ->
+                    masked.featureData[feature] =
+                            (data in String && idmap.containsKey(data)) ?
+                                    idmap[(String) data].md5 :
+                                    data
+            }
+        } else {
+            masked.workingWordPhrase = ""
+        }
+        if (game.gamePhase == GamePhase.Rematch ||
+                game.gamePhase == GamePhase.Rematched ||
+                (game.gamePhase == GamePhase.Playing && game.wordPhraseSetter == playerMaskingFor.id) ||
+                (game.gamePhase == GamePhase.Playing && game.wordPhraseSetter == null && playerMaskingFor != gameStatePlayer)
+        ) {
+            masked.wordPhrase = gameState.wordPhraseString
+        } else {
+            masked.wordPhrase = ""
+        }
+
         masked.category = gameState.category
         masked.features.addAll(gameState.features)
-        masked.guessedLetters.addAll(gameState.guessedLetters)
         masked.isGameLost = gameState.isGameLost()
         masked.isGameWon = gameState.isGameWon()
         masked.isGameOver = gameState.isGameOver()
@@ -79,14 +105,6 @@ class GameMasker {
         masked.maxPenalties = gameState.maxPenalties
         masked.penalties = gameState.penalties
         masked.penaltiesRemaining = gameState.penaltiesRemaining
-        masked.workingWordPhrase = gameState.workingWordPhraseString
-        gameState.featureData.each {
-            GameFeature feature, Object data ->
-                masked.featureData[feature] =
-                        (data in String && idmap.containsKey(data)) ?
-                                idmap[(String) data].md5 :
-                                data
-        }
         masked
     }
 
