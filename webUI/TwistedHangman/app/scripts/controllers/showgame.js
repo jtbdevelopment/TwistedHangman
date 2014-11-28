@@ -1,18 +1,18 @@
 'use strict';
 
-angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope, $scope, $routeParams, $http, $location, twCurrentPlayerService, twShowGameCache, twShowGameService) {
-  $scope.gameID = $routeParams.gameID;
+angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope, $scope, $routeParams, $http, $location, twCurrentPlayerService, twShowGameService) {
   twShowGameService.initializeScope($scope);
+  $scope.gameID = $routeParams.gameID;
 
   twCurrentPlayerService.currentPlayer().then(function (data) {
     $scope.player = data;
-    twShowGameService.computeGameState();
+    twShowGameService.computeGameState($scope);
   }, function () {
     // TODO
   });
 
   $http.get(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID).success(function (data) {
-    twShowGameService.processGame(data);
+    twShowGameService.processGame($scope, data);
   }).error(function (data, status, headers, config) {
     //  TODO
     console.error(data + status + headers + config);
@@ -23,7 +23,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
       $rootScope.$broadcast('refreshGames', data.gamePhase);
       $rootScope.$broadcast('refreshGames', 'Rematched');
       $rootScope.$broadcast('refreshGames', 'Rematch');
-      twShowGameService.processGame(data);
+      twShowGameService.processGame($scope, data);
       $location.path('/show/' + data.id);
     }).error(function (data, status, headers, config) {
       //  TODO
@@ -34,7 +34,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
   //  TODO - test
   $scope.accept = function () {
     $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/accept').success(function (data) {
-      twShowGameService.processUpdate(data);
+      twShowGameService.processUpdate($scope, data);
     }).error(function (data, status, headers, config) {
       //  TODO
       console.error(data + status + headers + config);
@@ -43,7 +43,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
   //  TODO - test
   $scope.reject = function () {
     $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/reject').success(function (data) {
-      twShowGameService.processUpdate(data);
+      twShowGameService.processUpdate($scope, data);
     }).error(function (data, status, headers, config) {
       //  TODO
       console.error(data + status + headers + config);
@@ -52,7 +52,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
 
   $scope.sendGuess = function (letter) {
     $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/guess/' + letter).success(function (data) {
-      twShowGameService.processUpdate(data);
+      twShowGameService.processUpdate($scope, data);
     }).error(function (data, status, headers, config) {
       //  TODO
       console.error(data + status + headers + config);
@@ -61,7 +61,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
 
   $scope.stealLetter = function (position) {
     $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/steal/' + position).success(function (data) {
-      twShowGameService.processUpdate(data);
+      twShowGameService.processUpdate($scope, data);
     }).error(function (data, status, headers, config) {
       //  TODO
       console.error(data + status + headers + config);

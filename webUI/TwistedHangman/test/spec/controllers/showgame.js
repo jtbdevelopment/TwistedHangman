@@ -73,10 +73,10 @@ describe('Controller: ShowCtrl', function () {
     playerDeferred.resolve(player);
     rootScope.$apply();
     expect(scope.player).toEqual(player);
-    expect(showGameService.computeGameState).toHaveBeenCalled();
+    expect(showGameService.computeGameState).toHaveBeenCalledWith(scope);
 
     http.flush();
-    expect(showGameService.processGame).toHaveBeenCalledWith(game);
+    expect(showGameService.processGame).toHaveBeenCalledWith(scope, game);
   });
 
   it('post rematch', function () {
@@ -89,7 +89,7 @@ describe('Controller: ShowCtrl', function () {
     expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'Rematch');
     expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'Rematched');
     expect(location.path).toHaveBeenCalledWith('/show/newid');
-    expect(showGameService.processGame).toHaveBeenCalledWith(newGame);
+    expect(showGameService.processGame).toHaveBeenCalledWith(scope, newGame);
   });
 
   it('guess letter', function () {
@@ -98,7 +98,7 @@ describe('Controller: ShowCtrl', function () {
     scope.sendGuess('a');
     http.flush();
 
-    expect(showGameService.processUpdate).toHaveBeenCalledWith(updatedGame);
+    expect(showGameService.processUpdate).toHaveBeenCalledWith(scope, updatedGame);
   });
 
   it('steal letter', function () {
@@ -107,7 +107,7 @@ describe('Controller: ShowCtrl', function () {
     scope.stealLetter('2');
     http.flush();
 
-    expect(showGameService.processUpdate).toHaveBeenCalledWith(updatedGame);
+    expect(showGameService.processUpdate).toHaveBeenCalledWith(scope, updatedGame);
   });
 
   it('role for player', function () {

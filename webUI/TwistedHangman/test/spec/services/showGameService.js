@@ -32,11 +32,10 @@ describe('Service: showGameSevice', function () {
     md5: 'md1'
   };
 
-  var service, cache, rootscope;
+  var service, rootscope;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($rootScope, $injector, twShowGameCache) {
-    cache = twShowGameCache;
+  beforeEach(inject(function ($rootScope, $injector) {
     rootscope = $rootScope;
     spyOn($rootScope, '$broadcast');
     service = $injector.get('twShowGameService');
@@ -47,7 +46,6 @@ describe('Service: showGameSevice', function () {
 
     scope.game = showGameServiceGame;
     service.initializeScope(scope);
-    expect(cache.get('scope')).toBe(scope);
     expect(scope.workingWordPhraseArray).toEqual([]);
     expect(scope.workingWordPhraseClasses).toEqual([]);
     expect(scope.letters).toEqual(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']);
@@ -56,24 +54,21 @@ describe('Service: showGameSevice', function () {
 
   it('computeState without player or game does not work', function () {
     var scope = rootscope.$new();
-    cache.put('scope', scope);
-    service.computeGameState();
+    service.computeGameState(scope);
     expect(typeof scope.gameState).toEqual('undefined');
   });
 
   it('computeState without player does not work', function () {
     var scope = rootscope.$new();
     scope.game = showGameServiceGame;
-    cache.put('scope', scope);
-    service.computeGameState();
+    service.computeGameState(scope);
     expect(typeof scope.gameState).toEqual('undefined');
   });
 
   it('computeState without game does not work', function () {
     var scope = rootscope.$new();
     scope.player = player;
-    cache.put('scope', scope);
-    service.computeGameState();
+    service.computeGameState(scope);
     expect(typeof scope.gameState).toEqual('undefined');
   });
 
@@ -82,7 +77,7 @@ describe('Service: showGameSevice', function () {
     scope.player = player;
     scope.game = showGameServiceGame;
     service.initializeScope(scope);
-    service.computeGameState();
+    service.computeGameState(scope);
     expect(scope.gameState).toBe(md1SS);
     expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
     expect(scope.image).toEqual('hangman5.png');
@@ -95,16 +90,16 @@ describe('Service: showGameSevice', function () {
     scope.game = angular.copy(showGameServiceGame);
     service.initializeScope(scope);
     scope.game.solverStates.md1.maxPenalties = 13;
-    service.computeGameState();
+    service.computeGameState(scope);
     expect(scope.image).toEqual('hangman2.png');
     scope.game.solverStates.md1.maxPenalties = 10;
-    service.computeGameState();
+    service.computeGameState(scope);
     expect(scope.image).toEqual('hangman5.png');
     scope.game.solverStates.md1.maxPenalties = 9;
-    service.computeGameState();
+    service.computeGameState(scope);
     expect(scope.image).toEqual('hangman2.png');
     scope.game.solverStates.md1.maxPenalties = 2;
-    service.computeGameState();
+    service.computeGameState(scope);
     expect(scope.image).toEqual('hangman13.png');
   });
 
@@ -115,7 +110,7 @@ describe('Service: showGameSevice', function () {
     scope.game.solverStates.md1.featureData.ThievingPositionTracking = [false, true, false, false, true];
     service.initializeScope(scope);
 
-    service.computeGameState();
+    service.computeGameState(scope);
     expect(scope.workingWordPhraseClasses).toEqual(['stealablewp', 'stolenwp', 'stealablewp', 'stealablewp', 'stolenwp']);
     expect(scope.image).toEqual('hangman5.png');
     expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'regular']);
@@ -126,7 +121,7 @@ describe('Service: showGameSevice', function () {
     scope.player = player;
     scope.game = angular.copy(showGameServiceGame);
     service.initializeScope(scope);
-    service.computeGameState();
+    service.computeGameState(scope);
 
     var update = angular.copy(showGameServiceGame);
     update.lastUpdate = 1345100;
@@ -134,7 +129,7 @@ describe('Service: showGameSevice', function () {
     update.solverStates.md1.penalties = 3;
     update.solverStates.md1.badlyGuessedLetters = ['X', 'Y', 'Z'];
 
-    service.processGame(update);
+    service.processGame(scope, update);
     expect(scope.lastUpdate).toEqual(new Date(1345100000));
     expect(scope.created).toEqual(new Date(1345000000));
     expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
@@ -147,7 +142,7 @@ describe('Service: showGameSevice', function () {
     scope.player = player;
     scope.game = angular.copy(showGameServiceGame);
     service.initializeScope(scope);
-    service.computeGameState();
+    service.computeGameState(scope);
 
     var update = angular.copy(showGameServiceGame);
     update.lastUpdate = 1345100;
@@ -156,7 +151,7 @@ describe('Service: showGameSevice', function () {
     update.solverStates.md1.badlyGuessedLetters = ['X', 'Y', 'Z'];
 
 
-    service.processUpdate(update);
+    service.processUpdate(scope, update);
     expect(scope.lastUpdate).toEqual(new Date(1345100000));
     expect(scope.created).toEqual(new Date(1345000000));
     expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
@@ -171,7 +166,7 @@ describe('Service: showGameSevice', function () {
     scope.game = angular.copy(showGameServiceGame);
     scope.game.gamePhase = 'X';
     service.initializeScope(scope);
-    service.computeGameState();
+    service.computeGameState(scope);
 
     var update = angular.copy(showGameServiceGame);
     update.lastUpdate = 1345100;
@@ -180,7 +175,7 @@ describe('Service: showGameSevice', function () {
     update.solverStates.md1.badlyGuessedLetters = ['X', 'Y', 'Z'];
     update.gamePhase = 'Y';
 
-    service.processUpdate(update);
+    service.processUpdate(scope, update);
     expect(scope.lastUpdate).toEqual(new Date(1345100000));
     expect(scope.created).toEqual(new Date(1345000000));
     expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);

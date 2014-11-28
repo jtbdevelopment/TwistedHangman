@@ -1,83 +1,78 @@
 'use strict';
 
-var SCOPE = 'scope';
 var LETTERA = 'A'.charCodeAt(0);
 
-angular.module('twistedHangmanApp').factory('twShowGameService', function ($rootScope, twShowGameCache) {
-  function computeWordPhrase(sharedScope) {
-    sharedScope.workingWordPhraseArray = sharedScope.gameState.workingWordPhrase.split('');
-    for (var i = 0; i < sharedScope.workingWordPhraseArray.length; i++) {
+angular.module('twistedHangmanApp').factory('twShowGameService', function ($rootScope) {
+  function computeWordPhrase(scope) {
+    scope.workingWordPhraseArray = scope.gameState.workingWordPhrase.split('');
+    for (var i = 0; i < scope.workingWordPhraseArray.length; i++) {
       var r = 'regularwp';
-      if (typeof sharedScope.gameState.featureData.ThievingPositionTracking !== 'undefined') {
-        r = (sharedScope.gameState.featureData.ThievingPositionTracking[i] === true) ? 'stolenwp' : 'stealablewp';
+      if (typeof scope.gameState.featureData.ThievingPositionTracking !== 'undefined') {
+        r = (scope.gameState.featureData.ThievingPositionTracking[i] === true) ? 'stolenwp' : 'stealablewp';
       }
-      sharedScope.workingWordPhraseClasses[i] = r;
+      scope.workingWordPhraseClasses[i] = r;
     }
   }
 
-  function computeImage(sharedScope) {
-    if (sharedScope.gameState.penalties === sharedScope.gameState.maxPenalties) {
-      sharedScope.image = 'hangman13.png';
+  function computeImage(scope) {
+    if (scope.gameState.penalties === scope.gameState.maxPenalties) {
+      scope.image = 'hangman13.png';
       return;
     }
     var n = 0;
-    switch (sharedScope.gameState.maxPenalties) {
+    switch (scope.gameState.maxPenalties) {
       case 6:
       case 10:
-        n = sharedScope.gameState.penalties + 3;
+        n = scope.gameState.penalties + 3;
         break;
       default:
-        n = sharedScope.gameState.penalties;
+        n = scope.gameState.penalties;
         break;
     }
-    sharedScope.image = 'hangman' + n + '.png';
+    scope.image = 'hangman' + n + '.png';
   }
 
-  function computeKeyboard(sharedScope) {
+  function computeKeyboard(scope) {
     //  TODO - show stolen letters when stealing auto gets the rest
-    sharedScope.gameState.guessedLetters.forEach(function (item) {
-      sharedScope.letterClasses[item.charCodeAt(0) - LETTERA] = 'guessedkb';
+    scope.gameState.guessedLetters.forEach(function (item) {
+      scope.letterClasses[item.charCodeAt(0) - LETTERA] = 'guessedkb';
     });
-    sharedScope.gameState.badlyGuessedLetters.forEach(function (item) {
-      sharedScope.letterClasses[item.charCodeAt(0) - LETTERA] = 'badguesskb';
+    scope.gameState.badlyGuessedLetters.forEach(function (item) {
+      scope.letterClasses[item.charCodeAt(0) - LETTERA] = 'badguesskb';
     });
   }
 
   return {
-    initializeScope: function ($scope) {
-      twShowGameCache.put(SCOPE, $scope);
-      $scope.workingWordPhraseArray = [];
-      $scope.workingWordPhraseClasses = [];
-      $scope.letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-      $scope.letterClasses = [];
-      $scope.letters.forEach(function () {
-        $scope.letterClasses.push('regular');
+    initializeScope: function (scope) {
+      scope.workingWordPhraseArray = [];
+      scope.workingWordPhraseClasses = [];
+      scope.letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+      scope.letterClasses = [];
+      scope.letters.forEach(function () {
+        scope.letterClasses.push('regular');
       });
     },
-    computeGameState: function () {
-      var sharedScope = twShowGameCache.get(SCOPE);
-      if (typeof sharedScope.player === 'undefined' || typeof sharedScope.game === 'undefined') {
+    computeGameState: function (scope) {
+      if (typeof scope.player === 'undefined' || typeof scope.game === 'undefined') {
         return;
       }
-      sharedScope.gameState = sharedScope.game.solverStates[sharedScope.player.md5];
-      computeImage(sharedScope);
-      computeWordPhrase(sharedScope);
-      computeKeyboard(sharedScope);
+      scope.gameState = scope.game.solverStates[scope.player.md5];
+      computeImage(scope);
+      computeWordPhrase(scope);
+      computeKeyboard(scope);
     },
 
-    processGame: function (data) {
-      var sharedScope = twShowGameCache.get(SCOPE);
-      sharedScope.game = data;
+    processGame: function (scope, data) {
+      scope.game = data;
       //  TODO - convert to millis on server
-      sharedScope.lastUpdate = new Date(sharedScope.game.lastUpdate * 1000);
-      sharedScope.created = new Date(sharedScope.game.created * 1000);
-      this.computeGameState();
+      scope.lastUpdate = new Date(scope.game.lastUpdate * 1000);
+      scope.created = new Date(scope.game.created * 1000);
+      this.computeGameState(scope);
     },
 
-    processUpdate: function (data) {
-      var sharedScope = twShowGameCache.get(SCOPE);
-      var beforePhase = sharedScope.game.gamePhase;
-      this.processGame(data);
+    processUpdate: function (scope, data) {
+      var beforePhase = scope.game.gamePhase;
+      this.processGame(scope, data);
       $rootScope.$broadcast('refreshGames', data.gamePhase);
       if (data.gamePhase !== beforePhase) {
         $rootScope.$broadcast('refreshGames', beforePhase);
