@@ -4,7 +4,6 @@ describe('Controller: ShowCtrl', function () {
   // load the controller's module
   beforeEach(module('twistedHangmanApp'));
 
-  //var game = {'mygame': 'game'};
   var game = {
     id: 'id',
     players: {'md1': 'P1', 'md2': 'P2', 'md3': 'P3', 'md4': 'P4', 'md5': 'P5'},
@@ -20,24 +19,18 @@ describe('Controller: ShowCtrl', function () {
   var player = {'player': 'player'};
   var ctrl, scope, http, rootScope, showGameService, q, playerDeferred, location;
 
-  beforeEach(inject(function ($rootScope, $httpBackend, $q) {
+  // Initialize the controller and a mock scope
+  beforeEach(inject(function ($rootScope, $httpBackend, $q, $controller) {
     rootScope = $rootScope;
     http = $httpBackend;
     q = $q;
     spyOn(rootScope, '$broadcast');
-    showGameService = {
-      computeGameState: jasmine.createSpy(),
-      initializeScope: jasmine.createSpy(),
-      processUpdate: jasmine.createSpy(),
-      processGame: jasmine.createSpy()
-    };
+    showGameService = jasmine.createSpyObj('showGameService', ['computeGameState', 'initializeScope', 'processUpdate', 'processGame']);
     location = {path: jasmine.createSpy()};
-  }));
 
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller) {
     scope = rootScope.$new();
     scope.game = game;
+
     var mockPlayerService = {
       currentPlayerBaseURL: function () {
         return '/api/player/MANUAL1';
@@ -69,7 +62,7 @@ describe('Controller: ShowCtrl', function () {
   it('initializes', function () {
     expect(showGameService.initializeScope).toHaveBeenCalledWith(scope);
 
-    expect(typeof scope.player).toEqual('undefined');
+    expect(scope.player).toBeUndefined();
     playerDeferred.resolve(player);
     rootScope.$apply();
     expect(scope.player).toEqual(player);

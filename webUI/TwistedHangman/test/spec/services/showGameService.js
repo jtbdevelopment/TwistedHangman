@@ -25,7 +25,8 @@ describe('Service: showGameSevice', function () {
       md3: {isGameOver: false, isGameWon: false}
     },
     playerScores: {'md1': 0, 'md2': 2, 'md3': 10, 'md4': -3, 'md5': -5},
-    gameID: 'id'
+    gameID: 'id',
+    featureData: {}
   };
   var player = {
     id: 'pid',
@@ -55,21 +56,21 @@ describe('Service: showGameSevice', function () {
   it('computeState without player or game does not work', function () {
     var scope = rootscope.$new();
     service.computeGameState(scope);
-    expect(typeof scope.gameState).toEqual('undefined');
+    expect(scope.gameState).toBeUndefined();
   });
 
   it('computeState without player does not work', function () {
     var scope = rootscope.$new();
     scope.game = showGameServiceGame;
     service.computeGameState(scope);
-    expect(typeof scope.gameState).toEqual('undefined');
+    expect(scope.gameState).toBeUndefined();
   });
 
   it('computeState without game does not work', function () {
     var scope = rootscope.$new();
     scope.player = player;
     service.computeGameState(scope);
-    expect(typeof scope.gameState).toEqual('undefined');
+    expect(scope.gameState).toBeUndefined();
   });
 
   it('computeState for non-thieving game', function () {

@@ -8,16 +8,13 @@ describe('Controller: CreateCtrl', function () {
   var ctrl, scope, http, q, rootScope, featureDeferred, location, friendsDeferred;
   var friends = {md1: 'friend1', md2: 'friend2', md3: 'friend3', md4: 'friend4'};
 
-  beforeEach(inject(function ($rootScope, $httpBackend, $q) {
+  // Initialize the controller and a mock scope
+  beforeEach(inject(function ($rootScope, $httpBackend, $q, $controller) {
     rootScope = $rootScope;
     http = $httpBackend;
     q = $q;
     spyOn(rootScope, '$broadcast');
     location = {path: jasmine.createSpy()};
-  }));
-
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller) {
     scope = rootScope.$new();
     var mockFeatureService = {
       features: function () {
