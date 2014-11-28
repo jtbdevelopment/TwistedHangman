@@ -28,19 +28,28 @@ abstract class AbstractGameActionHandler<T> extends AbstractGameGetterHandler {
                 gameRepository.save(
                         transitionEngine.evaluateGamePhaseForGame(
                                 rotateTurnBasedGame(
-                                        handleActionInternal(player, game, param), player))),
+                                        handleActionInternal(player, game, param)))),
                 player)
     }
 
-    protected static Game rotateTurnBasedGame(final Game game, final Player player) {
+    protected static Game rotateTurnBasedGame(final Game game) {
         if (game.gamePhase == GamePhase.Playing && game.features.contains(GameFeature.TurnBased)) {
-            int index = game.players.indexOf(player) + 1
-            if (index >= game.players.size()) {
-                index = 0
+            rotateOnePlayer(game)
+
+            //  TODO - test for this..
+            if (game.featureData[GameFeature.TurnBased] == game.wordPhraseSetter) {
+                rotateOnePlayer(game);
             }
-            game.featureData[GameFeature.TurnBased] = game.players[index].id
         }
         game
+    }
+
+    protected static void rotateOnePlayer(final Game game) {
+        int index = game.players.findIndexOf { Player p -> p.id == game.featureData[GameFeature.TurnBased] } + 1
+        if (index >= game.players.size()) {
+            index = 0
+        }
+        game.featureData[GameFeature.TurnBased] = game.players[index].id
     }
 
 }

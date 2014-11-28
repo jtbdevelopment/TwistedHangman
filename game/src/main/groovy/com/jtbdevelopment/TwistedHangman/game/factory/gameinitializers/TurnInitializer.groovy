@@ -17,6 +17,10 @@ class TurnInitializer implements GameInitializer {
     void initializeGame(final Game game) {
         if (game.features.contains(GameFeature.TurnBased)) {
             game.featureData[GameFeature.TurnBased] = game.players[0].id
+            //  TODO - test
+            if (game.featureData[GameFeature.TurnBased] == game.wordPhraseSetter) {
+                game.featureData[GameFeature.TurnBased] = game.players[1].id
+            }
         }
     }
 }

@@ -2,10 +2,8 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.input.PlayerNotPartOfGameException
-import com.jtbdevelopment.TwistedHangman.exceptions.input.PlayerOutOfTurnException
 import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindGameException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
-import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
@@ -27,14 +25,9 @@ class AbstractGameGetterHandler extends AbstractHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractGameActionHandler.class)
 
-    protected static void validatePlayerForGame(final Game game, final Player player) {
+    protected void validatePlayerForGame(final Game game, final Player player) {
         if (!game.players.contains(player)) {
             throw new PlayerNotPartOfGameException()
-        }
-        if (game.features.contains(GameFeature.TurnBased)) {
-            if (game.featureData[GameFeature.TurnBased] != player.id) {
-                throw new PlayerOutOfTurnException()
-            }
         }
     }
 

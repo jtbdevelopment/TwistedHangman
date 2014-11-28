@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component
  */
 @CompileStatic
 @Component
-class GuessLetterHandler extends AbstractGameActionHandler<Character> {
+class GuessLetterHandler extends AbstractGamePlayActionHandler<Character> {
     @Autowired
     HangmanGameActions gameActions
 

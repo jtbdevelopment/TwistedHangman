@@ -47,6 +47,17 @@
   <!--  End Picture  -->
   </tbody>
 </table>
+<div ng-show="showPuzzleEnty">
+  <div ng-show="allowPuzzleEntry">
+    <p><label>Category:<input ng-model="enteredCategory" type="text"/></label></p>
+
+    <p><label>Word/Phrase:<input ng-model="enteredWordPhrase" type="text"/></label></p>
+    <button ng-click="setPuzzle()">Set the Puzzle!</button>
+  </div>
+  <div ng-hide="allowPuzzleEntry">
+    <p><span>Waiting for puzzles to finish being set.</span></p>
+  </div>
+</div>
 <div ng-show="showPlaySection">
   <p>
     {{gameState.category}}

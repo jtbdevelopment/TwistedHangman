@@ -3,6 +3,8 @@
 angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope, $scope, $routeParams, $http, $location, twCurrentPlayerService, twShowGameService) {
   twShowGameService.initializeScope($scope);
   $scope.gameID = $routeParams.gameID;
+  $scope.enteredCategory = '';
+  $scope.enteredWordPhrase = '';
 
   twCurrentPlayerService.currentPlayer().then(function (data) {
     $scope.player = data;
@@ -40,6 +42,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
       console.error(data + status + headers + config);
     });
   };
+
   //  TODO - test
   $scope.reject = function () {
     $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/reject').success(function (data) {
@@ -48,6 +51,21 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
       //  TODO
       console.error(data + status + headers + config);
     });
+  };
+
+  //  TODO - test
+  $scope.setPuzzle = function () {
+    $http.put(
+      twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/puzzle',
+      {
+        category: $scope.enteredCategory,
+        wordPhrase: $scope.enteredWordPhrase
+      }).success(function (data) {
+        twShowGameService.processUpdate($scope, data);
+      }).error(function (data, status, headers, config) {
+        //  TODO
+        console.error(data + status + headers + config);
+      });
   };
 
   $scope.sendGuess = function (letter) {

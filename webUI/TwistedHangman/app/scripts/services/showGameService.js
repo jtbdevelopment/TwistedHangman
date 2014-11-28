@@ -15,6 +15,11 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
   }
 
   function computeImage(scope) {
+    if (typeof scope.gameState === 'undefined') {
+      //  TODO - test this case
+      scope.image = 'hangman0.png';
+    }
+    //  TODO - puzzle setter doesn't work
     if (scope.gameState.penalties === scope.gameState.maxPenalties) {
       scope.image = 'hangman13.png';
       return;
@@ -48,8 +53,8 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
     scope.allowPlayMoves = false;
     scope.showPlayerStates = false;
     scope.showChallengeButtons = false;
-    scope.showPuzzleEnty = false;         //  TODO - use
-    scope.allowPuzzleEntry = false;       //  TODO - use
+    scope.showPuzzleEnty = false;
+    scope.allowPuzzleEntry = false;
     scope.showGameSummary = true;
     scope.showRematchButtons = false;
     if (typeof scope.game === 'undefined' || typeof scope.player === 'undefined') {
@@ -58,21 +63,21 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
     switch (scope.game.gamePhase) {
       case 'Challenge':
         scope.showPlayerStates = true;
-        scope.showChallengeButtons = true;
+        scope.showChallengeButtons = (scope.game.playerStates[scope.player.md5] === 'Pending');
         break;
       case 'Declined':
         scope.showPlayerStates = true;
         break;
       case 'Setup':
         scope.showPuzzleEnty = true;
-        if (scope.game.puzzleSetter === null) {
+        if (scope.game.wordPhraseSetter === null) {
           angular.forEach(scope.game.solverStates, function (state, md5) {
             if (md5 !== scope.player.md5) {
               scope.allowPuzzleEntry = (state.workingWordPhrase === '');
             }
           });
         } else {
-          scope.allowPuzzleEntry = (scope.game.puzzleSetter === scope.player.md5);
+          scope.allowPuzzleEntry = (scope.game.wordPhraseSetter === scope.player.md5);
         }
         break;
       case 'Playing':
@@ -80,7 +85,7 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
         if (typeof scope.game.featureData.TurnBased === 'undefined') {
           scope.allowPlayMoves = true;
         } else {
-          scope.allowPlayMoves = (scope.player.md5 === scope.game.gameFeatures.TurnBased);
+          scope.allowPlayMoves = (scope.player.md5 === scope.game.featureData.TurnBased);
         }
         break;
       case 'Rematch':
