@@ -1,8 +1,8 @@
 'use strict';
 
-var LETTERA = 'A'.charCodeAt(0);
-
 angular.module('twistedHangmanApp').factory('twShowGameService', function ($rootScope) {
+  var LETTERA = 'A'.charCodeAt(0);
+
   function computeWordPhrase(scope) {
     scope.workingWordPhraseArray = scope.gameState.workingWordPhrase.split('');
     for (var i = 0; i < scope.workingWordPhraseArray.length; i++) {
