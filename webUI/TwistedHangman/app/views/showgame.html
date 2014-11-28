@@ -47,7 +47,7 @@
   <!--  End Picture  -->
   </tbody>
 </table>
-<div ng-show="sharedScope.game.gamePhase === 'Playing'" ng-controller="PlayCtrl">
+<div ng-show="game.gamePhase === 'Playing'">
   <p>
     {{gameState.category}}
   </p>
@@ -63,7 +63,7 @@
   </p>
   <!--  TODO - disable stealing and keyboard when individual game is over but still playing... show word phrase on lost-->
 </div>
-<div ng-show="sharedScope.game.gamePhase === 'Challenge' || sharedScope.game.gamePhase === 'Declined'">
+<div ng-show="game.gamePhase === 'Challenge' || game.gamePhase === 'Declined'">
   <table>
     <thead>
     <tr>
@@ -72,11 +72,11 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="(md5, state) in sharedScope.game.playerStates | orderBy:state">
-      <td>{{sharedScope.game.players[md5]}}</td>
+    <tr ng-repeat="(md5, state) in game.playerStates | orderBy:state">
+      <td>{{game.players[md5]}}</td>
       <td>{{state}}</td>
     </tr>
-    <tr ng-show="sharedScope.game.playerStates[sharedScope.player.md5] === 'Pending'">  <!--ng-show="showButtons()"-->
+    <tr ng-show="game.playerStates[player.md5] === 'Pending'">  <!--ng-show="showButtons()"-->
       <td>
         <button ng-click="accept()" class="btn"><span class="glyphicon glyphicon-thumbs-up"></span>Accept</button>
       </td>
@@ -87,7 +87,7 @@
     </tbody>
   </table>
 </div>
-<div ng-show="sharedScope.game.gamePhase === 'Rematch' || sharedScope.game.gamePhase === 'Rematched'">
+<div>
   <table>
     <thead>
     <tr>
@@ -97,7 +97,7 @@
       <th>Score</th>
       <th>Running Score</th>
     </tr>
-    <tr ng-repeat="(md5, name) in sharedScope.game.players">
+    <tr ng-repeat="(md5, name) in game.players">
       <td>{{name}}</td>
       <td>{{roleForPlayer(md5)}}</td>
       <td>{{gameEndForPlayer(md5)}}</td>
