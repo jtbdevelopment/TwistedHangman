@@ -1,7 +1,5 @@
 'use strict';
 
-var SCOPE = 'scope';
-
 angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope, $scope, $routeParams, $http, $location, twCurrentPlayerService, twShowGameCache, twShowGameService) {
   $scope.gameID = $routeParams.gameID;
   twShowGameService.initializeScope($scope);
@@ -69,24 +67,20 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
       console.error(data + status + headers + config);
     });
   };
-});
-
-angular.module('twistedHangmanApp').controller('GameSummaryCtrl', function ($scope, twShowGameCache) {
-  $scope.sharedScope = twShowGameCache.get(SCOPE);
 
   $scope.roleForPlayer = function (md5) {
-    if (md5 === $scope.sharedScope.game.puzzleSetter) {
+    if (md5 === $scope.game.puzzleSetter) {
       return 'Set Puzzle';
     }
     return 'Solver';
   };
 
   $scope.gameEndForPlayer = function (md5) {
-    if (md5 === $scope.sharedScope.game.puzzleSetter) {
+    if (md5 === $scope.game.puzzleSetter) {
       return 'N/A';
     }
 
-    var solverState = $scope.sharedScope.game.solverStates[md5];
+    var solverState = $scope.game.solverStates[md5];
     if (typeof solverState === 'undefined') {
       return 'Unknown';
     }
@@ -99,6 +93,6 @@ angular.module('twistedHangmanApp').controller('GameSummaryCtrl', function ($sco
   };
 
   $scope.runningScoreForPlayer = function (md5) {
-    return $scope.sharedScope.game.playerScores[md5];
+    return $scope.game.playerScores[md5];
   };
 });
