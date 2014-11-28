@@ -149,7 +149,7 @@ class ServerIntegration {
 
         assert game.gamePhase == GamePhase.Challenge
         assert game.solverStates[TEST_PLAYER1.md5] != null
-        assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase != ""
+        assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase == ""
         def P1G = P1.path("play").path(game.id)
         def P2G = P2.path("play").path(game.id)
         def P3G = P3.path("play").path(game.id)
@@ -159,7 +159,7 @@ class ServerIntegration {
         game = P2G.request(MediaType.APPLICATION_JSON).get(MaskedGame.class)
         assert game.gamePhase == GamePhase.Challenge
         assert game.solverStates[TEST_PLAYER2.md5] != null
-        assert game.solverStates[TEST_PLAYER2.md5].workingWordPhrase != ""
+        assert game.solverStates[TEST_PLAYER2.md5].workingWordPhrase == ""
         game = putMG(P3G.path("accept"))
         game = P3G.request(MediaType.APPLICATION_JSON).get(MaskedGame.class)
         assert game.gamePhase == GamePhase.Playing
@@ -170,10 +170,14 @@ class ServerIntegration {
         assert game.gamePhase == GamePhase.Playing
         assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase.charAt(0).letter
         assert game.solverStates[TEST_PLAYER1.md5].penalties == 1
+        assert game.solverStates[TEST_PLAYER1.md5].wordPhrase == ""
         assert game.solverStates[TEST_PLAYER1.md5].penaltiesRemaining == 9
         assert game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingCountTracking] == 1
+        assert game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingLetters] == [game.solverStates[TEST_PLAYER1.md5].workingWordPhrase.charAt(0)]
         assert game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingPositionTracking][0] == true
         assert game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingPositionTracking][1] == false
+        assert game.solverStates[TEST_PLAYER3.md5]
+        assert game.solverStates[TEST_PLAYER3.md5].wordPhrase == ""
 
         GameRepository gameRepository = applicationContext.getBean(GameRepository.class)
         Game dbLoaded1 = gameRepository.findOne(game.id)
