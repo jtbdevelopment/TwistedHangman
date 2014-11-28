@@ -63,6 +63,31 @@
   </p>
   <!--  TODO - disable stealing and keyboard when individual game is over but still playing... show word phrase on lost-->
 </div>
+<div ng-show="sharedScope.game.gamePhase === 'Challenge' || sharedScope.game.gamePhase === 'Declined'"
+     ng-controller="ChallengeCtrl">
+  <table>
+    <thead>
+    <tr>
+      <th>Player</th>
+      <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="(md5, state) in sharedScope.game.playerStates | orderBy:state">
+      <td>{{sharedScope.game.players[md5]}}</td>
+      <td>{{state}}</td>
+    </tr>
+    <tr ng-show="sharedScope.game.playerStates[sharedScope.player.md5] === 'Pending'">  <!--ng-show="showButtons()"-->
+      <td>
+        <button ng-click="accept()" class="btn"><span class="glyphicon glyphicon-thumbs-up"></span>Accept</button>
+      </td>
+      <td>
+        <button ng-click="reject()" class="btn"><span class="glyphicon glyphicon-thumbs-down">Reject</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 <div ng-show="sharedScope.game.gamePhase === 'Rematch' || sharedScope.game.gamePhase === 'Rematched'"
      ng-controller="GameSummaryCtrl">
   <table>

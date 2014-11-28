@@ -76,7 +76,7 @@ describe('Service: currentPlayer', function () {
     httpBackend.expectGET('/api/player/' + testID + '/friends').respond(friendResult);
     expect(service.currentID()).toEqual(testID);
     var friends = null;
-    service.friends().then(function (data) {
+    service.currentPlayerFriends().then(function (data) {
       friends = data;
     }, function (error) {
       friends = error;
@@ -90,7 +90,7 @@ describe('Service: currentPlayer', function () {
     httpBackend.expectGET('/api/player/' + testID + '/friends').respond(friendResult);
     expect(service.currentID()).toEqual(testID);
     var friends = null;
-    service.friends().then(function (data) {
+    service.currentPlayerFriends().then(function (data) {
       friends = data;
     }, function (error) {
       friends = error;
@@ -99,7 +99,7 @@ describe('Service: currentPlayer', function () {
 
     expect(friends).toEqual(friendResult);
 
-    service.friends().then(function (data) {
+    service.currentPlayerFriends().then(function (data) {
       friends = data;
     }, function (error) {
       friends = error;

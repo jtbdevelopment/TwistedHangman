@@ -17,7 +17,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($scope, $ro
     twShowGameService.processGame(data);
   }).error(function (data, status, headers, config) {
     //  TODO
-    console.log(data + status + headers + config);
+    console.error(data + status + headers + config);
   });
 });
 
@@ -29,7 +29,7 @@ angular.module('twistedHangmanApp').controller('PlayCtrl', function ($scope, $ht
       twShowGameService.processUpdate(data);
     }).error(function (data, status, headers, config) {
       //  TODO
-      console.log(data + status + headers + config);
+      console.error(data + status + headers + config);
     });
   };
 
@@ -38,12 +38,33 @@ angular.module('twistedHangmanApp').controller('PlayCtrl', function ($scope, $ht
       twShowGameService.processUpdate(data);
     }).error(function (data, status, headers, config) {
       //  TODO
-      console.log(data + status + headers + config);
+      console.error(data + status + headers + config);
     });
   };
 });
 
-angular.module('twistedHangmanApp').controller('RematchCtrl', function ($rootScope, $scope, $http, $window, twCurrentPlayerService, twShowGameCache, twShowGameService) {
+angular.module('twistedHangmanApp').controller('ChallengeCtrl', function ($scope, $http, twCurrentPlayerService, twShowGameCache, twShowGameService) {
+  $scope.sharedScope = twShowGameCache.get(SCOPE);
+
+  $scope.accept = function () {
+    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.sharedScope.gameID + '/accept').success(function (data) {
+      twShowGameService.processUpdate(data);
+    }).error(function (data, status, headers, config) {
+      //  TODO
+      console.error(data + status + headers + config);
+    });
+  };
+  $scope.reject = function () {
+    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.sharedScope.gameID + '/reject').success(function (data) {
+      twShowGameService.processUpdate(data);
+    }).error(function (data, status, headers, config) {
+      //  TODO
+      console.error(data + status + headers + config);
+    });
+  };
+});
+
+angular.module('twistedHangmanApp').controller('RematchCtrl', function ($rootScope, $scope, $http, $location, twCurrentPlayerService, twShowGameCache, twShowGameService) {
   $scope.sharedScope = twShowGameCache.get(SCOPE);
 
   $scope.startRematch = function () {
@@ -52,10 +73,10 @@ angular.module('twistedHangmanApp').controller('RematchCtrl', function ($rootSco
       $rootScope.$broadcast('refreshGames', 'Rematched');
       $rootScope.$broadcast('refreshGames', 'Rematch');
       twShowGameService.processGame(data);
-      $window.location.replace('#/show/' + data.id);
+      $location.path('/show/' + data.id);
     }).error(function (data, status, headers, config) {
       //  TODO
-      console.log(data + status + headers + config);
+      console.error(data + status + headers + config);
     });
   };
 });

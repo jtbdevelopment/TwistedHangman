@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils
  */
 @Document
 //  This propagating to game table...
-//@CompoundIndex(unique = true, name = "id_source", def = "{'_id':1, 'source':1}")
+//@CompoundIndex(unique = true, name = "id_source", def = "{'sourceId':1, 'source':1}")
 @CompileStatic
 class Player implements Cloneable {
 
@@ -29,7 +29,9 @@ class Player implements Cloneable {
     @Id
     String id
     String source
+    String sourceId
     String displayName
+
     @Indexed
     private String md5
     boolean disabled = false
@@ -81,6 +83,7 @@ class Player implements Cloneable {
         return md5
     }
 
+    //  TODO - add salting
     private String computeMD5Hex() {
         String key = id + source + displayName
         md5 = DigestUtils.md5Hex(key)

@@ -25,6 +25,8 @@ class PlayerGatewayService {
 
     @Autowired
     PlayerServices playerServices
+    @Autowired
+    AdminServices adminServices
 
     @Path("{playerID}")
     public Object gameServices(@PathParam("playerID") final String playerID) {
@@ -34,6 +36,16 @@ class PlayerGatewayService {
         }
         playerServices.playerID.set(playerID)
         return playerServices
+    }
+
+    @Path("admin/{playerID}")
+    public Object adminServices(@PathParam("playerID") final String playerID) {
+        //  TODO verify call is in fact the player
+        if (StringUtils.isEmpty(playerID) || StringUtils.isEmpty(playerID.trim())) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Missing player identity").build()
+        }
+        adminServices.playerID.set(playerID)
+        return adminServices
     }
 
     @Produces(MediaType.TEXT_PLAIN)

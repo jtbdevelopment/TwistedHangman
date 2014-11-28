@@ -1,19 +1,61 @@
 'use strict';
 
+
 angular.module('twistedHangmanApp').factory('twCurrentPlayerService', function ($http, $q) {
 //  TODO - different ids
-  var pid = 'MANUAL1';
+  console.error('Initializing Current Player');
+  var realPID = 'MANUAL1';
+  var simulatedPID = 'MANUAL1';
+  var BASE_PLAYER_URL = '/api/player/';
+  var FRIENDS_PATH = '/friends';
 
   return {
+    //  TODO - review, lockdown and test all this real and override stuff
+    overridePID: function (newpid) {
+      //  TODO - admin and validate
+      simulatedPID = newpid;
+    },
+    realPID: function () {
+      return realPID;
+    },
+    realPlayerBaseURL: function () {
+      return BASE_PLAYER_URL + realPID;
+    },
+    realPlayerFriends: function () {
+      //  TODO - local cookie?
+      return $http.get(this.realPlayerBaseURL() + FRIENDS_PATH, {cache: true}).then(function (response) {
+        if (response.status === 200) {
+          return response.data;
+        } else {
+          $q.reject(response);
+        }
+      }, function (response) {
+        $q.reject(response);
+      });
+    },
+    realPlayer: function () {
+      //  TODO - local cookie?
+      return $http.get(this.realPlayerBaseURL(), {cache: true}).then(function (response) {
+        if (response.status === 200) {
+          return response.data;
+        } else {
+          $q.reject(response);
+        }
+      }, function (response) {
+        $q.reject(response);
+      });
+    },
+
+
     currentID: function () {
-      return pid;
+      return simulatedPID;
     },
     currentPlayerBaseURL: function () {
-      return '/api/player/' + pid;
+      return BASE_PLAYER_URL + simulatedPID;
     },
-    friends: function () {
+    currentPlayerFriends: function () {
       //  TODO - local cookie?
-      return $http.get(this.currentPlayerBaseURL() + '/friends', {cache: true}).then(function (response) {
+      return $http.get(this.currentPlayerBaseURL() + FRIENDS_PATH, {cache: true}).then(function (response) {
         if (response.status === 200) {
           return response.data;
         } else {

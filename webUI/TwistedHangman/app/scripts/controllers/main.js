@@ -8,11 +8,25 @@
  * Controller of the twistedHangmanApp
  */
 angular.module('twistedHangmanApp')
-  .controller('MainCtrl', function ($scope, twCurrentPlayerService) {
-    $scope.playerGreeting = 'Welcome ';
-    twCurrentPlayerService.currentPlayer().then(function (data) {
-      $scope.playerGreeting = $scope.playerGreeting + data.displayName;
-    }, function () {
-      //  TODO
+  .controller('MainCtrl', function ($rootScope, $scope, twCurrentPlayerService) {
+    $scope.playerGreeting = '';
+    function loadPlayer() {
+      twCurrentPlayerService.currentPlayer().then(function (data) {
+        $scope.playerGreeting = 'Welcome ' + data.displayName;
+      }, function () {
+        //  TODO
+      });
+    }
+
+    loadPlayer();
+
+    //  TODO - test
+    $scope.$on('playerSwitch', function () {
+      console.error('Reload Main');
+      loadPlayer();
     });
+
+    $scope.refreshGames = function () {
+      $rootScope.$broadcast('refreshGames', '');
+    };
   });

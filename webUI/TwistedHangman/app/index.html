@@ -25,6 +25,8 @@
   <div class="header">
     <ul class="nav nav-pills pull-right">
       <li><a ng-href="#/about">About</a></li>
+      <!--  TODO - lockdown admin  -->
+      <li><a ng-href="#/admin">Admin</a></li>
     </ul>
     <h3 class="text-muted">Twisted Hangman
       <small>{{playerGreeting}}</small>
@@ -41,6 +43,10 @@
           <span class="glyphicon glyphicon-plus"></span>
           <span>Start New Game</span>
         </a>
+        <button ng-click="refreshGames()" role="button" class="btn-group btn pull-left" ng-controller="MainCtrl">
+          <span class="glyphicon glyphicon-refresh"></span>
+          <span>Refresh</span>
+        </button>
       </div>
 
       <twisted-game-button ng-controller="PlayingGames" ng-show="games.length > 0"></twisted-game-button>
@@ -125,6 +131,8 @@
 <script src="scripts/services/showGameService.js"></script>
 <script src="scripts/controllers/main.js"></script>
 <script src="scripts/controllers/about.js"></script>
+<!--  TODO -- lockdown admin  -->
+<script src="scripts/controllers/admin.js"></script>
 <script src="scripts/controllers/gamefinders.js"></script>
 <script src="scripts/controllers/showgame.js"></script>
 <script src="scripts/controllers/create.js"></script>

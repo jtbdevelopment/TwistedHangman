@@ -5,7 +5,7 @@ describe('Controller: CreateCtrl', function () {
   // load the controller's module
   beforeEach(module('twistedHangmanApp'));
 
-  var ctrl, scope, http, q, rootScope, featureDeferred, window, friendsDeferred;
+  var ctrl, scope, http, q, rootScope, featureDeferred, location, friendsDeferred;
   var friends = {md1: 'friend1', md2: 'friend2', md3: 'friend3', md4: 'friend4'};
 
   beforeEach(inject(function ($rootScope, $httpBackend, $q) {
@@ -13,7 +13,7 @@ describe('Controller: CreateCtrl', function () {
     http = $httpBackend;
     q = $q;
     spyOn(rootScope, '$broadcast');
-    window = {location: {replace: jasmine.createSpy()}};
+    location = {path: jasmine.createSpy()};
   }));
 
   // Initialize the controller and a mock scope
@@ -33,7 +33,7 @@ describe('Controller: CreateCtrl', function () {
       currentPlayerBaseURL: function () {
         return '/api/player/MANUAL1';
       },
-      friends: function () {
+      currentPlayerFriends: function () {
         friendsDeferred = q.defer();
         return friendsDeferred.promise;
       }
@@ -43,7 +43,7 @@ describe('Controller: CreateCtrl', function () {
       $scope: scope,
       twGameFeatureService: mockFeatureService,
       twCurrentPlayerService: mockPlayerService,
-      $window: window
+      $location: location
     });
 
     featureDeferred.resolve({});
@@ -294,7 +294,7 @@ describe('Controller: CreateCtrl', function () {
     scope.createGame();
     http.flush();
     expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'test');
-    expect(window.location.replace).toHaveBeenCalledWith('#/show/anid');
+    expect(location.path).toHaveBeenCalledWith('/show/anid');
   });
 
   it('test create game submission 2player', function () {
@@ -312,7 +312,7 @@ describe('Controller: CreateCtrl', function () {
     scope.createGame();
     http.flush();
     expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'test2');
-    expect(window.location.replace).toHaveBeenCalledWith('#/show/anid');
+    expect(location.path).toHaveBeenCalledWith('/show/anid');
   });
 
   it('test create game submission 3+player', function () {
@@ -329,7 +329,7 @@ describe('Controller: CreateCtrl', function () {
     scope.createGame();
     http.flush();
     expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'test3');
-    expect(window.location.replace).toHaveBeenCalledWith('#/show/anid');
+    expect(location.path).toHaveBeenCalledWith('/show/anid');
   });
 
 });

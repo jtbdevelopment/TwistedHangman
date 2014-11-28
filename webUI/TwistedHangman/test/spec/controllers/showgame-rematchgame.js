@@ -16,13 +16,13 @@ describe('Controller: RematchCtrl', function () {
   // load the controller's module
   beforeEach(module('twistedHangmanApp'));
 
-  var ctrl, scope, http, rootScope, window, showGameService;
+  var ctrl, scope, http, rootScope, location, showGameService;
 
   beforeEach(inject(function ($rootScope, $httpBackend) {
     rootScope = $rootScope;
     http = $httpBackend;
     spyOn(rootScope, '$broadcast');
-    window = {location: {replace: jasmine.createSpy()}};
+    location = {path: jasmine.createSpy()};
     showGameService = {processGame: jasmine.createSpy()};
   }));
 
@@ -47,7 +47,7 @@ describe('Controller: RematchCtrl', function () {
     ctrl = $controller('RematchCtrl', {
       $rootScope: rootScope,
       $scope: scope,
-      $window: window,
+      $location: location,
       twCurrentPlayerService: mockPlayerService,
       twShowGameCache: mockShowGameCache,
       twShowGameService: showGameService
@@ -67,7 +67,7 @@ describe('Controller: RematchCtrl', function () {
     expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'X');
     expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'Rematch');
     expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'Rematched');
-    expect(window.location.replace).toHaveBeenCalledWith('#/show/newid');
+    expect(location.path).toHaveBeenCalledWith('/show/newid');
     expect(showGameService.processGame).toHaveBeenCalledWith(newGame);
   });
 });

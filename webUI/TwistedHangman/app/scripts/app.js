@@ -24,6 +24,10 @@ angular
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
+      .when('/admin', {
+        templateUrl: 'views/admin.html',
+        controller: 'AdminCtrl'
+      })
       .when('/show/:gameID', {
         templateUrl: 'views/showgame.html',
         controller: 'ShowCtrl'

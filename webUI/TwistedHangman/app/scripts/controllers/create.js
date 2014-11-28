@@ -5,7 +5,7 @@ var TWO_PLAYERS = 'TwoPlayer';
 var MULTI_PLAYER = 'ThreePlus';
 var SYSTEM_PUZZLES = 'SystemPuzzles';
 
-angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScope, $scope, twGameFeatureService, twCurrentPlayerService, $http, $window) {
+angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScope, $scope, twGameFeatureService, twCurrentPlayerService, $http, $location) {
   $scope.url = twCurrentPlayerService.currentPlayerBaseURL() + '/new';
   $scope.featureData = {};
   twGameFeatureService.features().then(function (data) {
@@ -14,7 +14,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
     //  TODO
   });
   $scope.friends = [];
-  twCurrentPlayerService.friends().then(function (data) {
+  twCurrentPlayerService.currentPlayerFriends().then(function (data) {
     angular.forEach(data, function (displayName, hash) {
       $scope.friends.push({
         md5: hash,
@@ -140,7 +140,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
     });
     $http.post($scope.url, {'players': $scope.players, 'features': featureSet}).success(function (data) {
       $rootScope.$broadcast('refreshGames', data.gamePhase);
-      $window.location.replace('#/show/' + data.id);
+      $location.path('/show/' + data.id);
       // TODO
       console.log(data);
     }).error(function (data, status, headers, config) {

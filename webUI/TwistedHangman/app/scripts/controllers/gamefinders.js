@@ -25,24 +25,32 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
     //  TODO - images
     $scope.glyph = 'glyphicon-' + glyph;
     $scope.label = phase;
-    var url = twCurrentPlayerService.currentPlayerBaseURL() + '/games/' + phase;
+    $scope.url = twCurrentPlayerService.currentPlayerBaseURL() + '/games/' + phase;
     var params = {params: {pageSize: 100}};
 
     $scope.reload = function () {
-      $http.get(url, params).success(function (data) {
+      $http.get($scope.url, params).success(function (data) {
         $scope.games = data;
       }).error(function (data, status, headers, config) {
         //  TODO
         console.log(data + status + headers + config);
       });
     };
-    $scope.reload();
 
     $scope.$on('refreshGames', function (event, data) {
       if (data === '' || data === $scope.label) {
         $scope.reload();
       }
     });
+
+    //  TODO - test
+    $scope.$on('playerSwitch', function () {
+      console.error('Reload ' + phase);
+      $scope.url = twCurrentPlayerService.currentPlayerBaseURL() + '/games/' + phase;
+      $scope.reload();
+    });
+
+    $scope.reload();
   });
 });
 

@@ -1,0 +1,10 @@
+<div>
+  <label>Search: <input ng-model="searchText"/></label>
+  <button ng-click="changeUser()" class="btn">Change!</button>
+  <button ng-click="revertUser()" class="btn">Back To Normal</button>
+  <div class="btn-group btn-group-vertical btn-block">
+    <label ng-repeat="player in players | orderBy:['displayName'] | filter:{displayName: searchText}"
+           class="btn btn-primary btn-block" ng-model="selectedPlayer" ng-click="setSelected(player.id)"
+           btn-radio="player.id">{{player.displayName}} / {{player.id}}</label>
+  </div>
+</div>
