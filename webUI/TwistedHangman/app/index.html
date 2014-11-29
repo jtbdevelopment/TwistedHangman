@@ -37,7 +37,7 @@
 <div class="container-fluid">
   <div class="row">
     <div id="leftsidebar" class="col-sm-2">
-      <div id="createchallenge"></div>
+      <div id="creategame"></div>
       <div class="btn-group-vertical">
         <a href="#/create" role="button" class="btn-group btn createGameButton">
           <span class="glyphicon glyphicon-plus"></span>
@@ -51,9 +51,9 @@
 
       <twisted-game-button ng-controller="SetupGames" ng-show="games.length > 0"></twisted-game-button>
       <twisted-game-button ng-controller="PlayingGames" ng-show="games.length > 0"></twisted-game-button>
-      <twisted-game-button ng-controller="ChallengeGames" ng-show="games.length > 0"></twisted-game-button>
-      <twisted-game-button ng-controller="RematchGames" ng-show="games.length > 0"></twisted-game-button>
-      <twisted-game-button ng-controller="RematchedGames" ng-show="games.length > 0"></twisted-game-button>
+      <twisted-game-button ng-controller="ChallengedGames" ng-show="games.length > 0"></twisted-game-button>
+      <twisted-game-button ng-controller="RoundOverGames" ng-show="games.length > 0"></twisted-game-button>
+      <twisted-game-button ng-controller="NextRoundStartedGames" ng-show="games.length > 0"></twisted-game-button>
       <twisted-game-button ng-controller="DeclinedGames" ng-show="games.length > 0"></twisted-game-button>
       <twisted-game-button ng-controller="QuitGames" ng-show="games.length > 0"></twisted-game-button>
     </div>
@@ -127,6 +127,7 @@
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
 <script src="scripts/app.js"></script>
 <script src="scripts/services/gameFeatures.js"></script>
+<script src="scripts/services/gamePhases.js"></script>
 <script src="scripts/services/currentPlayer.js"></script>
 <script src="scripts/services/showGameService.js"></script>
 <script src="scripts/controllers/main.js"></script>

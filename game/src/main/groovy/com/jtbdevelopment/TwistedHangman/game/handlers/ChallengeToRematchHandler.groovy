@@ -28,7 +28,7 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
 
     @Override
     protected Game handleActionInternal(final Player player, final Game previousGame, final Object param) {
-        if (previousGame.gamePhase != GamePhase.Rematch) {
+        if (previousGame.gamePhase != GamePhase.RoundOver) {
             throw new GameIsNotAvailableToRematchException()
         }
         previousGame.rematched = ZonedDateTime.now(GMT)

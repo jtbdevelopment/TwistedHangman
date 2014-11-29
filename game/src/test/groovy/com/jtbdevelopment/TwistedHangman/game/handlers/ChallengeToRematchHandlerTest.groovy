@@ -24,7 +24,7 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
     public void testSetsUpRematch() {
         ZonedDateTime now = ZonedDateTime.now(ZoneId.of("GMT"))
         Thread.sleep(100);
-        Game previous = new Game(gamePhase: GamePhase.Rematch, id: "X")
+        Game previous = new Game(gamePhase: GamePhase.RoundOver, id: "X")
         Game previousT = previous.clone()
         Game newGame = new Game(previousId: previous.id)
         Game newSaved = newGame.clone()
@@ -66,7 +66,7 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
 
 
     public void testNotInRematchPhase() {
-        GamePhase.values().find { it != GamePhase.Rematch }.each {
+        GamePhase.values().find { it != GamePhase.RoundOver }.each {
             Game previous = new Game(gamePhase: it, id: "X")
             try {
                 handler.handleActionInternal(PONE, previous, null)

@@ -68,7 +68,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         checkUnmaskedData(maskedState, state)
 
         //  Flip game over and check word phrase
-        game.gamePhase = GamePhase.Rematch
+        game.gamePhase = GamePhase.RoundOver
         maskedGame = masker.maskGameForPlayer(game, PONE)
         maskedState = maskedGame.solverStates[PONE.md5]
         assert maskedState.wordPhrase == state.wordPhraseString
@@ -149,7 +149,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         assert maskedState.guessedLetters == state2.guessedLetters
 
         //  Flip over
-        game.gamePhase = GamePhase.Rematched
+        game.gamePhase = GamePhase.NextRoundStarted
         maskedGame = masker.maskGameForPlayer(game, PONE)
 
         maskedState = maskedGame.solverStates[PONE.md5]
@@ -241,7 +241,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         checkPartialMaskedData(maskedState, state1)
 
 
-        game.gamePhase = GamePhase.Rematched
+        game.gamePhase = GamePhase.NextRoundStarted
         maskedGame = masker.maskGameForPlayer(game, PTHREE)
         assert maskedGame.solverStates.size() == 3 && maskedGame.solverStates.containsKey(PTHREE.md5)
         maskedState = maskedGame.solverStates[PTHREE.md5]
@@ -316,7 +316,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         maskedState = maskedGame.solverStates[PONE.md5]
         checkPartialMaskedData(maskedState, state1)
 
-        game.gamePhase = GamePhase.Rematch
+        game.gamePhase = GamePhase.RoundOver
         maskedGame = masker.maskGameForPlayer(game, PTHREE)
         maskedState = maskedGame.solverStates[PTHREE.md5]
         checkUnmaskedData(maskedState, state3)

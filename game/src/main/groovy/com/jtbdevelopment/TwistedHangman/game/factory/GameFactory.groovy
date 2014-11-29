@@ -89,7 +89,7 @@ class GameFactory {
         Game game = new Game()
         game.initiatingPlayer = initiatingPlayer.id
         game.version = null
-        game.gamePhase = GamePhase.Challenge
+        game.gamePhase = GamePhase.Challenged
         game.features.addAll(features)
         game.players.addAll(players)
         if (!game.players.contains(initiatingPlayer)) {

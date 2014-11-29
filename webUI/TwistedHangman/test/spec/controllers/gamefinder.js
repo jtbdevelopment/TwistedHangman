@@ -3,10 +3,10 @@
 var phasesAndSymbols = {
   Playing: 'play',
   Setup: 'comment',
-  Challenge: 'inbox',
-  Rematch: 'repeat',
+  Challenged: 'inbox',
+  RoundOver: 'repeat',
   Declined: 'remove',
-  Rematched: 'ok-sign',
+  NextRoundStarted: 'ok-sign',
   Quit: 'flag'
 };
 angular.forEach(phasesAndSymbols, function (glyph, phase) {
@@ -18,25 +18,43 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
     // load the controller's module
     beforeEach(module('twistedHangmanApp'));
 
-    var ctrl, httpBackend, scope, rootScope, playerService;
+    var ctrl, httpBackend, scope, rootScope, playerService, phaseService, q, phaseDeferred;
+    var phaseDesc = {};
+    phaseDesc[phase] = ['unused', 'desc'];
     var status = [{'X': 1}, {'Y': 2}];
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($httpBackend, $controller, $rootScope, twCurrentPlayerService) {
+    beforeEach(inject(function ($httpBackend, $controller, $rootScope, $q) {
       scope = $rootScope.$new();
       httpBackend = $httpBackend;
       httpBackend.expectGET(url).respond(status);
       rootScope = $rootScope;
-      playerService = twCurrentPlayerService;
+      q = $q;
+      playerService = {
+        currentPlayerBaseURL: function () {
+          return '/api/player/MANUAL1'
+        }
+      };
+      phaseService = {
+        phases: function () {
+          phaseDeferred = q.defer();
+          return phaseDeferred.promise;
+        }
+      };
+
       ctrl = $controller(name, {
         $scope: scope,
-        twCurrentPlayerService: playerService
+        twCurrentPlayerService: playerService,
+        twGamePhaseService: phaseService
       });
+
+      phaseDeferred.resolve(phaseDesc);
+      rootScope.$apply();
     }));
 
     it('sets games to empty initially and then calls http', function () {
       expect(scope.games).toEqual([]);
-      expect(scope.label).toEqual(phase);
+      expect(scope.label).toEqual('desc');
       expect(scope.glyph).toEqual('glyphicon-' + glyph);
       expect(scope.style).toEqual(phase.toLowerCase() + 'Button');
       httpBackend.flush();
@@ -85,4 +103,5 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
       expect(scope.games).toEqual(newStatus);
     });
   });
-});
+})
+;

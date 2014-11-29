@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('twistedHangmanApp').factory('twShowGameService', function ($rootScope) {
+angular.module('twistedHangmanApp').factory('twShowGameService', function ($rootScope, twGamePhaseService) {
   var LETTERA = 'A'.charCodeAt(0);
 
   function computeWordPhrase(scope) {
@@ -66,7 +66,7 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
       return;
     }
     switch (scope.game.gamePhase) {
-      case 'Challenge':
+      case 'Challenged':
         scope.showPlayerStates = true;
         scope.showChallengeButtons = true;
         break;
@@ -96,10 +96,10 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
           scope.allowPlayMoves = (scope.player.md5 === scope.game.featureData.TurnBased);
         }
         break;
-      case 'Rematch':
+      case 'RoundOver':
         scope.showRematchButtons = true;
         break;
-      case 'Rematched':
+      case 'NextRoundStarted':
         break;
     }
   }
@@ -128,6 +128,11 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
 
     processGame: function (scope, data) {
       scope.game = data;
+      twGamePhaseService.phases().then(function (phases) {
+        scope.phaseDescription = phases[scope.game.gamePhase][0];
+      }, function () {
+        //  TODO
+      });
       //  TODO - convert to millis on server
       scope.lastUpdate = new Date(scope.game.lastUpdate * 1000);
       scope.created = new Date(scope.game.created * 1000);

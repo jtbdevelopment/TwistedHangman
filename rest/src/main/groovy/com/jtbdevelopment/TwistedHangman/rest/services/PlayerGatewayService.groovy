@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -62,6 +63,16 @@ class PlayerGatewayService {
         GameFeature.values().findAll { GameFeature it -> !it.internal }.collectEntries() {
             GameFeature it ->
                 [(it): it.description]
+        }
+    }
+
+    @GET
+    @Path("phases")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<GamePhase, List<String>> phasesAndDescriptions() {
+        GamePhase.values().collectEntries() {
+            GamePhase it ->
+                [(it): [it.description, it.groupLabel]]
         }
     }
 }

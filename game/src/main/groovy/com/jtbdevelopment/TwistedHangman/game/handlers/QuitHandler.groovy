@@ -17,8 +17,8 @@ import org.springframework.stereotype.Component
 class QuitHandler extends AbstractGameActionHandler<Object> {
     @Override
     protected Game handleActionInternal(final Player player, final Game game, final Object param) {
-        if (game.gamePhase == GamePhase.Rematched ||
-                game.gamePhase == GamePhase.Rematch ||
+        if (game.gamePhase == GamePhase.NextRoundStarted ||
+                game.gamePhase == GamePhase.RoundOver ||
                 game.gamePhase == GamePhase.Quit ||
                 game.gamePhase == GamePhase.Declined) {
             throw new GameIsNotPossibleToQuitNowException()

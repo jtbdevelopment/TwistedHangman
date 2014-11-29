@@ -20,7 +20,7 @@ class GamePhaseTransitionEngine {
 
     public Game evaluateGamePhaseForGame(final Game game) {
         switch (game.gamePhase) {
-            case GamePhase.Challenge:
+            case GamePhase.Challenged:
                 def reject = game.playerStates.values().find { PlayerState it -> it == PlayerState.Rejected }
                 if (reject != null) {
                     return changeStateAndReevaluate(GamePhase.Declined, game)
@@ -41,17 +41,17 @@ class GamePhaseTransitionEngine {
                 def won = game.solverStates.values().find { IndividualGameState it -> it.gameWon }
                 def pending = game.solverStates.values().find { IndividualGameState it -> !it.gameOver }
                 if (pending == null || (won != null && game.features.contains(GameFeature.SingleWinner))) {
-                    return gameScorer.scoreGame(changeStateAndReevaluate(GamePhase.Rematch, game))
+                    return gameScorer.scoreGame(changeStateAndReevaluate(GamePhase.RoundOver, game))
                 }
                 break;
-            case GamePhase.Rematch:
+            case GamePhase.RoundOver:
                 //  TODO - auto-rematch?
                 if (game.rematched != null) {
-                    return changeStateAndReevaluate(GamePhase.Rematched, game)
+                    return changeStateAndReevaluate(GamePhase.NextRoundStarted, game)
                 }
                 break;
             case GamePhase.Declined:
-            case GamePhase.Rematched:
+            case GamePhase.NextRoundStarted:
             case GamePhase.Quit:
                 break;
         }

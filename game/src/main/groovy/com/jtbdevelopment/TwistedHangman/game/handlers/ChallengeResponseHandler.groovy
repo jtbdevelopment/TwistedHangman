@@ -18,7 +18,7 @@ class ChallengeResponseHandler extends AbstractGameActionHandler<PlayerState> {
     @Override
     protected Game handleActionInternal(final Player player, final Game game, final PlayerState param) {
         // We will at least record further ack/nacks for information
-        if (game.gamePhase == GamePhase.Challenge ||
+        if (game.gamePhase == GamePhase.Challenged ||
                 game.gamePhase == GamePhase.Declined) {
             game.playerStates[player.id] = param         //  Players can change their mind in the server side
             return game

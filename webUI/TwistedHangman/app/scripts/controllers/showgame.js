@@ -20,11 +20,11 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
     console.error(data + status + headers + config);
   });
 
-  $scope.startRematch = function () {
+  $scope.startNextRound = function () {
     $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/rematch').success(function (data) {
       $rootScope.$broadcast('refreshGames', data.gamePhase);
-      $rootScope.$broadcast('refreshGames', 'Rematched');
-      $rootScope.$broadcast('refreshGames', 'Rematch');
+      $rootScope.$broadcast('refreshGames', 'NextRoundStarted');
+      $rootScope.$broadcast('refreshGames', 'RoundOver');
       twShowGameService.processGame($scope, data);
       $location.path('/show/' + data.id);
     }).error(function (data, status, headers, config) {

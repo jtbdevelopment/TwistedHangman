@@ -15,7 +15,7 @@ class ChallengeResponseHandlerTest extends TwistedHangmanTestCase {
 
 
     public void testExceptionOnBadPhases() {
-        GamePhase.values().findAll { it != GamePhase.Declined && it != GamePhase.Challenge }.each {
+        GamePhase.values().findAll { it != GamePhase.Declined && it != GamePhase.Challenged }.each {
             Game game = new Game(gamePhase: it)
             try {
                 handler.handleActionInternal(PONE, game, PlayerState.Rejected)
@@ -28,7 +28,7 @@ class ChallengeResponseHandlerTest extends TwistedHangmanTestCase {
 
 
     public void testSetsStateForPlayer() {
-        [GamePhase.Declined, GamePhase.Challenge].each {
+        [GamePhase.Declined, GamePhase.Challenged].each {
             GamePhase gamePhase ->
                 PlayerState.findAll { it != PlayerState.Pending }.each {
                     PlayerState response ->
@@ -50,7 +50,7 @@ class ChallengeResponseHandlerTest extends TwistedHangmanTestCase {
 
 
     public void testOverridesResponseForPlayer() {
-        [GamePhase.Declined, GamePhase.Challenge].each {
+        [GamePhase.Declined, GamePhase.Challenged].each {
             GamePhase gamePhase ->
                 PlayerState.findAll { it != PlayerState.Pending }.each {
                     PlayerState response ->

@@ -26,7 +26,7 @@ class GameFinderHandlerTest extends TwistedHangmanTestCase {
                 findByPlayersIdAndGamePhase: {
                     String it, GamePhase gp, PageRequest r ->
                         assert it == PONE.id
-                        assert gp == GamePhase.Rematch
+                        assert gp == GamePhase.RoundOver
                         assert r.pageSize == 10
                         assert r.pageNumber == 2
                         assert r.sort != null
@@ -50,7 +50,7 @@ class GameFinderHandlerTest extends TwistedHangmanTestCase {
                 }
         ] as GameMasker
 
-        List<MaskedGame> result = handler.findGames(PONE.id, GamePhase.Rematch, 2, 10)
+        List<MaskedGame> result = handler.findGames(PONE.id, GamePhase.RoundOver, 2, 10)
         assert seen.size() == 2
         assert maskedGames[0].is(result[0])
         assert maskedGames[1].is(result[1])

@@ -76,12 +76,12 @@ describe('Controller: ShowCtrl', function () {
   it('post rematch', function () {
     var newGame = {id: 'newid', gamePhase: 'X'};
     http.expectPUT('/api/player/MANUAL1/play/gameid/rematch').respond(newGame);
-    scope.startRematch();
+    scope.startNextRound();
     http.flush();
 
     expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'X');
-    expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'Rematch');
-    expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'Rematched');
+    expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'RoundOver');
+    expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'NextRoundStarted');
     expect(location.path).toHaveBeenCalledWith('/show/newid');
     expect(showGameService.processGame).toHaveBeenCalledWith(scope, newGame);
   });

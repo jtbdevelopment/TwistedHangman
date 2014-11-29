@@ -122,6 +122,25 @@ class ServerIntegration {
     }
 
     @Test
+    void testGetPhases() {
+        def features = ClientBuilder.newClient()
+                .target(PLAYERS_URI)
+                .path("phases")
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .get(new GenericType<Map<String, List<String>>>() {
+        })
+        assert features == [
+                "Challenged"      : [GamePhase.Challenged.description, GamePhase.Challenged.groupLabel],
+                "Declined"        : [GamePhase.Declined.description, GamePhase.Declined.groupLabel],
+                "Quit"            : [GamePhase.Quit.description, GamePhase.Quit.groupLabel],
+                "Setup"           : [GamePhase.Setup.description, GamePhase.Setup.groupLabel],
+                "RoundOver"       : [GamePhase.RoundOver.description, GamePhase.RoundOver.groupLabel],
+                "NextRoundStarted": [GamePhase.NextRoundStarted.description, GamePhase.NextRoundStarted.groupLabel],
+                "Playing"         : [GamePhase.Playing.description, GamePhase.Playing.groupLabel],
+        ]
+    }
+
+    @Test
     void testQuittingAGame() {
         def entity = Entity.entity(
                 new PlayerServices.FeaturesAndPlayers(
@@ -140,7 +159,7 @@ class ServerIntegration {
                 .request(MediaType.APPLICATION_JSON)
                 .post(entity, MaskedGame.class)
 
-        assert game.gamePhase == GamePhase.Challenge
+        assert game.gamePhase == GamePhase.Challenged
         assert game.solverStates[TEST_PLAYER1.md5] != null
         assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase == ""
         def P1G = P1.path("play").path(game.id)
@@ -177,7 +196,7 @@ class ServerIntegration {
                 .request(MediaType.APPLICATION_JSON)
                 .post(entity, MaskedGame.class)
 
-        assert game.gamePhase == GamePhase.Challenge
+        assert game.gamePhase == GamePhase.Challenged
         assert game.solverStates[TEST_PLAYER1.md5] != null
         assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase == ""
         def P1G = P1.path("play").path(game.id)
@@ -187,7 +206,7 @@ class ServerIntegration {
 
         game = putMG(P2G.path("accept"))
         game = P2G.request(MediaType.APPLICATION_JSON).get(MaskedGame.class)
-        assert game.gamePhase == GamePhase.Challenge
+        assert game.gamePhase == GamePhase.Challenged
         assert game.solverStates[TEST_PLAYER2.md5] != null
         assert game.solverStates[TEST_PLAYER2.md5].workingWordPhrase == ""
         game = putMG(P3G.path("accept"))
@@ -221,7 +240,7 @@ class ServerIntegration {
         chars.each {
             game = putMG(P3G.path("guess").path(it.toString()))
         }
-        assert game.gamePhase == GamePhase.Rematch
+        assert game.gamePhase == GamePhase.RoundOver
         assert game.solverStates[TEST_PLAYER3.md5].guessedLetters == chars
         assert game.playerRunningScores == [(TEST_PLAYER1.md5): 0, (TEST_PLAYER2.md5): 0, (TEST_PLAYER3.md5): 1]
         assert game.featureData[GameFeature.SingleWinner] == TEST_PLAYER3.md5
@@ -232,7 +251,7 @@ class ServerIntegration {
         dbLoaded1 = gameRepository.findOne(dbLoaded1.id)
         assert dbLoaded2.previousId == dbLoaded1.id
         assert dbLoaded1.rematched != null
-        assert newGame.gamePhase == GamePhase.Challenge
+        assert newGame.gamePhase == GamePhase.Challenged
         assert newGame.players == game.players
         assert newGame.playerRunningScores == game.playerRunningScores
         assert newGame.round == 2
@@ -241,10 +260,10 @@ class ServerIntegration {
         GenericType<Collection<MaskedGame>> type = new GenericType<Collection<MaskedGame>>(Collection.class) {}
         List<MaskedGame> games = P1.path("games/Playing").request(MediaType.APPLICATION_JSON).get(type)
         assert games.empty
-        games = P1.path("games/Challenge").queryParam("page", 0).queryParam("pageSize", 5).request(MediaType.APPLICATION_JSON).get(type)
+        games = P1.path("games/Challenged").queryParam("page", 0).queryParam("pageSize", 5).request(MediaType.APPLICATION_JSON).get(type)
         assert games.size() == 1
         assert games[0].id == newGame.id
-        games = P1.path("games/Challenge").queryParam("page", 1).queryParam("pageSize", 5).request(MediaType.APPLICATION_JSON).get(type)
+        games = P1.path("games/Challenged").queryParam("page", 1).queryParam("pageSize", 5).request(MediaType.APPLICATION_JSON).get(type)
         assert games.size() == 0
 
         newGame = putMG(P1.path("play").path(newGame.id).path("reject"))

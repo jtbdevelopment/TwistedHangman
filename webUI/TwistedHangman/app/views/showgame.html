@@ -8,7 +8,7 @@
       <label>Status:</label>
     </td>
     <td>
-      {{game.gamePhase}}
+      {{phaseDescription}}
     </td>
   </tr>
   <tr>
@@ -136,5 +136,5 @@
   <button ng-click="quit()">Quit!</button>
 </div>
 <div ng-show="showRematchButtons">
-  <button ng-click="startRematch()">Start Rematch</button>
+  <button ng-click="startNextRound()">Start Rematch</button>
 </div>

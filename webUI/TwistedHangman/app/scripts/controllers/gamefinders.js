@@ -11,20 +11,25 @@
 var phasesAndSymbols = {
   Playing: 'play',
   Setup: 'comment',
-  Challenge: 'inbox',
-  Rematch: 'repeat',
+  Challenged: 'inbox',
+  RoundOver: 'repeat',
   Declined: 'remove',
-  Rematched: 'ok-sign',
+  NextRoundStarted: 'ok-sign',
   Quit: 'flag'
 };
 angular.forEach(phasesAndSymbols, function (glyph, phase) {
   var name = phase + 'Games';
-  angular.module('twistedHangmanApp').controller(name, function ($scope, $http, twCurrentPlayerService) {
+  angular.module('twistedHangmanApp').controller(name, function ($scope, $http, twCurrentPlayerService, twGamePhaseService) {
     $scope.games = [];
 
     $scope.style = phase.toLowerCase() + 'Button';
     $scope.glyph = 'glyphicon-' + glyph;
-    $scope.label = phase;
+    $scope.label = '';
+    twGamePhaseService.phases().then(function (phases) {
+      $scope.label = phases[phase][1];
+    }, function () {
+      //  TODO
+    });
     $scope.url = twCurrentPlayerService.currentPlayerBaseURL() + '/games/' + phase;
     var params = {params: {pageSize: 100}};
 
@@ -38,13 +43,12 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
     };
 
     $scope.$on('refreshGames', function (event, data) {
-      if (data === '' || data === $scope.label) {
+      if (data === '' || data === phase) {
         $scope.reload();
       }
     });
 
     $scope.$on('playerSwitch', function () {
-      console.error('Player Switch ' + phase);
       $scope.url = twCurrentPlayerService.currentPlayerBaseURL() + '/games/' + phase;
       $scope.reload();
     });

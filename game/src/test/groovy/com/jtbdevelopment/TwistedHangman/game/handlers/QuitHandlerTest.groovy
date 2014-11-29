@@ -14,7 +14,7 @@ class QuitHandlerTest extends TwistedHangmanTestCase {
     QuitHandler handler = new QuitHandler()
 
     void testExceptionsOnQuitRematchRematchedPhases() {
-        [GamePhase.Quit, GamePhase.Rematch, GamePhase.Rematched, GamePhase.Declined].each {
+        [GamePhase.Quit, GamePhase.RoundOver, GamePhase.NextRoundStarted, GamePhase.Declined].each {
             Game game = new Game(gamePhase: it)
             try {
                 handler.handleActionInternal(null, game, null)
@@ -26,7 +26,7 @@ class QuitHandlerTest extends TwistedHangmanTestCase {
     }
 
     void testQuitsGamesInOtherStates() {
-        [GamePhase.Challenge, GamePhase.Setup, GamePhase.Playing].each {
+        [GamePhase.Challenged, GamePhase.Setup, GamePhase.Playing].each {
             Game game = new Game(gamePhase: it, playerStates: [(PONE.id): PlayerState.Pending, (PTWO.id): PlayerState.Rejected])
 
             Game ret = handler.handleActionInternal(PTWO, game, null)

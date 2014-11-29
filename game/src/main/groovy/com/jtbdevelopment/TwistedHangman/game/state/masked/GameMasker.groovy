@@ -71,8 +71,8 @@ class GameMasker {
             final Map<String, Player> idmap) {
         MaskedIndividualGameState masked = new MaskedIndividualGameState()
 
-        if (game.gamePhase == GamePhase.Rematch ||
-                game.gamePhase == GamePhase.Rematched ||
+        if (game.gamePhase == GamePhase.RoundOver ||
+                game.gamePhase == GamePhase.NextRoundStarted ||
                 game.gamePhase == GamePhase.Quit ||
                 (game.gamePhase == GamePhase.Playing && playerMaskingFor == gameStatePlayer) ||
                 (game.gamePhase == GamePhase.Playing && game.wordPhraseSetter == playerMaskingFor.id) ||
@@ -91,8 +91,8 @@ class GameMasker {
         } else {
             masked.workingWordPhrase = ""
         }
-        if (game.gamePhase == GamePhase.Rematch ||
-                game.gamePhase == GamePhase.Rematched ||
+        if (game.gamePhase == GamePhase.RoundOver ||
+                game.gamePhase == GamePhase.NextRoundStarted ||
                 game.gamePhase == GamePhase.Quit ||
                 (game.gamePhase == GamePhase.Playing && game.wordPhraseSetter == playerMaskingFor.id) ||
                 (game.gamePhase == GamePhase.Playing && game.wordPhraseSetter == null && playerMaskingFor != gameStatePlayer)
