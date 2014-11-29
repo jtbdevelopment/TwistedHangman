@@ -1,10 +1,9 @@
-<div class="btn-group-vertical">
-  <h4>{{label}}<span class="badge">{{games.length}}</span></h4>
+<div class="btn-group-vertical gameButtonGroup">
+  <span class="gameButtonBadge">{{label}}<span class="badge gameButtonBadge">{{games.length}}</span></span>
   <a ng-repeat="game in games" href="#/show/{{game.id}}" role="button"
-     class="btn-group btn {{style}}">
-    <span class="glyphicon {{glyph}}"></span>
-            <span ng-repeat="(key, value) in game.players">{{value}}
-              <span ng-show=" ! $last ">, </span>
-            </span>
+     class="btn-group btn gameButton {{style}}">
+    <span class="glyphicon {{glyph}}">
+            <span ng-repeat="(key, value) in game.players">{{value}}<span ng-show=" ! $last ">, </span></span>
+      </span>
   </a>
 </div>
