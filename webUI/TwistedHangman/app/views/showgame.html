@@ -1,12 +1,15 @@
-<div class="row">
+<div class="row" xmlns="http://www.w3.org/1999/html">
   <div class="col-sm-12 alert {{alertType}}">{{alertMessage}}</div>
+</div>
+<div class="row">
+  <div class="col-sm-12 text-center"><h4>{{phaseDescription}}</h4></div>
 </div>
 <div class="row">
   <div class="col-sm-5 imagearea">
     <img ng-src="images/{{image}}"/>
   </div>
   <div class="col-sm-5 actionbar">
-    <div ng-show="showPlaySection" class="playSection">
+    <div class="playSection">
       <h3>{{gameState.category}}</h3>
 
       <div class="{{allowPlayMoves ? 'activeKeyboard' : 'inactiveKeyboard'}}">
@@ -17,12 +20,22 @@
         </p>
 
         <p><!--  TODO - break up keyboard into two rows  -->
-          <span ng-repeat="letter in letters track by $index" ng-click="sendGuess('{{letter}}')"
-                class="keyboard {{letterClasses[$index]}}"> {{letter}} </span>
+         <span ng-repeat="letter in letters track by $index">
+           <span ng-click="sendGuess('{{letter}}')" class="keyboard {{letterClasses[$index]}}">{{letter}}</span> </span>
         </p>
+      </div>
+      <div class="gameState">
+        <table>
+          <tr>
+            <td></td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>
+</div>
+<div class="row">
+
 </div>
 <div class="row">
   <table>

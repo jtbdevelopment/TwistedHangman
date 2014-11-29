@@ -5,7 +5,7 @@
 
   h3 {
     text-decoration: underline;
-    padding-bottom: 10px;
+    padding-bottom: 15px;
   }
   .activeKeyboard {
     @include opaque;
@@ -46,9 +46,8 @@
 }
 
 .keyboard {
-  padding-top: 5px;
+  padding-top: 10px;
   font-family: monospace, serif;
   font-size: large;
-  letter-spacing: 3px;
+  margin-right: 25px;
 }
-
