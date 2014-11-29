@@ -40,7 +40,7 @@ class GameFactory {
         Game game = createFreshGame(previousGame.features, players, initiatingPlayer)
         game.previousId = previousGame.id
         game.round = previousGame.round + 1
-        game.playerScores.putAll(previousGame.playerScores)
+        game.playerRunningScores.putAll(previousGame.playerRunningScores)
 
         prepareGame(game)
     }

@@ -223,7 +223,7 @@ class ServerIntegration {
         }
         assert game.gamePhase == GamePhase.Rematch
         assert game.solverStates[TEST_PLAYER3.md5].guessedLetters == chars
-        assert game.playerScores == [(TEST_PLAYER1.md5): 0, (TEST_PLAYER2.md5): 0, (TEST_PLAYER3.md5): 1]
+        assert game.playerRunningScores == [(TEST_PLAYER1.md5): 0, (TEST_PLAYER2.md5): 0, (TEST_PLAYER3.md5): 1]
         assert game.featureData[GameFeature.SingleWinner] == TEST_PLAYER3.md5
 
         MaskedGame newGame = putMG(P2G.path("rematch"))
@@ -234,7 +234,7 @@ class ServerIntegration {
         assert dbLoaded1.rematched != null
         assert newGame.gamePhase == GamePhase.Challenge
         assert newGame.players == game.players
-        assert newGame.playerScores == game.playerScores
+        assert newGame.playerRunningScores == game.playerRunningScores
         assert newGame.round == 2
 
 

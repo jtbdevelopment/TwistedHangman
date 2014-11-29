@@ -33,9 +33,13 @@ class GameMasker {
                 idmap[p.id] = p
         }
         playerMaskedGame.initiatingPlayer = idmap[game.initiatingPlayer].md5
-        game.playerScores.each {
+        game.playerRunningScores.each {
             String p, Integer score ->
-                playerMaskedGame.playerScores[idmap[p].md5] = score
+                playerMaskedGame.playerRunningScores[idmap[p].md5] = score
+        }
+        game.playerRoundScores.each {
+            String p, Integer score ->
+                playerMaskedGame.playerRoundScores[idmap[p].md5] = score
         }
         game.playerStates.each {
             String p, PlayerChallengeState state ->

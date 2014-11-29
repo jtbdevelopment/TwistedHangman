@@ -24,7 +24,7 @@ describe('Service: showGameSevice', function () {
       md2: {isGameOver: true, isGameWon: false},
       md3: {isGameOver: false, isGameWon: false}
     },
-    playerScores: {'md1': 0, 'md2': 2, 'md3': 10, 'md4': -3, 'md5': -5},
+    playerRunningScores: {'md1': 0, 'md2': 2, 'md3': 10, 'md4': -3, 'md5': -5},
     gameID: 'id',
     featureData: {}
   };

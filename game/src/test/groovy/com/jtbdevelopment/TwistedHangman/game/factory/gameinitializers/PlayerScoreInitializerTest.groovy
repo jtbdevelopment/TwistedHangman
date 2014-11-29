@@ -17,8 +17,10 @@ class PlayerScoreInitializerTest extends TwistedHangmanTestCase {
         game.players = players
         initializer.initializeGame(game)
         players.each {
-            assert game.playerScores.containsKey(it.id)
-            assert game.playerScores[it.id] == 0
+            assert game.playerRunningScores.containsKey(it.id)
+            assert game.playerRunningScores[it.id] == 0
+            assert game.playerRoundScores.containsKey(it.id)
+            assert game.playerRoundScores[it.id] == 0
         }
     }
 
@@ -27,11 +29,13 @@ class PlayerScoreInitializerTest extends TwistedHangmanTestCase {
         Game game = new Game()
         Map<String, Integer> players = [(PONE.id): 2, (PTWO.id): 0, (PTHREE.id): 1, (PFOUR.id): 0]
         game.players = [PONE, PTWO, PTHREE, PFOUR]
-        game.playerScores = [(PONE.id): 2, (PTHREE.id): 1]
+        game.playerRunningScores = [(PONE.id): 2, (PTHREE.id): 1]
         initializer.initializeGame(game)
         players.keySet().each {
-            assert game.playerScores.containsKey(it)
-            assert game.playerScores[it] == players[it]
+            assert game.playerRunningScores.containsKey(it)
+            assert game.playerRunningScores[it] == players[it]
+            assert game.playerRoundScores.containsKey(it)
+            assert game.playerRoundScores[it] == 0
         }
     }
 }

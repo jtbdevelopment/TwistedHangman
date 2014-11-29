@@ -13,7 +13,8 @@ describe('Controller: ShowCtrl', function () {
       md2: {isGameOver: true, isGameWon: false},
       md3: {isGameOver: false, isGameWon: false}
     },
-    playerScores: {'md1': 0, 'md2': 2, 'md3': 10, 'md4': -3, 'md5': -5}
+    playerRunningScores: {'md1': 0, 'md2': 2, 'md3': 10, 'md4': -3, 'md5': -5},
+    playerRoundScores: {'md1': 1, 'md2': 0, 'md3': -1, 'md4': 3, 'md5': 2}
   };
 
   var player = {'player': 'player'};
@@ -157,13 +158,15 @@ describe('Controller: ShowCtrl', function () {
   });
 
   it('gameScoreForPlayer for player', function () {
-    ['md1', 'md2', 'md3', 'md4', 'md5'].forEach(function (md) {
-      expect(scope.gameScoreForPlayer(md)).toEqual(0);
+    angular.forEach({'md1': 1, 'md2': 0, 'md3': -1, 'md4': 3, 'md5': 2}, function (value, key) {
+      expect(scope.gameScoreForPlayer(key)).toEqual(value);
     });
   });
 
   it('runningScoreForPlayer for player', function () {
-
+    angular.forEach({'md1': 0, 'md2': 2, 'md3': 10, 'md4': -3, 'md5': -5}, function (value, key) {
+      expect(scope.runningScoreForPlayer(key)).toEqual(value);
+    });
   });
 
 });

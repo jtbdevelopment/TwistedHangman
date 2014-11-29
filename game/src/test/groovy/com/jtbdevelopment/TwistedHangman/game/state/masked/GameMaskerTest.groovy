@@ -39,7 +39,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 initiatingPlayer: PONE.id,
                 lastUpdate: ZonedDateTime.now(),
                 playerStates: [(PONE.id): PlayerChallengeState.Accepted],
-                playerScores: [(PONE.id): 5],
+                playerRunningScores: [(PONE.id): 5],
+                playerRoundScores: [(PONE.id): 0],
                 previousId: "34",
                 rematched: ZonedDateTime.now(),
                 round: new Random().nextInt(1000),
@@ -53,7 +54,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         assert maskedGame.players == [(PONE.md5): PONE.displayName]
         assert maskedGame.initiatingPlayer == PONE.md5
         assert maskedGame.playerStates == [(PONE.md5): PlayerChallengeState.Accepted]
-        assert maskedGame.playerScores == [(PONE.md5): 5]
+        assert maskedGame.playerRunningScores == [(PONE.md5): 5]
+        assert maskedGame.playerRoundScores == [(PONE.md5): 0]
         assert maskedGame.maskedForPlayerID == PONE.id
         assert maskedGame.maskedForPlayerMD5 == PONE.md5
         assert maskedGame.wordPhraseSetter == Player.SYSTEM_PLAYER.md5
@@ -110,7 +112,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 initiatingPlayer: PTWO.id,
                 lastUpdate: ZonedDateTime.now(),
                 playerStates: [(PONE.id): PlayerChallengeState.Accepted, (PTWO.id): PlayerChallengeState.Rejected],
-                playerScores: [(PONE.id): 5, (PTWO.id): 7],
+                playerRunningScores: [(PONE.id): 5, (PTWO.id): 7],
+                playerRoundScores: [(PONE.id): 1, (PTWO.id): 0],
                 previousId: "34",
                 rematched: ZonedDateTime.now(),
                 solverStates: [(PONE.id): state1, (PTWO.id): state2],
@@ -124,7 +127,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         assert maskedGame.players == [(PONE.md5): PONE.displayName, (PTWO.md5): PTWO.displayName]
         assert maskedGame.initiatingPlayer == PTWO.md5
         assert maskedGame.playerStates == [(PONE.md5): PlayerChallengeState.Accepted, (PTWO.md5): PlayerChallengeState.Rejected]
-        assert maskedGame.playerScores == [(PONE.md5): 5, (PTWO.md5): 7]
+        assert maskedGame.playerRunningScores == [(PONE.md5): 5, (PTWO.md5): 7]
+        assert maskedGame.playerRoundScores == [(PONE.md5): 1, (PTWO.md5): 0]
         assert maskedGame.maskedForPlayerID == PONE.id
         assert maskedGame.maskedForPlayerMD5 == PONE.md5
         assert maskedGame.wordPhraseSetter == null
@@ -371,7 +375,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         assert maskedGame.players == [(PONE.md5): PONE.displayName, (PTWO.md5): PTWO.displayName, (PTHREE.md5): PTHREE.displayName]
         assert maskedGame.initiatingPlayer == PTWO.md5
         assert maskedGame.playerStates == [(PONE.md5): PlayerChallengeState.Accepted, (PTWO.md5): PlayerChallengeState.Rejected, (PTHREE.md5): PlayerChallengeState.Pending]
-        assert maskedGame.playerScores == [(PONE.md5): 5, (PTWO.md5): 7, (PTHREE.md5): -10]
+        assert maskedGame.playerRunningScores == [(PONE.md5): 5, (PTWO.md5): 7, (PTHREE.md5): -10]
+        assert maskedGame.playerRoundScores == [(PONE.md5): 1, (PTWO.md5): 0, (PTHREE.md5): -1]
         assert maskedGame.featureData == [(GameFeature.DrawFace): "", (GameFeature.SingleWinner): PTWO.md5]
     }
 
@@ -389,7 +394,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 initiatingPlayer: PTWO.id,
                 lastUpdate: ZonedDateTime.now(),
                 playerStates: [(PONE.id): PlayerChallengeState.Accepted, (PTWO.id): PlayerChallengeState.Rejected, (PTHREE.id): PlayerChallengeState.Pending],
-                playerScores: [(PONE.id): 5, (PTWO.id): 7, (PTHREE.id): -10],
+                playerRunningScores: [(PONE.id): 5, (PTWO.id): 7, (PTHREE.id): -10],
+                playerRoundScores: [(PONE.id): 1, (PTWO.id): 0, (PTHREE.id): -1],
                 previousId: "34",
                 rematched: ZonedDateTime.now(),
                 solverStates: states,

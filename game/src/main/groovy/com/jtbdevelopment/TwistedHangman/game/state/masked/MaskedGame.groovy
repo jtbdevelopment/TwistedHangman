@@ -11,8 +11,6 @@ import groovy.transform.CompileStatic
  *
  * Represents the Game as masked for a specific player
  */
-
-//  TODO - add round score
 @CompileStatic
 class MaskedGame implements Cloneable {
     String maskedForPlayerID
@@ -38,8 +36,8 @@ class MaskedGame implements Cloneable {
     Map<GameFeature, Object> featureData = [:]  // Any objects referring to players will be changed to md5
 
     String wordPhraseSetter  // md5
-    Map<String, MaskedIndividualGameState> solverStates = [:]
-    // md5 key  - will only contain entries for own game if solving
+    Map<String, MaskedIndividualGameState> solverStates = [:] //md5/state - data will vary based on game phase
 
-    Map<String, Integer> playerScores = [:]  // md5 key
+    Map<String, Integer> playerRoundScores = [:]  // md5 key
+    Map<String, Integer> playerRunningScores = [:]  // md5 key
 }

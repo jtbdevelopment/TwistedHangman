@@ -115,11 +115,10 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
   };
 
   $scope.gameScoreForPlayer = function (md5) {
-    //  TODO
-    return md5.length - md5.length;
+    return $scope.game.playerRoundScores[md5];
   };
 
   $scope.runningScoreForPlayer = function (md5) {
-    return $scope.game.playerScores[md5];
+    return $scope.game.playerRunningScores[md5];
   };
 });

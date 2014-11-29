@@ -17,8 +17,9 @@ class PlayerScoreInitializer implements GameInitializer {
     void initializeGame(final Game game) {
         game.players.each {
             Player it ->
-                if (!game.playerScores.containsKey(it.id)) {
-                    game.playerScores[it.id] = 0
+                game.playerRoundScores[it.id] = 0
+                if (!game.playerRunningScores.containsKey(it.id)) {
+                    game.playerRunningScores[it.id] = 0
                 }
         }
     }

@@ -18,7 +18,8 @@ class GameScorer {
             String playerId, IndividualGameState gameState ->
                 if (gameState.gameWon) {
                     winners++
-                    game.playerScores[playerId] = game.playerScores[playerId] + 1
+                    game.playerRoundScores[playerId] = 1
+                    game.playerRunningScores[playerId] = game.playerRunningScores[playerId] + 1
                     //  Move to list of post-scorers?
                     if (game.features.contains(GameFeature.SingleWinner)) {
                         game.featureData[GameFeature.SingleWinner] = (game.players.find { Player player -> player.id == playerId }).id
@@ -29,12 +30,15 @@ class GameScorer {
             String id, IndividualGameState gameState ->
                 if (gameState.gameLost) {
                     losers++
-                    game.playerScores[id] = game.playerScores[id] - 1
+                    game.playerRoundScores[id] = -1
+                    game.playerRunningScores[id] = game.playerRunningScores[id] - 1
                 }
         }
 
         if (game.wordPhraseSetter != null && game.wordPhraseSetter != Player.SYSTEM_PLAYER.id) {
-            game.playerScores[game.wordPhraseSetter] = game.playerScores[game.wordPhraseSetter] + losers - winners
+            int net = losers - winners
+            game.playerRoundScores[game.wordPhraseSetter] = net
+            game.playerRunningScores[game.wordPhraseSetter] = game.playerRunningScores[game.wordPhraseSetter] + net
         }
         return game
     }

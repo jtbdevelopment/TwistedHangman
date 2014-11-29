@@ -18,7 +18,6 @@ import java.time.ZonedDateTime
  * Time: 9:36 PM
  */
 
-//  TODO - add round score
 @Document
 @CompileStatic
 @CompoundIndexes([
@@ -61,7 +60,8 @@ public class Game implements Cloneable {
     String wordPhraseSetter
     Map<String, IndividualGameState> solverStates = [:]
 
-    Map<String, Integer> playerScores = [:]
+    Map<String, Integer> playerRoundScores = [:]
+    Map<String, Integer> playerRunningScores = [:]
 
     boolean equals(final o) {
         if (this.is(o)) return true
@@ -97,7 +97,7 @@ public class Game implements Cloneable {
                 ", featureData=" + featureData +
                 ", wordPhraseSetter=" + wordPhraseSetter +
                 ", solverStates=" + solverStates +
-                ", playerScores=" + playerScores +
+                ", playerRunningScores=" + playerRunningScores +
                 '}';
     }
 }
