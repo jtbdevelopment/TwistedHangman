@@ -33,7 +33,6 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
     });
   };
 
-  //  TODO - test
   $scope.accept = function () {
     $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/accept').success(function (data) {
       twShowGameService.processUpdate($scope, data);
@@ -43,7 +42,6 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
     });
   };
 
-  //  TODO - test
   $scope.reject = function () {
     $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/reject').success(function (data) {
       twShowGameService.processUpdate($scope, data);
@@ -53,7 +51,6 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
     });
   };
 
-  //  TODO - test
   $scope.setPuzzle = function () {
     $http.put(
       twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/puzzle',

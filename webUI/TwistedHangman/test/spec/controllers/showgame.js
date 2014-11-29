@@ -85,6 +85,35 @@ describe('Controller: ShowCtrl', function () {
     expect(showGameService.processGame).toHaveBeenCalledWith(scope, newGame);
   });
 
+  it('accept match', function () {
+    var updatedGame = {id: 'newid', gamePhase: 'X'};
+    http.expectPUT('/api/player/MANUAL1/play/gameid/accept').respond(updatedGame);
+    scope.accept();
+    http.flush();
+
+    expect(showGameService.processUpdate).toHaveBeenCalledWith(scope, updatedGame);
+  });
+
+  it('reject match', function () {
+    var updatedGame = {id: 'newid', gamePhase: 'X'};
+    http.expectPUT('/api/player/MANUAL1/play/gameid/reject').respond(updatedGame);
+    scope.reject();
+    http.flush();
+
+    expect(showGameService.processUpdate).toHaveBeenCalledWith(scope, updatedGame);
+  });
+
+  it('set puzzle', function () {
+    var updatedGame = {id: 'newid', gamePhase: 'X'};
+    scope.enteredCategory = 'cat';
+    scope.enteredWordPhrase = 'wp';
+    http.expectPUT('/api/player/MANUAL1/play/gameid/puzzle', {category: 'cat', wordPhrase: 'wp'}).respond(updatedGame);
+    scope.setPuzzle();
+    http.flush();
+
+    expect(showGameService.processUpdate).toHaveBeenCalledWith(scope, updatedGame);
+  });
+
   it('guess letter', function () {
     var updatedGame = {id: 'newid', gamePhase: 'X'};
     http.expectPUT('/api/player/MANUAL1/play/gameid/guess/a').respond(updatedGame);
