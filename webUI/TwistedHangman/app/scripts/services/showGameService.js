@@ -61,6 +61,7 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
     scope.allowPuzzleEntry = false;
     scope.showGameSummary = true;
     scope.showRematchButtons = false;
+    scope.showQuitButton = false;
     if (typeof scope.game === 'undefined' || typeof scope.player === 'undefined') {
       return;
     }
@@ -74,6 +75,7 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
         scope.showPlayerStates = true;
         break;
       case 'Setup':
+        scope.showQuitButton = true;
         scope.showPuzzleEnty = true;
         if (scope.game.wordPhraseSetter === null) {
           angular.forEach(scope.game.solverStates, function (state, md5) {
@@ -86,6 +88,7 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
         }
         break;
       case 'Playing':
+        scope.showQuitButton = true;
         scope.showPlaySection = true;
         if (typeof scope.game.featureData.TurnBased === 'undefined') {
           scope.allowPlayMoves = true;

@@ -103,6 +103,15 @@ describe('Controller: ShowCtrl', function () {
     expect(showGameService.processUpdate).toHaveBeenCalledWith(scope, updatedGame);
   });
 
+  it('quit match', function () {
+    var updatedGame = {id: 'newid', gamePhase: 'X'};
+    http.expectPUT('/api/player/MANUAL1/play/gameid/quit').respond(updatedGame);
+    scope.quit();
+    http.flush();
+
+    expect(showGameService.processUpdate).toHaveBeenCalledWith(scope, updatedGame);
+  });
+
   it('set puzzle', function () {
     var updatedGame = {id: 'newid', gamePhase: 'X'};
     scope.enteredCategory = 'cat';
