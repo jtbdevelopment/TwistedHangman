@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.game.handlers.*
-import com.jtbdevelopment.TwistedHangman.game.state.PlayerChallengeState
+import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import groovy.transform.TypeChecked
 
@@ -103,10 +103,10 @@ class GamePlayServicesTest extends GroovyTestCase {
     void testRejectGame() {
         services.responseHandler = [
                 handleAction: {
-                    String p, String g, PlayerChallengeState r ->
+                    String p, String g, PlayerState r ->
                         assert p == PID
                         assert g == GID
-                        assert r == PlayerChallengeState.Rejected
+                        assert r == PlayerState.Rejected
                         result
                 }
         ] as ChallengeResponseHandler
@@ -116,10 +116,10 @@ class GamePlayServicesTest extends GroovyTestCase {
     void testAcceptGame() {
         services.responseHandler = [
                 handleAction: {
-                    String p, String g, PlayerChallengeState r ->
+                    String p, String g, PlayerState r ->
                         assert p == PID
                         assert g == GID
-                        assert r == PlayerChallengeState.Accepted
+                        assert r == PlayerState.Accepted
                         result
                 }
         ] as ChallengeResponseHandler

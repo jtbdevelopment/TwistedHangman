@@ -4,7 +4,7 @@ import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.exceptions.input.TooLateToRespondToChallenge
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.TwistedHangman.game.state.PlayerChallengeState
+import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
 
 /**
  * Date: 11/9/2014
@@ -18,7 +18,7 @@ class ChallengeResponseHandlerTest extends TwistedHangmanTestCase {
         GamePhase.values().findAll { it != GamePhase.Declined && it != GamePhase.Challenge }.each {
             Game game = new Game(gamePhase: it)
             try {
-                handler.handleActionInternal(PONE, game, PlayerChallengeState.Rejected)
+                handler.handleActionInternal(PONE, game, PlayerState.Rejected)
                 fail("Should have exceptioned on state " + it)
             } catch (TooLateToRespondToChallenge e) {
                 //
@@ -30,20 +30,20 @@ class ChallengeResponseHandlerTest extends TwistedHangmanTestCase {
     public void testSetsStateForPlayer() {
         [GamePhase.Declined, GamePhase.Challenge].each {
             GamePhase gamePhase ->
-                PlayerChallengeState.findAll { it != PlayerChallengeState.Pending }.each {
-                    PlayerChallengeState response ->
+                PlayerState.findAll { it != PlayerState.Pending }.each {
+                    PlayerState response ->
                         Game game = new Game(
                                 gamePhase: gamePhase,
-                                playerStates: [(PONE.id)  : PlayerChallengeState.Pending,
-                                               (PTWO.id)  : PlayerChallengeState.Rejected,
-                                               (PTHREE.id): PlayerChallengeState.Pending,
-                                               (PFOUR.id) : PlayerChallengeState.Accepted,
+                                playerStates: [(PONE.id)  : PlayerState.Pending,
+                                               (PTWO.id)  : PlayerState.Rejected,
+                                               (PTHREE.id): PlayerState.Pending,
+                                               (PFOUR.id) : PlayerState.Accepted,
                                 ])
                         handler.handleActionInternal(PONE, game, response)
                         assert game.playerStates[PONE.id] == response
-                        assert game.playerStates[PTWO.id] == PlayerChallengeState.Rejected
-                        assert game.playerStates[PTHREE.id] == PlayerChallengeState.Pending
-                        assert game.playerStates[PFOUR.id] == PlayerChallengeState.Accepted
+                        assert game.playerStates[PTWO.id] == PlayerState.Rejected
+                        assert game.playerStates[PTHREE.id] == PlayerState.Pending
+                        assert game.playerStates[PFOUR.id] == PlayerState.Accepted
                 }
         }
     }
@@ -52,20 +52,20 @@ class ChallengeResponseHandlerTest extends TwistedHangmanTestCase {
     public void testOverridesResponseForPlayer() {
         [GamePhase.Declined, GamePhase.Challenge].each {
             GamePhase gamePhase ->
-                PlayerChallengeState.findAll { it != PlayerChallengeState.Pending }.each {
-                    PlayerChallengeState response ->
+                PlayerState.findAll { it != PlayerState.Pending }.each {
+                    PlayerState response ->
                         Game game = new Game(
                                 gamePhase: gamePhase,
-                                playerStates: [(PONE.id)  : PlayerChallengeState.Accepted,
-                                               (PTWO.id)  : PlayerChallengeState.Rejected,
-                                               (PTHREE.id): PlayerChallengeState.Pending,
-                                               (PFOUR.id) : PlayerChallengeState.Accepted,
+                                playerStates: [(PONE.id)  : PlayerState.Accepted,
+                                               (PTWO.id)  : PlayerState.Rejected,
+                                               (PTHREE.id): PlayerState.Pending,
+                                               (PFOUR.id) : PlayerState.Accepted,
                                 ])
                         handler.handleActionInternal(PONE, game, response)
                         assert game.playerStates[PONE.id] == response
-                        assert game.playerStates[PTWO.id] == PlayerChallengeState.Rejected
-                        assert game.playerStates[PTHREE.id] == PlayerChallengeState.Pending
-                        assert game.playerStates[PFOUR.id] == PlayerChallengeState.Accepted
+                        assert game.playerStates[PTWO.id] == PlayerState.Rejected
+                        assert game.playerStates[PTHREE.id] == PlayerState.Pending
+                        assert game.playerStates[PFOUR.id] == PlayerState.Accepted
                 }
         }
     }

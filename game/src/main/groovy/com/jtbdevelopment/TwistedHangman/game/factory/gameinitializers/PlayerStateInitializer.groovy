@@ -2,7 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 
 import com.jtbdevelopment.TwistedHangman.game.factory.GameInitializer
 import com.jtbdevelopment.TwistedHangman.game.state.Game
-import com.jtbdevelopment.TwistedHangman.game.state.PlayerChallengeState
+import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
@@ -16,10 +16,10 @@ import org.springframework.stereotype.Component
 class PlayerStateInitializer implements GameInitializer {
     @Override
     void initializeGame(final Game game) {
-        game.playerStates.put(game.initiatingPlayer, PlayerChallengeState.Accepted)
+        game.playerStates.put(game.initiatingPlayer, PlayerState.Accepted)
         game.players.findAll { Player it -> game.initiatingPlayer != it.id }.each {
             Player it ->
-                game.playerStates[it.id] = PlayerChallengeState.Pending
+                game.playerStates[it.id] = PlayerState.Pending
         }
     }
 }

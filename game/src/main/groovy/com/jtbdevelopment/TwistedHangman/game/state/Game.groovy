@@ -51,7 +51,7 @@ public class Game implements Cloneable {
     @Indexed
     String initiatingPlayer
     List<Player> players = []  //  Ordered by turns, challengers etc
-    Map<String, PlayerChallengeState> playerStates = [:]
+    Map<String, PlayerState> playerStates = [:]
 
     @Indexed
     Set<GameFeature> features = [] as Set

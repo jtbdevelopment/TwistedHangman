@@ -21,11 +21,11 @@ class GamePhaseTransitionEngine {
     public Game evaluateGamePhaseForGame(final Game game) {
         switch (game.gamePhase) {
             case GamePhase.Challenge:
-                def reject = game.playerStates.values().find { PlayerChallengeState it -> it == PlayerChallengeState.Rejected }
+                def reject = game.playerStates.values().find { PlayerState it -> it == PlayerState.Rejected }
                 if (reject != null) {
                     return changeStateAndReevaluate(GamePhase.Declined, game)
                 } else {
-                    def pending = game.playerStates.values().find { PlayerChallengeState it -> it == PlayerChallengeState.Pending }
+                    def pending = game.playerStates.values().find { PlayerState it -> it == PlayerState.Pending }
                     if (pending == null) {
                         return changeStateAndReevaluate(GamePhase.Setup, game)
                     }

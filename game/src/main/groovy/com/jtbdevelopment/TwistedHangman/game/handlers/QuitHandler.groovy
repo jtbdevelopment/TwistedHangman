@@ -3,7 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 import com.jtbdevelopment.TwistedHangman.exceptions.input.GameIsNotPossibleToQuitNowException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.TwistedHangman.game.state.PlayerChallengeState
+import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
@@ -25,7 +25,7 @@ class QuitHandler extends AbstractGameActionHandler<Object> {
         }
 
         game.gamePhase = GamePhase.Quit
-        game.playerStates[player.id] = PlayerChallengeState.Quit
+        game.playerStates[player.id] = PlayerState.Quit
         game
     }
 }

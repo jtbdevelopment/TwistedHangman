@@ -5,7 +5,7 @@ import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.TwistedHangman.game.state.PlayerChallengeState
+import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.TwistedHangman.rest.GrizzlyServerBuilder
@@ -147,7 +147,7 @@ class ServerIntegration {
 
         game = putMG(P1G.path("quit"))
         assert game.gamePhase == GamePhase.Quit
-        assert game.playerStates[TEST_PLAYER1.md5] == PlayerChallengeState.Quit
+        assert game.playerStates[TEST_PLAYER1.md5] == PlayerState.Quit
     }
 
     @Test

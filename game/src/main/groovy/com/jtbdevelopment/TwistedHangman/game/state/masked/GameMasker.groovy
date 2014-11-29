@@ -42,7 +42,7 @@ class GameMasker {
                 playerMaskedGame.playerRoundScores[idmap[p].md5] = score
         }
         game.playerStates.each {
-            String p, PlayerChallengeState state ->
+            String p, PlayerState state ->
                 playerMaskedGame.playerStates[idmap[p].md5] = state
         }
         game.featureData.each {

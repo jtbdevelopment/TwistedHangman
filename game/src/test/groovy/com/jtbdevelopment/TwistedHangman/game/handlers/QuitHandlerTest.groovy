@@ -4,7 +4,7 @@ import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.exceptions.input.GameIsNotPossibleToQuitNowException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.TwistedHangman.game.state.PlayerChallengeState
+import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
 
 /**
  * Date: 11/28/2014
@@ -27,13 +27,13 @@ class QuitHandlerTest extends TwistedHangmanTestCase {
 
     void testQuitsGamesInOtherStates() {
         [GamePhase.Challenge, GamePhase.Setup, GamePhase.Playing].each {
-            Game game = new Game(gamePhase: it, playerStates: [(PONE.id): PlayerChallengeState.Pending, (PTWO.id): PlayerChallengeState.Rejected])
+            Game game = new Game(gamePhase: it, playerStates: [(PONE.id): PlayerState.Pending, (PTWO.id): PlayerState.Rejected])
 
             Game ret = handler.handleActionInternal(PTWO, game, null)
 
             assert game.is(ret)
             assert game.gamePhase == GamePhase.Quit
-            assert game.playerStates == [(PONE.id): PlayerChallengeState.Pending, (PTWO.id): PlayerChallengeState.Quit]
+            assert game.playerStates == [(PONE.id): PlayerState.Pending, (PTWO.id): PlayerState.Quit]
         }
     }
 }

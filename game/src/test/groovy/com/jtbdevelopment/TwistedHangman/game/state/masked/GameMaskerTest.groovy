@@ -38,7 +38,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 id: "1234",
                 initiatingPlayer: PONE.id,
                 lastUpdate: ZonedDateTime.now(),
-                playerStates: [(PONE.id): PlayerChallengeState.Accepted],
+                playerStates: [(PONE.id): PlayerState.Accepted],
                 playerRunningScores: [(PONE.id): 5],
                 playerRoundScores: [(PONE.id): 0],
                 previousId: "34",
@@ -53,7 +53,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
 
         assert maskedGame.players == [(PONE.md5): PONE.displayName]
         assert maskedGame.initiatingPlayer == PONE.md5
-        assert maskedGame.playerStates == [(PONE.md5): PlayerChallengeState.Accepted]
+        assert maskedGame.playerStates == [(PONE.md5): PlayerState.Accepted]
         assert maskedGame.playerRunningScores == [(PONE.md5): 5]
         assert maskedGame.playerRoundScores == [(PONE.md5): 0]
         assert maskedGame.maskedForPlayerID == PONE.id
@@ -111,7 +111,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 id: "1234",
                 initiatingPlayer: PTWO.id,
                 lastUpdate: ZonedDateTime.now(),
-                playerStates: [(PONE.id): PlayerChallengeState.Accepted, (PTWO.id): PlayerChallengeState.Rejected],
+                playerStates: [(PONE.id): PlayerState.Accepted, (PTWO.id): PlayerState.Rejected],
                 playerRunningScores: [(PONE.id): 5, (PTWO.id): 7],
                 playerRoundScores: [(PONE.id): 1, (PTWO.id): 0],
                 previousId: "34",
@@ -126,7 +126,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
 
         assert maskedGame.players == [(PONE.md5): PONE.displayName, (PTWO.md5): PTWO.displayName]
         assert maskedGame.initiatingPlayer == PTWO.md5
-        assert maskedGame.playerStates == [(PONE.md5): PlayerChallengeState.Accepted, (PTWO.md5): PlayerChallengeState.Rejected]
+        assert maskedGame.playerStates == [(PONE.md5): PlayerState.Accepted, (PTWO.md5): PlayerState.Rejected]
         assert maskedGame.playerRunningScores == [(PONE.md5): 5, (PTWO.md5): 7]
         assert maskedGame.playerRoundScores == [(PONE.md5): 1, (PTWO.md5): 0]
         assert maskedGame.maskedForPlayerID == PONE.id
@@ -374,7 +374,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
     protected void checkMultiPlayerGame(MaskedGame maskedGame) {
         assert maskedGame.players == [(PONE.md5): PONE.displayName, (PTWO.md5): PTWO.displayName, (PTHREE.md5): PTHREE.displayName]
         assert maskedGame.initiatingPlayer == PTWO.md5
-        assert maskedGame.playerStates == [(PONE.md5): PlayerChallengeState.Accepted, (PTWO.md5): PlayerChallengeState.Rejected, (PTHREE.md5): PlayerChallengeState.Pending]
+        assert maskedGame.playerStates == [(PONE.md5): PlayerState.Accepted, (PTWO.md5): PlayerState.Rejected, (PTHREE.md5): PlayerState.Pending]
         assert maskedGame.playerRunningScores == [(PONE.md5): 5, (PTWO.md5): 7, (PTHREE.md5): -10]
         assert maskedGame.playerRoundScores == [(PONE.md5): 1, (PTWO.md5): 0, (PTHREE.md5): -1]
         assert maskedGame.featureData == [(GameFeature.DrawFace): "", (GameFeature.SingleWinner): PTWO.md5]
@@ -393,7 +393,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 id: "1234",
                 initiatingPlayer: PTWO.id,
                 lastUpdate: ZonedDateTime.now(),
-                playerStates: [(PONE.id): PlayerChallengeState.Accepted, (PTWO.id): PlayerChallengeState.Rejected, (PTHREE.id): PlayerChallengeState.Pending],
+                playerStates: [(PONE.id): PlayerState.Accepted, (PTWO.id): PlayerState.Rejected, (PTHREE.id): PlayerState.Pending],
                 playerRunningScores: [(PONE.id): 5, (PTWO.id): 7, (PTHREE.id): -10],
                 playerRoundScores: [(PONE.id): 1, (PTWO.id): 0, (PTHREE.id): -1],
                 previousId: "34",

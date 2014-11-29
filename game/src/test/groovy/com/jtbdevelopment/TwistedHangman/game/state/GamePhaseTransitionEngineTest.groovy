@@ -17,7 +17,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         Game game = new Game(
                 gamePhase: GamePhase.Challenge,
                 features: [GameFeature.SinglePlayer, GameFeature.SystemPuzzles] as Set,
-                playerStates: [(PONE.id): PlayerChallengeState.Accepted],
+                playerStates: [(PONE.id): PlayerState.Accepted],
                 solverStates: [(PONE.id): new IndividualGameState(maxPenalties: 10, wordPhrase: "SET".toCharArray())]
         )
 
@@ -32,7 +32,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         Game game = new Game(
                 gamePhase: GamePhase.Challenge,
                 features: [GameFeature.SystemPuzzles] as Set,
-                playerStates: [(PONE.id): PlayerChallengeState.Accepted, (PTWO.id): PlayerChallengeState.Pending],
+                playerStates: [(PONE.id): PlayerState.Accepted, (PTWO.id): PlayerState.Pending],
         )
 
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
@@ -44,7 +44,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         Game game = new Game(
                 gamePhase: GamePhase.Challenge,
                 features: [GameFeature.SystemPuzzles] as Set,
-                playerStates: [(PONE.id): PlayerChallengeState.Rejected, (PTWO.id): PlayerChallengeState.Pending],
+                playerStates: [(PONE.id): PlayerState.Rejected, (PTWO.id): PlayerState.Pending],
         )
 
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
@@ -57,7 +57,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         Game game = new Game(
                 gamePhase: GamePhase.Challenge,
                 features: [GameFeature.SystemPuzzles] as Set,
-                playerStates: [(PONE.id): PlayerChallengeState.Accepted, (PTWO.id): PlayerChallengeState.Accepted],
+                playerStates: [(PONE.id): PlayerState.Accepted, (PTWO.id): PlayerState.Accepted],
                 solverStates: [(PONE.id): new IndividualGameState(), (PTWO.id): new IndividualGameState()]
         )
 

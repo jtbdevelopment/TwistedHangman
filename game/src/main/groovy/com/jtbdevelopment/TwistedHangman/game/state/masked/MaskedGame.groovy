@@ -2,7 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.state.masked
 
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.TwistedHangman.game.state.PlayerChallengeState
+import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
 import groovy.transform.CompileStatic
 
 /**
@@ -30,7 +30,7 @@ class MaskedGame implements Cloneable {
 
     String initiatingPlayer
     Map<String, String> players = [:]  //  players will be hashed down to an md5 key + displayName
-    Map<String, PlayerChallengeState> playerStates = [:]  // key will be md5 key
+    Map<String, PlayerState> playerStates = [:]  // key will be md5 key
 
     Set<GameFeature> features = [] as Set
     Map<GameFeature, Object> featureData = [:]  // Any objects referring to players will be changed to md5

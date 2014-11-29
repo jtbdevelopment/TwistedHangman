@@ -42,7 +42,7 @@ class GameTest extends TwistedHangmanTestCase {
                 lastUpdate: ZonedDateTime.parse("2013-01-31T10:15:30+01:00[Europe/Paris]"),
                 players: [PONE, PTWO],
                 playerRunningScores: [(PONE.id): 5],
-                playerStates: [(PONE.id): PlayerChallengeState.Accepted],
+                playerStates: [(PONE.id): PlayerState.Accepted],
                 rematched: ZonedDateTime.parse("2013-05-29T10:15:30+01:00[Europe/Paris]"),
                 solverStates: [(PONE.id): new IndividualGameState()],
                 wordPhraseSetter: PTWO.id,

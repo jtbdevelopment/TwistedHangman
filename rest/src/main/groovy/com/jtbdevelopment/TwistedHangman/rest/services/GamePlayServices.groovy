@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.game.handlers.*
-import com.jtbdevelopment.TwistedHangman.game.state.PlayerChallengeState
+import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
@@ -54,14 +54,14 @@ class GamePlayServices {
     @Path("reject")
     @Produces(MediaType.APPLICATION_JSON)
     MaskedGame rejectGame() {
-        responseHandler.handleAction(playerID.get(), gameID.get(), PlayerChallengeState.Rejected)
+        responseHandler.handleAction(playerID.get(), gameID.get(), PlayerState.Rejected)
     }
 
     @PUT
     @Path("accept")
     @Produces(MediaType.APPLICATION_JSON)
     MaskedGame acceptGame() {
-        responseHandler.handleAction(playerID.get(), gameID.get(), PlayerChallengeState.Accepted)
+        responseHandler.handleAction(playerID.get(), gameID.get(), PlayerState.Accepted)
     }
 
     @PUT

@@ -3,7 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 import com.jtbdevelopment.TwistedHangman.exceptions.input.TooLateToRespondToChallenge
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.TwistedHangman.game.state.PlayerChallengeState
+import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component
  */
 @CompileStatic
 @Component
-class ChallengeResponseHandler extends AbstractGameActionHandler<PlayerChallengeState> {
+class ChallengeResponseHandler extends AbstractGameActionHandler<PlayerState> {
     @Override
-    protected Game handleActionInternal(final Player player, final Game game, final PlayerChallengeState param) {
+    protected Game handleActionInternal(final Player player, final Game game, final PlayerState param) {
         // We will at least record further ack/nacks for information
         if (game.gamePhase == GamePhase.Challenge ||
                 game.gamePhase == GamePhase.Declined) {

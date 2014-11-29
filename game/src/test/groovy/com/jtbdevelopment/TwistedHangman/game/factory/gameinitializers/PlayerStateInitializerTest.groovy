@@ -2,7 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
-import com.jtbdevelopment.TwistedHangman.game.state.PlayerChallengeState
+import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
 
 /**
  * Date: 11/5/14
@@ -19,9 +19,9 @@ class PlayerStateInitializerTest extends TwistedHangmanTestCase {
         game.initiatingPlayer = PTHREE.id
         playerStateInitializer.initializeGame(game)
         assert game.playerStates.size() == 4
-        assert game.playerStates[(PTHREE.id)] == PlayerChallengeState.Accepted
+        assert game.playerStates[(PTHREE.id)] == PlayerState.Accepted
         players.findAll { it != PTHREE }.each {
-            assert game.playerStates[it.id] == PlayerChallengeState.Pending
+            assert game.playerStates[it.id] == PlayerState.Pending
         }
     }
 }
