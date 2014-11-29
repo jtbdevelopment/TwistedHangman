@@ -42,6 +42,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 playerScores: [(PONE.id): 5],
                 previousId: "34",
                 rematched: ZonedDateTime.now(),
+                round: new Random().nextInt(1000),
                 solverStates: [(PONE.id): state],
                 version: 10,
         )
@@ -113,6 +114,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 previousId: "34",
                 rematched: ZonedDateTime.now(),
                 solverStates: [(PONE.id): state1, (PTWO.id): state2],
+                round: new Random().nextInt(1000),
                 version: 10,
         )
 
@@ -362,6 +364,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         assert maskedGame.lastUpdate == (game.lastUpdate ? game.lastUpdate.toEpochSecond() : null)
         assert maskedGame.rematched == (game.rematched ? game.rematched.toEpochSecond() : null)
         assert maskedGame.features == game.features
+        assert maskedGame.round == game.round
     }
 
     protected void checkMultiPlayerGame(MaskedGame maskedGame) {
@@ -390,6 +393,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 previousId: "34",
                 rematched: ZonedDateTime.now(),
                 solverStates: states,
+                round: new Random().nextInt(1000),
                 version: 10,
         )
         game

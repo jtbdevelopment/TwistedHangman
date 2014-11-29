@@ -39,6 +39,7 @@ class GameFactory {
 
         Game game = createFreshGame(previousGame.features, players, initiatingPlayer)
         game.previousId = previousGame.id
+        game.round = previousGame.round + 1
         game.playerScores.putAll(previousGame.playerScores)
 
         prepareGame(game)
@@ -95,6 +96,7 @@ class GameFactory {
             game.players.add(initiatingPlayer)
         }
         game.wordPhraseSetter = null
+        game.round = 1;
         game
     }
 }

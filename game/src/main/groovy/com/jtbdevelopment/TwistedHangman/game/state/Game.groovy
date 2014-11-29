@@ -18,7 +18,6 @@ import java.time.ZonedDateTime
  * Time: 9:36 PM
  */
 
-//  TODO - add round counter
 //  TODO - add round score
 @Document
 @CompileStatic
@@ -44,6 +43,8 @@ public class Game implements Cloneable {
 
     @Indexed
     String previousId
+
+    int round;
 
     @Indexed
     GamePhase gamePhase

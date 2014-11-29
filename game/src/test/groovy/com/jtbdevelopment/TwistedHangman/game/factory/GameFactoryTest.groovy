@@ -53,6 +53,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assert game.gamePhase == GamePhase.Challenge
         assert game.wordPhraseSetter == null
         assert game.created == null
+        assert game.round == 1
         assertNull game.version
     }
 
@@ -87,6 +88,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         priorGame.players = players
         priorGame.players.add(PONE)
         priorGame.initiatingPlayer = PTHREE.id
+        priorGame.round = new Random().nextInt(100)
         Game game = gameFactory.createGame(priorGame, initiatingPlayer)
 
         assertNotNull game
@@ -101,6 +103,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assert game.gamePhase == GamePhase.Challenge
         assert game.wordPhraseSetter == null
         assert game.created == null
+        assert game.round == (priorGame.round + 1)
         assertNull game.version
     }
 

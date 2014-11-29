@@ -119,6 +119,7 @@ class GameMasker {
         playerMaskedGame.features.addAll(game.features)
         playerMaskedGame.gamePhase = game.gamePhase
         playerMaskedGame.id = game.id
+        playerMaskedGame.round = game.round
     }
 
     protected Long convertTime(final ZonedDateTime value) {

@@ -235,6 +235,7 @@ class ServerIntegration {
         assert newGame.gamePhase == GamePhase.Challenge
         assert newGame.players == game.players
         assert newGame.playerScores == game.playerScores
+        assert newGame.round == 2
 
 
         GenericType<Collection<MaskedGame>> type = new GenericType<Collection<MaskedGame>>(Collection.class) {}
