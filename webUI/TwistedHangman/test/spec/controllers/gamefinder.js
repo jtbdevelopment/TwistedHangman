@@ -17,17 +17,19 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
     // load the controller's module
     beforeEach(module('twistedHangmanApp'));
 
-    var ctrl, httpBackend, scope, rootScope;
+    var ctrl, httpBackend, scope, rootScope, playerService;
     var status = [{'X': 1}, {'Y': 2}];
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($httpBackend, $controller, $rootScope) {
+    beforeEach(inject(function ($httpBackend, $controller, $rootScope, twCurrentPlayerService) {
       scope = $rootScope.$new();
       httpBackend = $httpBackend;
       httpBackend.expectGET(url).respond(status);
       rootScope = $rootScope;
+      playerService = twCurrentPlayerService;
       ctrl = $controller(name, {
-        $scope: scope
+        $scope: scope,
+        twCurrentPlayerService: playerService
       });
     }));
 
@@ -68,6 +70,18 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
       expect(scope.games).toEqual(status);
       httpBackend.verifyNoOutstandingRequest();
       httpBackend.verifyNoOutstandingExpectation();
+    });
+
+    it('refreshes on "playerSwitch" broadcast', function () {
+      httpBackend.flush();
+      expect(scope.games).toEqual(status);
+      var newStatus = [{'Y': 2}, {'Z': 5}];
+      httpBackend.expectGET(url).respond(newStatus);
+      spyOn(playerService, 'currentPlayerBaseURL').and.callThrough();
+      rootScope.$broadcast('playerSwitch', phase);
+      httpBackend.flush();
+      expect(playerService.currentPlayerBaseURL).toHaveBeenCalled();
+      expect(scope.games).toEqual(newStatus);
     });
   });
 });

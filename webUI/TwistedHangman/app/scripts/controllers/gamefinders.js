@@ -22,7 +22,6 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
     $scope.games = [];
 
     $scope.style = phase.toLowerCase() + 'Button';
-    //  TODO - images
     $scope.glyph = 'glyphicon-' + glyph;
     $scope.label = phase;
     $scope.url = twCurrentPlayerService.currentPlayerBaseURL() + '/games/' + phase;
@@ -43,9 +42,8 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
       }
     });
 
-    //  TODO - test
     $scope.$on('playerSwitch', function () {
-      console.error('Reload ' + phase);
+      console.error('Player Switch ' + phase);
       $scope.url = twCurrentPlayerService.currentPlayerBaseURL() + '/games/' + phase;
       $scope.reload();
     });
