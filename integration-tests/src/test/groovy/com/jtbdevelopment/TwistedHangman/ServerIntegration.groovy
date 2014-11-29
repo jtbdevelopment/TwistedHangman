@@ -5,6 +5,7 @@ import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
+import com.jtbdevelopment.TwistedHangman.game.state.PlayerChallengeState
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.TwistedHangman.rest.GrizzlyServerBuilder
@@ -118,6 +119,35 @@ class ServerIntegration {
                 "DrawGallows"            : GameFeature.DrawGallows.description,
                 "DrawFace"               : GameFeature.DrawFace.description
         ]
+    }
+
+    @Test
+    void testQuittingAGame() {
+        def entity = Entity.entity(
+                new PlayerServices.FeaturesAndPlayers(
+                        features: [GameFeature.SystemPuzzles, GameFeature.Thieving, GameFeature.DrawFace, GameFeature.SingleWinner] as Set,
+                        players: [TEST_PLAYER2.md5, TEST_PLAYER3.md5]
+                ),
+                MediaType.APPLICATION_JSON)
+
+        def P1 = ClientBuilder
+                .newClient()
+                .target(PLAYERS_URI)
+                .path(TEST_PLAYER1.id)
+
+        MaskedGame game
+        game = P1.path("new")
+                .request(MediaType.APPLICATION_JSON)
+                .post(entity, MaskedGame.class)
+
+        assert game.gamePhase == GamePhase.Challenge
+        assert game.solverStates[TEST_PLAYER1.md5] != null
+        assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase == ""
+        def P1G = P1.path("play").path(game.id)
+
+        game = putMG(P1G.path("quit"))
+        assert game.gamePhase == GamePhase.Quit
+        assert game.playerStates[TEST_PLAYER1.md5] == PlayerChallengeState.Quit
     }
 
     @Test

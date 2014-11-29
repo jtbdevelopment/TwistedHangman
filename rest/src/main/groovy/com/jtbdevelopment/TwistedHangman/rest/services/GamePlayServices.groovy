@@ -33,6 +33,8 @@ class GamePlayServices {
     SetPuzzleHandler puzzleHandler
     @Autowired
     GameGetterHandler gameGetterHandler
+    @Autowired
+    QuitHandler quitHandler
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -60,6 +62,13 @@ class GamePlayServices {
     @Produces(MediaType.APPLICATION_JSON)
     MaskedGame acceptGame() {
         responseHandler.handleAction(playerID.get(), gameID.get(), PlayerChallengeState.Accepted)
+    }
+
+    @PUT
+    @Path("quit")
+    @Produces(MediaType.APPLICATION_JSON)
+    MaskedGame quitGame() {
+        quitHandler.handleAction(playerID.get(), gameID.get())
     }
 
     @PUT

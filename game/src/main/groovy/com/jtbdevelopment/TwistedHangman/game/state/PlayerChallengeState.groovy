@@ -7,5 +7,6 @@ package com.jtbdevelopment.TwistedHangman.game.state
 enum PlayerChallengeState {
     Pending,
     Accepted,
-    Rejected
+    Rejected,
+    Quit
 }

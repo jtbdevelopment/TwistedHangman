@@ -6,7 +6,8 @@ var phasesAndSymbols = {
   Challenge: 'inbox',
   Rematch: 'repeat',
   Declined: 'remove',
-  Rematched: 'flag'
+  Rematched: 'ok-sign',
+  Quit: 'flag'
 };
 angular.forEach(phasesAndSymbols, function (glyph, phase) {
   var name = phase + 'Games';

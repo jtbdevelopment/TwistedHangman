@@ -55,6 +55,7 @@ class GamePlayServicesTest extends GroovyTestCase {
                 //  method: [name, params, path, path param values, consumes
                 "createRematch": ["rematch", [], [], []],
                 "rejectGame"   : ["reject", [], [], []],
+                "quitGame": ["quit", [], [], []],
                 "acceptGame"   : ["accept", [], [], []],
                 "setPuzzle"    : ["puzzle", [SetPuzzleHandler.CategoryAndWordPhrase.class], [], [MediaType.APPLICATION_JSON]],
                 "stealLetter"  : ["steal/{position}", [int.class], ["position"], []],

@@ -194,4 +194,11 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         Game game = new Game(gamePhase: GamePhase.Declined)
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
+
+    public void testQuitToQuit() {
+        assert transitionEngine.gameRepository == null
+        assert transitionEngine.gameScorer == null
+        Game game = new Game(gamePhase: GamePhase.Quit)
+        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
+    }
 }

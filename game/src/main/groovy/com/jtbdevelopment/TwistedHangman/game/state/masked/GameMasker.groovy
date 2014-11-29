@@ -69,6 +69,7 @@ class GameMasker {
 
         if (game.gamePhase == GamePhase.Rematch ||
                 game.gamePhase == GamePhase.Rematched ||
+                game.gamePhase == GamePhase.Quit ||
                 (game.gamePhase == GamePhase.Playing && playerMaskingFor == gameStatePlayer) ||
                 (game.gamePhase == GamePhase.Playing && game.wordPhraseSetter == playerMaskingFor.id) ||
                 (game.gamePhase == GamePhase.Playing && game.wordPhraseSetter == null && playerMaskingFor != gameStatePlayer)
@@ -88,6 +89,7 @@ class GameMasker {
         }
         if (game.gamePhase == GamePhase.Rematch ||
                 game.gamePhase == GamePhase.Rematched ||
+                game.gamePhase == GamePhase.Quit ||
                 (game.gamePhase == GamePhase.Playing && game.wordPhraseSetter == playerMaskingFor.id) ||
                 (game.gamePhase == GamePhase.Playing && game.wordPhraseSetter == null && playerMaskingFor != gameStatePlayer)
         ) {

@@ -66,7 +66,7 @@ class PlayerServices {
     @GET
     @Path("games/{phase}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Object gamesForPhase(
+    public List<MaskedGame> gamesForPhase(
             @PathParam("phase") final GamePhase gamePhase,
             @QueryParam("page") final Integer page,
             @QueryParam("pageSize") final Integer pageSize) {

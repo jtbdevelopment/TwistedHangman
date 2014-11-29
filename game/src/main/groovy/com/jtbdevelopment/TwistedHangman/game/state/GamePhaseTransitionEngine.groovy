@@ -52,6 +52,7 @@ class GamePhaseTransitionEngine {
                 break;
             case GamePhase.Declined:
             case GamePhase.Rematched:
+            case GamePhase.Quit:
                 break;
         }
         return game

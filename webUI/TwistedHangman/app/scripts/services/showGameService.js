@@ -67,9 +67,10 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
     switch (scope.game.gamePhase) {
       case 'Challenge':
         scope.showPlayerStates = true;
-        scope.showChallengeButtons = (scope.game.playerStates[scope.player.md5] === 'Pending');
+        scope.showChallengeButtons = true;
         break;
       case 'Declined':
+      case 'Quit':
         scope.showPlayerStates = true;
         break;
       case 'Setup':
