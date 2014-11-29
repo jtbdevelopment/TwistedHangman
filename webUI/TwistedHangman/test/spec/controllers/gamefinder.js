@@ -78,7 +78,7 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
       var newStatus = [{'Y': 2}, {'Z': 5}];
       httpBackend.expectGET(url).respond(newStatus);
       spyOn(playerService, 'currentPlayerBaseURL').and.callThrough();
-      rootScope.$broadcast('playerSwitch', phase);
+      rootScope.$broadcast('playerSwitch');
       httpBackend.flush();
       expect(playerService.currentPlayerBaseURL).toHaveBeenCalled();
       expect(scope.games).toEqual(newStatus);

@@ -20,7 +20,6 @@ angular.module('twistedHangmanApp')
 
     loadPlayer();
 
-    //  TODO - test
     $scope.$on('playerSwitch', function () {
       console.error('Reload Main');
       loadPlayer();
