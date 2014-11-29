@@ -3,7 +3,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 @import "general";
-@import "keyboard";
+@import "playsection";
 @import "sidebarbuttons";
 @import "header";
 
@@ -17,4 +17,18 @@ body {
   small {
     color: #855753;
   }
+}
+
+.imagearea img {
+  align-content: center;
+  width: 250px;
+  height: 250px;
+  display: block;
+  margin: auto;
+}
+
+.alert {
+  margin-left: 5px;
+  margin-right: 5px;
+  text-align: center;
 }

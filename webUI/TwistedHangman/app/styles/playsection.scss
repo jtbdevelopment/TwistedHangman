@@ -1,0 +1,54 @@
+@import "compass/css3/opacity";
+
+.playSection {
+  padding-top: 40px;
+
+  h3 {
+    text-decoration: underline;
+    padding-bottom: 10px;
+  }
+  .activeKeyboard {
+    @include opaque;
+  }
+
+  .inactiveKeyboard {
+    @include opacity(0.3)
+  }
+}
+.stolenwp {
+  color: #d57500;
+  text-shadow: 0px -7px 10px #d57500;
+}
+
+.stealablewp {
+  text-shadow: 0px 6px 10px #d57500;
+}
+
+.badguesskb {
+  color: red;
+  font-weight: bold;
+}
+
+.guessedkb {
+  color: green;
+  font-weight: bold;
+}
+
+.stolenkb {
+  color: #d57500;
+  text-shadow: 0px -7px 10px #d57500;
+  font-weight: bold;
+}
+
+.wordphrase {
+  font-size: large;
+  letter-spacing: 3px;
+}
+
+.keyboard {
+  padding-top: 5px;
+  font-family: monospace, serif;
+  font-size: large;
+  letter-spacing: 3px;
+}
+

@@ -125,6 +125,7 @@ describe('Controller: ShowCtrl', function () {
   });
 
   it('guess letter', function () {
+    scope.allowPlayMoves = true;
     var updatedGame = {id: 'newid', gamePhase: 'X'};
     http.expectPUT('/api/player/MANUAL1/play/gameid/guess/a').respond(updatedGame);
     scope.sendGuess('a');
@@ -133,13 +134,31 @@ describe('Controller: ShowCtrl', function () {
     expect(showGameService.processUpdate).toHaveBeenCalledWith(scope, updatedGame);
   });
 
+  it('guess letter out of turn', function () {
+    scope.allowPlayMoves = false;
+    scope.sendGuess('a');
+    http.flush();
+
+    expect(scope.alertType).toEqual('alert-warning');
+    expect(scope.alertMessage).toEqual('Not your turn yet.');
+  });
+
   it('steal letter', function () {
+    scope.allowPlayMoves = true;
     var updatedGame = {id: 'newid', gamePhase: 'X'};
     http.expectPUT('/api/player/MANUAL1/play/gameid/steal/2').respond(updatedGame);
     scope.stealLetter('2');
     http.flush();
 
     expect(showGameService.processUpdate).toHaveBeenCalledWith(scope, updatedGame);
+  });
+
+  it('steal letter when not allowed', function () {
+    scope.allowPlayMoves = false;
+    scope.stealLetter('2');
+    http.flush();
+    expect(scope.alertType).toEqual('alert-warning');
+    expect(scope.alertMessage).toEqual('Not your turn yet.');
   });
 
   it('role for player', function () {

@@ -6,6 +6,10 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
   $scope.enteredCategory = '';
   $scope.enteredWordPhrase = '';
 
+  //  TODO - test and use and style
+  $scope.alertType = 'alert-info';
+  $scope.alertMessage = 'Info goes here.';
+
   twCurrentPlayerService.currentPlayer().then(function (data) {
     $scope.player = data;
     twShowGameService.computeGameState($scope);
@@ -76,21 +80,31 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
   };
 
   $scope.sendGuess = function (letter) {
-    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/guess/' + letter).success(function (data) {
-      twShowGameService.processUpdate($scope, data);
-    }).error(function (data, status, headers, config) {
-      //  TODO
-      console.error(data + status + headers + config);
-    });
+    if ($scope.allowPlayMoves) {
+      $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/guess/' + letter).success(function (data) {
+        twShowGameService.processUpdate($scope, data);
+      }).error(function (data, status, headers, config) {
+        //  TODO
+        console.error(data + status + headers + config);
+      });
+    } else {
+      $scope.alertType = 'alert-warning';
+      $scope.alertMessage = 'Not your turn yet.';
+    }
   };
 
   $scope.stealLetter = function (position) {
-    $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/steal/' + position).success(function (data) {
-      twShowGameService.processUpdate($scope, data);
-    }).error(function (data, status, headers, config) {
-      //  TODO
-      console.error(data + status + headers + config);
-    });
+    if ($scope.allowPlayMoves) {
+      $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/steal/' + position).success(function (data) {
+        twShowGameService.processUpdate($scope, data);
+      }).error(function (data, status, headers, config) {
+        //  TODO
+        console.error(data + status + headers + config);
+      });
+    } else {
+      $scope.alertType = 'alert-warning';
+      $scope.alertMessage = 'Not your turn yet.';
+    }
   };
 
   $scope.roleForPlayer = function (md5) {

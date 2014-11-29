@@ -8,7 +8,9 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
     for (var i = 0; i < scope.workingWordPhraseArray.length; i++) {
       var r = 'regularwp';
       if (typeof scope.gameState.featureData.ThievingPositionTracking !== 'undefined') {
-        r = (scope.gameState.featureData.ThievingPositionTracking[i] === true) ? 'stolenwp' : 'stealablewp';
+        r = (scope.gameState.featureData.ThievingPositionTracking[i] === true) ?
+          'stolenwp' :
+          (scope.workingWordPhraseArray[i] === '_' ? 'stealablewp' : 'regularwp'); //  TODO - test this extra condition
       }
       scope.workingWordPhraseClasses[i] = r;
     }

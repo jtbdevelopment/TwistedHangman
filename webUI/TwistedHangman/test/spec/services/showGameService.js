@@ -7,7 +7,7 @@ describe('Service: showGameSevice', function () {
   var md1SS = {
     isGameOver: true,
     isGameWon: true,
-    workingWordPhrase: '__ __',
+    workingWordPhrase: '__ A_',
     maxPenalties: 6,
     penalties: 2,
     badlyGuessedLetters: ['X', 'Y'],
@@ -113,7 +113,7 @@ describe('Service: showGameSevice', function () {
     service.initializeScope(scope);
 
     service.computeGameState(scope);
-    expect(scope.workingWordPhraseClasses).toEqual(['stealablewp', 'stolenwp', 'stealablewp', 'stealablewp', 'stolenwp']);
+    expect(scope.workingWordPhraseClasses).toEqual(['stealablewp', 'stolenwp', 'regularwp', 'regularwp', 'stolenwp']);
     expect(scope.image).toEqual('hangman5.png');
     expect(scope.letterClasses).toEqual(['guessedkb', 'stolenkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'regular']);
   });
