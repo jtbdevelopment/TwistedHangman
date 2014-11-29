@@ -1,15 +1,73 @@
 @import "compass/typography/text/force-wrap";
 
-.gameButtonGroup {
-  width: 100%;
+.leftsidebar {
 }
 
-.gameButton {
-  border: 1px solid;
-  padding: 4px;
-  alignment: left;
-  text-align: left;
-  -ms-word-wrap: break-word;
-  word-wrap: break-word;
-  white-space: normal;
+.gameButtonGroup {
+  width: 100%;
+  margin: 2px;
+
+  .gameButtonBadge {
+    font-weight: bold;
+    width: 100%;
+    .badge {
+      background-color: #aebbc7;
+      color: black;
+    }
+  }
+
+  .gameButton {
+    padding: 4px;
+    alignment: left;
+    text-align: left;
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+    white-space: normal;
+    font-weight: bold;
+    span {
+      span {
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.createGameButton {
+  background-color: #4e6172;
+  color: #ffffff;
+}
+
+.refreshButton {
+  background-color: #bdd09f;
+  color: #ffffff;
+}
+
+.declinedButton {
+  background-color: #493829;
+  color: #ffffff;
+}
+
+.quitButton {
+  background-color: #816c5b;
+  color: #ffffff;
+}
+
+.nextroundstartedButton {
+  background-color: #404f24;
+  color: #ffffff;
+}
+
+.playingButton {
+  background-color: #688d3c;
+  color: #ffffff;
+}
+
+.challengedButton {
+  background-color: #d57500;
+  color: #ffffff;
+}
+
+.setupButton {
+  background-color: #8f3b1b;
+  color: #ffffff;
 }
