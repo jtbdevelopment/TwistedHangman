@@ -16,10 +16,18 @@ class GameScorerTest extends TwistedHangmanTestCase {
         game.players = [PONE, PTWO, PTHREE, PFOUR]
         game.playerRunningScores = [(PONE.id): 1, (PTWO.id): -2, (PTHREE.id): 4, (PFOUR.id): 0]
         game.solverStates = [
-                (PONE.id)  : [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
-                (PTWO.id)  : [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
-                (PTHREE.id): [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
-                (PFOUR.id) : [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
+                (PONE.id)  : [isPuzzleSolved: { false }, isPlayerHung: { true }, isPuzzleOver: {
+                    true
+                }] as IndividualGameState,
+                (PTWO.id)  : [isPuzzleSolved: { true }, isPlayerHung: { false }, isPuzzleOver: {
+                    true
+                }] as IndividualGameState,
+                (PTHREE.id): [isPuzzleSolved: { true }, isPlayerHung: { false }, isPuzzleOver: {
+                    true
+                }] as IndividualGameState,
+                (PFOUR.id) : [isPuzzleSolved: { false }, isPlayerHung: { true }, isPuzzleOver: {
+                    true
+                }] as IndividualGameState,
         ]
         assert gameScorer.scoreGame(game).is(game)
         assert game.featureData[GameFeature.SingleWinner] == null
@@ -41,9 +49,15 @@ class GameScorerTest extends TwistedHangmanTestCase {
         game.wordPhraseSetter = PTHREE.id
         game.playerRunningScores = [(PONE.id): 1, (PTWO.id): -2, (PTHREE.id): 4, (PFOUR.id): 0]
         game.solverStates = [
-                (PONE.id) : [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
-                (PTWO.id) : [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
-                (PFOUR.id): [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
+                (PONE.id) : [isPuzzleSolved: { false }, isPlayerHung: { true }, isPuzzleOver: {
+                    true
+                }] as IndividualGameState,
+                (PTWO.id) : [isPuzzleSolved: { true }, isPlayerHung: { false }, isPuzzleOver: {
+                    true
+                }] as IndividualGameState,
+                (PFOUR.id): [isPuzzleSolved: { false }, isPlayerHung: { true }, isPuzzleOver: {
+                    true
+                }] as IndividualGameState,
         ]
         assert gameScorer.scoreGame(game).is(game)
         assert game.featureData[GameFeature.SingleWinner] == null
@@ -66,8 +80,12 @@ class GameScorerTest extends TwistedHangmanTestCase {
         game.playerRunningScores = [(PONE.id): 1, (PTWO.id): -2]
         game.playerRoundScores = [(PONE.id): 0, (PTWO.id): 0]
         game.solverStates = [
-                (PONE.id): [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
-                (PTWO.id): [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
+                (PONE.id): [isPuzzleSolved: { true }, isPlayerHung: { false }, isPuzzleOver: {
+                    true
+                }] as IndividualGameState,
+                (PTWO.id): [isPuzzleSolved: { true }, isPlayerHung: { false }, isPuzzleOver: {
+                    true
+                }] as IndividualGameState,
         ]
         assert gameScorer.scoreGame(game).is(game)
         assert game.featureData[GameFeature.SingleWinner] == null
@@ -86,14 +104,18 @@ class GameScorerTest extends TwistedHangmanTestCase {
         game.playerRunningScores = [(PONE.id): 1, (PTWO.id): -2, (PTHREE.id): 4, (PFOUR.id): 0]
         game.playerRoundScores = [(PONE.id): 0, (PTWO.id): 0, (PTHREE.id): 0, (PFOUR.id): 0]
         game.solverStates = [
-                (PONE.id)  : [isGameWon: { false }, isGameLost: { false }, isGameOver: {
+                (PONE.id)  : [isPuzzleSolved: { false }, isPlayerHung: { false }, isPuzzleOver: {
                     false
                 }] as IndividualGameState,
-                (PTWO.id)  : [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
-                (PTHREE.id): [isGameWon: { false }, isGameLost: { false }, isGameOver: {
+                (PTWO.id)  : [isPuzzleSolved: { true }, isPlayerHung: { false }, isPuzzleOver: {
+                    true
+                }] as IndividualGameState,
+                (PTHREE.id): [isPuzzleSolved: { false }, isPlayerHung: { false }, isPuzzleOver: {
                     false
                 }] as IndividualGameState,
-                (PFOUR.id) : [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
+                (PFOUR.id) : [isPuzzleSolved: { false }, isPlayerHung: { true }, isPuzzleOver: {
+                    true
+                }] as IndividualGameState,
         ]
         assert gameScorer.scoreGame(game).is(game)
         assert game.featureData[GameFeature.SingleWinner] == PTWO.id
@@ -118,9 +140,15 @@ class GameScorerTest extends TwistedHangmanTestCase {
         game.playerRunningScores = [(PONE.id): 1, (PTWO.id): -2, (PTHREE.id): 4, (PFOUR.id): 0]
         game.playerRoundScores = [(PONE.id): 0, (PTWO.id): 0, (PTHREE.id): 0, (PFOUR.id): 0]
         game.solverStates = [
-                (PONE.id) : [isGameWon: { false }, isGameLost: { false }, isGameOver: { false }] as IndividualGameState,
-                (PTWO.id) : [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
-                (PFOUR.id): [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
+                (PONE.id) : [isPuzzleSolved: { false }, isPlayerHung: { false }, isPuzzleOver: {
+                    false
+                }] as IndividualGameState,
+                (PTWO.id) : [isPuzzleSolved: { true }, isPlayerHung: { false }, isPuzzleOver: {
+                    true
+                }] as IndividualGameState,
+                (PFOUR.id): [isPuzzleSolved: { false }, isPlayerHung: { true }, isPuzzleOver: {
+                    true
+                }] as IndividualGameState,
         ]
         assert gameScorer.scoreGame(game).is(game)
         assert game.featureData[GameFeature.SingleWinner] == PTWO.id
@@ -144,8 +172,12 @@ class GameScorerTest extends TwistedHangmanTestCase {
         game.playerRunningScores = [(PONE.id): 1, (PTWO.id): -2]
         game.playerRoundScores = [(PONE.id): 0, (PTWO.id): 0]
         game.solverStates = [
-                (PONE.id): [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
-                (PTWO.id): [isGameWon: { false }, isGameLost: { false }, isGameOver: { false }] as IndividualGameState,
+                (PONE.id): [isPuzzleSolved: { true }, isPlayerHung: { false }, isPuzzleOver: {
+                    true
+                }] as IndividualGameState,
+                (PTWO.id): [isPuzzleSolved: { false }, isPlayerHung: { false }, isPuzzleOver: {
+                    false
+                }] as IndividualGameState,
         ]
         assert gameScorer.scoreGame(game).is(game)
         assert game.featureData[GameFeature.SingleWinner] == PONE.id
@@ -163,7 +195,9 @@ class GameScorerTest extends TwistedHangmanTestCase {
         game.wordPhraseSetter = Player.SYSTEM_PLAYER.id
         game.playerRunningScores = [(PONE.id): 1]
         game.solverStates = [
-                (PONE.id): [isGameWon: { true }, isGameLost: { false }, isGameOver: { true }] as IndividualGameState,
+                (PONE.id): [isPuzzleSolved: { true }, isPlayerHung: { false }, isPuzzleOver: {
+                    true
+                }] as IndividualGameState,
         ]
         assert gameScorer.scoreGame(game).is(game)
         assert game.featureData[GameFeature.SingleWinner] == null
@@ -179,7 +213,9 @@ class GameScorerTest extends TwistedHangmanTestCase {
         game.wordPhraseSetter = Player.SYSTEM_PLAYER.id
         game.playerRunningScores = [(PONE.id): 1]
         game.solverStates = [
-                (PONE.id): [isGameWon: { false }, isGameLost: { true }, isGameOver: { true }] as IndividualGameState,
+                (PONE.id): [isPuzzleSolved: { false }, isPlayerHung: { true }, isPuzzleOver: {
+                    true
+                }] as IndividualGameState,
         ]
         assert gameScorer.scoreGame(game).is(game)
         assert game.featureData[GameFeature.SingleWinner] == null

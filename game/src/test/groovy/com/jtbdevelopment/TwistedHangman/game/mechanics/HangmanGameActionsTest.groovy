@@ -22,7 +22,7 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
     public void testSingleLetterMatchGuess() {
         IndividualGameState gameState = makeGameState("Find A Letter", "Junk", 10)
         assert hangmanGameActions.guessLetter(gameState, (char) 'i') == 1;
-        assert !gameState.gameOver
+        assert !gameState.puzzleOver
         assert gameState.badlyGuessedLetters.empty
         assert gameState.guessedLetters == new TreeSet(['I'])
         assert gameState.workingWordPhraseString == "_I__ _ ______"
@@ -36,7 +36,7 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
         IndividualGameState gameState = makeGameState("Find A Letter", "Junk", 10)
         assert hangmanGameActions.guessLetter(gameState, (char) 'I') == 1;
         assert hangmanGameActions.guessLetter(gameState, (char) 'e') == 2;
-        assert !gameState.gameOver
+        assert !gameState.puzzleOver
         assert gameState.penalties == 0
         assert gameState.badlyGuessedLetters.empty
         assert gameState.guessedLetters == new TreeSet(['E', 'I'])
@@ -52,7 +52,7 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
         assert hangmanGameActions.guessLetter(gameState, (char) 'e') == 2;
         assert hangmanGameActions.guessLetter(gameState, (char) 'Z') == 0;
         assert hangmanGameActions.guessLetter(gameState, (char) 'X') == 0;
-        assert !gameState.gameOver
+        assert !gameState.puzzleOver
         assert gameState.penalties == 2
         assert gameState.badlyGuessedLetters == new TreeSet(['X', 'Z'])
         assert gameState.guessedLetters == new TreeSet(['E', 'I', 'X', 'Z'])
@@ -65,9 +65,9 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
     public void testGameLost() {
         IndividualGameState gameState = setUpAlmostFinishedGame()
         hangmanGameActions.guessLetter(gameState, (char) 'T')
-        assert !gameState.gameWon
-        assert gameState.gameLost
-        assert gameState.gameOver
+        assert !gameState.puzzleSolved
+        assert gameState.playerHung
+        assert gameState.puzzleOver
 
         assert gameState.penalties == gameState.maxPenalties
         assert gameState.workingWordPhraseString == "WI__ER"
@@ -82,9 +82,9 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
         IndividualGameState gameState = setUpAlmostFinishedGame()
         hangmanGameActions.guessLetter(gameState, (char) 'N')
 
-        assert gameState.gameWon
-        assert !gameState.gameLost
-        assert gameState.gameOver
+        assert gameState.puzzleSolved
+        assert !gameState.playerHung
+        assert gameState.puzzleOver
 
         assert gameState.penalties < gameState.maxPenalties
         assert gameState.workingWordPhraseString == "WINNER"
@@ -99,16 +99,16 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
         ['w', 'i', 'e', 'r'].each {
             String guess ->
                 hangmanGameActions.guessLetter(gameState, guess.charAt(0))
-                assert !gameState.isGameWon()
-                assert !gameState.isGameLost()
-                assert !gameState.isGameOver()
+                assert !gameState.isPuzzleSolved()
+                assert !gameState.isPlayerHung()
+                assert !gameState.isPuzzleOver()
         }
         ['g', 'x', 'l', 'm'].each {
             String guess ->
                 hangmanGameActions.guessLetter(gameState, guess.charAt(0))
-                assert !gameState.isGameWon()
-                assert !gameState.isGameWon()
-                assert !gameState.isGameOver()
+                assert !gameState.isPuzzleSolved()
+                assert !gameState.isPuzzleSolved()
+                assert !gameState.isPuzzleOver()
         }
         assert gameState.penalties == 4
         assert gameState.workingWordPhraseString == "WI__ER"
@@ -119,8 +119,8 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
     public void testStealingLostGame() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 1)
         hangmanGameActions.guessLetter(gameState, (char) "x")
-        assert gameState.gameLost
-        assert gameState.gameOver
+        assert gameState.playerHung
+        assert gameState.puzzleOver
         try {
             hangmanGameActions.guessLetter(gameState, (char) "e")
             fail("Should not get here")
@@ -136,8 +136,8 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
         hangmanGameActions.guessLetter(gameState, (char) "r")
         hangmanGameActions.guessLetter(gameState, (char) "o")
         hangmanGameActions.guessLetter(gameState, (char) "g")
-        assert gameState.gameWon
-        assert gameState.gameOver
+        assert gameState.puzzleSolved
+        assert gameState.puzzleOver
         try {
             hangmanGameActions.guessLetter(gameState, (char) "e")
             fail("Should not get here")

@@ -36,9 +36,9 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         hangmanGameActions.guessLetter(gameState, (char) 'r')
         hangmanGameActions.guessLetter(gameState, (char) 'a')
         hangmanGameActions.guessLetter(gameState, (char) 'l')
-        assert !gameState.gameLost
-        assert !gameState.gameWon
-        assert !gameState.gameOver
+        assert !gameState.playerHung
+        assert !gameState.puzzleSolved
+        assert !gameState.puzzleOver
         assert gameState.penalties == 2
         assert gameState.penaltiesRemaining == 1
         assert gameState.featureData[GameFeature.ThievingCountTracking] == 0
@@ -55,9 +55,9 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         hangmanGameActions.guessLetter(gameState, (char) 'r')
         hangmanGameActions.guessLetter(gameState, (char) 'a')
         thievingHangmanGameActions.stealLetter(gameState, 3)
-        assert !gameState.gameLost
-        assert !gameState.gameWon
-        assert !gameState.gameOver
+        assert !gameState.playerHung
+        assert !gameState.puzzleSolved
+        assert !gameState.puzzleOver
         assert gameState.penalties == 2
         assert gameState.penaltiesRemaining == 2
         assert gameState.featureData[GameFeature.ThievingCountTracking] == 1
@@ -72,9 +72,9 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         IndividualGameState gameState = makeGameState("Elephantine", "Animal", 4)
         hangmanGameActions.guessLetter(gameState, (char) 'p')
         thievingHangmanGameActions.stealLetter(gameState, 2)
-        assert !gameState.gameLost
-        assert !gameState.gameWon
-        assert !gameState.gameOver
+        assert !gameState.playerHung
+        assert !gameState.puzzleSolved
+        assert !gameState.puzzleOver
         assert gameState.penalties == 1
         assert gameState.penaltiesRemaining == 3
         assert gameState.featureData[GameFeature.ThievingCountTracking] == 1
@@ -91,9 +91,9 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         hangmanGameActions.guessLetter(gameState, (char) 'r')
         hangmanGameActions.guessLetter(gameState, (char) 'o')
         thievingHangmanGameActions.stealLetter(gameState, 3)
-        assert !gameState.gameLost
-        assert gameState.gameWon
-        assert gameState.gameOver
+        assert !gameState.playerHung
+        assert gameState.puzzleSolved
+        assert gameState.puzzleOver
         assert gameState.penalties == 1
         assert gameState.penaltiesRemaining == 2
         assert gameState.featureData[GameFeature.ThievingCountTracking] == 1
@@ -169,8 +169,8 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
     public void testStealingLostGame() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 1)
         hangmanGameActions.guessLetter(gameState, (char) "x")
-        assert gameState.gameLost
-        assert gameState.gameOver
+        assert gameState.playerHung
+        assert gameState.puzzleOver
         try {
             thievingHangmanGameActions.stealLetter(gameState, 1)
             fail("Should not get here")
@@ -186,8 +186,8 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         hangmanGameActions.guessLetter(gameState, (char) "r")
         hangmanGameActions.guessLetter(gameState, (char) "o")
         hangmanGameActions.guessLetter(gameState, (char) "g")
-        assert gameState.gameWon
-        assert gameState.gameOver
+        assert gameState.puzzleSolved
+        assert gameState.puzzleOver
         try {
             thievingHangmanGameActions.stealLetter(gameState, 1)
             fail("Should not get here")

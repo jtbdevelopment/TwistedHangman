@@ -41,7 +41,7 @@ class HangmanGameActions {
     }
 
     protected static void validateGuess(IndividualGameState gameState, char letter, char uppercaseLetter) {
-        if (gameState.gameOver) {
+        if (gameState.puzzleOver) {
             throw new GameOverException()
         }
         if (!letter.isLetter()) {

@@ -5,8 +5,8 @@ describe('Service: showGameSevice', function () {
   beforeEach(module('twistedHangmanApp'));
 
   var md1SS = {
-    isGameOver: true,
-    isGameWon: true,
+    isPuzzleOver: true,
+    isPuzzleSolved: true,
     workingWordPhrase: '__ A_',
     maxPenalties: 6,
     penalties: 2,
@@ -21,8 +21,8 @@ describe('Service: showGameSevice', function () {
     gamePhase: 'Playing',
     solverStates: {
       md1: md1SS,
-      md2: {isGameOver: true, isGameWon: false},
-      md3: {isGameOver: false, isGameWon: false}
+      md2: {isPuzzleOver: true, isPuzzleSolved: false},
+      md3: {isPuzzleOver: false, isPuzzleSolved: false}
     },
     playerRunningScores: {'md1': 0, 'md2': 2, 'md3': 10, 'md4': -3, 'md5': -5},
     gameID: 'id',

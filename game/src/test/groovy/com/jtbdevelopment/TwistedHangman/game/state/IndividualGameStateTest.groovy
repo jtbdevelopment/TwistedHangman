@@ -11,9 +11,9 @@ class IndividualGameStateTest extends GroovyTestCase {
         gameState.workingWordPhrase = "xxx".toCharArray()
         gameState.category = "animal"
         gameState.maxPenalties = 5
-        assert !gameState.gameOver
-        assert !gameState.gameLost
-        assert !gameState.gameWon
+        assert !gameState.puzzleOver
+        assert !gameState.playerHung
+        assert !gameState.puzzleSolved
         assert gameState.badlyGuessedLetters.empty
         assert gameState.guessedLetters.empty
         assert gameState.workingWordPhraseString == "xxx"
@@ -35,9 +35,9 @@ class IndividualGameStateTest extends GroovyTestCase {
         gameState.workingWordPhrase = "_x_".toCharArray()
         gameState.category = "animal"
         gameState.maxPenalties = 7
-        assert !gameState.gameOver
-        assert !gameState.gameLost
-        assert !gameState.gameWon
+        assert !gameState.puzzleOver
+        assert !gameState.playerHung
+        assert !gameState.puzzleSolved
         assert gameState.badlyGuessedLetters.empty
         assert gameState.guessedLetters.empty
         assert gameState.workingWordPhraseString == "_x_"

@@ -29,8 +29,8 @@ class MaskedIndividualGameState {
     public int moveCount = 0;
     public int penalties = 0;
     public Set<GameFeature> features = [] as Set
-    public boolean isGameWon;
-    public boolean isGameLost;
-    public boolean isGameOver;
+    public boolean isPuzzleSolved;
+    public boolean isPlayerHung;
+    public boolean isPuzzleOver;
     public int penaltiesRemaining;
 }

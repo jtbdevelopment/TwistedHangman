@@ -54,16 +54,16 @@ class IndividualGameState {
         setWordPhraseString(wordPhraseString)
     }
 
-    public boolean isGameWon() {
+    public boolean isPuzzleSolved() {
         wordPhrase == workingWordPhrase;
     }
 
-    public boolean isGameLost() {
+    public boolean isPlayerHung() {
         penalties >= maxPenalties;
     }
 
-    public boolean isGameOver() {
-        (isGameLost() || isGameWon());
+    public boolean isPuzzleOver() {
+        (isPlayerHung() || isPuzzleSolved());
     }
 
     public int getPenaltiesRemaining() {

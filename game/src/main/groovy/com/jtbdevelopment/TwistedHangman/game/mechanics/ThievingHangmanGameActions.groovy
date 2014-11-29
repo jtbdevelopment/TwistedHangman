@@ -37,7 +37,7 @@ class ThievingHangmanGameActions {
     }
 
     protected void validateSteal(IndividualGameState gameState, int position, boolean[] markers) {
-        if (gameState.isGameOver()) {
+        if (gameState.isPuzzleOver()) {
             throw new GameOverException()
         }
         if (position >= gameState.wordPhrase.length) {

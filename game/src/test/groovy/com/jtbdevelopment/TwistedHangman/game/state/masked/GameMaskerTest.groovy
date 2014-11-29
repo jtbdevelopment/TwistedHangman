@@ -339,9 +339,9 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         assert maskedState.penalties == state.penalties
         assert maskedState.penaltiesRemaining == state.penaltiesRemaining
         assert maskedState.maxPenalties == state.maxPenalties
-        assert maskedState.isGameOver == state.isGameOver()
-        assert maskedState.isGameWon == state.isGameWon()
-        assert maskedState.isGameLost == state.isGameLost()
+        assert maskedState.isPuzzleOver == state.isPuzzleOver()
+        assert maskedState.isPuzzleSolved == state.isPuzzleSolved()
+        assert maskedState.isPlayerHung == state.isPlayerHung()
     }
 
     protected void checkPartialMaskedData(MaskedIndividualGameState maskedState, IndividualGameState state) {
@@ -350,9 +350,9 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         assert maskedState.penalties == state.penalties
         assert maskedState.penaltiesRemaining == state.penaltiesRemaining
         assert maskedState.maxPenalties == state.maxPenalties
-        assert maskedState.isGameOver == state.isGameOver()
-        assert maskedState.isGameWon == state.isGameWon()
-        assert maskedState.isGameLost == state.isGameLost()
+        assert maskedState.isPuzzleOver == state.isPuzzleOver()
+        assert maskedState.isPuzzleSolved == state.isPuzzleSolved()
+        assert maskedState.isPlayerHung == state.isPlayerHung()
         assert maskedState.featureData.isEmpty()
         assert maskedState.wordPhrase == ""
         assert maskedState.badlyGuessedLetters.isEmpty()

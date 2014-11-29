@@ -38,8 +38,8 @@ class GamePhaseTransitionEngine {
                 }
                 break;
             case GamePhase.Playing:
-                def won = game.solverStates.values().find { IndividualGameState it -> it.gameWon }
-                def pending = game.solverStates.values().find { IndividualGameState it -> !it.gameOver }
+                def won = game.solverStates.values().find { IndividualGameState it -> it.puzzleSolved }
+                def pending = game.solverStates.values().find { IndividualGameState it -> !it.puzzleOver }
                 if (pending == null || (won != null && game.features.contains(GameFeature.SingleWinner))) {
                     return gameScorer.scoreGame(changeStateAndReevaluate(GamePhase.RoundOver, game))
                 }

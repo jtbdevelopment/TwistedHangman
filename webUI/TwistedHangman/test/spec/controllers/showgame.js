@@ -9,9 +9,9 @@ describe('Controller: ShowCtrl', function () {
     players: {'md1': 'P1', 'md2': 'P2', 'md3': 'P3', 'md4': 'P4', 'md5': 'P5'},
     puzzleSetter: 'md4',
     solverStates: {
-      md1: {isGameOver: true, isGameWon: true},
-      md2: {isGameOver: true, isGameWon: false},
-      md3: {isGameOver: false, isGameWon: false}
+      md1: {isPuzzleOver: true, isPuzzleSolved: true},
+      md2: {isPuzzleOver: true, isPuzzleSolved: false},
+      md3: {isPuzzleOver: false, isPuzzleSolved: false}
     },
     playerRunningScores: {'md1': 0, 'md2': 2, 'md3': 10, 'md4': -3, 'md5': -5},
     playerRoundScores: {'md1': 1, 'md2': 0, 'md3': -1, 'md4': 3, 'md5': 2}

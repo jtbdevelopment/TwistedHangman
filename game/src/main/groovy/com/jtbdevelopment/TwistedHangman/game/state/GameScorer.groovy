@@ -16,7 +16,7 @@ class GameScorer {
         int losers = 0
         game.solverStates.each {
             String playerId, IndividualGameState gameState ->
-                if (gameState.gameWon) {
+                if (gameState.puzzleSolved) {
                     winners++
                     game.playerRoundScores[playerId] = 1
                     game.playerRunningScores[playerId] = game.playerRunningScores[playerId] + 1
@@ -28,7 +28,7 @@ class GameScorer {
         }
         game.solverStates.each {
             String id, IndividualGameState gameState ->
-                if (gameState.gameLost) {
+                if (gameState.playerHung) {
                     losers++
                     game.playerRoundScores[id] = -1
                     game.playerRunningScores[id] = game.playerRunningScores[id] - 1

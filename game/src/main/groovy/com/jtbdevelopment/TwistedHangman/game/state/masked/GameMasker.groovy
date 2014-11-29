@@ -104,9 +104,9 @@ class GameMasker {
 
         masked.category = gameState.category
         masked.features.addAll(gameState.features)
-        masked.isGameLost = gameState.isGameLost()
-        masked.isGameWon = gameState.isGameWon()
-        masked.isGameOver = gameState.isGameOver()
+        masked.isPlayerHung = gameState.isPlayerHung()
+        masked.isPuzzleSolved = gameState.isPuzzleSolved()
+        masked.isPuzzleOver = gameState.isPuzzleOver()
         masked.moveCount = gameState.moveCount
         masked.maxPenalties = gameState.maxPenalties
         masked.penalties = gameState.penalties

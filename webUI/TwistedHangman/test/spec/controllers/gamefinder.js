@@ -32,7 +32,7 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
       q = $q;
       playerService = {
         currentPlayerBaseURL: function () {
-          return '/api/player/MANUAL1'
+          return '/api/player/MANUAL1';
         }
       };
       phaseService = {
