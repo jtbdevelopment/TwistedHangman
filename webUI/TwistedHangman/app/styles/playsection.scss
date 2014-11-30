@@ -85,17 +85,6 @@
   }
 
   .gameState {
-    .table {
-      tbody {
-        tr {
-          td {
-            border-top: 0;
-            vertical-align: middle;
-          }
-        }
-      }
-    }
-
     .quitButton {
       color: #ffffff;
       background-color: $et_orangedark;
