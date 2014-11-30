@@ -45,6 +45,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.featureData[GameFeature.ThievingPositionTracking] == [false, false, false, false]
         assert gameState.featureData[GameFeature.ThievingLetters] == []
         assert gameState.workingWordPhraseString == "FR__"
+        assert gameState.blanksRemaining == 2;
         assert gameState.moveCount == 4
     }
 
@@ -64,6 +65,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.featureData[GameFeature.ThievingPositionTracking] == [false, false, false, true]
         assert gameState.featureData[GameFeature.ThievingLetters] == [(char) 'G']
         assert gameState.workingWordPhraseString == "FR_G"
+        assert gameState.blanksRemaining == 1;
         assert gameState.guessedLetters == new TreeSet(['F', 'R', 'A'])
         assert gameState.moveCount == 4
     }
@@ -83,6 +85,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.workingWordPhraseString == "E_EP______E"
         assert gameState.guessedLetters == new TreeSet(['P'])
         assert gameState.moveCount == 2
+        assert gameState.blanksRemaining == 7;
     }
 
     public void testStealingToWin() {
@@ -103,6 +106,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.guessedLetters == new TreeSet<>(['F', 'R', 'O'])
         assert gameState.badlyGuessedLetters.empty
         assert gameState.moveCount == 4
+        assert gameState.blanksRemaining == 0;
     }
 
 

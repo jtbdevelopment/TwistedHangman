@@ -28,6 +28,7 @@ class MaskedIndividualGameState {
     public int maxPenalties;
     public int moveCount = 0;
     public int penalties = 0;
+    public int blanksRemaining = 0;
     public Set<GameFeature> features = [] as Set
     public boolean isPuzzleSolved;
     public boolean isPlayerHung;

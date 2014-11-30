@@ -111,6 +111,7 @@ class GameMasker {
         masked.maxPenalties = gameState.maxPenalties
         masked.penalties = gameState.penalties
         masked.penaltiesRemaining = gameState.penaltiesRemaining
+        masked.blanksRemaining = gameState.blanksRemaining
         masked
     }
 

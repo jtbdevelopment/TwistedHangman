@@ -23,6 +23,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 maxPenalties: 10,
                 moveCount: 2,
                 penalties: 2,
+                blanksRemaining: 4,
                 workingWordPhraseString: "__'_",
                 wordPhraseString: "SAY'S",
         )
@@ -83,6 +84,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 guessedLetters: [(char) 'A', (char) 'B'] as SortedSet,
                 maxPenalties: 10,
                 moveCount: 2,
+                blanksRemaining: 4,
                 penalties: 2,
                 workingWordPhraseString: "__'_",
                 wordPhraseString: "SAY'S",
@@ -96,6 +98,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 maxPenalties: 10,
                 moveCount: 4,
                 penalties: 3,
+                blanksRemaining: 3,
                 workingWordPhraseString: "__",
                 wordPhraseString: "SAY",
         )
@@ -174,6 +177,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 guessedLetters: [(char) 'A', (char) 'B'] as SortedSet,
                 maxPenalties: 10,
                 moveCount: 2,
+                blanksRemaining: 4,
                 penalties: 2,
                 workingWordPhraseString: "__'_",
                 wordPhraseString: "SAY'S",
@@ -186,6 +190,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 guessedLetters: [(char) 'A', (char) 'B'] as SortedSet,
                 maxPenalties: 10,
                 moveCount: 4,
+                blanksRemaining: 3,
                 penalties: 3,
                 workingWordPhraseString: "__",
                 wordPhraseString: "SAY",
@@ -265,6 +270,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 guessedLetters: [(char) 'A', (char) 'B'] as SortedSet,
                 maxPenalties: 10,
                 moveCount: 2,
+                blanksRemaining: 4,
                 penalties: 2,
                 workingWordPhraseString: "__'_",
                 wordPhraseString: "SAY'S",
@@ -277,6 +283,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 guessedLetters: [(char) 'A', (char) 'B'] as SortedSet,
                 maxPenalties: 10,
                 moveCount: 4,
+                blanksRemaining: 3,
                 penalties: 3,
                 workingWordPhraseString: "__",
                 wordPhraseString: "SAY",
@@ -332,6 +339,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
     }
 
     protected void checkUnmaskedData(MaskedIndividualGameState maskedState, IndividualGameState state) {
+        assert maskedState.blanksRemaining == state.blanksRemaining
         assert maskedState.badlyGuessedLetters == state.badlyGuessedLetters
         assert maskedState.category == state.category
         assert maskedState.features == state.features
@@ -345,6 +353,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
     }
 
     protected void checkPartialMaskedData(MaskedIndividualGameState maskedState, IndividualGameState state) {
+        assert maskedState.blanksRemaining == state.blanksRemaining
         assert maskedState.category == state.category
         assert maskedState.features == state.features
         assert maskedState.penalties == state.penalties

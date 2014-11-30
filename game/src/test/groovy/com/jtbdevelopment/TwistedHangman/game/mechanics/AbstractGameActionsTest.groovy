@@ -8,22 +8,26 @@ import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
  * Time: 6:28 PM
  */
 abstract class AbstractGameActionsTest extends GroovyTestCase {
-    protected char[] makeWorkingPhraseFromPhrase(final String phrase) {
+    protected Object[] makeWorkingPhraseFromPhrase(final String phrase) {
         char[] working = new char[phrase.length()]
+        int blanks = 0;
         for (int i = 0; i < phrase.length(); ++i) {
             if (phrase.charAt(i).isLetter()) {
                 working[i] = '_';
+                ++blanks;
             } else {
                 working[i] = phrase.charAt(i);
             }
         }
-        working
+        [working, blanks]
     }
 
     protected IndividualGameState makeGameState(String wordPhrase, String category, int maxPenalties) {
         IndividualGameState gameState = new IndividualGameState(getGameFeatures())
         gameState.wordPhrase = wordPhrase.toUpperCase().toCharArray()
-        gameState.workingWordPhrase = makeWorkingPhraseFromPhrase(wordPhrase)
+        def phraseAndCount = makeWorkingPhraseFromPhrase(wordPhrase)
+        gameState.workingWordPhrase = (char[]) phraseAndCount[0]
+        gameState.blanksRemaining = (int) phraseAndCount[1]
         gameState.category = category
         gameState.maxPenalties = maxPenalties
         gameState

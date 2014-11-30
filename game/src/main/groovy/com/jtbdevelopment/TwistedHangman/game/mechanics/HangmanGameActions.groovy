@@ -36,6 +36,7 @@ class HangmanGameActions {
         }
         gameState.guessedLetters.add(uppercaseLetter);
         gameState.moveCount += 1
+        gameState.blanksRemaining -= found;
 
         return found;
     }

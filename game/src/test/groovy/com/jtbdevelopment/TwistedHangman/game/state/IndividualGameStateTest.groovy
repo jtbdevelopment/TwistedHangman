@@ -69,7 +69,8 @@ class IndividualGameStateTest extends GroovyTestCase {
                 maxPenalties: 10,
                 moveCount: 5,
                 penalties: 4,
+                blanksRemaining: 4,
                 wordPhrase: "WORD",
-                workingWordPhrase: "W___D",).toString() == "IndividualGameState{category='CATEGORY', wordPhrase=[W, O, R, D], workingWordPhrase=[W, _, _, _, D], maxPenalties=10, moveCount=5, penalties=4, features=[SingleWinner], badlyGuessedLetters=[A], guessedLetters=[B], featureData=[DrawFace:da]}"
+                workingWordPhrase: "W___D",).toString() == "IndividualGameState{category='CATEGORY', wordPhrase=[W, O, R, D], workingWordPhrase=[W, _, _, _, D], maxPenalties=10, moveCount=5, penalties=4, features=[SingleWinner], badlyGuessedLetters=[A], guessedLetters=[B], featureData=[DrawFace:da], blanksRemaining=4}"
     }
 }

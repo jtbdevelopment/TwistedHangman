@@ -17,13 +17,16 @@ class WorkingWordPhraseInitializer implements PhraseFeatureInitializer {
         int length = gameState.wordPhrase.length
         char[] workingWordPhrase = new char[length]
 
+        int blanks = 0;
         for (int i = 0; i < length; ++i) {
             if (Character.isLetter(gameState.wordPhrase[i])) {
                 workingWordPhrase[i] = '_';
+                ++blanks;
             } else {
                 workingWordPhrase[i] = gameState.wordPhrase[i];
             }
         }
         gameState.workingWordPhrase = workingWordPhrase
+        gameState.blanksRemaining = blanks;
     }
 }

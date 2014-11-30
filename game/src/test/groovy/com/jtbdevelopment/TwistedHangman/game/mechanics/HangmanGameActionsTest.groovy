@@ -29,6 +29,7 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.category == "Junk"
         assert gameState.moveCount == 1
         assert gameState.penaltiesRemaining == 10
+        assert gameState.blanksRemaining == 10
     }
 
 
@@ -43,6 +44,7 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.workingWordPhraseString == "_I__ _ _E__E_"
         assert gameState.moveCount == 2
         assert gameState.penaltiesRemaining == 10
+        assert gameState.blanksRemaining == 8
     }
 
 
@@ -59,6 +61,7 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.workingWordPhraseString == "_I__ _ _E__E_"
         assert gameState.moveCount == 4
         assert gameState.penaltiesRemaining == 8
+        assert gameState.blanksRemaining == 8
     }
 
 
@@ -75,6 +78,7 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.guessedLetters == new TreeSet(['W', 'I', 'E', 'R', 'G', 'X', 'L', 'M', 'T'])
         assert gameState.moveCount == 9
         assert gameState.penaltiesRemaining == 0
+        assert gameState.blanksRemaining == 2
     }
 
 
@@ -92,6 +96,7 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.guessedLetters == new TreeSet(['W', 'I', 'E', 'R', 'G', 'X', 'L', 'M', 'N'])
         assert gameState.moveCount == 9
         assert gameState.penaltiesRemaining == 1
+        assert gameState.blanksRemaining == 0
     }
 
     protected IndividualGameState setUpAlmostFinishedGame() {
@@ -116,7 +121,7 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
     }
 
 
-    public void testStealingLostGame() {
+    public void testGuessingLostGame() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 1)
         hangmanGameActions.guessLetter(gameState, (char) "x")
         assert gameState.playerHung
@@ -130,7 +135,7 @@ class HangmanGameActionsTest extends AbstractGameActionsTest {
     }
 
 
-    public void testStealingWonGame() {
+    public void testGuessingWonGame() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 1)
         hangmanGameActions.guessLetter(gameState, (char) "f")
         hangmanGameActions.guessLetter(gameState, (char) "r")

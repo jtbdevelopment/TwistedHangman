@@ -27,6 +27,7 @@ class IndividualGameState {
     int maxPenalties;
     int moveCount = 0;
     int penalties = 0;
+    int blanksRemaining;
     Set<GameFeature> features
     SortedSet<Character> badlyGuessedLetters = [] as SortedSet
     SortedSet<Character> guessedLetters = [] as SortedSet
@@ -42,6 +43,7 @@ class IndividualGameState {
         this.wordPhraseString = ""
         this.workingWordPhraseString = ""
         this.category = ""
+        this.blanksRemaining = 0;
         this.maxPenalties = BASE_PENALTIES
         this.features = Collections.unmodifiableSet(features ?: Collections.emptySet())
     }
@@ -119,6 +121,7 @@ class IndividualGameState {
                 ", badlyGuessedLetters=" + badlyGuessedLetters +
                 ", guessedLetters=" + guessedLetters +
                 ", featureData=" + featureData +
+                ", blanksRemaining=" + blanksRemaining +
                 '}';
     }
 }

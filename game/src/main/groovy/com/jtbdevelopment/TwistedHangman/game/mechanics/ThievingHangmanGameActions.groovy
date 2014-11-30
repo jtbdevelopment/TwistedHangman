@@ -22,16 +22,19 @@ class ThievingHangmanGameActions {
         counter += 1
         char c = gameState.wordPhrase[position]
         ((List<Character>) gameState.featureData[GameFeature.ThievingLetters]).add(c)
+        int found = 0;
         for (int i = 0; i < gameState.workingWordPhrase.length; i++) {
             if (gameState.wordPhrase[i] == c) {
                 gameState.workingWordPhrase[i] = c
                 markers[i] = true
+                ++found;
             }
         }
         gameState.featureData[GameFeature.ThievingCountTracking] = counter
         gameState.featureData[GameFeature.ThievingPositionTracking] = markers
         gameState.moveCount += 1
         gameState.penalties += 1
+        gameState.blanksRemaining -= found;
 
         gameState.workingWordPhraseString = new String(gameState.workingWordPhrase)
     }

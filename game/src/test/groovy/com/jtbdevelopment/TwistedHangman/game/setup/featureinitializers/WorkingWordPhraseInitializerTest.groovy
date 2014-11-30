@@ -15,6 +15,7 @@ class WorkingWordPhraseInitializerTest extends GroovyTestCase {
         gameState.wordPhrase = "cat".toCharArray()
         initializer.initializeForPhrase(gameState)
         assert gameState.workingWordPhraseString == "___"
+        assert gameState.blanksRemaining == 3;
     }
 
 
@@ -23,6 +24,7 @@ class WorkingWordPhraseInitializerTest extends GroovyTestCase {
         gameState.wordPhrase = "'cat'".toCharArray()
         initializer.initializeForPhrase(gameState)
         assert gameState.workingWordPhraseString == "'___'"
+        assert gameState.blanksRemaining == 3;
     }
 
 
@@ -31,5 +33,6 @@ class WorkingWordPhraseInitializerTest extends GroovyTestCase {
         gameState.wordPhrase = "1 cat".toCharArray()
         initializer.initializeForPhrase(gameState)
         assert gameState.workingWordPhraseString == "1 ___"
+        assert gameState.blanksRemaining == 3;
     }
 }
