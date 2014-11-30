@@ -89,7 +89,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
       });
     } else {
       $scope.alertType = 'alert-warning';
-      $scope.alertMessage = 'Not your turn yet.';
+      $scope.alertMessage = 'Not currently playable.';
     }
   };
 
@@ -103,7 +103,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
       });
     } else {
       $scope.alertType = 'alert-warning';
-      $scope.alertMessage = 'Not your turn yet.';
+      $scope.alertMessage = 'Not currently playable.';
     }
   };
 

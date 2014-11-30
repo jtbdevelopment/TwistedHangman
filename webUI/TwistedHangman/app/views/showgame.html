@@ -12,6 +12,8 @@
     <div class="playSection">
       <h3>{{gameState.category}}</h3>
 
+      <h3>{{gameState.wordPhrase}}</h3>
+
       <div class="{{allowPlayMoves ? 'activeKeyboard' : 'inactiveKeyboard'}}">
         <p>
           <span ng-repeat="position in workingWordPhraseArray track by $index"
@@ -25,9 +27,14 @@
         </p>
       </div>
       <div class="gameState">
-        <table>
+        <table class="table">
           <tr>
-            <td></td>
+            <td><b>Your Challenge:</b></td>
+            <td class="text-left">{{gameState.isPuzzleOver ? (gameState.isPuzzleSolved ? 'Solved!' : 'Hung!') : 'Not
+              Solved'}}
+            </td>
+            <td><b>Chances Left:</b></td>
+            <td class="text-left">{{gameState.penaltiesRemaining}}</td>
           </tr>
         </table>
       </div>

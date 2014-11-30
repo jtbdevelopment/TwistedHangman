@@ -5,7 +5,6 @@
 
   h3 {
     text-decoration: underline;
-    padding-bottom: 15px;
   }
   .activeKeyboard {
     @include opaque;
@@ -15,6 +14,19 @@
     @include opacity(0.3)
   }
 }
+
+.gameState {
+  .table {
+    tbody {
+      tr {
+        td {
+          border-top: 0;
+        }
+      }
+    }
+  }
+}
+
 .stolenwp {
   color: #d57500;
   text-shadow: 0px -7px 10px #d57500;
@@ -41,6 +53,7 @@
 }
 
 .wordphrase {
+  padding-top: 10px;
   font-size: large;
   letter-spacing: 3px;
 }
@@ -51,3 +64,4 @@
   font-size: large;
   margin-right: 25px;
 }
+

@@ -140,7 +140,7 @@ describe('Controller: ShowCtrl', function () {
     http.flush();
 
     expect(scope.alertType).toEqual('alert-warning');
-    expect(scope.alertMessage).toEqual('Not your turn yet.');
+    expect(scope.alertMessage).toEqual('Not currently playable.');
   });
 
   it('steal letter', function () {
@@ -158,7 +158,7 @@ describe('Controller: ShowCtrl', function () {
     scope.stealLetter('2');
     http.flush();
     expect(scope.alertType).toEqual('alert-warning');
-    expect(scope.alertMessage).toEqual('Not your turn yet.');
+    expect(scope.alertMessage).toEqual('Not currently playable.');
   });
 
   it('role for player', function () {
