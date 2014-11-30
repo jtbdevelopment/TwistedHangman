@@ -103,4 +103,12 @@
   }
 }
 
-
+.gameTimes {
+  display: block;
+  margin: 0 auto;
+  float: none;
+  width: 90%;
+  td {
+    display: inline-block;
+  }
+}

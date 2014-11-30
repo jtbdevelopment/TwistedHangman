@@ -42,30 +42,26 @@
 
       </p>
     </div>
-    <div class="gameState">
-      <table class="table">
-        <tr>
-          <td><b>Your Game:</b></td>
-          <td class="text-left">{{gameEndForPlayer(player.md5)}}</td>
-          <td><b>Moves:</b></td>
-          <td class="text-left">{{gameState.moveCount}}</td>
-          <td><b>Chances Left:</b></td>
-          <td class="text-left">{{gameState.penaltiesRemaining}}</td>
-          <td>
-            <!--  TODO - confirm quit -->
-            <div class="btn-group">
-              <button ng-show="showQuitButton" class="btn btn-group quitButton" ng-click="quit()">I Quit!</button>
-            </div>
-          </td>
-        </tr>
-      </table>
+    <div class="gameState container-fluid">
+      <div class="row">
+        <div class="col-sm-2 pull-left"><label>Your Game:</label></div>
+        <div class="col-sm-2 text-left pull-left">{{gameEndForPlayer(player.md5)}}</div>
+        <div class="col-sm-2 pull-left"><label>Moves:</label></div>
+        <div class="col-sm-1 text-left pull-left">{{gameState.moveCount}}</div>
+        <div class="col-sm-2 pull-left"><label>Chances Left:</label></div>
+        <div class="col-sm-1 text-left pull-left">{{gameState.penaltiesRemaining}}</div>
+        <!--  TODO - confirm quit -->
+        <div class="btn-group col-sm-2 pull-left">
+          <button ng-show="showQuitButton" class="btn btn-group quitButton" ng-click="quit()">I Quit!</button>
+        </div>
+      </div>
     </div>
 
   </div>
 </div>
 <div class="row">
   <div class="col-sm-12">
-    <table class="table">
+    <table class="table gameTimes">
       <tbody>
       <tr>
         <!--  TODO - quit timestamp?  -->
