@@ -11,9 +11,9 @@
     <modules>
         <module>game</module>
         <module>utilities</module>
-        <module>webUI</module>
         <module>rest</module>
         <module>integration-tests</module>
+        <module>webUI</module>
     </modules>
 
     <properties>

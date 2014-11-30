@@ -24,19 +24,23 @@
          <span ng-repeat="letter in letters track by $index">
            <span ng-click="sendGuess('{{letter}}')" class="keyboard {{letterClasses[$index]}}">{{letter}}</span> </span>
 
-        <!--  TOOD - confirm quit -->
-        <button ng-show="showQuitButton" class="btn btn-default" ng-click="quit()">I Quit!</button>
         </p>
       </div>
       <div class="gameState">
         <table class="table">
           <tr>
-            <td><b>Your Challenge:</b></td>
+            <td><b>Your Game:</b></td>
             <td class="text-left">{{gameState.isPuzzleOver ? (gameState.isPuzzleSolved ? 'Solved!' : 'Hung!') : 'Not
               Solved'}}
             </td>
             <td><b>Chances Left:</b></td>
             <td class="text-left">{{gameState.penaltiesRemaining}}</td>
+            <td>
+              <!--  TOOD - confirm quit -->
+              <div class="btn-group">
+                <button ng-show="showQuitButton" class="btn btn-group" ng-click="quit()">I Quit!</button>
+              </div>
+            </td>
           </tr>
         </table>
       </div>

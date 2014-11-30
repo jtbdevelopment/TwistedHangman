@@ -2,6 +2,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 // bower:scss
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
+@import "variables";
 @import "general";
 @import "playsection";
 @import "sidebarbuttons";
@@ -9,14 +10,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 
 //  current scheme based on http://www.creativecolorschemes.com/resources/free-color-schemes/earth-tone-color-scheme.shtml
 body {
-  background-color: #a9a18c;
-}
-
-.header .text-muted {
-  color: #855753;
-  small {
-    color: #855753;
-  }
+  background-color: $et_richbrownlight;
 }
 
 .imagearea img {
