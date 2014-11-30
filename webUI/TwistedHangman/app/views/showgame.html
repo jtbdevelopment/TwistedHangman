@@ -2,14 +2,14 @@
   <div class="col-sm-12 alert {{alertType}}">{{alertMessage}}</div>
 </div>
 <div class="row">
-  <div class="col-sm-6 text-center"><h5><b>{{phaseDescription}}</b></h5></div>
+  <div class="col-sm-6 text-center"><h5><b>Round {{game.round}} - {{phaseDescription}}</b></h5></div>
   <div class="col-sm-6 text-center"><h5><b>{{generalInfo}}</b></h5></div>
 </div>
 <div class="row">
-  <div class="col-sm-5 imagearea">
+  <div class="col-sm-6 imagearea">
     <img ng-src="images/{{image}}"/>
   </div>
-  <div class="col-sm-5 playarea">
+  <div class="col-sm-6 playarea">
     <!--  TODO - separate show to each button to not show accepted -->
     <div ng-show="showChallengeButtons" class="btn-group">
       <button ng-click="accept()" class="btn btn-group acceptButton"><span class="glyphicon glyphicon-thumbs-up"></span>
@@ -62,10 +62,6 @@
     </div>
 
   </div>
-  <div class="col-sm-2 infobar">
-
-  </div>
-
 </div>
 <div class="row">
   <div class="col-sm-12">
