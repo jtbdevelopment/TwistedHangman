@@ -3,7 +3,7 @@
 
 angular.module('twistedHangmanApp').factory('twCurrentPlayerService', function ($http, $q) {
 //  TODO - different ids
-  console.error('Initializing Current Player');
+  console.warn('Initializing Current Player');
   var realPID = 'MANUAL1';
   var simulatedPID = 'MANUAL1';
   var BASE_PLAYER_URL = '/api/player/';

@@ -56,6 +56,8 @@ The front end depends on a backend to be up and running to work.  Grunt proxy ha
 
 __Please note on the first bower build it will generate a warning about angular conflict.  Choose option 3.__
 
+TODO - fix this issue.
+
 If your webUI build fails it may be for this reason and you will need to do a one time manual bower build.
 
 From a command prompt you should be able to run:

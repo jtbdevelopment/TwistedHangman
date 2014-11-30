@@ -74,9 +74,9 @@ class GameMasker {
         if (game.gamePhase == GamePhase.RoundOver ||
                 game.gamePhase == GamePhase.NextRoundStarted ||
                 game.gamePhase == GamePhase.Quit ||
-                (game.gamePhase == GamePhase.Playing && playerMaskingFor == gameStatePlayer) ||
-                (game.gamePhase == GamePhase.Playing && game.wordPhraseSetter == playerMaskingFor.id) ||
-                (game.gamePhase == GamePhase.Playing && game.wordPhraseSetter == null && playerMaskingFor != gameStatePlayer)
+                playerMaskingFor == gameStatePlayer ||
+                game.wordPhraseSetter == playerMaskingFor.id ||
+                (game.wordPhraseSetter == null && playerMaskingFor != gameStatePlayer)
         ) {
             masked.workingWordPhrase = gameState.workingWordPhraseString
             masked.guessedLetters.addAll(gameState.guessedLetters)
@@ -94,8 +94,8 @@ class GameMasker {
         if (game.gamePhase == GamePhase.RoundOver ||
                 game.gamePhase == GamePhase.NextRoundStarted ||
                 game.gamePhase == GamePhase.Quit ||
-                (game.gamePhase == GamePhase.Playing && game.wordPhraseSetter == playerMaskingFor.id) ||
-                (game.gamePhase == GamePhase.Playing && game.wordPhraseSetter == null && playerMaskingFor != gameStatePlayer)
+                game.wordPhraseSetter == playerMaskingFor.id ||
+                (game.wordPhraseSetter == null && playerMaskingFor != gameStatePlayer)
         ) {
             masked.wordPhrase = gameState.wordPhraseString
         } else {

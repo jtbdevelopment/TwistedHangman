@@ -142,7 +142,6 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
       $rootScope.$broadcast('refreshGames', data.gamePhase);
       $location.path('/show/' + data.id);
       // TODO
-      console.log(data);
     }).error(function (data, status, headers, config) {
       //  TODO
       console.error(data + status + headers + config);

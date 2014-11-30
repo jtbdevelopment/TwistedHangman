@@ -11,143 +11,149 @@
   </div>
   <div class="col-sm-6 playarea">
     <!--  TODO - separate show to each button to not show accepted -->
-    <div ng-show="showChallengeButtons" class="btn-group">
-      <button ng-click="accept()" class="btn btn-group acceptButton">
-        <span class="glyphicon glyphicon-thumbs-up"> Accept</span>
-      </button>
-      <button ng-click="reject()" class="btn btn-group rejectButton">
-        <span class="glyphicon glyphicon-thumbs-down"> Reject</span>
-      </button>
-    </div>
-
-    <div ng-show="showPuzzleEnty" class="row">
-      <form ng-show="allowPuzzleEntry" class="form-horizontal">
-        <div class="form-group">
-          <label for="categoryInput" class="col-sm-2 control-label">Category:</label>
-
-          <div class="col-sm-10">
-            <input id="categoryInput" ng-model="enteredCategory" type="text" class="form-control"
-                   placeholder="Enter category."/>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="wordPhraseInput" class="col-sm-2 control-label">Category:</label>
-
-          <div class="col-sm-10">
-            <input id="wordPhraseInput" ng-model="enteredWordPhrase" type="text" class="form-control"
-                   placeholder="Enter word or phrase."/>
-          </div>
-        </div>
-        <div class="btn-group pull-left">
-          <button ng-click="setPuzzle()" class="btn btn-group puzzleButton">
-            <span class="glyphicon glyphicon-comment"> Set The Puzzle!</span>
+    <div ng-show="showChallengeButtons" class=" container">
+      <div class="row">
+        <div class="btn-group {{showAcceptButton ? 'col-sm-4' : 'col-sm-2'}}">
+          <button ng-show="showAcceptButton" ng-click="accept()" class="btn btn-group acceptButton">
+            <span class="glyphicon glyphicon-thumbs-up"> Accept</span>
+          </button>
+          <button ng-click="reject()" class="btn btn-group rejectButton">
+            <span class="glyphicon glyphicon-thumbs-down"> Reject</span>
           </button>
         </div>
-      </form>
-      <div ng-hide="allowPuzzleEntry">
-        <p><span>{{setPuzzleMessage}}</span></p>
+        <div class=" col-sm-6" ng-hide="showAcceptButton">
+          <span class="changeMind">You can always change your mind!</span>
+        </div>
       </div>
-    </div>
 
-    <div ng-show="showRematchButtons" class="btn-group pull-left">
-      <button ng-click="startNextRound()" class="btn btn-group rematchButton"><span
-        class="glyphicon glyphicon-repeat"></span> Start Next Round
-      </button>
-    </div>
+      <div ng-show="showPuzzleEnty" class="row">
+        <form ng-show="allowPuzzleEntry" class="form-horizontal">
+          <div class="form-group">
+            <label for="categoryInput" class="col-sm-2 control-label">Category:</label>
 
-    <h3>{{gameState.category}}</h3>
+            <div class="col-sm-10">
+              <input id="categoryInput" ng-model="enteredCategory" type="text" class="form-control"
+                     placeholder="Enter category."/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="wordPhraseInput" class="col-sm-2 control-label">Category:</label>
 
-    <h3>{{gameState.wordPhrase}}</h3> <!--  Server Blanks it most of the time  -->
+            <div class="col-sm-10">
+              <input id="wordPhraseInput" ng-model="enteredWordPhrase" type="text" class="form-control"
+                     placeholder="Enter word or phrase."/>
+            </div>
+          </div>
+          <div class="btn-group pull-left">
+            <button ng-click="setPuzzle()" class="btn btn-group puzzleButton">
+              <span class="glyphicon glyphicon-comment"> Set The Puzzle!</span>
+            </button>
+          </div>
+        </form>
+        <div ng-hide="allowPuzzleEntry">
+          <p><span>{{setPuzzleMessage}}</span></p>
+        </div>
+      </div>
 
-    <div class="{{allowPlayMoves ? 'activeKeyboard' : 'inactiveKeyboard'}}">
-      <p>
+      <div ng-show="showRematchButtons" class="btn-group pull-left">
+        <button ng-click="startNextRound()" class="btn btn-group rematchButton"><span
+          class="glyphicon glyphicon-repeat"></span> Start Next Round
+        </button>
+      </div>
+
+      <h3>{{gameState.category}}</h3>
+
+      <h3>{{gameState.wordPhrase}}</h3> <!--  Server Blanks it most of the time  -->
+
+      <div class="{{allowPlayMoves ? 'activeKeyboard' : 'inactiveKeyboard'}}">
+        <p>
           <span ng-repeat="position in workingWordPhraseArray track by $index"
                 class="wordphrase {{workingWordPhraseClasses[$index]}}"
                 ng-click="stealLetter({{$index}})">{{position}}</span>
-      </p>
+        </p>
 
          <span ng-repeat="letter in letters track by $index">
            <span ng-click="sendGuess('{{letter}}')" class="keyboard {{letterClasses[$index]}}">{{letter}}</span> </span>
 
-      </p>
-    </div>
-    <div class="gameState container">
-      <div class="row">
-        <div class="col-sm-1 "><label>Your Game:</label></div>
-        <div class="col-sm-1 text-center">{{gameEndForPlayer(player.md5)}}</div>
-        <div class="col-sm-1 "><label>Moves:</label></div>
-        <div class="col-sm-1 text-center">{{gameState.moveCount}}</div>
-        <div class="col-sm-1 "><label>Blanks Left:</label></div>
-        <div class="col-sm-1 text-center">{{gameState.blanksRemaining}}</div>
-        <div class="col-sm-1 "><label>Chances Left:</label></div>
-        <div class="col-sm-1 text-center">{{gameState.penaltiesRemaining}}</div>
+        </p>
+      </div>
+      <div class="gameState container">
+        <div class="row">
+          <div class="col-sm-1 "><label>Your Game:</label></div>
+          <div class="col-sm-1 text-center">{{gameEndForPlayer(player.md5)}}</div>
+          <div class="col-sm-1 "><label>Moves:</label></div>
+          <div class="col-sm-1 text-center">{{gameState.moveCount}}</div>
+          <div class="col-sm-1 "><label>Blanks Left:</label></div>
+          <div class="col-sm-1 text-center">{{gameState.blanksRemaining}}</div>
+          <div class="col-sm-1 "><label>Chances Left:</label></div>
+          <div class="col-sm-1 text-center">{{gameState.penaltiesRemaining}}</div>
+        </div>
+      </div>
+      <!--  TODO - confirm quit -->
+      <div class="btn-group pull-left">
+        <button ng-show="showQuitButton" class="btn btn-group quitButton" ng-click="quit()"><span
+          class="glyphicon glyphicon-flag"> I Quit!</span></button>
       </div>
     </div>
-    <!--  TODO - confirm quit -->
-    <div class="btn-group pull-left">
-      <button ng-show="showQuitButton" class="btn btn-group quitButton" ng-click="quit()"><span
-        class="glyphicon glyphicon-flag"> I Quit!</span></button>
+
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table gameTimes">
+        <tbody>
+        <tr>
+          <!--  TODO - quit timestamp?  -->
+          <td><b>Created:</b></td>
+          <td>{{created |date:'short'}}</td>
+          <td><b>Last Change:</b></td>
+          <td>{{lastUpdate |date:'short'}}</td>
+          <td><b>Completed:</b></td>
+          <td>{{completed |date:'short'}}</td>
+          <td><b>Declined:</b></td>
+          <td>{{declined |date:'short'}}</td>
+          <td><b>Next Round Started:</b></td>
+          <td>{{rematched |date:'short'}}</td>
+        </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-
-</div>
-<div class="row">
-  <div class="col-sm-12">
-    <table class="table gameTimes">
-      <tbody>
-      <tr>
-        <!--  TODO - quit timestamp?  -->
-        <td><b>Created:</b></td>
-        <td>{{created |date:'short'}}</td>
-        <td><b>Last Change:</b></td>
-        <td>{{lastUpdate |date:'short'}}</td>
-        <td><b>Completed:</b></td>
-        <td>{{completed |date:'short'}}</td>
-        <td><b>Declined:</b></td>
-        <td>{{declined |date:'short'}}</td>
-        <td><b>Next Round Started:</b></td>
-        <td>{{rematched |date:'short'}}</td>
-      </tr>
-      </tbody>
-    </table>
+  <div class="row">
+    <div ng-show="showPlayerStates">
+      <table>
+        <thead>
+        <tr>
+          <th>Player</th>
+          <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="(md5, state) in game.playerStates | orderBy:state">
+          <td>{{game.players[md5]}}</td>
+          <td>{{state}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div ng-show="showGameSummary">
+      <table>
+        <thead>
+        <tr>
+          <th>Player</th>
+          <th>Role</th>
+          <th>Outcome</th>
+          <th>Score</th>
+          <th>Running Score</th>
+        </tr>
+        <tr ng-repeat="(md5, name) in game.players">
+          <td>{{name}}</td>
+          <td>{{roleForPlayer(md5)}}</td>
+          <td>{{gameEndForPlayer(md5)}}</td>
+          <td>{{gameScoreForPlayer(md5)}}</td>
+          <td>{{runningScoreForPlayer(md5)}}</td>
+        </tr>
+        </thead>
+      </table>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div ng-show="showPlayerStates">
-    <table>
-      <thead>
-      <tr>
-        <th>Player</th>
-        <th>Status</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr ng-repeat="(md5, state) in game.playerStates | orderBy:state">
-        <td>{{game.players[md5]}}</td>
-        <td>{{state}}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div ng-show="showGameSummary">
-    <table>
-      <thead>
-      <tr>
-        <th>Player</th>
-        <th>Role</th>
-        <th>Outcome</th>
-        <th>Score</th>
-        <th>Running Score</th>
-      </tr>
-      <tr ng-repeat="(md5, name) in game.players">
-        <td>{{name}}</td>
-        <td>{{roleForPlayer(md5)}}</td>
-        <td>{{gameEndForPlayer(md5)}}</td>
-        <td>{{gameScoreForPlayer(md5)}}</td>
-        <td>{{runningScoreForPlayer(md5)}}</td>
-      </tr>
-      </thead>
-    </table>
-  </div>
-</div>
 

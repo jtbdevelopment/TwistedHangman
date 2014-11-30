@@ -89,6 +89,7 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
     scope.allowPlayMoves = false;
     scope.showPlayerStates = false;
     scope.showChallengeButtons = false;
+    scope.showAcceptButton = false;
     scope.showPuzzleEnty = false;
     scope.allowPuzzleEntry = false;
     scope.showGameSummary = true;
@@ -101,6 +102,9 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
       case 'Challenged':
         scope.showPlayerStates = true;
         scope.showChallengeButtons = true;
+        if (scope.game.playerStates[scope.player.md5] === 'Pending') {
+          scope.showAcceptButton = true;
+        }
         break;
       case 'Declined':
       case 'Quit':
@@ -112,11 +116,19 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
         if (scope.game.wordPhraseSetter === null) {
           angular.forEach(scope.game.solverStates, function (state, md5) {
             if (md5 !== scope.player.md5) {
-              scope.allowPuzzleEntry = (state.workingWordPhrase === '');
+              scope.allowPuzzleEntry = (state.wordPhrase === '');
             }
           });
+          if (scope.allowPuzzleEntry === false) {
+            angular.forEach(scope.game.players, function (name, md5) {
+              if (md5 !== scope.player.md5) {
+                scope.setPuzzleMessage = 'Waiting for ' + name + ' to set puzzle.';
+              }
+            });
+          }
         } else {
           scope.allowPuzzleEntry = (scope.game.wordPhraseSetter === scope.player.md5);
+          scope.setPuzzleMessage = 'Waiting for ' + scope.game.players[scope.game.wordPhraseSetter] + ' to set puzzle.';
         }
         break;
       case 'Playing':

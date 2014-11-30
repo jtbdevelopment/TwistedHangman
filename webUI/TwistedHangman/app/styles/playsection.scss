@@ -14,9 +14,15 @@
     color: #ffffff;
   }
 
+  .changeMind {
+    vertical-align: middle;
+    margin-right: 10px;
+    font-style: italic;
+  }
   .acceptButton {
     background-color: $et_greenmedium;
   }
+
   .rejectButton {
     background-color: $et_richbrowndark;
   }

@@ -161,7 +161,7 @@ class ServerIntegration {
 
         assert game.gamePhase == GamePhase.Challenged
         assert game.solverStates[TEST_PLAYER1.md5] != null
-        assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase == ""
+        assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase != ""
         def P1G = P1.path("play").path(game.id)
 
         game = putMG(P1G.path("quit"))
@@ -198,7 +198,7 @@ class ServerIntegration {
 
         assert game.gamePhase == GamePhase.Challenged
         assert game.solverStates[TEST_PLAYER1.md5] != null
-        assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase == ""
+        assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase != ""
         def P1G = P1.path("play").path(game.id)
         def P2G = P2.path("play").path(game.id)
         def P3G = P3.path("play").path(game.id)
