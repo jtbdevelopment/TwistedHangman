@@ -1,4 +1,5 @@
 @import "compass/typography/text/force-wrap";
+@import "variables";
 
 /*
  * Sidebar
@@ -31,7 +32,7 @@
     font-weight: bold;
     width: 100%;
     .badge {
-      background-color: #aebbc7;
+      background-color: $et_richbrownlight;
       color: black;
     }
   }
@@ -53,41 +54,46 @@
 }
 
 .createGameButton {
-  background-color: #4e6172;
+  background-color: $et_bluedark;
   color: #ffffff;
 }
 
 .refreshButton {
-  background-color: #bdd09f;
+  background-color: $et_greenlight;
   color: #ffffff;
 }
 
 .declinedButton {
-  background-color: #493829;
+  background-color: $et_richbrowndark;
   color: #ffffff;
 }
 
 .quitButton {
-  background-color: #816c5b;
+  background-color: $et_orangedark;
+  color: #ffffff;
+}
+
+.roundoverButton {
+  background-color: $et_greenmedium;
   color: #ffffff;
 }
 
 .nextroundstartedButton {
-  background-color: #404f24;
+  background-color: $et_richbrownmedium;
   color: #ffffff;
 }
 
 .playingButton {
-  background-color: #688d3c;
+  background-color: $et_greendark;
   color: #ffffff;
 }
 
 .challengedButton {
-  background-color: #d57500;
+  background-color: $et_orangelight;
   color: #ffffff;
 }
 
 .setupButton {
-  background-color: #8f3b1b;
+  background-color: $et_bluemedium;
   color: #ffffff;
 }

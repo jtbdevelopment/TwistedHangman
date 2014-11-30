@@ -7,6 +7,24 @@
   h3 {
     text-decoration: underline;
   }
+  .btn {
+    padding: 4px 6px;
+    font-weight: bold;
+    border-radius: 4px;
+    color: #ffffff;
+  }
+
+  .acceptButton {
+    background-color: $et_greenmedium;
+  }
+  .rejectButton {
+    background-color: $et_richbrowndark;
+  }
+
+  .rematchButton {
+    background-color: $et_greenmedium;
+  }
+
   .activeKeyboard {
     @include opaque;
 
@@ -78,10 +96,7 @@
       }
     }
 
-    .btn {
-      padding: 4px 6px;
-      font-weight: bold;
-      border-radius: 4px;
+    .quitButton {
       color: #ffffff;
       background-color: $et_orangedark;
     }

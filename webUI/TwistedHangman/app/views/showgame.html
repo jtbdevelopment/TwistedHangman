@@ -10,6 +10,22 @@
     <img ng-src="images/{{image}}"/>
   </div>
   <div class="col-sm-5 playarea">
+    <!--  TODO - separate show to each button to not show accepted -->
+    <div ng-show="showChallengeButtons" class="btn-group">
+      <button ng-click="accept()" class="btn btn-group acceptButton"><span class="glyphicon glyphicon-thumbs-up"></span>
+        Accept
+      </button>
+      <button ng-click="reject()" class="btn btn-group rejectButton"><span
+        class="glyphicon glyphicon-thumbs-down"></span> Reject
+      </button>
+    </div>
+
+    <div ng-show="showRematchButtons" class="btn-group">
+      <button ng-click="startNextRound()" class="btn btn-group rematchButton"><span
+        class="glyphicon glyphicon-repeat"></span> Start Next Round
+      </button>
+    </div>
+
     <h3>{{gameState.category}}</h3>
 
     <h3>{{gameState.wordPhrase}}</h3> <!--  Server Blanks it most of the time  -->
@@ -38,12 +54,13 @@
           <td>
             <!--  TODO - confirm quit -->
             <div class="btn-group">
-              <button ng-show="showQuitButton" class="btn btn-group" ng-click="quit()">I Quit!</button>
+              <button ng-show="showQuitButton" class="btn btn-group quitButton" ng-click="quit()">I Quit!</button>
             </div>
           </td>
         </tr>
       </table>
     </div>
+
   </div>
   <div class="col-sm-2 infobar">
 
@@ -96,14 +113,6 @@
         <td>{{game.players[md5]}}</td>
         <td>{{state}}</td>
       </tr>
-      <tr ng-show="showChallengeButtons">
-        <td>
-          <button ng-click="accept()" class="btn"><span class="glyphicon glyphicon-thumbs-up"></span>Accept</button>
-        </td>
-        <td>
-          <button ng-click="reject()" class="btn"><span class="glyphicon glyphicon-thumbs-down">Reject</button>
-        </td>
-      </tr>
       </tbody>
     </table>
   </div>
@@ -126,9 +135,6 @@
       </tr>
       </thead>
     </table>
-  </div>
-  <div ng-show="showRematchButtons">
-    <button ng-click="startNextRound()">Start Rematch</button>
   </div>
 </div>
 
