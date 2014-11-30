@@ -34,6 +34,8 @@
           <td class="text-left">{{gameState.isPuzzleOver ? (gameState.isPuzzleSolved ? 'Solved!' : 'Hung!') : 'Not
             Solved'}}
           </td>
+          <td><b>Moves:</b></td>
+          <td class="text-left">{{gameState.moveCount}}</td>
           <td><b>Chances Left:</b></td>
           <td class="text-left">{{gameState.penaltiesRemaining}}</td>
           <td>
@@ -52,57 +54,27 @@
 
 </div>
 <div class="row">
-
+  <div class="col-sm-12">
+    <table class="table">
+      <tbody>
+      <tr>
+        <!--  TODO - quit timestamp?  -->
+        <td><b>Created:</b></td>
+        <td>{{created |date:'short'}}</td>
+        <td><b>Last Change:</b></td>
+        <td>{{lastUpdate |date:'short'}}</td>
+        <td><b>Completed:</b></td>
+        <td>{{completed |date:'short'}}</td>
+        <td><b>Declined:</b></td>
+        <td>{{declined |date:'short'}}</td>
+        <td><b>Next Round Started:</b></td>
+        <td>{{rematched |date:'short'}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 <div class="row">
-  <table>
-    <tbody>
-    <tr>
-      <td rowspan="5">
-        <img ng-src="images/{{image}}"/>
-      </td>
-      <td>
-        <label>Status:</label>
-      </td>
-      <td>
-        {{phaseDescription}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <label>Started:</label>
-      </td>
-      <td>
-        {{created |date:'short'}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <label>Last Update:</label>
-      </td>
-      <td>
-        {{lastUpdate |date:'short'}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <label>Penalties Remaining:</label>
-      </td>
-      <td>
-        {{gameState.penaltiesRemaining}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <label>Moves:</label>
-      </td>
-      <td>
-        {{gameState.moveCount}}
-      </td>
-    </tr>
-
-    </tbody>
-  </table>
   <div ng-show="showPuzzleEnty">
     <div ng-show="allowPuzzleEntry">
       <p><label>Category:<input ng-model="enteredCategory" type="text"/></label></p>
@@ -157,9 +129,6 @@
       </tr>
       </thead>
     </table>
-  </div>
-  <div ng-show="showQuitButton">
-    <button ng-click="quit()">Quit!</button>
   </div>
   <div ng-show="showRematchButtons">
     <button ng-click="startNextRound()">Start Rematch</button>

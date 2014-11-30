@@ -169,6 +169,24 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
       //  TODO - convert to millis on server
       scope.lastUpdate = new Date(scope.game.lastUpdate * 1000);
       scope.created = new Date(scope.game.created * 1000);
+
+      //  TODO - test
+      if (typeof scope.game.declined !== 'undefined' && scope.game.declined > 0) {
+        scope.declined = new Date(scope.game.declined * 1000);
+      } else {
+        scope.declined = 'N/A';
+      }
+      if (typeof scope.game.completed !== 'undefined' && scope.game.completed > 0) {
+        scope.completed = new Date(scope.game.completed * 1000);
+      } else {
+        scope.completed = 'N/A';
+      }
+      if (typeof scope.game.rematched !== 'undefined' && scope.game.rematched > 0) {
+        scope.rematched = new Date(scope.game.rematched * 1000);
+      } else {
+        scope.rematched = 'N/A';
+      }
+
       this.computeGameState(scope);
     },
 
