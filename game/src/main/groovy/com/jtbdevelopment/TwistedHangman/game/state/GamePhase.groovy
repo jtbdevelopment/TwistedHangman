@@ -11,7 +11,7 @@ enum GamePhase {
     Setup('Game setup in progress.', 'Setting Up'), /*  Setting word phrases  */
     Playing('Game in play!', 'Playing'),
     RoundOver('Round finished.', 'Played'),  /*  Option to continue to a new game  */
-    NextRoundStarted('Next round begun.', 'Older Games')
+    NextRoundStarted('Next round begun.', 'Finished Rounds')
 
     String description
     String groupLabel
