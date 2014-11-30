@@ -8,60 +8,74 @@
   }
   .activeKeyboard {
     @include opaque;
+
+    .regular:hover {
+      color: white;
+      font-weight: bold;
+      background-color: #493829;
+    }
+
+    .stealablewp:hover {
+      color: white;
+      font-weight: bold;
+      background-color: #493829;
+    }
+
   }
 
   .inactiveKeyboard {
-    @include opacity(0.3)
+    @include opacity(0.3);
   }
-}
 
-.gameState {
-  .table {
-    tbody {
-      tr {
-        td {
-          border-top: 0;
+  .stolenwp {
+    color: #d57500;
+    text-shadow: 0px -7px 10px #d57500;
+  }
+
+  .stealablewp {
+    text-shadow: 0px 6px 10px #d57500;
+  }
+
+  .badguesskb {
+    color: red;
+    font-weight: bold;
+  }
+
+  .guessedkb {
+    color: green;
+    font-weight: bold;
+  }
+
+  .stolenkb {
+    color: #d57500;
+    text-shadow: 0px -7px 10px #d57500;
+    font-weight: bold;
+  }
+
+  .wordphrase {
+    padding-top: 10px;
+    font-size: large;
+    letter-spacing: 3px;
+  }
+
+  .keyboard {
+    padding-top: 10px;
+    font-family: monospace, serif;
+    font-size: large;
+    margin-right: 25px;
+  }
+
+  .gameState {
+    .table {
+      tbody {
+        tr {
+          td {
+            border-top: 0;
+          }
         }
       }
     }
   }
 }
 
-.stolenwp {
-  color: #d57500;
-  text-shadow: 0px -7px 10px #d57500;
-}
-
-.stealablewp {
-  text-shadow: 0px 6px 10px #d57500;
-}
-
-.badguesskb {
-  color: red;
-  font-weight: bold;
-}
-
-.guessedkb {
-  color: green;
-  font-weight: bold;
-}
-
-.stolenkb {
-  color: #d57500;
-  text-shadow: 0px -7px 10px #d57500;
-  font-weight: bold;
-}
-
-.wordphrase {
-  padding-top: 10px;
-  font-size: large;
-  letter-spacing: 3px;
-}
-
-.keyboard {
-  padding-top: 10px;
-  font-family: monospace, serif;
-  font-size: large;
-  margin-right: 25px;
-}
 

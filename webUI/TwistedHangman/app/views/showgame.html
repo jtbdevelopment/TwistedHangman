@@ -8,7 +8,7 @@
   <div class="col-sm-5 imagearea">
     <img ng-src="images/{{image}}"/>
   </div>
-  <div class="col-sm-5 actionbar">
+  <div class="col-sm-5 playarea">
     <div class="playSection">
       <h3>{{gameState.category}}</h3>
 
@@ -21,9 +21,11 @@
                 ng-click="stealLetter({{$index}})">{{position}}</span>
         </p>
 
-        <p><!--  TODO - break up keyboard into two rows  -->
          <span ng-repeat="letter in letters track by $index">
            <span ng-click="sendGuess('{{letter}}')" class="keyboard {{letterClasses[$index]}}">{{letter}}</span> </span>
+
+        <!--  TOOD - confirm quit -->
+        <button ng-show="showQuitButton" class="btn btn-default" ng-click="quit()">I Quit!</button>
         </p>
       </div>
       <div class="gameState">
@@ -40,6 +42,10 @@
       </div>
     </div>
   </div>
+  <div class="col-sm-2 infobar">
+
+  </div>
+
 </div>
 <div class="row">
 

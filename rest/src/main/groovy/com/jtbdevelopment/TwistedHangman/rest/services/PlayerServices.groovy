@@ -70,6 +70,7 @@ class PlayerServices {
             @PathParam("phase") final GamePhase gamePhase,
             @QueryParam("page") final Integer page,
             @QueryParam("pageSize") final Integer pageSize) {
+        //  TODO - time limit for certain phases
         gameFinderHandler.findGames(playerID.get(), gamePhase, page ?: DEFAULT_PAGE, pageSize ?: DEFAULT_PAGE_SIZE)
     }
 
