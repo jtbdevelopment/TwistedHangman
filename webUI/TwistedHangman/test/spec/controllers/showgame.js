@@ -169,9 +169,9 @@ describe('Controller: ShowCtrl', function () {
   });
 
   it('gameEndForPlayer for player', function () {
-    expect(scope.gameEndForPlayer('md1')).toEqual('Solved');
-    expect(scope.gameEndForPlayer('md2')).toEqual('Hung');
-    expect(scope.gameEndForPlayer('md3')).toEqual('Incomplete');
+    expect(scope.gameEndForPlayer('md1')).toEqual('Solved!');
+    expect(scope.gameEndForPlayer('md2')).toEqual('Hung!');
+    expect(scope.gameEndForPlayer('md3')).toEqual('Not Solved.');
     expect(scope.gameEndForPlayer('md4')).toEqual('N/A');
     expect(scope.gameEndForPlayer('md5')).toEqual('Unknown');
   });

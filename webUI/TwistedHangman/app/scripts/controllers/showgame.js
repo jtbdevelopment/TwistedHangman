@@ -124,8 +124,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
       return 'Unknown';
     }
     //  TODO - take into account different states before this...
-
-    return solverState.isPuzzleOver ? (solverState.isPuzzleSolved ? 'Solved' : 'Hung') : 'Incomplete';
+    return solverState.isPuzzleOver ? (solverState.isPuzzleSolved ? 'Solved!' : 'Hung!') : 'Not Solved.';
   };
 
   $scope.gameScoreForPlayer = function (md5) {

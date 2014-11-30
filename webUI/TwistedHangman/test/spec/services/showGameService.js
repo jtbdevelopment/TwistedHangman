@@ -26,7 +26,8 @@ describe('Service: showGameSevice', function () {
     },
     playerRunningScores: {'md1': 0, 'md2': 2, 'md3': 10, 'md4': -3, 'md5': -5},
     gameID: 'id',
-    featureData: {}
+    featureData: {},
+    features: []
   };
   var player = {
     id: 'pid',
