@@ -92,9 +92,14 @@
   }
 }
 
+.puzzleButton {
+  color: #ffffff;
+  background-color: $et_bluemedium;
+}
+
 .gameTimes {
   display: block;
-  margin: 0 auto;
+  margin: 10px auto;
   float: none;
   width: 90%;
   td {

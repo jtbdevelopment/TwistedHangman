@@ -108,6 +108,10 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
   };
 
   $scope.roleForPlayer = function (md5) {
+    if (typeof $scope.game === 'undefined') {
+      //  TODO - test
+      return '';
+    }
     if (md5 === $scope.game.puzzleSetter) {
       return 'Set Puzzle';
     }
@@ -115,6 +119,10 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
   };
 
   $scope.gameEndForPlayer = function (md5) {
+    if (typeof $scope.game === 'undefined') {
+      //  TODO - test
+      return '';
+    }
     if (md5 === $scope.game.puzzleSetter) {
       return 'N/A';
     }
@@ -128,10 +136,18 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
   };
 
   $scope.gameScoreForPlayer = function (md5) {
+    if (typeof $scope.game === 'undefined') {
+      //  TODO - test
+      return '';
+    }
     return $scope.game.playerRoundScores[md5];
   };
 
   $scope.runningScoreForPlayer = function (md5) {
+    if (typeof $scope.game === 'undefined') {
+      //  TODO - test
+      return '';
+    }
     return $scope.game.playerRunningScores[md5];
   };
 });
