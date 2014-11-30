@@ -87,12 +87,10 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
   function computeShowVariables(scope) {
     scope.showPlaySection = false;
     scope.allowPlayMoves = false;
-    scope.showPlayerStates = false;
     scope.showChallengeButtons = false;
     scope.showAcceptButton = false;
     scope.showPuzzleEnty = false;
     scope.allowPuzzleEntry = false;
-    scope.showGameSummary = true;
     scope.showRematchButtons = false;
     scope.showQuitButton = false;
     if (typeof scope.game === 'undefined' || typeof scope.player === 'undefined') {
@@ -100,15 +98,10 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
     }
     switch (scope.game.gamePhase) {
       case 'Challenged':
-        scope.showPlayerStates = true;
         scope.showChallengeButtons = true;
         if (scope.game.playerStates[scope.player.md5] === 'Pending') {
           scope.showAcceptButton = true;
         }
-        break;
-      case 'Declined':
-      case 'Quit':
-        scope.showPlayerStates = true;
         break;
       case 'Setup':
         scope.showQuitButton = true;
@@ -134,15 +127,19 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
       case 'Playing':
         scope.showQuitButton = true;
         scope.showPlaySection = true;
-        if (typeof scope.game.featureData.TurnBased === 'undefined') {
-          scope.allowPlayMoves = true;
-        } else {
-          scope.allowPlayMoves = (scope.player.md5 === scope.game.featureData.TurnBased);
+        if (scope.gameState.isPuzzleOver === false) {
+          if (typeof scope.game.featureData.TurnBased === 'undefined') {
+            scope.allowPlayMoves = true;
+          } else {
+            scope.allowPlayMoves = (scope.player.md5 === scope.game.featureData.TurnBased);
+          }
         }
         break;
       case 'RoundOver':
         scope.showRematchButtons = true;
         break;
+      case 'Declined':
+      case 'Quit':
       case 'NextRoundStarted':
         break;
     }

@@ -135,6 +135,25 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
     return solverState.isPuzzleOver ? (solverState.isPuzzleSolved ? 'Solved!' : 'Hung!') : 'Not Solved.';
   };
 
+  //  TODO - Test
+  $scope.stateForPlayer = function (md5, field) {
+    console.error(field);
+    if (typeof $scope.game === 'undefined') {
+      //  TODO - test
+      return '';
+    }
+    if (md5 === $scope.game.puzzleSetter) {
+      return 'N/A';
+    }
+
+    var solverState = $scope.game.solverStates[md5];
+    if (typeof solverState === 'undefined') {
+      return 'Unknown';
+    }
+
+    return solverState[field];
+  };
+
   $scope.gameScoreForPlayer = function (md5) {
     if (typeof $scope.game === 'undefined') {
       //  TODO - test

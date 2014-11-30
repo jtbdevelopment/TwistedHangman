@@ -107,8 +107,12 @@
   display: block;
   margin: 10px auto;
   float: none;
-  width: 90%;
+  max-width: 100%;
   td {
     display: inline-block;
   }
+}
+
+.playerInfo {
+  margin-top: 25px;
 }
