@@ -2,48 +2,48 @@
   <div class="col-sm-12 alert {{alertType}}">{{alertMessage}}</div>
 </div>
 <div class="row">
-  <div class="col-sm-12 text-center"><h4>{{phaseDescription}}</h4></div>
+  <div class="col-sm-6 text-center"><h5><b>{{phaseDescription}}</b></h5></div>
+  <div class="col-sm-6 text-center"><h5><b>{{generalInfo}}</b></h5></div>
 </div>
 <div class="row">
   <div class="col-sm-5 imagearea">
     <img ng-src="images/{{image}}"/>
   </div>
   <div class="col-sm-5 playarea">
-    <div class="playSection">
-      <h3>{{gameState.category}}</h3>
+    <h3>{{gameState.category}}</h3>
 
-      <h3>{{gameState.wordPhrase}}</h3>
+    <h3>{{gameState.wordPhrase}}</h3> <!--  Server Blanks it most of the time  -->
 
-      <div class="{{allowPlayMoves ? 'activeKeyboard' : 'inactiveKeyboard'}}">
-        <p>
+    <div class="{{allowPlayMoves ? 'activeKeyboard' : 'inactiveKeyboard'}}">
+      <p>
           <span ng-repeat="position in workingWordPhraseArray track by $index"
                 class="wordphrase {{workingWordPhraseClasses[$index]}}"
                 ng-click="stealLetter({{$index}})">{{position}}</span>
-        </p>
+      </p>
 
          <span ng-repeat="letter in letters track by $index">
            <span ng-click="sendGuess('{{letter}}')" class="keyboard {{letterClasses[$index]}}">{{letter}}</span> </span>
 
-        </p>
-      </div>
-      <div class="gameState">
-        <table class="table">
-          <tr>
-            <td><b>Your Game:</b></td>
-            <td class="text-left">{{gameState.isPuzzleOver ? (gameState.isPuzzleSolved ? 'Solved!' : 'Hung!') : 'Not
-              Solved'}}
-            </td>
-            <td><b>Chances Left:</b></td>
-            <td class="text-left">{{gameState.penaltiesRemaining}}</td>
-            <td>
-              <!--  TOOD - confirm quit -->
-              <div class="btn-group">
-                <button ng-show="showQuitButton" class="btn btn-group" ng-click="quit()">I Quit!</button>
-              </div>
-            </td>
-          </tr>
-        </table>
-      </div>
+      </p>
+    </div>
+    <div class="gameState">
+      <table class="table">
+        <tr>
+          <td><b>Your Game:</b></td>
+          <!--  TODO - Lot of logic here -->
+          <td class="text-left">{{gameState.isPuzzleOver ? (gameState.isPuzzleSolved ? 'Solved!' : 'Hung!') : 'Not
+            Solved'}}
+          </td>
+          <td><b>Chances Left:</b></td>
+          <td class="text-left">{{gameState.penaltiesRemaining}}</td>
+          <td>
+            <!--  TODO - confirm quit -->
+            <div class="btn-group">
+              <button ng-show="showQuitButton" class="btn btn-group" ng-click="quit()">I Quit!</button>
+            </div>
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
   <div class="col-sm-2 infobar">
@@ -165,3 +165,4 @@
     <button ng-click="startNextRound()">Start Rematch</button>
   </div>
 </div>
+

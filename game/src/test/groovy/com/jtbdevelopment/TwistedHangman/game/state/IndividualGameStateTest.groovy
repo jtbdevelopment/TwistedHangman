@@ -5,6 +5,13 @@ package com.jtbdevelopment.TwistedHangman.game.state
  */
 class IndividualGameStateTest extends GroovyTestCase {
 
+    public void testGameOverWhenGameNotSetYet() {
+        IndividualGameState gameState = new IndividualGameState([] as Set)
+        assert !gameState.puzzleSolved
+        assert !gameState.playerHung
+        assert !gameState.puzzleOver
+    }
+
     public void testInitialGameStateWithDefaultFeatures() {
         IndividualGameState gameState = new IndividualGameState([] as Set)
         gameState.wordPhrase = "cat".toCharArray()

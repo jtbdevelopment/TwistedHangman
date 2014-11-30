@@ -55,7 +55,7 @@ class IndividualGameState {
     }
 
     public boolean isPuzzleSolved() {
-        wordPhrase == workingWordPhrase;
+        wordPhrase == workingWordPhrase && wordPhrase.length > 0
     }
 
     public boolean isPlayerHung() {
