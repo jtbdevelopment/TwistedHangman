@@ -2,23 +2,27 @@
 @import "compass/css3/opacity";
 
 .createGame {
-  .btn-group {
-    .btn-default {
-      color: #ffffff;
-      font-weight: bold;
-      background-color: $et_greenlight;
-    }
-    .btn-default.active {
-      background-color: $et_greenmedium;
-    }
-    .btn-default:hover {
-      background-color: $et_greendark;
-    }
-    .btn-default[disabled] {
-      @include opacity(0.2);
-      background-color: $et_flatbrownlight;
-      color: #000000;
-    }
-
+  .btn-default {
+    color: #ffffff;
+    padding: 6px 6px;
+    font-weight: bold;
+    border-radius: 4px;
+    background-color: $et_greenlight;
   }
+  .btn-default.active {
+    background-color: $et_greenmedium;
+  }
+  .btn-default:hover {
+    background-color: $et_greendark;
+  }
+  .btn-default[disabled] {
+    @include opacity(0.2);
+    background-color: $et_flatbrownlight;
+    color: #000000;
+  }
+
+  .createButton {
+    background-color: $et_greenmedium;
+  }
+
 }
