@@ -104,7 +104,7 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
     scope.showQuitButton = false;
     if (angular.isUndefined(scope.game) ||
       angular.isUndefined(scope.player) ||
-      angular.isUndefined(scope.gameState)) {
+      (angular.isUndefined(scope.gameState) && scope.player.md5 !== scope.game.wordPhraseSetter)) {
       return;
     }
     scope.showPlaySection = (scope.game.wordPhraseSetter !== scope.player.md5);
@@ -138,13 +138,15 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
         break;
       case 'Playing':
         scope.showQuitButton = true;
-        if (scope.gameState.isPuzzleOver === false) {
-          if (angular.isUndefined(scope.game.featureData.TurnBased)) {
-            scope.allowPlayMoves = true;
-          } else {
-            scope.allowPlayMoves = (scope.player.md5 === scope.game.featureData.TurnBased);
+        if (angular.isDefined(scope.gameState)) {
+          if (scope.gameState.isPuzzleOver === false) {
+            if (angular.isUndefined(scope.game.featureData.TurnBased)) {
+              scope.allowPlayMoves = true;
+            } else {
+              scope.allowPlayMoves = (scope.player.md5 === scope.game.featureData.TurnBased);
+            }
           }
-          }
+        }
         break;
       case 'RoundOver':
         scope.showRematchButtons = true;

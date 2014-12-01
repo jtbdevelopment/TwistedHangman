@@ -9,15 +9,10 @@
   <div class="col-sm-6 imagearea" ng-show="showPlaySection">
     <img ng-src="images/{{image}}"/>
   </div>
-  <div class="col-sm-6 text-center" ng-hide="showPlaySection">
+  <div class="col-sm-6 wordphrasesetter" ng-hide="showPlaySection">
     <p>
       You are the puzzle setter this round. Monitor the other players below.
     </p>
-    <!--  TODO - confirm quit -->
-    <div class="btn-group pull-left">
-      <button ng-show="showQuitButton" class="btn btn-group quitButton" ng-click="quit()"><span
-        class="glyphicon glyphicon-flag"> I Quit!</span></button>
-    </div>
   </div>
   <div class="col-sm-6 playarea">
     <!--  TODO - separate show to each button to not show accepted -->
@@ -72,24 +67,26 @@
       </div>
     </div>
 
-    <h3>{{gameState.category}}</h3>
+    <div ng-show="showPlaySection">
+      <h3>{{gameState.category}}</h3>
 
-    <h3>{{gameState.wordPhrase}}</h3> <!--  Server Blanks it most of the time  -->
+      <h3>{{gameState.wordPhrase}}</h3> <!--  Server Blanks it most of the time  -->
 
-    <div class="{{allowPlayMoves ? 'activeKeyboard' : 'inactiveKeyboard'}}">
-      <p>
+      <div class="{{allowPlayMoves ? 'activeKeyboard' : 'inactiveKeyboard'}}">
+        <p>
           <span ng-repeat="position in workingWordPhraseArray track by $index"
                 class="wordphrase {{workingWordPhraseClasses[$index]}}"
                 ng-click="stealLetter({{$index}})">{{position}}</span>
-      </p>
+        </p>
 
-      <p>
+        <p>
          <span ng-repeat="letter in letters track by $index">
            <span ng-click="sendGuess('{{letter}}')" class="keyboard {{letterClasses[$index]}}">{{letter}}</span> </span>
 
-      </p>
+        </p>
+      </div>
     </div>
-    <div class="gameState container">
+    <div class="gameState container" ng-show="showPlaySection">
       <div class="row">
         <div class="col-sm-1 "><label>Your Game:</label></div>
         <div class="col-sm-1 text-center">{{gameEndForPlayer(player.md5)}}</div>
@@ -103,7 +100,7 @@
     </div>
     <!--  TODO - confirm quit -->
     <div class="btn-group pull-left">
-      <button ng-show="showQuitButton" class="btn btn-group quitButton" ng-click="quit()"><span
+      <button ng-show="showQuitButton" class="btn btn-group iQuitButton" ng-click="quit()"><span
         class="glyphicon glyphicon-flag"> I Quit!</span></button>
     </div>
   </div>

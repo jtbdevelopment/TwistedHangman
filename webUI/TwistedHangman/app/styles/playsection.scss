@@ -1,6 +1,10 @@
 @import "compass/css3/opacity";
 @import "variables";
 
+.wordphrasesetter {
+  padding-top: 55px;
+}
+
 .playarea {
   padding-top: 35px;
 
@@ -90,11 +94,10 @@
     margin-right: 25px;
   }
 
-  .gameState {
-    .quitButton {
-      color: #ffffff;
-      background-color: $et_orangedark;
-    }
+  .iQuitButton {
+    margin-top: 15px;
+    color: #ffffff;
+    background-color: $et_orangedark;
   }
 }
 
@@ -116,3 +119,4 @@
 .playerInfo {
   margin-top: 25px;
 }
+
