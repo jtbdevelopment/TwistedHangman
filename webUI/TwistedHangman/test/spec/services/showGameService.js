@@ -17,7 +17,7 @@ describe('Service: showGameSevice', function () {
   var showGameServiceGame = {
     id: 'id2',
     players: {'md1': 'P1', 'md2': 'P2', 'md3': 'P3', 'md4': 'P4', 'md5': 'P5'},
-    puzzleSetter: 'md4',
+    wordPhraseSetter: 'md4',
     gamePhase: 'Playing',
     solverStates: {
       md1: md1SS,

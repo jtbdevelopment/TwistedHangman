@@ -19,12 +19,12 @@
       <td><label>Puzzles Set By:</label></td>
       <td>
         <div class="btn-group">
-          <label class="btn" ng-model="puzzleSetter" btn-radio="'SystemPuzzles'"
+          <label class="btn" ng-model="wordPhraseSetter" btn-radio="'SystemPuzzles'"
                  tooltip-placement="bottom" tooltip="{{featureData.SystemPuzzles}}">Generated Puzzles</label>
           <!--  TODO tt -->
-          <label class="btn" ng-disabled="!h2hEnabled" ng-model="puzzleSetter" btn-radio="''"
+          <label class="btn" ng-disabled="!h2hEnabled" ng-model="wordPhraseSetter" btn-radio="''"
                  tooltip-placement="bottom" tooltip="TODO">Head 2 Head</label>
-          <label class="btn" ng-disabled="!alternatingEnabled" ng-model="puzzleSetter"
+          <label class="btn" ng-disabled="!alternatingEnabled" ng-model="wordPhraseSetter"
                  btn-radio="'AlternatingPuzzleSetter'"
                  tooltip-placement="bottom" tooltip="{{featureData.AlternatingPuzzleSetter}}">Alternating
             Player</label>

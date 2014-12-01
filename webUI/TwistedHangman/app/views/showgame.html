@@ -6,8 +6,18 @@
   <div class="col-sm-6 text-center"><h5><b>{{generalInfo}}</b></h5></div>
 </div>
 <div class="row">
-  <div class="col-sm-6 imagearea">
+  <div class="col-sm-6 imagearea" ng-show="showPlaySection">
     <img ng-src="images/{{image}}"/>
+  </div>
+  <div class="col-sm-6 text-center" ng-hide="showPlaySection">
+    <p>
+      You are the puzzle setter this round. Monitor the other players below.
+    </p>
+    <!--  TODO - confirm quit -->
+    <div class="btn-group pull-left">
+      <button ng-show="showQuitButton" class="btn btn-group quitButton" ng-click="quit()"><span
+        class="glyphicon glyphicon-flag"> I Quit!</span></button>
+    </div>
   </div>
   <div class="col-sm-6 playarea">
     <!--  TODO - separate show to each button to not show accepted -->

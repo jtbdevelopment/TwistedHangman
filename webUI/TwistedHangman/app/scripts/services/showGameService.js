@@ -4,6 +4,10 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
   var LETTERA = 'A'.charCodeAt(0);
 
   function computeWordPhrase(scope) {
+    if (angular.isUndefined(scope.gameState)) {
+      //  TODO - test this case
+      return;
+    }
     scope.workingWordPhraseArray = scope.gameState.workingWordPhrase.split('');
     for (var i = 0; i < scope.workingWordPhraseArray.length; i++) {
       var r = 'regularwp';
@@ -20,6 +24,7 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
     if (angular.isUndefined(scope.gameState)) {
       //  TODO - test this case
       scope.image = 'hangman0.png';
+      return;
     }
     //  TODO - puzzle setter doesn't work
     if (scope.gameState.penalties === scope.gameState.maxPenalties) {
@@ -40,6 +45,10 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
   }
 
   function computeKeyboard(scope) {
+    if (angular.isUndefined(scope.gameState)) {
+      //  TODO - test case
+      return;
+    }
     scope.gameState.guessedLetters.forEach(function (item) {
       scope.letterClasses[item.charCodeAt(0) - LETTERA] = 'guessedkb';
     });
@@ -98,6 +107,7 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
       angular.isUndefined(scope.gameState)) {
       return;
     }
+    scope.showPlaySection = (scope.game.wordPhraseSetter !== scope.player.md5);
     switch (scope.game.gamePhase) {
       case 'Challenged':
         scope.showChallengeButtons = true;
@@ -128,14 +138,13 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
         break;
       case 'Playing':
         scope.showQuitButton = true;
-        scope.showPlaySection = true;
         if (scope.gameState.isPuzzleOver === false) {
           if (angular.isUndefined(scope.game.featureData.TurnBased)) {
             scope.allowPlayMoves = true;
           } else {
             scope.allowPlayMoves = (scope.player.md5 === scope.game.featureData.TurnBased);
           }
-        }
+          }
         break;
       case 'RoundOver':
         scope.showRematchButtons = true;

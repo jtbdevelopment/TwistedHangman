@@ -64,7 +64,7 @@ describe('Controller: CreateCtrl', function () {
       {md5: 'md4', name: 'friend4', selected: false, enabled: false}
     ]);
     expect(scope.gamePace).toEqual('');
-    expect(scope.puzzleSetter).toEqual('SystemPuzzles');
+    expect(scope.wordPhraseSetter).toEqual('SystemPuzzles');
     expect(scope.winners).toEqual('SingleWinner');
     expect(scope.h2hEnabled).toBe(false);
     expect(scope.alternatingEnabled).toBe(false);
@@ -87,7 +87,7 @@ describe('Controller: CreateCtrl', function () {
     scope.friends.forEach(function (friend) {
       friend.enabled = true;
     });
-    scope.puzzleSetter = '';
+    scope.wordPhraseSetter = '';
     scope.winners = '';
     scope.h2hEnabled = true;
     scope.alternatingEnabled = true;
@@ -109,7 +109,7 @@ describe('Controller: CreateCtrl', function () {
     expect(scope.playerCount).toEqual('SinglePlayer');
     expect(scope.players).toEqual([]);
     expect(scope.gamePace).toEqual('');
-    expect(scope.puzzleSetter).toEqual('SystemPuzzles');
+    expect(scope.wordPhraseSetter).toEqual('SystemPuzzles');
     expect(scope.winners).toEqual('SingleWinner');
     expect(scope.h2hEnabled).toBe(false);
     expect(scope.alternatingEnabled).toBe(false);
@@ -124,7 +124,7 @@ describe('Controller: CreateCtrl', function () {
     scope.drawGallows = 'DrawGallows';
     scope.drawFace = 'DrawFace';
     scope.gamePace = 'TurnBased';
-    scope.puzzleSetter = '';
+    scope.wordPhraseSetter = '';
     scope.winners = '';
 
     //  should change
@@ -150,7 +150,7 @@ describe('Controller: CreateCtrl', function () {
     expect(scope.playerCount).toEqual('TwoPlayer');
     expect(scope.players).toEqual([]);
     expect(scope.gamePace).toEqual('TurnBased');
-    expect(scope.puzzleSetter).toEqual('');
+    expect(scope.wordPhraseSetter).toEqual('');
     expect(scope.winners).toEqual('');
     expect(scope.h2hEnabled).toBe(true);
     expect(scope.alternatingEnabled).toBe(true);
@@ -195,7 +195,7 @@ describe('Controller: CreateCtrl', function () {
     scope.friends[1].enabled = true;
 
     //  should change
-    scope.puzzleSetter = '';
+    scope.wordPhraseSetter = '';
     scope.playerCount = 'X';
     scope.h2hEnabled = true;
     scope.alternatingEnabled = false;
@@ -213,7 +213,7 @@ describe('Controller: CreateCtrl', function () {
     expect(scope.playerCount).toEqual('ThreePlus');
     expect(scope.players).toEqual(['md1', 'md2']);
     expect(scope.gamePace).toEqual('TurnBased');
-    expect(scope.puzzleSetter).toEqual('SystemPuzzles');
+    expect(scope.wordPhraseSetter).toEqual('SystemPuzzles');
     expect(scope.winners).toEqual('');
     expect(scope.h2hEnabled).toBe(false);
     expect(scope.alternatingEnabled).toBe(true);
@@ -300,7 +300,7 @@ describe('Controller: CreateCtrl', function () {
     scope.players = ['x'];
     scope.winners = 'SingleWinner';
     scope.gamePace = 'TurnBased';
-    scope.puzzleSetter = '';
+    scope.wordPhraseSetter = '';
     var varid = 'anid';
     http.expectPOST('/api/player/MANUAL1/new', {
       players: ['x'],

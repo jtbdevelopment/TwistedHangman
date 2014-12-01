@@ -7,7 +7,7 @@ describe('Controller: ShowCtrl', function () {
   var game = {
     id: 'id',
     players: {'md1': 'P1', 'md2': 'P2', 'md3': 'P3', 'md4': 'P4', 'md5': 'P5'},
-    puzzleSetter: 'md4',
+    wordPhraseSetter: 'md4',
     solverStates: {
       md1: {isPuzzleOver: true, isPuzzleSolved: true},
       md2: {isPuzzleOver: true, isPuzzleSolved: false},

@@ -90,7 +90,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
     $scope.playerCount = SINGLE_PLAYER;
     $scope.players = [];
     $scope.gamePace = '';
-    $scope.puzzleSetter = SYSTEM_PUZZLES;
+    $scope.wordPhraseSetter = SYSTEM_PUZZLES;
     $scope.winners = 'SingleWinner';
     $scope.h2hEnabled = false;
     $scope.alternatingEnabled = false;
@@ -118,8 +118,8 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
 
   $scope.setThreePlayers = function () {
     $scope.playerCount = MULTI_PLAYER;
-    if ($scope.puzzleSetter === '') {
-      $scope.puzzleSetter = SYSTEM_PUZZLES;
+    if ($scope.wordPhraseSetter === '') {
+      $scope.wordPhraseSetter = SYSTEM_PUZZLES;
     }
     $scope.h2hEnabled = false;
     $scope.alternatingEnabled = true;
@@ -130,7 +130,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
   };
 
   $scope.createGame = function () {
-    var featureNames = ['puzzleSetter', 'playerCount', 'thieving', 'drawGallows', 'drawFace', 'gamePace', 'winners'];
+    var featureNames = ['wordPhraseSetter', 'playerCount', 'thieving', 'drawGallows', 'drawFace', 'gamePace', 'winners'];
     var featureSet = [];
     featureNames.forEach(function (name) {
       var data = $scope[name];

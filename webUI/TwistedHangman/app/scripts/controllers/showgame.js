@@ -112,7 +112,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
       //  TODO - test
       return '';
     }
-    if (md5 === $scope.game.puzzleSetter) {
+    if (md5 === $scope.game.wordPhraseSetter) {
       return 'Set Puzzle';
     }
     return 'Solver';
@@ -123,7 +123,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
       //  TODO - test
       return '';
     }
-    if (md5 === $scope.game.puzzleSetter) {
+    if (md5 === $scope.game.wordPhraseSetter) {
       return 'N/A';
     }
 
@@ -140,7 +140,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
     if (angular.isUndefined($scope.game)) {
       return '';
     }
-    if (md5 === $scope.game.puzzleSetter) {
+    if (md5 === $scope.game.wordPhraseSetter) {
       return 'N/A';
     }
 
