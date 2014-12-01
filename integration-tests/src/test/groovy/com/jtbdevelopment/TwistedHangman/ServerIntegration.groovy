@@ -208,7 +208,7 @@ class ServerIntegration {
         game = P2G.request(MediaType.APPLICATION_JSON).get(MaskedGame.class)
         assert game.gamePhase == GamePhase.Challenged
         assert game.solverStates[TEST_PLAYER2.md5] != null
-        assert game.solverStates[TEST_PLAYER2.md5].workingWordPhrase == ""
+        assert game.solverStates[TEST_PLAYER2.md5].workingWordPhrase != ""
         game = putMG(P3G.path("accept"))
         game = P3G.request(MediaType.APPLICATION_JSON).get(MaskedGame.class)
         assert game.gamePhase == GamePhase.Playing
