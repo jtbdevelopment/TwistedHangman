@@ -119,7 +119,7 @@ describe('Service: showGameSevice', function () {
     expect(scope.letterClasses).toEqual(['guessedkb', 'stolenkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'regular']);
   });
 
-  it('processGame with new coy', function () {
+  it('processGame with new copy', function () {
     var scope = rootscope.$new();
     scope.player = player;
     scope.game = angular.copy(showGameServiceGame);

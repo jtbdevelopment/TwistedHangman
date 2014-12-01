@@ -93,7 +93,7 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
     scope.allowPuzzleEntry = false;
     scope.showRematchButtons = false;
     scope.showQuitButton = false;
-    if (typeof scope.game === 'undefined' || typeof scope.player === 'undefined') {
+    if (typeof scope.game === 'undefined' || typeof scope.player === 'undefined' || typeof scope.gameState === 'undefined') {
       return;
     }
     switch (scope.game.gamePhase) {
