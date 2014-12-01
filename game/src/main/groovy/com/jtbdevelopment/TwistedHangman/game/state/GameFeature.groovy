@@ -22,7 +22,7 @@ public enum GameFeature {
     SystemPuzzles("Twisted Hangman provide the puzzles."),
     AlternatingPuzzleSetter("Take turns setting the puzzle for other players.  The player does not play that round but can see the other players progress."),
 
-    SingleWinner("Only one player can lose.  Game finishes when first person wins or all lose.  Unfinished games are counted as draws."),
+    SingleWinner("Only one player can win.  Game finishes when first person wins, or all players lose.  Unfinished games are counted as draws."),
 
 
     DrawGallows("Draw the gallows too, giving three extra chances.", false, false),
