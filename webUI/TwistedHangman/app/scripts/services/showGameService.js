@@ -7,7 +7,7 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
     scope.workingWordPhraseArray = scope.gameState.workingWordPhrase.split('');
     for (var i = 0; i < scope.workingWordPhraseArray.length; i++) {
       var r = 'regularwp';
-      if (typeof scope.gameState.featureData.ThievingPositionTracking !== 'undefined') {
+      if (angular.isDefined(scope.gameState.featureData.ThievingPositionTracking)) {
         r = (scope.gameState.featureData.ThievingPositionTracking[i] === true) ?
           'stolenwp' :
           (scope.workingWordPhraseArray[i] === '_' ? 'stealablewp' : 'regularwp'); //  TODO - test this extra condition
@@ -17,7 +17,7 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
   }
 
   function computeImage(scope) {
-    if (typeof scope.gameState === 'undefined') {
+    if (angular.isUndefined(scope.gameState)) {
       //  TODO - test this case
       scope.image = 'hangman0.png';
     }
@@ -46,7 +46,7 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
     scope.gameState.badlyGuessedLetters.forEach(function (item) {
       scope.letterClasses[item.charCodeAt(0) - LETTERA] = 'badguesskb';
     });
-    if (typeof scope.gameState.featureData.ThievingLetters !== 'undefined') {
+    if (angular.isDefined(scope.gameState.featureData.ThievingLetters)) {
       scope.gameState.featureData.ThievingLetters.forEach(function (item) {
         scope.letterClasses[item.charCodeAt(0) - LETTERA] = 'stolenkb';
       });
@@ -93,7 +93,9 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
     scope.allowPuzzleEntry = false;
     scope.showRematchButtons = false;
     scope.showQuitButton = false;
-    if (typeof scope.game === 'undefined' || typeof scope.player === 'undefined' || typeof scope.gameState === 'undefined') {
+    if (angular.isUndefined(scope.game) ||
+      angular.isUndefined(scope.player) ||
+      angular.isUndefined(scope.gameState)) {
       return;
     }
     switch (scope.game.gamePhase) {
@@ -128,7 +130,7 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
         scope.showQuitButton = true;
         scope.showPlaySection = true;
         if (scope.gameState.isPuzzleOver === false) {
-          if (typeof scope.game.featureData.TurnBased === 'undefined') {
+          if (angular.isUndefined(scope.game.featureData.TurnBased)) {
             scope.allowPlayMoves = true;
           } else {
             scope.allowPlayMoves = (scope.player.md5 === scope.game.featureData.TurnBased);
@@ -157,7 +159,7 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
       computeShowVariables(scope);
     },
     computeGameState: function (scope) {
-      if (typeof scope.player === 'undefined' || typeof scope.game === 'undefined') {
+      if (angular.isUndefined(scope.player) || angular.isUndefined(scope.game)) {
         return;
       }
       scope.gameState = scope.game.solverStates[scope.player.md5];
@@ -180,17 +182,17 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
       scope.created = new Date(scope.game.created * 1000);
 
       //  TODO - test
-      if (typeof scope.game.declined !== 'undefined' && scope.game.declined > 0) {
+      if (angular.isDefined(scope.game.declined) && scope.game.declined > 0) {
         scope.declined = new Date(scope.game.declined * 1000);
       } else {
         scope.declined = 'N/A';
       }
-      if (typeof scope.game.completed !== 'undefined' && scope.game.completed > 0) {
+      if (angular.isDefined(scope.game.completed) && scope.game.completed > 0) {
         scope.completed = new Date(scope.game.completed * 1000);
       } else {
         scope.completed = 'N/A';
       }
-      if (typeof scope.game.rematched !== 'undefined' && scope.game.rematched > 0) {
+      if (angular.isDefined(scope.game.rematched) && scope.game.rematched > 0) {
         scope.rematched = new Date(scope.game.rematched * 1000);
       } else {
         scope.rematched = 'N/A';

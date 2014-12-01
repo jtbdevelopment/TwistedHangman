@@ -108,7 +108,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
   };
 
   $scope.roleForPlayer = function (md5) {
-    if (typeof $scope.game === 'undefined') {
+    if (angular.isUndefined($scope.game)) {
       //  TODO - test
       return '';
     }
@@ -119,7 +119,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
   };
 
   $scope.gameEndForPlayer = function (md5) {
-    if (typeof $scope.game === 'undefined') {
+    if (angular.isUndefined($scope.game)) {
       //  TODO - test
       return '';
     }
@@ -128,7 +128,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
     }
 
     var solverState = $scope.game.solverStates[md5];
-    if (typeof solverState === 'undefined') {
+    if (angular.isUndefined(solverState)) {
       return 'Unknown';
     }
     //  TODO - take into account different states before this...
@@ -137,9 +137,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
 
   //  TODO - Test
   $scope.stateForPlayer = function (md5, field) {
-    console.error(field);
-    if (typeof $scope.game === 'undefined') {
-      //  TODO - test
+    if (angular.isUndefined($scope.game)) {
       return '';
     }
     if (md5 === $scope.game.puzzleSetter) {
@@ -147,7 +145,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
     }
 
     var solverState = $scope.game.solverStates[md5];
-    if (typeof solverState === 'undefined') {
+    if (angular.isUndefined(solverState)) {
       return 'Unknown';
     }
 
@@ -155,7 +153,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
   };
 
   $scope.gameScoreForPlayer = function (md5) {
-    if (typeof $scope.game === 'undefined') {
+    if (angular.isUndefined($scope.game)) {
       //  TODO - test
       return '';
     }
@@ -163,7 +161,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
   };
 
   $scope.runningScoreForPlayer = function (md5) {
-    if (typeof $scope.game === 'undefined') {
+    if (angular.isUndefined($scope.game)) {
       //  TODO - test
       return '';
     }

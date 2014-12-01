@@ -134,7 +134,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
     var featureSet = [];
     featureNames.forEach(function (name) {
       var data = $scope[name];
-      if ((typeof data !== 'undefined') && (data !== '')) {
+      if ((angular.isDefined(data)) && (data !== '')) {
         featureSet.push(data);
       }
     });
