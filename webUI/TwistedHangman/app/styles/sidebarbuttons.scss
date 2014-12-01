@@ -60,49 +60,50 @@
       }
     }
   }
+
+  .createGameButton {
+    background-color: $et_bluedark;
+    color: #ffffff;
+  }
+
+  .refreshButton {
+    background-color: $et_greenlight;
+    color: #ffffff;
+  }
+
+  .declinedButton {
+    background-color: $et_richbrowndark;
+    color: #ffffff;
+  }
+
+  .quitButton {
+    background-color: $et_orangedark;
+    color: #ffffff;
+  }
+
+  .roundoverButton {
+    background-color: $et_greenmedium;
+    color: #ffffff;
+  }
+
+  .nextroundstartedButton {
+    background-color: $et_richbrownmedium;
+    color: #ffffff;
+  }
+
+  .playingButton {
+    background-color: $et_greendark;
+    color: #ffffff;
+  }
+
+  .challengedButton {
+    background-color: $et_orangelight;
+    color: #ffffff;
+  }
+
+  .setupButton {
+    background-color: $et_bluemedium;
+    color: #ffffff;
+  }
 }
 
-.createGameButton {
-  background-color: $et_bluedark;
-  color: #ffffff;
-}
-
-.refreshButton {
-  background-color: $et_greenlight;
-  color: #ffffff;
-}
-
-.declinedButton {
-  background-color: $et_richbrowndark;
-  color: #ffffff;
-}
-
-.quitButton {
-  background-color: $et_orangedark;
-  color: #ffffff;
-}
-
-.roundoverButton {
-  background-color: $et_greenmedium;
-  color: #ffffff;
-}
-
-.nextroundstartedButton {
-  background-color: $et_richbrownmedium;
-  color: #ffffff;
-}
-
-.playingButton {
-  background-color: $et_greendark;
-  color: #ffffff;
-}
-
-.challengedButton {
-  background-color: $et_orangelight;
-  color: #ffffff;
-}
-
-.setupButton {
-  background-color: $et_bluemedium;
-  color: #ffffff;
-}

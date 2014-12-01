@@ -138,9 +138,11 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
         featureSet.push(data);
       }
     });
-    $http.post($scope.url, {'players': $scope.players, 'features': featureSet}).success(function (data) {
+    var playersAndFeatures = {'players': $scope.players, 'features': featureSet};
+    alert(JSON.stringify(playersAndFeatures));
+    $http.post($scope.url, playersAndFeatures).success(function (data) {
       $rootScope.$broadcast('refreshGames', data.gamePhase);
-      $location.path('/show/' + data.id);
+      //$location.path('/show/' + data.id);
       // TODO
     }).error(function (data, status, headers, config) {
       //  TODO

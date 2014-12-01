@@ -11,28 +11,11 @@
   h3 {
     text-decoration: underline;
   }
-  .btn {
-    padding: 4px 6px;
-    font-weight: bold;
-    border-radius: 4px;
-    color: #ffffff;
-  }
 
   .changeMind {
     vertical-align: middle;
     margin-right: 10px;
     font-style: italic;
-  }
-  .acceptButton {
-    background-color: $et_greenmedium;
-  }
-
-  .rejectButton {
-    background-color: $et_richbrowndark;
-  }
-
-  .rematchButton {
-    background-color: $et_greenmedium;
   }
 
   .activeKeyboard {
@@ -54,6 +37,13 @@
 
   .inactiveKeyboard {
     @include opacity(0.5);
+  }
+
+  .keyboard {
+    padding-top: 10px;
+    font-family: monospace, serif;
+    font-size: large;
+    margin-right: 25px;
   }
 
   .stolenwp {
@@ -87,11 +77,23 @@
     letter-spacing: 3px;
   }
 
-  .keyboard {
-    padding-top: 10px;
-    font-family: monospace, serif;
-    font-size: large;
-    margin-right: 25px;
+  .btn {
+    padding: 4px 6px;
+    font-weight: bold;
+    border-radius: 4px;
+    color: #ffffff;
+  }
+
+  .acceptButton {
+    background-color: $et_greenmedium;
+  }
+
+  .rejectButton {
+    background-color: $et_richbrowndark;
+  }
+
+  .rematchButton {
+    background-color: $et_greenmedium;
   }
 
   .iQuitButton {
@@ -99,11 +101,12 @@
     color: #ffffff;
     background-color: $et_orangedark;
   }
-}
 
-.puzzleButton {
-  color: #ffffff;
-  background-color: $et_bluemedium;
+  .puzzleButton {
+    color: #ffffff;
+    background-color: $et_bluemedium;
+  }
+
 }
 
 .gameTimes {
