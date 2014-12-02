@@ -5,6 +5,8 @@ var TWO_PLAYERS = 'TwoPlayer';
 var MULTI_PLAYER = 'ThreePlus';
 var SYSTEM_PUZZLES = 'SystemPuzzles';
 
+//  TODO - possibly break this up a bit more
+//  TODO - Revisit players/playerChoices - can be simplified
 angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScope, $scope, twGameFeatureService, twCurrentPlayerService, $http, $location) {
   $scope.url = twCurrentPlayerService.currentPlayerBaseURL() + '/new';
   $scope.featureData = {};
