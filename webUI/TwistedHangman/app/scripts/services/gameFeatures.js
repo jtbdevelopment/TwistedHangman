@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('twistedHangmanApp').factory('twGameFeatureService', function ($http, $q) {
+angular.module('twistedHangmanApp').factory('twGameFeatureService', ['$http', '$q', function ($http, $q) {
   return {
     features: function () {
       //  TODO - local cookie?
@@ -15,6 +15,5 @@ angular.module('twistedHangmanApp').factory('twGameFeatureService', function ($h
       });
     }
   };
-})
-;
+}]);
 

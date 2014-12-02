@@ -1,7 +1,7 @@
 'use strict';
 
 //  TODO - break this monster up
-angular.module('twistedHangmanApp').factory('twShowGameService', function ($rootScope, twGamePhaseService) {
+angular.module('twistedHangmanApp').factory('twShowGameService', ['$rootScope', 'twGamePhaseService', function ($rootScope, twGamePhaseService) {
   var LETTERA = 'A'.charCodeAt(0);
 
   function computeWordPhrase(scope) {
@@ -223,5 +223,5 @@ angular.module('twistedHangmanApp').factory('twShowGameService', function ($root
     }
   };
 
-});
+}]);
 

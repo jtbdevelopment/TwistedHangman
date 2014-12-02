@@ -7,7 +7,9 @@ var SYSTEM_PUZZLES = 'SystemPuzzles';
 
 //  TODO - possibly break this up a bit more
 //  TODO - Revisit players/playerChoices - can be simplified
-angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScope, $scope, twGameFeatureService, twCurrentPlayerService, $http, $location) {
+angular.module('twistedHangmanApp').controller('CreateCtrl',
+  ['$rootScope', '$scope', 'twGameFeatureService', 'twCurrentPlayerService', '$http', '$location',
+    function ($rootScope, $scope, twGameFeatureService, twCurrentPlayerService, $http, $location) {
   $scope.url = twCurrentPlayerService.currentPlayerBaseURL() + '/new';
   $scope.featureData = {};
   twGameFeatureService.features().then(function (data) {
@@ -134,4 +136,4 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
 
   //  Initialize
   $scope.setSinglePlayer();
-});
+    }]);

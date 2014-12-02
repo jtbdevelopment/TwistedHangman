@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('twistedHangmanApp').factory('twGamePhaseService', function ($http, $q) {
+angular.module('twistedHangmanApp').factory('twGamePhaseService', ['$http', '$q', function ($http, $q) {
   return {
     phases: function () {
       //  TODO - local cookie?
@@ -15,5 +15,5 @@ angular.module('twistedHangmanApp').factory('twGamePhaseService', function ($htt
       });
     }
   };
-});
+}]);
 

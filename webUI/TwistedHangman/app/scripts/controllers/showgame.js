@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope, $scope, $routeParams, $http, $location, twCurrentPlayerService, twShowGameService) {
+angular.module('twistedHangmanApp').controller('ShowCtrl',
+  ['$rootScope', '$scope', '$routeParams', '$http', '$location', 'twCurrentPlayerService', 'twShowGameService',
+    function ($rootScope, $scope, $routeParams, $http, $location, twCurrentPlayerService, twShowGameService) {
   twShowGameService.initializeScope($scope);
   $scope.gameID = $routeParams.gameID;
   $scope.enteredCategory = '';
@@ -167,4 +169,4 @@ angular.module('twistedHangmanApp').controller('ShowCtrl', function ($rootScope,
     }
     return $scope.game.playerRunningScores[md5];
   };
-});
+    }]);

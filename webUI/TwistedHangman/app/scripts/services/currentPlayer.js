@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('twistedHangmanApp').factory('twCurrentPlayerService', function ($http, $q) {
+angular.module('twistedHangmanApp').factory('twCurrentPlayerService', ['$http', '$q', function ($http, $q) {
 //  TODO - different ids
   console.warn('Initializing Current Player');
   var realPID = 'MANUAL1';
@@ -78,6 +78,5 @@ angular.module('twistedHangmanApp').factory('twCurrentPlayerService', function (
       });
     }
   };
-})
-;
+}]);
 
