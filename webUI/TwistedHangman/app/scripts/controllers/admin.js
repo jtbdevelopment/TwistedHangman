@@ -3,10 +3,7 @@
 angular.module('twistedHangmanApp').controller('AdminCtrl', function ($rootScope, $scope, $http, $location, twCurrentPlayerService) {
   $scope.searchText = '';
   $scope.players = [];
-  $scope.selectedPlayer = '';
-  $scope.setSelected = function (selected) {
-    $scope.selectedPlayer = selected;
-  };
+  $scope.selected = {};
   $http.get('/api/player/admin/' + twCurrentPlayerService.realPID()).success(function (data) {
     $scope.players = data;
 
@@ -16,7 +13,7 @@ angular.module('twistedHangmanApp').controller('AdminCtrl', function ($rootScope
   });
 
   $scope.changeUser = function () {
-    twCurrentPlayerService.overridePID($scope.selectedPlayer);
+    twCurrentPlayerService.overridePID($scope.selected.id);
     $location.path('/');
     $rootScope.$broadcast('playerSwitch');
   };

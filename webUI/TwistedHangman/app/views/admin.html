@@ -1,10 +1,13 @@
-<div>
-  <label>Search: <input ng-model="searchText"/></label>
-  <button ng-click="changeUser()" class="btn">Change!</button>
-  <button ng-click="revertUser()" class="btn">Back To Normal</button>
-  <div class="btn-group btn-group-vertical btn-block">
-    <label ng-repeat="player in players | orderBy:['displayName'] | filter:{displayName: searchText}"
-           class="btn btn-primary btn-block" ng-model="selectedPlayer" ng-click="setSelected(player.id)"
-           btn-radio="player.id">{{player.displayName}} / {{player.id}}</label>
+<div class="row">
+  <div class="col-sm-8">
+    <ui-select ng-model="$parent.selected" theme="bootstrap" reset-search-input="true">
+      <ui-select-match placeholder="Select a player to mimic...">{{$select.selected.displayName}}</ui-select-match>
+      <ui-select-choices repeat="player in players | propsFilter: {displayName: $select.search}">
+        <div ng-bind-html="player.displayName | highlight: $select.search"></div>
+      </ui-select-choices>
+    </ui-select>
   </div>
+
+  <button ng-click="changeUser()" class="btn btn-default col-sm-2">Change!</button>
+  <button ng-click="revertUser()" class="btn btn-default col-sm-2">Back To Normal</button>
 </div>
