@@ -4,7 +4,7 @@
 angular.module('twistedHangmanApp').directive('twistedGameButton', function () {
   return {
     restrict: 'AE',
-    templateUrl: 'views/gamebuttons.html',
+    templateUrl: 'views/gameButtons.html',
     replace: true
   };
 });

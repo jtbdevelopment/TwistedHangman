@@ -3,8 +3,8 @@ package com.jtbdevelopment.TwistedHangman.dao
 import com.jtbdevelopment.TwistedHangman.dao.converters.MongoConverter
 import com.mongodb.Mongo
 import com.mongodb.WriteConcern
+import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.authentication.UserCredentials
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration
@@ -16,23 +16,17 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
  * Time: 6:17 PM
  */
 @Configuration
-@EnableMongoRepositories("com.jtbdevelopment")
+@EnableMongoRepositories("com.jtbdevelopment.TwistedHangman")
+@CompileStatic
 class MongoConfiguration extends AbstractMongoConfiguration {
-    String test = "X"
-    @Value('${mongo.dbName:twistedhangman}')
-    String dbName;
-    @Value('${mongo.host:localhost}')
-    String dbHost;
-    @Value('${mongo.userName:twistedhangman}')
-    String dbUser;
-    @Value('${mongo.userPassword:twistedhangman}')
-    String dbPassword;
     @Autowired
     List<MongoConverter> mongoConverters
+    @Autowired
+    MongoProperties mongoProperties
 
     @Override
     protected String getDatabaseName() {
-        return dbName
+        return mongoProperties.dbName
     }
 
     @Override
@@ -42,7 +36,7 @@ class MongoConfiguration extends AbstractMongoConfiguration {
 
     @Override
     protected UserCredentials getUserCredentials() {
-        return new UserCredentials(dbUser, dbPassword)
+        return new UserCredentials(mongoProperties.dbUser, mongoProperties.dbPassword)
     }
 
     @Override
@@ -52,7 +46,7 @@ class MongoConfiguration extends AbstractMongoConfiguration {
 
     @Override
     Mongo mongo() throws Exception {
-        Mongo mongo = new Mongo(dbHost)
+        Mongo mongo = new Mongo(mongoProperties.dbHost)
         mongo.setWriteConcern(WriteConcern.JOURNALED)
         return mongo
     }
