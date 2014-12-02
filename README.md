@@ -66,4 +66,4 @@ npm install:  to install npm and bower packages.
 
 grunt serve: to kick off local instance proxying api calls to backend
 
-karma start test/karma.conf.js for unit testing
+karma start test/karma.conf.js for unit testing.  Karma unit tests also run with code coverage report (see coverage dir)
