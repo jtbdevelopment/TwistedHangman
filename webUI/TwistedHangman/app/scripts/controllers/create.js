@@ -83,7 +83,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
         $scope.playersEnabled = true;
         break;
     }
-  };
+  }
 
   $scope.addPlayer = function (item) {
     $scope.players.push(item.md5);
@@ -94,6 +94,12 @@ angular.module('twistedHangmanApp').controller('CreateCtrl', function ($rootScop
     if (index >= 0) {
       $scope.players.splice(index, 1);
     }
+    calcEnabledFields();
+  };
+
+  $scope.clearPlayers = function () {
+    $scope.players = [];
+    $scope.playerChoices = [];
     calcEnabledFields();
   };
 

@@ -21,7 +21,13 @@
     color: #000000;
   }
 
+  .ui-select-match-item.btn.btn-default {
+    background-color: $et_greenmedium;
+  }
   .createButton {
+    background-color: $et_greenmedium;
+  }
+  .clearButton {
     background-color: $et_greenmedium;
   }
 
