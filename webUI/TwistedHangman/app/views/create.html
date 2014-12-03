@@ -1,21 +1,21 @@
-<div class="row createGame">
+<div class="row createGame" ng-controller="CreateCtrl">
   <!-- TODO - some of the tooltips are hard-coded here.  -->
-  <form ng-controller="CreateCtrl" class="form-horizontal">
+  <form class="form-horizontal">
 
     <div class="form-group">
       <label class="control-label col-sm-2">Number of Players:</label>
 
       <div class="col-sm-10">
         <div class="btn-group btn-group-justified">
-          <label class="btn btn-default form-control" ng-model="playerCount" ng-click="setSinglePlayer()"
+          <label class="btn btn-default form-control" ng-model="desiredPlayerCount" ng-click="setSinglePlayer()"
                  btn-radio="'SinglePlayer'">
             Single Player
           </label>
-          <label class="btn btn-default form-control" ng-model="playerCount" ng-click="setTwoPlayers()"
+          <label class="btn btn-default form-control" ng-model="desiredPlayerCount" ng-click="setTwoPlayers()"
                  btn-radio="'TwoPlayer'">
             Two Players
           </label>
-          <label class="btn btn-default form-control" ng-model="playerCount" ng-click="setThreePlayers()"
+          <label class="btn btn-default form-control" ng-model="desiredPlayerCount" ng-click="setThreePlayers()"
                  btn-radio="'ThreePlus'">
             3+ Players
           </label>
@@ -153,11 +153,10 @@
       </label>
 
       <div class="col-sm-8">
-        <ui-select multiple ng-model="$parent.playerChoices" theme="bootstrap" on-select="addPlayer($item)"
-                   on-remove="removePlayer($item)" reset-search-input="true">
-          <ui-select-match placeholder="Select friends...">{{$item.name}}</ui-select-match>
-          <ui-select-choices repeat="friend in friends | propsFilter: {name: $select.search}">
-            <div ng-bind-html="friend.name | highlight: $select.search"></div>
+        <ui-select multiple ng-model="$parent.playerChoices" theme="bootstrap" reset-search-input="true">
+          <ui-select-match placeholder="Select friends...">{{$item.displayName}}</ui-select-match>
+          <ui-select-choices repeat="friend in friends | propsFilter: {displayName: $select.search}">
+            <div ng-bind-html="friend.displayName | highlight: $select.search"></div>
           </ui-select-choices>
         </ui-select>
       </div>
@@ -172,7 +171,9 @@
         </button>
       </div>
     </div>
-
   </form>
+  <div class="col-sm-12">
+    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+  </div>
 </div>
 

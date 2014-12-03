@@ -6,134 +6,136 @@ var MULTI_PLAYER = 'ThreePlus';
 var SYSTEM_PUZZLES = 'SystemPuzzles';
 
 //  TODO - possibly break this up a bit more
-//  TODO - Revisit players/playerChoices - can be simplified
 angular.module('twistedHangmanApp').controller('CreateCtrl',
   ['$rootScope', '$scope', 'twGameFeatureService', 'twCurrentPlayerService', '$http', '$location',
     function ($rootScope, $scope, twGameFeatureService, twCurrentPlayerService, $http, $location) {
-  $scope.url = twCurrentPlayerService.currentPlayerBaseURL() + '/new';
-  $scope.featureData = {};
-  twGameFeatureService.features().then(function (data) {
-    $scope.featureData = data;
-  }, function () {
-    //  TODO
-  });
-  $scope.friend = {};
-  $scope.friends = [];
-  twCurrentPlayerService.currentPlayerFriends().then(function (data) {
-    angular.forEach(data, function (displayName, hash) {
-      var friend = {
-        md5: hash,
-        name: displayName
-      };
-      $scope.friends.push(friend);
-    });
-  }, function () {
-    //  TODO
-  });
-  $scope.thieving = 'Thieving';
-  $scope.drawGallows = '';
-  $scope.drawFace = '';
-  $scope.gamePace = '';
-  $scope.submitEnabled = false;
-  $scope.players = [];
-  $scope.playerChoices = [];
-  $scope.playerCount = '';
-  $scope.playersEnabled = false;
 
-  function calcEnabledFields() {
-    switch ($scope.playerCount) {
-      case    SINGLE_PLAYER:
-        $scope.submitEnabled = ($scope.players.length === 0);
-        $scope.playersEnabled = false;
-        break;
-      case    TWO_PLAYERS:
-        $scope.submitEnabled = ($scope.players.length === 1);
-        $scope.playersEnabled = true;
-        break;
-      case    MULTI_PLAYER:
-        $scope.submitEnabled = ($scope.players.length > 1);
-        $scope.playersEnabled = true;
-        break;
-    }
-  }
-
-  $scope.addPlayer = function (item) {
-    $scope.players.push(item.md5);
-    calcEnabledFields();
-  };
-  $scope.removePlayer = function (item) {
-    var index = $scope.players.indexOf(item.md5);
-    if (index >= 0) {
-      $scope.players.splice(index, 1);
-    }
-    calcEnabledFields();
-  };
-
-  $scope.clearPlayers = function () {
-    $scope.players = [];
-    $scope.playerChoices = [];
-    calcEnabledFields();
-  };
-
-  $scope.setSinglePlayer = function () {
-    $scope.playerCount = SINGLE_PLAYER;
-    $scope.playerChoices = [];
-    $scope.players = [];
-    $scope.gamePace = '';
-    $scope.wordPhraseSetter = SYSTEM_PUZZLES;
-    $scope.winners = 'SingleWinner';
-    $scope.h2hEnabled = false;
-    $scope.alternatingEnabled = false;
-    $scope.allFinishedEnabled = false;
-    $scope.turnBasedEnabled = false;
-    calcEnabledFields();
-  };
-
-  $scope.setTwoPlayers = function () {
-    $scope.playerCount = TWO_PLAYERS;
-    if ($scope.players.length > 1) {
-      $scope.playerChoices = [];
-      $scope.players = [];
-    }
-    $scope.h2hEnabled = true;
-    $scope.alternatingEnabled = true;
-    $scope.allFinishedEnabled = true;
-    $scope.turnBasedEnabled = true;
-    calcEnabledFields();
-  };
-
-  $scope.setThreePlayers = function () {
-    $scope.playerCount = MULTI_PLAYER;
-    if ($scope.wordPhraseSetter === '') {
-      $scope.wordPhraseSetter = SYSTEM_PUZZLES;
-    }
-    $scope.h2hEnabled = false;
-    $scope.alternatingEnabled = true;
-    $scope.allFinishedEnabled = true;
-    $scope.turnBasedEnabled = true;
-    calcEnabledFields();
-  };
-
-  $scope.createGame = function () {
-    var featureNames = ['wordPhraseSetter', 'playerCount', 'thieving', 'drawGallows', 'drawFace', 'gamePace', 'winners'];
-    var featureSet = [];
-    featureNames.forEach(function (name) {
-      var data = $scope[name];
-      if ((angular.isDefined(data)) && (data !== '')) {
-        featureSet.push(data);
+      function calcSubmitEnabled() {
+        switch ($scope.desiredPlayerCount) {
+          case    SINGLE_PLAYER:
+            $scope.submitEnabled = ($scope.playerChoices.length === 0);
+            break;
+          case    TWO_PLAYERS:
+            $scope.submitEnabled = ($scope.playerChoices.length === 1);
+            break;
+          case    MULTI_PLAYER:
+            $scope.submitEnabled = ($scope.playerChoices.length > 1);
+            break;
+        }
       }
-    });
-    var playersAndFeatures = {'players': $scope.players, 'features': featureSet};
-    $http.post($scope.url, playersAndFeatures).success(function (data) {
-      $rootScope.$broadcast('refreshGames', data.gamePhase);
-      $location.path('/show/' + data.id);
-      // TODO
-    }).error(function (data, status, headers, config) {
-      //  TODO
-      console.error(data + status + headers + config);
-    });
-  };
 
-  //  Initialize
-  $scope.setSinglePlayer();
-    }]);
+      $scope.alerts = [];
+      $scope.featureData = {};
+      twGameFeatureService.features().then(function (data) {
+        $scope.featureData = data;
+      }, function () {
+        //  TODO
+      });
+
+      $scope.friends = [];
+      twCurrentPlayerService.currentPlayerFriends().then(function (data) {
+        angular.forEach(data, function (displayName, hash) {
+          var friend = {
+            md5: hash,
+            displayName: displayName
+          };
+          $scope.friends.push(friend);
+        });
+      }, function () {
+        //  TODO
+      });
+
+      $scope.friend = {};
+      $scope.thieving = 'Thieving';
+      $scope.drawGallows = '';
+      $scope.drawFace = '';
+      $scope.gamePace = '';
+      $scope.submitEnabled = false;
+      $scope.playerChoices = [];
+      $scope.desiredPlayerCount = '';
+      $scope.playersEnabled = false;
+      $scope.$watchCollection('playerChoices', calcSubmitEnabled);
+
+      $scope.clearPlayers = function () {
+        $scope.playerChoices = [];
+        calcSubmitEnabled();
+      };
+
+      $scope.setSinglePlayer = function () {
+        $scope.playersEnabled = false;
+        $scope.desiredPlayerCount = SINGLE_PLAYER;
+        $scope.gamePace = '';
+        $scope.wordPhraseSetter = SYSTEM_PUZZLES;
+        $scope.winners = 'SingleWinner';
+        $scope.h2hEnabled = false;
+        $scope.alternatingEnabled = false;
+        $scope.allFinishedEnabled = false;
+        $scope.turnBasedEnabled = false;
+        $scope.playerChoices = [];
+        calcSubmitEnabled();
+      };
+
+      $scope.setTwoPlayers = function () {
+        $scope.playersEnabled = true;
+        $scope.desiredPlayerCount = TWO_PLAYERS;
+        $scope.h2hEnabled = true;
+        $scope.alternatingEnabled = true;
+        $scope.allFinishedEnabled = true;
+        $scope.turnBasedEnabled = true;
+        if ($scope.playerChoices.length > 1) {
+          $scope.playerChoices = [];
+        }
+        calcSubmitEnabled();
+      };
+
+      $scope.setThreePlayers = function () {
+        $scope.playersEnabled = true;
+        $scope.desiredPlayerCount = MULTI_PLAYER;
+        $scope.h2hEnabled = false;
+        $scope.alternatingEnabled = true;
+        $scope.allFinishedEnabled = true;
+        $scope.turnBasedEnabled = true;
+        if ($scope.wordPhraseSetter === '') {
+          $scope.wordPhraseSetter = SYSTEM_PUZZLES;
+        }
+        calcSubmitEnabled();
+      };
+
+      $scope.createGame = function () {
+        var featureNames = ['wordPhraseSetter', 'desiredPlayerCount', 'thieving', 'drawGallows', 'drawFace', 'gamePace', 'winners'];
+        var featureSet = [];
+        featureSet = featureSet.concat(featureNames.map(function (name) {
+            var data = $scope[name];
+            if ((angular.isDefined(data)) && (data !== '')) {
+              return data;
+            }
+            return '';
+          }
+        ).filter(function (item) {
+            return item !== '';
+          }));
+
+        var players = $scope.playerChoices.map(function (player) {
+          return player.md5;
+        });
+        var playersAndFeatures = {'players': players, 'features': featureSet};
+        $http.post(twCurrentPlayerService.currentPlayerBaseURL() + '/new', playersAndFeatures).success(function (data) {
+          $rootScope.$broadcast('refreshGames', data.gamePhase);
+          $location.path('/show/' + data.id);
+          // TODO - push to central data store
+        }).error(function (data, status, headers, config) {
+          $scope.alerts.push({type: 'danger', msg: 'Error creating game - ' + status + ':' + data});
+          console.error(data + status + headers + config);
+        });
+      };
+
+      $scope.closeAlert = function (index) {
+        if (angular.isDefined(index) && index >= 0 && index < $scope.alerts.length) {
+          $scope.alerts.splice(index, 1);
+        }
+      };
+      //  Initialize
+      $scope.setSinglePlayer();
+    }
+  ]
+);
