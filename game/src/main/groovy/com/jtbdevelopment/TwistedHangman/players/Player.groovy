@@ -22,11 +22,11 @@ class Player implements Cloneable {
     public static final String SYSTEM_ID_DISPLAY_NAME = "TwistedHangman"
     public static final String SYSTEM_ID_SOURCE = "System"
     public static final String SYSTEM_ID_ID = "0"
-    public static final String SYSYEM_ID_MD5 = "c2a4661ec539e34fee2e6f94f2befdf6"
     public static final Player SYSTEM_PLAYER = new Player(
             id: SYSTEM_ID_ID,
             displayName: SYSTEM_ID_DISPLAY_NAME,
             source: SYSTEM_ID_SOURCE)
+    public static final String SYSTEM_ID_MD5 = SYSTEM_PLAYER.md5
 
     @Id
     String id

@@ -51,7 +51,8 @@ class WheelOfFortuneSolutionsParser {
                 if (value instanceof Node) {
                     value = value.value()[0]
                 }
-                callback(category, value)
+                String newValue = ((String) value).replace('\t', '').replace('\n', '').replace('\r', '');
+                callback((String) category, newValue)
             }
 
             //  Get bonus solutions

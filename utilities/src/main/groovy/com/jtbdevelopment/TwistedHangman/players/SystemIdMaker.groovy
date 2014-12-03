@@ -24,7 +24,7 @@ class SystemIdMaker {
         println "Verifying system id"
         assert player.source == Player.SYSTEM_ID_SOURCE
         assert player.displayName == Player.SYSTEM_ID_DISPLAY_NAME
-        assert player.md5 == Player.SYSYEM_ID_MD5
+        assert player.md5 == Player.SYSTEM_ID_MD5
 
         println "Complete"
     }

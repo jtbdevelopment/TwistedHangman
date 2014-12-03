@@ -27,7 +27,7 @@ class WheelOfFortuneSolutionsLoader {
                     def i = item.toUpperCase()
                     def vc = validator.validateWordPhrase(c)
                     def vi = validator.validateWordPhrase(i)
-                    if (vc == null && vi == null) {
+                    if (vc.isEmpty() && vi.isEmpty()) {
                         repository.save(new CannedGame(source: WOFS, category: c, wordPhrase: i))
                     } else {
                         println "category validator " + vc + " / phrase validaotr " + vi
