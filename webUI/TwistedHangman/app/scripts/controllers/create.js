@@ -28,7 +28,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
       twGameFeatureService.features().then(function (data) {
         $scope.featureData = data;
       }, function () {
-        //  TODO
+        //  TODO - route to error page?
       });
 
       $scope.friends = [];
@@ -41,7 +41,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
           $scope.friends.push(friend);
         });
       }, function () {
-        //  TODO
+        //  TODO - route to error page?
       });
 
       $scope.friend = {};

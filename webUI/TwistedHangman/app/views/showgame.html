@@ -1,6 +1,7 @@
 <div class="row" xmlns="http://www.w3.org/1999/html">
-  <!--  TODO - angular-ui alert?  -->
-  <div class="col-sm-12 alert {{alertType}}">{{alertMessage}}</div>
+  <div class="col-sm-12">
+    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+  </div>
 </div>
 <div class="row">
   <div class="col-sm-6 text-center"><h5><b>Round {{game.round}} - {{phaseDescription}}</b></h5></div>
@@ -16,7 +17,6 @@
     </p>
   </div>
   <div class="col-sm-6 playarea">
-    <!--  TODO - separate show to each button to not show accepted -->
     <div ng-show="showChallengeButtons" class="row">
       <div class="btn-group {{showAcceptButton ? 'col-sm-6' : 'col-sm-3'}}">
         <button ng-show="showAcceptButton" ng-click="accept()" class="btn btn-group acceptButton">

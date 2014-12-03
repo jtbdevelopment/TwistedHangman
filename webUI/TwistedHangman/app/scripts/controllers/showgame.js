@@ -8,23 +8,32 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
       $scope.enteredCategory = '';
       $scope.enteredWordPhrase = '';
 
-      //  TODO - test and use and style
-      $scope.alertType = 'alert-info';
-      $scope.alertMessage = 'Info goes here.';
+      $scope.alerts = [];
 
       twCurrentPlayerService.currentPlayer().then(function (data) {
         $scope.player = data;
         twShowGameService.computeGameState($scope);
       }, function () {
-        // TODO
+        //  TODO - route to error page?
       });
 
       $http.get(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID).success(function (data) {
         twShowGameService.processGame($scope, data);
       }).error(function (data, status, headers, config) {
-        //  TODO
+        //  TODO - route to error page?
         console.error(data + status + headers + config);
       });
+
+      function addFailureAlert(alertMessage) {
+        $scope.alerts.push({type: 'danger', msg: alertMessage});
+      }
+
+      function addWarningAlert(alertMessage) {
+        $scope.alerts.push({type: 'warning', msg: alertMessage});
+      }
+
+      //  TODO - state change alerts
+      //  TODO - refresh game on error on action?
 
       $scope.startNextRound = function () {
         $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/rematch').success(function (data) {
@@ -34,7 +43,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
           twShowGameService.processGame($scope, data);
           $location.path('/show/' + data.id);
         }).error(function (data, status, headers, config) {
-          //  TODO
+          addFailureAlert(status + ': ' + data);
           console.error(data + status + headers + config);
         });
       };
@@ -43,7 +52,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
         $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/accept').success(function (data) {
           twShowGameService.processUpdate($scope, data);
         }).error(function (data, status, headers, config) {
-          //  TODO
+          addFailureAlert(status + ': ' + data);
           console.error(data + status + headers + config);
         });
       };
@@ -52,7 +61,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
         $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/reject').success(function (data) {
           twShowGameService.processUpdate($scope, data);
         }).error(function (data, status, headers, config) {
-          //  TODO
+          addFailureAlert(status + ': ' + data);
           console.error(data + status + headers + config);
         });
       };
@@ -61,7 +70,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
         $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/quit').success(function (data) {
           twShowGameService.processUpdate($scope, data);
         }).error(function (data, status, headers, config) {
-          //  TODO
+          addFailureAlert(status + ': ' + data);
           console.error(data + status + headers + config);
         });
       };
@@ -76,7 +85,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
           }).success(function (data) {
             twShowGameService.processUpdate($scope, data);
           }).error(function (data, status, headers, config) {
-            //  TODO
+            addFailureAlert(status + ': ' + data);
             console.error(data + status + headers + config);
           });
       };
@@ -86,12 +95,11 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
           $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/guess/' + letter).success(function (data) {
             twShowGameService.processUpdate($scope, data);
           }).error(function (data, status, headers, config) {
-            //  TODO
+            addFailureAlert(status + ': ' + data);
             console.error(data + status + headers + config);
           });
         } else {
-          $scope.alertType = 'alert-warning';
-          $scope.alertMessage = 'Not currently playable.';
+          addWarningAlert('Not currently playable.');
         }
       };
 
@@ -100,18 +108,16 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
           $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/steal/' + position).success(function (data) {
             twShowGameService.processUpdate($scope, data);
           }).error(function (data, status, headers, config) {
-            //  TODO
+            addFailureAlert(status + ': ' + data);
             console.error(data + status + headers + config);
           });
         } else {
-          $scope.alertType = 'alert-warning';
-          $scope.alertMessage = 'Not currently playable.';
+          addWarningAlert('Not currently playable.');
         }
       };
 
       $scope.roleForPlayer = function (md5) {
         if (angular.isUndefined($scope.game)) {
-          //  TODO - test
           return '';
         }
         if (md5 === $scope.game.wordPhraseSetter) {
@@ -122,7 +128,6 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
 
       $scope.gameEndForPlayer = function (md5) {
         if (angular.isUndefined($scope.game)) {
-          //  TODO - test
           return '';
         }
         if (md5 === $scope.game.wordPhraseSetter) {
@@ -133,11 +138,9 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
         if (angular.isUndefined(solverState)) {
           return 'Unknown';
         }
-        //  TODO - take into account different states before this...
         return solverState.isPuzzleOver ? (solverState.isPuzzleSolved ? 'Solved!' : 'Hung!') : 'Not Solved.';
       };
 
-      //  TODO - Test
       $scope.stateForPlayer = function (md5, field) {
         if (angular.isUndefined($scope.game)) {
           return '';
@@ -156,7 +159,6 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
 
       $scope.gameScoreForPlayer = function (md5) {
         if (angular.isUndefined($scope.game)) {
-          //  TODO - test
           return '';
         }
         return $scope.game.playerRoundScores[md5];
@@ -164,9 +166,15 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
 
       $scope.runningScoreForPlayer = function (md5) {
         if (angular.isUndefined($scope.game)) {
-          //  TODO - test
           return '';
         }
         return $scope.game.playerRunningScores[md5];
       };
+
+      $scope.closeAlert = function (index) {
+        if (angular.isDefined(index) && index >= 0 && index < $scope.alerts.length) {
+          $scope.alerts.splice(index, 1);
+        }
+      };
+
     }]);
