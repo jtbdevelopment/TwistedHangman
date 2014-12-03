@@ -1,14 +1,13 @@
 'use strict';
 
-var SINGLE_PLAYER = 'SinglePlayer';
-var TWO_PLAYERS = 'TwoPlayer';
-var MULTI_PLAYER = 'ThreePlus';
-var SYSTEM_PUZZLES = 'SystemPuzzles';
-
-//  TODO - possibly break this up a bit more
 angular.module('twistedHangmanApp').controller('CreateCtrl',
   ['$rootScope', '$scope', 'twGameFeatureService', 'twCurrentPlayerService', '$http', '$location',
     function ($rootScope, $scope, twGameFeatureService, twCurrentPlayerService, $http, $location) {
+
+      var SINGLE_PLAYER = 'SinglePlayer';
+      var TWO_PLAYERS = 'TwoPlayer';
+      var MULTI_PLAYER = 'ThreePlus';
+      var SYSTEM_PUZZLES = 'SystemPuzzles';
 
       function calcSubmitEnabled() {
         switch ($scope.desiredPlayerCount) {
