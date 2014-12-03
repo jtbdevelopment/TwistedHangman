@@ -87,7 +87,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="C:\DEV\TwistedHangman\example-tomcat\target/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/example-tomcat/target/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="example-tomcat/web/Web" />
     </root>

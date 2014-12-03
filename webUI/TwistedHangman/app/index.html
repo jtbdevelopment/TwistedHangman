@@ -53,6 +53,8 @@
       </div>
 
       <twisted-game-button ng-controller="SetupGames" ng-show="games.length > 0"></twisted-game-button>
+      <twisted-game-button ng-controller="RoundOverGames" ng-show="games.length > 0"></twisted-game-button>
+      <twisted-game-button ng-controller="ChallengedGames" ng-show="games.length > 0"></twisted-game-button>
       <twisted-game-button ng-controller="PlayingGames" ng-show="games.length > 0"></twisted-game-button>
       <twisted-game-button ng-controller="ChallengedGames" ng-show="games.length > 0"></twisted-game-button>
       <twisted-game-button ng-controller="RoundOverGames" ng-show="games.length > 0"></twisted-game-button>
@@ -138,6 +140,7 @@
 <script src="scripts/services/showGameService.js"></script>
 <script src="scripts/controllers/main.js"></script>
 <script src="scripts/controllers/about.js"></script>
+<script src="scripts/controllers/confirm.js"></script>
 <!--  TODO -- lockdown admin  -->
 <script src="scripts/controllers/admin.js"></script>
 <script src="scripts/controllers/gamefinders.js"></script>

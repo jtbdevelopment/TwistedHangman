@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twistedHangmanApp').controller('ShowCtrl',
-  ['$rootScope', '$scope', '$routeParams', '$http', '$location', 'twCurrentPlayerService', 'twShowGameService',
-    function ($rootScope, $scope, $routeParams, $http, $location, twCurrentPlayerService, twShowGameService) {
+  ['$rootScope', '$scope', '$routeParams', '$http', '$location', '$modal', 'twCurrentPlayerService', 'twShowGameService',
+    function ($rootScope, $scope, $routeParams, $http, $location, $modal, twCurrentPlayerService, twShowGameService) {
       twShowGameService.initializeScope($scope);
       $scope.gameID = $routeParams.gameID;
       $scope.enteredCategory = '';
@@ -58,23 +58,19 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
       };
 
       $scope.reject = function () {
-        $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/reject').success(function (data) {
-          twShowGameService.processUpdate($scope, data);
-        }).error(function (data, status, headers, config) {
-          addFailureAlert(status + ': ' + data);
-          console.error(data + status + headers + config);
+        var modal = $modal.open({
+          templateUrl: 'views/confirmDialog.html',
+          controller: 'ConfirmCtrl'
+        });
+        modal.result.then(function () {
+          $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/reject').success(function (data) {
+            twShowGameService.processUpdate($scope, data);
+          }).error(function (data, status, headers, config) {
+            addFailureAlert(status + ': ' + data);
+            console.error(data + status + headers + config);
+          })
         });
       };
-
-      $scope.quit = function () {
-        $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/quit').success(function (data) {
-          twShowGameService.processUpdate($scope, data);
-        }).error(function (data, status, headers, config) {
-          addFailureAlert(status + ': ' + data);
-          console.error(data + status + headers + config);
-        });
-      };
-
 
       $scope.setPuzzle = function () {
         $http.put(
@@ -114,6 +110,21 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
         } else {
           addWarningAlert('Not currently playable.');
         }
+      };
+
+      $scope.quit = function () {
+        var modal = $modal.open({
+          templateUrl: 'views/confirmDialog.html',
+          controller: 'ConfirmCtrl'
+        });
+        modal.result.then(function () {
+          $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/play/' + $scope.gameID + '/quit').success(function (data) {
+            twShowGameService.processUpdate($scope, data);
+          }).error(function (data, status, headers, config) {
+            addFailureAlert(status + ': ' + data);
+            console.error(data + status + headers + config);
+          });
+        });
       };
 
       $scope.roleForPlayer = function (md5) {
@@ -177,4 +188,6 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
         }
       };
 
-    }]);
+    }
+  ])
+;
