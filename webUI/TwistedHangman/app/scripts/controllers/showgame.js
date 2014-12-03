@@ -68,7 +68,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
           }).error(function (data, status, headers, config) {
             addFailureAlert(status + ': ' + data);
             console.error(data + status + headers + config);
-          })
+          });
         });
       };
 

@@ -18,7 +18,7 @@ describe('Controller: ShowCtrl', function () {
   };
 
   var player = {'player': 'player'};
-  var ctrl, scope, http, rootScope, showGameService, q, playerDeferred, location;
+  var ctrl, scope, http, rootScope, showGameService, q, playerDeferred, location, modal, modalResult;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($rootScope, $httpBackend, $q, $controller) {
@@ -28,6 +28,15 @@ describe('Controller: ShowCtrl', function () {
     spyOn(rootScope, '$broadcast');
     showGameService = jasmine.createSpyObj('showGameService', ['computeGameState', 'initializeScope', 'processUpdate', 'processGame']);
     location = {path: jasmine.createSpy()};
+    modal = {
+      open: function (params) {
+        console.log('open');
+        expect(params.controller).toEqual('ConfirmCtrl');
+        expect(params.templateUrl).toEqual('views/confirmDialog.html');
+        modalResult = q.defer();
+        return {result: modalResult.promise};
+      }
+    };
 
     scope = rootScope.$new();
     scope.game = game;
@@ -54,6 +63,7 @@ describe('Controller: ShowCtrl', function () {
       $scope: scope,
       $location: location,
       $window: window,
+      $modal: modal,
       twCurrentPlayerService: mockPlayerService,
       twShowGameService: showGameService
     });
@@ -116,14 +126,22 @@ describe('Controller: ShowCtrl', function () {
     var updatedGame = {id: 'newid', gamePhase: 'X'};
     http.expectPUT('/api/player/MANUAL1/play/gameid/reject').respond(updatedGame);
     scope.reject();
+    modalResult.resolve();
     http.flush();
 
     expect(showGameService.processUpdate).toHaveBeenCalledWith(scope, updatedGame);
   });
 
+  it('reject match with cancel on confirm', function () {
+    scope.reject();
+    modalResult.reject();
+    http.flush();
+  });
+
   it('reject match fails', function () {
     http.expectPUT('/api/player/MANUAL1/play/gameid/reject').respond(502, 'more bad stuff');
     scope.reject();
+    modalResult.resolve();
     http.flush();
 
     expect(scope.alerts).toEqual([{type: 'danger', msg: '502: more bad stuff'}]);
@@ -133,14 +151,22 @@ describe('Controller: ShowCtrl', function () {
     var updatedGame = {id: 'newid', gamePhase: 'X'};
     http.expectPUT('/api/player/MANUAL1/play/gameid/quit').respond(updatedGame);
     scope.quit();
+    modalResult.resolve();
     http.flush();
 
     expect(showGameService.processUpdate).toHaveBeenCalledWith(scope, updatedGame);
   });
 
+  it('quit match with cancel on confirm', function () {
+    scope.quit();
+    modalResult.reject();
+    http.flush();
+  });
+
   it('quit match fails', function () {
     http.expectPUT('/api/player/MANUAL1/play/gameid/quit').respond(503, 'something');
     scope.quit();
+    modalResult.resolve();
     http.flush();
 
     expect(scope.alerts).toEqual([{type: 'danger', msg: '503: something'}]);
