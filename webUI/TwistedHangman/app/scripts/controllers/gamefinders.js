@@ -22,8 +22,8 @@ var phasesAndSymbols = {
 angular.forEach(phasesAndSymbols, function (glyph, phase) {
   var name = phase + 'Games';
   angular.module('twistedHangmanApp').controller(name,
-    ['$scope', '$http', 'twCurrentPlayerService', 'twGamePhaseService',
-      function ($scope, $http, twCurrentPlayerService, twGamePhaseService) {
+    ['$scope', '$http', '$location', 'twCurrentPlayerService', 'twGamePhaseService',
+      function ($scope, $http, $location, twCurrentPlayerService, twGamePhaseService) {
         $scope.games = [];
 
         $scope.style = phase.toLowerCase() + 'Button';
@@ -32,7 +32,8 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
         twGamePhaseService.phases().then(function (phases) {
           $scope.label = phases[phase][1];
         }, function () {
-          //  TODO
+          //  TODO - test
+          $location.path('/error');
         });
         $scope.url = twCurrentPlayerService.currentPlayerBaseURL() + '/games/' + phase;
         var params = {params: {pageSize: 100}};
@@ -41,7 +42,8 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
           $http.get($scope.url, params).success(function (data) {
             $scope.games = data;
           }).error(function (data, status, headers, config) {
-            //  TODO
+            //  TODO - test
+            $location.path('/error');
             console.log(data + status + headers + config);
           });
         };

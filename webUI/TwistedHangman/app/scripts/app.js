@@ -25,6 +25,9 @@ angular
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
+      .when('/error', {
+        templateUrl: 'views/error.html'
+      })
       .when('/admin', {
         templateUrl: 'views/admin.html',
         controller: 'AdminCtrl'
