@@ -1,13 +1,16 @@
-<div class="row" xmlns="http://www.w3.org/1999/html">
+<div class="row">
   <div class="col-sm-12">
     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
   </div>
 </div>
+
 <div class="row">
   <div class="col-sm-6 text-center"><h5><b>Round {{game.round}} - {{phaseDescription}}</b></h5></div>
   <div class="col-sm-6 text-center"><h5><b>{{generalInfo}}</b></h5></div>
 </div>
 <div class="row">
+
+  <!-- Main display row which consists of hangman image in first half  -->
   <div class="col-sm-6 imagearea" ng-show="showPlaySection">
     <img ng-src="images/{{image}}"/>
   </div>
@@ -16,6 +19,8 @@
       You are the puzzle setter this round. Monitor the other players below.
     </p>
   </div>
+
+  <!-- Main display row which consists of various player action points in second half  -->
   <div class="col-sm-6 playarea">
     <div ng-show="showChallengeButtons" class="row">
       <div class="btn-group {{showAcceptButton ? 'col-sm-6' : 'col-sm-3'}}">
@@ -106,6 +111,8 @@
     </div>
   </div>
 </div>
+
+<!--  General game overview row -->
 <div class="row playerInfo">
   <table class="table col-sm-12">
     <thead>
@@ -142,6 +149,8 @@
     </tbody>
   </table>
 </div>
+
+<!--  General game timestamps row -->
 <div class="row">
   <div class="col-sm-9 gameTimes">
     <table class="table">
