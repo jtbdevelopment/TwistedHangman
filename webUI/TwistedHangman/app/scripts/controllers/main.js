@@ -14,7 +14,7 @@ angular.module('twistedHangmanApp')
       twCurrentPlayerService.currentPlayer().then(function (data) {
         $scope.playerGreeting = 'Welcome ' + data.displayName;
       }, function () {
-        //  TODO
+        //  TODO - redirect to error page?
       });
     }
 
