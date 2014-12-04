@@ -32,7 +32,7 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
         twGamePhaseService.phases().then(function (phases) {
           $scope.label = phases[phase][1];
         }, function () {
-          //  TODO - test
+          console.log('X');
           $location.path('/error');
         });
         $scope.url = twCurrentPlayerService.currentPlayerBaseURL() + '/games/' + phase;
@@ -42,7 +42,6 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
           $http.get($scope.url, params).success(function (data) {
             $scope.games = data;
           }).error(function (data, status, headers, config) {
-            //  TODO - test
             $location.path('/error');
             console.log(data + status + headers + config);
           });
