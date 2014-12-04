@@ -12,7 +12,7 @@ describe('Controller: MainCtrl', function () {
     scope = $rootScope.$new();
     rootScope = $rootScope;
     q = $q;
-    spyOn(rootScope, '$broadcast');
+    spyOn(rootScope, '$broadcast').and.callThrough();
     location = {path: jasmine.createSpy()};
     playerService = {
       currentPlayer: function () {
@@ -33,13 +33,23 @@ describe('Controller: MainCtrl', function () {
     expect(scope.playerGreeting).toEqual('Welcome XYZ');
   });
 
+  it('initializes to error', function () {
+    deferredPlayer.reject();
+    rootScope.$apply();
+    expect(location.path).toHaveBeenCalledWith('/error');
+  });
+
   it('test refresh button', function () {
     scope.refreshGames();
     expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', '');
   });
 
   it('refreshes on "playerSwitch" broadcast', function () {
-    rootScope.$broadcast('playerSwitch');
+    deferredPlayer.resolve({displayName: 'XYZ'});
+    rootScope.$apply();
+    expect(scope.playerGreeting).toEqual('Welcome XYZ');
+    console.warn('running test');
+    rootScope.$broadcast('playerSwitch', '');
     deferredPlayer.resolve({displayName: 'ABC'});
     rootScope.$apply();
     expect(scope.playerGreeting).toEqual('Welcome ABC');

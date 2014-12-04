@@ -16,19 +16,18 @@ angular.module('twistedHangmanApp')
         twCurrentPlayerService.currentPlayer().then(function (data) {
           $scope.playerGreeting = 'Welcome ' + data.displayName;
         }, function () {
-          //  TODO - test
           $location.path('/error');
         });
       }
 
-      loadPlayer();
-
-      $scope.$on('playerSwitch', function () {
-        console.info('Reload Main');
-        loadPlayer();
-      });
-
       $scope.refreshGames = function () {
         $rootScope.$broadcast('refreshGames', '');
       };
+
+      $scope.$on('playerSwitch', function () {
+        console.warn('Reload Main');
+        loadPlayer();
+      });
+
+      loadPlayer();
     }]);
