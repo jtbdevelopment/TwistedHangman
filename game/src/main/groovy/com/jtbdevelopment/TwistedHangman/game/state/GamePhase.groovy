@@ -7,11 +7,11 @@ package com.jtbdevelopment.TwistedHangman.game.state
 enum GamePhase {
     Challenged('Challenge delivered.', 'Challenges'),  /*  Agreement from initial players  */
     Declined('Challenge declined.', 'Declined'),  /*  Challenged was rejected by a player */
-    Quit('Game quit.', 'Quit'),  /*  Player Quit, similar to Declined but after game started  */
+    Quit('Game quit.', 'Quit Rounds'),  /*  Player Quit, similar to Declined but after game started  */
     Setup('Game setup in progress.', 'Setting Up'), /*  Setting word phrases  */
-    Playing('Game in play!', 'Playing'),
-    RoundOver('Round finished.', 'Played'),  /*  Option to continue to a new game  */
-    NextRoundStarted('Next round begun.', 'Finished Rounds')
+    Playing('Game in play!', 'Play!'),
+    RoundOver('Round finished.', 'Rounds Played'),  /*  Option to continue to a new game  */
+    NextRoundStarted('Next round begun.', 'Rounds Finished')
 
     String description
     String groupLabel

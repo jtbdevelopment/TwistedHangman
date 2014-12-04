@@ -48,7 +48,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
       $scope.thieving = 'Thieving';
       $scope.drawGallows = '';
       $scope.drawFace = '';
-      $scope.gamePace = '';
+      $scope.gamePace = 'Live';
       $scope.submitEnabled = false;
       $scope.playerChoices = [];
       $scope.desiredPlayerCount = '';
@@ -63,7 +63,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
       $scope.setSinglePlayer = function () {
         $scope.playersEnabled = false;
         $scope.desiredPlayerCount = SINGLE_PLAYER;
-        $scope.gamePace = '';
+        $scope.gamePace = 'Live';
         $scope.wordPhraseSetter = SYSTEM_PUZZLES;
         $scope.winners = 'SingleWinner';
         $scope.h2hEnabled = false;
@@ -94,7 +94,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
         $scope.alternatingEnabled = true;
         $scope.allFinishedEnabled = true;
         $scope.turnBasedEnabled = true;
-        if ($scope.wordPhraseSetter === '') {
+        if ($scope.wordPhraseSetter === 'Head2Head') {
           $scope.wordPhraseSetter = SYSTEM_PUZZLES;
         }
         calcSubmitEnabled();

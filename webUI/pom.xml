@@ -51,7 +51,7 @@
                             <goal>grunt</goal>
                         </goals>
                         <configuration>
-                            <arguments>--no-color</arguments>
+                            <arguments>--no-color --force</arguments>
                         </configuration>
                     </execution>
 

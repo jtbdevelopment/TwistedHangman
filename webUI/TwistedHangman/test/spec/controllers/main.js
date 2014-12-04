@@ -5,7 +5,7 @@ describe('Controller: MainCtrl', function () {
   // load the controller's module
   beforeEach(module('twistedHangmanApp'));
 
-  var MainCtrl, rootScope, scope, playerService, q, deferredPlayer;
+  var MainCtrl, rootScope, scope, playerService, q, deferredPlayer, location;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope, $q) {
@@ -13,6 +13,7 @@ describe('Controller: MainCtrl', function () {
     rootScope = $rootScope;
     q = $q;
     spyOn(rootScope, '$broadcast');
+    location = {path: jasmine.createSpy()};
     playerService = {
       currentPlayer: function () {
         deferredPlayer = $q.defer();
@@ -21,6 +22,7 @@ describe('Controller: MainCtrl', function () {
     };
     MainCtrl = $controller('MainCtrl', {
       $scope: scope,
+      $location: location,
       twCurrentPlayerService: playerService
     });
   }));

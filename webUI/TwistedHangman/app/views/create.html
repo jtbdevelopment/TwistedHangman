@@ -33,7 +33,7 @@
             Generated Puzzles
           </label>
           <label class="btn btn-default form-control" ng-disabled="!h2hEnabled" ng-model="wordPhraseSetter"
-                 btn-radio="''" tooltip-placement="bottom" tooltip="Each player creates a puzzle for the other."
+                 btn-radio="'Head2Head'" tooltip-placement="bottom" tooltip="{{featureData.Head2Head}}"
                  tooltip-append-to-body="true">
             Head 2 Head
           </label>
@@ -52,8 +52,8 @@
       <div class="col-sm-10">
         <div class="btn-group btn-group-justified">
           <label class="btn btn-default form-control" ng-disabled="!allFinishedEnabled" ng-model="winners"
-                 btn-radio="''" tooltip-append-to-body="true" tooltip-placement="bottom"
-                 tooltip="All players solve their puzzle or hang.">
+                 btn-radio="'AllComplete'" tooltip-append-to-body="true" tooltip-placement="bottom"
+                 tooltip="{{featureData.AllComplete}}">
             All Players Finish
           </label>
           <label class="btn btn-default form-control" ng-model="winners" btn-radio="'SingleWinner'"
@@ -69,9 +69,9 @@
 
       <div class="col-sm-10">
         <div class="btn-group btn-group-justified">
-          <label class="btn btn-default form-control" ng-model="gamePace" btn-radio="''"
+          <label class="btn btn-default form-control" ng-model="gamePace" btn-radio="'Live'"
                  tooltip-placement="bottom"
-                 tooltip="Each player can play independently of the others until the game is over."
+                 tooltip="{{featureData.Live}}"
                  tooltip-append-to-body="true">
             Live
           </label>

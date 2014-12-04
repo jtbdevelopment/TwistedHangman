@@ -112,9 +112,12 @@ class ServerIntegration {
         })
         assert features == [
                 "Thieving"               : GameFeature.Thieving.description,
+                "Live"       : GameFeature.Live.description,
                 "TurnBased"              : GameFeature.TurnBased.description,
+                "Head2Head"  : GameFeature.Head2Head.description,
                 "SystemPuzzles"          : GameFeature.SystemPuzzles.description,
                 "AlternatingPuzzleSetter": GameFeature.AlternatingPuzzleSetter.description,
+                "AllComplete": GameFeature.AllComplete.description,
                 "SingleWinner"           : GameFeature.SingleWinner.description,
                 "DrawGallows"            : GameFeature.DrawGallows.description,
                 "DrawFace"               : GameFeature.DrawFace.description
@@ -144,7 +147,7 @@ class ServerIntegration {
     void testQuittingAGame() {
         def entity = Entity.entity(
                 new PlayerServices.FeaturesAndPlayers(
-                        features: [GameFeature.SystemPuzzles, GameFeature.Thieving, GameFeature.DrawFace, GameFeature.SingleWinner] as Set,
+                        features: [GameFeature.SystemPuzzles, GameFeature.Thieving, GameFeature.DrawFace, GameFeature.SingleWinner, GameFeature.Live] as Set,
                         players: [TEST_PLAYER2.md5, TEST_PLAYER3.md5]
                 ),
                 MediaType.APPLICATION_JSON)
@@ -173,7 +176,7 @@ class ServerIntegration {
     void testPlayingAMultiPlayerGame() {
         def entity = Entity.entity(
                 new PlayerServices.FeaturesAndPlayers(
-                        features: [GameFeature.SystemPuzzles, GameFeature.Thieving, GameFeature.DrawFace, GameFeature.SingleWinner] as Set,
+                        features: [GameFeature.SystemPuzzles, GameFeature.Thieving, GameFeature.DrawFace, GameFeature.SingleWinner, GameFeature.Live] as Set,
                         players: [TEST_PLAYER2.md5, TEST_PLAYER3.md5]
                 ),
                 MediaType.APPLICATION_JSON)
