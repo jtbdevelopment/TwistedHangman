@@ -3,6 +3,7 @@
 //
 //  Taken from angular-ui-select multi select plunker demo
 //
+/* istanbul ignore next */
 angular.module('twistedHangmanApp').filter('propsFilter', function () {
   return function (items, props) {
     var out = [];

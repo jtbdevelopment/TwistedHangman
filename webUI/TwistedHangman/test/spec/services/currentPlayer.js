@@ -50,6 +50,22 @@ describe('Service: currentPlayer', function () {
     expect(player).toEqual(playerResult);
   });
 
+  it('player with bad response', function () {
+    httpBackend.expectGET('/api/player/' + testID).respond(500, {somethin: 'somethin'});
+    var player;
+    var errorCalled = false;
+    service.currentPlayer().then(function (data) {
+      player = data;
+    }, function (error) {
+      expect(error).toBeDefined();
+      errorCalled = true;
+    });
+    httpBackend.flush();
+
+    expect(errorCalled).toEqual(true);
+    expect(player).toBeUndefined();
+  });
+
   it('multiple calls only one http playerResult', function () {
     httpBackend.expectGET('/api/player/' + testID).respond(playerResult);
     expect(service.currentID()).toEqual(testID);
@@ -84,6 +100,23 @@ describe('Service: currentPlayer', function () {
     httpBackend.flush();
 
     expect(friends).toEqual(friendResult);
+  });
+
+  it('sets current friends with error', function () {
+    httpBackend.expectGET('/api/player/' + testID + '/friends').respond(500, {err: 'error'});
+    expect(service.currentID()).toEqual(testID);
+    var friends;
+    var errorCalled = false;
+    service.currentPlayerFriends().then(function (data) {
+      friends = data;
+    }, function (error) {
+      expect(error).toBeDefined();
+      errorCalled = true;
+    });
+    httpBackend.flush();
+
+    expect(errorCalled).toEqual(true);
+    expect(friends).toBeUndefined();
   });
 
   it('multiple calls only one http friends', function () {

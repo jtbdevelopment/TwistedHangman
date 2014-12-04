@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('twistedHangmanApp').factory('twCurrentPlayerService', ['$http', '$q', function ($http, $q) {
+angular.module('twistedHangmanApp').factory('twCurrentPlayerService', ['$http', function ($http) {
 //  TODO - different ids
   console.warn('Initializing Current Player');
   var realPID = 'MANUAL1';
@@ -24,25 +24,13 @@ angular.module('twistedHangmanApp').factory('twCurrentPlayerService', ['$http', 
     realPlayerFriends: function () {
       //  TODO - local cookie?
       return $http.get(this.realPlayerBaseURL() + FRIENDS_PATH, {cache: true}).then(function (response) {
-        if (response.status === 200) {
-          return response.data;
-        } else {
-          $q.reject(response);
-        }
-      }, function (response) {
-        $q.reject(response);
+        return response.data;
       });
     },
     realPlayer: function () {
       //  TODO - local cookie?
       return $http.get(this.realPlayerBaseURL(), {cache: true}).then(function (response) {
-        if (response.status === 200) {
-          return response.data;
-        } else {
-          $q.reject(response);
-        }
-      }, function (response) {
-        $q.reject(response);
+        return response.data;
       });
     },
 
@@ -56,25 +44,12 @@ angular.module('twistedHangmanApp').factory('twCurrentPlayerService', ['$http', 
     currentPlayerFriends: function () {
       //  TODO - local cookie?
       return $http.get(this.currentPlayerBaseURL() + FRIENDS_PATH, {cache: true}).then(function (response) {
-        if (response.status === 200) {
-          return response.data;
-        } else {
-          $q.reject(response);
-        }
-      }, function (response) {
-        $q.reject(response);
+        return response.data;
       });
     },
     currentPlayer: function () {
-      //  TODO - local cookie?
       return $http.get(this.currentPlayerBaseURL(), {cache: true}).then(function (response) {
-        if (response.status === 200) {
-          return response.data;
-        } else {
-          $q.reject(response);
-        }
-      }, function (response) {
-        $q.reject(response);
+        return response.data;
       });
     }
   };
