@@ -1,16 +1,16 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="example-tomcat:war exploded">
-    <output-path>$PROJECT_DIR$/example-tomcat/target/example-tomcat-1.0-SNAPSHOT</output-path>
+    <output-path>$PROJECT_DIR$/example-tomcat/target/example-tomcat-1.1-SNAPSHOT</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="example-tomcat" />
         </element>
         <element id="directory" name="lib">
-          <element id="archive" name="rest-1.0-SNAPSHOT.jar">
+          <element id="archive" name="rest-1.1-SNAPSHOT.jar">
             <element id="module-output" name="rest" />
           </element>
-          <element id="archive" name="game-1.0-SNAPSHOT.jar">
+          <element id="archive" name="game-1.1-SNAPSHOT.jar">
             <element id="module-output" name="game" />
           </element>
           <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.10" />
