@@ -56,30 +56,28 @@ describe('Service: showGameSevice', function () {
 
   it('computeState without player or game does not work', function () {
     var scope = rootscope.$new();
-    service.computeGameState(scope);
+    service.processGame(scope);
     expect(scope.gameState).toBeUndefined();
   });
 
   it('computeState without player does not work', function () {
     var scope = rootscope.$new();
-    scope.game = showGameServiceGame;
-    service.computeGameState(scope);
+    service.processGame(scope, showGameServiceGame);
     expect(scope.gameState).toBeUndefined();
   });
 
   it('computeState without game does not work', function () {
     var scope = rootscope.$new();
     scope.player = player;
-    service.computeGameState(scope);
+    service.processGame(scope);
     expect(scope.gameState).toBeUndefined();
   });
 
   it('computeState for non-thieving game', function () {
     var scope = rootscope.$new();
     scope.player = player;
-    scope.game = showGameServiceGame;
     service.initializeScope(scope);
-    service.computeGameState(scope);
+    service.processGame(scope, showGameServiceGame);
     expect(scope.gameState).toBe(md1SS);
     expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
     expect(scope.image).toEqual('hangman5.png');
@@ -89,31 +87,30 @@ describe('Service: showGameSevice', function () {
   it('computeState image for diff max penalties', function () {
     var scope = rootscope.$new();
     scope.player = player;
-    scope.game = angular.copy(showGameServiceGame);
+    var game = angular.copy(showGameServiceGame);
     service.initializeScope(scope);
-    scope.game.solverStates.md1.maxPenalties = 13;
-    service.computeGameState(scope);
+    game.solverStates.md1.maxPenalties = 13;
+    service.processGame(scope, game);
     expect(scope.image).toEqual('hangman2.png');
-    scope.game.solverStates.md1.maxPenalties = 10;
-    service.computeGameState(scope);
+    game.solverStates.md1.maxPenalties = 10;
+    service.processGame(scope, game);
     expect(scope.image).toEqual('hangman5.png');
-    scope.game.solverStates.md1.maxPenalties = 9;
-    service.computeGameState(scope);
+    game.solverStates.md1.maxPenalties = 9;
+    service.processGame(scope, game);
     expect(scope.image).toEqual('hangman2.png');
-    scope.game.solverStates.md1.maxPenalties = 2;
-    service.computeGameState(scope);
+    game.solverStates.md1.maxPenalties = 2;
+    service.processGame(scope, game);
     expect(scope.image).toEqual('hangman13.png');
   });
 
   it('computeState for thieving game', function () {
     var scope = rootscope.$new();
     scope.player = player;
-    scope.game = angular.copy(showGameServiceGame);
-    scope.game.solverStates.md1.featureData.ThievingPositionTracking = [false, true, false, false, true];
-    scope.game.solverStates.md1.featureData.ThievingLetters = ['B'];
+    var game = angular.copy(showGameServiceGame);
+    game.solverStates.md1.featureData.ThievingPositionTracking = [false, true, false, false, true];
+    game.solverStates.md1.featureData.ThievingLetters = ['B'];
     service.initializeScope(scope);
-
-    service.computeGameState(scope);
+    service.processGame(scope, game);
     expect(scope.workingWordPhraseClasses).toEqual(['stealablewp', 'stolenwp', 'regularwp', 'regularwp', 'stolenwp']);
     expect(scope.image).toEqual('hangman5.png');
     expect(scope.letterClasses).toEqual(['guessedkb', 'stolenkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'regular']);
@@ -122,9 +119,9 @@ describe('Service: showGameSevice', function () {
   it('processGame with new copy', function () {
     var scope = rootscope.$new();
     scope.player = player;
-    scope.game = angular.copy(showGameServiceGame);
+    var game = angular.copy(showGameServiceGame);
     service.initializeScope(scope);
-    service.computeGameState(scope);
+    service.processGame(scope, game);
 
     var update = angular.copy(showGameServiceGame);
     update.lastUpdate = 1345100;
@@ -143,9 +140,9 @@ describe('Service: showGameSevice', function () {
   it('processUpdate with no status change', function () {
     var scope = rootscope.$new();
     scope.player = player;
-    scope.game = angular.copy(showGameServiceGame);
+    var game = angular.copy(showGameServiceGame);
     service.initializeScope(scope);
-    service.computeGameState(scope);
+    service.processGame(scope, game);
 
     var update = angular.copy(showGameServiceGame);
     update.lastUpdate = 1345100;
@@ -166,10 +163,10 @@ describe('Service: showGameSevice', function () {
   it('processUpdate with status change', function () {
     var scope = rootscope.$new();
     scope.player = player;
-    scope.game = angular.copy(showGameServiceGame);
-    scope.game.gamePhase = 'X';
+    var game = angular.copy(showGameServiceGame);
+    game.gamePhase = 'X';
     service.initializeScope(scope);
-    service.computeGameState(scope);
+    service.processGame(scope, game);
 
     var update = angular.copy(showGameServiceGame);
     update.lastUpdate = 1345100;

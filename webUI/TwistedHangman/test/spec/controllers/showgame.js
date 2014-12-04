@@ -26,7 +26,7 @@ describe('Controller: ShowCtrl', function () {
     http = $httpBackend;
     q = $q;
     spyOn(rootScope, '$broadcast');
-    showGameService = jasmine.createSpyObj('showGameService', ['computeGameState', 'initializeScope', 'processUpdate', 'processGame']);
+    showGameService = jasmine.createSpyObj('showGameService', ['initializeScope', 'processUpdate', 'processGame']);
     location = {path: jasmine.createSpy()};
     modal = {
       open: function (params) {
@@ -78,7 +78,7 @@ describe('Controller: ShowCtrl', function () {
     playerDeferred.resolve(player);
     rootScope.$apply();
     expect(scope.player).toEqual(player);
-    expect(showGameService.computeGameState).toHaveBeenCalledWith(scope);
+    expect(showGameService.processGame).toHaveBeenCalledWith(scope, scope.game);
 
     http.flush();
     expect(showGameService.processGame).toHaveBeenCalledWith(scope, game);

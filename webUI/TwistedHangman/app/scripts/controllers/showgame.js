@@ -7,12 +7,12 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
       $scope.gameID = $routeParams.gameID;
       $scope.enteredCategory = '';
       $scope.enteredWordPhrase = '';
-
       $scope.alerts = [];
+
 
       twCurrentPlayerService.currentPlayer().then(function (data) {
         $scope.player = data;
-        twShowGameService.computeGameState($scope);
+        twShowGameService.processGame($scope, $scope.game);
       }, function () {
         //  TODO - route to error page?
       });

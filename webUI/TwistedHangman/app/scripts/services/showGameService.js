@@ -4,7 +4,7 @@
 angular.module('twistedHangmanApp').factory('twShowGameService', ['$rootScope', 'twGamePhaseService', function ($rootScope, twGamePhaseService) {
   var LETTERA = 'A'.charCodeAt(0);
 
-  function computeWordPhrase(scope) {
+  function computeWordPhraseDisplay(scope) {
     if (angular.isUndefined(scope.gameState)) {
       //  TODO - test this case
       return;
@@ -27,7 +27,6 @@ angular.module('twistedHangmanApp').factory('twShowGameService', ['$rootScope', 
       scope.image = 'hangman0.png';
       return;
     }
-    //  TODO - puzzle setter doesn't work
     if (scope.gameState.penalties === scope.gameState.maxPenalties) {
       scope.image = 'hangman13.png';
       return;
@@ -45,7 +44,7 @@ angular.module('twistedHangmanApp').factory('twShowGameService', ['$rootScope', 
     scope.image = 'hangman' + n + '.png';
   }
 
-  function computeKeyboard(scope) {
+  function computeKeyboardDisplay(scope) {
     if (angular.isUndefined(scope.gameState)) {
       //  TODO - test case
       return;
@@ -94,7 +93,7 @@ angular.module('twistedHangmanApp').factory('twShowGameService', ['$rootScope', 
   }
 
   //  TODO - test this function
-  function computeShowVariables(scope) {
+  function computeDisplayAreas(scope) {
     scope.showPlaySection = false;
     scope.allowPlayMoves = false;
     scope.showChallengeButtons = false;
@@ -159,6 +158,18 @@ angular.module('twistedHangmanApp').factory('twShowGameService', ['$rootScope', 
     }
   }
 
+  function computeGameDisplay(scope) {
+    if (angular.isUndefined(scope.player) || angular.isUndefined(scope.game)) {
+      return;
+    }
+    scope.gameState = scope.game.solverStates[scope.player.md5];
+    computeDisplayAreas(scope);
+    computeImage(scope);
+    computeWordPhraseDisplay(scope);
+    computeKeyboardDisplay(scope);
+    computeDescription(scope);
+  }
+
   return {
     initializeScope: function (scope) {
       scope.workingWordPhraseArray = [];
@@ -168,49 +179,40 @@ angular.module('twistedHangmanApp').factory('twShowGameService', ['$rootScope', 
       scope.letters.forEach(function () {
         scope.letterClasses.push('regular');
       });
-      computeShowVariables(scope);
-    },
-    computeGameState: function (scope) {
-      if (angular.isUndefined(scope.player) || angular.isUndefined(scope.game)) {
-        return;
-      }
-      scope.gameState = scope.game.solverStates[scope.player.md5];
-      computeShowVariables(scope);
-      computeImage(scope);
-      computeWordPhrase(scope);
-      computeKeyboard(scope);
-      computeDescription(scope);
+      computeDisplayAreas(scope);
     },
 
     processGame: function (scope, data) {
       scope.game = data;
-      twGamePhaseService.phases().then(function (phases) {
-        scope.phaseDescription = phases[scope.game.gamePhase][0];
-      }, function () {
-        //  TODO
-      });
-      //  TODO - convert to millis on server
-      scope.lastUpdate = new Date(scope.game.lastUpdate * 1000);
-      scope.created = new Date(scope.game.created * 1000);
+      if (angular.isDefined(scope.game)) {
+        twGamePhaseService.phases().then(function (phases) {
+          scope.phaseDescription = phases[scope.game.gamePhase][0];
+        }, function () {
+          //  TODO
+        });
+        //  TODO - convert to millis on server
+        scope.lastUpdate = new Date(scope.game.lastUpdate * 1000);
+        scope.created = new Date(scope.game.created * 1000);
 
-      //  TODO - test
-      if (angular.isDefined(scope.game.declined) && scope.game.declined > 0) {
-        scope.declined = new Date(scope.game.declined * 1000);
-      } else {
-        scope.declined = 'N/A';
-      }
-      if (angular.isDefined(scope.game.completed) && scope.game.completed > 0) {
-        scope.completed = new Date(scope.game.completed * 1000);
-      } else {
-        scope.completed = 'N/A';
-      }
-      if (angular.isDefined(scope.game.rematched) && scope.game.rematched > 0) {
-        scope.rematched = new Date(scope.game.rematched * 1000);
-      } else {
-        scope.rematched = 'N/A';
+        //  TODO - test
+        if (angular.isDefined(scope.game.declined) && scope.game.declined > 0) {
+          scope.declined = new Date(scope.game.declined * 1000);
+        } else {
+          scope.declined = 'N/A';
+        }
+        if (angular.isDefined(scope.game.completed) && scope.game.completed > 0) {
+          scope.completed = new Date(scope.game.completed * 1000);
+        } else {
+          scope.completed = 'N/A';
+        }
+        if (angular.isDefined(scope.game.rematched) && scope.game.rematched > 0) {
+          scope.rematched = new Date(scope.game.rematched * 1000);
+        } else {
+          scope.rematched = 'N/A';
+        }
       }
 
-      this.computeGameState(scope);
+      computeGameDisplay(scope);
     },
 
     processUpdate: function (scope, data) {
