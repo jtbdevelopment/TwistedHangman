@@ -260,14 +260,11 @@ class ServerIntegration {
         assert newGame.round == 2
 
 
-        GenericType<Collection<MaskedGame>> type = new GenericType<Collection<MaskedGame>>(Collection.class) {}
-        List<MaskedGame> games = P1.path("games/Playing").request(MediaType.APPLICATION_JSON).get(type)
-        assert games.empty
-        games = P1.path("games/Challenged").queryParam("page", 0).queryParam("pageSize", 5).request(MediaType.APPLICATION_JSON).get(type)
-        assert games.size() == 1
-        assert games[0].id == newGame.id
-        games = P1.path("games/Challenged").queryParam("page", 1).queryParam("pageSize", 5).request(MediaType.APPLICATION_JSON).get(type)
-        assert games.size() == 0
+        GenericType<List<MaskedGame>> type = new GenericType<List<MaskedGame>>() {}
+        List<MaskedGame> games = P1.path("games").request(MediaType.APPLICATION_JSON).get(type)
+        assert games.size() >= 2 // other tests make this ambigous
+        assert games.find { MaskedGame g -> g.id == dbLoaded1.id }
+        assert games.find { MaskedGame g -> g.id == dbLoaded2.id }
 
         newGame = putMG(P1.path("game").path(newGame.id).path("reject"))
         assert newGame.gamePhase == GamePhase.Declined

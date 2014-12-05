@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component
  */
 @CompileStatic
 @Component
+@Deprecated
 class GameFinderHandler extends AbstractGameGetterHandler {
 
     public List<MaskedGame> findGames(final String playerID, final GamePhase gamePhase, int page, int pageSize) {

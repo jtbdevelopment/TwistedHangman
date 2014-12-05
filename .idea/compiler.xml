@@ -31,5 +31,14 @@
         <module name="webUI" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="example-tomcat" target="1.8" />
+      <module name="game" target="1.8" />
+      <module name="integration-tests" target="1.8" />
+      <module name="rest" target="1.8" />
+      <module name="TwistedHangman" target="1.8" />
+      <module name="utilities" target="1.8" />
+      <module name="webUI" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

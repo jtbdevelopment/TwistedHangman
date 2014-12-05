@@ -3,6 +3,7 @@ package com.jtbdevelopment.TwistedHangman.rest.services
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.handlers.GameFinderHandler
 import com.jtbdevelopment.TwistedHangman.game.handlers.NewGameHandler
+import com.jtbdevelopment.TwistedHangman.game.handlers.PlayerGamesFinderHandler
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
@@ -35,6 +36,8 @@ class PlayerServices {
     NewGameHandler newGameHandler
     @Autowired
     GameFinderHandler gameFinderHandler
+    @Autowired
+    PlayerGamesFinderHandler playerGamesFinderHandler
     @Autowired
     PlayerRepository playerRepository
     @Autowired
@@ -72,6 +75,13 @@ class PlayerServices {
             @QueryParam("pageSize") final Integer pageSize) {
         //  TODO - time limit for certain phases
         gameFinderHandler.findGames(playerID.get(), gamePhase, page ?: DEFAULT_PAGE, pageSize ?: DEFAULT_PAGE_SIZE)
+    }
+
+    @GET
+    @Path("games")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<MaskedGame> gamesForPlayer() {
+        playerGamesFinderHandler.findGames(playerID.get())
     }
 
     @GET
