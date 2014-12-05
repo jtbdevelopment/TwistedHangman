@@ -46,19 +46,6 @@ angular.module('twistedHangmanApp').factory('twGameCache',
       }
 
       var cache = {
-        clearAll: function () {
-          initializeGameCache();
-        },
-
-        initializeGames: function (games) {
-          this.clearAll();
-          games.forEach(function (game) {
-            gameCache.get(game.gamePhase)[game.id] = game;
-            gameCache.get(ALL)[game.id] = game;
-          });
-          //  TODO - publish?
-        },
-
         putUpdatedGame: function (game) {
           var phaseCache = gameCache.get(game.gamePhase);
           var existingGame = gameCache.get(ALL)[game.id];
