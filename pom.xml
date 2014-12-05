@@ -35,7 +35,6 @@
 
     <scm>
         <developerConnection>scm:git:https://github.com/jtbdevelopment/TwistedHangman.git</developerConnection>
-        <tag>HEAD</tag>
     </scm>
 
     <build>
