@@ -55,7 +55,7 @@ describe('Controller: ShowCtrl', function () {
       gameID: 'gameid'
     };
 
-    http.expectGET('/api/player/MANUAL1/play/gameid').respond(game);
+    http.expectGET('/api/player/MANUAL1/game/gameid').respond(game);
 
     ctrl = $controller('ShowCtrl', {
       $routeParams: routeParams,
@@ -86,7 +86,7 @@ describe('Controller: ShowCtrl', function () {
 
   it('post rematch', function () {
     var newGame = {id: 'newid', gamePhase: 'X'};
-    http.expectPUT('/api/player/MANUAL1/play/gameid/rematch').respond(newGame);
+    http.expectPUT('/api/player/MANUAL1/game/gameid/rematch').respond(newGame);
     scope.startNextRound();
     http.flush();
 
@@ -98,7 +98,7 @@ describe('Controller: ShowCtrl', function () {
   });
 
   it('post rematch fails', function () {
-    http.expectPUT('/api/player/MANUAL1/play/gameid/rematch').respond(501, 'bad stuff');
+    http.expectPUT('/api/player/MANUAL1/game/gameid/rematch').respond(501, 'bad stuff');
     scope.startNextRound();
     http.flush();
 
@@ -107,7 +107,7 @@ describe('Controller: ShowCtrl', function () {
 
   it('accept match', function () {
     var updatedGame = {id: 'newid', gamePhase: 'X'};
-    http.expectPUT('/api/player/MANUAL1/play/gameid/accept').respond(updatedGame);
+    http.expectPUT('/api/player/MANUAL1/game/gameid/accept').respond(updatedGame);
     scope.accept();
     http.flush();
 
@@ -115,7 +115,7 @@ describe('Controller: ShowCtrl', function () {
   });
 
   it('accept match fails', function () {
-    http.expectPUT('/api/player/MANUAL1/play/gameid/accept').respond(501, 'bad stuff');
+    http.expectPUT('/api/player/MANUAL1/game/gameid/accept').respond(501, 'bad stuff');
     scope.accept();
     http.flush();
 
@@ -124,7 +124,7 @@ describe('Controller: ShowCtrl', function () {
 
   it('reject match', function () {
     var updatedGame = {id: 'newid', gamePhase: 'X'};
-    http.expectPUT('/api/player/MANUAL1/play/gameid/reject').respond(updatedGame);
+    http.expectPUT('/api/player/MANUAL1/game/gameid/reject').respond(updatedGame);
     scope.reject();
     modalResult.resolve();
     http.flush();
@@ -139,7 +139,7 @@ describe('Controller: ShowCtrl', function () {
   });
 
   it('reject match fails', function () {
-    http.expectPUT('/api/player/MANUAL1/play/gameid/reject').respond(502, 'more bad stuff');
+    http.expectPUT('/api/player/MANUAL1/game/gameid/reject').respond(502, 'more bad stuff');
     scope.reject();
     modalResult.resolve();
     http.flush();
@@ -149,7 +149,7 @@ describe('Controller: ShowCtrl', function () {
 
   it('quit match', function () {
     var updatedGame = {id: 'newid', gamePhase: 'X'};
-    http.expectPUT('/api/player/MANUAL1/play/gameid/quit').respond(updatedGame);
+    http.expectPUT('/api/player/MANUAL1/game/gameid/quit').respond(updatedGame);
     scope.quit();
     modalResult.resolve();
     http.flush();
@@ -164,7 +164,7 @@ describe('Controller: ShowCtrl', function () {
   });
 
   it('quit match fails', function () {
-    http.expectPUT('/api/player/MANUAL1/play/gameid/quit').respond(503, 'something');
+    http.expectPUT('/api/player/MANUAL1/game/gameid/quit').respond(503, 'something');
     scope.quit();
     modalResult.resolve();
     http.flush();
@@ -176,7 +176,7 @@ describe('Controller: ShowCtrl', function () {
     var updatedGame = {id: 'newid', gamePhase: 'X'};
     scope.enteredCategory = 'cat';
     scope.enteredWordPhrase = 'wp';
-    http.expectPUT('/api/player/MANUAL1/play/gameid/puzzle', {category: 'cat', wordPhrase: 'wp'}).respond(updatedGame);
+    http.expectPUT('/api/player/MANUAL1/game/gameid/puzzle', {category: 'cat', wordPhrase: 'wp'}).respond(updatedGame);
     scope.setPuzzle();
     http.flush();
 
@@ -186,7 +186,7 @@ describe('Controller: ShowCtrl', function () {
   it('set puzzle fails', function () {
     scope.enteredCategory = 'cat';
     scope.enteredWordPhrase = 'wp';
-    http.expectPUT('/api/player/MANUAL1/play/gameid/puzzle', {
+    http.expectPUT('/api/player/MANUAL1/game/gameid/puzzle', {
       category: 'cat',
       wordPhrase: 'wp'
     }).respond(503, 'something');
@@ -199,7 +199,7 @@ describe('Controller: ShowCtrl', function () {
   it('guess letter', function () {
     scope.allowPlayMoves = true;
     var updatedGame = {id: 'newid', gamePhase: 'X'};
-    http.expectPUT('/api/player/MANUAL1/play/gameid/guess/a').respond(updatedGame);
+    http.expectPUT('/api/player/MANUAL1/game/gameid/guess/a').respond(updatedGame);
     scope.sendGuess('a');
     http.flush();
 
@@ -208,7 +208,7 @@ describe('Controller: ShowCtrl', function () {
 
   it('guess letter fails', function () {
     scope.allowPlayMoves = true;
-    http.expectPUT('/api/player/MANUAL1/play/gameid/guess/a').respond(601, 'bad stuff');
+    http.expectPUT('/api/player/MANUAL1/game/gameid/guess/a').respond(601, 'bad stuff');
     scope.sendGuess('a');
     http.flush();
 
@@ -226,7 +226,7 @@ describe('Controller: ShowCtrl', function () {
   it('steal letter', function () {
     scope.allowPlayMoves = true;
     var updatedGame = {id: 'newid', gamePhase: 'X'};
-    http.expectPUT('/api/player/MANUAL1/play/gameid/steal/2').respond(updatedGame);
+    http.expectPUT('/api/player/MANUAL1/game/gameid/steal/2').respond(updatedGame);
     scope.stealLetter('2');
     http.flush();
 
@@ -235,7 +235,7 @@ describe('Controller: ShowCtrl', function () {
 
   it('steal letter fails', function () {
     scope.allowPlayMoves = true;
-    http.expectPUT('/api/player/MANUAL1/play/gameid/steal/2').respond(601, 'bad stuff');
+    http.expectPUT('/api/player/MANUAL1/game/gameid/steal/2').respond(601, 'bad stuff');
     scope.stealLetter('2');
     http.flush();
 

@@ -22,7 +22,7 @@ class PlayerServicesTest extends GroovyTestCase {
     PlayerServices playerServices = new PlayerServices()
 
     void testValidPlayer() {
-        GamePlayServices services = [playerID: new ThreadLocal<String>(), gameID: new ThreadLocal<String>()] as GamePlayServices
+        GameServices services = [playerID: new ThreadLocal<String>(), gameID: new ThreadLocal<String>()] as GameServices
         playerServices.gamePlayServices = services
 
         def APLAYER = "APLAYER"
@@ -62,7 +62,7 @@ class PlayerServicesTest extends GroovyTestCase {
                 (gamePlay.isAnnotationPresent(TypeChecked.TypeCheckingInfo) && gamePlay.annotations.size() == 2)
         )
         assert gamePlay.isAnnotationPresent(Path.class)
-        assert gamePlay.getAnnotation(Path.class).value() == "play/{gameID}"
+        assert gamePlay.getAnnotation(Path.class).value() == "game/{gameID}"
         def params = gamePlay.parameterAnnotations
         assert params.length == 1
         assert params[0].length == 1

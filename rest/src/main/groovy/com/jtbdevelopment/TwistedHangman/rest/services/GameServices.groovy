@@ -17,7 +17,7 @@ import javax.ws.rs.core.MediaType
  */
 @Component
 @CompileStatic
-class GamePlayServices {
+class GameServices {
     ThreadLocal<String> playerID = new ThreadLocal<>()
     ThreadLocal<String> gameID = new ThreadLocal<>()
 

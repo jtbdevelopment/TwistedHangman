@@ -30,7 +30,7 @@ class PlayerServices {
     ThreadLocal<String> playerID = new ThreadLocal<>()
 
     @Autowired
-    GamePlayServices gamePlayServices
+    GameServices gamePlayServices
     @Autowired
     NewGameHandler newGameHandler
     @Autowired
@@ -40,7 +40,7 @@ class PlayerServices {
     @Autowired
     FriendFinder friendFinder
 
-    @Path("play/{gameID}")
+    @Path("game/{gameID}")
     Object gamePlay(@PathParam("gameID") final String gameID) {
         if (StringUtils.isEmpty(gameID) || StringUtils.isEmpty(gameID.trim())) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Missing game identity").build()

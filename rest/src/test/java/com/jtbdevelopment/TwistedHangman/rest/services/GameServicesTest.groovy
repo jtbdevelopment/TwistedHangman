@@ -12,11 +12,11 @@ import javax.ws.rs.core.MediaType
  * Date: 11/15/2014
  * Time: 1:49 PM
  */
-class GamePlayServicesTest extends GroovyTestCase {
+class GameServicesTest extends GroovyTestCase {
     private static final String PID = "PID1"
     private static final String GID = "GID2"
     private final MaskedGame result = new MaskedGame()
-    GamePlayServices services = new GamePlayServices()
+    GameServices services = new GameServices()
 
     @Override
     protected void setUp() throws Exception {
@@ -38,7 +38,7 @@ class GamePlayServicesTest extends GroovyTestCase {
     }
 
     void testGetAnnotations() {
-        def m = GamePlayServices.getMethod("getGame", [] as Class[])
+        def m = GameServices.getMethod("getGame", [] as Class[])
         assert (m.annotations.size() == 2 ||
                 (m.annotations.size() == (3) && m.isAnnotationPresent(TypeChecked.TypeCheckingInfo.class))
         )
@@ -63,7 +63,7 @@ class GamePlayServicesTest extends GroovyTestCase {
         ]
         stuff.each {
             String method, List<Object> details ->
-                def m = GamePlayServices.getMethod(method, details[1] as Class[])
+                def m = GameServices.getMethod(method, details[1] as Class[])
                 int expectedA = 3 + details[3].size
                 assert (m.annotations.size() == expectedA ||
                         (m.annotations.size() == (expectedA + 1) && m.isAnnotationPresent(TypeChecked.TypeCheckingInfo.class))

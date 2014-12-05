@@ -165,7 +165,7 @@ class ServerIntegration {
         assert game.gamePhase == GamePhase.Challenged
         assert game.solverStates[TEST_PLAYER1.md5] != null
         assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase != ""
-        def P1G = P1.path("play").path(game.id)
+        def P1G = P1.path("game").path(game.id)
 
         game = putMG(P1G.path("quit"))
         assert game.gamePhase == GamePhase.Quit
@@ -202,9 +202,9 @@ class ServerIntegration {
         assert game.gamePhase == GamePhase.Challenged
         assert game.solverStates[TEST_PLAYER1.md5] != null
         assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase != ""
-        def P1G = P1.path("play").path(game.id)
-        def P2G = P2.path("play").path(game.id)
-        def P3G = P3.path("play").path(game.id)
+        def P1G = P1.path("game").path(game.id)
+        def P2G = P2.path("game").path(game.id)
+        def P3G = P3.path("game").path(game.id)
 
 
         game = putMG(P2G.path("accept"))
@@ -269,7 +269,7 @@ class ServerIntegration {
         games = P1.path("games/Challenged").queryParam("page", 1).queryParam("pageSize", 5).request(MediaType.APPLICATION_JSON).get(type)
         assert games.size() == 0
 
-        newGame = putMG(P1.path("play").path(newGame.id).path("reject"))
+        newGame = putMG(P1.path("game").path(newGame.id).path("reject"))
         assert newGame.gamePhase == GamePhase.Declined
     }
 
