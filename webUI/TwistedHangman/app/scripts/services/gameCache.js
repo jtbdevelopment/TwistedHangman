@@ -9,19 +9,23 @@ angular.module('twistedHangmanApp').factory('twGameCache',
       var gameCache = $cacheFactory('game-gameCache');
       var phases = [];
 
-      function initializeGameCache() {
-        gameCache.removeAll();
-        gameCache.put(ALL, {});
+      function intializeSubCaches() {
         phases.forEach(function (phase) {
-            //  Would be nice to use more caches but can't get keys
-            gameCache.put(phase, {});
-            phases.push(phase);
+            var phaseCache = gameCache.get(phase);
+            if (angular.isDefined(phaseCache)) {
+              Object.keys(phaseCache).forEach(function (key) {
+                delete phaseCache[key];
+              });
+            } else {
+              //  Would be nice to use more caches but can't get keys
+              gameCache.put(phase, {});
+            }
           }
         );
       }
 
       function initializeCache() {
-        initializeGameCache();
+        intializeSubCaches();
         $http.get(twCurrentPlayerService.currentPlayerBaseURL() + '/games').success(function (data) {
           data.forEach(function (game) {
             cache.putUpdatedGame(game);

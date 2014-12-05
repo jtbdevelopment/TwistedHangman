@@ -82,6 +82,8 @@ describe('Service: gameCache', function () {
       expect(service.getAllForPhase('Phase3')).toEqual({});
       expect(service.getAllForPhase('All')).toEqual({ng3: ng3});
 
+      var referenceHoldover = service.getAllForPhase('All');
+
       baseURL = '/api/player/MANUAL3';
       http.expectGET(baseURL + gamesURL).respond([ng1]);
       rootScope.$broadcast('playerSwitch');
@@ -90,6 +92,7 @@ describe('Service: gameCache', function () {
       expect(service.getAllForPhase('Phase2')).toEqual({});
       expect(service.getAllForPhase('Phase3')).toEqual({});
       expect(service.getAllForPhase('All')).toEqual({ng1: ng1});
+      expect(referenceHoldover).toEqual({ng1: ng1});
     });
   });
 
