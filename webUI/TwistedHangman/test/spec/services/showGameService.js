@@ -130,8 +130,8 @@ describe('Service: showGameSevice', function () {
     update.solverStates.md1.badlyGuessedLetters = ['X', 'Y', 'Z'];
 
     service.processGame(scope, update);
-    expect(scope.lastUpdate).toEqual(new Date(1345100000));
-    expect(scope.created).toEqual(new Date(1345000000));
+    expect(scope.lastUpdate).toEqual(new Date(1345100));
+    expect(scope.created).toEqual(new Date(1345000));
     expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
     expect(scope.image).toEqual('hangman6.png');
     expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'badguesskb']);
@@ -152,8 +152,8 @@ describe('Service: showGameSevice', function () {
 
 
     service.processUpdate(scope, update);
-    expect(scope.lastUpdate).toEqual(new Date(1345100000));
-    expect(scope.created).toEqual(new Date(1345000000));
+    expect(scope.lastUpdate).toEqual(new Date(1345100));
+    expect(scope.created).toEqual(new Date(1345000));
     expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
     expect(scope.image).toEqual('hangman6.png');
     expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'badguesskb']);
@@ -176,8 +176,8 @@ describe('Service: showGameSevice', function () {
     update.gamePhase = 'Y';
 
     service.processUpdate(scope, update);
-    expect(scope.lastUpdate).toEqual(new Date(1345100000));
-    expect(scope.created).toEqual(new Date(1345000000));
+    expect(scope.lastUpdate).toEqual(new Date(1345100));
+    expect(scope.created).toEqual(new Date(1345000));
     expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
     expect(scope.image).toEqual('hangman6.png');
     expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'badguesskb']);

@@ -128,6 +128,6 @@ class GameMasker {
     }
 
     protected Long convertTime(final ZonedDateTime value) {
-        value ? value.toEpochSecond() : null
+        value ? value.toInstant().toEpochMilli() : null
     }
 }

@@ -191,22 +191,22 @@ angular.module('twistedHangmanApp').factory('twShowGameService', ['$rootScope', 
           //  TODO
         });
         //  TODO - convert to millis on server
-        scope.lastUpdate = new Date(scope.game.lastUpdate * 1000);
-        scope.created = new Date(scope.game.created * 1000);
+        scope.lastUpdate = new Date(scope.game.lastUpdate);
+        scope.created = new Date(scope.game.created);
 
         //  TODO - test
         if (angular.isDefined(scope.game.declined) && scope.game.declined > 0) {
-          scope.declined = new Date(scope.game.declined * 1000);
+          scope.declined = new Date(scope.game.declined);
         } else {
           scope.declined = 'N/A';
         }
         if (angular.isDefined(scope.game.completed) && scope.game.completed > 0) {
-          scope.completed = new Date(scope.game.completed * 1000);
+          scope.completed = new Date(scope.game.completed);
         } else {
           scope.completed = 'N/A';
         }
         if (angular.isDefined(scope.game.rematched) && scope.game.rematched > 0) {
-          scope.rematched = new Date(scope.game.rematched * 1000);
+          scope.rematched = new Date(scope.game.rematched);
         } else {
           scope.rematched = 'N/A';
         }

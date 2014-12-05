@@ -371,11 +371,11 @@ class GameMaskerTest extends TwistedHangmanTestCase {
     protected void checkUnmaskedGameFields(MaskedGame maskedGame, Game game) {
         assert maskedGame.id == game.id
         assert maskedGame.gamePhase == game.gamePhase
-        assert maskedGame.completed == (game.completed ? game.completed.toEpochSecond() : null)
-        assert maskedGame.created == (game.created ? game.created.toEpochSecond() : null)
-        assert maskedGame.declined == (game.declined ? game.declined.toEpochSecond() : null)
-        assert maskedGame.lastUpdate == (game.lastUpdate ? game.lastUpdate.toEpochSecond() : null)
-        assert maskedGame.rematched == (game.rematched ? game.rematched.toEpochSecond() : null)
+        assert maskedGame.completed == (game.completed ? game.completed.toInstant().toEpochMilli() : null)
+        assert maskedGame.created == (game.created ? game.created.toInstant().toEpochMilli() : null)
+        assert maskedGame.declined == (game.declined ? game.declined.toInstant().toEpochMilli() : null)
+        assert maskedGame.lastUpdate == (game.lastUpdate ? game.lastUpdate.toInstant().toEpochMilli() : null)
+        assert maskedGame.rematched == (game.rematched ? game.rematched.toInstant().toEpochMilli() : null)
         assert maskedGame.features == game.features
         assert maskedGame.round == game.round
     }

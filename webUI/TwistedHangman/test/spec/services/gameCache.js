@@ -32,7 +32,10 @@ describe('Service: gameCache', function () {
     it('initializes cache from phases', function () {
       phaseDeferred.resolve(phases);
       rootScope.$apply();
-      expect(service.get('Phase1')).toEqual([]);
+      expect(service.getAllForPhase('Phase1')).toEqual({});
+      expect(service.getAllForPhase('Phase2')).toEqual({});
+      expect(service.getAllForPhase('Phase3')).toEqual({});
+      expect(service.getAllForPhase('All')).toEqual({});
     });
 
     it('errors when phases errors', function () {
@@ -48,8 +51,15 @@ describe('Service: gameCache', function () {
       rootScope.$apply();
     });
 
-    it('basic test', function () {
+    /*
+     it('initialize games (including override of existing value', function () {
+     service.putUpdatedGame({id: 'oldid', gamePhase: 'Phase1'});
+     expect(service.getAllForPhase('Phase1').info()).toEqual({id: 'game-cache-Phase1', size: 1} );
+     expect(service.getAllForPhase('Phase2').info()).toEqual({id: 'game-cache-Phase2', size: 0} );
+     expect(service.getAllForPhase('Phase3').info()).toEqual({id: 'game-cache-Phase3', size: 0} );
+     expect(service.getAllForPhase('All').info()).toEqual({id: 'game-cache-All', size: 1} );
+     //      expect(service.getAllForPhase('Phase1').get('oldid'))
     });
-
+     */
   });
 });
