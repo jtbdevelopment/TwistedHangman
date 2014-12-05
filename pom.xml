@@ -5,7 +5,7 @@
     <groupId>com.jtbdevelopment.TwistedHangman</groupId>
     <artifactId>TwistedHangman</artifactId>
     <packaging>pom</packaging>
-    <version>1.4</version>
+    <version>1.5-SNAPSHOT</version>
     <modules>
         <module>game</module>
         <module>utilities</module>
@@ -34,7 +34,7 @@
 
     <scm>
         <developerConnection>scm:git:https://github.com/jtbdevelopment/TwistedHangman.git</developerConnection>
-    <tag>TwistedHangman-1.4</tag>
+    <tag>HEAD</tag>
   </scm>
 
     <build>
