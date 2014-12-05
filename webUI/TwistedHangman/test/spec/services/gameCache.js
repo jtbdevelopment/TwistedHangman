@@ -43,6 +43,7 @@ describe('Service: gameCache', function () {
     location = $location;
     http = $httpBackend;
     spyOn(location, 'path');
+    spyOn(rootScope, '$broadcast').and.callThrough();
     service = $injector.get('twGameCache');
   }));
 
@@ -56,6 +57,7 @@ describe('Service: gameCache', function () {
       expect(service.getAllForPhase('Phase2')).toEqual({ng3: ng3});
       expect(service.getAllForPhase('Phase3')).toEqual({});
       expect(service.getAllForPhase('All')).toEqual({ng3: ng3});
+      expect(rootScope.$broadcast).toHaveBeenCalledWith('gameCachesLoaded', 1);
     });
 
     it('errors when phases errors', function () {
@@ -81,6 +83,7 @@ describe('Service: gameCache', function () {
       expect(service.getAllForPhase('Phase2')).toEqual({ng3: ng3});
       expect(service.getAllForPhase('Phase3')).toEqual({});
       expect(service.getAllForPhase('All')).toEqual({ng3: ng3});
+      expect(rootScope.$broadcast).toHaveBeenCalledWith('gameCachesLoaded', 1);
 
       var referenceHoldover = service.getAllForPhase('All');
 
@@ -93,6 +96,7 @@ describe('Service: gameCache', function () {
       expect(service.getAllForPhase('Phase3')).toEqual({});
       expect(service.getAllForPhase('All')).toEqual({ng1: ng1});
       expect(referenceHoldover).toEqual({ng1: ng1});
+      expect(rootScope.$broadcast).toHaveBeenCalledWith('gameCachesLoaded', 2);
     });
   });
 
@@ -102,6 +106,10 @@ describe('Service: gameCache', function () {
       http.expectGET(baseURL + gamesURL).respond([ng1, ng2, ng3, ng4]);
       rootScope.$apply();
       http.flush();
+    });
+
+    afterEach(function () {
+      expect(rootScope.$broadcast).toHaveBeenCalledWith('gameCachesLoaded', 1);
     });
 
     it('takes in a new game update', function () {

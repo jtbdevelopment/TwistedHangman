@@ -8,6 +8,7 @@ angular.module('twistedHangmanApp').factory('twGameCache',
       var ALL = 'All';
       var gameCache = $cacheFactory('game-gameCache');
       var phases = [];
+      var loadedCounter = 0;
 
       function intializeSubCaches() {
         phases.forEach(function (phase) {
@@ -30,6 +31,8 @@ angular.module('twistedHangmanApp').factory('twGameCache',
           data.forEach(function (game) {
             cache.putUpdatedGame(game);
           });
+          ++loadedCounter;
+          $rootScope.$broadcast('gameCachesLoaded', loadedCounter);
         }).error(function () {
           $location.path('/error');
         });
