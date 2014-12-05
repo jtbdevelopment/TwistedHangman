@@ -262,7 +262,7 @@ class ServerIntegration {
 
         GenericType<List<MaskedGame>> type = new GenericType<List<MaskedGame>>() {}
         List<MaskedGame> games = P1.path("games").request(MediaType.APPLICATION_JSON).get(type)
-        assert games.size() >= 2 // other tests make this ambigous
+        assert games.size() >= 2 // other tests make this ambiguous
         assert games.find { MaskedGame g -> g.id == dbLoaded1.id }
         assert games.find { MaskedGame g -> g.id == dbLoaded2.id }
 
