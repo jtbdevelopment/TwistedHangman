@@ -4,8 +4,17 @@ describe('Service: gameCache', function () {
   // load the controller's module
   beforeEach(module('twistedHangmanApp'));
 
+  var ng1 = {id: 'ng1', gamePhase: 'Phase1'};
+  var ng2 = {id: 'ng2', gamePhase: 'Phase1'};
+  var ng3 = {id: 'ng3', gamePhase: 'Phase2'};
+  var ng4 = {id: 'ng4', gamePhase: 'Phase1'};
+
   var phaseDeferred, q;
   var phases = {Phase1: [], Phase2: [], Phase3: []};
+
+  var baseURL = '/api/player/MANUAL1';
+  var gamesURL = '/games';
+
   beforeEach(module(function ($provide) {
     $provide.factory('twGamePhaseService', ['$q', function ($q) {
       return {
@@ -15,27 +24,37 @@ describe('Service: gameCache', function () {
         }
       };
     }]);
+    $provide.factory('twCurrentPlayerService', function () {
+      return {
+        currentPlayerBaseURL: function () {
+          return baseURL;
+        }
+      };
+    })
   }));
 
-  var service, rootScope, location;
+  var service, rootScope, location, http;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($injector, $q, $rootScope, $location) {
+  beforeEach(inject(function ($injector, $q, $rootScope, $location, $httpBackend) {
     q = $q;
     rootScope = $rootScope;
     location = $location;
+    http = $httpBackend;
     spyOn(location, 'path');
     service = $injector.get('twGameCache');
   }));
 
   describe('test initialization', function () {
-    it('initializes cache from phases', function () {
+    it('initializes cache from phases and games', function () {
+      http.expectGET(baseURL + gamesURL).respond([ng3]);
       phaseDeferred.resolve(phases);
       rootScope.$apply();
+      http.flush();
       expect(service.getAllForPhase('Phase1')).toEqual({});
-      expect(service.getAllForPhase('Phase2')).toEqual({});
+      expect(service.getAllForPhase('Phase2')).toEqual({ng3: ng3});
       expect(service.getAllForPhase('Phase3')).toEqual({});
-      expect(service.getAllForPhase('All')).toEqual({});
+      expect(service.getAllForPhase('All')).toEqual({ng3: ng3});
     });
 
     it('errors when phases errors', function () {
@@ -43,18 +62,42 @@ describe('Service: gameCache', function () {
       rootScope.$apply();
       expect(location.path).toHaveBeenCalledWith('/error');
     });
+
+    it('errors when http.get errors', function () {
+      http.expectGET(baseURL + gamesURL).respond(500, {});
+      phaseDeferred.resolve(phases);
+      rootScope.$apply();
+      http.flush();
+      expect(location.path).toHaveBeenCalledWith('/error');
+    });
+
+    it('reinitializes on player switch', function () {
+      http.expectGET(baseURL + gamesURL).respond([ng3]);
+      phaseDeferred.resolve(phases);
+      rootScope.$apply();
+      http.flush();
+      expect(service.getAllForPhase('Phase1')).toEqual({});
+      expect(service.getAllForPhase('Phase2')).toEqual({ng3: ng3});
+      expect(service.getAllForPhase('Phase3')).toEqual({});
+      expect(service.getAllForPhase('All')).toEqual({ng3: ng3});
+
+      baseURL = '/api/player/MANUAL3';
+      http.expectGET(baseURL + gamesURL).respond([ng1]);
+      rootScope.$broadcast('playerSwitch');
+      http.flush();
+      expect(service.getAllForPhase('Phase1')).toEqual({ng1: ng1});
+      expect(service.getAllForPhase('Phase2')).toEqual({});
+      expect(service.getAllForPhase('Phase3')).toEqual({});
+      expect(service.getAllForPhase('All')).toEqual({ng1: ng1});
+    });
   });
 
   describe('test usage', function () {
     beforeEach(function () {
+      http.expectGET(baseURL + gamesURL).respond([]);
       phaseDeferred.resolve(phases);
       rootScope.$apply();
     });
-
-    var ng1 = {id: 'ng1', gamePhase: 'Phase1'};
-    var ng2 = {id: 'ng2', gamePhase: 'Phase1'};
-    var ng3 = {id: 'ng3', gamePhase: 'Phase2'};
-    var ng4 = {id: 'ng4', gamePhase: 'Phase1'};
 
     it('initialize games (including override of existing value', function () {
       var oldgame = {id: 'oldid', gamePhase: 'Phase1'};
