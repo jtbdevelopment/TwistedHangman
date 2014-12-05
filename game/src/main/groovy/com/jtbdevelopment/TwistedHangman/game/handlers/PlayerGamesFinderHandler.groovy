@@ -11,9 +11,6 @@ import org.springframework.stereotype.Component
 
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import java.util.function.BinaryOperator
-import java.util.function.Function
-import java.util.stream.Collectors
 
 /**
  * Date: 11/19/14
@@ -32,34 +29,24 @@ class PlayerGamesFinderHandler extends AbstractGameGetterHandler {
         Player player = loadPlayer(playerID);
         ZonedDateTime now = ZonedDateTime.now(GMT)
 
-        return GamePhase.values().toList().parallelStream().map(new Function<GamePhase, List<Game>>() {
-            @Override
-            List<Game> apply(final GamePhase phase) {
+        List<MaskedGame> result = [];
+        //  TODO - Would be nice to be parallel
+        //  GPars and compile static not nice
+        //  JDK1.8 streams and this build seemed to have issues
+        //  shelving for now
+        GamePhase.values().each {
+            GamePhase phase ->
                 def days = now.minusDays(phase.historyCutoffDays)
-                return gameRepository.findByPlayersIdAndGamePhaseAndLastUpdateGreaterThan(
+                result.addAll(gameRepository.findByPlayersIdAndGamePhaseAndLastUpdateGreaterThan(
                         player.id,
                         phase,
                         days,
                         PAGE
-                )
-            }
-        }).map(new Function<List<Game>, List<MaskedGame>>() {
-
-            @Override
-            List<MaskedGame> apply(final List<Game> games) {
-                games.parallelStream().map(new Function<Game, MaskedGame>() {
-                    @Override
-                    MaskedGame apply(final Game game) {
-                        return gameMasker.maskGameForPlayer(game, player)
-                    }
-                }).collect(Collectors.toList())
-            }
-        }).reduce(new BinaryOperator<List<MaskedGame>>() {
-            @Override
-            List<Game> apply(final List<MaskedGame> games, final List<MaskedGame> games2) {
-                games.addAll(games2)
-                games
-            }
-        }).get()
+                ).collect {
+                    Game game ->
+                        gameMasker.maskGameForPlayer(game, player)
+                })
+        }
+        result
     }
 }
