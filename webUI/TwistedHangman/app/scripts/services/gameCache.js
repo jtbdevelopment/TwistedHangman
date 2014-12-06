@@ -1,7 +1,5 @@
 'use strict';
 
-//  TODO - do we need to publish timing events on various loads so that there are not race conditions
-//  i.e. someone trying to use cache before initalized
 angular.module('twistedHangmanApp').factory('twGameCache',
   ['$rootScope', '$cacheFactory', '$location', '$q', '$http', 'twGamePhaseService', 'twCurrentPlayerService',
     function ($rootScope, $cacheFactory, $location, $q, $http, twGamePhaseService, twCurrentPlayerService) {
@@ -67,6 +65,7 @@ angular.module('twistedHangmanApp').factory('twGameCache',
           var allCache = gameCache.get(ALL);
           var allIndex = allCache.idMap[game.id];
 
+          //  TODO publish?
           if (angular.isDefined(allIndex)) {
             var existingGame = allCache.games[allIndex];
             if (game.lastUpdate <= existingGame.lastUpdate) {
@@ -93,16 +92,15 @@ angular.module('twistedHangmanApp').factory('twGameCache',
          */
       };
 
-      initialize();
-
       $rootScope.$on('playerSwitch', function () {
         initializeCache();
       });
 
-      //  TODO test
       $rootScope.$on('refreshGames', function () {
         initializeCache();
       });
+
+      initialize();
 
       return cache;
     }]);
