@@ -34,7 +34,13 @@ describe('Service: showGameSevice', function () {
     md5: 'md1'
   };
 
-  var service, rootscope;
+  var service, rootscope, gameCacheSpy;
+  beforeEach(module(function ($provide) {
+    gameCacheSpy = jasmine.createSpyObj('gameCacheSpy', ['putUpdatedGame']);
+    $provide.factory('twGameCache', function () {
+      return gameCacheSpy;
+    });
+  }));
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($rootScope, $injector) {
@@ -56,20 +62,20 @@ describe('Service: showGameSevice', function () {
 
   it('computeState without player or game does not work', function () {
     var scope = rootscope.$new();
-    service.processGame(scope);
+    service.updateScopeForGame(scope);
     expect(scope.gameState).toBeUndefined();
   });
 
   it('computeState without player does not work', function () {
     var scope = rootscope.$new();
-    service.processGame(scope, showGameServiceGame);
+    service.updateScopeForGame(scope, showGameServiceGame);
     expect(scope.gameState).toBeUndefined();
   });
 
   it('computeState without game does not work', function () {
     var scope = rootscope.$new();
     scope.player = player;
-    service.processGame(scope);
+    service.updateScopeForGame(scope);
     expect(scope.gameState).toBeUndefined();
   });
 
@@ -77,7 +83,7 @@ describe('Service: showGameSevice', function () {
     var scope = rootscope.$new();
     scope.player = player;
     service.initializeScope(scope);
-    service.processGame(scope, showGameServiceGame);
+    service.updateScopeForGame(scope, showGameServiceGame);
     expect(scope.gameState).toBe(md1SS);
     expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
     expect(scope.image).toEqual('hangman5.png');
@@ -90,16 +96,16 @@ describe('Service: showGameSevice', function () {
     var game = angular.copy(showGameServiceGame);
     service.initializeScope(scope);
     game.solverStates.md1.maxPenalties = 13;
-    service.processGame(scope, game);
+    service.updateScopeForGame(scope, game);
     expect(scope.image).toEqual('hangman2.png');
     game.solverStates.md1.maxPenalties = 10;
-    service.processGame(scope, game);
+    service.updateScopeForGame(scope, game);
     expect(scope.image).toEqual('hangman5.png');
     game.solverStates.md1.maxPenalties = 9;
-    service.processGame(scope, game);
+    service.updateScopeForGame(scope, game);
     expect(scope.image).toEqual('hangman2.png');
     game.solverStates.md1.maxPenalties = 2;
-    service.processGame(scope, game);
+    service.updateScopeForGame(scope, game);
     expect(scope.image).toEqual('hangman13.png');
   });
 
@@ -110,18 +116,18 @@ describe('Service: showGameSevice', function () {
     game.solverStates.md1.featureData.ThievingPositionTracking = [false, true, false, false, true];
     game.solverStates.md1.featureData.ThievingLetters = ['B'];
     service.initializeScope(scope);
-    service.processGame(scope, game);
+    service.updateScopeForGame(scope, game);
     expect(scope.workingWordPhraseClasses).toEqual(['stealablewp', 'stolenwp', 'regularwp', 'regularwp', 'stolenwp']);
     expect(scope.image).toEqual('hangman5.png');
     expect(scope.letterClasses).toEqual(['guessedkb', 'stolenkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'regular']);
   });
 
-  it('processGame with new copy', function () {
+  it('updateScopeForGame with new copy', function () {
     var scope = rootscope.$new();
     scope.player = player;
     var game = angular.copy(showGameServiceGame);
     service.initializeScope(scope);
-    service.processGame(scope, game);
+    service.updateScopeForGame(scope, game);
 
     var update = angular.copy(showGameServiceGame);
     update.lastUpdate = 1345100;
@@ -129,7 +135,7 @@ describe('Service: showGameSevice', function () {
     update.solverStates.md1.penalties = 3;
     update.solverStates.md1.badlyGuessedLetters = ['X', 'Y', 'Z'];
 
-    service.processGame(scope, update);
+    service.updateScopeForGame(scope, update);
     expect(scope.lastUpdate).toEqual(new Date(1345100));
     expect(scope.created).toEqual(new Date(1345000));
     expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
@@ -137,12 +143,12 @@ describe('Service: showGameSevice', function () {
     expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'badguesskb']);
   });
 
-  it('processUpdate with no status change', function () {
+  it('processGameUpdateForScope calls cache to update', function () {
     var scope = rootscope.$new();
     scope.player = player;
     var game = angular.copy(showGameServiceGame);
     service.initializeScope(scope);
-    service.processGame(scope, game);
+    service.updateScopeForGame(scope, game);
 
     var update = angular.copy(showGameServiceGame);
     update.lastUpdate = 1345100;
@@ -151,38 +157,13 @@ describe('Service: showGameSevice', function () {
     update.solverStates.md1.badlyGuessedLetters = ['X', 'Y', 'Z'];
 
 
-    service.processUpdate(scope, update);
+    service.processGameUpdateForScope(scope, update);
     expect(scope.lastUpdate).toEqual(new Date(1345100));
     expect(scope.created).toEqual(new Date(1345000));
     expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
     expect(scope.image).toEqual('hangman6.png');
     expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'badguesskb']);
-    expect(rootscope.$broadcast).toHaveBeenCalledWith('refreshGames', 'Playing');
-  });
-
-  it('processUpdate with status change', function () {
-    var scope = rootscope.$new();
-    scope.player = player;
-    var game = angular.copy(showGameServiceGame);
-    game.gamePhase = 'X';
-    service.initializeScope(scope);
-    service.processGame(scope, game);
-
-    var update = angular.copy(showGameServiceGame);
-    update.lastUpdate = 1345100;
-    update.created = 1345000;
-    update.solverStates.md1.penalties = 3;
-    update.solverStates.md1.badlyGuessedLetters = ['X', 'Y', 'Z'];
-    update.gamePhase = 'Y';
-
-    service.processUpdate(scope, update);
-    expect(scope.lastUpdate).toEqual(new Date(1345100));
-    expect(scope.created).toEqual(new Date(1345000));
-    expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
-    expect(scope.image).toEqual('hangman6.png');
-    expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'badguesskb']);
-    expect(rootscope.$broadcast).toHaveBeenCalledWith('refreshGames', 'X');
-    expect(rootscope.$broadcast).toHaveBeenCalledWith('refreshGames', 'Y');
+    expect(gameCacheSpy.putUpdatedGame).toHaveBeenCalledWith(update);
   });
 });
 

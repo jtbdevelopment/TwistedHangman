@@ -26,7 +26,7 @@ describe('Controller: ShowCtrl', function () {
     http = $httpBackend;
     q = $q;
     spyOn(rootScope, '$broadcast');
-    showGameService = jasmine.createSpyObj('showGameService', ['initializeScope', 'processUpdate', 'processGame']);
+    showGameService = jasmine.createSpyObj('showGameService', ['initializeScope', 'processGameUpdateForScope', 'updateScopeForGame']);
     location = {path: jasmine.createSpy()};
     modal = {
       open: function (params) {
@@ -83,8 +83,8 @@ describe('Controller: ShowCtrl', function () {
     playerDeferred.resolve(player);
     rootScope.$apply();
     expect(scope.player).toEqual(player);
-    expect(showGameService.processGame).toHaveBeenCalledWith(scope, scope.game);
-    expect(showGameService.processGame).toHaveBeenCalledWith(scope, game);
+    expect(showGameService.updateScopeForGame).toHaveBeenCalledWith(scope, scope.game);
+    expect(showGameService.updateScopeForGame).toHaveBeenCalledWith(scope, game);
   });
 
   describe('test various action processing', function () {
@@ -98,7 +98,7 @@ describe('Controller: ShowCtrl', function () {
       expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'RoundOver');
       expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'NextRoundStarted');
       expect(location.path).toHaveBeenCalledWith('/show/newid');
-      expect(showGameService.processGame).toHaveBeenCalledWith(scope, newGame);
+      expect(showGameService.updateScopeForGame).toHaveBeenCalledWith(scope, newGame);
     });
 
     it('post rematch fails', function () {
@@ -115,7 +115,7 @@ describe('Controller: ShowCtrl', function () {
       scope.accept();
       http.flush();
 
-      expect(showGameService.processUpdate).toHaveBeenCalledWith(scope, updatedGame);
+      expect(showGameService.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
     });
 
     it('accept match fails', function () {
@@ -133,7 +133,7 @@ describe('Controller: ShowCtrl', function () {
       modalResult.resolve();
       http.flush();
 
-      expect(showGameService.processUpdate).toHaveBeenCalledWith(scope, updatedGame);
+      expect(showGameService.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
     });
 
     it('reject match with cancel on confirm', function () {
@@ -157,7 +157,7 @@ describe('Controller: ShowCtrl', function () {
       modalResult.resolve();
       http.flush();
 
-      expect(showGameService.processUpdate).toHaveBeenCalledWith(scope, updatedGame);
+      expect(showGameService.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
     });
 
     it('quit match with cancel on confirm', function () {
@@ -185,7 +185,7 @@ describe('Controller: ShowCtrl', function () {
       scope.setPuzzle();
       http.flush();
 
-      expect(showGameService.processUpdate).toHaveBeenCalledWith(scope, updatedGame);
+      expect(showGameService.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
     });
 
     it('set puzzle fails', function () {
@@ -208,7 +208,7 @@ describe('Controller: ShowCtrl', function () {
       scope.sendGuess('a');
       http.flush();
 
-      expect(showGameService.processUpdate).toHaveBeenCalledWith(scope, updatedGame);
+      expect(showGameService.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
     });
 
     it('guess letter fails', function () {
@@ -234,7 +234,7 @@ describe('Controller: ShowCtrl', function () {
       scope.stealLetter('2');
       http.flush();
 
-      expect(showGameService.processUpdate).toHaveBeenCalledWith(scope, updatedGame);
+      expect(showGameService.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
     });
 
     it('steal letter fails', function () {

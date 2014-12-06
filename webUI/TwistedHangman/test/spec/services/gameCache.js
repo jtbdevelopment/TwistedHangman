@@ -176,6 +176,19 @@ describe('Service: gameCache', function () {
       expect(service.getGamesForPhase('All')).toEqual([ng1v2, ng2, ng3, ng4]);
     });
 
+    it('takes in a newer game update to a new phase', function () {
+      ng1.lastUpdate = 1000;
+      var ng1v2 = angular.copy(ng1);
+      ng1v2.lastUpdate = 1001;
+      ng1v2.gamePhase = 'Phase2';
+      service.putUpdatedGame(ng1v2);
+
+      expect(service.getGamesForPhase('Phase1')).toEqual([ng2, ng4]);
+      expect(service.getGamesForPhase('Phase2')).toEqual([ng3, ng1v2]);
+      expect(service.getGamesForPhase('Phase3')).toEqual([]);
+      expect(service.getGamesForPhase('All')).toEqual([ng1v2, ng2, ng3, ng4]);
+    });
+
     it('rejects a stale game update, matching time', function () {
       ng1.lastUpdate = 1000;
       var ng1v2 = angular.copy(ng1);

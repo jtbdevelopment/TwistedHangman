@@ -55,27 +55,37 @@ angular.module('twistedHangmanApp').factory('twGameCache',
       }
 
       var cache = {
-        putUpdatedGame: function (game) {
-          var phaseCache = gameCache.get(game.gamePhase);
-          var phaseIndex = phaseCache.idMap[game.id];
-
+        putUpdatedGame: function (updatedGame) {
           var allCache = gameCache.get(ALL);
-          var allIndex = allCache.idMap[game.id];
+          var allIndex = allCache.idMap[updatedGame.id];
 
           //  TODO publish?
           if (angular.isDefined(allIndex)) {
             var existingGame = allCache.games[allIndex];
-            if (game.lastUpdate <= existingGame.lastUpdate) {
-              console.warn('Skipping Stale game update for ' + game.id);
+            if (updatedGame.lastUpdate <= existingGame.lastUpdate) {
+              console.warn('Skipping Stale game update for ' + updatedGame.id);
               return;
             }
-            allCache.games[allIndex] = game;
-            phaseCache.games[phaseIndex] = game;
+            allCache.games[allIndex] = updatedGame;
+
+            var existingPhaseCache = gameCache.get(existingGame.gamePhase);
+            var existingPhaseIndex = existingPhaseCache.idMap[existingGame.id];
+            if (existingGame.gamePhase === updatedGame.gamePhase) {
+              existingPhaseCache.games[existingPhaseIndex] = updatedGame;
+            } else {
+              var newPhaseCache = gameCache.get(updatedGame.gamePhase);
+              newPhaseCache.games.push(updatedGame);
+              newPhaseCache.idMap[updatedGame.id] = newPhaseCache.games.indexOf(updatedGame);
+              existingPhaseCache.games.splice(existingPhaseIndex, 1);
+              delete existingPhaseCache.idMap[existingGame.id];
+            }
+
           } else {
-            phaseCache.games.push(game);
-            phaseCache.idMap[game.id] = phaseCache.games.indexOf(game);
-            allCache.games.push(game);
-            allCache.idMap[game.id] = allCache.games.indexOf(game);
+            var phaseCache = gameCache.get(updatedGame.gamePhase);
+            phaseCache.games.push(updatedGame);
+            phaseCache.idMap[updatedGame.id] = phaseCache.games.indexOf(updatedGame);
+            allCache.games.push(updatedGame);
+            allCache.idMap[updatedGame.id] = allCache.games.indexOf(updatedGame);
           }
         },
 
