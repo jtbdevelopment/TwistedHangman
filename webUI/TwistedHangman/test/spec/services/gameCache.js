@@ -60,6 +60,16 @@ describe('Service: gameCache', function () {
       expect(rootScope.$broadcast).toHaveBeenCalledWith('gameCachesLoaded', 1);
     });
 
+    it('asking for a game before initialization yields undefined', function () {
+      expect(service.getGameForID('ng3')).toBeUndefined();
+
+      http.expectGET(baseURL + gamesURL).respond([ng3]);
+      phaseDeferred.resolve(phases);
+      rootScope.$apply();
+      http.flush();
+      expect(service.getGameForID('ng3')).toEqual(ng3);
+    });
+
     it('errors when phases errors', function () {
       phaseDeferred.reject();
       rootScope.$apply();
@@ -133,7 +143,16 @@ describe('Service: gameCache', function () {
     });
 
     afterEach(function () {
+      //  From initialization
       expect(rootScope.$broadcast).toHaveBeenCalledWith('gameCachesLoaded', 1);
+    });
+
+    it('can serve game by id', function () {
+      expect(service.getGameForID(ng1.id)).toEqual(ng1);
+    });
+
+    it('can serve game by bad id', function () {
+      expect(service.getGameForID('badid')).toBeUndefined();
     });
 
     it('takes in a new game update', function () {

@@ -12,13 +12,10 @@ angular.module('twistedHangmanApp').factory('twGameCache',
         phases.forEach(function (phase) {
             var phaseCache = gameCache.get(phase);
             if (angular.isDefined(phaseCache)) {
-              var idMap = phaseCache.idMap;
-              if (angular.isDefined(idMap)) {
-                Object.keys(phaseCache.idMap).forEach(function (key) {
-                  delete phaseCache.idMap[key];
-                });
-                phaseCache.games.splice(0);
-              }
+              Object.keys(phaseCache.idMap).forEach(function (key) {
+                delete phaseCache.idMap[key];
+              });
+              phaseCache.games.splice(0);
             } else {
               //  Would be nice to use more caches but can't get keys
               gameCache.put(phase, {
@@ -82,13 +79,24 @@ angular.module('twistedHangmanApp').factory('twGameCache',
           }
         },
 
+        getGameForID: function (id) {
+          var allCache = gameCache.get(ALL);
+          if (angular.isDefined(allCache)) {
+            var index = allCache.idMap[id];
+            if (angular.isDefined(index)) {
+              return allCache.games[index];
+            }
+          }
+        },
+
         getGamesForPhase: function (phase) {
           return gameCache.get(phase).games;
         }
+
         /*  If debugging needed
          ,getMapForPhase: function (phase) {
          return gameCache.get(phase).idMap;
-        }
+         }
          */
       };
 

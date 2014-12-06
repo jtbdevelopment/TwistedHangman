@@ -1,13 +1,20 @@
 'use strict';
 
 angular.module('twistedHangmanApp').controller('ShowCtrl',
-  ['$rootScope', '$scope', '$routeParams', '$http', '$location', '$modal', 'twCurrentPlayerService', 'twShowGameService',
-    function ($rootScope, $scope, $routeParams, $http, $location, $modal, twCurrentPlayerService, twShowGameService) {
+  ['$rootScope', '$scope', '$routeParams', '$http', '$location', '$modal', 'twCurrentPlayerService', 'twShowGameService', 'twGameCache',
+    function ($rootScope, $scope, $routeParams, $http, $location, $modal, twCurrentPlayerService, twShowGameService, twGameCache) {
       twShowGameService.initializeScope($scope);
       $scope.gameID = $routeParams.gameID;
       $scope.enteredCategory = '';
       $scope.enteredWordPhrase = '';
       $scope.alerts = [];
+      var game = twGameCache.getGameForID($scope.gameID);
+      if (angular.isDefined(game)) {
+        twShowGameService.processGame($scope, game);
+      }
+      $scope.$on('gameCachesLoaded', function () {
+        twShowGameService.processGame($scope, twGameCache.getGameForID($scope.gameID));
+      });
 
 
       twCurrentPlayerService.currentPlayer().then(function (data) {
@@ -15,13 +22,6 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
         twShowGameService.processGame($scope, $scope.game);
       }, function () {
         //  TODO - route to error page?
-      });
-
-      $http.get(twCurrentPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID).success(function (data) {
-        twShowGameService.processGame($scope, data);
-      }).error(function (data, status, headers, config) {
-        //  TODO - route to error page?
-        console.error(data + status + headers + config);
       });
 
       function addFailureAlert(alertMessage) {
@@ -34,6 +34,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
 
       //  TODO - state change alerts
       //  TODO - refresh game on error on action?
+      //  TODO - move the broadcast
 
       $scope.startNextRound = function () {
         $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/rematch').success(function (data) {
