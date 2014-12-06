@@ -2,7 +2,7 @@
   <!--  TODO - make collapsible  -->
   <!--  TODO - display more infomation about game options  -->
   <span class="gameButtonBadge">{{label}}<span class="badge pull-right">{{games.length}}</span></span>
-  <a ng-repeat="game in games | orderBy:['-lastUpdate']" href="#/show/{{game.id}}" role="button"
+  <a ng-repeat="game in games | orderBy:['-lastUpdate', '-created']" href="#/show/{{game.id}}" role="button"
      class="btn-group btn gameButton {{style}}">
     <span class="glyphicon {{glyph}}">
             <span ng-repeat="(key, value) in game.players">{{value}}<span ng-show=" ! $last ">, </span></span>
