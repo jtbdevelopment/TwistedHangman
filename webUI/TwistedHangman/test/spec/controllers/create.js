@@ -5,7 +5,7 @@ describe('Controller: CreateCtrl', function () {
   // load the controller's module
   beforeEach(module('twistedHangmanApp'));
 
-  var ctrl, scope, http, q, rootScope, featureDeferred, location, friendsDeferred;
+  var ctrl, scope, http, q, rootScope, featureDeferred, location, friendsDeferred, gameCache;
   var friends = {md1: 'friend1', md2: 'friend2', md3: 'friend3', md4: 'friend4'};
 
   // Initialize the controller and a mock scope
@@ -13,7 +13,7 @@ describe('Controller: CreateCtrl', function () {
     rootScope = $rootScope;
     http = $httpBackend;
     q = $q;
-    spyOn(rootScope, '$broadcast');
+    gameCache = {putUpdatedGame: jasmine.createSpy()};
     location = {path: jasmine.createSpy()};
     scope = rootScope.$new();
     var mockFeatureService = {
@@ -38,6 +38,7 @@ describe('Controller: CreateCtrl', function () {
 
     ctrl = $controller('CreateCtrl', {
       $scope: scope,
+      twGameCache: gameCache,
       twGameFeatureService: mockFeatureService,
       twCurrentPlayerService: mockPlayerService,
       $location: location
@@ -256,13 +257,14 @@ describe('Controller: CreateCtrl', function () {
   it('test create game submission sp', function () {
     scope.setSinglePlayer();
     var varid = 'anid';
+    var createdGame = {gamePhase: 'test', id: varid};
     http.expectPOST('/api/player/MANUAL1/new', {
       players: [],
       features: ['SystemPuzzles', 'SinglePlayer', 'Thieving', 'Live', 'SingleWinner']
-    }).respond({gamePhase: 'test', id: varid});
+    }).respond(createdGame);
     scope.createGame();
     http.flush();
-    expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'test');
+    expect(gameCache.putUpdatedGame).toHaveBeenCalledWith(createdGame);
     expect(location.path).toHaveBeenCalledWith('/show/anid');
   });
 
@@ -274,13 +276,14 @@ describe('Controller: CreateCtrl', function () {
     scope.gamePace = 'TurnBased';
     scope.wordPhraseSetter = 'Head2Head';
     var varid = 'anid';
+    var createdGame = {gamePhase: 'test2', id: varid};
     http.expectPOST('/api/player/MANUAL1/new', {
       players: ['x'],
       features: ['Head2Head', 'TwoPlayer', 'TurnBased', 'SingleWinner']
-    }).respond({gamePhase: 'test2', id: varid});
+    }).respond(createdGame);
     scope.createGame();
     http.flush();
-    expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'test2');
+    expect(gameCache.putUpdatedGame).toHaveBeenCalledWith(createdGame);
     expect(location.path).toHaveBeenCalledWith('/show/anid');
   });
 
@@ -291,13 +294,14 @@ describe('Controller: CreateCtrl', function () {
     scope.winners = 'AllComplete';
     scope.gamePace = 'TurnBased';
     var varid = 'anid';
+    var createdGame = {gamePhase: 'test3', id: varid};
     http.expectPOST('/api/player/MANUAL1/new', {
       players: ['x', 'y'],
       features: ['SystemPuzzles', 'ThreePlus', 'TurnBased', 'AllComplete']
-    }).respond({gamePhase: 'test3', id: varid});
+    }).respond(createdGame);
     scope.createGame();
     http.flush();
-    expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'test3');
+    expect(gameCache.putUpdatedGame).toHaveBeenCalledWith(createdGame);
     expect(location.path).toHaveBeenCalledWith('/show/anid');
   });
 
