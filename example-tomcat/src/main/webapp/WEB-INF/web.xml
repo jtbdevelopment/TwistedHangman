@@ -41,11 +41,6 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>/static/*</url-pattern>
-    </servlet-mapping>
-
     <session-config>
         <session-timeout>10</session-timeout>
     </session-config>
