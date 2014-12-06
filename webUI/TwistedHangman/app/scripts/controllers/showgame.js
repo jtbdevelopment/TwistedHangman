@@ -1,5 +1,6 @@
 'use strict';
 
+//  TODO - should all the playing failures refresh game?
 angular.module('twistedHangmanApp').controller('ShowCtrl',
   ['$rootScope', '$scope', '$routeParams', '$http', '$location', '$modal', 'twCurrentPlayerService', 'twShowGameService', 'twGameCache',
     function ($rootScope, $scope, $routeParams, $http, $location, $modal, twCurrentPlayerService, twShowGameService, twGameCache) {
@@ -38,6 +39,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
 
       $scope.startNextRound = function () {
         $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/rematch').success(function (data) {
+          //  TODO - remove this - but need server to publish both games or live update
           $rootScope.$broadcast('refreshGames', data.gamePhase);
           $rootScope.$broadcast('refreshGames', 'NextRoundStarted');
           $rootScope.$broadcast('refreshGames', 'RoundOver');
