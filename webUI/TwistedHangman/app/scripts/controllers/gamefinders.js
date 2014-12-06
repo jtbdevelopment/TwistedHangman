@@ -32,13 +32,12 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
         twGamePhaseService.phases().then(function (phases) {
           $scope.label = phases[phase][1];
         }, function () {
-          console.log('X');
           $location.path('/error');
         });
 
         function loadGames() {
           $scope.games = twGameCache.getGamesForPhase(phase);
-        };
+        }
 
         $scope.$on('gameCachesLoaded', function () {
           loadGames();

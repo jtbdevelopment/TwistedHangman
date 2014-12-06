@@ -67,10 +67,6 @@ angular.module('twistedHangmanApp').factory('twGameCache',
           var allCache = gameCache.get(ALL);
           var allIndex = allCache.idMap[game.id];
 
-          if (angular.isDefined(allIndex) !== angular.isDefined(phaseIndex)) {
-            console.error('Caches are out of sync!');
-            //  TODO - reload?
-          }
           if (angular.isDefined(allIndex)) {
             var existingGame = allCache.games[allIndex];
             if (game.lastUpdate <= existingGame.lastUpdate) {

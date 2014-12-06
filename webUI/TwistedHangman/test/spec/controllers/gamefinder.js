@@ -73,9 +73,13 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
       });
 
       it('refreshes on "gameCachesLoaded" broadcast', function () {
+        rootScope.$broadcast('gameCachesLoaded');
         expect(scope.games).toEqual(games);
         var newStatus = [{'Y': 2}, {'Z': 5}];
-        games = newStatus;
+        games.splice(0);
+        newStatus.forEach(function (status) {
+          games.push(status)
+        });
         rootScope.$broadcast('gameCachesLoaded');
         expect(scope.games).toEqual(newStatus);
       });
