@@ -33,16 +33,6 @@
             <version>${jersey.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-grizzly2-http</artifactId>
-            <version>${jersey.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-grizzly2-servlet</artifactId>
-            <version>${jersey.version}</version>
-        </dependency>
-        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
@@ -67,40 +57,5 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-        <dependency>
-            <groupId>org.glassfish.grizzly</groupId>
-            <artifactId>grizzly-comet</artifactId>
-            <version>2.3.16</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.grizzly</groupId>
-            <artifactId>grizzly-websockets</artifactId>
-            <version>2.3.16</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.grizzly</groupId>
-            <artifactId>grizzly-http-servlet</artifactId>
-            <version>2.3.16</version>
-        </dependency>
-        <!--
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.3.2</version>
-            <scope>runtime</scope>
-        </dependency>
-                <dependency>
-                    <groupId>org.glassfish.jersey.security</groupId>
-                    <artifactId>oauth1-client</artifactId>
-                    <version>${jersey.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.glassfish.jersey.security</groupId>
-                    <artifactId>oauth2-client</artifactId>
-                    <version>${jersey.version}</version>
-                </dependency>
-
-        -->
     </dependencies>
 </project>
