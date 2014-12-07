@@ -1,10 +1,13 @@
 package com.jtbdevelopment.TwistedHangman.rest
 
-import com.jtbdevelopment.TwistedHangman.rest.config.JerseyConfig
-import org.glassfish.grizzly.http.server.CLStaticHttpHandler
+import org.atmosphere.cpr.AtmosphereServlet
 import org.glassfish.grizzly.http.server.HttpServer
+import org.glassfish.grizzly.http.server.NetworkListener
+import org.glassfish.grizzly.servlet.ServletRegistration
+import org.glassfish.grizzly.servlet.WebappContext
+import org.glassfish.grizzly.websockets.WebSocketAddOn
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory
-import org.glassfish.jersey.server.ResourceConfig
+import org.glassfish.jersey.servlet.ServletContainer
 
 import javax.ws.rs.core.UriBuilder
 
@@ -13,18 +16,56 @@ import javax.ws.rs.core.UriBuilder
  * Time: 7:19 AM
  */
 class GrizzlyServerBuilder {
-    static HttpServer makeServer(final URI baseUri, final String context) {
-        ResourceConfig config = new JerseyConfig(context)
-        HttpServer server = GrizzlyHttpServerFactory.createHttpServer(baseUri, config)
-        server.serverConfiguration.addHttpHandler(
-                new CLStaticHttpHandler(GrizzlyServerBuilder.class.classLoader, "/static/")
-        )
+    static HttpServer makeServer(final URI baseUri, final String springContext) {
+        HttpServer server = GrizzlyHttpServerFactory.createHttpServer(baseUri)
+
+        // enable web socket support
+        final WebSocketAddOn addon = new WebSocketAddOn();
+
+        for (NetworkListener listener : server.getListeners()) {
+            listener.registerAddOn(addon);
+        }
+        WebappContext context = new WebappContext("ctx", "");
+
+        final AtmosphereServlet atmosphereServlet = new AtmosphereServlet();
+        final ServletRegistration atmosphereServletRegistration = context.addServlet("AtmosphereServlet", atmosphereServlet);
+        atmosphereServletRegistration.setInitParameter(
+                "org.atmosphere.websocket.messageContentType",
+                "application/json");
+        atmosphereServletRegistration.addMapping("/livefeed/*");
+        atmosphereServletRegistration.setLoadOnStartup(0);
+
+        ServletRegistration registration = context.addServlet("ServletContainer", ServletContainer.class);
+        registration.addMapping("/api/*");
+        registration.setInitParameter("jersey.config.server.provider.packages", "com.jtbdevelopment.TwistedHangman")
+        registration.setLoadOnStartup(1)
+
+        /*
+
+        // add atmosphere servlet support
+
+        final WebappContext ctx = new WebappContext("ctx", "/");
+        final ServletRegistration atmosphereServletRegistration = ctx.addServlet("AtmosphereServlet", atmosphereServlet);
+
+        atmosphereServletRegistration.setInitParameter(
+                "org.atmosphere.websocket.messageContentType",
+                "application/json");
+        atmosphereServletRegistration.addMapping("/*");
+        atmosphereServletRegistration.setLoadOnStartup(1);
+        ctx.deploy(server)
+        */
+
+        context.addContextInitParameter("contextConfigLocation", "classpath:" + springContext);
+        context.addListener("org.springframework.web.context.ContextLoaderListener");
+        context.addListener("org.springframework.web.context.request.RequestContextListener");
+        context.deploy(server);
+
         server;
     }
 
     static void main(final String[] args) throws Exception {
 
-        URI baseUri = UriBuilder.fromUri("http://localhost/api").port(9998).build();
+        URI baseUri = UriBuilder.fromUri("http://localhost/").port(9998).build();
         GrizzlyServerBuilder.makeServer(baseUri, "spring-context-rest.xml");
         Thread.sleep(Long.MAX_VALUE);
     }

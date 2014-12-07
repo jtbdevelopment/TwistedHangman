@@ -78,9 +78,10 @@ module.exports = function (grunt) {
           port: 9998 // the port that the data service is running on
         },
         {
-          context: '/liveFeed', // the context of the data service
+          context: '/livefeed', // the context of the data service
           host: 'localhost', // wherever the data service is running
-          port: 9998 // the port that the data service is running on
+          port: 9998, // the port that the data service is running on
+          ws: true
         }
       ],
       livereload: {
