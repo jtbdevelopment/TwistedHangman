@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.rest
+package com.jtbdevelopment.TwistedHangman
 
 import org.atmosphere.cpr.AtmosphereServlet
 import org.glassfish.grizzly.http.server.HttpServer
@@ -51,7 +51,7 @@ class GrizzlyServerBuilder {
 
     static void main(final String[] args) throws Exception {
 
-        GrizzlyServerBuilder.makeServer(9998, "spring-context-rest.xml");
+        makeServer(9998, "spring-context-rest.xml");
         Thread.sleep(Long.MAX_VALUE);
     }
 }
