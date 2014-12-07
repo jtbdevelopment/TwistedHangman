@@ -40,21 +40,6 @@ class GrizzlyServerBuilder {
         registration.setInitParameter("jersey.config.server.provider.packages", "com.jtbdevelopment.TwistedHangman")
         registration.setLoadOnStartup(1)
 
-        /*
-
-        // add atmosphere servlet support
-
-        final WebappContext ctx = new WebappContext("ctx", "/");
-        final ServletRegistration atmosphereServletRegistration = ctx.addServlet("AtmosphereServlet", atmosphereServlet);
-
-        atmosphereServletRegistration.setInitParameter(
-                "org.atmosphere.websocket.messageContentType",
-                "application/json");
-        atmosphereServletRegistration.addMapping("/*");
-        atmosphereServletRegistration.setLoadOnStartup(1);
-        ctx.deploy(server)
-        */
-
         context.addContextInitParameter("contextConfigLocation", "classpath:" + springContext);
         context.addListener("org.springframework.web.context.ContextLoaderListener");
         context.addListener("org.springframework.web.context.request.RequestContextListener");
