@@ -22,7 +22,7 @@
         <servlet-name>AtmosphereServlet</servlet-name>
         <servlet-class>org.atmosphere.cpr.AtmosphereServlet</servlet-class>
         <init-param>
-            <param-name>jersey.config.server.provider.packages</param-name>
+            <param-name>org.atmosphere.cpr.packages</param-name>
             <param-value>com.jtbdevelopment.TwistedHangman.rest.services</param-value>
         </init-param>
         <init-param>

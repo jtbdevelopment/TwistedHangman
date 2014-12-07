@@ -44,8 +44,6 @@
     <orderEntry type="library" name="Maven: javax.servlet:javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:4.1.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.8.2" level="project" />
-    <orderEntry type="library" name="Maven: org.atmosphere:atmosphere-jersey:2.2.3" level="project" />
-    <orderEntry type="library" name="Maven: org.atmosphere:atmosphere-annotations:2.2.3" level="project" />
     <orderEntry type="library" name="Maven: org.atmosphere:atmosphere-runtime:2.2.3" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jersey.ext:jersey-spring3:2.13" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-server:2.13" level="project" />

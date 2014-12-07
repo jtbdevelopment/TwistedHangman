@@ -2,7 +2,7 @@ package com.jtbdevelopment.TwistedHangman.rest.services
 
 import groovy.transform.CompileStatic
 import org.atmosphere.cpr.Broadcaster
-import org.atmosphere.cpr.BroadcasterFactory
+import org.atmosphere.cpr.MetaBroadcaster
 import org.springframework.context.annotation.Lazy
 import org.springframework.stereotype.Component
 
@@ -28,12 +28,10 @@ class LiveFeedHeartbeat {
                     Thread.sleep(10000)
                     try {
                         if (publish) {
-                            BroadcasterFactory factory = BroadcasterFactory.default;
-                            Broadcaster broadcaster = factory.lookup("/livefeed")
-
-                            Future<Object> f = broadcaster.broadcast('{"msg": "ping"}');
-                            Object o = f.get();
-                            println o
+                            Future<List<Broadcaster>> bs = MetaBroadcaster.default.broadcastTo("/livefeed/*", '{"msg": "ping"}')
+                            for (Broadcaster b : bs.get()) {
+                                println(b)
+                            }
                         }
                     } catch (Throwable e) {
                         print e;

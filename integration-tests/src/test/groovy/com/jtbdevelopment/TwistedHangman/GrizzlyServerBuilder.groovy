@@ -1,6 +1,8 @@
 package com.jtbdevelopment.TwistedHangman
 
+import org.atmosphere.cpr.AtmosphereRequest
 import org.atmosphere.cpr.AtmosphereServlet
+import org.atmosphere.util.DefaultEndpointMapper
 import org.glassfish.grizzly.http.server.HttpServer
 import org.glassfish.grizzly.http.server.NetworkListener
 import org.glassfish.grizzly.servlet.ServletRegistration
@@ -23,22 +25,32 @@ class GrizzlyServerBuilder {
             listener.registerAddOn(addon);
         }
 
-        WebappContext context = new WebappContext("ctx", "");
-        final ServletRegistration atmosphereServletRegistration = context.addServlet("AtmosphereServlet", AtmosphereServlet.class);
+        WebappContext context = new WebappContext("ctx", "/");
+
+        //  TODO - hack - kept getting issue where websock pathinfo was null and unable to resolve it
+        AtmosphereServlet atmosphereServlet = new AtmosphereServlet()
+        atmosphereServlet.framework().endPointMapper(new DefaultEndpointMapper() {
+            @Override
+            String computePath(final AtmosphereRequest req) {
+                return req.requestURI
+            }
+        })
+
+        final ServletRegistration atmosphereServletRegistration = context.addServlet("AtmosphereServlet", atmosphereServlet);
         atmosphereServletRegistration.setInitParameter(
                 "org.atmosphere.websocket.messageContentType",
                 "application/json");
-        atmosphereServletRegistration.setInitParameter("jersey.config.server.provider.packages", "com.jtbdevelopment.TwistedHangman.rest.services")
+        atmosphereServletRegistration.setInitParameter("org.atmosphere.cpr.packages", "com.jtbdevelopment.TwistedHangman.rest.services")
         atmosphereServletRegistration.asyncSupported = true;
         atmosphereServletRegistration.addMapping("/livefeed/*");
-        atmosphereServletRegistration.setLoadOnStartup(0);
+        atmosphereServletRegistration.setLoadOnStartup(1);
 
         ServletRegistration registration = context.addServlet("ServletContainer", ServletContainer.class);
         registration.addMapping("/api/*");
         registration.setInitParameter("jersey.config.server.provider.packages", "com.jtbdevelopment.TwistedHangman")
         registration.setInitParameter("jersey.config.server.provider.classnames", "org.glassfish.jersey.filter.LoggingFilter")
         registration.setInitParameter("jersey.config.server.tracing", "ALL")
-        registration.setLoadOnStartup(1)
+        registration.setLoadOnStartup(2)
 
         context.addContextInitParameter("contextConfigLocation", "classpath:" + springContext);
         context.addListener("org.springframework.web.context.ContextLoaderListener");
