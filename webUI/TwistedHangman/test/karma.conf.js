@@ -34,7 +34,9 @@ module.exports = function (config) {
     ],
 
     // list of files / patterns to exclude
-    exclude: [],
+    exclude: [
+      'app/scripts/atmosphereplay.js'
+    ],
 
     // coverage reporter generates the coverage
     reporters: ['progress', 'coverage'],

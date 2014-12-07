@@ -44,7 +44,8 @@ angular.module('twistedHangmanApp').factory('twGameCache',
       //  If we do - make cache player id specific
       function initialize() {
         twGamePhaseService.phases().then(function (phaseMap) {
-          phases = [ALL];
+          phases.slice(0);
+          phases.push(ALL);
           angular.forEach(phaseMap, function (array, phase) {
             phases.push(phase);
           });

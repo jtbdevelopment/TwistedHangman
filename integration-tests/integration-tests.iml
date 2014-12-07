@@ -49,11 +49,17 @@
     <orderEntry type="library" name="Maven: org.glassfish.jersey.containers:jersey-container-grizzly2-http:2.13" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.hk2.external:javax.inject:2.3.0-b10" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-http-server:2.3.16" level="project" />
-    <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-http:2.3.16" level="project" />
-    <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-framework:2.3.16" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet:javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:4.1.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.8.2" level="project" />
+    <orderEntry type="library" name="Maven: org.atmosphere:atmosphere-jersey:2.2.3" level="project" />
+    <orderEntry type="library" name="Maven: org.atmosphere:atmosphere-annotations:2.2.3" level="project" />
+    <orderEntry type="library" name="Maven: org.atmosphere:atmosphere-runtime:2.2.3" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-comet:2.3.16" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-framework:2.3.16" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-websockets:2.3.16" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-http:2.3.16" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.grizzly:grizzly-http-servlet:2.3.16" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy-all:2.3.7" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.gpars:gpars:1.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.multiverse:multiverse-core:0.7.0" level="project" />
