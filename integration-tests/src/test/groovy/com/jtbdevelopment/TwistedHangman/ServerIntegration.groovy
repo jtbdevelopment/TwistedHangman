@@ -30,7 +30,8 @@ import javax.ws.rs.core.UriBuilder
  */
 class ServerIntegration {
     private static HttpServer SERVER;
-    private static final URI BASE_URI = UriBuilder.fromUri("http://localhost/api").port(8998).build();
+    private static final int port = 8998;
+    private static final URI BASE_URI = UriBuilder.fromUri("http://localhost/api").port(port).build();
     private static final URI PLAYERS_URI = BASE_URI.resolve("api/player")
 
     static Player TEST_PLAYER1 = new Player(source: "MANUAL", id: "INTEGRATION-TEST-PLAYER1", disabled: false, displayName: "TEST PLAYER1")
@@ -42,7 +43,7 @@ class ServerIntegration {
 
     @BeforeClass
     public static void initialize() {
-        SERVER = GrizzlyServerBuilder.makeServer(BASE_URI, "spring-context-integration.xml")
+        SERVER = GrizzlyServerBuilder.makeServer(port, "spring-context-integration.xml")
         assert applicationContext != null
         PlayerRepository playerRepository = applicationContext.getBean(PlayerRepository.class)
         playerRepository.delete(TEST_PLAYER1.id)

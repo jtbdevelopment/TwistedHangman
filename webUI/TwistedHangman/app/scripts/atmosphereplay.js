@@ -4,7 +4,7 @@ $(function () {
   "use strict";
   var socket = $.atmosphere;
   var request = {
-    url: document.location.toString().replace('#/', '') + 'livefeed',
+    url: '/livefeed',
     contentType: "application/json",
     logLevel: 'debug',
     transport: 'websocket',
