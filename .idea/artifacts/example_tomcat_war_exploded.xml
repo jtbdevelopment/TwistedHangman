@@ -25,7 +25,7 @@
           <element id="library" level="project" name="Maven: org.glassfish.jersey.containers:jersey-container-grizzly2-http:2.13" />
           <element id="library" level="project" name="Maven: org.glassfish.hk2.external:javax.inject:2.3.0-b10" />
           <element id="library" level="project" name="Maven: org.glassfish.grizzly:grizzly-http-server:2.3.16" />
-          <element id="library" level="project" name="Maven: org.glassfish.jersey.containers:jersey-container-grizzly2-sevlet:2.13" />
+          <element id="library" level="project" name="Maven: org.glassfish.jersey.containers:jersey-container-grizzly2-servlet:2.13" />
           <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:3.1.0" />
           <element id="library" level="project" name="Maven: org.springframework:spring-aspects:4.1.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.8.2" />
@@ -94,7 +94,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/example-tomcat/target/MANIFEST.MF" />
+        <element id="file-copy" path="C:\DEV\TwistedHangman\example-tomcat\target/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="example-tomcat/web/Web" />
     </root>

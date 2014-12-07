@@ -39,7 +39,7 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-grizzly2-sevlet</artifactId>
+            <artifactId>jersey-container-grizzly2-servlet</artifactId>
             <version>${jersey.version}</version>
         </dependency>
         <dependency>
