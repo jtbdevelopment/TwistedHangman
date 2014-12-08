@@ -17,11 +17,16 @@ angular.module('twistedHangmanApp').factory('twLiveGameFeed',
 
         onMessage: function (response) {
           if (angular.isDefined(response.messages)) {
-            response.messages.forEach(function (message) {
+            response.messages.forEach(function (messageString) {
+              //  TODO - catch error
+              var message = JSON.parse(messageString);
               if (angular.isDefined(message.messageType)) {
-                switch (message.messageType) {
-                  case 'game':
-                    console.error('got a game ' + message);
+                switch (message.messageType.toString()) {
+                  case 'Game':
+                    console.error('got a game ' + message.message);
+                    return;
+                  case 'Heartbeat':
+                    console.error('got a heartbeat ' + message.message);
                     return;
                 }
                 console.warn('onMessage: unknown message type \'' + message.messageType + '\'');

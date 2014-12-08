@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.rest.services
+package com.jtbdevelopment.TwistedHangman.feed.websocket
 
 import groovy.transform.CompileStatic
 import org.atmosphere.cpr.Broadcaster
@@ -28,7 +28,8 @@ class LiveFeedHeartbeat {
                     Thread.sleep(10000)
                     try {
                         if (publish) {
-                            Future<List<Broadcaster>> bs = MetaBroadcaster.default.broadcastTo("/livefeed/*", '{"msg": "ping"}')
+                            Future<List<Broadcaster>> bs = MetaBroadcaster.default.broadcastTo("/livefeed/*",
+                                    new TWMessage(messageType: TWMessage.MessageType.Heartbeat, message: "hb"))
                             for (Broadcaster b : bs.get()) {
                                 println(b)
                             }

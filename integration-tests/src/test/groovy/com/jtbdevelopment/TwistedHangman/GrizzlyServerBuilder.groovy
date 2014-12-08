@@ -41,7 +41,7 @@ class GrizzlyServerBuilder {
         atmosphereServletRegistration.setInitParameter(
                 "org.atmosphere.websocket.messageContentType",
                 "application/json");
-        atmosphereServletRegistration.setInitParameter("org.atmosphere.cpr.packages", "com.jtbdevelopment.TwistedHangman.rest.services")
+        atmosphereServletRegistration.setInitParameter("org.atmosphere.cpr.packages", "com.jtbdevelopment.TwistedHangman")
         atmosphereServletRegistration.asyncSupported = true;
         atmosphereServletRegistration.addMapping("/livefeed/*");
         atmosphereServletRegistration.setLoadOnStartup(1);

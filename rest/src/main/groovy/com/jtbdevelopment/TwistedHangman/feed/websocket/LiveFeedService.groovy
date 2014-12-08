@@ -1,10 +1,7 @@
-package com.jtbdevelopment.TwistedHangman.rest.services
+package com.jtbdevelopment.TwistedHangman.feed.websocket
 
 import groovy.transform.CompileStatic
-import org.atmosphere.config.service.Disconnect
-import org.atmosphere.config.service.ManagedService
-import org.atmosphere.config.service.PathParam
-import org.atmosphere.config.service.Ready
+import org.atmosphere.config.service.*
 import org.atmosphere.cpr.AtmosphereResource
 import org.atmosphere.cpr.AtmosphereResourceEvent
 import org.atmosphere.cpr.AtmosphereResourceFactory
@@ -12,11 +9,6 @@ import org.atmosphere.cpr.BroadcasterFactory
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-/**
- * Extremely simple chat application supporting WebSocket, Server Side-Events, Long-Polling and Streaming.
- *
- * @author Jeanfrancois Arcand
- */
 @ManagedService(path = "/livefeed/{id: [a-zA-Z][a-zA-Z_0-9]*}")
 @CompileStatic
 public class LiveFeedService {
@@ -33,15 +25,15 @@ public class LiveFeedService {
         logger.info("LiveFeedService instantiated")
     }
 
-    @Ready()
+    @Ready(encoders = [HeartbeatJSON.class])
     @SuppressWarnings("unused")
-    public String onReady(final AtmosphereResource r) {
+    public TWMessage onReady(final AtmosphereResource r) {
         logger.info("Browser {} connected.", r.uuid());
 
         broadcasterFactory = r.getAtmosphereConfig().getBroadcasterFactory();
         resourceFactory = r.getAtmosphereConfig().resourcesFactory();
 
-        return '{"msg": "connected to ' + id + '"}'
+        return new TWMessage(messageType: TWMessage.MessageType.Heartbeat, message: "connected to" + id)
     }
 
     @Disconnect
@@ -53,5 +45,10 @@ public class LiveFeedService {
         } else if (event.isClosedByClient()) {
             logger.info("Browser {} closed the connection", event.getResource().uuid());
         }
+    }
+
+    @Message(decoders = [HeartbeatJSON.class], encoders = [HeartbeatJSON.class])
+    public TWMessage onMessage(TWMessage message) {
+        return message
     }
 }

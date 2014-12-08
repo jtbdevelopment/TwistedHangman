@@ -32,6 +32,9 @@ describe('Service: gameCache', function () {
         }
       };
     });
+    $provide.factory('twLiveGameFeed', function () {
+      return {};
+    });
   }));
 
   var service, rootScope, location, http;
