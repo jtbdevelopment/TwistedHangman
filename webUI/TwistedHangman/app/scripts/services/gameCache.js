@@ -1,12 +1,13 @@
 'use strict';
 
 angular.module('twistedHangmanApp').factory('twGameCache',
-  ['$rootScope', '$cacheFactory', '$location', '$http', 'twGamePhaseService', 'twCurrentPlayerService',
-    function ($rootScope, $cacheFactory, $location, $http, twGamePhaseService, twCurrentPlayerService) {
+  ['$rootScope', '$cacheFactory', '$location', '$http', 'twGamePhaseService', 'twCurrentPlayerService', 'twLiveGameFeed',
+    function ($rootScope, $cacheFactory, $location, $http, twGamePhaseService, twCurrentPlayerService, twLiveGameFeed) {
       var ALL = 'All';
       var gameCache = $cacheFactory('game-gameCache');
       var phases = [];
       var loadedCounter = 0;
+      console.info('Have Live Game Feed ' + twLiveGameFeed);  //  This is just to force instantiation and suppress warnings
 
       function initializeSubCaches() {
         phases.forEach(function (phase) {
