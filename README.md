@@ -49,10 +49,13 @@ The front-end development presumes you have the following available:
 *  karma (and command line)
 *  yeoman
 *  ruby/sass/compass for sass builds
+*  Tomcat
 
 The front end development module was kick-started with yeoman.
 
-The front end depends on a backend to be up and running to work.  Grunt proxy has been configured to point api calls to localhost 9998.  If you run the GrizzlyServerBuild class it will launch a backend for you.
+The front end depends on a backend to be up and running to work.  Grunt proxy has been configured to point api calls to localhost 8080.  If you setup a deployed local tomcat it can serve up api/websocket.
+
+__We were using Grizzly prior but experiencing issues with websocket paths not being initialized and gave up trying to resolve it for now.__
 
 __Please note on the first bower build it will generate a warning about angular conflict.  Choose option 3.__
 

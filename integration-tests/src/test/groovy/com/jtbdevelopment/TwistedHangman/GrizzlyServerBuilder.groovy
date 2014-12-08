@@ -32,6 +32,7 @@ class GrizzlyServerBuilder {
         atmosphereServlet.framework().endPointMapper(new DefaultEndpointMapper() {
             @Override
             String computePath(final AtmosphereRequest req) {
+                String s = super.computePath(req)
                 return req.requestURI
             }
         })
