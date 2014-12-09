@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component
  */
 @Component
 @CompileStatic
-//  TODO - test and remove noop listener
+//  TODO - test
 class AtmosphereGameListener implements GameListener {
     @Autowired
     GameMasker gameMasker
