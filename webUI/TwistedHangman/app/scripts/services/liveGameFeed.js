@@ -23,10 +23,10 @@ angular.module('twistedHangmanApp').factory('twLiveGameFeed',
               if (angular.isDefined(message.messageType)) {
                 switch (message.messageType.toString()) {
                   case 'Game':
-                    console.error('got a game ' + message.message);
+                    console.error('got a game ' + JSON.stringify(message.message));
                     return;
                   case 'Heartbeat':
-                    console.error('got a heartbeat ' + message.message);
+                    console.error('got a heartbeat ' + JSON.stringify(message.message));
                     return;
                 }
                 console.warn('onMessage: unknown message type \'' + message.messageType + '\'');

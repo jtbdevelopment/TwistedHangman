@@ -25,7 +25,7 @@ class LiveFeedHeartbeat {
             @Override
             void run() {
                 while (true) {
-                    Thread.sleep(10000)
+                    Thread.sleep(60000)
                     try {
                         if (publish) {
                             Future<List<Broadcaster>> bs = MetaBroadcaster.default.broadcastTo("/livefeed/*",
