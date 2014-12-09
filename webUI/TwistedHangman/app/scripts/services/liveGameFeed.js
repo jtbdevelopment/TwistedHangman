@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twistedHangmanApp').factory('twLiveGameFeed',
-  ['$rootScope', '$location', '$http', 'twGamePhaseService', 'twCurrentPlayerService',
-    function ($rootScope, $location, $http, twGamePhaseService, twCurrentPlayerService) {
+  ['$rootScope', 'twCurrentPlayerService',
+    function ($rootScope, twCurrentPlayerService) {
       var request = {
         url: '',
         contentType: 'application/json',
@@ -18,23 +18,32 @@ angular.module('twistedHangmanApp').factory('twLiveGameFeed',
         onMessage: function (response) {
           if (angular.isDefined(response.messages)) {
             response.messages.forEach(function (messageString) {
-              //  TODO - catch error
-              var message = JSON.parse(messageString);
+              var message;
+              try {
+                message = JSON.parse(messageString);
+              } catch (error) {
+                console.error('got non-parseable message');
+                return;
+              }
+
               if (angular.isDefined(message.messageType)) {
                 switch (message.messageType.toString()) {
                   case 'Game':
-                    console.error('got a game ' + JSON.stringify(message.message));
+                    $rootScope.$broadcast('gameUpdate', message.game.id, message.game);
                     return;
                   case 'Heartbeat':
-                    console.error('got a heartbeat ' + JSON.stringify(message.message));
+                    console.info('got a heartbeat ' + JSON.stringify(message.message));
                     return;
+                  default:
+                    console.warn('onMessage: unknown message type \'' + message.messageType + '\'');
+                    break;
                 }
                 console.warn('onMessage: unknown message type \'' + message.messageType + '\'');
               }
               console.warn('unknown message structure ' + message);
             });
           } else {
-            console.error(this.url + ' unknown onMessage: ' + JSON.stringify(response));
+            console.warn(this.url + ' unknown onMessage: ' + JSON.stringify(response));
           }
         },
 

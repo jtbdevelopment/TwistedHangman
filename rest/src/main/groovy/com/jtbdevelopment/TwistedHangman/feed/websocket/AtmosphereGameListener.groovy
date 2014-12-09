@@ -30,14 +30,14 @@ class AtmosphereGameListener implements GameListener {
             Player p ->
                 p != initiatingPlayer
         }.each {
-            Player p ->
+            Player publish ->
                 //  TODO - this will need to be a lookup when we encode it
-                Broadcaster broadcaster = getBroadcasterFactory().lookup("/livefeed/" + p.id)
+                Broadcaster broadcaster = getBroadcasterFactory().lookup("/livefeed/" + publish.id)
                 if (broadcaster != null) {
                     broadcaster.broadcast(
                             new TWMessage(
                                     messageType: TWMessage.MessageType.Game,
-                                    message: gameMasker.maskGameForPlayer(game, p)
+                                    game: gameMasker.maskGameForPlayer(game, publish)
                             )
                     )
                 }

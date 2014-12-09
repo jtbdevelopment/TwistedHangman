@@ -25,6 +25,14 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
         //  TODO - route to error page?
       });
 
+      $rootScope.$on('gameUpdate', function (event, id, game) {
+        if ($scope.game.id === id) {
+          //  TODO - this generates a stale update warning as game cache is also listening
+          twShowGameService.processGameUpdateForScope($scope, game);
+        }
+      });
+
+
       function addFailureAlert(alertMessage) {
         $scope.alerts.push({type: 'danger', msg: alertMessage});
       }

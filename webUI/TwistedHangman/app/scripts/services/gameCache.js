@@ -65,7 +65,7 @@ angular.module('twistedHangmanApp').factory('twGameCache',
           if (angular.isDefined(allIndex)) {
             var existingGame = allCache.games[allIndex];
             if (updatedGame.lastUpdate <= existingGame.lastUpdate) {
-              console.warn('Skipping Stale game update for ' + updatedGame.id);
+              console.info('Skipping Stale game update for ' + updatedGame.id);
               return;
             }
             allCache.games[allIndex] = updatedGame;
@@ -111,6 +111,11 @@ angular.module('twistedHangmanApp').factory('twGameCache',
          }
          */
       };
+
+      $rootScope.$on('gameUpdate', function (event, id, game) {
+        cache.putUpdatedGame(game);
+        $rootScope.$apply();
+      });
 
       $rootScope.$on('playerSwitch', function () {
         initializeCache();

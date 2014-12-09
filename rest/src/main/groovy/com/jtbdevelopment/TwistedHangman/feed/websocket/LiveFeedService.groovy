@@ -33,7 +33,7 @@ public class LiveFeedService {
         broadcasterFactory = r.getAtmosphereConfig().getBroadcasterFactory();
         resourceFactory = r.getAtmosphereConfig().resourcesFactory();
 
-        return new TWMessage(messageType: TWMessage.MessageType.Heartbeat, message: "connected to" + id)
+        return new TWMessage(messageType: TWMessage.MessageType.Heartbeat, message: "connected to " + id)
     }
 
     @Disconnect

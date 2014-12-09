@@ -1,7 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.feed.websocket
 
-import groovy.json.JsonBuilder
-import groovy.json.JsonSlurper
+import com.fasterxml.jackson.databind.ObjectMapper
 import groovy.transform.CompileStatic
 import org.atmosphere.config.managed.Decoder
 import org.atmosphere.config.managed.Encoder
@@ -12,22 +11,17 @@ import org.atmosphere.config.managed.Encoder
  */
 @CompileStatic
 class HeartbeatJSON implements Encoder<TWMessage, String>, Decoder<String, TWMessage> {
-
+    public static final ObjectMapper mapper = new ObjectMapper()
 
     @Override
     String encode(final TWMessage input) {
-        String string = new JsonBuilder(input).toPrettyString()
-        println string
+        String string = mapper.writeValueAsString(input)
         return string
     }
 
     @Override
     TWMessage decode(final String s) {
-        println s
-
-        TWMessage message = (TWMessage) new JsonSlurper().parseText(s)
-
-        println message
+        TWMessage message = mapper.readValue(s, TWMessage.class)
         return message
     }
 }
