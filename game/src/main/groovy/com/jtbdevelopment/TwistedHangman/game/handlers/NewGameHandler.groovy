@@ -9,6 +9,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -30,6 +31,8 @@ class NewGameHandler extends AbstractHandler {
     protected GamePhaseTransitionEngine transitionEngine
     @Autowired
     protected GameMasker gameMasker
+    @Autowired
+    protected GamePublisher gamePublisher
 
     public MaskedGame handleCreateNewGame(
             final String initiatingPlayerID, final List<String> playersIDs, final Set<GameFeature> features) {
@@ -52,7 +55,7 @@ class NewGameHandler extends AbstractHandler {
         Game game = transitionEngine.evaluateGamePhaseForGame(
                 systemPuzzlerSetter.setWordPhraseFromSystem(
                         gameFactory.createGame(features, players.toList(), initiatingPlayer)))
-        gameRepository.save(game)
+        gamePublisher.publish(gameRepository.save(game), initiatingPlayer)
     }
 
 }

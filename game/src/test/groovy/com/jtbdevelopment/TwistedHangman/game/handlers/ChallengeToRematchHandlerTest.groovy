@@ -9,6 +9,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
 
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -26,13 +27,14 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
         Thread.sleep(100);
         Game previous = new Game(gamePhase: GamePhase.RoundOver, id: "X")
         Game previousT = previous.clone()
+        Game previousS = previous.clone()
+        Game previousP = previous.clone()
         Game newGame = new Game(previousId: previous.id)
-        Game newSaved = newGame.clone()
-        Game puzzled = newSaved.clone()
+        Game puzzled = newGame.clone()
         handler.gameFactory = [
                 createGame: {
                     Game g, Player p ->
-                        assert g.is(newSaved)
+                        assert g.is(previousP)
                         assert p.is(PONE)
                         newGame
                 }
@@ -50,9 +52,17 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
                 save: {
                     Game g ->
                         assert g.is(previousT)
-                        return newSaved
+                        return previousS
                 }
         ] as GameRepository
+        handler.gamePublisher = [
+                publish: {
+                    Game g, Player p ->
+                        assert g.is(previousS)
+                        assert p.is(PONE)
+                        previousP
+                }
+        ] as GamePublisher
         handler.systemPuzzlerSetter = [
                 setWordPhraseFromSystem: {
                     Game g ->

@@ -6,6 +6,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -17,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired
 abstract class AbstractGameActionHandler<T> extends AbstractGameGetterHandler {
     @Autowired
     protected GamePhaseTransitionEngine transitionEngine
+    @Autowired
+    protected GamePublisher gamePublisher
 
     abstract protected Game handleActionInternal(final Player player, final Game game, T param);
 
@@ -25,10 +28,12 @@ abstract class AbstractGameActionHandler<T> extends AbstractGameGetterHandler {
         Game game = loadGame(gameID)
         validatePlayerForGame(game, player)
         return gameMasker.maskGameForPlayer(
-                gameRepository.save(
-                        transitionEngine.evaluateGamePhaseForGame(
-                                rotateTurnBasedGame(
-                                        handleActionInternal(player, game, param)))),
+                gamePublisher.publish(
+                        gameRepository.save(
+                                transitionEngine.evaluateGamePhaseForGame(
+                                        rotateTurnBasedGame(
+                                                handleActionInternal(player, game, param)))),
+                        player),
                 player)
     }
 

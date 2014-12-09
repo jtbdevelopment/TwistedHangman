@@ -12,6 +12,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
 
 /**
  * Date: 11/7/14
@@ -31,6 +32,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
         Game puzzled = new Game()
         savedGame.features = features
         Game transitionedGame = new Game()
+        Game publishedGame = new Game()
         handler.gameFactory = [createGame: { a, b, c ->
             assert a == features
             assert b == players
@@ -66,11 +68,19 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                     return transitionedGame
                 }
         ] as GamePhaseTransitionEngine
+        handler.gamePublisher = [
+                publish: {
+                    Game g, Player p ->
+                        assert g.is(savedGame)
+                        assert p.is(initiatingPlayer)
+                        publishedGame
+                }
+        ] as GamePublisher
         MaskedGame maskedGame = new MaskedGame()
         handler.gameMasker = [
                 maskGameForPlayer: {
                     Game g, Player p ->
-                        assert g.is(savedGame)
+                        assert g.is(publishedGame)
                         assert p.is(initiatingPlayer)
                         return maskedGame
                 }

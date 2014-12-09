@@ -27,8 +27,6 @@ class SetPuzzleHandler extends AbstractGameActionHandler<CategoryAndWordPhrase> 
         String category
         String wordPhrase
     }
-    public static final String CATEGORY_KEY = "CATEGORY"
-    public static final String WORDPHRASE_KEY = "WORDPHRASE"
 
     @Autowired
     Validator validator

@@ -12,6 +12,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
 
 /**
  * Date: 11/10/14
@@ -37,6 +38,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
     public void testAbstractHandlerBase() {
         Game saved = new Game();
         Game transitioned = new Game();
+        Game published = new Game();
         gameParam.players = [PONE, PTWO]
         handler.gameRepository = [
                 findOne: {
@@ -64,11 +66,19 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                         return transitioned
                 }
         ] as GamePhaseTransitionEngine
+        handler.gamePublisher = [
+                publish: {
+                    Game g, Player p ->
+                        assert g.is(saved)
+                        assert p.is(PONE)
+                        published
+                }
+        ] as GamePublisher
         MaskedGame maskedGame = new MaskedGame()
         handler.gameMasker = [
                 maskGameForPlayer: {
                     Game g, Player p ->
-                        assert g.is(saved)
+                        assert g.is(published)
                         assert p.is(PONE)
                         return maskedGame
                 }
@@ -145,6 +155,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
 
         Game saved = gameParam.clone()
         Game transitioned = gameParam.clone();
+        Game published = gameParam.clone()
         handler.gameRepository = [
                 findOne: {
                     String it ->
@@ -172,11 +183,19 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                         return transitioned
                 }
         ] as GamePhaseTransitionEngine
+        handler.gamePublisher = [
+                publish: {
+                    Game g, Player p ->
+                        assert g.is(saved)
+                        assert p.is(PONE)
+                        published
+                }
+        ] as GamePublisher
         MaskedGame maskedGame = new MaskedGame()
         handler.gameMasker = [
                 maskGameForPlayer: {
                     Game g, Player p ->
-                        assert g.is(saved)
+                        assert g.is(published)
                         assert p.is(PONE)
                         return maskedGame
                 }
@@ -201,6 +220,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
 
         Game saved = gameParam.clone()
         Game transitioned = gameParam.clone();
+        Game published = gameParam.clone()
         handler.gameRepository = [
                 findOne: {
                     String it ->
@@ -228,11 +248,19 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                         return transitioned
                 }
         ] as GamePhaseTransitionEngine
+        handler.gamePublisher = [
+                publish: {
+                    Game g, Player p ->
+                        assert g.is(saved)
+                        assert p.is(PONE)
+                        published
+                }
+        ] as GamePublisher
         MaskedGame maskedGame = new MaskedGame()
         handler.gameMasker = [
                 maskGameForPlayer: {
                     Game g, Player p ->
-                        assert g.is(saved)
+                        assert g.is(published)
                         assert p.is(PONE)
                         return maskedGame
                 }
@@ -257,6 +285,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
 
         Game saved = gameParam.clone()
         Game transitioned = gameParam.clone();
+        Game published = gameParam.clone()
         handler.gameRepository = [
                 findOne: {
                     String it ->
@@ -284,11 +313,19 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                         return transitioned
                 }
         ] as GamePhaseTransitionEngine
+        handler.gamePublisher = [
+                publish: {
+                    Game g, Player p ->
+                        assert g.is(saved)
+                        assert p.is(PONE)
+                        published
+                }
+        ] as GamePublisher
         MaskedGame maskedGame = new MaskedGame()
         handler.gameMasker = [
                 maskGameForPlayer: {
                     Game g, Player p ->
-                        assert g.is(saved)
+                        assert g.is(published)
                         assert p.is(PONE)
                         return maskedGame
                 }
