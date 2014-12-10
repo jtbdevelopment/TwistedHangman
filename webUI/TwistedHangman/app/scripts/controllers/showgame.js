@@ -13,25 +13,29 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
       if (angular.isDefined(game)) {
         twShowGameService.updateScopeForGame($scope, game);
       }
-      $scope.$on('gameCachesLoaded', function () {
-        twShowGameService.updateScopeForGame($scope, twGameCache.getGameForID($scope.gameID));
-      });
-
 
       twCurrentPlayerService.currentPlayer().then(function (data) {
         $scope.player = data;
         twShowGameService.updateScopeForGame($scope, $scope.game);
       }, function () {
-        //  TODO - route to error page?
+        $location.path('/error');
+      });
+
+      $rootScope.$on('gameCachesLoaded', function () {
+        var game = twGameCache.getGameForID($scope.gameID);
+        if (angular.isDefined(game)) {
+          twShowGameService.updateScopeForGame($scope, twGameCache.getGameForID($scope.gameID));
+        } else {
+          $location.path('/');
+        }
       });
 
       $rootScope.$on('gameUpdate', function (event, id, game) {
-        if ($scope.game.id === id) {
+        if (angular.isDefined($scope.game) && $scope.game.id === id) {
           //  TODO - this generates a stale update warning as game cache is also listening
           twShowGameService.processGameUpdateForScope($scope, game);
         }
       });
-
 
       function addFailureAlert(alertMessage) {
         $scope.alerts.push({type: 'danger', msg: alertMessage});
