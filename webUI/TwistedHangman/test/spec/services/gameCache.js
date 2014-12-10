@@ -87,7 +87,7 @@ describe('Service: gameCache', function () {
       expect(location.path).toHaveBeenCalledWith('/error');
     });
 
-    it('reinitializes on player switch', function () {
+    it('re-initializes on player switch', function () {
       http.expectGET(baseURL + gamesURL).respond([ng3]);
       phaseDeferred.resolve(phases);
       rootScope.$apply();
@@ -112,7 +112,7 @@ describe('Service: gameCache', function () {
       expect(rootScope.$broadcast).toHaveBeenCalledWith('gameCachesLoaded', 2);
     });
 
-    it('reinitializes on refreshGames games', function () {
+    it('re-initializes on refreshGames games', function () {
       http.expectGET(baseURL + gamesURL).respond([ng3]);
       phaseDeferred.resolve(phases);
       rootScope.$apply();
@@ -158,62 +158,78 @@ describe('Service: gameCache', function () {
       expect(service.getGameForID('badid')).toBeUndefined();
     });
 
-    it('takes in a new game update', function () {
-      var ng5 = {id: 'ng5', gamePhase: 'Phase2'};
-      service.putUpdatedGame(ng5);
-      expect(service.getGamesForPhase('Phase1')).toEqual([ng1, ng2, ng4]);
-      expect(service.getGamesForPhase('Phase2')).toEqual([ng3, ng5]);
-      expect(service.getGamesForPhase('Phase3')).toEqual([]);
-      expect(service.getGamesForPhase('All')).toEqual([ng1, ng2, ng3, ng4, ng5]);
+    describe('takes in updates via various means', function () {
+      var updateMeans = {
+        'direct update': function (game) {
+          service.putUpdatedGame(game);
+        },
+        'via gameUpdate broadcast': function (game) {
+          rootScope.$broadcast('gameUpdate', game.id, game);
+        }
+      };
+      angular.forEach(updateMeans, function (updateCall, name) {
+        describe('takes updates via ' + name, function () {
+
+          it('takes in a new game update', function () {
+            var ng5 = {id: 'ng5', gamePhase: 'Phase2'};
+            updateCall(ng5);
+            expect(service.getGamesForPhase('Phase1')).toEqual([ng1, ng2, ng4]);
+            expect(service.getGamesForPhase('Phase2')).toEqual([ng3, ng5]);
+            expect(service.getGamesForPhase('Phase3')).toEqual([]);
+            expect(service.getGamesForPhase('All')).toEqual([ng1, ng2, ng3, ng4, ng5]);
+          });
+
+          it('takes in a newer game update', function () {
+            ng1.lastUpdate = 1000;
+            var ng1v2 = angular.copy(ng1);
+            ng1v2.lastUpdate = 1001;
+            updateCall(ng1v2);
+
+            expect(service.getGamesForPhase('Phase1')).toEqual([ng1v2, ng2, ng4]);
+            expect(service.getGamesForPhase('Phase2')).toEqual([ng3]);
+            expect(service.getGamesForPhase('Phase3')).toEqual([]);
+            expect(service.getGamesForPhase('All')).toEqual([ng1v2, ng2, ng3, ng4]);
+          });
+
+          it('takes in a newer game update to a new phase', function () {
+            ng1.lastUpdate = 1000;
+            var ng1v2 = angular.copy(ng1);
+            ng1v2.lastUpdate = 1001;
+            ng1v2.gamePhase = 'Phase2';
+            updateCall(ng1v2);
+
+            expect(service.getGamesForPhase('Phase1')).toEqual([ng2, ng4]);
+            expect(service.getGamesForPhase('Phase2')).toEqual([ng3, ng1v2]);
+            expect(service.getGamesForPhase('Phase3')).toEqual([]);
+            expect(service.getGamesForPhase('All')).toEqual([ng1v2, ng2, ng3, ng4]);
+          });
+
+          it('rejects a stale game update, matching time', function () {
+            ng1.lastUpdate = 1000;
+            var ng1v2 = angular.copy(ng1);
+            ng1v2.lastUpdate = 1000;
+            ng1v2.someDifferentiator = 'X';
+            updateCall(ng1v2);
+            expect(service.getGamesForPhase('Phase1')).toEqual([ng1, ng2, ng4]);
+            expect(service.getGamesForPhase('Phase2')).toEqual([ng3]);
+            expect(service.getGamesForPhase('Phase3')).toEqual([]);
+            expect(service.getGamesForPhase('All')).toEqual([ng1, ng2, ng3, ng4]);
+          });
+
+          it('rejects a stale game update, older time', function () {
+            ng1.lastUpdate = 1000;
+            var ng1v2 = angular.copy(ng1);
+            ng1v2.lastUpdate = 999;
+            ng1v2.someDifferentiator = 'X';
+            updateCall(ng1v2);
+            expect(service.getGamesForPhase('Phase1')).toEqual([ng1, ng2, ng4]);
+            expect(service.getGamesForPhase('Phase2')).toEqual([ng3]);
+            expect(service.getGamesForPhase('Phase3')).toEqual([]);
+            expect(service.getGamesForPhase('All')).toEqual([ng1, ng2, ng3, ng4]);
+          });
+        });
+      });
     });
 
-    it('takes in a newer game update', function () {
-      ng1.lastUpdate = 1000;
-      var ng1v2 = angular.copy(ng1);
-      ng1v2.lastUpdate = 1001;
-      service.putUpdatedGame(ng1v2);
-
-      expect(service.getGamesForPhase('Phase1')).toEqual([ng1v2, ng2, ng4]);
-      expect(service.getGamesForPhase('Phase2')).toEqual([ng3]);
-      expect(service.getGamesForPhase('Phase3')).toEqual([]);
-      expect(service.getGamesForPhase('All')).toEqual([ng1v2, ng2, ng3, ng4]);
-    });
-
-    it('takes in a newer game update to a new phase', function () {
-      ng1.lastUpdate = 1000;
-      var ng1v2 = angular.copy(ng1);
-      ng1v2.lastUpdate = 1001;
-      ng1v2.gamePhase = 'Phase2';
-      service.putUpdatedGame(ng1v2);
-
-      expect(service.getGamesForPhase('Phase1')).toEqual([ng2, ng4]);
-      expect(service.getGamesForPhase('Phase2')).toEqual([ng3, ng1v2]);
-      expect(service.getGamesForPhase('Phase3')).toEqual([]);
-      expect(service.getGamesForPhase('All')).toEqual([ng1v2, ng2, ng3, ng4]);
-    });
-
-    it('rejects a stale game update, matching time', function () {
-      ng1.lastUpdate = 1000;
-      var ng1v2 = angular.copy(ng1);
-      ng1v2.lastUpdate = 1000;
-      ng1v2.someDifferentiator = 'X';
-      service.putUpdatedGame(ng1v2);
-      expect(service.getGamesForPhase('Phase1')).toEqual([ng1, ng2, ng4]);
-      expect(service.getGamesForPhase('Phase2')).toEqual([ng3]);
-      expect(service.getGamesForPhase('Phase3')).toEqual([]);
-      expect(service.getGamesForPhase('All')).toEqual([ng1, ng2, ng3, ng4]);
-    });
-
-    it('rejects a stale game update, older time', function () {
-      ng1.lastUpdate = 1000;
-      var ng1v2 = angular.copy(ng1);
-      ng1v2.lastUpdate = 999;
-      ng1v2.someDifferentiator = 'X';
-      service.putUpdatedGame(ng1v2);
-      expect(service.getGamesForPhase('Phase1')).toEqual([ng1, ng2, ng4]);
-      expect(service.getGamesForPhase('Phase2')).toEqual([ng3]);
-      expect(service.getGamesForPhase('Phase3')).toEqual([]);
-      expect(service.getGamesForPhase('All')).toEqual([ng1, ng2, ng3, ng4]);
-    });
   });
 });
