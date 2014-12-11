@@ -6,7 +6,7 @@
     <groupId>com.jtbdevelopment.TwistedHangman</groupId>
     <artifactId>TwistedHangman</artifactId>
     <packaging>pom</packaging>
-    <version>1.5-SNAPSHOT</version>
+    <version>1.6-SNAPSHOT</version>
     <modules>
         <module>game</module>
         <module>utilities</module>
