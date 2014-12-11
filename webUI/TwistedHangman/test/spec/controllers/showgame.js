@@ -32,7 +32,6 @@ describe('Controller: ShowCtrl', function () {
     location = {path: jasmine.createSpy()};
     modal = {
       open: function (params) {
-        console.log('open');
         expect(params.controller).toEqual('ConfirmCtrl');
         expect(params.templateUrl).toEqual('views/confirmDialog.html');
         modalResult = q.defer();
@@ -88,7 +87,6 @@ describe('Controller: ShowCtrl', function () {
       expect(showGameService.initializeScope).toHaveBeenCalledWith(scope);
 
       expect(showGameService.updateScopeForGame).toHaveBeenCalledWith(scope, game);
-      expect(scope.alerts).toEqual([]);
       expect(scope.player).toBeUndefined();
       playerDeferred.resolve(player);
       rootScope.$apply();
@@ -119,7 +117,6 @@ describe('Controller: ShowCtrl', function () {
       expect(showGameService.initializeScope).toHaveBeenCalledWith(scope);
       expect(showGameService.updateScopeForGame).not.toHaveBeenCalledWith(scope, game);
 
-      expect(scope.alerts).toEqual([]);
       expect(scope.player).toBeUndefined();
       playerDeferred.resolve(player);
       rootScope.$apply();
@@ -132,7 +129,6 @@ describe('Controller: ShowCtrl', function () {
       expect(showGameService.initializeScope).toHaveBeenCalledWith(scope);
       expect(showGameService.updateScopeForGame).not.toHaveBeenCalledWith(scope, game);
 
-      expect(scope.alerts).toEqual([]);
       expect(scope.player).toBeUndefined();
       playerDeferred.reject();
       rootScope.$apply();
@@ -160,6 +156,98 @@ describe('Controller: ShowCtrl', function () {
       });
     });
 
+    describe('checking for posting errors using game error modal', function () {
+      var modalMessage, confirmModelOpen;
+      beforeEach(function () {
+        confirmModelOpen = modal.open;
+        modal.open = function (params) {
+          console.log('here');
+          expect(params.controller).toEqual('ErrorCtrl');
+          expect(params.templateUrl).toEqual('views/gameErrorDialog.html');
+          expect(params.resolve.message()).toEqual(modalMessage);
+          modalResult = q.defer();
+          return {result: modalResult.promise};
+        };
+
+        it('reject match fails', function () {
+          http.expectPUT('/api/player/MANUAL1/game/gameid/reject').respond(502, 'more bad stuff');
+          scope.reject();
+          modalResult.resolve();
+          modalMessage = '502: more bad stuff';
+          http.flush();
+
+        });
+
+        it('steal letter fails', function () {
+          scope.allowPlayMoves = true;
+          http.expectPUT('/api/player/MANUAL1/game/gameid/steal/2').respond(601, 'bad stuff');
+          scope.stealLetter('2');
+          modalMessage = '601: bad stuff';
+          http.flush();
+        });
+
+        it('steal letter when not allowed', function () {
+          scope.allowPlayMoves = false;
+          scope.stealLetter('2');
+          modalMessage = 'Not currently playable.';
+        });
+      });
+
+      it('post rematch fails', function () {
+        http.expectPUT('/api/player/MANUAL1/game/gameid/rematch').respond(501, 'bad stuff');
+        scope.startNextRound();
+        modalMessage = '501: bad stuff';
+        http.flush();
+      });
+
+      it('accept match fails', function () {
+        http.expectPUT('/api/player/MANUAL1/game/gameid/accept').respond(501, 'bad stuff');
+        scope.accept();
+        modalMessage = '501: bad stuff';
+        http.flush();
+      });
+
+      it('set puzzle fails', function () {
+        scope.enteredCategory = 'cat';
+        scope.enteredWordPhrase = 'wp';
+        http.expectPUT('/api/player/MANUAL1/game/gameid/puzzle', {
+          category: 'cat',
+          wordPhrase: 'wp'
+        }).respond(503, 'something');
+        scope.setPuzzle();
+        modalMessage = '503: something';
+        http.flush();
+      });
+
+      it('quit match fails', function () {
+
+        //  Two modals in this one
+
+        http.expectPUT('/api/player/MANUAL1/game/gameid/quit').respond(503, 'something');
+        var errorOpen = modal.open;
+        modal.open = confirmModelOpen;
+        scope.quit();
+        modalResult.resolve();
+        modal.open = errorOpen;
+        modalMessage = '503: something';
+        http.flush();
+      });
+
+      it('guess letter fails', function () {
+        scope.allowPlayMoves = true;
+        http.expectPUT('/api/player/MANUAL1/game/gameid/guess/a').respond(601, 'bad stuff');
+        scope.sendGuess('a');
+        modalMessage = '601: bad stuff';
+        http.flush();
+      });
+
+      it('guess letter out of turn', function () {
+        scope.allowPlayMoves = false;
+        modalMessage = 'Not currently playable.';
+        scope.sendGuess('a');
+      });
+
+    });
     describe('listens for gameUpdate broadcasts', function () {
       it('listens for gameUpdate and updates if same game id', function () {
         scope.game = game;
@@ -222,14 +310,6 @@ describe('Controller: ShowCtrl', function () {
         expect(showGameService.updateScopeForGame).toHaveBeenCalledWith(scope, newGame);
       });
 
-      it('post rematch fails', function () {
-        http.expectPUT('/api/player/MANUAL1/game/gameid/rematch').respond(501, 'bad stuff');
-        scope.startNextRound();
-        http.flush();
-
-        expect(scope.alerts).toEqual([{type: 'danger', msg: '501: bad stuff'}]);
-      });
-
       it('accept match', function () {
         var updatedGame = {id: 'newid', gamePhase: 'X'};
         http.expectPUT('/api/player/MANUAL1/game/gameid/accept').respond(updatedGame);
@@ -237,14 +317,6 @@ describe('Controller: ShowCtrl', function () {
         http.flush();
 
         expect(showGameService.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
-      });
-
-      it('accept match fails', function () {
-        http.expectPUT('/api/player/MANUAL1/game/gameid/accept').respond(501, 'bad stuff');
-        scope.accept();
-        http.flush();
-
-        expect(scope.alerts).toEqual([{type: 'danger', msg: '501: bad stuff'}]);
       });
 
       it('reject match', function () {
@@ -262,15 +334,6 @@ describe('Controller: ShowCtrl', function () {
         modalResult.reject();
       });
 
-      it('reject match fails', function () {
-        http.expectPUT('/api/player/MANUAL1/game/gameid/reject').respond(502, 'more bad stuff');
-        scope.reject();
-        modalResult.resolve();
-        http.flush();
-
-        expect(scope.alerts).toEqual([{type: 'danger', msg: '502: more bad stuff'}]);
-      });
-
       it('quit match', function () {
         var updatedGame = {id: 'newid', gamePhase: 'X'};
         http.expectPUT('/api/player/MANUAL1/game/gameid/quit').respond(updatedGame);
@@ -284,15 +347,6 @@ describe('Controller: ShowCtrl', function () {
       it('quit match with cancel on confirm', function () {
         scope.quit();
         modalResult.reject();
-      });
-
-      it('quit match fails', function () {
-        http.expectPUT('/api/player/MANUAL1/game/gameid/quit').respond(503, 'something');
-        scope.quit();
-        modalResult.resolve();
-        http.flush();
-
-        expect(scope.alerts).toEqual([{type: 'danger', msg: '503: something'}]);
       });
 
       it('set puzzle', function () {
@@ -309,19 +363,6 @@ describe('Controller: ShowCtrl', function () {
         expect(showGameService.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
       });
 
-      it('set puzzle fails', function () {
-        scope.enteredCategory = 'cat';
-        scope.enteredWordPhrase = 'wp';
-        http.expectPUT('/api/player/MANUAL1/game/gameid/puzzle', {
-          category: 'cat',
-          wordPhrase: 'wp'
-        }).respond(503, 'something');
-        scope.setPuzzle();
-        http.flush();
-
-        expect(scope.alerts).toEqual([{type: 'danger', msg: '503: something'}]);
-      });
-
       it('guess letter', function () {
         scope.allowPlayMoves = true;
         var updatedGame = {id: 'newid', gamePhase: 'X'};
@@ -332,22 +373,6 @@ describe('Controller: ShowCtrl', function () {
         expect(showGameService.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
       });
 
-      it('guess letter fails', function () {
-        scope.allowPlayMoves = true;
-        http.expectPUT('/api/player/MANUAL1/game/gameid/guess/a').respond(601, 'bad stuff');
-        scope.sendGuess('a');
-        http.flush();
-
-        expect(scope.alerts).toEqual([{type: 'danger', msg: '601: bad stuff'}]);
-      });
-
-      it('guess letter out of turn', function () {
-        scope.allowPlayMoves = false;
-        scope.sendGuess('a');
-
-        expect(scope.alerts).toEqual([{type: 'warning', msg: 'Not currently playable.'}]);
-      });
-
       it('steal letter', function () {
         scope.allowPlayMoves = true;
         var updatedGame = {id: 'newid', gamePhase: 'X'};
@@ -356,21 +381,6 @@ describe('Controller: ShowCtrl', function () {
         http.flush();
 
         expect(showGameService.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
-      });
-
-      it('steal letter fails', function () {
-        scope.allowPlayMoves = true;
-        http.expectPUT('/api/player/MANUAL1/game/gameid/steal/2').respond(601, 'bad stuff');
-        scope.stealLetter('2');
-        http.flush();
-
-        expect(scope.alerts).toEqual([{type: 'danger', msg: '601: bad stuff'}]);
-      });
-
-      it('steal letter when not allowed', function () {
-        scope.allowPlayMoves = false;
-        scope.stealLetter('2');
-        expect(scope.alerts).toEqual([{type: 'warning', msg: 'Not currently playable.'}]);
       });
     });
 
@@ -440,22 +450,5 @@ describe('Controller: ShowCtrl', function () {
       });
     });
 
-    describe('test alerts closing', function () {
-      it('test closing alerts', function () {
-        scope.alerts = ['1', '2'];
-        scope.closeAlert(0);
-        expect(scope.alerts).toEqual(['2']);
-      });
-
-      it('test closing alerts with bad values', function () {
-        scope.alerts = ['1', '2'];
-        scope.closeAlert(-1);
-        expect(scope.alerts).toEqual(['1', '2']);
-        scope.closeAlert(2);
-        expect(scope.alerts).toEqual(['1', '2']);
-        scope.closeAlert();
-        expect(scope.alerts).toEqual(['1', '2']);
-      });
-    });
   });
 });

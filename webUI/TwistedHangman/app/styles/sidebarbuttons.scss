@@ -36,11 +36,17 @@
 .gameButtonGroup {
   width: 100%;
   margin: 2px;
-  cursor: alias;
+
+  .btn-group-vertical {
+    width: 100%;
+  }
 
   .gameButtonBadge {
     font-weight: bold;
     width: 100%;
+    background-color: transparent;
+    padding: 0;
+    text-align: left;
     .badge {
       background-color: $et_orangelight;
       color: black;

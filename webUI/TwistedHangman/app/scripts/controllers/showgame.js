@@ -8,7 +8,6 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
       $scope.gameID = $routeParams.gameID;
       $scope.enteredCategory = '';
       $scope.enteredWordPhrase = '';
-      $scope.alerts = [];
       var game = twGameCache.getGameForID($scope.gameID);
       if (angular.isDefined(game)) {
         twShowGameService.updateScopeForGame($scope, game);
@@ -37,12 +36,16 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
         }
       });
 
-      function addFailureAlert(alertMessage) {
-        $scope.alerts.push({type: 'danger', msg: alertMessage});
-      }
-
-      function addWarningAlert(alertMessage) {
-        $scope.alerts.push({type: 'warning', msg: alertMessage});
+      function showMessage(alertMessage) {
+        $modal.open({
+          templateUrl: 'views/gameErrorDialog.html',
+          controller: 'ErrorCtrl',
+          resolve: {
+            message: function () {
+              return alertMessage;
+            }
+          }
+        });
       }
 
       //  TODO - state change alerts
@@ -58,7 +61,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
           twShowGameService.updateScopeForGame($scope, data);
           $location.path('/show/' + data.id);
         }).error(function (data, status, headers, config) {
-          addFailureAlert(status + ': ' + data);
+          showMessage(status + ': ' + data);
           console.error(data + status + headers + config);
         });
       };
@@ -67,7 +70,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
         $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/accept').success(function (data) {
           twShowGameService.processGameUpdateForScope($scope, data);
         }).error(function (data, status, headers, config) {
-          addFailureAlert(status + ': ' + data);
+          showMessage(status + ': ' + data);
           console.error(data + status + headers + config);
         });
       };
@@ -81,7 +84,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
           $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/reject').success(function (data) {
             twShowGameService.processGameUpdateForScope($scope, data);
           }).error(function (data, status, headers, config) {
-            addFailureAlert(status + ': ' + data);
+            showMessage(status + ': ' + data);
             console.error(data + status + headers + config);
           });
         });
@@ -96,7 +99,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
           }).success(function (data) {
             twShowGameService.processGameUpdateForScope($scope, data);
           }).error(function (data, status, headers, config) {
-            addFailureAlert(status + ': ' + data);
+            showMessage(status + ': ' + data);
             console.error(data + status + headers + config);
           });
       };
@@ -106,11 +109,11 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
           $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/guess/' + letter).success(function (data) {
             twShowGameService.processGameUpdateForScope($scope, data);
           }).error(function (data, status, headers, config) {
-            addFailureAlert(status + ': ' + data);
+            showMessage(status + ': ' + data);
             console.error(data + status + headers + config);
           });
         } else {
-          addWarningAlert('Not currently playable.');
+          showMessage('Not currently playable.');
         }
       };
 
@@ -119,11 +122,11 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
           $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/steal/' + position).success(function (data) {
             twShowGameService.processGameUpdateForScope($scope, data);
           }).error(function (data, status, headers, config) {
-            addFailureAlert(status + ': ' + data);
+            showMessage(status + ': ' + data);
             console.error(data + status + headers + config);
           });
         } else {
-          addWarningAlert('Not currently playable.');
+          showMessage('Not currently playable.');
         }
       };
 
@@ -136,7 +139,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
           $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/quit').success(function (data) {
             twShowGameService.processGameUpdateForScope($scope, data);
           }).error(function (data, status, headers, config) {
-            addFailureAlert(status + ': ' + data);
+            showMessage(status + ': ' + data);
             console.error(data + status + headers + config);
           });
         });
@@ -196,13 +199,6 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
         }
         return $scope.game.playerRunningScores[md5];
       };
-
-      $scope.closeAlert = function (index) {
-        if (angular.isDefined(index) && index >= 0 && index < $scope.alerts.length) {
-          $scope.alerts.splice(index, 1);
-        }
-      };
-
     }
   ])
 ;
