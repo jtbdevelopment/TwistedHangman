@@ -1,12 +1,18 @@
 'use strict';
 
 angular.module('twistedHangmanApp').factory('twGameCache',
-  ['$rootScope', '$cacheFactory', '$location', '$http', 'twGamePhaseService', 'twCurrentPlayerService', 'twLiveGameFeed',
-    function ($rootScope, $cacheFactory, $location, $http, twGamePhaseService, twCurrentPlayerService, twLiveGameFeed) {
+  ['$rootScope', '$cacheFactory', '$location', '$http',
+    'twGamePhaseService', 'twCurrentPlayerService', 'twLiveGameFeed', 'twGameAlerts',
+    function ($rootScope, $cacheFactory, $location, $http,
+              twGamePhaseService, twCurrentPlayerService, twLiveGameFeed, twGameAlerts) {
       var ALL = 'All';
       var gameCache = $cacheFactory('game-gameCache');
       var phases = [];
       var loadedCounter = 0;
+
+      //  TODO - should we store gameCache locally and initialize from gameCache?  Then pull updates?
+      //  If we do - make cache player id specific
+      var initializing = false;
       console.info('Have Live Game Feed ' + twLiveGameFeed);  //  This is just to force instantiation and suppress warnings
 
       function initializeSubCaches() {
@@ -31,9 +37,11 @@ angular.module('twistedHangmanApp').factory('twGameCache',
       function initializeCache() {
         initializeSubCaches();
         $http.get(twCurrentPlayerService.currentPlayerBaseURL() + '/games').success(function (data) {
+          initializing = true;
           data.forEach(function (game) {
             cache.putUpdatedGame(game);
           });
+          initializing = false;
           ++loadedCounter;
           $rootScope.$broadcast('gameCachesLoaded', loadedCounter);
         }).error(function () {
@@ -41,8 +49,6 @@ angular.module('twistedHangmanApp').factory('twGameCache',
         });
       }
 
-      //  TODO - should we store gameCache locally and initialize from gameCache?  Then pull updates?
-      //  If we do - make cache player id specific
       function initialize() {
         twGamePhaseService.phases().then(function (phaseMap) {
           phases.slice(0);
@@ -61,7 +67,6 @@ angular.module('twistedHangmanApp').factory('twGameCache',
           var allCache = gameCache.get(ALL);
           var allIndex = allCache.idMap[updatedGame.id];
 
-          //  TODO publish?
           if (angular.isDefined(allIndex)) {
             var existingGame = allCache.games[allIndex];
             if (updatedGame.lastUpdate <= existingGame.lastUpdate) {
@@ -81,13 +86,18 @@ angular.module('twistedHangmanApp').factory('twGameCache',
               existingPhaseCache.games.splice(existingPhaseIndex, 1);
               delete existingPhaseCache.idMap[existingGame.id];
             }
-
+            if (!initializing) {
+              twGameAlerts.checkUpdateForAlerts(existingGame, updatedGame);
+            }
           } else {
             var phaseCache = gameCache.get(updatedGame.gamePhase);
             phaseCache.games.push(updatedGame);
             phaseCache.idMap[updatedGame.id] = phaseCache.games.indexOf(updatedGame);
             allCache.games.push(updatedGame);
             allCache.idMap[updatedGame.id] = allCache.games.indexOf(updatedGame);
+            if (!initializing) {
+              twGameAlerts.checkNewEntryForAlerts(updatedGame);
+            }
           }
         },
 
@@ -104,12 +114,6 @@ angular.module('twistedHangmanApp').factory('twGameCache',
         getGamesForPhase: function (phase) {
           return gameCache.get(phase).games;
         }
-
-        /*  If debugging needed
-         ,getMapForPhase: function (phase) {
-         return gameCache.get(phase).idMap;
-         }
-         */
       };
 
       $rootScope.$on('gameUpdate', function (event, id, game) {

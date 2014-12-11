@@ -14,6 +14,7 @@ describe('Service: gameCache', function () {
 
   var baseURL = '/api/player/MANUAL1';
   var gamesURL = '/games';
+  var gameAlerts;
 
   beforeEach(module(function ($provide) {
     baseURL = '/api/player/MANUAL1';
@@ -35,6 +36,10 @@ describe('Service: gameCache', function () {
     $provide.factory('twLiveGameFeed', function () {
       return {};
     });
+    gameAlerts = jasmine.createSpyObj('gameAlerts', ['checkUpdateForAlerts', 'checkNewEntryForAlerts']);
+    $provide.factory('twGameAlerts', function () {
+      return gameAlerts;
+    })
   }));
 
   var service, rootScope, location, http;
@@ -51,6 +56,11 @@ describe('Service: gameCache', function () {
   }));
 
   describe('test initialization', function () {
+    afterEach(function () {
+      expect(gameAlerts.checkNewEntryForAlerts).not.toHaveBeenCalled();
+      expect(gameAlerts.checkUpdateForAlerts).not.toHaveBeenCalled();
+    });
+
     it('initializes cache from phases and games', function () {
       http.expectGET(baseURL + gamesURL).respond([ng3]);
       phaseDeferred.resolve(phases);
@@ -159,6 +169,7 @@ describe('Service: gameCache', function () {
     });
 
     describe('takes in updates via various means', function () {
+      ng1.lastUpdate = 1000;
       var updateMeans = {
         'direct update': function (game) {
           service.putUpdatedGame(game);
@@ -177,10 +188,10 @@ describe('Service: gameCache', function () {
             expect(service.getGamesForPhase('Phase2')).toEqual([ng3, ng5]);
             expect(service.getGamesForPhase('Phase3')).toEqual([]);
             expect(service.getGamesForPhase('All')).toEqual([ng1, ng2, ng3, ng4, ng5]);
+            expect(gameAlerts.checkNewEntryForAlerts).toHaveBeenCalledWith(ng5);
           });
 
           it('takes in a newer game update', function () {
-            ng1.lastUpdate = 1000;
             var ng1v2 = angular.copy(ng1);
             ng1v2.lastUpdate = 1001;
             updateCall(ng1v2);
@@ -189,10 +200,11 @@ describe('Service: gameCache', function () {
             expect(service.getGamesForPhase('Phase2')).toEqual([ng3]);
             expect(service.getGamesForPhase('Phase3')).toEqual([]);
             expect(service.getGamesForPhase('All')).toEqual([ng1v2, ng2, ng3, ng4]);
+            expect(gameAlerts.checkUpdateForAlerts).toHaveBeenCalledWith(ng1, ng1v2);
+            expect(gameAlerts.checkNewEntryForAlerts).not.toHaveBeenCalled();
           });
 
           it('takes in a newer game update to a new phase', function () {
-            ng1.lastUpdate = 1000;
             var ng1v2 = angular.copy(ng1);
             ng1v2.lastUpdate = 1001;
             ng1v2.gamePhase = 'Phase2';
@@ -202,10 +214,11 @@ describe('Service: gameCache', function () {
             expect(service.getGamesForPhase('Phase2')).toEqual([ng3, ng1v2]);
             expect(service.getGamesForPhase('Phase3')).toEqual([]);
             expect(service.getGamesForPhase('All')).toEqual([ng1v2, ng2, ng3, ng4]);
+            expect(gameAlerts.checkUpdateForAlerts).toHaveBeenCalledWith(ng1, ng1v2);
+            expect(gameAlerts.checkNewEntryForAlerts).not.toHaveBeenCalled();
           });
 
           it('rejects a stale game update, matching time', function () {
-            ng1.lastUpdate = 1000;
             var ng1v2 = angular.copy(ng1);
             ng1v2.lastUpdate = 1000;
             ng1v2.someDifferentiator = 'X';
@@ -214,10 +227,11 @@ describe('Service: gameCache', function () {
             expect(service.getGamesForPhase('Phase2')).toEqual([ng3]);
             expect(service.getGamesForPhase('Phase3')).toEqual([]);
             expect(service.getGamesForPhase('All')).toEqual([ng1, ng2, ng3, ng4]);
+            expect(gameAlerts.checkUpdateForAlerts).not.toHaveBeenCalled();
+            expect(gameAlerts.checkNewEntryForAlerts).not.toHaveBeenCalled();
           });
 
           it('rejects a stale game update, older time', function () {
-            ng1.lastUpdate = 1000;
             var ng1v2 = angular.copy(ng1);
             ng1v2.lastUpdate = 999;
             ng1v2.someDifferentiator = 'X';
@@ -226,6 +240,8 @@ describe('Service: gameCache', function () {
             expect(service.getGamesForPhase('Phase2')).toEqual([ng3]);
             expect(service.getGamesForPhase('Phase3')).toEqual([]);
             expect(service.getGamesForPhase('All')).toEqual([ng1, ng2, ng3, ng4]);
+            expect(gameAlerts.checkUpdateForAlerts).not.toHaveBeenCalled();
+            expect(gameAlerts.checkNewEntryForAlerts).not.toHaveBeenCalled();
           });
         });
       });
