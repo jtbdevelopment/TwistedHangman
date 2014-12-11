@@ -99,7 +99,6 @@ describe('Controller: ShowCtrl', function () {
 
   describe('bad initialization', function () {
     beforeEach(function () {
-      var undefined;
       gameCacheExpectedId = 'gameid';
       gameCacheReturnResult = undefined;
 
@@ -182,7 +181,7 @@ describe('Controller: ShowCtrl', function () {
       it('listens for gameUpdate and ignores if scope has no game', function () {
         var gameUpdate = angular.copy(game);
         gameUpdate.id = 'notid';
-        rootScope.$broadcast('gameUpdate', game.id, game)
+        rootScope.$broadcast('gameUpdate', game.id, game);
         rootScope.$apply();
         expect(showGameService.updateScopeForGame).not.toHaveBeenCalledWith(scope, gameUpdate);
       });

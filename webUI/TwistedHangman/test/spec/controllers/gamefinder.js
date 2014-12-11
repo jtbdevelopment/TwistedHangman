@@ -84,6 +84,16 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
         expect(scope.games).toEqual(newStatus);
       });
     });
+
+    describe('show hide click function', function () {
+      it('initial value and switching', function () {
+        expect(scope.hideGames).toEqual(false);
+        scope.switchHideGames();
+        expect(scope.hideGames).toEqual(true);
+        scope.switchHideGames();
+        expect(scope.hideGames).toEqual(false);
+      });
+    });
   });
 });
 

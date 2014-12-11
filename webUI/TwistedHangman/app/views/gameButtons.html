@@ -1,11 +1,14 @@
-<div class="btn-group-vertical gameButtonGroup">
-  <!--  TODO - make collapsible  -->
-  <!--  TODO - display more infomation about game options  -->
-  <span class="gameButtonBadge">{{label}}<span class="badge pull-right">{{games.length}}</span></span>
-  <a ng-repeat="game in games | orderBy:['-lastUpdate', '-created']" href="#/show/{{game.id}}" role="button"
-     class="btn-group btn gameButton {{style}}">
+<div class="gameButtonGroup">
+  <span class="gameButtonBadge" ng-click="switchHideGames()">{{label}}<span
+    class="badge pull-right">{{games.length}}</span></span>
+
+  <div class="btn-group-vertical" ng-hide="hideGames">
+    <!--  TODO - display more infomation about game options  -->
+    <a ng-repeat="game in games | orderBy:['-lastUpdate', '-created']" href="#/show/{{game.id}}" role="button"
+       class="btn-group btn gameButton {{style}}">
     <span class="glyphicon {{glyph}}">
             <span ng-repeat="(key, value) in game.players">{{value}}<span ng-show=" ! $last ">, </span></span>
       </span>
-  </a>
+    </a>
+  </div>
 </div>

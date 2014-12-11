@@ -28,6 +28,11 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
         $scope.style = phase.toLowerCase() + 'Button';
         $scope.glyph = 'glyphicon-' + glyph;
         $scope.label = '';
+        $scope.hideGames = false;
+
+        $scope.switchHideGames = function () {
+          $scope.hideGames = !$scope.hideGames;
+        };
 
         twGamePhaseService.phases().then(function (phases) {
           $scope.label = phases[phase][1];
