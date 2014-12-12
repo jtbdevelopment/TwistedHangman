@@ -2,12 +2,15 @@
 
 //  TODO - should all the playing failures refresh game?
 angular.module('twistedHangmanApp').controller('ShowCtrl',
-  ['$rootScope', '$scope', '$routeParams', '$http', '$location', '$modal', 'twCurrentPlayerService', 'twShowGameService', 'twGameCache',
-    function ($rootScope, $scope, $routeParams, $http, $location, $modal, twCurrentPlayerService, twShowGameService, twGameCache) {
+  ['$rootScope', '$scope', '$routeParams', '$http', '$location', '$modal',
+    'twCurrentPlayerService', 'twShowGameService', 'twGameCache', 'twGameDetails',
+    function ($rootScope, $scope, $routeParams, $http, $location, $modal,
+              twCurrentPlayerService, twShowGameService, twGameCache, twGameDetails) {
       twShowGameService.initializeScope($scope);
       $scope.gameID = $routeParams.gameID;
       $scope.enteredCategory = '';
       $scope.enteredWordPhrase = '';
+      $scope.gameDetails = twGameDetails;
       var game = twGameCache.getGameForID($scope.gameID);
       if (angular.isDefined(game)) {
         twShowGameService.updateScopeForGame($scope, game);
@@ -143,61 +146,6 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
             console.error(data + status + headers + config);
           });
         });
-      };
-
-      $scope.roleForPlayer = function (md5) {
-        if (angular.isUndefined($scope.game)) {
-          return '';
-        }
-        if (md5 === $scope.game.wordPhraseSetter) {
-          return 'Set Puzzle';
-        }
-        return 'Solver';
-      };
-
-      $scope.gameEndForPlayer = function (md5) {
-        if (angular.isUndefined($scope.game)) {
-          return '';
-        }
-        if (md5 === $scope.game.wordPhraseSetter) {
-          return 'N/A';
-        }
-
-        var solverState = $scope.game.solverStates[md5];
-        if (angular.isUndefined(solverState)) {
-          return 'Unknown';
-        }
-        return solverState.isPuzzleOver ? (solverState.isPuzzleSolved ? 'Solved!' : 'Hung!') : 'Not Solved.';
-      };
-
-      $scope.stateForPlayer = function (md5, field) {
-        if (angular.isUndefined($scope.game)) {
-          return '';
-        }
-        if (md5 === $scope.game.wordPhraseSetter) {
-          return 'N/A';
-        }
-
-        var solverState = $scope.game.solverStates[md5];
-        if (angular.isUndefined(solverState)) {
-          return 'Unknown';
-        }
-
-        return solverState[field];
-      };
-
-      $scope.gameScoreForPlayer = function (md5) {
-        if (angular.isUndefined($scope.game)) {
-          return '';
-        }
-        return $scope.game.playerRoundScores[md5];
-      };
-
-      $scope.runningScoreForPlayer = function (md5) {
-        if (angular.isUndefined($scope.game)) {
-          return '';
-        }
-        return $scope.game.playerRunningScores[md5];
       };
     }
   ])

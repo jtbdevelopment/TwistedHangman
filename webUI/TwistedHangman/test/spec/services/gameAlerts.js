@@ -17,11 +17,10 @@ describe('Service: gameAlerts', function () {
       var newgame = {id: 'x', stuff: 'here'};
       service.checkNewEntryForAlerts(newgame);
       expect(rootscope.$broadcast).toHaveBeenCalledWith('newGameEntry', 'x', newgame);
-    })
+    });
   });
 
   describe('game update alerts', function () {
-
     var oldgame, newgame;
     beforeEach(function () {
       oldgame = {
@@ -42,5 +41,5 @@ describe('Service: gameAlerts', function () {
       service.checkUpdateForAlerts(oldgame, newgame);
       expect(rootscope.$broadcast).not.toHaveBeenCalled();
     });
-  })
+  });
 });

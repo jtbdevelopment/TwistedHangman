@@ -89,7 +89,7 @@
     <div class="gameState container" ng-show="showPlaySection">
       <div class="row">
         <div class="col-sm-1 "><label>Your Game:</label></div>
-        <div class="col-sm-1 text-center">{{gameEndForPlayer(player.md5)}}</div>
+        <div class="col-sm-1 text-center">{{gameDetails.gameEndForPlayer(player.md5)}}</div>
         <div class="col-sm-1 "><label>Moves:</label></div>
         <div class="col-sm-1 text-center">{{gameState.moveCount}}</div>
         <div class="col-sm-1 "><label>Blanks Left:</label></div>
@@ -128,16 +128,16 @@
     <tr ng-repeat="(md5, name) in game.players | orderBy:name">
       <td>{{name}}</td>
       <td>{{game.playerStates[md5]}}</td>
-      <td>{{roleForPlayer(md5)}}</td>
-      <td>{{gameEndForPlayer(md5)}}</td>
-      <td class="text-center">{{stateForPlayer(md5, 'moveCount')}}</td>
-      <td class="text-center">{{stateForPlayer(md5, 'blanksRemaining')}}</td>
-      <td class="text-center">{{stateForPlayer(md5, 'penaltiesRemaining')}}</td>
-      <td>{{stateForPlayer(md5, 'category')}}</td>
-      <td>{{stateForPlayer(md5, 'wordPhrase')}}</td>
-      <td>{{stateForPlayer(md5, 'workingWordPhrase')}}</td>
-      <td class="text-center">{{gameScoreForPlayer(md5)}}</td>
-      <td class="text-center">{{runningScoreForPlayer(md5)}}</td>
+      <td>{{gameDetails.roleForPlayer(md5)}}</td>
+      <td>{{gameDetails.gameEndForPlayer(md5)}}</td>
+      <td class="text-center">{{gameDetails.stateForPlayer(md5, 'moveCount')}}</td>
+      <td class="text-center">{{gameDetails.stateForPlayer(md5, 'blanksRemaining')}}</td>
+      <td class="text-center">{{gameDetails.stateForPlayer(md5, 'penaltiesRemaining')}}</td>
+      <td>{{gameDetails.stateForPlayer(md5, 'category')}}</td>
+      <td>{{gameDetails.stateForPlayer(md5, 'wordPhrase')}}</td>
+      <td>{{gameDetails.stateForPlayer(md5, 'workingWordPhrase')}}</td>
+      <td class="text-center">{{gameDetails.gameScoreForPlayer(md5)}}</td>
+      <td class="text-center">{{gameDetails.runningScoreForPlayer(md5)}}</td>
     </tr>
     </tbody>
   </table>

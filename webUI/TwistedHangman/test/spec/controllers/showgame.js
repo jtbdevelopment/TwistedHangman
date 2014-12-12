@@ -19,7 +19,7 @@ describe('Controller: ShowCtrl', function () {
 
   var player = {'player': 'player'};
   var ctrl, scope, http, rootScope, showGameService, q, playerDeferred, location, modal, modalResult, controller;
-  var gameCacheExpectedId, gameCacheReturnResult, mockPlayerService, mockGameCache, routeParams;
+  var gameCacheExpectedId, gameCacheReturnResult, mockPlayerService, mockGameCache, routeParams, mockGameDetails;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($rootScope, $httpBackend, $q, $controller) {
@@ -58,6 +58,8 @@ describe('Controller: ShowCtrl', function () {
       }
     };
 
+    mockGameDetails = {};
+
     routeParams = {
       gameID: 'gameid'
     };
@@ -79,7 +81,8 @@ describe('Controller: ShowCtrl', function () {
         $modal: modal,
         twCurrentPlayerService: mockPlayerService,
         twShowGameService: showGameService,
-        twGameCache: mockGameCache
+        twGameCache: mockGameCache,
+        twGameDetails: mockGameDetails
       });
     });
 
@@ -92,6 +95,7 @@ describe('Controller: ShowCtrl', function () {
       rootScope.$apply();
       expect(scope.player).toEqual(player);
       expect(showGameService.updateScopeForGame).toHaveBeenCalledWith(scope, scope.game);
+      expect(scope.gameDetails).toBe(mockGameDetails);
     });
   });
 
@@ -109,11 +113,13 @@ describe('Controller: ShowCtrl', function () {
         $modal: modal,
         twCurrentPlayerService: mockPlayerService,
         twShowGameService: showGameService,
-        twGameCache: mockGameCache
+        twGameCache: mockGameCache,
+        twGameDetails: mockGameDetails
       });
     });
 
     it('initializes with no game', function () {
+      expect(scope.gameDetails).toBe(mockGameDetails);
       expect(showGameService.initializeScope).toHaveBeenCalledWith(scope);
       expect(showGameService.updateScopeForGame).not.toHaveBeenCalledWith(scope, game);
 
@@ -126,6 +132,7 @@ describe('Controller: ShowCtrl', function () {
     });
 
     it('initializes with no player', function () {
+      expect(scope.gameDetails).toBe(mockGameDetails);
       expect(showGameService.initializeScope).toHaveBeenCalledWith(scope);
       expect(showGameService.updateScopeForGame).not.toHaveBeenCalledWith(scope, game);
 
@@ -152,7 +159,8 @@ describe('Controller: ShowCtrl', function () {
         $modal: modal,
         twCurrentPlayerService: mockPlayerService,
         twShowGameService: showGameService,
-        twGameCache: mockGameCache
+        twGameCache: mockGameCache,
+        twGameDetails: mockGameDetails
       });
     });
 
@@ -383,72 +391,5 @@ describe('Controller: ShowCtrl', function () {
         expect(showGameService.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
       });
     });
-
-    describe('test various state computation functions', function () {
-      beforeEach(function () {
-        scope.game = game;
-      });
-
-      it('role for player', function () {
-        expect(scope.roleForPlayer('md4')).toEqual('Set Puzzle');
-        ['md1', 'md2', 'md3', 'md5'].forEach(function (md) {
-          expect(scope.roleForPlayer(md)).toEqual('Solver');
-        });
-      });
-
-      it('role for player with undefined game', function () {
-        delete scope.game;
-        expect(scope.roleForPlayer('md4')).toEqual('');
-      });
-
-      it('gameEndForPlayer for player', function () {
-        expect(scope.gameEndForPlayer('md1')).toEqual('Solved!');
-        expect(scope.gameEndForPlayer('md2')).toEqual('Hung!');
-        expect(scope.gameEndForPlayer('md3')).toEqual('Not Solved.');
-        expect(scope.gameEndForPlayer('md4')).toEqual('N/A');
-        expect(scope.gameEndForPlayer('md5')).toEqual('Unknown');
-      });
-
-      it('gameEndForPlayer with undefined game', function () {
-        delete scope.game;
-        expect(scope.gameEndForPlayer('md4')).toEqual('');
-      });
-
-      it('stateForPlayer for player', function () {
-        expect(scope.stateForPlayer('md1', 'field')).toEqual('X');
-        expect(scope.stateForPlayer('md2', 'field')).toEqual('Y');
-        expect(scope.stateForPlayer('md3', 'field')).toEqual('Z');
-        expect(scope.stateForPlayer('md4', 'field')).toEqual('N/A');
-        expect(scope.stateForPlayer('md5', 'field')).toEqual('Unknown');
-      });
-
-      it('stateForPlayer with undefined game', function () {
-        delete scope.game;
-        expect(scope.stateForPlayer('md4')).toEqual('');
-      });
-
-      it('gameScoreForPlayer with undefined game', function () {
-        delete scope.game;
-        expect(scope.gameScoreForPlayer('md4')).toEqual('');
-      });
-
-      it('gameScoreForPlayer for player', function () {
-        angular.forEach({'md1': 1, 'md2': 0, 'md3': -1, 'md4': 3, 'md5': 2}, function (value, key) {
-          expect(scope.gameScoreForPlayer(key)).toEqual(value);
-        });
-      });
-
-      it('runningScoreForPlayer with undefined game', function () {
-        delete scope.game;
-        expect(scope.runningScoreForPlayer('md4')).toEqual('');
-      });
-
-      it('runningScoreForPlayer for player', function () {
-        angular.forEach({'md1': 0, 'md2': 2, 'md3': 10, 'md4': -3, 'md5': -5}, function (value, key) {
-          expect(scope.runningScoreForPlayer(key)).toEqual(value);
-        });
-      });
-    });
-
   });
 });

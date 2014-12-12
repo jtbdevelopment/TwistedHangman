@@ -39,7 +39,7 @@ describe('Service: gameCache', function () {
     gameAlerts = jasmine.createSpyObj('gameAlerts', ['checkUpdateForAlerts', 'checkNewEntryForAlerts']);
     $provide.factory('twGameAlerts', function () {
       return gameAlerts;
-    })
+    });
   }));
 
   var service, rootScope, location, http;
