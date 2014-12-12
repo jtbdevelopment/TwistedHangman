@@ -4,19 +4,48 @@ describe('Service: gameAlerts', function () {
   // load the controller's module
   beforeEach(module('twistedHangmanApp'));
 
-  var rootscope, service;
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function ($rootScope, $injector) {
-    rootscope = $rootScope;
-    spyOn($rootScope, '$broadcast');
-    service = $injector.get('twGameAlerts');
+  var rootScope, service;
+  var md5value = 'md5', playerDeferred, twGameDetails;
+  var player = {md5: md5value};
+  var gameDetails = {};
+  beforeEach(module(function ($provide) {
+    $provide.factory('twCurrentPlayerService', ['$q', function ($q) {
+      return {
+        currentPlayer: function () {
+          playerDeferred = $q.defer();
+          return playerDeferred.promise;
+        }
+      };
+    }]);
+    $provide.factory('twGameDetails', function () {
+      return gameDetails;
+    });
   }));
+
+  beforeEach(inject(function ($rootScope, $injector) {
+    rootScope = $rootScope;
+    spyOn(rootScope, '$broadcast').and.callThrough();
+    service = $injector.get('twGameAlerts');
+    playerDeferred.resolve(player);
+    rootScope.$apply();
+  }));
+
+  it('initializes', function () {
+    expect(service.md5()).toEqual(md5value);
+  });
+
+  it('listens for playerSwitch', function () {
+    rootScope.$broadcast('playerSwitch');
+    playerDeferred.resolve({md5: 'newmd5'});
+    rootScope.$apply();
+    expect(service.md5()).toEqual('newmd5');
+  });
 
   describe('new game entry alerts', function () {
     it('publishes new game alert', function () {
       var newgame = {id: 'x', stuff: 'here'};
       service.checkNewEntryForAlerts(newgame);
-      expect(rootscope.$broadcast).toHaveBeenCalledWith('newGameEntry', 'x', newgame);
+      expect(rootScope.$broadcast).toHaveBeenCalledWith('newGameEntry', 'x', newgame);
     });
   });
 
@@ -34,12 +63,12 @@ describe('Service: gameAlerts', function () {
     it('publishes alert on phase change', function () {
       newgame.gamePhase = 'SetupX';
       service.checkUpdateForAlerts(oldgame, newgame);
-      expect(rootscope.$broadcast).toHaveBeenCalledWith('phaseChange', newgame.id, newgame);
+      expect(rootScope.$broadcast).toHaveBeenCalledWith('phaseChange', newgame.id, newgame);
     });
 
     it('does not publish alert on non-phase change', function () {
       service.checkUpdateForAlerts(oldgame, newgame);
-      expect(rootscope.$broadcast).not.toHaveBeenCalled();
+      expect(rootScope.$broadcast).not.toHaveBeenCalled();
     });
   });
 });

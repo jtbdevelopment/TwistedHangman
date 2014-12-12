@@ -3,14 +3,26 @@
 angular.module('twistedHangmanApp').factory('twGameDetails',
   function () {
     return {
+      playerIsSetter: function (game, md5) {
+        if (angular.isUndefined(game)) {
+          return false;
+        }
+        return md5 === game.wordPhraseSetter;
+      },
+
+      //  TEST
+      playersTurn: function (game, md5) {
+        if (game.features.indexOf('TurnBased') >= 0) {
+          return md5 === scope.game.featureData.TurnBased;
+        }
+        return false;
+      },
+
       roleForPlayer: function (game, md5) {
         if (angular.isUndefined(game)) {
           return '';
         }
-        if (md5 === game.wordPhraseSetter) {
-          return 'Set Puzzle';
-        }
-        return 'Solver';
+        return this.playerIsSetter(game, md5) ? 'Set Puzzle' : 'Solver';
       },
 
       gameEndForPlayer: function (game, md5) {

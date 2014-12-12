@@ -30,13 +30,16 @@ describe('Service: twGameDetails', function () {
 
     it('role for player', function () {
       expect(service.roleForPlayer(game, 'md4')).toEqual('Set Puzzle');
+      expect(service.playerIsSetter(game, 'md4')).toEqual(true);
       ['md1', 'md2', 'md3', 'md5'].forEach(function (md) {
         expect(service.roleForPlayer(game, md)).toEqual('Solver');
+        expect(service.playerIsSetter(game, md)).toEqual(false);
       });
     });
 
     it('role for player with undefined game', function () {
       expect(service.roleForPlayer(undef, 'md4')).toEqual('');
+      expect(service.playerIsSetter(undef, 'md4')).toEqual(false);
     });
 
     it('gameEndForPlayer for player', function () {
