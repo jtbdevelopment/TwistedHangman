@@ -35,7 +35,8 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
         Game transitioned = gamePublisher.publish(
                 gameRepository.save(
                         transitionEngine.evaluateGamePhaseForGame(previousGame)),
-                player)
+                Player.SYSTEM_PLAYER)
+        //  We set to system player so it gets published to all players, including this one
         //  TODO - handle newGame setup failing..
         Game newGame = setupGame(transitioned, player)
         newGame

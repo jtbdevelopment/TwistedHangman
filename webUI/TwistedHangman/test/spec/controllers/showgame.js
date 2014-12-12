@@ -311,9 +311,6 @@ describe('Controller: ShowCtrl', function () {
         scope.startNextRound();
         http.flush();
 
-        expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'X');
-        expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'RoundOver');
-        expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', 'NextRoundStarted');
         expect(location.path).toHaveBeenCalledWith('/show/newid');
         expect(showGameService.updateScopeForGame).toHaveBeenCalledWith(scope, newGame);
       });

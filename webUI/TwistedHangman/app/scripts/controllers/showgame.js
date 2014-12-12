@@ -2,9 +2,9 @@
 
 //  TODO - should all the playing failures refresh game?
 angular.module('twistedHangmanApp').controller('ShowCtrl',
-  ['$rootScope', '$scope', '$routeParams', '$http', '$location', '$modal',
+  ['$scope', '$routeParams', '$http', '$location', '$modal',
     'twCurrentPlayerService', 'twShowGameService', 'twGameCache', 'twGameDetails',
-    function ($rootScope, $scope, $routeParams, $http, $location, $modal,
+    function ($scope, $routeParams, $http, $location, $modal,
               twCurrentPlayerService, twShowGameService, twGameCache, twGameDetails) {
       twShowGameService.initializeScope($scope);
       $scope.gameID = $routeParams.gameID;
@@ -23,7 +23,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
         $location.path('/error');
       });
 
-      $rootScope.$on('gameCachesLoaded', function () {
+      $scope.$on('gameCachesLoaded', function () {
         var game = twGameCache.getGameForID($scope.gameID);
         if (angular.isDefined(game)) {
           twShowGameService.updateScopeForGame($scope, twGameCache.getGameForID($scope.gameID));
@@ -32,7 +32,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
         }
       });
 
-      $rootScope.$on('gameUpdate', function (event, id, game) {
+      $scope.$on('gameUpdate', function (event, id, game) {
         if (angular.isDefined($scope.game) && $scope.game.id === id) {
           //  TODO - this generates a stale update warning as game cache is also listening
           twShowGameService.processGameUpdateForScope($scope, game);
@@ -51,16 +51,19 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
         });
       }
 
+      function showConfirmDialog() {
+        return $modal.open({
+          templateUrl: 'views/confirmDialog.html',
+          controller: 'ConfirmCtrl'
+        });
+      }
+
       //  TODO - state change alerts
       //  TODO - refresh game on error on action?
       //  TODO - move the broadcast
 
       $scope.startNextRound = function () {
         $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/rematch').success(function (data) {
-          //  TODO - remove this - but need server to publish both games or live update
-          $rootScope.$broadcast('refreshGames', data.gamePhase);
-          $rootScope.$broadcast('refreshGames', 'NextRoundStarted');
-          $rootScope.$broadcast('refreshGames', 'RoundOver');
           twShowGameService.updateScopeForGame($scope, data);
           $location.path('/show/' + data.id);
         }).error(function (data, status, headers, config) {
@@ -79,10 +82,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
       };
 
       $scope.reject = function () {
-        var modal = $modal.open({
-          templateUrl: 'views/confirmDialog.html',
-          controller: 'ConfirmCtrl'
-        });
+        var modal = showConfirmDialog();
         modal.result.then(function () {
           $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/reject').success(function (data) {
             twShowGameService.processGameUpdateForScope($scope, data);
@@ -134,10 +134,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
       };
 
       $scope.quit = function () {
-        var modal = $modal.open({
-          templateUrl: 'views/confirmDialog.html',
-          controller: 'ConfirmCtrl'
-        });
+        var modal = showConfirmDialog();
         modal.result.then(function () {
           $http.put(twCurrentPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/quit').success(function (data) {
             twShowGameService.processGameUpdateForScope($scope, data);
