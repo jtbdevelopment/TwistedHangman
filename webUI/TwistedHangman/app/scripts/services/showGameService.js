@@ -95,6 +95,7 @@ angular.module('twistedHangmanApp').factory('twShowGameService',
       }
 
       //  TODO - test this function
+      //  TODO - overlap with gameDetails
       function computeDisplayAreas(scope) {
         scope.showPlaySection = false;
         scope.allowPlayMoves = false;
