@@ -20,6 +20,9 @@ angular.module('twistedHangmanApp')
       }
 
       $scope.goToGame = function (index) {
+        if (index < 0 || index >= $scope.alerts.length) {
+          return;
+        }
         var game = $scope.alerts[index];
         $scope.alerts.splice(index, 1);
         $location.path(gamePath(game.id));
@@ -30,6 +33,7 @@ angular.module('twistedHangmanApp')
       };
 
       $scope.$on('playerLoaded', function () {
+        $scope.alerts = [];
         $scope.playerGreeting = 'Welcome ' + twPlayerService.currentPlayer().displayName;
       });
 
@@ -53,7 +57,7 @@ angular.module('twistedHangmanApp')
         else if (score === 0) {
           generateAlert(game.id, 'Round ended and you drew.');
         } else {
-          generateAlert(game.id, 'Round ended and you drew lost!');
+          generateAlert(game.id, 'Round ended and you lost!');
         }
       });
 
@@ -79,9 +83,5 @@ angular.module('twistedHangmanApp')
 
       $scope.$on('setupAlert', function (event, game) {
         generateAlert(game.id, 'You need to enter a puzzle!');
-      });
-
-      $scope.$on('quitAlert', function (event, game) {
-        generateAlert(game.id, 'You need to set the puzzle!');
       });
     }]);
