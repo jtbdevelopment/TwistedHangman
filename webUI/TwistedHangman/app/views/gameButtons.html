@@ -8,7 +8,7 @@
   <div class="btn-group-vertical {{hideGames ? 'hideGames' : 'showGames'}}" collapse="hideGames">
     <!--  TODO - display more infomation about game options  -->
     <a ng-repeat="game in games | orderBy:['-lastUpdate', '-created']" href="#/show/{{game.id}}" role="button"
-       class="btn-group btn gameButton {{style}}">
+       class="btn-group btn gameButton {{style}}" id="{{game.id}}">
     <span class="glyphicon {{glyph}}">
             <span ng-repeat="(key, value) in game.players">{{value}}<span ng-show=" ! $last ">, </span></span>
       </span>
