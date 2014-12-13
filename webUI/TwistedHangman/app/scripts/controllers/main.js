@@ -73,8 +73,8 @@ angular.module('twistedHangmanApp')
         generateAlert(game.id, 'You\'ve been challenged!');
       });
 
-      $scope.$on('rejectedAlert', function (event, game) {
-        generateAlert(game.id, 'A challenge was rejected!');
+      $scope.$on('declinedAlert', function (event, game) {
+        generateAlert(game.id, 'A challenge was declined!');
       });
 
       $scope.$on('quitAlert', function (event, game) {

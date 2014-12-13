@@ -301,7 +301,7 @@ describe('Controller: ShowCtrl', function () {
         http.flush();
 
         expect(location.path).toHaveBeenCalledWith('/show/newid');
-        expect(showGameService.updateScopeForGame).toHaveBeenCalledWith(scope, newGame);
+        expect(showGameService.processGameUpdateForScope).toHaveBeenCalledWith(scope, newGame);
       });
 
       it('accept match', function () {

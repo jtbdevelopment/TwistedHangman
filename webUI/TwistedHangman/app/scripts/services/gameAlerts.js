@@ -22,8 +22,8 @@ angular.module('twistedHangmanApp').factory('twGameAlerts',
           if (newgame.gamePhase === 'RoundOver' && oldgame.gamePhase !== 'RoundOver') {
             $rootScope.$broadcast('roundOverAlert', newgame);
           }
-          if (newgame.gamePhase === 'Rejected' && oldgame.gamePhase !== 'Rejected') {
-            $rootScope.$broadcast('rejectedAlert', newgame);
+          if (newgame.gamePhase === 'Declined' && oldgame.gamePhase !== 'Declined') {
+            $rootScope.$broadcast('declinedAlert', newgame);
           }
           if (newgame.gamePhase === 'Quit' && oldgame.gamePhase !== 'Quit') {
             $rootScope.$broadcast('quitAlert', newgame);

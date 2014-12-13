@@ -62,7 +62,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
 
       $scope.startNextRound = function () {
         $http.put(twPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/rematch').success(function (data) {
-          twShowGameService.updateScopeForGame($scope, data);
+          twShowGameService.processGameUpdateForScope($scope, data);
           $location.path('/show/' + data.id);
         }).error(function (data, status, headers, config) {
           showMessage(status + ': ' + data);

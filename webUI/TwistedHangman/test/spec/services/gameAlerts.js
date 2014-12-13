@@ -242,15 +242,15 @@ describe('Service: gameAlerts', function () {
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('quitAlert', newgame);
     });
 
-    it('publishes alert on rejected change', function () {
-      newgame.gamePhase = 'Rejected';
+    it('publishes alert on declined change', function () {
+      newgame.gamePhase = 'Declined';
       service.checkUpdateForAlerts(oldgame, newgame);
-      expect(rootScope.$broadcast).toHaveBeenCalledWith('rejectedAlert', newgame);
+      expect(rootScope.$broadcast).toHaveBeenCalledWith('declinedAlert', newgame);
     });
 
-    it('does not publish alert on non rejected change', function () {
+    it('does not publish alert on non declined change', function () {
       service.checkUpdateForAlerts(oldgame, newgame);
-      expect(rootScope.$broadcast).not.toHaveBeenCalledWith('rejectedAlert', newgame);
+      expect(rootScope.$broadcast).not.toHaveBeenCalledWith('declinedAlert', newgame);
     });
 
     it('publishes alert on play', function () {
