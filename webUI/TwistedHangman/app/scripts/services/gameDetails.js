@@ -3,10 +3,7 @@
 angular.module('twistedHangmanApp').factory('twGameDetails',
   function () {
     function checkParams(game, md5) {
-      if (angular.isUndefined(game) || angular.isUndefined(md5) || md5.trim() === '') {
-        return false;
-      }
-      return true;
+      return !(angular.isUndefined(game) || angular.isUndefined(md5) || md5.trim() === '');
     }
 
     return {

@@ -16,16 +16,18 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
     // load the controller's module
     beforeEach(module('twistedHangmanApp'));
 
-    var ctrl, scope, rootScope, phaseService, q, phaseDeferred, location, gameCache;
+    var ctrl, scope, rootScope, phaseService, q, phaseDeferred, location, gameCache, timeout, animate;
     var phaseDesc = {};
     phaseDesc[phase] = ['unused', 'desc'];
     var games;
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($controller, $rootScope, $q) {
+    beforeEach(inject(function ($controller, $rootScope, $q, $timeout, $animate) {
       scope = $rootScope.$new();
+      timeout = $timeout;
       location = {path: jasmine.createSpy()};
       rootScope = $rootScope;
+      animate = $animate;
       q = $q;
       phaseService = {
         phases: function () {
@@ -92,6 +94,82 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
         expect(scope.hideGames).toEqual(true);
         scope.switchHideGames();
         expect(scope.hideGames).toEqual(false);
+      });
+    });
+
+    describe('broadcast phase changes', function () {
+      var element, animation, promise, removed, added, elementCalled;
+      beforeEach(function () {
+        element = {};
+        animation = 'animated shake';
+        removed = false;
+        added = false;
+        elementCalled = false;
+        promise = undefined;
+
+        spyOn(angular, 'element').and.callFake(function () {
+          elementCalled = true;
+          return element;
+        });
+        spyOn(animate, 'addClass').and.callFake(function (elem, classes) {
+          expect(elem).toBe(element);
+          expect(classes).toEqual(animation);
+          added = true;
+          promise = q.defer();
+          return promise.promise;
+        });
+        spyOn(animate, 'removeClass').and.callFake(function (elem, classes) {
+          expect(elem).toBe(element);
+          expect(classes).toEqual(animation);
+          removed = true;
+        });
+      });
+
+      it('adds shake animation when it can', function () {
+        rootScope.$broadcast('gameCachesLoaded');
+        expect(scope.games).toEqual(games);
+        rootScope.$broadcast('phaseChangeAlert', {id: 'game', gamePhase: phase});
+        timeout.flush();
+        expect(elementCalled).toEqual(true);
+        expect(added).toEqual(true);
+        promise.resolve({});
+        rootScope.$apply();
+        expect(removed).toEqual(true);
+      });
+
+      it('does not shake on wrong phase', function () {
+        rootScope.$broadcast('gameCachesLoaded');
+        expect(scope.games).toEqual(games);
+        rootScope.$broadcast('phaseChangeAlert', {id: 'game', gamePhase: phase + 'X'});
+        timeout.flush();
+        expect(elementCalled).toEqual(false);
+        expect(promise).toBeUndefined();
+        expect(added).toEqual(false);
+        expect(removed).toEqual(false);
+      });
+
+      it('does not shake on no element', function () {
+        element = undefined;
+        rootScope.$broadcast('gameCachesLoaded');
+        expect(scope.games).toEqual(games);
+        rootScope.$broadcast('phaseChangeAlert', {id: 'game', gamePhase: phase});
+        timeout.flush();
+        expect(elementCalled).toEqual(true);
+        expect(promise).toBeUndefined();
+        expect(added).toEqual(false);
+        expect(removed).toEqual(false);
+      });
+
+      it('does not shake on no element', function () {
+        element = undefined;
+        rootScope.$broadcast('gameCachesLoaded');
+        expect(scope.games).toEqual(games);
+        rootScope.$broadcast('phaseChangeAlert', {id: 'game', gamePhase: phase});
+        timeout.flush();
+        expect(elementCalled).toEqual(true);
+        expect(promise).toBeUndefined();
+        expect(added).toEqual(false);
+        expect(removed).toEqual(false);
       });
     });
   });

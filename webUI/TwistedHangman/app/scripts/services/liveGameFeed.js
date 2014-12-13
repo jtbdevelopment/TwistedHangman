@@ -69,8 +69,7 @@ angular.module('twistedHangmanApp').factory('twLiveGameFeed',
         if (angular.isDefined(subscribed)) {
           subscribed.close();
         }
-        var x;
-        subscribed = x;
+        subscribed = undefined;
         subscribeToCurrentPlayer();
       });
 

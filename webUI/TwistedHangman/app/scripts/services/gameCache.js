@@ -14,6 +14,7 @@ angular.module('twistedHangmanApp').factory('twGameCache',
       //  If we do - make cache player id specific
       var initializing = false;
       var tmp = 'Have Live Game Feed ' + twLiveGameFeed;  //  This is just to force instantiation and suppress warnings
+      console.info(tmp);
 
       function loadSubCaches() {
         phases.forEach(function (phase) {

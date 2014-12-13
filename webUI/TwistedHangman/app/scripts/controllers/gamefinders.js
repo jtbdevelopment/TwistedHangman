@@ -49,7 +49,6 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
           loadGames();
         });
 
-        //  TODO - Test
         $scope.$on('phaseChangeAlert', function (event, game) {
           //  Brief timeout to allow event to fully propagate so data is current
           $timeout(function () {
