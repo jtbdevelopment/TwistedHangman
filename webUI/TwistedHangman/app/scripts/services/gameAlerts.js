@@ -23,11 +23,34 @@ angular.module('twistedHangmanApp').factory('twGameAlerts',
         },
         checkUpdateForAlerts: function (oldgame, newgame) {
           if (oldgame.gamePhase !== newgame.gamePhase) {
-            $rootScope.$broadcast('phaseChange', newgame.id, newgame);
+            $rootScope.$broadcast('phaseChangeAlert', newgame);
           }
         },
         checkNewEntryForAlerts: function (newgame) {
-          $rootScope.$broadcast('newGameEntry', newgame.id, newgame);
+          if (newgame.gamePhase === 'RoundOver') {
+            $rootScope.$broadcast('roundOverAlert', newgame);
+          }
+          if (newgame.gamePhase === 'Quit') {
+            $rootScope.$broadcast('quitAlert', newgame);
+          }
+          switch (twGameDetails.gameEndForPlayer(newgame, currentMD5)) {
+            case 'Solved!':
+              $rootScope.$broadcast('solvedAlert', newgame);
+              break;
+            case 'Hung!':
+              $rootScope.$broadcast('hungAlert', newgame);
+              break;
+          }
+          if (twGameDetails.playerSetupEntryRequired(newgame, currentMD5)) {
+            $rootScope.$broadcast('setupAlert', newgame);
+          }
+          if (twGameDetails.playerCanPlay(newgame, currentMD5)) {
+            $rootScope.$broadcast('playAlert', newgame);
+          }
+          if (twGameDetails.playerChallengeResponseNeeded(newgame, currentMD5)) {
+            $rootScope.$broadcast('challengedAlert', newgame);
+          }
+          $rootScope.$broadcast('phaseChangeAlert', newgame);
         }
       };
     }
