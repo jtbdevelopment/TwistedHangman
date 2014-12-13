@@ -242,6 +242,17 @@ describe('Service: gameAlerts', function () {
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('quitAlert', newgame);
     });
 
+    it('publishes alert on rejected change', function () {
+      newgame.gamePhase = 'Rejected';
+      service.checkUpdateForAlerts(oldgame, newgame);
+      expect(rootScope.$broadcast).toHaveBeenCalledWith('rejectedAlert', newgame);
+    });
+
+    it('does not publish alert on non rejected change', function () {
+      service.checkUpdateForAlerts(oldgame, newgame);
+      expect(rootScope.$broadcast).not.toHaveBeenCalledWith('rejectedAlert', newgame);
+    });
+
     it('publishes alert on play', function () {
       gameDetails.playerCanPlay = function (game) {
         return game !== oldgame;
@@ -267,5 +278,6 @@ describe('Service: gameAlerts', function () {
       service.checkUpdateForAlerts(oldgame, newgame);
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('setupAlert', newgame);
     });
+
   });
 });

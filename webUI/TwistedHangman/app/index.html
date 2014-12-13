@@ -26,6 +26,21 @@
 <div class="container-fluid" ng-controller="MainCtrl">
   <div class="header">
     <ul class="nav nav-pills pull-right">
+      <li>
+        <div class="alerts">
+          <div class="btn-group" dropdown ng->
+            <button type="button" class="btn dropdown-toggle" dropdown-toggle ng-disabled="alerts.length < 1">
+              <span class="glyphicon glyphicon-exclamation-sign"></span><span class="badge pull-right"
+                                                                              ng-hide="alerts.length === 0">{{alerts.length}}</span>
+            </button>
+            <ul class="dropdown-menu">
+              <li ng-repeat="alert in alerts">
+                <a ng-click="goToGame($index)">{{alert.message}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </li>
       <li><a ng-href="#/about">About</a></li>
       <!--  TODO - lockdown admin  -->
       <li><a ng-href="#/admin">Admin</a></li>

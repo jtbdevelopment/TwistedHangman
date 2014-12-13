@@ -22,6 +22,9 @@ angular.module('twistedHangmanApp').factory('twGameAlerts',
           if (newgame.gamePhase === 'RoundOver' && oldgame.gamePhase !== 'RoundOver') {
             $rootScope.$broadcast('roundOverAlert', newgame);
           }
+          if (newgame.gamePhase === 'Rejected' && oldgame.gamePhase !== 'Rejected') {
+            $rootScope.$broadcast('rejectedAlert', newgame);
+          }
           if (newgame.gamePhase === 'Quit' && oldgame.gamePhase !== 'Quit') {
             $rootScope.$broadcast('quitAlert', newgame);
           }
@@ -38,13 +41,13 @@ angular.module('twistedHangmanApp').factory('twGameAlerts',
                 break;
             }
           }
-          if (twGameDetails.playerSetupEntryRequired(newgame, currentMD5) !== twGameDetails.playerSetupEntryRequired(oldgame, currentMD5)) {
+          if (twGameDetails.playerSetupEntryRequired(newgame, currentMD5) && !twGameDetails.playerSetupEntryRequired(oldgame, currentMD5)) {
             $rootScope.$broadcast('setupAlert', newgame);
           }
-          if (twGameDetails.playerCanPlay(newgame, currentMD5) !== twGameDetails.playerCanPlay(oldgame, currentMD5)) {
+          if (twGameDetails.playerCanPlay(newgame, currentMD5) && !twGameDetails.playerCanPlay(oldgame, currentMD5)) {
             $rootScope.$broadcast('playAlert', newgame);
           }
-          if (twGameDetails.playerChallengeResponseNeeded(newgame, currentMD5) !== twGameDetails.playerChallengeResponseNeeded(oldgame, currentMD5)) {
+          if (twGameDetails.playerChallengeResponseNeeded(newgame, currentMD5) && !twGameDetails.playerChallengeResponseNeeded(oldgame, currentMD5)) {
             $rootScope.$broadcast('challengedAlert', newgame);
           }
           if (oldgame.gamePhase !== newgame.gamePhase) {
