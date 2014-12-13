@@ -15,7 +15,7 @@ angular.module('twistedHangmanApp').factory('twGameCache',
       var initializing = false;
       var tmp = 'Have Live Game Feed ' + twLiveGameFeed;  //  This is just to force instantiation and suppress warnings
 
-      function initializeSubCaches() {
+      function loadSubCaches() {
         phases.forEach(function (phase) {
             var phaseCache = gameCache.get(phase);
             if (angular.isDefined(phaseCache)) {
@@ -34,8 +34,8 @@ angular.module('twistedHangmanApp').factory('twGameCache',
         );
       }
 
-      function initializeCache() {
-        initializeSubCaches();
+      function loadCache() {
+        loadSubCaches();
         $http.get(twPlayerService.currentPlayerBaseURL() + '/games').success(function (data) {
           initializing = true;
           data.forEach(function (game) {
@@ -56,7 +56,7 @@ angular.module('twistedHangmanApp').factory('twGameCache',
           angular.forEach(phaseMap, function (array, phase) {
             phases.push(phase);
           });
-          initializeCache();
+          loadSubCaches();
         }, function () {
           $location.path('/error');
         });
@@ -121,12 +121,12 @@ angular.module('twistedHangmanApp').factory('twGameCache',
         $rootScope.$apply();
       });
 
-      $rootScope.$on('playerSwitch', function () {
-        initializeCache();
+      $rootScope.$on('liveFeedEstablished', function () {
+        loadCache();
       });
 
       $rootScope.$on('refreshGames', function () {
-        initializeCache();
+        loadCache();
       });
 
       initialize();

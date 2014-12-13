@@ -11,16 +11,14 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
       $scope.enteredCategory = '';
       $scope.enteredWordPhrase = '';
       $scope.gameDetails = twGameDetails;
+      $scope.player = twPlayerService.currentPlayer();
       var game = twGameCache.getGameForID($scope.gameID);
       if (angular.isDefined(game)) {
         twShowGameService.updateScopeForGame($scope, game);
       }
 
-      twPlayerService.currentPlayer().then(function (data) {
-        $scope.player = data;
-        twShowGameService.updateScopeForGame($scope, $scope.game);
-      }, function () {
-        $location.path('/error');
+      $scope.$on('playerLoaded', function () {
+        $location.path('/');
       });
 
       $scope.$on('gameCachesLoaded', function () {

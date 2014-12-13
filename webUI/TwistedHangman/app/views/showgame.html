@@ -129,16 +129,16 @@
     <tr ng-repeat="(md5, name) in game.players | orderBy:name">
       <td>{{name}}</td>
       <td>{{game.playerStates[md5]}}</td>
-      <td>{{gameDetails.roleForPlayer(md5)}}</td>
-      <td>{{gameDetails.gameEndForPlayer(md5)}}</td>
-      <td class="text-center">{{gameDetails.stateForPlayer(md5, 'moveCount')}}</td>
-      <td class="text-center">{{gameDetails.stateForPlayer(md5, 'blanksRemaining')}}</td>
-      <td class="text-center">{{gameDetails.stateForPlayer(md5, 'penaltiesRemaining')}}</td>
-      <td>{{gameDetails.stateForPlayer(md5, 'category')}}</td>
-      <td>{{gameDetails.stateForPlayer(md5, 'wordPhrase')}}</td>
-      <td>{{gameDetails.stateForPlayer(md5, 'workingWordPhrase')}}</td>
-      <td class="text-center">{{gameDetails.gameScoreForPlayer(md5)}}</td>
-      <td class="text-center">{{gameDetails.runningScoreForPlayer(md5)}}</td>
+      <td>{{gameDetails.roleForPlayer(game, md5)}}</td>
+      <td>{{gameDetails.gameEndForPlayer(game, md5)}}</td>
+      <td class="text-center">{{gameDetails.stateForPlayer(game, md5, 'moveCount')}}</td>
+      <td class="text-center">{{gameDetails.stateForPlayer(game, md5, 'blanksRemaining')}}</td>
+      <td class="text-center">{{gameDetails.stateForPlayer(game, md5, 'penaltiesRemaining')}}</td>
+      <td>{{gameDetails.stateForPlayer(game, md5, 'category')}}</td>
+      <td>{{gameDetails.stateForPlayer(game, md5, 'wordPhrase')}}</td>
+      <td>{{gameDetails.stateForPlayer(game, md5, 'workingWordPhrase')}}</td>
+      <td class="text-center">{{gameDetails.gameScoreForPlayer(game, md5)}}</td>
+      <td class="text-center">{{gameDetails.runningScoreForPlayer(game, md5)}}</td>
     </tr>
     </tbody>
   </table>

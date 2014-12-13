@@ -18,7 +18,7 @@ describe('Controller: ShowCtrl', function () {
   };
 
   var player = {'player': 'player'};
-  var ctrl, scope, http, rootScope, showGameService, q, playerDeferred, location, modal, modalResult, controller;
+  var ctrl, scope, http, rootScope, showGameService, q, location, modal, modalResult, controller;
   var gameCacheExpectedId, gameCacheReturnResult, mockPlayerService, mockGameCache, routeParams, mockGameDetails;
 
   // Initialize the controller and a mock scope
@@ -46,8 +46,7 @@ describe('Controller: ShowCtrl', function () {
         return '/api/player/MANUAL1';
       },
       currentPlayer: function () {
-        playerDeferred = q.defer();
-        return playerDeferred.promise;
+        return player;
       }
     };
 
@@ -89,12 +88,8 @@ describe('Controller: ShowCtrl', function () {
     it('initializes', function () {
       expect(showGameService.initializeScope).toHaveBeenCalledWith(scope);
 
-      expect(showGameService.updateScopeForGame).toHaveBeenCalledWith(scope, game);
-      expect(scope.player).toBeUndefined();
-      playerDeferred.resolve(player);
-      rootScope.$apply();
       expect(scope.player).toEqual(player);
-      expect(showGameService.updateScopeForGame).toHaveBeenCalledWith(scope, scope.game);
+      expect(showGameService.updateScopeForGame).toHaveBeenCalledWith(scope, game);
       expect(scope.gameDetails).toBe(mockGameDetails);
     });
   });
@@ -121,27 +116,9 @@ describe('Controller: ShowCtrl', function () {
     it('initializes with no game', function () {
       expect(scope.gameDetails).toBe(mockGameDetails);
       expect(showGameService.initializeScope).toHaveBeenCalledWith(scope);
-      expect(showGameService.updateScopeForGame).not.toHaveBeenCalledWith(scope, game);
-
-      expect(scope.player).toBeUndefined();
-      playerDeferred.resolve(player);
-      rootScope.$apply();
       expect(scope.player).toEqual(player);
       expect(scope.game).toBeUndefined();
-      expect(showGameService.updateScopeForGame).toHaveBeenCalledWith(scope, scope.game);
-    });
-
-    it('initializes with no player', function () {
-      expect(scope.gameDetails).toBe(mockGameDetails);
-      expect(showGameService.initializeScope).toHaveBeenCalledWith(scope);
       expect(showGameService.updateScopeForGame).not.toHaveBeenCalledWith(scope, game);
-
-      expect(scope.player).toBeUndefined();
-      playerDeferred.reject();
-      rootScope.$apply();
-      expect(scope.player).toBeUndefined();
-      expect(scope.game).toBeUndefined();
-      expect(location.path).toHaveBeenCalledWith('/error');
     });
   });
 
@@ -169,36 +146,39 @@ describe('Controller: ShowCtrl', function () {
       beforeEach(function () {
         confirmModelOpen = modal.open;
         modal.open = function (params) {
-          console.log('here');
           expect(params.controller).toEqual('ErrorCtrl');
           expect(params.templateUrl).toEqual('views/gameErrorDialog.html');
           expect(params.resolve.message()).toEqual(modalMessage);
           modalResult = q.defer();
           return {result: modalResult.promise};
         };
+      });
 
-        it('reject match fails', function () {
-          http.expectPUT('/api/player/MANUAL1/game/gameid/reject').respond(502, 'more bad stuff');
-          scope.reject();
-          modalResult.resolve();
-          modalMessage = '502: more bad stuff';
-          http.flush();
+      it('reject match fails', function () {
+        //  Two modals in this one
+        http.expectPUT('/api/player/MANUAL1/game/gameid/reject').respond(502, 'more bad stuff');
+        var errorOpen = modal.open;
+        modal.open = confirmModelOpen;
+        scope.reject();
+        modalResult.resolve();
+        modal.open = errorOpen;
+        modalMessage = '502: more bad stuff';
+        modalResult.resolve();
+        http.flush();
+      });
 
-        });
+      it('steal letter fails', function () {
+        scope.allowPlayMoves = true;
+        http.expectPUT('/api/player/MANUAL1/game/gameid/steal/2').respond(601, 'bad stuff');
+        scope.stealLetter('2');
+        modalMessage = '601: bad stuff';
+        http.flush();
+      });
 
-        it('steal letter fails', function () {
-          scope.allowPlayMoves = true;
-          http.expectPUT('/api/player/MANUAL1/game/gameid/steal/2').respond(601, 'bad stuff');
-          scope.stealLetter('2');
-          modalMessage = '601: bad stuff';
-          http.flush();
-        });
-
-        it('steal letter when not allowed', function () {
-          scope.allowPlayMoves = false;
-          scope.stealLetter('2');
-          modalMessage = 'Not currently playable.';
-        });
+      it('steal letter when not allowed', function () {
+        scope.allowPlayMoves = false;
+        modalMessage = 'Not currently playable.';
+        scope.stealLetter('2');
       });
 
       it('post rematch fails', function () {
@@ -256,6 +236,15 @@ describe('Controller: ShowCtrl', function () {
       });
 
     });
+
+    describe('listens for playerLoaded broadcasts', function () {
+      it('test playerLoaded', function () {
+        rootScope.$broadcast('playerLoaded');
+        rootScope.$apply();
+        expect(location.path).toHaveBeenCalledWith('/');
+      });
+    });
+
     describe('listens for gameUpdate broadcasts', function () {
       it('listens for gameUpdate and updates if same game id', function () {
         scope.game = game;

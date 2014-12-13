@@ -17,11 +17,9 @@ angular.module('twistedHangmanApp').controller('AdminCtrl',
       $scope.changeUser = function () {
         twPlayerService.overridePID($scope.selected.id);
         $location.path('/');
-        $rootScope.$broadcast('playerSwitch');
       };
       $scope.revertUser = function () {
         twPlayerService.overridePID(twPlayerService.realPID());
         $location.path('/');
-        $rootScope.$broadcast('playerSwitch');
       };
     }]);

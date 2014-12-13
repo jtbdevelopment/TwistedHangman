@@ -5,21 +5,21 @@ describe('Controller: MainCtrl', function () {
   // load the controller's module
   beforeEach(module('twistedHangmanApp'));
 
-  var MainCtrl, rootScope, scope, playerService, q, deferredPlayer, location;
+  var MainCtrl, rootScope, scope, playerService, location;
+  var player;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, $q) {
+  beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
     rootScope = $rootScope;
-    q = $q;
     spyOn(rootScope, '$broadcast').and.callThrough();
     location = {path: jasmine.createSpy()};
     playerService = {
       currentPlayer: function () {
-        deferredPlayer = $q.defer();
-        return deferredPlayer.promise;
+        return player;
       }
     };
+    player = {displayName: 'XYZ'};
     MainCtrl = $controller('MainCtrl', {
       $scope: scope,
       $location: location,
@@ -28,15 +28,10 @@ describe('Controller: MainCtrl', function () {
   }));
 
   it('initializes', function () {
-    deferredPlayer.resolve({displayName: 'XYZ'});
+    expect(scope.playerGreeting).toEqual('');
+    rootScope.$broadcast('playerLoaded');
     rootScope.$apply();
     expect(scope.playerGreeting).toEqual('Welcome XYZ');
-  });
-
-  it('initializes to error', function () {
-    deferredPlayer.reject();
-    rootScope.$apply();
-    expect(location.path).toHaveBeenCalledWith('/error');
   });
 
   it('test refresh button', function () {
@@ -44,13 +39,14 @@ describe('Controller: MainCtrl', function () {
     expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', '');
   });
 
-  it('refreshes on "playerSwitch" broadcast', function () {
-    deferredPlayer.resolve({displayName: 'XYZ'});
+  it('refreshes on "playerLoaded" broadcast', function () {
+    expect(scope.playerGreeting).toEqual('');
+    rootScope.$broadcast('playerLoaded');
     rootScope.$apply();
     expect(scope.playerGreeting).toEqual('Welcome XYZ');
-    console.warn('running test');
-    rootScope.$broadcast('playerSwitch', '');
-    deferredPlayer.resolve({displayName: 'ABC'});
+
+    player = {displayName: 'ABC'};
+    rootScope.$broadcast('playerLoaded');
     rootScope.$apply();
     expect(scope.playerGreeting).toEqual('Welcome ABC');
   });

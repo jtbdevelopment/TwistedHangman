@@ -13,6 +13,7 @@ angular.module('twistedHangmanApp').factory('twLiveGameFeed',
 
         onOpen: function (response) {
           console.info(this.url + 'Atmosphere connected using ' + response.transport);
+          $rootScope.$broadcast('liveFeedEstablished');
         },
 
         onMessage: function (response) {
@@ -64,9 +65,7 @@ angular.module('twistedHangmanApp').factory('twLiveGameFeed',
         subscribed = socket.subscribe(request);
       }
 
-      subscribeToCurrentPlayer();
-
-      $rootScope.$on('playerSwitch', function () {
+      $rootScope.$on('playerLoaded', function () {
         if (angular.isDefined(subscribed)) {
           subscribed.close();
         }

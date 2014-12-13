@@ -5,28 +5,28 @@ describe('Service: gameAlerts', function () {
   beforeEach(module('twistedHangmanApp'));
 
   var rootScope, service;
-  var md5value = 'md5', playerDeferred;
-  var player = {md5: md5value};
+  var md5value = 'md5';
+  var player;
   var gameDetails = {};
   beforeEach(module(function ($provide) {
-    $provide.factory('twPlayerService', ['$q', function ($q) {
+    $provide.factory('twPlayerService', function () {
       return {
         currentPlayer: function () {
-          playerDeferred = $q.defer();
-          return playerDeferred.promise;
+          return player;
         }
       };
-    }]);
+    });
     $provide.factory('twGameDetails', function () {
       return gameDetails;
     });
   }));
 
   beforeEach(inject(function ($rootScope, $injector) {
+    player = {md5: md5value};
     rootScope = $rootScope;
     spyOn(rootScope, '$broadcast').and.callThrough();
     service = $injector.get('twGameAlerts');
-    playerDeferred.resolve(player);
+    rootScope.$broadcast('playerLoaded');
     rootScope.$apply();
   }));
 
@@ -34,9 +34,10 @@ describe('Service: gameAlerts', function () {
     expect(service.md5()).toEqual(md5value);
   });
 
-  it('listens for playerSwitch', function () {
-    rootScope.$broadcast('playerSwitch');
-    playerDeferred.resolve({md5: 'newmd5'});
+  it('listens for playerLoaded', function () {
+    expect(service.md5()).toEqual(md5value);
+    player.md5 = 'newmd5';
+    rootScope.$broadcast('playerLoaded');
     rootScope.$apply();
     expect(service.md5()).toEqual('newmd5');
   });
@@ -178,7 +179,6 @@ describe('Service: gameAlerts', function () {
 
     it('publishes alert on game end change to solved', function () {
       gameDetails.gameEndForPlayer = function (game) {
-        console.log(game);
         if (game === oldgame) {
           return '';
         }

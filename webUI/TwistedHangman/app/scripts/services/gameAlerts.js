@@ -6,14 +6,10 @@ angular.module('twistedHangmanApp').factory('twGameAlerts',
       var currentMD5;
 
       function loadMD5() {
-        twPlayerService.currentPlayer().then(function (player) {
-          currentMD5 = player.md5;
-        });
+        currentMD5 = twPlayerService.currentPlayer().md5;
       }
 
-      loadMD5();
-
-      $rootScope.$on('playerSwitch', function () {
+      $rootScope.$on('playerLoaded', function () {
         loadMD5();
       });
 
