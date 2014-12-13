@@ -10,6 +10,7 @@ describe('Service: showGameSevice', function () {
     workingWordPhrase: '__ A_',
     maxPenalties: 6,
     penalties: 2,
+    penaltiesRemaining: 4,
     badlyGuessedLetters: ['X', 'Y'],
     guessedLetters: ['A', 'X', 'Y'],
     featureData: {}
