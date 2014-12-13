@@ -86,6 +86,8 @@ angular.module('twistedHangmanApp').factory('twGameCache',
               existingPhaseCache.games.splice(existingPhaseIndex, 1);
               delete existingPhaseCache.idMap[existingGame.id];
             }
+            // Based on javascript threading model, and server data
+            // this is an unlikely necessary if - as it probably always falls into true
             if (!initializing) {
               twGameAlerts.checkUpdateForAlerts(existingGame, updatedGame);
             }
