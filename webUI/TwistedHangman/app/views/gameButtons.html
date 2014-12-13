@@ -1,6 +1,8 @@
 <div class="gameButtonGroup">
   <div class="btn-group-vertical">
-    <button class="btn-group btn gameButtonBadge" ng-click="switchHideGames()">{{label}}
+    <button class="btn-group btn gameButtonBadge"
+            ng-click="switchHideGames()">
+      <span class="pull-left">{{label}}</span>
       <span class="badge pull-right">{{games.length}}</span>
     </button>
 

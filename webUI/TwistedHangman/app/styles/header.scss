@@ -1,9 +1,13 @@
 @import "variables";
 .header {
   margin-bottom: 0;
+  a {
+    text-decoration: none;
+  }
+
   h3 {
     line-height: 20px;
-    padding-bottom: 5px;
+    padding-bottom: 10px;
   }
 
   .text-muted {
@@ -11,5 +15,9 @@
     small {
       color: $et_richbrowndark;
     }
+  }
+
+  .nav > li > a:hover {
+    background-color: $et_richbrownmedium;
   }
 }
