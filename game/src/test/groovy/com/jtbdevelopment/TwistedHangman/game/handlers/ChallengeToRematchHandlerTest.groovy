@@ -59,7 +59,7 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
                 publish: {
                     Game g, Player p ->
                         assert g.is(previousS)
-                        assert p.is(PONE)
+                        assert p.is(Player.SYSTEM_PLAYER)
                         previousP
                 }
         ] as GamePublisher
