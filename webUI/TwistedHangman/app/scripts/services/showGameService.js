@@ -17,7 +17,10 @@ angular.module('twistedHangmanApp').factory('twShowGameService',
           if (angular.isDefined(scope.gameState.featureData.ThievingPositionTracking)) {
             r = (scope.gameState.featureData.ThievingPositionTracking[i] === true) ?
               'stolenwp' :
-              (scope.workingWordPhraseArray[i] === '_' ? 'stealablewp' : 'regularwp'); //  TODO - test this extra condition
+              (
+                (scope.workingWordPhraseArray[i] === '_' &&
+                scope.gameState.penaltiesRemaining > 1)
+                  ? 'stealablewp' : 'regularwp'); //  TODO - test this extra condition
           }
           scope.workingWordPhraseClasses[i] = r;
         }
