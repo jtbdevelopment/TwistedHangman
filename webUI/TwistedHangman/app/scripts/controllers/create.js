@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twistedHangmanApp').controller('CreateCtrl',
-  ['$scope', 'twGameCache', 'twGameFeatureService', 'twCurrentPlayerService', '$http', '$location',
-    function ($scope, twGameCache, twGameFeatureService, twCurrentPlayerService, $http, $location) {
+  ['$scope', 'twGameCache', 'twGameFeatureService', 'twPlayerService', '$http', '$location',
+    function ($scope, twGameCache, twGameFeatureService, twPlayerService, $http, $location) {
 
       var SINGLE_PLAYER = 'SinglePlayer';
       var TWO_PLAYERS = 'TwoPlayer';
@@ -32,7 +32,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
       });
 
       $scope.friends = [];
-      twCurrentPlayerService.currentPlayerFriends().then(function (data) {
+      twPlayerService.currentPlayerFriends().then(function (data) {
         angular.forEach(data, function (displayName, hash) {
           var friend = {
             md5: hash,
@@ -118,7 +118,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
           return player.md5;
         });
         var playersAndFeatures = {'players': players, 'features': featureSet};
-        $http.post(twCurrentPlayerService.currentPlayerBaseURL() + '/new', playersAndFeatures).success(function (data) {
+        $http.post(twPlayerService.currentPlayerBaseURL() + '/new', playersAndFeatures).success(function (data) {
           twGameCache.putUpdatedGame(data);
           $location.path('/show/' + data.id);
         }).error(function (data, status, headers, config) {

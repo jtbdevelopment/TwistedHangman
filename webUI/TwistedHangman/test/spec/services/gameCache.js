@@ -26,7 +26,7 @@ describe('Service: gameCache', function () {
         }
       };
     }]);
-    $provide.factory('twCurrentPlayerService', function () {
+    $provide.factory('twPlayerService', function () {
       return {
         currentPlayerBaseURL: function () {
           return baseURL;

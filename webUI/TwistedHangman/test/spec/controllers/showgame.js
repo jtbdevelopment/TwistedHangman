@@ -79,7 +79,7 @@ describe('Controller: ShowCtrl', function () {
         $location: location,
         $window: window,
         $modal: modal,
-        twCurrentPlayerService: mockPlayerService,
+        twPlayerService: mockPlayerService,
         twShowGameService: showGameService,
         twGameCache: mockGameCache,
         twGameDetails: mockGameDetails
@@ -111,7 +111,7 @@ describe('Controller: ShowCtrl', function () {
         $location: location,
         $window: window,
         $modal: modal,
-        twCurrentPlayerService: mockPlayerService,
+        twPlayerService: mockPlayerService,
         twShowGameService: showGameService,
         twGameCache: mockGameCache,
         twGameDetails: mockGameDetails
@@ -157,7 +157,7 @@ describe('Controller: ShowCtrl', function () {
         $location: location,
         $window: window,
         $modal: modal,
-        twCurrentPlayerService: mockPlayerService,
+        twPlayerService: mockPlayerService,
         twShowGameService: showGameService,
         twGameCache: mockGameCache,
         twGameDetails: mockGameDetails

@@ -2,9 +2,9 @@
 
 angular.module('twistedHangmanApp').factory('twGameCache',
   ['$rootScope', '$cacheFactory', '$location', '$http',
-    'twGamePhaseService', 'twCurrentPlayerService', 'twLiveGameFeed', 'twGameAlerts',
+    'twGamePhaseService', 'twPlayerService', 'twLiveGameFeed', 'twGameAlerts',
     function ($rootScope, $cacheFactory, $location, $http,
-              twGamePhaseService, twCurrentPlayerService, twLiveGameFeed, twGameAlerts) {
+              twGamePhaseService, twPlayerService, twLiveGameFeed, twGameAlerts) {
       var ALL = 'All';
       var gameCache = $cacheFactory('game-gameCache');
       var phases = [];
@@ -36,7 +36,7 @@ angular.module('twistedHangmanApp').factory('twGameCache',
 
       function initializeCache() {
         initializeSubCaches();
-        $http.get(twCurrentPlayerService.currentPlayerBaseURL() + '/games').success(function (data) {
+        $http.get(twPlayerService.currentPlayerBaseURL() + '/games').success(function (data) {
           initializing = true;
           data.forEach(function (game) {
             cache.putUpdatedGame(game);

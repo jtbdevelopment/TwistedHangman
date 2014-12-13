@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('twistedHangmanApp').factory('twCurrentPlayerService', ['$http', function ($http) {
+angular.module('twistedHangmanApp').factory('twPlayerService', ['$http', function ($http) {
 //  TODO - different ids
   console.warn('Initializing Current Player');
   var realPID = 'MANUAL1';
@@ -9,7 +9,7 @@ angular.module('twistedHangmanApp').factory('twCurrentPlayerService', ['$http', 
   var BASE_PLAYER_URL = '/api/player/';
   var FRIENDS_PATH = '/friends';
 
-  return {
+  var service = {
     //  TODO - review, lockdown and test all this real and override stuff
     overridePID: function (newpid) {
       //  TODO - admin and validate
@@ -53,5 +53,7 @@ angular.module('twistedHangmanApp').factory('twCurrentPlayerService', ['$http', 
       });
     }
   };
+
+  return service;
 }]);
 

@@ -23,7 +23,7 @@ describe('Controller: MainCtrl', function () {
     MainCtrl = $controller('MainCtrl', {
       $scope: scope,
       $location: location,
-      twCurrentPlayerService: playerService
+      twPlayerService: playerService
     });
   }));
 

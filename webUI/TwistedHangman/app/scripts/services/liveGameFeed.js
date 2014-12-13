@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twistedHangmanApp').factory('twLiveGameFeed',
-  ['$rootScope', 'twCurrentPlayerService',
-    function ($rootScope, twCurrentPlayerService) {
+  ['$rootScope', 'twPlayerService',
+    function ($rootScope, twPlayerService) {
       var request = {
         url: '',
         contentType: 'application/json',
@@ -60,7 +60,7 @@ angular.module('twistedHangmanApp').factory('twLiveGameFeed',
       var subscribed;
 
       function subscribeToCurrentPlayer() {
-        request.url = '/livefeed/' + twCurrentPlayerService.currentID();
+        request.url = '/livefeed/' + twPlayerService.currentID();
         subscribed = socket.subscribe(request);
       }
 

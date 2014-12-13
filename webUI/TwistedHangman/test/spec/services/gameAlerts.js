@@ -9,7 +9,7 @@ describe('Service: gameAlerts', function () {
   var player = {md5: md5value};
   var gameDetails = {};
   beforeEach(module(function ($provide) {
-    $provide.factory('twCurrentPlayerService', ['$q', function ($q) {
+    $provide.factory('twPlayerService', ['$q', function ($q) {
       return {
         currentPlayer: function () {
           playerDeferred = $q.defer();

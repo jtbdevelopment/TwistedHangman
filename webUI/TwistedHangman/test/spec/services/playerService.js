@@ -19,7 +19,7 @@ describe('Service: currentPlayer', function () {
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($injector) {
     httpBackend = $injector.get('$httpBackend');
-    service = $injector.get('twCurrentPlayerService');
+    service = $injector.get('twPlayerService');
   }));
 
   it('sets current id without http', function () {

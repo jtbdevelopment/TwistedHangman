@@ -40,7 +40,7 @@ describe('Controller: CreateCtrl', function () {
       $scope: scope,
       twGameCache: gameCache,
       twGameFeatureService: mockFeatureService,
-      twCurrentPlayerService: mockPlayerService,
+      twPlayerService: mockPlayerService,
       $location: location
     });
 

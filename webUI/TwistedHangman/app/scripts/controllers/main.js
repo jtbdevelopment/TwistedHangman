@@ -9,11 +9,11 @@
  */
 angular.module('twistedHangmanApp')
   .controller('MainCtrl',
-  ['$rootScope', '$scope', '$location', 'twCurrentPlayerService',
-    function ($rootScope, $scope, $location, twCurrentPlayerService) {
+  ['$rootScope', '$scope', '$location', 'twPlayerService',
+    function ($rootScope, $scope, $location, twPlayerService) {
       $scope.playerGreeting = '';
       function loadPlayer() {
-        twCurrentPlayerService.currentPlayer().then(function (data) {
+        twPlayerService.currentPlayer().then(function (data) {
           $scope.playerGreeting = 'Welcome ' + data.displayName;
         }, function () {
           $location.path('/error');
