@@ -23,6 +23,7 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="example-tomcat" />
+        <module name="facebook" />
         <module name="game" />
         <module name="integration-tests" />
         <module name="model" />

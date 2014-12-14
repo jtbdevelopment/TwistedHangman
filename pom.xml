@@ -6,13 +6,14 @@
     <groupId>com.jtbdevelopment.TwistedHangman</groupId>
     <artifactId>TwistedHangman</artifactId>
     <packaging>pom</packaging>
-    <version>1.6-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
     <modules>
         <module>game</module>
         <module>utilities</module>
         <module>rest</module>
         <module>integration-tests</module>
         <module>webUI</module>
+        <module>facebook</module>
         <module>example-tomcat</module>
     </modules>
 
