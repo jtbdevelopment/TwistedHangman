@@ -13,7 +13,7 @@
         <module>rest</module>
         <module>integration-tests</module>
         <module>webUI</module>
-        <module>facebook</module>
+        <module>security</module>
         <module>example-tomcat</module>
     </modules>
 

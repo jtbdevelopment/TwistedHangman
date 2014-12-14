@@ -28,6 +28,7 @@
         <module name="integration-tests" />
         <module name="model" />
         <module name="rest" />
+        <module name="security" />
         <module name="utilities" />
         <module name="webUI" />
       </profile>
