@@ -14,6 +14,7 @@ import java.util.concurrent.ThreadPoolExecutor
 class GamePublisherTest extends TwistedHangmanTestCase {
     GamePublisher publisher = new GamePublisher()
 
+
     void testCreatesExecutorService() {
         publisher.threads = 20
         publisher.setUp()
@@ -27,6 +28,23 @@ class GamePublisherTest extends TwistedHangmanTestCase {
             }
         }).get() == expectedResult
         publisher.service.shutdownNow()
+    }
+
+    void testPublishWithNoListeners() {
+        publisher.threads = 1
+        publisher.setUp()
+
+        Game g1 = new Game(id: '1')
+        Game g2 = new Game(id: '2')
+        Player p1 = PONE
+        Player p2 = PTWO
+
+        assert publisher.subscribers == null
+        publisher.publish(g1, p2)
+        publisher.publish(g2, p1)
+        publisher.service.shutdown()
+
+        //  Not crashing is success
     }
 
     void testPublish() {

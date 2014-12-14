@@ -152,39 +152,6 @@
             <version>${spring.version}</version>
         </dependency>
 
-        <!--  TODO - move -->
-        <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-core</artifactId>
-            <version>1.1.0.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-web</artifactId>
-            <version>1.1.0.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-config</artifactId>
-            <version>1.1.0.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-facebook</artifactId>
-            <version>1.1.0.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-security</artifactId>
-            <version>1.1.0.RELEASE</version>
-        </dependency>
-
-        <!--  TODO - move -->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>3.2.5.RELEASE</version>
-        </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>

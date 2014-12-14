@@ -18,7 +18,7 @@ import java.util.concurrent.Executors
 @Component
 @CompileStatic
 class GamePublisher {
-    @Autowired
+    @Autowired(required = false)
     List<GameListener> subscribers
 
     @Value('${publishing.threads:10}')
@@ -31,9 +31,11 @@ class GamePublisher {
         service.submit(new Runnable() {
             @Override
             void run() {
-                subscribers.each {
-                    GameListener listener ->
-                        listener.gameChanged(game, initiatingPlayer)
+                if (subscribers != null) {
+                    subscribers.each {
+                        GameListener listener ->
+                            listener.gameChanged(game, initiatingPlayer)
+                    }
                 }
             }
         })
