@@ -4,7 +4,6 @@
 angular.module('twistedHangmanApp').factory('twPlayerService',
   ['$http', '$rootScope', '$location',
     function ($http, $rootScope, $location) {
-      //  TODO - different ids
       var realPID = '';
       var simulatedPID = '';
       var BASE_PLAYER_URL = '/api/player/';
