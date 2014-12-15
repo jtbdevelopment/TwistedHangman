@@ -37,13 +37,9 @@ describe('Service: playerService', function () {
       expect(service.currentPlayerBaseURL()).toEqual('/api/player/' + testID);
       expect(service.realPID()).toEqual(testID);
       expect(service.currentPlayer()).toBeUndefined();
-      expect(service.realPlayer()).toBeUndefined();
-      expect(service.realPlayerBaseURL()).toEqual('/api/player/' + testID);
       httpBackend.flush();
       expect(service.currentPlayer()).toEqual(playerResult);
-      expect(service.realPlayer()).toEqual(playerResult);
       expect(rootScope.$broadcast).toHaveBeenCalledWith('playerLoaded');
-      expect(rootScope.$broadcast).toHaveBeenCalledWith('realPlayerLoaded');
       expect(location.path).not.toHaveBeenCalledWith('/error');
     });
 
@@ -52,13 +48,9 @@ describe('Service: playerService', function () {
       expect(service.currentPlayerBaseURL()).toEqual('/api/player/' + testID);
       expect(service.currentPlayer()).toBeUndefined();
       expect(service.realPID()).toEqual(testID);
-      expect(service.realPlayer()).toBeUndefined();
-      expect(service.realPlayerBaseURL()).toEqual('/api/player/' + testID);
       httpBackend.flush();
       expect(service.currentPlayer()).toEqual(playerResult);
-      expect(service.realPlayer()).toEqual(playerResult);
       expect(rootScope.$broadcast).toHaveBeenCalledWith('playerLoaded');
-      expect(rootScope.$broadcast).toHaveBeenCalledWith('realPlayerLoaded');
       expect(location.path).not.toHaveBeenCalledWith('/error');
 
       var newPlayer = angular.copy(playerResult);
@@ -69,7 +61,6 @@ describe('Service: playerService', function () {
       expect(service.currentID()).toEqual(newPlayer.id);
       expect(service.currentPlayerBaseURL()).toEqual('/api/player/' + newPlayer.id);
       expect(service.currentPlayer()).toEqual(playerResult);
-      expect(service.realPlayerBaseURL()).toEqual('/api/player/' + testID);
       httpBackend.flush();
       expect(service.currentPlayer()).toEqual(newPlayer);
       expect(rootScope.$broadcast).toHaveBeenCalledWith('playerLoaded');
@@ -139,10 +130,8 @@ describe('Service: playerService', function () {
       expect(service.currentID()).toEqual(testID);
       expect(service.realPID()).toEqual(testID);
       expect(service.currentPlayer()).toBeUndefined();
-      expect(service.realPlayer()).toBeUndefined();
       httpBackend.flush();
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('playerLoaded');
-      expect(rootScope.$broadcast).not.toHaveBeenCalledWith('realPlayerLoaded');
       expect(location.path).toHaveBeenCalledWith('/error');
     });
   });

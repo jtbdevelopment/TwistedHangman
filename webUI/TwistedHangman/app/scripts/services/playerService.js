@@ -23,12 +23,6 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
         realPID: function () {
           return realPID;
         },
-        realPlayerBaseURL: function () {
-          return BASE_PLAYER_URL + realPID;
-        },
-        realPlayer: function () {
-          return realPlayer;
-        },
 
 
         currentID: function () {
@@ -48,15 +42,6 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
         }
       };
 
-      function loadRealPlayer() {
-        $http.get(service.realPlayerBaseURL(), {cache: true}).success(function (response) {
-          realPlayer = response;
-          $rootScope.$broadcast('realPlayerLoaded');
-        }).error(function () {
-          $location.path('/error');
-        });
-      }
-
       function loadPlayer() {
         $http.get(service.currentPlayerBaseURL(), {cache: true}).success(function (response) {
           simulatedPlayer = response;
@@ -66,7 +51,6 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
         });
       }
 
-      loadRealPlayer();
       loadPlayer();
 
       return service;
