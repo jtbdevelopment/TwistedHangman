@@ -16,6 +16,7 @@ import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.mem.InMemoryUsersConnectionRepository;
 import org.springframework.social.facebook.security.FacebookAuthenticationService;
 import org.springframework.social.security.SocialAuthenticationServiceRegistry;
+import org.springframework.social.security.SpringSocialConfigurer;
 import org.springframework.social.security.provider.SocialAuthenticationService;
 
 import java.util.List;
@@ -65,13 +66,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/favicon.ico", "/images/**", "/auth/**", "/signin/**", "/signup/**", "/disconnect/facebook").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()
-                .formLogin().loginPage("/signin/signin.html").failureUrl("/signin/signin.html").successHandler(new AddInfoAuthenticationSuccessHandler())
+                .formLogin().loginPage("/signin/signin.html").failureUrl("/signin/signin.html")
                 .and()
                 .logout().deleteCookies("JSESSIONID")
                 .and()
                 .rememberMe().key(tokenKey)
                 .and()
-                .apply(new CustomSpringSocialConfigurer().postFailureUrl("/signin/signin.html"))
+                        //  TODO - what?
+                .csrf().disable()
+//                .apply(new CustomSpringSocialConfigurer().postFailureUrl("/signin/signin.html"))
+                .apply(new SpringSocialConfigurer())
 //                .and()
 //                .httpBasic()
         ;

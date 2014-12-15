@@ -14,6 +14,7 @@ angular.module('twistedHangmanApp')
       $scope.playerGreeting = '';
       //  TODO - initialize from local storage?
       $scope.alerts = [];
+      $scope.createRefreshEnabled = false;
 
       function gamePath(id) {
         return '/show/' + id;
@@ -35,6 +36,7 @@ angular.module('twistedHangmanApp')
       $scope.$on('playerLoaded', function () {
         $scope.alerts = [];
         $scope.playerGreeting = 'Welcome ' + twPlayerService.currentPlayer().displayName;
+        $scope.createRefreshEnabled = true;
       });
 
       function generateAlert(gameId, alertMessage) {

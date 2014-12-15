@@ -31,10 +31,12 @@ describe('Controller: MainCtrl', function () {
 
   it('initializes', function () {
     expect(scope.playerGreeting).toEqual('');
+    expect(scope.createRefreshEnabled).toEqual(false);
     rootScope.$broadcast('playerLoaded');
     rootScope.$apply();
     expect(scope.playerGreeting).toEqual('Welcome XYZ');
     expect(scope.alerts).toEqual([]);
+    expect(scope.createRefreshEnabled).toEqual(true);
   });
 
   it('test refresh button', function () {

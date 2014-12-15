@@ -5,13 +5,12 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
   ['$http', '$rootScope', '$location',
     function ($http, $rootScope, $location) {
       //  TODO - different ids
-      var realPID = 'MANUAL1';
-      var simulatedPID = 'MANUAL1';
+      var realPID = '';
+      var simulatedPID = '';
       var BASE_PLAYER_URL = '/api/player/';
       var FRIENDS_PATH = '/friends';
 
       var simulatedPlayer;
-      var realPlayer;
 
       var service = {
         //  TODO - review, lockdown and test all this real and override stuff
@@ -43,8 +42,18 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
       };
 
       function loadPlayer() {
-        $http.get(service.currentPlayerBaseURL(), {cache: true}).success(function (response) {
+        var url;
+        if (simulatedPID === '') {
+          url = '/api/security';
+        } else {
+          url = service.currentPlayerBaseURL();
+        }
+        $http.get(url, {cache: true}).success(function (response) {
           simulatedPlayer = response;
+          if (realPID === '') {
+            realPID = simulatedPlayer.id;
+            simulatedPID = realPID;
+          }
           $rootScope.$broadcast('playerLoaded');
         }).error(function () {
           $location.path('/error');

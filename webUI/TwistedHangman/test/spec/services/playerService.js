@@ -28,27 +28,33 @@ describe('Service: playerService', function () {
 
   describe('with player responses', function () {
     beforeEach(function () {
-      httpBackend.expectGET('/api/player/' + testID).respond(playerResult);
+      httpBackend.expectGET('/api/security').respond(playerResult);
       service = injector.get('twPlayerService');
     });
 
     it('initializes', function () {
-      expect(service.currentID()).toEqual(testID);
-      expect(service.currentPlayerBaseURL()).toEqual('/api/player/' + testID);
-      expect(service.realPID()).toEqual(testID);
+      expect(service.currentID()).toEqual('');
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player/');
+      expect(service.realPID()).toEqual('');
       expect(service.currentPlayer()).toBeUndefined();
       httpBackend.flush();
+      expect(service.currentID()).toEqual(testID);
+      expect(service.realPID()).toEqual(testID);
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player/' + testID);
       expect(service.currentPlayer()).toEqual(playerResult);
       expect(rootScope.$broadcast).toHaveBeenCalledWith('playerLoaded');
       expect(location.path).not.toHaveBeenCalledWith('/error');
     });
 
     it('reloads on switch', function () {
-      expect(service.currentID()).toEqual(testID);
-      expect(service.currentPlayerBaseURL()).toEqual('/api/player/' + testID);
+      expect(service.currentID()).toEqual('');
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player/');
+      expect(service.realPID()).toEqual('');
       expect(service.currentPlayer()).toBeUndefined();
-      expect(service.realPID()).toEqual(testID);
       httpBackend.flush();
+      expect(service.currentID()).toEqual(testID);
+      expect(service.realPID()).toEqual(testID);
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player/' + testID);
       expect(service.currentPlayer()).toEqual(playerResult);
       expect(rootScope.$broadcast).toHaveBeenCalledWith('playerLoaded');
       expect(location.path).not.toHaveBeenCalledWith('/error');
@@ -68,6 +74,8 @@ describe('Service: playerService', function () {
     });
 
     it('sets current friends with http', function () {
+      httpBackend.flush();
+
       httpBackend.expectGET('/api/player/' + testID + '/friends').respond(friendResult);
       var friends = null;
       service.currentPlayerFriends().then(function (data) {
@@ -81,6 +89,8 @@ describe('Service: playerService', function () {
     });
 
     it('sets current friends with error', function () {
+      httpBackend.flush();
+
       httpBackend.expectGET('/api/player/' + testID + '/friends').respond(500, {err: 'error'});
       var friends;
       var errorCalled = false;
@@ -97,6 +107,8 @@ describe('Service: playerService', function () {
     });
 
     it('multiple calls only one http friends', function () {
+      httpBackend.flush();
+
       httpBackend.expectGET('/api/player/' + testID + '/friends').respond(friendResult);
       expect(service.currentID()).toEqual(testID);
       var friends = null;
@@ -121,14 +133,14 @@ describe('Service: playerService', function () {
 
   describe('with bad responses', function () {
     beforeEach(function () {
-      httpBackend.expectGET('/api/player/' + testID).respond(500, {somethin: 'somethin'});
+      httpBackend.expectGET('/api/security').respond(500, {somethin: 'somethin'});
       service = injector.get('twPlayerService');
     });
 
 
     it('player with bad response', function () {
-      expect(service.currentID()).toEqual(testID);
-      expect(service.realPID()).toEqual(testID);
+      expect(service.currentID()).toEqual('');
+      expect(service.realPID()).toEqual('');
       expect(service.currentPlayer()).toBeUndefined();
       httpBackend.flush();
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('playerLoaded');
