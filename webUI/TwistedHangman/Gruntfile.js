@@ -78,6 +78,11 @@ module.exports = function (grunt) {
           port: 8080 // the port that the data service is running on
         },
         {
+          context: '/auth', // the context of the data service
+          host: 'localhost', // wherever the data service is running
+          port: 8080 // the port that the data service is running on
+        },
+        {
           context: '/livefeed', // the context of the data service
           host: 'localhost', // wherever the data service is running
           port: 8080, // the port that the data service is running on
@@ -317,7 +322,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.dist %>',
-          src: ['*.html', 'views/{,*/}*.html'],
+          src: ['*.html', 'views/{,*/}*.html', 'signin/{,*/}*.html'],
           dest: '<%= yeoman.dist %>'
         }]
       }
@@ -356,6 +361,7 @@ module.exports = function (grunt) {
             '.htaccess',
             '*.html',
             'views/{,*/}*.html',
+            'signin/{,*/}*.html',
             'images/{,*/}*.{webp}',
             'fonts/{,*/}*.*'
           ]

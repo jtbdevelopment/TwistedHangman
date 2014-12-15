@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
 
+import javax.annotation.security.RolesAllowed
 import javax.ws.rs.GET
 import javax.ws.rs.Path
 import javax.ws.rs.PathParam
@@ -21,6 +22,7 @@ import javax.ws.rs.core.Response
 @Path("player")
 @Component
 @CompileStatic
+@RolesAllowed("USER")
 class PlayerGatewayService {
     public static final String PING_RESULT = "Alive."
 

@@ -14,42 +14,52 @@
     <dependencies>
         <dependency>
             <groupId>com.jtbdevelopment.TwistedHangman</groupId>
-            <artifactId>game</artifactId>
+            <artifactId>rest</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-core</artifactId>
-            <version>1.1.0.RELEASE</version>
+            <version>${spring.social.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-web</artifactId>
-            <version>1.1.0.RELEASE</version>
+            <version>${spring.social.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-config</artifactId>
-            <version>1.1.0.RELEASE</version>
+            <version>${spring.social.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-facebook</artifactId>
-            <version>1.1.0.RELEASE</version>
+            <version>${spring.social.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-security</artifactId>
-            <version>1.1.0.RELEASE</version>
+            <version>${spring.social.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
-            <version>3.2.5.RELEASE</version>
+            <version>${spring.security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring.security.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${javax.servletapi.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

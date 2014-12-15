@@ -15,5 +15,7 @@ import java.util.List;
 public interface PlayerRepository extends PagingAndSortingRepository<Player, String> {
     public abstract List<Player> findByMd5In(final Collection<String> md5s);
 
+    public abstract List<Player> findBySourceAndSourceId(final String source, final String sourceId);
+
     public abstract List<Player> findBySourceAndDisabled(final String source, final boolean disabled);
 }
