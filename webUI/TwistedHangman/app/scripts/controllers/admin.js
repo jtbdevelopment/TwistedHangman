@@ -6,7 +6,7 @@ angular.module('twistedHangmanApp').controller('AdminCtrl',
       $scope.searchText = '';
       $scope.players = [];
       $scope.selected = {};
-      $http.get('/api/player/admin/' + twPlayerService.realPID()).success(function (data) {
+      $http.get('/api/player/admin').success(function (data) {
         $scope.players = data;
 
       }).error(function (data, status, headers, config) {

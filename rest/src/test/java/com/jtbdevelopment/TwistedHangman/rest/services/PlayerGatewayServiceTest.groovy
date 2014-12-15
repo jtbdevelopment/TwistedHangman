@@ -1,12 +1,14 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.security.SessionUserInfo
 import groovy.transform.TypeChecked
-import org.glassfish.jersey.message.internal.OutboundJaxrsResponse
+import org.springframework.security.authentication.TestingAuthenticationToken
+import org.springframework.security.core.context.SecurityContextHolder
 
 import javax.ws.rs.GET
 import javax.ws.rs.Path
-import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
 import javax.ws.rs.core.MediaType
 
@@ -34,42 +36,39 @@ class PlayerGatewayServiceTest extends GroovyTestCase {
     }
 
     void testValidPlayer() {
+        def APLAYER = "APLAYER"
+        SecurityContextHolder.context.authentication = new TestingAuthenticationToken(new SessionUserInfo() {
+            @Override
+            Player getSessionUser() {
+                return null
+            }
+
+            @Override
+            Player getEffectiveUser() {
+                return new Player(id: APLAYER)
+            }
+
+            @Override
+            void setEffectiveUser(final Player player) {
+
+            }
+        }, null)
         PlayerServices services = [playerID: new ThreadLocal<String>()] as PlayerServices
         playerGatewayService.playerServices = services
 
-        def APLAYER = "APLAYER"
-        assert services.is(playerGatewayService.gameServices(APLAYER))
+        assert services.is(playerGatewayService.gameServices())
         assert services.playerID.get() == APLAYER
     }
 
-    void testNullPlayer() {
-        playerGatewayService.playerServices = null
-
-        OutboundJaxrsResponse resp = playerGatewayService.gameServices(null)
-        assert resp.status == javax.ws.rs.core.Response.Status.BAD_REQUEST.statusCode
-        assert resp.entity == "Missing player identity"
-    }
-
-    void testEmptyPlayer() {
-        playerGatewayService.playerServices = null
-
-        OutboundJaxrsResponse resp = playerGatewayService.gameServices("  ")
-        assert resp.status == javax.ws.rs.core.Response.Status.BAD_REQUEST.statusCode
-        assert resp.entity == "Missing player identity"
-    }
-
     void testGameServicesAnnotations() {
-        def gameServices = PlayerGatewayService.getMethod("gameServices", [String.class] as Class[])
+        def gameServices = PlayerGatewayService.getMethod("gameServices", [] as Class[])
         assert (gameServices.annotations.size() == 1 ||
                 (gameServices.isAnnotationPresent(TypeChecked.TypeCheckingInfo) && gameServices.annotations.size() == 2)
         )
         assert gameServices.isAnnotationPresent(Path.class)
-        assert gameServices.getAnnotation(Path.class).value() == "{playerID}"
+        assert gameServices.getAnnotation(Path.class).value() == "player"
         def params = gameServices.parameterAnnotations
-        assert params.length == 1
-        assert params[0].length == 1
-        assert params[0][0].annotationType() == PathParam.class
-        assert ((PathParam) params[0][0]).value() == "playerID"
+        assert params.length == 0
     }
 
     void testGetFeatures() {

@@ -4,7 +4,7 @@ angular.module('twistedHangmanApp').factory('twGameFeatureService', ['$http', fu
   return {
     features: function () {
       //  TODO - local cookie?
-      return $http.get('/api/player/features', {cache: true}).then(function (response) {
+      return $http.get('/api/features', {cache: true}).then(function (response) {
         return response.data;
       });
     }

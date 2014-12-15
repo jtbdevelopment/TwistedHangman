@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.security
 
 import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
 import groovy.transform.CompileStatic
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -14,13 +15,31 @@ import org.springframework.social.security.SocialUserDetails
  *
  */
 @CompileStatic
-class PlayerUserDetails implements SocialUserDetails {
+class PlayerUserDetails implements SocialUserDetails, SessionUserInfo {
 
-    final Player player;
-    final List<SimpleGrantedAuthority> grantedAuthorities = [new SimpleGrantedAuthority("PLAYER")]
+    final Player player
+    Player effectivePlayer
+
+    final List<SimpleGrantedAuthority> grantedAuthorities = [new SimpleGrantedAuthority(PlayerRoles.PLAYER)]
 
     PlayerUserDetails(final Player player) {
         this.player = player
+        this.effectivePlayer = player
+    }
+
+    @Override
+    Player getSessionUser() {
+        return player
+    }
+
+    @Override
+    Player getEffectiveUser() {
+        return effectivePlayer
+    };
+
+    @Override
+    void setEffectiveUser(final Player player) {
+        this.effectivePlayer = player
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.security
+package com.jtbdevelopment.TwistedHangman.security.facebook
 
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.players.Player
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component
  * Time: 5:11 PM
  *
  * TODO - lots of cleanup
+ * TODO - get images / facebook specific etc etc
  *
  */
 @Component

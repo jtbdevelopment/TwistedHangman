@@ -2,27 +2,27 @@ package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
+import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
+import com.jtbdevelopment.TwistedHangman.security.SessionUserInfo
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
-import org.springframework.util.StringUtils
 
 import javax.annotation.security.RolesAllowed
 import javax.ws.rs.GET
 import javax.ws.rs.Path
-import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
 import javax.ws.rs.core.MediaType
-import javax.ws.rs.core.Response
 
 /**
  * Date: 11/14/14
  * Time: 6:36 AM
  */
-@Path("player")
+@Path("/")
 @Component
 @CompileStatic
-@RolesAllowed("USER")
+@RolesAllowed([PlayerRoles.PLAYER])
 class PlayerGatewayService {
     public static final String PING_RESULT = "Alive."
 
@@ -31,23 +31,16 @@ class PlayerGatewayService {
     @Autowired
     AdminServices adminServices
 
-    @Path("{playerID}")
-    public Object gameServices(@PathParam("playerID") final String playerID) {
-        //  TODO verify call is in fact the player
-        if (StringUtils.isEmpty(playerID) || StringUtils.isEmpty(playerID.trim())) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Missing player identity").build()
-        }
-        playerServices.playerID.set(playerID)
+    @Path("player")
+    public Object gameServices() {
+        playerServices.playerID.set(((SessionUserInfo) SecurityContextHolder.context.authentication.principal).effectiveUser.id)
         return playerServices
     }
 
-    @Path("admin/{playerID}")
-    public Object adminServices(@PathParam("playerID") final String playerID) {
-        //  TODO verify call is in fact the player
-        if (StringUtils.isEmpty(playerID) || StringUtils.isEmpty(playerID.trim())) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Missing player identity").build()
-        }
-        adminServices.playerID.set(playerID)
+    @Path("admin")
+    @RolesAllowed([PlayerRoles.ADMIN])
+    public Object adminServices() {
+        adminServices.playerID.set(((SessionUserInfo) SecurityContextHolder.context.authentication.principal).sessionUser.id)
         return adminServices
     }
 

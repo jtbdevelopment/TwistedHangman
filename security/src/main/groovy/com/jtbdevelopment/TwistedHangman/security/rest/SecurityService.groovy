@@ -1,6 +1,8 @@
-package com.jtbdevelopment.TwistedHangman.security
+package com.jtbdevelopment.TwistedHangman.security.rest
 
 import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
+import com.jtbdevelopment.TwistedHangman.security.SessionUserInfo
 import groovy.transform.CompileStatic
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
@@ -19,7 +21,7 @@ import javax.ws.rs.core.MediaType
  *
  */
 @Path("security")
-@RolesAllowed("USER")
+@RolesAllowed(PlayerRoles.PLAYER)
 @Component
 @CompileStatic
 class SecurityService {
@@ -27,6 +29,6 @@ class SecurityService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     Player getSessionPlayer() {
-        return ((PlayerUserDetails) SecurityContextHolder.context.authentication.principal).player
+        return ((SessionUserInfo) SecurityContextHolder.context.authentication.principal).sessionUser
     }
 }

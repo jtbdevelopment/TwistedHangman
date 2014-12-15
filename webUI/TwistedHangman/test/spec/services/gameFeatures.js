@@ -15,7 +15,7 @@ describe('Service: gameFeatures', function () {
 
   it('sets games to http results', function () {
     var features = null;
-    httpBackend.expectGET('/api/player/features').respond(result);
+    httpBackend.expectGET('/api/features').respond(result);
     service.features().then(function (data) {
       features = data;
     }, function (error) {
@@ -28,7 +28,7 @@ describe('Service: gameFeatures', function () {
 
   it('sets games to error results', function () {
     var features;
-    httpBackend.expectGET('/api/player/features').respond(500);
+    httpBackend.expectGET('/api/features').respond(500);
     var errorCalled = false;
     service.features().then(function (data) {
       features = data;
@@ -44,7 +44,7 @@ describe('Service: gameFeatures', function () {
 
   it('multiple calls only one http result', function () {
     var features = null;
-    httpBackend.expectGET('/api/player/features').respond(result);
+    httpBackend.expectGET('/api/features').respond(result);
     service.features().then(function (data) {
       features = data;
     }, function (error) {

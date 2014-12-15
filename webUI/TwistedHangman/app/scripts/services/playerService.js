@@ -6,7 +6,7 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
     function ($http, $rootScope, $location) {
       var realPID = '';
       var simulatedPID = '';
-      var BASE_PLAYER_URL = '/api/player/';
+      var BASE_PLAYER_URL = '/api/player';
       var FRIENDS_PATH = '/friends';
 
       var simulatedPlayer;
@@ -27,7 +27,7 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
           return simulatedPID;
         },
         currentPlayerBaseURL: function () {
-          return BASE_PLAYER_URL + simulatedPID;
+          return BASE_PLAYER_URL;
         },
         currentPlayerFriends: function () {
           //  TODO - local cookie?

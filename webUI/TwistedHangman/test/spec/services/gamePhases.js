@@ -15,7 +15,7 @@ describe('Service: gamePhases', function () {
 
   it('sets phases to http results', function () {
     var phases = null;
-    httpBackend.expectGET('/api/player/phases').respond(result);
+    httpBackend.expectGET('/api/phases').respond(result);
     service.phases().then(function (data) {
       phases = data;
     }, function (error) {
@@ -28,7 +28,7 @@ describe('Service: gamePhases', function () {
 
   it('sets phases to error results', function () {
     var phases;
-    httpBackend.expectGET('/api/player/phases').respond(500);
+    httpBackend.expectGET('/api/phases').respond(500);
     var errorCalled = false;
     service.phases().then(function (data) {
       phases = data;
@@ -44,7 +44,7 @@ describe('Service: gamePhases', function () {
 
   it('multiple calls only one http result', function () {
     var phases = null;
-    httpBackend.expectGET('/api/player/phases').respond(result);
+    httpBackend.expectGET('/api/phases').respond(result);
     service.phases().then(function (data) {
       phases = data;
     }, function (error) {

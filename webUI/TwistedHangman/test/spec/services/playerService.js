@@ -34,13 +34,13 @@ describe('Service: playerService', function () {
 
     it('initializes', function () {
       expect(service.currentID()).toEqual('');
-      expect(service.currentPlayerBaseURL()).toEqual('/api/player/');
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player');
       expect(service.realPID()).toEqual('');
       expect(service.currentPlayer()).toBeUndefined();
       httpBackend.flush();
       expect(service.currentID()).toEqual(testID);
       expect(service.realPID()).toEqual(testID);
-      expect(service.currentPlayerBaseURL()).toEqual('/api/player/' + testID);
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player');
       expect(service.currentPlayer()).toEqual(playerResult);
       expect(rootScope.$broadcast).toHaveBeenCalledWith('playerLoaded');
       expect(location.path).not.toHaveBeenCalledWith('/error');
@@ -48,13 +48,13 @@ describe('Service: playerService', function () {
 
     it('reloads on switch', function () {
       expect(service.currentID()).toEqual('');
-      expect(service.currentPlayerBaseURL()).toEqual('/api/player/');
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player');
       expect(service.realPID()).toEqual('');
       expect(service.currentPlayer()).toBeUndefined();
       httpBackend.flush();
       expect(service.currentID()).toEqual(testID);
       expect(service.realPID()).toEqual(testID);
-      expect(service.currentPlayerBaseURL()).toEqual('/api/player/' + testID);
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player');
       expect(service.currentPlayer()).toEqual(playerResult);
       expect(rootScope.$broadcast).toHaveBeenCalledWith('playerLoaded');
       expect(location.path).not.toHaveBeenCalledWith('/error');
@@ -62,10 +62,10 @@ describe('Service: playerService', function () {
       var newPlayer = angular.copy(playerResult);
 
       newPlayer.id = 'NEW';
-      httpBackend.expectGET('/api/player/' + newPlayer.id).respond(newPlayer);
+      httpBackend.expectGET('/api/player').respond(newPlayer);
       service.overridePID(newPlayer.id);
       expect(service.currentID()).toEqual(newPlayer.id);
-      expect(service.currentPlayerBaseURL()).toEqual('/api/player/' + newPlayer.id);
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player');
       expect(service.currentPlayer()).toEqual(playerResult);
       httpBackend.flush();
       expect(service.currentPlayer()).toEqual(newPlayer);
@@ -76,7 +76,7 @@ describe('Service: playerService', function () {
     it('sets current friends with http', function () {
       httpBackend.flush();
 
-      httpBackend.expectGET('/api/player/' + testID + '/friends').respond(friendResult);
+      httpBackend.expectGET('/api/player/friends').respond(friendResult);
       var friends = null;
       service.currentPlayerFriends().then(function (data) {
         friends = data;
@@ -91,7 +91,7 @@ describe('Service: playerService', function () {
     it('sets current friends with error', function () {
       httpBackend.flush();
 
-      httpBackend.expectGET('/api/player/' + testID + '/friends').respond(500, {err: 'error'});
+      httpBackend.expectGET('/api/player/friends').respond(500, {err: 'error'});
       var friends;
       var errorCalled = false;
       service.currentPlayerFriends().then(function (data) {
@@ -109,7 +109,7 @@ describe('Service: playerService', function () {
     it('multiple calls only one http friends', function () {
       httpBackend.flush();
 
-      httpBackend.expectGET('/api/player/' + testID + '/friends').respond(friendResult);
+      httpBackend.expectGET('/api/player/friends').respond(friendResult);
       expect(service.currentID()).toEqual(testID);
       var friends = null;
       service.currentPlayerFriends().then(function (data) {

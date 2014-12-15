@@ -41,7 +41,19 @@
         <p><a href="/auth/facebook"><img src="/images/sign-in-with-facebook.png" border="0"/></a></p>
       </div>
     </div>
+  </div>
 
+
+  <div class="container-fluid">
+    <div class="row">
+      <form id="signin" action="/signin/authenticate" method="post">
+        <label for="login">Username</label>
+        <input id="login" name="username" type="text" size="25"/>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" size="25"/>
+        <button type="submit">Sign In</button>
+      </form>
+    </div>
   </div>
 
   <!--div class="footer">
