@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.security.spring
+package com.jtbdevelopment.TwistedHangman.security.spring.security
 
 import com.jtbdevelopment.TwistedHangman.players.ManualPlayer
 import com.jtbdevelopment.TwistedHangman.players.Player

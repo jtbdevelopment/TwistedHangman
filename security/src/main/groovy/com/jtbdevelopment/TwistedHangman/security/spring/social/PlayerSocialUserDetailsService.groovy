@@ -1,7 +1,8 @@
-package com.jtbdevelopment.TwistedHangman.security.spring
+package com.jtbdevelopment.TwistedHangman.security.spring.social
 
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.security.spring.security.PlayerUserDetails
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired

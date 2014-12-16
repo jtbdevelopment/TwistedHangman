@@ -1,13 +1,10 @@
 package com.jtbdevelopment.TwistedHangman.security;
 
-import com.jtbdevelopment.TwistedHangman.security.facebook.AutoConnectionSignUp;
-import com.jtbdevelopment.TwistedHangman.security.facebook.FacebookProperties;
-import com.jtbdevelopment.TwistedHangman.security.spring.InjectedPasswordEncoder;
-import com.jtbdevelopment.TwistedHangman.security.spring.PlayerSocialUserDetailsService;
-import com.jtbdevelopment.TwistedHangman.security.spring.PlayerUserDetailsService;
+import com.jtbdevelopment.TwistedHangman.security.spring.security.InjectedPasswordEncoder;
+import com.jtbdevelopment.TwistedHangman.security.spring.security.PlayerUserDetailsService;
+import com.jtbdevelopment.TwistedHangman.security.spring.social.PlayerSocialUserDetailsService;
 import groovy.transform.CompileStatic;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -17,15 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
-import org.springframework.social.connect.ConnectionFactoryLocator;
-import org.springframework.social.connect.UsersConnectionRepository;
-import org.springframework.social.connect.mem.InMemoryUsersConnectionRepository;
-import org.springframework.social.facebook.security.FacebookAuthenticationService;
-import org.springframework.social.security.SocialAuthenticationServiceRegistry;
 import org.springframework.social.security.SpringSocialConfigurer;
-import org.springframework.social.security.provider.SocialAuthenticationService;
-
-import java.util.List;
 // TODO - lots of cleanup
 
 @Configuration
@@ -42,38 +31,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     InjectedPasswordEncoder injectedPasswordEncoder;
 
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(injectedPasswordEncoder);
         daoAuthenticationProvider.setUserDetailsService(playerUserDetailsService);
         auth.authenticationProvider(daoAuthenticationProvider);
-    }
-
-    @Bean
-    @Autowired
-    FacebookAuthenticationService facebookAuthenticationService(final FacebookProperties facebookProperties) {
-        return new FacebookAuthenticationService(facebookProperties.getClientID(), facebookProperties.getClientSecret());
-    }
-
-    @Bean
-    @Autowired
-    SocialAuthenticationServiceRegistry connectionFactoryLocator(final List<SocialAuthenticationService> services) {
-        SocialAuthenticationServiceRegistry socialAuthenticationServiceRegistry = new SocialAuthenticationServiceRegistry();
-        for (final SocialAuthenticationService service : services) {
-            socialAuthenticationServiceRegistry.addAuthenticationService(service);
-        }
-        return socialAuthenticationServiceRegistry;
-    }
-
-    @Bean
-    @Autowired
-    UsersConnectionRepository usersConnectionRepository(
-            final ConnectionFactoryLocator connectionFactoryLocator,
-            final AutoConnectionSignUp autoConnectionSignUp) {
-        InMemoryUsersConnectionRepository inMemoryUsersConnectionRepository = new InMemoryUsersConnectionRepository(connectionFactoryLocator);
-        inMemoryUsersConnectionRepository.setConnectionSignUp(autoConnectionSignUp);
-        return inMemoryUsersConnectionRepository;
     }
 
     @Override

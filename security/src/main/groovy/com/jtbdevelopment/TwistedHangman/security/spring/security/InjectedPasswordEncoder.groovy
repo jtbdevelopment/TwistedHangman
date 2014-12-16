@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.security.spring
+package com.jtbdevelopment.TwistedHangman.security.spring.security
 
 import groovy.transform.CompileStatic
 import org.slf4j.Logger

@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.security.facebook
+package com.jtbdevelopment.TwistedHangman.security.spring.social
 
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.players.Player
