@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils
 //  This propagating to game table...
 //@CompoundIndex(unique = true, name = "id_source", def = "{'sourceId':1, 'source':1}")
 @CompileStatic
+
 class Player implements Cloneable {
     //  Klunky - but initialized by FriendMasker
     public static String ID_SALT = ""
@@ -26,11 +27,12 @@ class Player implements Cloneable {
     public static final Player SYSTEM_PLAYER = new Player(
             id: SYSTEM_ID_ID,
             displayName: SYSTEM_ID_DISPLAY_NAME,
-            source: SYSTEM_ID_SOURCE)
+            source: SYSTEM_ID_SOURCE,
+            sourceId: SYSTEM_ID_ID.toHexString())
     public static final String SYSTEM_ID_MD5 = SYSTEM_PLAYER.md5
 
     @Id
-    ObjectId id
+    ObjectId id = new ObjectId()
     String source
     String sourceId
     String displayName
@@ -69,11 +71,17 @@ class Player implements Cloneable {
         computeMD5Hex()
     }
 
+    void setSourceId(final String sourceId) {
+        this.sourceId = sourceId
+        computeMD5Hex()
+    }
+
     @Override
     public String toString() {
         return "Player{" +
                 "id='" + id + '\'' +
                 ", source='" + source + '\'' +
+                ", sourceId='" + sourceId + '\'' +
                 ", displayName='" + displayName + '\'' +
                 ", disabled=" + disabled +
                 '}';

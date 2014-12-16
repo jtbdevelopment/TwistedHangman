@@ -34,7 +34,8 @@ class PlayerTest extends TwistedHangmanTestCase {
                 id: new ObjectId("0a123".padRight(24, "0")),
                 disabled: false,
                 displayName: "BAYMAX",
-                source: "BIG HERO 6").toString() == "Player{id='0a1230000000000000000000', source='BIG HERO 6', displayName='BAYMAX', disabled=false}"
+                sourceId: "BAYMAX",
+                source: "BIG HERO 6").toString() == "Player{id='0a1230000000000000000000', source='BIG HERO 6', sourceId='BAYMAX', displayName='BAYMAX', disabled=false}"
     }
 
     void testMD5() {
