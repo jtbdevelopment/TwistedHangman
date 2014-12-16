@@ -1,12 +1,15 @@
 package com.jtbdevelopment.TwistedHangman.security;
 
-import com.jtbdevelopment.TwistedHangman.players.PlayerRoles;
 import com.jtbdevelopment.TwistedHangman.security.facebook.AutoConnectionSignUp;
 import com.jtbdevelopment.TwistedHangman.security.facebook.FacebookProperties;
+import com.jtbdevelopment.TwistedHangman.security.spring.InjectedPasswordEncoder;
+import com.jtbdevelopment.TwistedHangman.security.spring.PlayerSocialUserDetailsService;
+import com.jtbdevelopment.TwistedHangman.security.spring.PlayerUserDetailsService;
 import groovy.transform.CompileStatic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,8 +34,20 @@ import java.util.List;
 @CompileStatic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("user").password("password").roles(PlayerRoles.PLAYER);
+    PlayerUserDetailsService playerUserDetailsService;
+
+    @Autowired
+    PlayerSocialUserDetailsService playerSocialUserDetailsService;
+
+    @Autowired
+    InjectedPasswordEncoder injectedPasswordEncoder;
+
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setPasswordEncoder(injectedPasswordEncoder);
+        daoAuthenticationProvider.setUserDetailsService(playerUserDetailsService);
+        auth.authenticationProvider(daoAuthenticationProvider);
     }
 
     @Bean

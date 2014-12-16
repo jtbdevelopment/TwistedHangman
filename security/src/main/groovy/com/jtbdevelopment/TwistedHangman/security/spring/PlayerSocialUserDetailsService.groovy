@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.security
+package com.jtbdevelopment.TwistedHangman.security.spring
 
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.players.Player
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component
  */
 @Component
 @CompileStatic
-class SecurityUserService implements SocialUserDetailsService {
+class PlayerSocialUserDetailsService implements SocialUserDetailsService {
     @Autowired
     PlayerRepository playerRepository;
 

@@ -16,6 +16,7 @@ import java.util.List;
 public interface PlayerRepository extends PagingAndSortingRepository<Player, ObjectId> {
     public abstract List<Player> findByMd5In(final Collection<String> md5s);
 
+    //  TODO - some sort of unique to not be a list?
     public abstract List<Player> findBySourceAndSourceId(final String source, final String sourceId);
 
     public abstract List<Player> findBySourceAndDisabled(final String source, final boolean disabled);

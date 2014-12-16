@@ -1,10 +1,13 @@
-package com.jtbdevelopment.TwistedHangman.security
+package com.jtbdevelopment.TwistedHangman.security.spring
 
+import com.jtbdevelopment.TwistedHangman.players.ManualPlayer
 import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
+import com.jtbdevelopment.TwistedHangman.security.SessionUserInfo
 import groovy.transform.CompileStatic
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.social.security.SocialUserDetails
 
 /**
@@ -15,7 +18,7 @@ import org.springframework.social.security.SocialUserDetails
  *
  */
 @CompileStatic
-class PlayerUserDetails implements SocialUserDetails, SessionUserInfo {
+class PlayerUserDetails implements SocialUserDetails, UserDetails, SessionUserInfo {
 
     final Player player
     Player effectivePlayer
@@ -25,6 +28,9 @@ class PlayerUserDetails implements SocialUserDetails, SessionUserInfo {
     PlayerUserDetails(final Player player) {
         this.player = player
         this.effectivePlayer = player
+        if (player.adminUser) {
+            grantedAuthorities.push(new SimpleGrantedAuthority(PlayerRoles.ADMIN))
+        }
     }
 
     @Override
@@ -54,11 +60,17 @@ class PlayerUserDetails implements SocialUserDetails, SessionUserInfo {
 
     @Override
     String getPassword() {
+        if (player instanceof ManualPlayer) {
+            return player.password
+        }
         return null
     }
 
     @Override
     String getUsername() {
+        if (player instanceof ManualPlayer) {
+            return player.getSourceId()
+        }
         return player.id.toHexString()
     }
 
@@ -69,6 +81,9 @@ class PlayerUserDetails implements SocialUserDetails, SessionUserInfo {
 
     @Override
     boolean isAccountNonLocked() {
+        if (player instanceof ManualPlayer) {
+            return player.verified
+        }
         return true
     }
 
@@ -79,6 +94,6 @@ class PlayerUserDetails implements SocialUserDetails, SessionUserInfo {
 
     @Override
     boolean isEnabled() {
-        return true
+        return !player.disabled
     }
 }
