@@ -40,6 +40,7 @@ class Player implements Cloneable {
     @Indexed
     private String md5
     boolean disabled = false
+    boolean adminUser = false
 
     boolean equals(final o) {
         if (this.is(o)) return true

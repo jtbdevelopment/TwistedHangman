@@ -16,10 +16,10 @@ class ManualPlayerMaker {
 
         PlayerRepository repository = ctx.getBean(PlayerRepository.class)
 
-        Player[] players = [new Player(disabled: false, displayName: "Manual Player1", source: "MANUAL", sourceId: 'MANUAL1'),
-                            new Player(disabled: false, displayName: "Manual Player2", source: "MANUAL", sourceId: 'MANUAL2'),
-                            new Player(disabled: false, displayName: "Manual Player3", source: "MANUAL", sourceId: 'MANUAL3'),
-                            new Player(disabled: false, displayName: "Manual Player4", source: "MANUAL", sourceId: 'MANUAL4')]
+        Player[] players = [new ManualPlayer(disabled: false, displayName: "Manual Player1", sourceId: 'MANUAL1@MANUAL.COM', verified: true),
+                            new ManualPlayer(disabled: false, displayName: "Manual Player2", sourceId: 'MANUAL2@MANUAL.COM', verified: true),
+                            new ManualPlayer(disabled: false, displayName: "Manual Player3", sourceId: 'MANUAL3@MANUAL.COM', verified: true),
+                            new ManualPlayer(disabled: false, displayName: "Manual Player4", sourceId: 'MANUAL4@MANUAL.COM', verified: true)]
 
         players.each {
             Player it ->
