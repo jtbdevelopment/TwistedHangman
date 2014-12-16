@@ -9,6 +9,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
+import org.bson.types.ObjectId
 
 /**
  * Date: 11/17/14
@@ -18,7 +19,7 @@ class GameGetterHandlerTest extends TwistedHangmanTestCase {
     GameGetterHandler handler = new GameGetterHandler()
 
     private final Game gameParam = new Game()
-    private final String gameId = "GAMEID"
+    private final ObjectId gameId = new ObjectId()
 
     public void testHandlerBasisc() {
         gameParam.players = [PTWO, PONE]
@@ -28,14 +29,14 @@ class GameGetterHandlerTest extends TwistedHangmanTestCase {
 
         handler.gameRepository = [
                 findOne: {
-                    String it ->
+                    ObjectId it ->
                         assert it == gameId
                         return gameParam
                 },
         ] as GameRepository
         handler.playerRepository = [
                 findOne: {
-                    String it ->
+                    ObjectId it ->
                         assert it == PONE.id
                         return PONE
                 }

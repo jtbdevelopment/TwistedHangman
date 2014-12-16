@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
@@ -25,7 +26,7 @@ import java.time.ZonedDateTime
 ])
 public class Game implements Cloneable {
     @Id
-    String id
+    ObjectId id
     @Version
     Integer version
 
@@ -41,7 +42,7 @@ public class Game implements Cloneable {
     ZonedDateTime rematched
 
     @Indexed
-    String previousId
+    ObjectId previousId
 
     int round;
 
@@ -49,19 +50,19 @@ public class Game implements Cloneable {
     GamePhase gamePhase
 
     @Indexed
-    String initiatingPlayer
+    ObjectId initiatingPlayer
     List<Player> players = []  //  Ordered by turns, challengers etc
-    Map<String, PlayerState> playerStates = [:]
+    Map<ObjectId, PlayerState> playerStates = [:]
 
     @Indexed
     Set<GameFeature> features = [] as Set
     Map<GameFeature, Object> featureData = [:]
 
-    String wordPhraseSetter
-    Map<String, IndividualGameState> solverStates = [:]
+    ObjectId wordPhraseSetter
+    Map<ObjectId, IndividualGameState> solverStates = [:]
 
-    Map<String, Integer> playerRoundScores = [:]
-    Map<String, Integer> playerRunningScores = [:]
+    Map<ObjectId, Integer> playerRoundScores = [:]
+    Map<ObjectId, Integer> playerRunningScores = [:]
 
     boolean equals(final o) {
         if (this.is(o)) return true

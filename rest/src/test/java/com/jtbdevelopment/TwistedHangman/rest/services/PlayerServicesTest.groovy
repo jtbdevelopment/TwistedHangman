@@ -1,18 +1,18 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
-import com.jtbdevelopment.TwistedHangman.game.handlers.GameFinderHandler
 import com.jtbdevelopment.TwistedHangman.game.handlers.NewGameHandler
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.TwistedHangman.players.friendfinder.FriendFinder
 import groovy.transform.TypeChecked
+import org.bson.types.ObjectId
 import org.glassfish.jersey.message.internal.OutboundJaxrsResponse
 
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
 
 /**
  * Date: 11/15/2014
@@ -25,10 +25,10 @@ class PlayerServicesTest extends GroovyTestCase {
         GameServices services = [playerID: new ThreadLocal<String>(), gameID: new ThreadLocal<String>()] as GameServices
         playerServices.gamePlayServices = services
 
-        def APLAYER = "APLAYER"
-        def AGAME = "AGAME"
+        def APLAYER = new ObjectId()
+        def AGAME = new ObjectId()
         playerServices.playerID.set(APLAYER)
-        assert services.is(playerServices.gamePlay(AGAME))
+        assert services.is(playerServices.gamePlay(AGAME.toHexString()))
         assert services.playerID.get() == APLAYER
         assert services.gameID.get() == AGAME
     }
@@ -36,22 +36,22 @@ class PlayerServicesTest extends GroovyTestCase {
     void testNullPlayer() {
         playerServices.gamePlayServices = null
 
-        def APLAYER = "APLAYER"
+        def APLAYER = new ObjectId()
         playerServices.playerID.set(APLAYER)
 
         OutboundJaxrsResponse resp = playerServices.gamePlay(null)
-        assert resp.status == javax.ws.rs.core.Response.Status.BAD_REQUEST.statusCode
+        assert resp.status == Response.Status.BAD_REQUEST.statusCode
         assert resp.entity == "Missing game identity"
     }
 
     void testEmptyPlayer() {
         playerServices.gamePlayServices = null
 
-        def APLAYER = "APLAYER"
+        def APLAYER = new ObjectId()
         playerServices.playerID.set(APLAYER)
 
         OutboundJaxrsResponse resp = playerServices.gamePlay("   ")
-        assert resp.status == javax.ws.rs.core.Response.Status.BAD_REQUEST.statusCode
+        assert resp.status == Response.Status.BAD_REQUEST.statusCode
         assert resp.entity == "Missing game identity"
     }
 
@@ -71,7 +71,7 @@ class PlayerServicesTest extends GroovyTestCase {
     }
 
     void testCreateNewGame() {
-        def APLAYER = "APLAYER"
+        def APLAYER = new ObjectId()
         playerServices.playerID.set(APLAYER)
         def features = [GameFeature.AlternatingPuzzleSetter, GameFeature.DrawGallows] as Set
         def players = ["1", "2", "3"]
@@ -79,7 +79,7 @@ class PlayerServicesTest extends GroovyTestCase {
         MaskedGame game = new MaskedGame()
         playerServices.newGameHandler = [
                 handleCreateNewGame: {
-                    String i, List<String> p, Set<GameFeature> f ->
+                    ObjectId i, List<String> p, Set<GameFeature> f ->
                         assert i == APLAYER
                         assert p == players
                         assert f == features
@@ -106,80 +106,13 @@ class PlayerServicesTest extends GroovyTestCase {
         assert params[0].length == 0
     }
 
-    void testCreateFindGameAnnotations() {
-        def gameServices = PlayerServices.getMethod(
-                "gamesForPhase", [
-                GamePhase.class,
-                Integer.class,
-                Integer.class
-        ] as Class[])
-        assert (gameServices.annotations.size() == 3 ||
-                (gameServices.isAnnotationPresent(TypeChecked.TypeCheckingInfo) && gameServices.annotations.size() == 4)
-        )
-        assert gameServices.isAnnotationPresent(Path.class)
-        assert gameServices.getAnnotation(Path.class).value() == "games/{phase}"
-        assert gameServices.isAnnotationPresent(Produces.class)
-        assert gameServices.getAnnotation(Produces.class).value() == [MediaType.APPLICATION_JSON]
-        assert gameServices.isAnnotationPresent(GET.class)
-        def params = gameServices.parameterAnnotations
-        assert params.length == 3
-        assert params[0].length == 1
-        assert params[0][0].annotationType() == PathParam.class
-        assert ((PathParam) params[0][0]).value() == "phase"
-        assert params[1].length == 1
-        assert params[1][0].annotationType() == QueryParam.class
-        assert ((QueryParam) params[1][0]).value() == "page"
-        assert params[2].length == 1
-        assert params[2][0].annotationType() == QueryParam.class
-        assert ((QueryParam) params[2][0]).value() == "pageSize"
-    }
-
-    void testFindGames() {
-        List<MaskedGame> games = []
-        def APLAYER = "APLAYER"
-        playerServices.playerID.set(APLAYER)
-        GamePhase.values().each {
-            GamePhase gamePhase ->
-                playerServices.gameFinderHandler = [
-                        findGames: {
-                            String pid, GamePhase gp, int p, int ps ->
-                                assert pid == APLAYER
-                                assert gp == gamePhase
-                                assert p == 1
-                                assert ps == 20
-                                games
-                        }
-                ] as GameFinderHandler
-                assert games.is(playerServices.gamesForPhase(gamePhase, 1, 20))
-        }
-    }
-
-    void testFindGamesDefaults() {
-        List<MaskedGame> games = []
-        def APLAYER = "APLAYER"
-        playerServices.playerID.set(APLAYER)
-        GamePhase.values().each {
-            GamePhase gamePhase ->
-                playerServices.gameFinderHandler = [
-                        findGames: {
-                            String pid, GamePhase gp, int p, int ps ->
-                                assert pid == APLAYER
-                                assert gp == gamePhase
-                                assert p == PlayerServices.DEFAULT_PAGE
-                                assert ps == PlayerServices.DEFAULT_PAGE_SIZE
-                                games
-                        }
-                ] as GameFinderHandler
-                assert games.is(playerServices.gamesForPhase(gamePhase, null, null))
-        }
-    }
-
     void testPlayerInfo() {
-        Player p = new Player(id: "x", displayName: "y", disabled: true, source: "here");
+        Player p = new Player(id: new ObjectId(), displayName: "y", disabled: true, source: "here");
         playerServices.playerRepository = [
                 findOne: {
-                    assert it == p.id
-                    return p.clone()
+                    ObjectId it ->
+                        assert it == p.id
+                        return p.clone()
                 }
         ] as PlayerRepository
 
@@ -191,11 +124,12 @@ class PlayerServicesTest extends GroovyTestCase {
     }
 
     void testGetFriends() {
-        playerServices.playerID.set('PID')
+        def id = new ObjectId();
+        playerServices.playerID.set(id)
         playerServices.friendFinder = [
                 findFriends: {
-                    String it ->
-                        assert it == 'PID'
+                    ObjectId it ->
+                        assert it == id
                         return ['1': '2', '3': '4', '5': '6']
                 }
         ] as FriendFinder

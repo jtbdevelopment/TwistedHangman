@@ -4,6 +4,7 @@ import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindPlayersException
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -21,7 +22,7 @@ class FriendFinder {
     @Autowired
     FriendMasker friendMasker
 
-    Map<String, String> findFriends(final String playerId) {
+    Map<String, String> findFriends(final ObjectId playerId) {
         Player player = playerRepository.findOne(playerId)
         if (player == null || player.disabled) {
             throw new FailedToFindPlayersException()

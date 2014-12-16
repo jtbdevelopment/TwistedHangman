@@ -4,6 +4,7 @@ import com.jtbdevelopment.TwistedHangman.game.handlers.*
 import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import groovy.transform.TypeChecked
+import org.bson.types.ObjectId
 
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
@@ -13,8 +14,8 @@ import javax.ws.rs.core.MediaType
  * Time: 1:49 PM
  */
 class GameServicesTest extends GroovyTestCase {
-    private static final String PID = "PID1"
-    private static final String GID = "GID2"
+    private static final ObjectId PID = new ObjectId()
+    private static final ObjectId GID = new ObjectId()
     private final MaskedGame result = new MaskedGame()
     GameServices services = new GameServices()
 
@@ -28,7 +29,7 @@ class GameServicesTest extends GroovyTestCase {
     void testGet() {
         services.gameGetterHandler = [
                 handleAction: {
-                    String p, String g ->
+                    ObjectId p, ObjectId g ->
                         assert p == PID
                         assert g == GID
                         result
@@ -91,7 +92,7 @@ class GameServicesTest extends GroovyTestCase {
     void testCreateRematch() {
         services.rematchHandler = [
                 handleAction: {
-                    String p, String g ->
+                    ObjectId p, ObjectId g ->
                         assert p == PID
                         assert g == GID
                         result
@@ -103,7 +104,7 @@ class GameServicesTest extends GroovyTestCase {
     void testRejectGame() {
         services.responseHandler = [
                 handleAction: {
-                    String p, String g, PlayerState r ->
+                    ObjectId p, ObjectId g, PlayerState r ->
                         assert p == PID
                         assert g == GID
                         assert r == PlayerState.Rejected
@@ -116,7 +117,7 @@ class GameServicesTest extends GroovyTestCase {
     void testAcceptGame() {
         services.responseHandler = [
                 handleAction: {
-                    String p, String g, PlayerState r ->
+                    ObjectId p, ObjectId g, PlayerState r ->
                         assert p == PID
                         assert g == GID
                         assert r == PlayerState.Accepted
@@ -131,7 +132,7 @@ class GameServicesTest extends GroovyTestCase {
         String w = "Anim"
         services.puzzleHandler = [
                 handleAction: {
-                    String p, String g, SetPuzzleHandler.CategoryAndWordPhrase r ->
+                    ObjectId p, ObjectId g, SetPuzzleHandler.CategoryAndWordPhrase r ->
                         assert p == PID
                         assert g == GID
                         assert r.category == c
@@ -146,7 +147,7 @@ class GameServicesTest extends GroovyTestCase {
         int pos = 4
         services.stealLetterHandler = [
                 handleAction: {
-                    String p, String g, int r ->
+                    ObjectId p, ObjectId g, int r ->
                         assert p == PID
                         assert g == GID
                         assert r == pos
@@ -160,7 +161,7 @@ class GameServicesTest extends GroovyTestCase {
         String guess = "G"
         services.guessLetterHandler = [
                 handleAction: {
-                    String p, String g, char r ->
+                    ObjectId p, ObjectId g, char r ->
                         assert p == PID
                         assert g == GID
                         assert r == 'G'
@@ -174,7 +175,7 @@ class GameServicesTest extends GroovyTestCase {
         String guess = null
         services.guessLetterHandler = [
                 handleAction: {
-                    String p, String g, char r ->
+                    ObjectId p, ObjectId g, char r ->
                         assert p == PID
                         assert g == GID
                         assert r == ' '
@@ -188,7 +189,7 @@ class GameServicesTest extends GroovyTestCase {
         String guess = ""
         services.guessLetterHandler = [
                 handleAction: {
-                    String p, String g, char r ->
+                    ObjectId p, ObjectId g, char r ->
                         assert p == PID
                         assert g == GID
                         assert r == ' '

@@ -16,15 +16,15 @@ class ManualPlayerMaker {
 
         PlayerRepository repository = ctx.getBean(PlayerRepository.class)
 
-        Player[] players = [new Player(id: "MANUAL1", disabled: false, displayName: "Manual Player1", source: "MANUAL", sourceId: 'MANUAL1'),
-                            new Player(id: "MANUAL2", disabled: false, displayName: "Manual Player2", source: "MANUAL", sourceId: 'MANUAL2'),
-                            new Player(id: "MANUAL3", disabled: false, displayName: "Manual Player3", source: "MANUAL", sourceId: 'MANUAL3'),
-                            new Player(id: "MANUAL4", disabled: false, displayName: "Manual Player4", source: "MANUAL", sourceId: 'MANUAL4')]
+        Player[] players = [new Player(disabled: false, displayName: "Manual Player1", source: "MANUAL", sourceId: 'MANUAL1'),
+                            new Player(disabled: false, displayName: "Manual Player2", source: "MANUAL", sourceId: 'MANUAL2'),
+                            new Player(disabled: false, displayName: "Manual Player3", source: "MANUAL", sourceId: 'MANUAL3'),
+                            new Player(disabled: false, displayName: "Manual Player4", source: "MANUAL", sourceId: 'MANUAL4')]
 
         players.each {
             Player it ->
-                Player loaded = repository.findOne(it.id);
-                if (loaded == null) {
+                List<Player> loaded = repository.findBySourceAndSourceId(it.source, it.sourceId);
+                if (loaded.size() == 0) {
                     println "Creating player " + it
                     repository.save(it)
                 } else {

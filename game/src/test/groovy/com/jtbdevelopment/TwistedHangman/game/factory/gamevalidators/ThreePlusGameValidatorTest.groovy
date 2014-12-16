@@ -18,7 +18,7 @@ class ThreePlusGameValidatorTest extends TwistedHangmanTestCase {
 
 
     void testThreePlayersIsGood() {
-        Game game = new Game(id: "Y")
+        Game game = makeSimpleGame("1")
         game.features += GameFeature.ThreePlus
         game.players = [PONE, PTWO, PTHREE]
 
@@ -27,7 +27,7 @@ class ThreePlusGameValidatorTest extends TwistedHangmanTestCase {
 
 
     void testTwoPlayersWithFlagIsBad() {
-        Game game = new Game(id: "Y")
+        Game game = makeSimpleGame("1")
         game.features += GameFeature.ThreePlus
         game.players = [PTWO, PFOUR]
 
@@ -36,7 +36,7 @@ class ThreePlusGameValidatorTest extends TwistedHangmanTestCase {
 
 
     void testFourPlayersWithoutFlagIsBad() {
-        Game game = new Game(id: "Y")
+        Game game = makeSimpleGame("1")
         game.players = [PONE, PTHREE, PFOUR, PTWO]
 
         assertFalse validator.validateGame(game)

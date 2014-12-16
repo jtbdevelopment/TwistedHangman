@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.dao;
 
 import com.jtbdevelopment.TwistedHangman.game.utility.CannedGame;
 import groovy.transform.CompileStatic;
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,7 @@ import java.util.List;
  */
 @Repository
 @CompileStatic
-public interface CannedGameRepository extends PagingAndSortingRepository<CannedGame, String> {
+public interface CannedGameRepository extends PagingAndSortingRepository<CannedGame, ObjectId> {
     public abstract long countBySource(final String source);
 
     public abstract List<CannedGame> findBySource(final String source);

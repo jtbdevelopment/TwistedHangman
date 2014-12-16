@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
 
 /**
@@ -15,7 +16,7 @@ class GameScorer {
         int winners = 0
         int losers = 0
         game.solverStates.each {
-            String playerId, IndividualGameState gameState ->
+            ObjectId playerId, IndividualGameState gameState ->
                 if (gameState.puzzleSolved) {
                     winners++
                     game.playerRoundScores[playerId] = 1
@@ -27,7 +28,7 @@ class GameScorer {
                 }
         }
         game.solverStates.each {
-            String id, IndividualGameState gameState ->
+            ObjectId id, IndividualGameState gameState ->
                 if (gameState.playerHung) {
                     losers++
                     game.playerRoundScores[id] = -1

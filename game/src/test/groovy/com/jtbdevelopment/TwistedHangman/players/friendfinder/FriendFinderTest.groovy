@@ -3,6 +3,7 @@ package com.jtbdevelopment.TwistedHangman.players.friendfinder
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.players.Player
+import org.bson.types.ObjectId
 
 /**
  * Date: 11/26/14
@@ -12,7 +13,7 @@ class FriendFinderTest extends TwistedHangmanTestCase {
     FriendFinder finder = new FriendFinder();
 
     void testSumOfSourceBasedFinders() {
-        Player param = new Player(id: "find", source: "MANUAL")
+        Player param = new Player(id: new ObjectId("12ab".padRight(24, "0")), source: "MANUAL")
         def f1 = [
                 handlesSource: {
                     String it ->
@@ -45,7 +46,7 @@ class FriendFinderTest extends TwistedHangmanTestCase {
         finder.friendFinders = [f1, f2, f3]
         finder.playerRepository = [
                 findOne: {
-                    String it ->
+                    ObjectId it ->
                         assert it == param.id
                         return param
                 }

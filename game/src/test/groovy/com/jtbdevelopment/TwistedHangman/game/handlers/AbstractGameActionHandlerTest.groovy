@@ -13,6 +13,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
+import org.bson.types.ObjectId
 
 /**
  * Date: 11/10/14
@@ -22,7 +23,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
     private static final String testParam = "TESTPARAM"
     private static final Game handledGame = new Game();
     private final Game gameParam = new Game()
-    private final String gameId = "GAMEID"
+    private final ObjectId gameId = new ObjectId();
 
     private class TestHandler extends AbstractGameActionHandler<String> {
         @Override
@@ -42,7 +43,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         gameParam.players = [PONE, PTWO]
         handler.gameRepository = [
                 findOne: {
-                    String it ->
+                    ObjectId it ->
                         assert it == gameId
                         return gameParam
                 },
@@ -54,7 +55,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         ] as GameRepository
         handler.playerRepository = [
                 findOne: {
-                    String it ->
+                    ObjectId it ->
                         assert it == PONE.id
                         return PONE
                 }
@@ -92,14 +93,14 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         gameParam.players = [PONE, PTWO]
         handler.gameRepository = [
                 findOne: {
-                    String it ->
+                    ObjectId it ->
                         assert it == gameId
                         return null
                 }
         ] as GameRepository
         handler.playerRepository = [
                 findOne: {
-                    String it ->
+                    ObjectId it ->
                         assert it == PONE.id
                         return PONE
                 }
@@ -118,14 +119,14 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         gameParam.players = [PONE, PTWO]
         handler.gameRepository = [
                 findOne: {
-                    String it ->
+                    ObjectId it ->
                         assert it == gameId
                         return gameParam
                 }
         ] as GameRepository
         handler.playerRepository = [
                 findOne: {
-                    String it ->
+                    ObjectId it ->
                         assert it == PTHREE.id
                         return PTHREE
                 }
@@ -158,7 +159,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         Game published = gameParam.clone()
         handler.gameRepository = [
                 findOne: {
-                    String it ->
+                    ObjectId it ->
                         assert it == gameId
                         return gameParam
                 },
@@ -170,7 +171,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         ] as GameRepository
         handler.playerRepository = [
                 findOne: {
-                    String it ->
+                    ObjectId it ->
                         assert it == PONE.id
                         return PONE
                 }
@@ -223,7 +224,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         Game published = gameParam.clone()
         handler.gameRepository = [
                 findOne: {
-                    String it ->
+                    ObjectId it ->
                         assert it == gameId
                         return gameParam
                 },
@@ -235,7 +236,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         ] as GameRepository
         handler.playerRepository = [
                 findOne: {
-                    String it ->
+                    ObjectId it ->
                         assert it == PONE.id
                         return PONE
                 }
@@ -288,7 +289,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         Game published = gameParam.clone()
         handler.gameRepository = [
                 findOne: {
-                    String it ->
+                    ObjectId it ->
                         assert it == gameId
                         return gameParam
                 },
@@ -300,7 +301,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         ] as GameRepository
         handler.playerRepository = [
                 findOne: {
-                    String it ->
+                    ObjectId it ->
                         assert it == PONE.id
                         return PONE
                 }

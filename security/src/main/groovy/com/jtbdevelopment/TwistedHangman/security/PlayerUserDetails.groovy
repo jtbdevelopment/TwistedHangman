@@ -44,7 +44,7 @@ class PlayerUserDetails implements SocialUserDetails, SessionUserInfo {
 
     @Override
     String getUserId() {
-        return player.id
+        return player.id.toHexString()
     }
 
     @Override
@@ -59,7 +59,7 @@ class PlayerUserDetails implements SocialUserDetails, SessionUserInfo {
 
     @Override
     String getUsername() {
-        return player.id
+        return player.id.toHexString()
     }
 
     @Override

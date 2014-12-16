@@ -3,6 +3,7 @@ package com.jtbdevelopment.TwistedHangman.security
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.dao.DataAccessException
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -25,7 +26,7 @@ class SecurityUserService implements SocialUserDetailsService {
 
     @Override
     SocialUserDetails loadUserByUserId(final String userId) throws UsernameNotFoundException, DataAccessException {
-        Player p = playerRepository.findOne(userId);
+        Player p = playerRepository.findOne(new ObjectId(userId));
         return (p != null ? new PlayerUserDetails(p) : null);
     }
 }

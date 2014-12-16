@@ -8,6 +8,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
+import org.bson.types.ObjectId
 import org.springframework.data.domain.PageRequest
 
 import java.time.ZonedDateTime
@@ -20,9 +21,9 @@ class PlayerGamesFinderHandlerTest extends TwistedHangmanTestCase {
     PlayerGamesFinderHandler handler = new PlayerGamesFinderHandler()
 
     void testTest() {
-        def game1 = new Game(id: "1")
-        def game2 = new Game(id: "2")
-        def game3 = new Game(id: "3")
+        def game1 = makeSimpleGame("1")
+        def game2 = makeSimpleGame("2")
+        def game3 = makeSimpleGame("3")
         def masked1 = new MaskedGame(id: "1")
         def masked2 = new MaskedGame(id: "2")
         def masked3 = new MaskedGame(id: "3")
@@ -42,7 +43,7 @@ class PlayerGamesFinderHandlerTest extends TwistedHangmanTestCase {
         ]
         handler.playerRepository = [
                 findOne: {
-                    String it ->
+                    ObjectId it ->
                         assert it == PONE.id
                         return PONE
                 }
@@ -50,7 +51,7 @@ class PlayerGamesFinderHandlerTest extends TwistedHangmanTestCase {
 
         handler.gameRepository = [
                 findByPlayersIdAndGamePhaseAndLastUpdateGreaterThan: {
-                    String id, GamePhase gp, ZonedDateTime dt, PageRequest pr ->
+                    ObjectId id, GamePhase gp, ZonedDateTime dt, PageRequest pr ->
                         return queryResults[gp]
                 }
         ] as GameRepository

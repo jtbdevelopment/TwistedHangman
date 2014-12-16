@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.utility
 
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
@@ -13,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 @CompileStatic
 class CannedGame {
     @Id
-    String id
+    ObjectId id
 
     @Indexed
     String source

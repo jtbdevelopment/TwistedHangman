@@ -4,6 +4,7 @@ import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.TwistedHangman.security.SessionUserInfo
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
@@ -27,7 +28,7 @@ class AdminServices {
     @Autowired
     PlayerRepository playerRepository
 
-    ThreadLocal<String> playerID = new ThreadLocal<>()
+    ThreadLocal<ObjectId> playerID = new ThreadLocal<>()
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -42,7 +43,7 @@ class AdminServices {
     @Path("{playerID}")
     @Produces(MediaType.APPLICATION_JSON)
     Object switchEffectiveUser(@PathParam("playerID") final String effectivePlayerID) {
-        Player p = playerRepository.findOne(effectivePlayerID);
+        Player p = playerRepository.findOne(new ObjectId(effectivePlayerID));
         if (p != null) {
             ((SessionUserInfo) SecurityContextHolder.context.authentication.principal).effectiveUser = p;
             return p;

@@ -4,6 +4,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
 
 /**
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component
 @Component
 @CompileStatic
 class GameGetterHandler extends AbstractGameGetterHandler {
-    MaskedGame handleAction(final String playerID, final String gameID) {
+    MaskedGame handleAction(final ObjectId playerID, final ObjectId gameID) {
         Player player = loadPlayer(playerID)
         Game game = loadGame(gameID)
         validatePlayerForGame(game, player)

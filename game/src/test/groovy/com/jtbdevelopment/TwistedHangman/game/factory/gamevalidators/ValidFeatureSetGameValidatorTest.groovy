@@ -3,6 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gamevalidators
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import org.bson.types.ObjectId
 
 /**
  * Date: 11/6/14
@@ -44,7 +45,7 @@ class ValidFeatureSetGameValidatorTest extends TwistedHangmanTestCase {
         //  Full set takes too long for unit
         List<GameFeature> features = [GameFeature.SingleWinner, GameFeature.SystemPuzzles, GameFeature.ThreePlus, GameFeature.AlternatingPuzzleSetter, GameFeature.TwoPlayer, GameFeature.DrawFace]
         Game game = new Game()
-        game.id = "X"
+        game.id = new ObjectId()
         features.subsequences().each {
             it.permutations().each {
                 game.features = it

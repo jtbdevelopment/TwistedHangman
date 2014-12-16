@@ -11,6 +11,7 @@ import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -35,7 +36,7 @@ class NewGameHandler extends AbstractHandler {
     protected GamePublisher gamePublisher
 
     public MaskedGame handleCreateNewGame(
-            final String initiatingPlayerID, final List<String> playersIDs, final Set<GameFeature> features) {
+            final ObjectId initiatingPlayerID, final List<String> playersIDs, final Set<GameFeature> features) {
         Set<Player> players = loadPlayerMD5s(playersIDs)  //  Load as set to prevent dupes in initial setup
         Player initiatingPlayer = players.find { Player player -> player.id == initiatingPlayerID }
         if (initiatingPlayer == null) {

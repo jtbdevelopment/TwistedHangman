@@ -23,7 +23,7 @@ class HeartbeatJSONTest extends TwistedHangmanTestCase {
             gamePhase: GamePhase.Setup,
             id: 'XYZ',
             lastUpdate: 5000,
-            maskedForPlayerID: PONE.id,
+            maskedForPlayerID: PONE.id.toHexString(),
             maskedForPlayerMD5: PONE.md5,
             players: [(PONE.md5): PONE.displayName],
             playerRoundScores: [(PONE.md5): 10],
@@ -50,7 +50,7 @@ class HeartbeatJSONTest extends TwistedHangmanTestCase {
             wordPhraseSetter: Player.SYSTEM_ID_MD5
     )
 
-    String expectedString = "{\"messageType\":\"Game\",\"game\":{\"maskedForPlayerID\":\"1\",\"maskedForPlayerMD5\":\"0c244ca528410c6a625410af71982ba9\",\"id\":\"XYZ\",\"created\":1000,\"lastUpdate\":5000,\"declined\":null,\"completed\":100,\"rematched\":null,\"round\":10,\"gamePhase\":\"Setup\",\"initiatingPlayer\":null,\"players\":{\"0c244ca528410c6a625410af71982ba9\":\"1\"},\"playerStates\":{\"0c244ca528410c6a625410af71982ba9\":\"Accepted\"},\"features\":[\"DrawFace\",\"TurnBased\"],\"featureData\":{\"DrawFace\":\"A String\"},\"wordPhraseSetter\":\"03df6771c3b3bce06b58551bc8885dec\",\"solverStates\":{\"0c244ca528410c6a625410af71982ba9\":{\"wordPhrase\":\"555\",\"workingWordPhrase\":\"____\",\"badlyGuessedLetters\":[\"A\",\"B\"],\"guessedLetters\":[\"B\"],\"featureData\":{\"Thieving\":10,\"DrawGallows\":\"X\"},\"category\":\"Test\",\"maxPenalties\":13,\"moveCount\":4,\"penalties\":3,\"blanksRemaining\":10,\"features\":[\"AllComplete\"],\"isPuzzleSolved\":false,\"isPlayerHung\":true,\"isPuzzleOver\":false,\"penaltiesRemaining\":5}},\"playerRoundScores\":{\"0c244ca528410c6a625410af71982ba9\":10},\"playerRunningScores\":{\"0c244ca528410c6a625410af71982ba9\":13}},\"message\":null}"
+    String expectedString = "{\"messageType\":\"Game\",\"game\":{\"maskedForPlayerID\":\"100000000000000000000000\",\"maskedForPlayerMD5\":\"f1e150d62481cfe0f31605861c135644\",\"id\":\"XYZ\",\"created\":1000,\"lastUpdate\":5000,\"declined\":null,\"completed\":100,\"rematched\":null,\"round\":10,\"gamePhase\":\"Setup\",\"initiatingPlayer\":null,\"players\":{\"f1e150d62481cfe0f31605861c135644\":\"1\"},\"playerStates\":{\"f1e150d62481cfe0f31605861c135644\":\"Accepted\"},\"features\":[\"DrawFace\",\"TurnBased\"],\"featureData\":{\"DrawFace\":\"A String\"},\"wordPhraseSetter\":\"cae75dd569b4747a4af395eebb290120\",\"solverStates\":{\"f1e150d62481cfe0f31605861c135644\":{\"wordPhrase\":\"555\",\"workingWordPhrase\":\"____\",\"badlyGuessedLetters\":[\"A\",\"B\"],\"guessedLetters\":[\"B\"],\"featureData\":{\"Thieving\":10,\"DrawGallows\":\"X\"},\"category\":\"Test\",\"maxPenalties\":13,\"moveCount\":4,\"penalties\":3,\"blanksRemaining\":10,\"features\":[\"AllComplete\"],\"isPuzzleSolved\":false,\"isPlayerHung\":true,\"isPuzzleOver\":false,\"penaltiesRemaining\":5}},\"playerRoundScores\":{\"f1e150d62481cfe0f31605861c135644\":10},\"playerRunningScores\":{\"f1e150d62481cfe0f31605861c135644\":13}},\"message\":null}"
 
     void testToJson() {
         assert expectedString == heartbeatJSON.encode(new TWMessage(
@@ -65,7 +65,7 @@ class HeartbeatJSONTest extends TwistedHangmanTestCase {
         assert message.game in MaskedGame
         //  Selected comparisons
         assert message.game.solverStates.size() == maskedGame.solverStates.size()
-        assert message.game.solverStates.keySet() == maskedGame.solverStates.keySet()
+        assert message.game.solverStates.keySet() as Set == maskedGame.solverStates.keySet()
         assert message.game.solverStates[PONE.md5].featureData == maskedGame.solverStates[PONE.md5].featureData
         assert message.game.solverStates[PONE.md5].features == maskedGame.solverStates[PONE.md5].features
         assert message.game.solverStates[PONE.md5].badlyGuessedLetters == maskedGame.solverStates[PONE.md5].badlyGuessedLetters

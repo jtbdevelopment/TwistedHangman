@@ -1,15 +1,14 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
-import com.jtbdevelopment.TwistedHangman.game.handlers.GameFinderHandler
 import com.jtbdevelopment.TwistedHangman.game.handlers.NewGameHandler
 import com.jtbdevelopment.TwistedHangman.game.handlers.PlayerGamesFinderHandler
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.TwistedHangman.players.friendfinder.FriendFinder
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
@@ -28,14 +27,12 @@ class PlayerServices {
     public static int DEFAULT_PAGE_SIZE = 10
     public static int DEFAULT_PAGE = 0
 
-    ThreadLocal<String> playerID = new ThreadLocal<>()
+    ThreadLocal<ObjectId> playerID = new ThreadLocal<>()
 
     @Autowired
     GameServices gamePlayServices
     @Autowired
     NewGameHandler newGameHandler
-    @Autowired
-    GameFinderHandler gameFinderHandler
     @Autowired
     PlayerGamesFinderHandler playerGamesFinderHandler
     @Autowired
@@ -48,7 +45,7 @@ class PlayerServices {
         if (StringUtils.isEmpty(gameID) || StringUtils.isEmpty(gameID.trim())) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Missing game identity").build()
         }
-        gamePlayServices.gameID.set(gameID)
+        gamePlayServices.gameID.set(new ObjectId(gameID))
         gamePlayServices.playerID.set(playerID.get())
         return gamePlayServices
     }
@@ -64,17 +61,6 @@ class PlayerServices {
     @Path("new")
     MaskedGame createNewGame(final FeaturesAndPlayers featuresAndPlayers) {
         newGameHandler.handleCreateNewGame(playerID.get(), featuresAndPlayers.players, featuresAndPlayers.features)
-    }
-
-    @GET
-    @Path("games/{phase}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<MaskedGame> gamesForPhase(
-            @PathParam("phase") final GamePhase gamePhase,
-            @QueryParam("page") final Integer page,
-            @QueryParam("pageSize") final Integer pageSize) {
-        //  TODO - time limit for certain phases
-        gameFinderHandler.findGames(playerID.get(), gamePhase, page ?: DEFAULT_PAGE, pageSize ?: DEFAULT_PAGE_SIZE)
     }
 
     @GET

@@ -13,6 +13,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
+import org.bson.types.ObjectId
 
 /**
  * Date: 11/7/14
@@ -93,6 +94,8 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
     public void testInvalidInitiator() {
         Set<GameFeature> features = [GameFeature.AlternatingPuzzleSetter, GameFeature.Thieving]
         List<Player> players = [PONE, PTWO, PTHREE]
+
+        ObjectId playerId = new ObjectId();
         handler.playerRepository = [
                 findByMd5In: {
                     Iterable<String> it ->
@@ -100,13 +103,13 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                         return players
                 },
                 findOne: {
-                    assert it == "LOST"
+                    assert it == playerId
                     return null
                 }
         ] as PlayerRepository
 
         try {
-            handler.handleCreateNewGame("LOST", players.collect { it.md5 }, features)
+            handler.handleCreateNewGame(playerId, players.collect { it.md5 }, features)
             fail("Should have failed")
         } catch (FailedToFindPlayersException e) {
             //

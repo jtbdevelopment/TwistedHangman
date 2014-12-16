@@ -5,6 +5,7 @@ import com.jtbdevelopment.TwistedHangman.game.factory.GameValidator
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -27,7 +28,7 @@ class PlayersActiveGameValidator implements GameValidator {
             Player player ->
                 !player.disabled
         }
-        Collection<String> loadedActivePlayers = all.collect {
+        Collection<ObjectId> loadedActivePlayers = all.collect {
             Player player ->
                 player.id
         }

@@ -8,6 +8,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 
 /**
@@ -23,7 +24,7 @@ abstract class AbstractGameActionHandler<T> extends AbstractGameGetterHandler {
 
     abstract protected Game handleActionInternal(final Player player, final Game game, T param);
 
-    public MaskedGame handleAction(final String playerID, final String gameID, T param = null) {
+    public MaskedGame handleAction(final ObjectId playerID, final ObjectId gameID, T param = null) {
         Player player = loadPlayer(playerID)
         Game game = loadGame(gameID)
         validatePlayerForGame(game, player)

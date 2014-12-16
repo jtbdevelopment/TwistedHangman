@@ -3,6 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindPlayersException
+import org.bson.types.ObjectId
 
 /**
  * Date: 11/10/14
@@ -18,7 +19,7 @@ class AbstractHandlerTest extends TwistedHangmanTestCase {
     public void testLoadPlayer() {
         handler.playerRepository = [
                 findOne: {
-                    String it ->
+                    ObjectId it ->
                         assert it == PTWO.id
                         return PTWO
                 }
@@ -32,7 +33,7 @@ class AbstractHandlerTest extends TwistedHangmanTestCase {
 
         handler.playerRepository = [
                 findOne: {
-                    String it ->
+                    ObjectId it ->
                         assert it == PTWO.id
                         return null
                 }
@@ -46,32 +47,4 @@ class AbstractHandlerTest extends TwistedHangmanTestCase {
     }
 
 
-    public void testLoadPlayers() {
-        handler.playerRepository = [
-                findAll: {
-                    Iterable<String> it ->
-                        assert [PONE.id, PTWO.id, PTHREE.id] as Set == it.collect { it } as Set
-                        return [PONE, PTWO, PTHREE]
-                }
-        ] as PlayerRepository
-
-        assert [PONE, PTWO, PTHREE] as Set == handler.loadPlayers([PONE.id, PTWO.id, PTHREE.id] as Set)
-    }
-
-
-    public void testLoadPlayersFindsNull() {
-        handler.playerRepository = [
-                findAll: {
-                    Iterable<String> it ->
-                        assert [PONE.id, PTWO.id, PTHREE.id] as Set == it.collect { it } as Set
-                        return [PONE, PTHREE]
-                }
-        ] as PlayerRepository
-
-        try {
-            handler.loadPlayers([PONE.id, PTWO.id, PTHREE.id] as Set)
-        } catch (FailedToFindPlayersException e) {
-
-        }
-    }
 }

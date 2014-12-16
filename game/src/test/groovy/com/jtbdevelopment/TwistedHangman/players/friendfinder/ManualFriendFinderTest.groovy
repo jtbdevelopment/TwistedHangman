@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.players.friendfinder
 
+import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.players.Player
 
@@ -7,7 +8,7 @@ import com.jtbdevelopment.TwistedHangman.players.Player
  * Date: 11/26/14
  * Time: 1:12 PM
  */
-class ManualFriendFinderTest extends GroovyTestCase {
+class ManualFriendFinderTest extends TwistedHangmanTestCase {
     ManualFriendFinder finder = new ManualFriendFinder()
 
     void testHandlesSource() {
@@ -16,10 +17,10 @@ class ManualFriendFinderTest extends GroovyTestCase {
     }
 
     void testFindFriends() {
-        def playerA = new Player(id: "A")
-        Player pX = new Player(id: "X")
-        Player pY = new Player(id: "Y")
-        Player pZ = new Player(id: "Z")
+        def playerA = makeSimplePlayer("a")
+        Player pX = makeSimplePlayer("b")
+        Player pY = makeSimplePlayer("c")
+        Player pZ = makeSimplePlayer("d")
         def ps = [pX, pY, pZ, playerA]
         finder.playerRepository = [
                 findBySourceAndDisabled: {

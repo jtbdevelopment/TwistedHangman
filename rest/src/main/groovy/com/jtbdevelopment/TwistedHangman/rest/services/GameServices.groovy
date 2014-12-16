@@ -4,6 +4,7 @@ import com.jtbdevelopment.TwistedHangman.game.handlers.*
 import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
@@ -18,8 +19,8 @@ import javax.ws.rs.core.MediaType
 @Component
 @CompileStatic
 class GameServices {
-    ThreadLocal<String> playerID = new ThreadLocal<>()
-    ThreadLocal<String> gameID = new ThreadLocal<>()
+    ThreadLocal<ObjectId> playerID = new ThreadLocal<>()
+    ThreadLocal<ObjectId> gameID = new ThreadLocal<>()
 
     @Autowired
     StealLetterHandler stealLetterHandler

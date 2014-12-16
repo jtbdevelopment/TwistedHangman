@@ -3,6 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.state.masked
 import com.jtbdevelopment.TwistedHangman.game.state.*
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
 
 import java.time.ZonedDateTime
@@ -17,7 +18,7 @@ class GameMasker {
     MaskedGame maskGameForPlayer(final Game game, final Player player) {
         MaskedGame playerMaskedGame = new MaskedGame()
 
-        playerMaskedGame.maskedForPlayerID = player.id
+        playerMaskedGame.maskedForPlayerID = player.id.toHexString()
         playerMaskedGame.maskedForPlayerMD5 = player.md5
         copyUnmaskedData(game, playerMaskedGame)
         copyMaskedData(game, player, playerMaskedGame)
@@ -26,7 +27,7 @@ class GameMasker {
     }
 
     protected void copyMaskedData(final Game game, final Player player, final MaskedGame playerMaskedGame) {
-        Map<String, Player> idmap = [:]
+        Map<ObjectId, Player> idmap = [:]
         game.players.each {
             Player p ->
                 playerMaskedGame.players[p.md5] = p.displayName
@@ -34,26 +35,26 @@ class GameMasker {
         }
         playerMaskedGame.initiatingPlayer = idmap[game.initiatingPlayer].md5
         game.playerRunningScores.each {
-            String p, Integer score ->
+            ObjectId p, Integer score ->
                 playerMaskedGame.playerRunningScores[idmap[p].md5] = score
         }
         game.playerRoundScores.each {
-            String p, Integer score ->
+            ObjectId p, Integer score ->
                 playerMaskedGame.playerRoundScores[idmap[p].md5] = score
         }
         game.playerStates.each {
-            String p, PlayerState state ->
+            ObjectId p, PlayerState state ->
                 playerMaskedGame.playerStates[idmap[p].md5] = state
         }
         game.featureData.each {
             GameFeature feature, Object data ->
                 playerMaskedGame.featureData[feature] =
-                        (data in String && idmap.containsKey(data)) ?
-                                idmap[(String) data].md5 :
+                        (data in ObjectId && idmap.containsKey(data)) ?
+                                idmap[(ObjectId) data].md5 :
                                 data
         }
         game.solverStates.findAll {
-            String p, IndividualGameState gameState ->
+            ObjectId p, IndividualGameState gameState ->
                 playerMaskedGame.solverStates[idmap[p].md5] = maskGameState(player, game, idmap[p], gameState, idmap)
         }
         playerMaskedGame.wordPhraseSetter =
@@ -68,7 +69,7 @@ class GameMasker {
             final Game game,
             final Player gameStatePlayer,
             final IndividualGameState gameState,
-            final Map<String, Player> idmap) {
+            final Map<ObjectId, Player> idmap) {
         MaskedIndividualGameState masked = new MaskedIndividualGameState()
 
         if (game.gamePhase == GamePhase.RoundOver ||
@@ -84,8 +85,8 @@ class GameMasker {
             gameState.featureData.each {
                 GameFeature feature, Object data ->
                     masked.featureData[feature] =
-                            (data in String && idmap.containsKey(data)) ?
-                                    idmap[(String) data].md5 :
+                            (data in ObjectId && idmap.containsKey(data)) ?
+                                    idmap[(ObjectId) data].md5 :
                                     data
             }
         } else {

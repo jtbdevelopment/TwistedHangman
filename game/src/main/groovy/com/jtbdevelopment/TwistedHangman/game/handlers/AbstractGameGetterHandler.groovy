@@ -7,6 +7,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -31,10 +32,10 @@ class AbstractGameGetterHandler extends AbstractHandler {
         }
     }
 
-    protected Game loadGame(final String gameID) {
+    protected Game loadGame(final ObjectId gameID) {
         Game game = gameRepository.findOne(gameID)
         if (game == null) {
-            logger.info("Game was not loaded " + gameID)
+            logger.info("Game was not loaded " + gameID.toHexString())
             throw new FailedToFindGameException()
         }
         game

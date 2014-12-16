@@ -34,8 +34,8 @@ class GamePublisherTest extends TwistedHangmanTestCase {
         publisher.threads = 1
         publisher.setUp()
 
-        Game g1 = new Game(id: '1')
-        Game g2 = new Game(id: '2')
+        Game g1 = makeSimpleGame("1")
+        Game g2 = makeSimpleGame("2")
         Player p1 = PONE
         Player p2 = PTWO
 
@@ -70,8 +70,8 @@ class GamePublisherTest extends TwistedHangmanTestCase {
 
         publisher.subscribers = [gl1, gl2]
 
-        Game g1 = new Game(id: '1')
-        Game g2 = new Game(id: '2')
+        Game g1 = makeSimpleGame("1")
+        Game g2 = makeSimpleGame("2")
         Player p1 = PONE
         Player p2 = PTWO
 

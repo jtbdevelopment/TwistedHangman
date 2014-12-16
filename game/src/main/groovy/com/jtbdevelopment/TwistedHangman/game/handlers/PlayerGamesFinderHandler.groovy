@@ -5,6 +5,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Component
@@ -25,7 +26,7 @@ class PlayerGamesFinderHandler extends AbstractGameGetterHandler {
     public static final Sort SORT = new Sort(Sort.Direction.DESC, ["lastUpdate", "created"])
     public static final PageRequest PAGE = new PageRequest(DEFAULT_PAGE, DEFAULT_PAGE_SIZE, SORT)
 
-    public List<MaskedGame> findGames(final String playerID) {
+    public List<MaskedGame> findGames(final ObjectId playerID) {
         Player player = loadPlayer(playerID);
         ZonedDateTime now = ZonedDateTime.now(GMT)
 

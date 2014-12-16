@@ -10,6 +10,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
@@ -71,7 +72,7 @@ class SetPuzzleHandler extends AbstractGameActionHandler<CategoryAndWordPhrase> 
 
     protected static Map<String, IndividualGameState> findPuzzlesToSetForPlayer(final Game game, final Player player) {
         game.solverStates.findAll {
-            String gamePlayer, IndividualGameState gameState ->
+            ObjectId gamePlayer, IndividualGameState gameState ->
                 (player.id != gamePlayer) &&
                         StringUtils.isEmpty(gameState.wordPhraseString)
         }

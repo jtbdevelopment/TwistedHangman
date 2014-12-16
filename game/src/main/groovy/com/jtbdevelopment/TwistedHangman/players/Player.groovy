@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.players
 
 import groovy.transform.CompileStatic
 import org.apache.commons.codec.digest.DigestUtils
+import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
@@ -21,7 +22,7 @@ class Player implements Cloneable {
 
     public static final String SYSTEM_ID_DISPLAY_NAME = "TwistedHangman"
     public static final String SYSTEM_ID_SOURCE = "System"
-    public static final String SYSTEM_ID_ID = "0"
+    public static final ObjectId SYSTEM_ID_ID = new ObjectId("".padRight(24, "0"));
     public static final Player SYSTEM_PLAYER = new Player(
             id: SYSTEM_ID_ID,
             displayName: SYSTEM_ID_DISPLAY_NAME,
@@ -29,7 +30,7 @@ class Player implements Cloneable {
     public static final String SYSTEM_ID_MD5 = SYSTEM_PLAYER.md5
 
     @Id
-    String id
+    ObjectId id
     String source
     String sourceId
     String displayName
@@ -53,7 +54,7 @@ class Player implements Cloneable {
         return id.hashCode()
     }
 
-    void setId(final String id) {
+    void setId(final ObjectId id) {
         this.id = id
         computeMD5Hex()
     }
@@ -86,8 +87,12 @@ class Player implements Cloneable {
     }
 
     private String computeMD5Hex() {
-        String key = id + source + displayName + sourceId + ID_SALT
-        md5 = DigestUtils.md5Hex(key)
+        if (id == null || source == null || displayName == null || sourceId == null) {
+            md5 = ""
+        } else {
+            String key = id.toHexString() + source + displayName + sourceId + ID_SALT
+            md5 = DigestUtils.md5Hex(key)
+        }
         md5
     }
 }

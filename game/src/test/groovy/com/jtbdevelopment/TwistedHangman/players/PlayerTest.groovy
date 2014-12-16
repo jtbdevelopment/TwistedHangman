@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.players
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
+import org.bson.types.ObjectId
 
 /**
  * Date: 11/9/14
@@ -22,7 +23,7 @@ class PlayerTest extends TwistedHangmanTestCase {
 
 
     void testHashCode() {
-        String SOMEID = "SOMEID"
+        def SOMEID = new ObjectId("1234".padRight(24, "0"))
         Player player = new Player(id: SOMEID)
         assert SOMEID.hashCode() == player.hashCode()
     }
@@ -30,13 +31,13 @@ class PlayerTest extends TwistedHangmanTestCase {
 
     void testToString() {
         assert new Player(
-                id: "0x123",
+                id: new ObjectId("0a123".padRight(24, "0")),
                 disabled: false,
                 displayName: "BAYMAX",
-                source: "BIG HERO 6").toString() == "Player{id='0x123', source='BIG HERO 6', displayName='BAYMAX', disabled=false}"
+                source: "BIG HERO 6").toString() == "Player{id='0a1230000000000000000000', source='BIG HERO 6', displayName='BAYMAX', disabled=false}"
     }
 
     void testMD5() {
-        assert PONE.md5 == "0c244ca528410c6a625410af71982ba9"
+        assert PONE.md5 == "ee02ab36f4f4b92d0a2316022a11cce2"
     }
 }

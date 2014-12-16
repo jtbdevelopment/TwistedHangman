@@ -4,6 +4,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.TwistedHangman.security.SessionUserInfo
 import groovy.transform.TypeChecked
+import org.bson.types.ObjectId
 import org.springframework.security.authentication.TestingAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 
@@ -36,7 +37,7 @@ class PlayerGatewayServiceTest extends GroovyTestCase {
     }
 
     void testValidPlayer() {
-        def APLAYER = "APLAYER"
+        def APLAYER = new ObjectId()
         SecurityContextHolder.context.authentication = new TestingAuthenticationToken(new SessionUserInfo() {
             @Override
             Player getSessionUser() {
