@@ -4,6 +4,7 @@ import com.jtbdevelopment.TwistedHangman.security.spring.social.dao.UserConnecti
 import com.jtbdevelopment.TwistedHangman.security.spring.social.dao.UserConnectionRepository
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.crypto.encrypt.TextEncryptor
 import org.springframework.social.connect.*
 import org.springframework.stereotype.Component
 
@@ -25,10 +26,14 @@ class DAOUsersConnectionRepository implements UsersConnectionRepository {
     @Autowired
     ConnectionFactoryLocator connectionFactoryLocator;
 
+    @Autowired
+    TextEncryptor textEncryptor
+
     @PostConstruct
     public void setUp() {
         DAOConnectionRepository.userConnectionRepository = userConnectionRepository
         DAOConnectionRepository.connectionFactoryLocator = connectionFactoryLocator;
+        DAOConnectionRepository.encryptor = textEncryptor
         DAOConnectionRepository.providerConnectionFactoryMap = connectionFactoryLocator.registeredProviderIds().collectEntries {
             String providerId ->
                 [(providerId): connectionFactoryLocator.getConnectionFactory(providerId)]

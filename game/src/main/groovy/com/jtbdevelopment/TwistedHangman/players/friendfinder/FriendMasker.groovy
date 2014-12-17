@@ -2,6 +2,8 @@ package com.jtbdevelopment.TwistedHangman.players.friendfinder
 
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
@@ -14,7 +16,9 @@ import javax.annotation.PostConstruct
 @Component
 @CompileStatic
 class FriendMasker {
-    @Value('${player.md5salt:DEFAULTSALT}')
+    private static final Logger logger = LoggerFactory.getLogger(FriendMasker.class)
+
+    @Value('${player.md5salt:SALT}')
     String md5Salter
 
     Map<String, String> maskFriends(final Set<Player> friends) {
@@ -26,6 +30,15 @@ class FriendMasker {
 
     @PostConstruct
     void applySalt() {
+        if (md5Salter == 'SALT') {
+            logger.warn('---------------------------------------')
+            logger.warn('---------------------------------------')
+            logger.warn('---------------------------------------')
+            logger.warn('player.md5salt is using default value!!')
+            logger.warn('---------------------------------------')
+            logger.warn('---------------------------------------')
+            logger.warn('---------------------------------------')
+        }
         Player.ID_SALT = md5Salter
     }
 }

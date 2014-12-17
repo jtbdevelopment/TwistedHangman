@@ -5,6 +5,7 @@ import com.jtbdevelopment.TwistedHangman.security.spring.social.dao.UserConnecti
 import groovy.transform.CompileStatic
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.data.domain.Sort
+import org.springframework.security.crypto.encrypt.TextEncryptor
 import org.springframework.social.connect.*
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
@@ -18,8 +19,11 @@ class DAOConnectionRepository implements ConnectionRepository {
     static UserConnectionRepository userConnectionRepository
     static ConnectionFactoryLocator connectionFactoryLocator;
     static Map<String, ConnectionFactory<?>> providerConnectionFactoryMap = [:]
-    public static
-    final Sort SORT = new Sort(new Sort.Order(Sort.Direction.ASC, "providerId"), new Sort.Order(Sort.Direction.ASC, "creationTime"))
+    static TextEncryptor encryptor
+
+    private static final Sort SORT = new Sort(
+            new Sort.Order(Sort.Direction.ASC, "providerId"),
+            new Sort.Order(Sort.Direction.ASC, "creationTime"))
 
     private final String userId;
 
@@ -157,9 +161,9 @@ class DAOConnectionRepository implements ConnectionRepository {
             userConnection.displayName = data.displayName
             userConnection.profileUrl = data.profileUrl
             userConnection.imageUrl = data.imageUrl
-            userConnection.accessToken = data.accessToken
-            userConnection.secret = data.secret
-            userConnection.refreshToken = data.refreshToken
+            userConnection.accessToken = data.accessToken ? encryptor.encrypt(data.accessToken) : null
+            userConnection.secret = data.secret ? encryptor.encrypt(data.secret) : null
+            userConnection.refreshToken = data.refreshToken ? encryptor.encrypt(data.refreshToken) : null
             userConnection.expireTime = data.expireTime
             userConnectionRepository.save(userConnection)
         }
@@ -186,9 +190,9 @@ class DAOConnectionRepository implements ConnectionRepository {
                 connection.displayName,
                 connection.profileUrl,
                 connection.imageUrl,
-                connection.accessToken,
-                connection.secret,
-                connection.refreshToken,
+                connection.accessToken ? encryptor.decrypt(connection.accessToken) : null,
+                connection.secret ? encryptor.decrypt(connection.secret) : null,
+                connection.refreshToken ? encryptor.decrypt(connection.refreshToken) : null,
                 connection.expireTime)
         providerConnectionFactoryMap[connectionData.providerId].createConnection(connectionData)
     }

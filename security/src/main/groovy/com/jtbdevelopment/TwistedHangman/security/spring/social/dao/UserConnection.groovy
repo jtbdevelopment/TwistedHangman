@@ -18,7 +18,7 @@ import java.time.ZonedDateTime
 @Document(collection = 'userConnection')
 @CompoundIndexes(
         [
-                @CompoundIndex(name = "uc_created", unique = true, def = "{'userId': 1, 'providerId': 1, 'created': 1}"),
+                @CompoundIndex(name = "uc_uidpidc", def = "{'userId': 1, 'providerId': 1, 'created': 1}"),
                 @CompoundIndex(name = "uc_pk", unique = true, def = "{'userId': 1, 'providerId': 1, 'providerUserId': 1}"),
         ]
 )
@@ -28,7 +28,7 @@ class UserConnection {
     @Id
     ObjectId id  // generated internal
     @Version
-    Integer version // for optmistic locking
+    Integer version // for optimistic locking
     ZonedDateTime created = ZonedDateTime.now(GMT)
 
     String userId
@@ -40,7 +40,6 @@ class UserConnection {
     String profileUrl
     String imageUrl
 
-    //  these 3 should be encrypted?
     String accessToken
     String secret
     String refreshToken

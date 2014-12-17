@@ -4,10 +4,11 @@ import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.crypto.password.StandardPasswordEncoder
 import org.springframework.stereotype.Component
+
+import java.security.SecureRandom
 
 /**
  * Date: 12/16/14
@@ -18,24 +19,20 @@ import org.springframework.stereotype.Component
 class InjectedPasswordEncoder implements PasswordEncoder {
     private final static Logger logger = LoggerFactory.getLogger(InjectedPasswordEncoder.class)
 
-    //  TODO - use bcrypt?
-    final StandardPasswordEncoder standardPasswordEncoder;
+    final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    InjectedPasswordEncoder(@Value('${password.salt:SALTED}') final String salt) {
-        if (salt == 'SALTED') {
-            logger.warn('Using default SALT!')
-        }
-        standardPasswordEncoder = new StandardPasswordEncoder(salt)
+    InjectedPasswordEncoder() {
+        passwordEncoder = new BCryptPasswordEncoder(10, new SecureRandom())
     }
 
     @Override
     String encode(final CharSequence rawPassword) {
-        return standardPasswordEncoder.encode(rawPassword)
+        return passwordEncoder.encode(rawPassword)
     }
 
     @Override
     boolean matches(final CharSequence rawPassword, final String encodedPassword) {
-        return standardPasswordEncoder.matches(rawPassword, encodedPassword)
+        return passwordEncoder.matches(rawPassword, encodedPassword)
     }
 }

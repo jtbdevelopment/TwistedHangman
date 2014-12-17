@@ -4,6 +4,8 @@ import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.crypto.encrypt.Encryptors
+import org.springframework.security.crypto.encrypt.TextEncryptor
 import org.springframework.social.security.SocialAuthenticationServiceRegistry
 import org.springframework.social.security.provider.SocialAuthenticationService
 
@@ -24,15 +26,9 @@ class SpringSocialConfig {
         return socialAuthenticationServiceRegistry;
     }
 
-    /*
     @Bean
     @Autowired
-    UsersConnectionRepository usersConnectionRepository(
-            final ConnectionFactoryLocator connectionFactoryLocator,
-            final AutoConnectionSignUp autoConnectionSignUp) {
-        InMemoryUsersConnectionRepository inMemoryUsersConnectionRepository = new InMemoryUsersConnectionRepository(connectionFactoryLocator);
-        inMemoryUsersConnectionRepository.setConnectionSignUp(autoConnectionSignUp);
-        return inMemoryUsersConnectionRepository;
+    TextEncryptor textEncryptor(TextEncryptionProperties textEncryptionProperties) {
+        return Encryptors.text(textEncryptionProperties.password, textEncryptionProperties.salt)
     }
-    */
 }
