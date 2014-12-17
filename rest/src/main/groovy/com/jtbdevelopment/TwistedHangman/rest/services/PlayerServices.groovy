@@ -6,13 +6,17 @@ import com.jtbdevelopment.TwistedHangman.game.handlers.PlayerGamesFinderHandler
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
 import com.jtbdevelopment.TwistedHangman.players.friendfinder.FriendFinder
+import com.jtbdevelopment.TwistedHangman.security.SessionUserInfo
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
 
+import javax.annotation.security.RolesAllowed
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
@@ -39,6 +43,8 @@ class PlayerServices {
     PlayerRepository playerRepository
     @Autowired
     FriendFinder friendFinder
+    @Autowired
+    AdminServices adminServices
 
     @Path("game/{gameID}")
     Object gamePlay(@PathParam("gameID") final String gameID) {
@@ -81,5 +87,12 @@ class PlayerServices {
     @Path("friends")
     public Map<String, String> getFriends() {
         return friendFinder.findFriends(playerID.get())
+    }
+
+    @Path("admin")
+    @RolesAllowed([PlayerRoles.ADMIN])
+    public Object adminServices() {
+        adminServices.playerID.set(((SessionUserInfo) SecurityContextHolder.context.authentication.principal).sessionUser.id)
+        return adminServices
     }
 }

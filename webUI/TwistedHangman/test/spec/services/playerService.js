@@ -6,7 +6,6 @@ describe('Service: playerService', function () {
 
   var service, httpBackend, injector, rootScope, location;
 
-  //  TODO - inject this id somewhere
   var testID = 'MANUAL1';
   var playerResult = {
     id: testID,
@@ -62,14 +61,14 @@ describe('Service: playerService', function () {
       var newPlayer = angular.copy(playerResult);
 
       newPlayer.id = 'NEW';
-      httpBackend.expectGET('/api/player').respond(newPlayer);
+      httpBackend.expectPUT('/api/player/admin/NEW').respond(newPlayer);
       service.overridePID(newPlayer.id);
+      expect(service.currentPlayer()).toEqual(playerResult);
+      expect(service.currentID()).toEqual(testID);
+      httpBackend.flush();
       expect(service.currentID()).toEqual(newPlayer.id);
       expect(service.currentPlayerBaseURL()).toEqual('/api/player');
-      expect(service.currentPlayer()).toEqual(playerResult);
-      httpBackend.flush();
       expect(service.currentPlayer()).toEqual(newPlayer);
-      expect(rootScope.$broadcast).toHaveBeenCalledWith('playerLoaded');
       expect(location.path).not.toHaveBeenCalledWith('/error');
     });
 

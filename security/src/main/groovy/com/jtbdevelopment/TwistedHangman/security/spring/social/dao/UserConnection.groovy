@@ -18,7 +18,7 @@ import java.time.ZonedDateTime
 @Document(collection = 'userConnection')
 @CompoundIndexes(
         [
-                @CompoundIndex(name = "uc_uidpidc", def = "{'userId': 1, 'providerId': 1, 'created': 1}"),
+                @CompoundIndex(name = "uc_uidpidc", unique = true, def = "{'userId': 1, 'providerId': 1, 'created': 1}"),
                 @CompoundIndex(name = "uc_pk", unique = true, def = "{'userId': 1, 'providerId': 1, 'providerUserId': 1}"),
         ]
 )

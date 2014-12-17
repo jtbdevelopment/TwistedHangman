@@ -105,7 +105,7 @@ class Player implements Cloneable {
         if (id == null || source == null || displayName == null || sourceId == null) {
             md5 = ""
         } else {
-            String key = id.toHexString() + source + displayName + sourceId + ID_SALT
+            String key = ID_SALT + id.toHexString() + source + ID_SALT + displayName + sourceId + ID_SALT
             md5 = DigestUtils.md5Hex(key)
         }
         md5

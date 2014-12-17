@@ -28,20 +28,11 @@ class PlayerGatewayService {
 
     @Autowired
     PlayerServices playerServices
-    @Autowired
-    AdminServices adminServices
 
     @Path("player")
     public Object gameServices() {
         playerServices.playerID.set(((SessionUserInfo) SecurityContextHolder.context.authentication.principal).effectiveUser.id)
         return playerServices
-    }
-
-    @Path("admin")
-    @RolesAllowed([PlayerRoles.ADMIN])
-    public Object adminServices() {
-        adminServices.playerID.set(((SessionUserInfo) SecurityContextHolder.context.authentication.principal).sessionUser.id)
-        return adminServices
     }
 
     @Produces(MediaType.TEXT_PLAIN)
