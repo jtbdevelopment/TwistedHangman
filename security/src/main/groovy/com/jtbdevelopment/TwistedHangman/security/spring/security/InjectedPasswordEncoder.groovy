@@ -3,7 +3,6 @@ package com.jtbdevelopment.TwistedHangman.security.spring.security
 import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
@@ -21,7 +20,6 @@ class InjectedPasswordEncoder implements PasswordEncoder {
 
     final BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
     InjectedPasswordEncoder() {
         passwordEncoder = new BCryptPasswordEncoder(10, new SecureRandom())
     }

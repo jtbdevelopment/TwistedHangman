@@ -29,6 +29,8 @@ class SpringSocialConfig {
     @Bean
     @Autowired
     TextEncryptor textEncryptor(TextEncryptionProperties textEncryptionProperties) {
-        return Encryptors.text(textEncryptionProperties.password, textEncryptionProperties.salt)
+        //  TODO
+        //return Encryptors.text(textEncryptionProperties.password, textEncryptionProperties.salt)
+        return Encryptors.noOpText()
     }
 }

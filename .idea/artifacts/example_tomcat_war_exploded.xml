@@ -14,6 +14,7 @@
             <element id="module-output" name="game" />
           </element>
           <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.10" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.3.2" />
           <element id="library" level="project" name="Maven: org.glassfish.jersey.containers:jersey-container-servlet:2.13" />
           <element id="library" level="project" name="Maven: org.glassfish.jersey.core:jersey-common:2.13" />
           <element id="library" level="project" name="Maven: org.glassfish.jersey.bundles.repackaged:jersey-guava:2.13" />
@@ -39,7 +40,6 @@
           <element id="library" level="project" name="Maven: org.springframework.social:spring-social-config:1.1.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.social:spring-social-facebook:1.1.0.RELEASE" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.3.2" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.3.2" />
           <element id="library" level="project" name="Maven: org.springframework.social:spring-social-security:1.1.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:3.2.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-config:3.2.5.RELEASE" />
@@ -88,7 +88,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="C:\DEV\TwistedHangman\example-tomcat\target/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/example-tomcat/target/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="example-tomcat/web/Web" />
     </root>

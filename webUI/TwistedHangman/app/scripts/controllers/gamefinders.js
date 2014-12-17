@@ -57,6 +57,10 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
               var prop = angular.element(buttonId);
               if (angular.isDefined(prop)) {
                 $animate.addClass(prop, 'animated shake').then(function () {
+                  var prop = angular.element(buttonId);
+                  //  TODO - not sure why but angular remove not working - jquery for now
+                  $(buttonId).removeClass('animated');
+                  $(buttonId).removeClass('shake');
                   $animate.removeClass(prop, 'animated shake');
                 });
               }

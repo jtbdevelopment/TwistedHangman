@@ -124,7 +124,7 @@ class GameMasker {
         playerMaskedGame.rematched = convertTime(game.rematched)
         playerMaskedGame.features.addAll(game.features)
         playerMaskedGame.gamePhase = game.gamePhase
-        playerMaskedGame.id = game.id
+        playerMaskedGame.id = game.id.toHexString()
         playerMaskedGame.round = game.round
     }
 

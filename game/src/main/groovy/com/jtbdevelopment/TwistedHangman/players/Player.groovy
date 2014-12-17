@@ -1,5 +1,9 @@
 package com.jtbdevelopment.TwistedHangman.players
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.jtbdevelopment.TwistedHangman.json.ObjectIdDeserializer
+import com.jtbdevelopment.TwistedHangman.json.ObjectIdSerializer
 import groovy.transform.CompileStatic
 import org.apache.commons.codec.digest.DigestUtils
 import org.bson.types.ObjectId
@@ -32,6 +36,8 @@ class Player implements Cloneable {
     public static final String SYSTEM_ID_MD5 = SYSTEM_PLAYER.md5
 
     @Id
+    @JsonSerialize(using = ObjectIdSerializer.class)
+    @JsonDeserialize(using = ObjectIdDeserializer.class)
     ObjectId id = new ObjectId()
     String source
     String sourceId
