@@ -73,6 +73,7 @@ class PlayerServices {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Player playerInfo() {
+        //  TODO - objectid id is not externalizing as string
         return playerRepository.findOne(playerID.get())
     }
 

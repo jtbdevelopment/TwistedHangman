@@ -29,6 +29,7 @@ class SecurityService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     Player getSessionPlayer() {
+        //  TODO - this is not externalizing the id correctly anymore
         return ((SessionUserInfo) SecurityContextHolder.context.authentication.principal).sessionUser
     }
 }
