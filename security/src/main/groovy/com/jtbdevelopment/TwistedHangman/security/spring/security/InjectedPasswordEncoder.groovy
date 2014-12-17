@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component
 class InjectedPasswordEncoder implements PasswordEncoder {
     private final static Logger logger = LoggerFactory.getLogger(InjectedPasswordEncoder.class)
 
+    //  TODO - use bcrypt?
     final StandardPasswordEncoder standardPasswordEncoder;
 
     @Autowired
