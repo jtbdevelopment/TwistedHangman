@@ -12,7 +12,7 @@ angular.module('twistedHangmanApp').factory('twLiveGameFeed',
         fallbackTransport: 'long-polling',
 
         onOpen: function (response) {
-          console.info(this.url + 'Atmosphere connected using ' + response.transport);
+          console.info(this.url + ' Atmosphere connected using ' + response.transport);
           $rootScope.$broadcast('liveFeedEstablished');
         },
 

@@ -1,15 +1,30 @@
 package com.jtbdevelopment.TwistedHangman.feed.websocket
 
+import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
 import groovy.transform.CompileStatic
+import org.atmosphere.client.TrackMessageSizeInterceptor
 import org.atmosphere.config.service.*
 import org.atmosphere.cpr.AtmosphereResource
 import org.atmosphere.cpr.AtmosphereResourceEvent
 import org.atmosphere.cpr.AtmosphereResourceFactory
 import org.atmosphere.cpr.BroadcasterFactory
+import org.atmosphere.interceptor.AtmosphereResourceLifecycleInterceptor
+import org.atmosphere.interceptor.SuspendTrackerInterceptor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-@ManagedService(path = "/livefeed/{id: [a-zA-Z][a-zA-Z_0-9]*}")
+import javax.annotation.security.RolesAllowed
+
+@ManagedService(
+        path = "/livefeed/{id: [a-zA-Z][a-zA-Z_0-9]*}",
+        interceptors = [
+                SecuritySessionInterceptor.class,
+                AtmosphereResourceLifecycleInterceptor.class,
+                TrackMessageSizeInterceptor.class,
+                SuspendTrackerInterceptor.class
+        ],
+        atmosphereConfig = ["supportSession=true"]
+)
 @CompileStatic
 public class LiveFeedService {
 
@@ -48,6 +63,7 @@ public class LiveFeedService {
     }
 
     @Message(decoders = [HeartbeatJSON.class], encoders = [HeartbeatJSON.class])
+    @RolesAllowed([PlayerRoles.PLAYER])
     public TWMessage onMessage(TWMessage message) {
         return message
     }
