@@ -28,8 +28,10 @@ class AutoConnectionSignUp implements ConnectionSignUp {
 
     @Override
     String execute(final Connection<?> connection) {
-        List<Player> players = playerRepository.findBySourceAndSourceId(connection.key.providerId, connection.key.providerUserId)
-        if (players.size() == 0) {
+        Player player = playerRepository.findBySourceAndSourceId(connection.key.providerId, connection.key.providerUserId)
+        if (player) {
+            return player.id
+        } else {
             Player p = new Player(
                     disabled: false,
                     displayName: connection.fetchUserProfile().name,
@@ -38,11 +40,6 @@ class AutoConnectionSignUp implements ConnectionSignUp {
             );
             p = playerRepository.save(p);
             return p.id
-        } else if (players.size() == 1) {
-            return players[0].id
-        } else {
-            logger.warn("Found multiple users for source and id! " + connection.key.toString())
-            return null;
         }
     }
 }

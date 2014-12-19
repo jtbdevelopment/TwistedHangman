@@ -27,14 +27,11 @@ class PlayerUserDetailsService implements UserDetailsService {
 
     @Override
     UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        List<Player> players = playerRepository.findBySourceAndSourceId(ManualPlayer.MANUAL_SOURCE, username)
-        if (players.size() == 1) {
-            return new PlayerUserDetails(players[0])
-        } else if (players.size() == 0) {
-            return null;
+        Player player = playerRepository.findBySourceAndSourceId(ManualPlayer.MANUAL_SOURCE, username)
+        if (player) {
+            return new PlayerUserDetails(player)
         } else {
-            logger.warn("Found more than one manual player with username = " + username)
-            return null
+            return null;
         }
     }
 }
