@@ -4,6 +4,8 @@ import com.jtbdevelopment.TwistedHangman.security.spring.security.InjectedPasswo
 import com.jtbdevelopment.TwistedHangman.security.spring.security.PlayerUserDetailsService;
 import com.jtbdevelopment.TwistedHangman.security.spring.social.PlayerSocialUserDetailsService;
 import groovy.transform.CompileStatic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -22,6 +24,8 @@ import org.springframework.social.security.SpringSocialConfigurer;
 @EnableGlobalMethodSecurity(jsr250Enabled = true)
 @CompileStatic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final static Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
+
     @Autowired
     PlayerUserDetailsService playerUserDetailsService;
 
@@ -30,6 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     InjectedPasswordEncoder injectedPasswordEncoder;
+
+    @Autowired
+    SecurityProperties securityProperties;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -48,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/favicon.ico", "/images/**", "/auth/**", "/signin/**", "/signup/**", "/disconnect/facebook").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()
-                .formLogin().loginPage("/signin/signin.html").loginProcessingUrl("/signin/authenticate").failureUrl("/signin/signin.html")
+                .formLogin().loginPage("/signin/signin.html").loginProcessingUrl("/signin/authenticate").failureUrl("/signin/signin.html?error=BadCredentials")
                 .and()
                 .logout().deleteCookies("JSESSIONID")
                 .and()
@@ -56,11 +63,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                         //  TODO - what?
                 .csrf().disable()
-//                .apply(new CustomSpringSocialConfigurer().postFailureUrl("/signin/signin.html"))
-                .apply(new SpringSocialConfigurer())
-//                .and()
-//                .httpBasic()
-        ;
+                .apply(new SpringSocialConfigurer());
+
+        if (Boolean.parseBoolean(securityProperties.getAllowBasicAuth())) {
+            logger.warn("-----------------------------------------------------");
+            logger.warn("-----------------------------------------------------");
+            logger.warn("-----------------------------------------------------");
+            logger.warn("Allowing Basic Auth!  Should only be in test systems!");
+            logger.warn("-----------------------------------------------------");
+            logger.warn("-----------------------------------------------------");
+            logger.warn("-----------------------------------------------------");
+            http.httpBasic();
+        }
         TokenBasedRememberMeServices twistedHangman = new TokenBasedRememberMeServices(tokenKey, http.getSharedObject(UserDetailsService.class));
 //        twistedHangman.setAlwaysRemember(true);
         http.rememberMe().rememberMeServices(twistedHangman);

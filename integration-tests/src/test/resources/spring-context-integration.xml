@@ -3,5 +3,8 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="properties" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="location" value="classpath:/integration.properties"/>
+    </bean>
     <import resource="spring-context-rest.xml"/>
 </beans>

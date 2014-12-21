@@ -29,8 +29,8 @@ class ManualPlayerMaker {
 
         players.each {
             Player it ->
-                List<Player> loaded = repository.findBySourceAndSourceId(it.source, it.sourceId);
-                if (loaded.size() == 0) {
+                Player loaded = repository.findBySourceAndSourceId(it.source, it.sourceId);
+                if (!loaded) {
                     println "Creating player " + it
                     repository.save(it)
                 } else {

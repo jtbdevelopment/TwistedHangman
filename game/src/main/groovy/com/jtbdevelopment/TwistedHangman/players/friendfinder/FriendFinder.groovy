@@ -27,7 +27,7 @@ class FriendFinder {
         if (player == null || player.disabled) {
             throw new FailedToFindPlayersException()
         }
-        Set<Player> friends = [] as Set;
+        Set<? extends Player> friends = [] as Set;
         friendFinders.each {
             SourceBasedFriendFinder friendFinder ->
                 if (friendFinder.handlesSource(player.source)) {

@@ -23,8 +23,8 @@ class ManualFriendFinder implements SourceBasedFriendFinder {
     }
 
     @Override
-    Set<Player> findFriends(final Player player) {
-        Set<Player> players = playerRepository.findBySourceAndDisabled(MANUAL, false) as Set
+    Set<? extends Player> findFriends(final Player player) {
+        Set<? extends Player> players = playerRepository.findBySourceAndDisabled(MANUAL, false) as Set
         players.remove(player)
         return players
     }

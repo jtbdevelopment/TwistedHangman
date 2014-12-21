@@ -8,11 +8,10 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.ManualPlayer
-import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerGatewayService
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerServices
 import org.bson.types.ObjectId
-import org.glassfish.grizzly.http.server.HttpServer
+import org.eclipse.jetty.server.Server
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature
 import org.junit.AfterClass
 import org.junit.BeforeClass
@@ -33,30 +32,48 @@ import javax.ws.rs.core.UriBuilder
  * Time: 3:29 PM
  */
 class ServerIntegration {
-    private static HttpServer SERVER;
+    private static Server SERVER;
     private static final int port = 8998;
-    private static final URI BASE_URI = UriBuilder.fromUri("http://localhost/api").port(port).build();
-    private static final URI API_URI = BASE_URI
-    private static final URI CONTEXT_URI = BASE_URI.resolve("api/signin")
+    private static final URI BASE_URI = UriBuilder.fromUri("http://localhost/").port(port).build();
+    private static final URI API_URI = BASE_URI.resolve("/api")
     private static final URI PLAYER_API = BASE_URI.resolve("api/player")
 
-    static ManualPlayer TEST_PLAYER1 = new ManualPlayer(id: new ObjectId("f1234".padRight(24, "0")), sourceId: "ITP1", disabled: false, displayName: "TEST PLAYER1", password: "", verified: true)
-    static ManualPlayer TEST_PLAYER2 = new ManualPlayer(id: new ObjectId("f2345".padRight(24, "0")), sourceId: "ITP2", disabled: false, displayName: "TEST PLAYER2", password: "", verified: true)
-    static ManualPlayer TEST_PLAYER3 = new ManualPlayer(id: new ObjectId("f3456".padRight(24, "0")), sourceId: "ITP3", disabled: false, displayName: "TEST PLAYER3", password: "", verified: true)
+    static ManualPlayer TEST_PLAYER1
+    static ManualPlayer TEST_PLAYER2
+    static ManualPlayer TEST_PLAYER3
+
+    static ManualPlayer createPlayer(final String id, final String sourceId, final String displayName) {
+        return new ManualPlayer(
+                id: new ObjectId(id.padRight(24, "0")),
+                sourceId: sourceId,
+                password: passwordEncoder.encode(sourceId),
+                displayName: displayName,
+                disabled: false,
+                verified: true
+        )
+    }
 
     static ApplicationContext applicationContext
+    static PasswordEncoder passwordEncoder
+    static PlayerRepository playerRepository
     public static final EMPTY_PUT_POST = Entity.entity("", MediaType.TEXT_PLAIN)
 
     @BeforeClass
     public static void initialize() {
-        SERVER = GrizzlyServerBuilder.makeServer(port, "spring-context-integration.xml")
+        SERVER = JettyServer.makeServer(port, "spring-context-integration.xml")
+        SERVER.start()
+
         assert applicationContext != null
-        PlayerRepository playerRepository = applicationContext.getBean(PlayerRepository.class)
-        PasswordEncoder encoder = applicationContext.getBean(PasswordEncoder.class)
+        playerRepository = applicationContext.getBean(PlayerRepository.class)
+        passwordEncoder = applicationContext.getBean(PasswordEncoder.class)
+
+        TEST_PLAYER1 = createPlayer("f1234", "ITP1", "TEST PLAYER1")
+        TEST_PLAYER2 = createPlayer("f2345", "ITP2", "TEST PLAYER2")
+        TEST_PLAYER3 = createPlayer("f3456", "ITP3", "TEST PLAYER3")
+
         playerRepository.delete(TEST_PLAYER1.id)
         playerRepository.delete(TEST_PLAYER2.id)
         playerRepository.delete(TEST_PLAYER3.id)
-        TEST_PLAYER1.password = encoder.encode(TEST_PLAYER1.sourceId)
         TEST_PLAYER1 = playerRepository.save(TEST_PLAYER1)
         TEST_PLAYER2 = playerRepository.save(TEST_PLAYER2)
         TEST_PLAYER3 = playerRepository.save(TEST_PLAYER3)
@@ -66,33 +83,23 @@ class ServerIntegration {
     public static void tearDown() {
         GameRepository gameRepository = applicationContext.getBean(GameRepository.class)
         [TEST_PLAYER1, TEST_PLAYER2, TEST_PLAYER3].each {
-            Player p ->
+            ManualPlayer p ->
                 gameRepository.findByPlayersId(p.id).each {
                     gameRepository.delete(it)
                 }
         }
-        PlayerRepository playerRepository = applicationContext.getBean(PlayerRepository.class)
         playerRepository.delete(TEST_PLAYER1.id)
         playerRepository.delete(TEST_PLAYER2.id)
         playerRepository.delete(TEST_PLAYER3.id)
-        SERVER.shutdownNow()
-    }
-
-    static class Login {
-        String username
-        String password
+        SERVER.stop()
     }
 
     @Test
     void testPing() {
-        Client client = ClientBuilder.newClient()
-        client.register(feature)
+        Client client = createConnection(TEST_PLAYER1)
         String response = client
                 .target(API_URI)
                 .path("ping")
-                .register(feature)
-                .property(HttpAuthenticationFeature.HTTP_AUTHENTICATION_BASIC_USERNAME, TEST_PLAYER1.sourceId)
-                .property(HttpAuthenticationFeature.HTTP_AUTHENTICATION_BASIC_PASSWORD, TEST_PLAYER1.sourceId)
                 .request(MediaType.TEXT_PLAIN)
                 .get(String.class)
         assert PlayerGatewayService.PING_RESULT == response
@@ -100,10 +107,8 @@ class ServerIntegration {
 
     @Test
     void testGetCurrentPlayer() {
-
-        Client client = ClientBuilder.newClient()
-        client.target(CONTEXT_URI).path(TEST_PLAYER1.sourceId).request(MediaType.TEXT_PLAIN).get(String.class)
-        def p = client.target(PLAYER_API).request(MediaType.APPLICATION_JSON).get(Player.class);
+        Client client = createConnection(TEST_PLAYER1)
+        def p = client.target(PLAYER_API).request(MediaType.APPLICATION_JSON).get(ManualPlayer.class);
         assert p.id == TEST_PLAYER1.id
         assert p.disabled == TEST_PLAYER1.disabled
         assert p.displayName == TEST_PLAYER1.displayName
@@ -112,8 +117,7 @@ class ServerIntegration {
 
     @Test
     void testGetFriends() {
-        Client client = ClientBuilder.newClient()
-        client.target(CONTEXT_URI).path(TEST_PLAYER1.sourceId).request(MediaType.TEXT_PLAIN).get(String.class)
+        Client client = createConnection(TEST_PLAYER1)
         WebTarget path = client
                 .target(PLAYER_API)
                 .path("friends")
@@ -126,7 +130,8 @@ class ServerIntegration {
 
     @Test
     void testGetFeatures() {
-        def features = ClientBuilder.newClient()
+        def client = createConnection(TEST_PLAYER2)
+        def features = client
                 .target(API_URI)
                 .path("features")
                 .request(MediaType.APPLICATION_JSON_TYPE)
@@ -148,7 +153,8 @@ class ServerIntegration {
 
     @Test
     void testGetPhases() {
-        def features = ClientBuilder.newClient()
+        def client = createConnection(TEST_PLAYER3)
+        def features = client
                 .target(API_URI)
                 .path("phases")
                 .request(MediaType.APPLICATION_JSON_TYPE)
@@ -174,9 +180,7 @@ class ServerIntegration {
                 ),
                 MediaType.APPLICATION_JSON)
 
-        def P1 = ClientBuilder
-                .newClient()
-                .target(API_URI)
+        def P1 = createConnection(TEST_PLAYER1).target(PLAYER_API)
 
         MaskedGame game
         game = P1.path("new")
@@ -202,15 +206,9 @@ class ServerIntegration {
                 ),
                 MediaType.APPLICATION_JSON)
 
-        def P1 = ClientBuilder
-                .newClient()
-                .target(API_URI)
-        def P2 = ClientBuilder
-                .newClient()
-                .target(API_URI)
-        def P3 = ClientBuilder
-                .newClient()
-                .target(API_URI)
+        def P1 = createConnection(TEST_PLAYER1).target(PLAYER_API)
+        def P2 = createConnection(TEST_PLAYER2).target(PLAYER_API)
+        def P3 = createConnection(TEST_PLAYER3).target(PLAYER_API)
 
         MaskedGame game
         game = P1.path("new")
@@ -250,7 +248,7 @@ class ServerIntegration {
         assert game.solverStates[TEST_PLAYER3.md5].wordPhrase == ""
 
         GameRepository gameRepository = applicationContext.getBean(GameRepository.class)
-        Game dbLoaded1 = gameRepository.findOne(game.id)
+        Game dbLoaded1 = gameRepository.findOne(new ObjectId(game.id))
         String wordPhrase = dbLoaded1.solverStates[TEST_PLAYER1.id].wordPhraseString
         Set<Character> chars = wordPhrase.toCharArray().findAll { it.letter }.collect { it } as Set
         def letter = chars.iterator().next()
@@ -268,7 +266,7 @@ class ServerIntegration {
 
         MaskedGame newGame = putMG(P2G.path("rematch"))
         assert newGame.id != dbLoaded1.id
-        Game dbLoaded2 = gameRepository.findOne(newGame.id)
+        Game dbLoaded2 = gameRepository.findOne(new ObjectId(newGame.id))
         dbLoaded1 = gameRepository.findOne(dbLoaded1.id)
         assert dbLoaded2.previousId == dbLoaded1.id
         assert dbLoaded1.rematched != null
@@ -281,8 +279,8 @@ class ServerIntegration {
         GenericType<List<MaskedGame>> type = new GenericType<List<MaskedGame>>() {}
         List<MaskedGame> games = P1.path("games").request(MediaType.APPLICATION_JSON).get(type)
         assert games.size() >= 2 // other tests make this ambiguous
-        assert games.find { MaskedGame g -> g.id == dbLoaded1.id }
-        assert games.find { MaskedGame g -> g.id == dbLoaded2.id }
+        assert games.find { MaskedGame g -> g.id == dbLoaded1.id.toHexString() }
+        assert games.find { MaskedGame g -> g.id == dbLoaded2.id.toHexString() }
 
         newGame = putMG(P1.path("game").path(newGame.id).path("reject"))
         assert newGame.gamePhase == GamePhase.Declined
@@ -290,5 +288,12 @@ class ServerIntegration {
 
     private static MaskedGame putMG(WebTarget webTarget) {
         return webTarget.request(MediaType.APPLICATION_JSON).put(EMPTY_PUT_POST, MaskedGame.class)
+    }
+
+    private static Client createConnection(ManualPlayer p) {
+        Client client = ClientBuilder.newClient()
+        HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic(p.sourceId, p.sourceId)
+        client.register(feature)
+        client
     }
 }

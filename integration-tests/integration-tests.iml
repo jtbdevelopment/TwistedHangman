@@ -19,6 +19,19 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.3.2" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jersey.containers:jersey-container-servlet:2.13" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jersey.containers:jersey-container-servlet-core:2.13" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.hk2.external:javax.inject:2.3.0-b10" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-common:2.13" level="project" />
+    <orderEntry type="library" name="Maven: javax.annotation:javax.annotation-api:1.2" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.bundles.repackaged:jersey-guava:2.13" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.hk2:hk2-api:2.3.0-b10" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.hk2.external:aopalliance-repackaged:2.3.0-b10" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.hk2:hk2-locator:2.3.0-b10" level="project" />
+    <orderEntry type="library" name="Maven: org.javassist:javassist:3.18.1-GA" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.hk2:osgi-resource-locator:1.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-server:2.13" level="project" />
+    <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-client:2.13" level="project" />
+    <orderEntry type="library" name="Maven: javax.validation:validation-api:1.1.0.Final" level="project" />
+    <orderEntry type="library" name="Maven: javax.ws.rs:javax.ws.rs-api:2.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jersey.ext:jersey-spring3:2.13" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.hk2:hk2:2.3.0-b10" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.hk2:hk2-utils:2.3.0-b10" level="project" />
@@ -54,26 +67,14 @@
     <orderEntry type="library" name="Maven: org.springframework.social:spring-social-security:1.1.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:3.2.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:3.2.5.RELEASE" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.glassfish.jersey.containers:jersey-container-grizzly2-servlet:2.13" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.glassfish.jersey.containers:jersey-container-grizzly2-http:2.13" level="project" />
-    <orderEntry type="library" name="Maven: org.glassfish.hk2.external:javax.inject:2.3.0-b10" level="project" />
-    <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-common:2.13" level="project" />
-    <orderEntry type="library" name="Maven: javax.annotation:javax.annotation-api:1.2" level="project" />
-    <orderEntry type="library" name="Maven: org.glassfish.jersey.bundles.repackaged:jersey-guava:2.13" level="project" />
-    <orderEntry type="library" name="Maven: org.glassfish.hk2:hk2-api:2.3.0-b10" level="project" />
-    <orderEntry type="library" name="Maven: org.glassfish.hk2.external:aopalliance-repackaged:2.3.0-b10" level="project" />
-    <orderEntry type="library" name="Maven: org.glassfish.hk2:hk2-locator:2.3.0-b10" level="project" />
-    <orderEntry type="library" name="Maven: org.javassist:javassist:3.18.1-GA" level="project" />
-    <orderEntry type="library" name="Maven: org.glassfish.hk2:osgi-resource-locator:1.0.1" level="project" />
-    <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-server:2.13" level="project" />
-    <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-client:2.13" level="project" />
-    <orderEntry type="library" name="Maven: javax.validation:validation-api:1.1.0.Final" level="project" />
-    <orderEntry type="library" name="Maven: javax.ws.rs:javax.ws.rs-api:2.0.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.glassfish.grizzly:grizzly-websockets:2.3.16" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.glassfish.grizzly:grizzly-framework:2.3.16" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.glassfish.grizzly:grizzly-http:2.3.16" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.glassfish.grizzly:grizzly-http-servlet:2.3.16" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.glassfish.grizzly:grizzly-http-server:2.3.16" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-servlet:9.2.6.v20141205" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-security:9.2.6.v20141205" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-server:9.2.6.v20141205" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-http:9.2.6.v20141205" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-io:9.2.6.v20141205" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-webapp:9.2.6.v20141205" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-xml:9.2.6.v20141205" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-util:9.2.6.v20141205" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy-all:2.3.7" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.gpars:gpars:1.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.multiverse:multiverse-core:0.7.0" level="project" />
