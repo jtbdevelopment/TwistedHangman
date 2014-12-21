@@ -46,7 +46,7 @@
 
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
-            <param-value>com.jtbdevelopment.TwistedHangman</param-value>
+            <param-value>com.jtbdevelopment</param-value>
         </init-param>
 
         <!-- Register my custom provider (not needed if it's in my.package) AND LoggingFilter. -->
