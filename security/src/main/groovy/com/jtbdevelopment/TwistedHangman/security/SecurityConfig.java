@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                         //  TODO - review signup/disconnect
-                .antMatchers("/favicon.ico", "/images/**", "/auth/**", "/signin/**", "/signup/**", "/disconnect/facebook").permitAll()
+                .antMatchers("/favicon.ico", "/images/**", "/facebook/**", "/auth/**", "/signin/**", "/signup/**", "/disconnect/facebook").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()
                 .formLogin().loginPage("/signin/signin.html").loginProcessingUrl("/signin/authenticate").failureUrl("/signin/signin.html?error=BadCredentials")
@@ -60,6 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().deleteCookies("JSESSIONID")
                 .and()
                 .rememberMe().key(tokenKey)
+                .and()
+                .requiresChannel().antMatchers("/**").requiresSecure()
                 .and()
                         //  TODO - what?
                 .csrf().disable()
