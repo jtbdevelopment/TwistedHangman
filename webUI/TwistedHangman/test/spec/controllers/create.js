@@ -53,7 +53,7 @@ describe('Controller: CreateCtrl', function () {
     expect(scope.alerts).toEqual([]);
     expect(scope.thieving).toEqual('Thieving');
     expect(scope.drawGallows).toEqual('');
-    expect(scope.drawFace).toEqual('');
+    expect(scope.drawFace).toEqual('DrawFace');
     expect(scope.gamePace).toEqual('Live');
 
     expect(scope.desiredPlayerCount).toEqual('SinglePlayer');
@@ -77,7 +77,7 @@ describe('Controller: CreateCtrl', function () {
     //  should not change
     scope.thieving = '';
     scope.drawGallows = 'DrawGallows';
-    scope.drawFace = 'DrawFace';
+    scope.drawFace = '';
 
     //  should change
     scope.desiredPlayerCount = 'X';
@@ -95,7 +95,7 @@ describe('Controller: CreateCtrl', function () {
 
     expect(scope.thieving).toEqual('');
     expect(scope.drawGallows).toEqual('DrawGallows');
-    expect(scope.drawFace).toEqual('DrawFace');
+    expect(scope.drawFace).toEqual('');
     expect(scope.playerChoices).toEqual([]);
     expect(scope.gamePace).toEqual('Live');
     expect(scope.desiredPlayerCount).toEqual('SinglePlayer');
@@ -112,7 +112,7 @@ describe('Controller: CreateCtrl', function () {
     //  should not change
     scope.thieving = '';
     scope.drawGallows = 'DrawGallows';
-    scope.drawFace = 'DrawFace';
+    scope.drawFace = '';
     scope.gamePace = 'TurnBased';
     scope.wordPhraseSetter = 'SystemPuzzles';
     scope.winners = 'AllComplete';
@@ -131,7 +131,7 @@ describe('Controller: CreateCtrl', function () {
 
     expect(scope.thieving).toEqual('');
     expect(scope.drawGallows).toEqual('DrawGallows');
-    expect(scope.drawFace).toEqual('DrawFace');
+    expect(scope.drawFace).toEqual('');
     expect(scope.gamePace).toEqual('TurnBased');
 
     expect(scope.desiredPlayerCount).toEqual('TwoPlayer');
@@ -158,7 +158,7 @@ describe('Controller: CreateCtrl', function () {
     //  should not change
     scope.thieving = '';
     scope.drawGallows = 'DrawGallows';
-    scope.drawFace = 'DrawFace';
+    scope.drawFace = '';
     scope.gamePace = 'TurnBased';
     scope.winners = 'AllComplete';
     scope.playerChoices.push(scope.friends[0]);
@@ -177,7 +177,7 @@ describe('Controller: CreateCtrl', function () {
 
     expect(scope.thieving).toEqual('');
     expect(scope.drawGallows).toEqual('DrawGallows');
-    expect(scope.drawFace).toEqual('DrawFace');
+    expect(scope.drawFace).toEqual('');
     expect(scope.gamePace).toEqual('TurnBased');
 
     expect(scope.desiredPlayerCount).toEqual('ThreePlus');
@@ -260,7 +260,7 @@ describe('Controller: CreateCtrl', function () {
     var createdGame = {gamePhase: 'test', id: varid};
     http.expectPOST('/api/player/MANUAL1/new', {
       players: [],
-      features: ['SystemPuzzles', 'SinglePlayer', 'Thieving', 'Live', 'SingleWinner']
+      features: ['SystemPuzzles', 'SinglePlayer', 'Thieving', 'DrawFace', 'Live', 'SingleWinner']
     }).respond(createdGame);
     scope.createGame();
     http.flush();
@@ -274,6 +274,7 @@ describe('Controller: CreateCtrl', function () {
     scope.playerChoices = [{md5: 'x'}];
     scope.winners = 'SingleWinner';
     scope.gamePace = 'TurnBased';
+    scope.drawFace = '';
     scope.wordPhraseSetter = 'Head2Head';
     var varid = 'anid';
     var createdGame = {gamePhase: 'test2', id: varid};
@@ -297,7 +298,7 @@ describe('Controller: CreateCtrl', function () {
     var createdGame = {gamePhase: 'test3', id: varid};
     http.expectPOST('/api/player/MANUAL1/new', {
       players: ['x', 'y'],
-      features: ['SystemPuzzles', 'ThreePlus', 'TurnBased', 'AllComplete']
+      features: ['SystemPuzzles', 'ThreePlus', 'DrawFace', 'TurnBased', 'AllComplete']
     }).respond(createdGame);
     scope.createGame();
     http.flush();
@@ -327,6 +328,7 @@ describe('Controller: CreateCtrl', function () {
     scope.playerChoices = [{md5: 'x'}, {md5: 'y'}];
     scope.winners = 'AllComplete';
     scope.gamePace = 'Live';
+    scope.drawFace = '';
     http.expectPOST('/api/player/MANUAL1/new', {
       players: ['x', 'y'],
       features: ['SystemPuzzles', 'ThreePlus', 'Live', 'AllComplete']

@@ -47,7 +47,6 @@ class GameServices {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("rematch")
     MaskedGame createRematch() {
-        //  TODO - return both?
         rematchHandler.handleAction(playerID.get(), gameID.get())
     }
 

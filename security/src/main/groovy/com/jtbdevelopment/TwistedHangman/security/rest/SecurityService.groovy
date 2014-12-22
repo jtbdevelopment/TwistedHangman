@@ -17,8 +17,6 @@ import javax.ws.rs.core.MediaType
  * Date: 12/14/14
  * Time: 7:54 PM
  *
- * TODO - lots of cleanup
- *
  */
 @Path("security")
 @RolesAllowed(PlayerRoles.PLAYER)

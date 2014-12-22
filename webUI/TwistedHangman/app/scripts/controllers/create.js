@@ -47,7 +47,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
       $scope.friend = {};
       $scope.thieving = 'Thieving';
       $scope.drawGallows = '';
-      $scope.drawFace = '';
+      $scope.drawFace = 'DrawFace';
       $scope.gamePace = 'Live';
       $scope.submitEnabled = false;
       $scope.playerChoices = [];
