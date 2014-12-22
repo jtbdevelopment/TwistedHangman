@@ -41,4 +41,9 @@ class PlayerTest extends TwistedHangmanTestCase {
     void testMD5() {
         assert PONE.md5 == "ee02ab36f4f4b92d0a2316022a11cce2"
     }
+
+    void testMD5FromBlank() {
+        Player p = new Player()
+        assert p.md5 == ""
+    }
 }

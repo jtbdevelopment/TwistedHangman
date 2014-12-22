@@ -12,11 +12,12 @@ import java.util.List;
 /**
  * Date: 11/3/14
  * Time: 6:58 AM
+ *
+ * TODO - cache
+ *
  */
 public interface GameRepository extends PagingAndSortingRepository<Game, ObjectId> {
     public abstract List<Game> findByPlayersId(final ObjectId id);
-
-    public abstract List<Game> findByPlayersIdAndGamePhase(final ObjectId id, final GamePhase gamePhase, final Pageable pageable);
 
     public abstract List<Game> findByPlayersIdAndGamePhaseAndLastUpdateGreaterThan(final ObjectId id, final GamePhase gamePhase, final ZonedDateTime cutoff, final Pageable pageable);
 }

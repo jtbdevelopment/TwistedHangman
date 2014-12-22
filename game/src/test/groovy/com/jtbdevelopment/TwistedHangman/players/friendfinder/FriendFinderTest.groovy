@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.players.friendfinder
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
+import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindPlayersException
 import com.jtbdevelopment.TwistedHangman.players.Player
 import org.bson.types.ObjectId
 
@@ -61,5 +62,43 @@ class FriendFinderTest extends TwistedHangmanTestCase {
         ] as FriendMasker
 
         assert finder.findFriends(param.id) == masked
+    }
+
+    void testNoPlayerInRepository() {
+        Player param = new Player(id: new ObjectId("12ab".padRight(24, "0")), source: "MANUAL")
+
+        finder.playerRepository = [
+                findOne: {
+                    ObjectId it ->
+                        assert it == param.id
+                        return null
+                }
+        ] as PlayerRepository
+
+        try {
+            finder.findFriends(param.id)
+            fail("should have failed")
+        } catch (FailedToFindPlayersException e) {
+            //
+        }
+    }
+
+    void testDisabledPlayer() {
+        Player param = new Player(id: new ObjectId("12ab".padRight(24, "0")), source: "MANUAL")
+
+        finder.playerRepository = [
+                findOne: {
+                    ObjectId it ->
+                        assert it == param.id
+                        return PINACTIVE1
+                }
+        ] as PlayerRepository
+
+        try {
+            finder.findFriends(param.id)
+            fail("should have failed")
+        } catch (FailedToFindPlayersException e) {
+            //
+        }
     }
 }
