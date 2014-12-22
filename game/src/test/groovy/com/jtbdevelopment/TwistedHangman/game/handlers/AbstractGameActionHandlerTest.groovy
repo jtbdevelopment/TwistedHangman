@@ -21,7 +21,7 @@ import org.bson.types.ObjectId
  */
 class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
     private static final String testParam = "TESTPARAM"
-    private static final Game handledGame = new Game();
+    private Game handledGame = new Game();
     private final Game gameParam = new Game()
     private final ObjectId gameId = new ObjectId();
 
@@ -205,6 +205,71 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
     }
 
+    public void testAbstractHandlerBaseRotatesTurnPastWordPhraseSetter() {
+        gameParam.players = [PTWO, PONE, PTHREE]
+        gameParam.features.add(GameFeature.TurnBased)
+        gameParam.featureData[GameFeature.TurnBased] = PONE.id
+        gameParam.wordPhraseSetter = PTHREE.id
+        handledGame.featureData.clear()
+        handledGame.featureData.putAll(gameParam.featureData)
+        handledGame.features.clear()
+        handledGame.features.addAll(gameParam.features)
+        handledGame.players.clone()
+        handledGame.players.addAll(gameParam.players)
+        handledGame.gamePhase = GamePhase.Playing
+        gameParam.gamePhase = GamePhase.Playing
+
+        handledGame = gameParam.clone()
+        Game saved = gameParam.clone()
+        Game transitioned = gameParam.clone()
+        Game published = gameParam.clone()
+        handler.gameRepository = [
+                findOne: {
+                    ObjectId it ->
+                        assert it == gameId
+                        return gameParam
+                },
+                save   : {
+                    Game it ->
+                        assert it.is(transitioned)
+                        return saved
+                }
+        ] as GameRepository
+        handler.playerRepository = [
+                findOne: {
+                    ObjectId it ->
+                        assert it == PONE.id
+                        return PONE
+                }
+        ] as PlayerRepository
+        handler.transitionEngine = [
+                evaluateGamePhaseForGame: {
+                    Game it ->
+                        assert it.is(handledGame)
+                        assert handledGame.featureData[GameFeature.TurnBased] == PTWO.id
+                        return transitioned
+                }
+        ] as GamePhaseTransitionEngine
+        handler.gamePublisher = [
+                publish: {
+                    Game g, Player p ->
+                        assert g.is(saved)
+                        assert p.is(PONE)
+                        published
+                }
+        ] as GamePublisher
+        MaskedGame maskedGame = new MaskedGame()
+        handler.gameMasker = [
+                maskGameForPlayer: {
+                    Game g, Player p ->
+                        assert g.is(published)
+                        assert p.is(PONE)
+                        return maskedGame
+                }
+        ] as GameMasker
+
+        assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
+    }
 
     public void testAbstractHandlerBaseDoesNotRotateTurnWhenNotPlaying() {
         gameParam.players = [PTWO, PONE]

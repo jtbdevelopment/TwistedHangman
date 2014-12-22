@@ -42,7 +42,6 @@ abstract class AbstractGameActionHandler<T> extends AbstractGameGetterHandler {
         if (game.gamePhase == GamePhase.Playing && game.features.contains(GameFeature.TurnBased)) {
             rotateOnePlayer(game)
 
-            //  TODO - test for this..
             if (game.featureData[GameFeature.TurnBased] == game.wordPhraseSetter) {
                 rotateOnePlayer(game);
             }
