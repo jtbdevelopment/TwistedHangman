@@ -12,6 +12,17 @@ class IndividualGameStateTest extends GroovyTestCase {
         assert !gameState.puzzleOver
     }
 
+    public void testPersistenceConstructor() {
+        Set<GameFeature> features = [GameFeature.AllComplete] as Set
+        String wordPhrase = "wp"
+        String workingWordPhrase = "__ _"
+        IndividualGameState gameState = new IndividualGameState(features, wordPhrase, workingWordPhrase)
+        assert gameState.features == features
+        assert gameState.wordPhraseString == wordPhrase
+        assert gameState.workingWordPhraseString == workingWordPhrase
+    }
+
+
     public void testInitialGameStateWithDefaultFeatures() {
         IndividualGameState gameState = new IndividualGameState([] as Set)
         gameState.wordPhrase = "cat".toCharArray()
