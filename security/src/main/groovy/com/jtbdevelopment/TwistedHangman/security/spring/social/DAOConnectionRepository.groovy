@@ -51,7 +51,7 @@ class DAOConnectionRepository implements ConnectionRepository {
 
     @Override
     List<Connection<?>> findConnections(final String providerId) {
-        List<UserConnection> connections = userConnectionRepository.findByUserIdAndProviderId(userId, providerId)
+        List<UserConnection> connections = userConnectionRepository.findByUserIdAndProviderId(userId, providerId, SORT)
         return connections.collect {
             UserConnection connection ->
                 mapUserConnectionToConnection(connection)
@@ -92,9 +92,9 @@ class DAOConnectionRepository implements ConnectionRepository {
 
     @Override
     Connection<?> getConnection(final ConnectionKey connectionKey) {
-        List<UserConnection> connections = userConnectionRepository.findByUserIdAndProviderIdAndProviderUserId(userId, connectionKey.providerId, connectionKey.providerUserId)
-        if (connections.size() > 0) {
-            return mapUserConnectionToConnection(connections[0])
+        UserConnection connection = userConnectionRepository.findByUserIdAndProviderIdAndProviderUserId(userId, connectionKey.providerId, connectionKey.providerUserId)
+        if (connection) {
+            return mapUserConnectionToConnection(connection);
         }
         throw new NoSuchConnectionException(connectionKey);
     }
@@ -155,9 +155,8 @@ class DAOConnectionRepository implements ConnectionRepository {
     void updateConnection(final Connection<?> connection) {
         ConnectionData data = connection.createData();
         ConnectionKey connectionKey = connection.key
-        List<UserConnection> connections = userConnectionRepository.findByUserIdAndProviderIdAndProviderUserId(userId, connectionKey.providerId, connectionKey.providerUserId)
-        if (connections.size() == 1) {
-            UserConnection userConnection = connections[0];
+        UserConnection userConnection = userConnectionRepository.findByUserIdAndProviderIdAndProviderUserId(userId, connectionKey.providerId, connectionKey.providerUserId)
+        if (userConnection) {
             userConnection.displayName = data.displayName
             userConnection.profileUrl = data.profileUrl
             userConnection.imageUrl = data.imageUrl

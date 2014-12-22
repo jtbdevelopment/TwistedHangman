@@ -9,6 +9,7 @@ import com.jtbdevelopment.TwistedHangman.players.friendfinder.FriendFinder
 import groovy.transform.TypeChecked
 import org.bson.types.ObjectId
 import org.glassfish.jersey.message.internal.OutboundJaxrsResponse
+import org.springframework.context.ApplicationContext
 
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
@@ -126,13 +127,21 @@ class PlayerServicesTest extends GroovyTestCase {
     void testGetFriends() {
         def id = new ObjectId();
         playerServices.playerID.set(id)
-        playerServices.friendFinder = [
+        def friendFinder = [
                 findFriends: {
                     ObjectId it ->
                         assert it == id
                         return ['1': '2', '3': '4', '5': '6']
                 }
         ] as FriendFinder
+        playerServices.applicationContext = [
+                getBean: {
+                    Class<?> it ->
+                        assert it.is(FriendFinder.class)
+                        return friendFinder
+                }
+        ] as ApplicationContext
+
 
         assert playerServices.getFriends() == ['1': '2', '3': '4', '5': '6']
     }

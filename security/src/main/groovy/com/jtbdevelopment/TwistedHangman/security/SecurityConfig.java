@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.PortMapperImpl;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.social.security.SpringSocialConfigurer;
 // TODO - lots of cleanup
@@ -49,6 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         String tokenKey = "TwistedHangman";
+        PortMapperImpl portMapper = new PortMapperImpl();
+        portMapper.getTranslatedPortMappings().put(8998, 8999);
+        portMapper.getTranslatedPortMappings().put(9998, 9999);
         http
                 .authorizeRequests()
                         //  TODO - review signup/disconnect
@@ -57,14 +61,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().loginPage("/signin/signin.html").loginProcessingUrl("/signin/authenticate").failureUrl("/signin/signin.html?error=BadCredentials")
                 .and()
-                .logout().deleteCookies("JSESSIONID")
+                .logout().logoutUrl("/signout").deleteCookies("JSESSIONID")
                 .and()
                 .rememberMe().key(tokenKey)
                 .and()
-                .requiresChannel().antMatchers("/**").requiresSecure()
+                .portMapper().portMapper(portMapper)
                 .and()
                         //  TODO - what?
                 .csrf().disable()
+                //  TODO - better answer for this for canvas
+                .headers().frameOptions().disable()
                 .apply(new SpringSocialConfigurer());
 
         if (Boolean.parseBoolean(securityProperties.getAllowBasicAuth())) {
@@ -72,27 +78,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             logger.warn("-----------------------------------------------------");
             logger.warn("-----------------------------------------------------");
             logger.warn("Allowing Basic Auth!  Should only be in test systems!");
+            logger.warn("Disabling https requirements as well!                ");
             logger.warn("-----------------------------------------------------");
             logger.warn("-----------------------------------------------------");
             logger.warn("-----------------------------------------------------");
             http.httpBasic();
+        } else {
+            http.requiresChannel().antMatchers("/**").requiresSecure();
+
         }
         TokenBasedRememberMeServices twistedHangman = new TokenBasedRememberMeServices(tokenKey, http.getSharedObject(UserDetailsService.class));
 //        twistedHangman.setAlwaysRemember(true);
         http.rememberMe().rememberMeServices(twistedHangman);
-
-        /*
-        http
-                .formLogin().loginPage("/signin").loginProcessingUrl("/signin/authenticate").failureUrl("/signin?param.error=bad_credentials")
-                .and()
-                .logout().logoutUrl("/signout").deleteCookies("JSESSIONID")
-                .and()
-                .authorizeRequests().anyRequest().authenticated()
-                .and()
-                .rememberMe()
-                .and()
-                .apply(new SpringSocialConfigurer())
-        ;
-        */
     }
 }

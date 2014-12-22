@@ -16,11 +16,9 @@ import java.util.List;
 public interface UserConnectionRepository extends PagingAndSortingRepository<UserConnection, ObjectId> {
     List<UserConnection> findByUserId(final String userId, final Sort sort);
 
-    List<UserConnection> findByUserIdAndProviderId(final String userId, final String providerId);
-
     List<UserConnection> findByUserIdAndProviderId(final String userId, final String providerId, final Sort sort);
 
-    List<UserConnection> findByUserIdAndProviderIdAndProviderUserId(final String userId, final String providerId, final String providerUserId);
+    UserConnection findByUserIdAndProviderIdAndProviderUserId(final String userId, final String providerId, final String providerUserId);
 
     List<UserConnection> findByUserIdAndProviderIdAndProviderUserIdIn(final String userId, final String providerId, final Collection<String> providerUserIds, final Sort sort);
 

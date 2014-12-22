@@ -3,11 +3,6 @@
   <component name="CompassSettings">
     <option name="compassExecutableFilePath" value="C:/Ruby21-x64/bin/compass.bat" />
     <option name="compassSupportEnabled" value="true" />
-    <option name="importPaths">
-      <list>
-        <option value="C:/Ruby21-x64/lib/ruby/gems/2.1.0/gems/compass-core-1.0.1/stylesheets" />
-      </list>
-    </option>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
@@ -19,7 +14,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="compass-library" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy-all:2.3.7" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.gpars:gpars:1.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.multiverse:multiverse-core:0.7.0" level="project" />

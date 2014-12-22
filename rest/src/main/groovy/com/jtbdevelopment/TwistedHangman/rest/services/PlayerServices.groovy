@@ -11,7 +11,12 @@ import com.jtbdevelopment.TwistedHangman.players.friendfinder.FriendFinder
 import com.jtbdevelopment.TwistedHangman.security.SessionUserInfo
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.springframework.beans.BeansException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.ApplicationContext
+import org.springframework.context.ApplicationContextAware
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
@@ -27,10 +32,8 @@ import javax.ws.rs.core.Response
  */
 @Component
 @CompileStatic
-class PlayerServices {
-    public static int DEFAULT_PAGE_SIZE = 10
-    public static int DEFAULT_PAGE = 0
-
+class PlayerServices implements ApplicationContextAware {
+    private static final Logger logger = LoggerFactory.getLogger(PlayerServices.class)
     ThreadLocal<ObjectId> playerID = new ThreadLocal<>()
 
     @Autowired
@@ -42,9 +45,9 @@ class PlayerServices {
     @Autowired
     PlayerRepository playerRepository
     @Autowired
-    FriendFinder friendFinder
-    @Autowired
     AdminServices adminServices
+
+    private ApplicationContext applicationContext;
 
     @Path("game/{gameID}")
     Object gamePlay(@PathParam("gameID") final String gameID) {
@@ -54,6 +57,11 @@ class PlayerServices {
         gamePlayServices.gameID.set(new ObjectId(gameID))
         gamePlayServices.playerID.set(playerID.get())
         return gamePlayServices
+    }
+
+    @Override
+    void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext
     }
 
     static class FeaturesAndPlayers {
@@ -86,7 +94,15 @@ class PlayerServices {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("friends")
     public Map<String, String> getFriends() {
-        return friendFinder.findFriends(playerID.get())
+        //  Social Media Requires Session Specific Requests
+        if (applicationContext) {
+            logger.info("Able to retrieve FriendFinder from application context");
+            FriendFinder friendFinder = applicationContext.getBean(FriendFinder.class)
+            return friendFinder.findFriends(playerID.get())
+        } else {
+            logger.warn("Unable to retrieve FriendFinder from application context");
+            throw new IllegalStateException("No App Context")
+        }
     }
 
     @Path("admin")

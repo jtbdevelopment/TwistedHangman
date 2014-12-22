@@ -6,6 +6,9 @@ import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.config.ConfigurableBeanFactory
+import org.springframework.context.annotation.Scope
+import org.springframework.context.annotation.ScopedProxyMode
 import org.springframework.stereotype.Component
 
 /**
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Component
  */
 @CompileStatic
 @Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.INTERFACES)
 class FriendFinder {
     @Autowired
     List<SourceBasedFriendFinder> friendFinders

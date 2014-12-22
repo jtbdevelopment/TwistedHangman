@@ -2,10 +2,17 @@ package com.jtbdevelopment.TwistedHangman.security.spring.social
 
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Scope
+import org.springframework.context.annotation.ScopedProxyMode
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.encrypt.Encryptors
 import org.springframework.security.crypto.encrypt.TextEncryptor
+import org.springframework.social.connect.ConnectionRepository
+import org.springframework.social.connect.UsersConnectionRepository
 import org.springframework.social.security.SocialAuthenticationServiceRegistry
 import org.springframework.social.security.provider.SocialAuthenticationService
 
@@ -32,5 +39,16 @@ class SpringSocialConfig {
         //  TODO
         //return Encryptors.text(textEncryptionProperties.password, textEncryptionProperties.salt)
         return Encryptors.noOpText()
+    }
+
+    @Bean
+    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.INTERFACES)
+    @Autowired
+    public ConnectionRepository connectionRepository(final UsersConnectionRepository userConnectionRepository) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication()
+        if (authentication == null) {
+            return null;
+        }
+        return userConnectionRepository.createConnectionRepository(authentication.name)
     }
 }

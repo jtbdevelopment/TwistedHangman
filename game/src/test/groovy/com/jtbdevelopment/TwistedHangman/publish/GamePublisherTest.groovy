@@ -47,6 +47,7 @@ class GamePublisherTest extends TwistedHangmanTestCase {
         //  Not crashing is success
     }
 
+    //  TODO - this test has a timing issue and fails sometimes
     void testPublish() {
         publisher.threads = 1
         publisher.setUp()
@@ -78,6 +79,7 @@ class GamePublisherTest extends TwistedHangmanTestCase {
         publisher.publish(g1, p2)
         publisher.publish(g2, p1)
         publisher.service.shutdown()
+        //  TODO - this test has a timing issue and fails sometimes
         assert games == [g1, g1, g2, g2]
         assert players == [p2, p2, p1, p1]
     }
