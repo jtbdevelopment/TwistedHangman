@@ -72,6 +72,33 @@ describe('Service: playerService', function () {
       expect(location.path).not.toHaveBeenCalledWith('/error');
     });
 
+    it('errors on bad switch', function () {
+      expect(service.currentID()).toEqual('');
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player');
+      expect(service.realPID()).toEqual('');
+      expect(service.currentPlayer()).toBeUndefined();
+      httpBackend.flush();
+      expect(service.currentID()).toEqual(testID);
+      expect(service.realPID()).toEqual(testID);
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player');
+      expect(service.currentPlayer()).toEqual(playerResult);
+      expect(rootScope.$broadcast).toHaveBeenCalledWith('playerLoaded');
+      expect(location.path).not.toHaveBeenCalledWith('/error');
+
+      var newPlayer = angular.copy(playerResult);
+
+      newPlayer.id = 'NEW';
+      httpBackend.expectPUT('/api/player/admin/NEW').respond(501, {message: 'something'});
+      service.overridePID(newPlayer.id);
+      expect(service.currentPlayer()).toEqual(playerResult);
+      expect(service.currentID()).toEqual(testID);
+      httpBackend.flush();
+      expect(service.currentPlayer()).toEqual(playerResult);
+      expect(service.currentID()).toEqual(testID);
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player');
+      expect(location.path).toHaveBeenCalledWith('/error');
+    });
+
     it('sets current friends with http', function () {
       httpBackend.flush();
 

@@ -12,7 +12,6 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
       var simulatedPlayer;
 
       var service = {
-        //  TODO - review, lockdown and test all this real and override stuff
         overridePID: function (newpid) {
           $http.put(this.currentPlayerBaseURL() + '/admin/' + newpid).success(function (data) {
             simulatedPID = data.id;
@@ -48,26 +47,14 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
         $rootScope.$broadcast('playerLoaded');
       }
 
-      function loadPlayer() {
-        var url;
-        if (simulatedPID === '') {
-          url = '/api/security';
-        } else {
-          url = service.currentPlayerBaseURL();
-        }
-        $http.get(url, {cache: true}).success(function (response) {
-          simulatedPlayer = response;
-          if (realPID === '') {
-            realPID = simulatedPlayer.id;
-            simulatedPID = realPID;
-          }
-          broadcastLoaded();
-        }).error(function () {
-          $location.path('/error');
-        });
-      }
-
-      loadPlayer();
+      $http.get('/api/security', {cache: true}).success(function (response) {
+        simulatedPlayer = response;
+        realPID = response.id;
+        simulatedPID = response.id;
+        broadcastLoaded();
+      }).error(function () {
+        $location.path('/error');
+      });
 
       return service;
     }]);
