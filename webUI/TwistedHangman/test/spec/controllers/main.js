@@ -20,7 +20,7 @@ describe('Controller: MainCtrl', function () {
         return player;
       }
     };
-    player = {displayName: 'XYZ', md5: '1234'};
+    player = {displayName: 'XYZ', md5: '1234', adminUser: true};
     MainCtrl = $controller('MainCtrl', {
       $scope: scope,
       $location: location,
@@ -32,11 +32,13 @@ describe('Controller: MainCtrl', function () {
   it('initializes', function () {
     expect(scope.playerGreeting).toEqual('');
     expect(scope.createRefreshEnabled).toEqual(false);
+    expect(scope.showAdmin).toEqual(false);
     rootScope.$broadcast('playerLoaded');
     rootScope.$apply();
     expect(scope.playerGreeting).toEqual('Welcome XYZ');
     expect(scope.alerts).toEqual([]);
     expect(scope.createRefreshEnabled).toEqual(true);
+    expect(scope.showAdmin).toEqual(true);
   });
 
   it('test refresh button', function () {
@@ -50,13 +52,15 @@ describe('Controller: MainCtrl', function () {
     rootScope.$apply();
     expect(scope.playerGreeting).toEqual('Welcome XYZ');
     expect(scope.alerts).toEqual([]);
+    expect(scope.showAdmin).toEqual(true);
 
     scope.alerts.push('x');
-    player = {displayName: 'ABC', md5: '6666'};
+    player = {displayName: 'ABC', md5: '6666', adminUser: false};
     rootScope.$broadcast('playerLoaded');
     rootScope.$apply();
     expect(scope.playerGreeting).toEqual('Welcome ABC');
     expect(scope.alerts).toEqual([]);
+    expect(scope.showAdmin).toEqual(true);
   });
 
   describe('go to game', function () {
