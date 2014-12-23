@@ -47,7 +47,7 @@ describe('Service: showGameSevice', function () {
   beforeEach(inject(function ($rootScope, $injector) {
     rootscope = $rootScope;
     spyOn($rootScope, '$broadcast');
-    service = $injector.get('twShowGameService');
+    service = $injector.get('twGameDisplay');
   }));
 
   it('initialize scope', function () {

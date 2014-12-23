@@ -3,10 +3,10 @@
 //  TODO - should all the playing failures refresh game?
 angular.module('twistedHangmanApp').controller('ShowCtrl',
   ['$scope', '$routeParams', '$http', '$location', '$modal',
-    'twPlayerService', 'twShowGameService', 'twGameCache', 'twGameDetails',
+    'twPlayerService', 'twGameDisplay', 'twGameCache', 'twGameDetails',
     function ($scope, $routeParams, $http, $location, $modal,
-              twPlayerService, twShowGameService, twGameCache, twGameDetails) {
-      twShowGameService.initializeScope($scope);
+              twPlayerService, twGameDisplay, twGameCache, twGameDetails) {
+      twGameDisplay.initializeScope($scope);
       $scope.gameID = $routeParams.gameID;
       $scope.enteredCategory = '';
       $scope.enteredWordPhrase = '';
@@ -14,7 +14,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
       $scope.player = twPlayerService.currentPlayer();
       var game = twGameCache.getGameForID($scope.gameID);
       if (angular.isDefined(game)) {
-        twShowGameService.updateScopeForGame($scope, game);
+        twGameDisplay.updateScopeForGame($scope, game);
       }
 
       $scope.$on('playerLoaded', function () {
@@ -24,7 +24,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
       $scope.$on('gameCachesLoaded', function () {
         var game = twGameCache.getGameForID($scope.gameID);
         if (angular.isDefined(game)) {
-          twShowGameService.updateScopeForGame($scope, twGameCache.getGameForID($scope.gameID));
+          twGameDisplay.updateScopeForGame($scope, twGameCache.getGameForID($scope.gameID));
         } else {
           $location.path('/');
         }
@@ -33,7 +33,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
       $scope.$on('gameUpdate', function (event, id, game) {
         if (angular.isDefined($scope.game) && $scope.game.id === id) {
           //  TODO - this generates a stale update warning as game cache is also listening
-          twShowGameService.processGameUpdateForScope($scope, game);
+          twGameDisplay.processGameUpdateForScope($scope, game);
         }
       });
 
@@ -62,7 +62,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
 
       $scope.startNextRound = function () {
         $http.put(twPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/rematch').success(function (data) {
-          twShowGameService.processGameUpdateForScope($scope, data);
+          twGameDisplay.processGameUpdateForScope($scope, data);
           $location.path('/show/' + data.id);
         }).error(function (data, status, headers, config) {
           showMessage(status + ': ' + data);
@@ -72,7 +72,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
 
       $scope.accept = function () {
         $http.put(twPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/accept').success(function (data) {
-          twShowGameService.processGameUpdateForScope($scope, data);
+          twGameDisplay.processGameUpdateForScope($scope, data);
         }).error(function (data, status, headers, config) {
           showMessage(status + ': ' + data);
           console.error(data + status + headers + config);
@@ -83,7 +83,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
         var modal = showConfirmDialog();
         modal.result.then(function () {
           $http.put(twPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/reject').success(function (data) {
-            twShowGameService.processGameUpdateForScope($scope, data);
+            twGameDisplay.processGameUpdateForScope($scope, data);
           }).error(function (data, status, headers, config) {
             showMessage(status + ': ' + data);
             console.error(data + status + headers + config);
@@ -98,7 +98,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
             category: $scope.enteredCategory,
             wordPhrase: $scope.enteredWordPhrase
           }).success(function (data) {
-            twShowGameService.processGameUpdateForScope($scope, data);
+            twGameDisplay.processGameUpdateForScope($scope, data);
           }).error(function (data, status, headers, config) {
             showMessage(status + ': ' + data);
             console.error(data + status + headers + config);
@@ -108,7 +108,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
       $scope.sendGuess = function (letter) {
         if ($scope.allowPlayMoves) {
           $http.put(twPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/guess/' + letter).success(function (data) {
-            twShowGameService.processGameUpdateForScope($scope, data);
+            twGameDisplay.processGameUpdateForScope($scope, data);
           }).error(function (data, status, headers, config) {
             showMessage(status + ': ' + data);
             console.error(data + status + headers + config);
@@ -121,7 +121,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
       $scope.stealLetter = function (position) {
         if ($scope.allowPlayMoves) {
           $http.put(twPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/steal/' + position).success(function (data) {
-            twShowGameService.processGameUpdateForScope($scope, data);
+            twGameDisplay.processGameUpdateForScope($scope, data);
           }).error(function (data, status, headers, config) {
             showMessage(status + ': ' + data);
             console.error(data + status + headers + config);
@@ -135,7 +135,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
         var modal = showConfirmDialog();
         modal.result.then(function () {
           $http.put(twPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/quit').success(function (data) {
-            twShowGameService.processGameUpdateForScope($scope, data);
+            twGameDisplay.processGameUpdateForScope($scope, data);
           }).error(function (data, status, headers, config) {
             showMessage(status + ': ' + data);
             console.error(data + status + headers + config);

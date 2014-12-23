@@ -1,7 +1,7 @@
 'use strict';
 
 //  TODO - break this monster up
-angular.module('twistedHangmanApp').factory('twShowGameService',
+angular.module('twistedHangmanApp').factory('twGameDisplay',
   ['$rootScope', 'twGamePhaseService', 'twGameCache',
     function ($rootScope, twGamePhaseService, twGameCache) {
       var LETTERA = 'A'.charCodeAt(0);

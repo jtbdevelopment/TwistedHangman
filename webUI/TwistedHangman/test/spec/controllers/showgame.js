@@ -18,7 +18,7 @@ describe('Controller: ShowCtrl', function () {
   };
 
   var player = {'player': 'player'};
-  var ctrl, scope, http, rootScope, showGameService, q, location, modal, modalResult, controller;
+  var ctrl, scope, http, rootScope, gameDisplay, q, location, modal, modalResult, controller;
   var gameCacheExpectedId, gameCacheReturnResult, mockPlayerService, mockGameCache, routeParams, mockGameDetails;
 
   // Initialize the controller and a mock scope
@@ -28,7 +28,7 @@ describe('Controller: ShowCtrl', function () {
     controller = $controller;
     q = $q;
     spyOn(rootScope, '$broadcast').and.callThrough();
-    showGameService = jasmine.createSpyObj('showGameService', ['initializeScope', 'processGameUpdateForScope', 'updateScopeForGame']);
+    gameDisplay = jasmine.createSpyObj('gameDisplay', ['initializeScope', 'processGameUpdateForScope', 'updateScopeForGame']);
     location = {path: jasmine.createSpy()};
     modal = {
       open: function (params) {
@@ -79,17 +79,17 @@ describe('Controller: ShowCtrl', function () {
         $window: window,
         $modal: modal,
         twPlayerService: mockPlayerService,
-        twShowGameService: showGameService,
+        twGameDisplay: gameDisplay,
         twGameCache: mockGameCache,
         twGameDetails: mockGameDetails
       });
     });
 
     it('initializes', function () {
-      expect(showGameService.initializeScope).toHaveBeenCalledWith(scope);
+      expect(gameDisplay.initializeScope).toHaveBeenCalledWith(scope);
 
       expect(scope.player).toEqual(player);
-      expect(showGameService.updateScopeForGame).toHaveBeenCalledWith(scope, game);
+      expect(gameDisplay.updateScopeForGame).toHaveBeenCalledWith(scope, game);
       expect(scope.gameDetails).toBe(mockGameDetails);
     });
   });
@@ -107,7 +107,7 @@ describe('Controller: ShowCtrl', function () {
         $window: window,
         $modal: modal,
         twPlayerService: mockPlayerService,
-        twShowGameService: showGameService,
+        twGameDisplay: gameDisplay,
         twGameCache: mockGameCache,
         twGameDetails: mockGameDetails
       });
@@ -115,10 +115,10 @@ describe('Controller: ShowCtrl', function () {
 
     it('initializes with no game', function () {
       expect(scope.gameDetails).toBe(mockGameDetails);
-      expect(showGameService.initializeScope).toHaveBeenCalledWith(scope);
+      expect(gameDisplay.initializeScope).toHaveBeenCalledWith(scope);
       expect(scope.player).toEqual(player);
       expect(scope.game).toBeUndefined();
-      expect(showGameService.updateScopeForGame).not.toHaveBeenCalledWith(scope, game);
+      expect(gameDisplay.updateScopeForGame).not.toHaveBeenCalledWith(scope, game);
     });
   });
 
@@ -135,7 +135,7 @@ describe('Controller: ShowCtrl', function () {
         $window: window,
         $modal: modal,
         twPlayerService: mockPlayerService,
-        twShowGameService: showGameService,
+        twGameDisplay: gameDisplay,
         twGameCache: mockGameCache,
         twGameDetails: mockGameDetails
       });
@@ -251,7 +251,7 @@ describe('Controller: ShowCtrl', function () {
         var gameUpdate = angular.copy(game);
         rootScope.$broadcast('gameUpdate', game.id, game);
         rootScope.$apply();
-        expect(showGameService.updateScopeForGame).toHaveBeenCalledWith(scope, gameUpdate);
+        expect(gameDisplay.updateScopeForGame).toHaveBeenCalledWith(scope, gameUpdate);
       });
 
       it('listens for gameUpdate and ignores if different game id', function () {
@@ -260,7 +260,7 @@ describe('Controller: ShowCtrl', function () {
         gameUpdate.id = 'notid';
         rootScope.$broadcast('gameUpdate', game.id, game);
         rootScope.$apply();
-        expect(showGameService.updateScopeForGame).not.toHaveBeenCalledWith(scope, gameUpdate);
+        expect(gameDisplay.updateScopeForGame).not.toHaveBeenCalledWith(scope, gameUpdate);
       });
 
       it('listens for gameUpdate and ignores if scope has no game', function () {
@@ -268,7 +268,7 @@ describe('Controller: ShowCtrl', function () {
         gameUpdate.id = 'notid';
         rootScope.$broadcast('gameUpdate', game.id, game);
         rootScope.$apply();
-        expect(showGameService.updateScopeForGame).not.toHaveBeenCalledWith(scope, gameUpdate);
+        expect(gameDisplay.updateScopeForGame).not.toHaveBeenCalledWith(scope, gameUpdate);
       });
     });
 
@@ -279,7 +279,7 @@ describe('Controller: ShowCtrl', function () {
         gameCacheReturnResult = gameUpdate;
         rootScope.$broadcast('gameCachesLoaded');
         rootScope.$apply();
-        expect(showGameService.updateScopeForGame).toHaveBeenCalledWith(scope, gameUpdate);
+        expect(gameDisplay.updateScopeForGame).toHaveBeenCalledWith(scope, gameUpdate);
       });
 
       it('listens for gameCachesLoaded and goes to main page if no longer valid', function () {
@@ -288,7 +288,7 @@ describe('Controller: ShowCtrl', function () {
         gameCacheReturnResult = gameUpdate;
         rootScope.$broadcast('gameCachesLoaded');
         rootScope.$apply();
-        expect(showGameService.updateScopeForGame).not.toHaveBeenCalledWith(scope, gameUpdate);
+        expect(gameDisplay.updateScopeForGame).not.toHaveBeenCalledWith(scope, gameUpdate);
         expect(location.path).toHaveBeenCalledWith('/');
       });
     });
@@ -301,7 +301,7 @@ describe('Controller: ShowCtrl', function () {
         http.flush();
 
         expect(location.path).toHaveBeenCalledWith('/show/newid');
-        expect(showGameService.processGameUpdateForScope).toHaveBeenCalledWith(scope, newGame);
+        expect(gameDisplay.processGameUpdateForScope).toHaveBeenCalledWith(scope, newGame);
       });
 
       it('accept match', function () {
@@ -310,7 +310,7 @@ describe('Controller: ShowCtrl', function () {
         scope.accept();
         http.flush();
 
-        expect(showGameService.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
+        expect(gameDisplay.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
       });
 
       it('reject match', function () {
@@ -320,7 +320,7 @@ describe('Controller: ShowCtrl', function () {
         modalResult.resolve();
         http.flush();
 
-        expect(showGameService.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
+        expect(gameDisplay.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
       });
 
       it('reject match with cancel on confirm', function () {
@@ -335,7 +335,7 @@ describe('Controller: ShowCtrl', function () {
         modalResult.resolve();
         http.flush();
 
-        expect(showGameService.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
+        expect(gameDisplay.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
       });
 
       it('quit match with cancel on confirm', function () {
@@ -354,7 +354,7 @@ describe('Controller: ShowCtrl', function () {
         scope.setPuzzle();
         http.flush();
 
-        expect(showGameService.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
+        expect(gameDisplay.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
       });
 
       it('guess letter', function () {
@@ -364,7 +364,7 @@ describe('Controller: ShowCtrl', function () {
         scope.sendGuess('a');
         http.flush();
 
-        expect(showGameService.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
+        expect(gameDisplay.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
       });
 
       it('steal letter', function () {
@@ -374,7 +374,7 @@ describe('Controller: ShowCtrl', function () {
         scope.stealLetter('2');
         http.flush();
 
-        expect(showGameService.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
+        expect(gameDisplay.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
       });
     });
   });
