@@ -91,6 +91,18 @@ describe('Service: showGameSevice', function () {
     expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'regular']);
   });
 
+  it('computeState image for no gameState', function () {
+    var scope = rootscope.$new();
+    scope.player = angular.copy(player);
+    scope.player.md5 = 'XXX';
+    var game = angular.copy(showGameServiceGame);
+    service.initializeScope(scope);
+    game.solverStates.md1.maxPenalties = 13;
+    delete scope.gameState;
+    service.updateScopeForGame(scope, game);
+    expect(scope.image).toEqual('hangman0.png');
+  });
+
   it('computeState image for diff max penalties', function () {
     var scope = rootscope.$new();
     scope.player = player;

@@ -2,68 +2,61 @@
 
 //  TODO - break this monster up
 angular.module('twistedHangmanApp').factory('twGameDisplay',
-  ['$rootScope', 'twGamePhaseService', 'twGameCache',
-    function ($rootScope, twGamePhaseService, twGameCache) {
+  ['$rootScope', '$location', 'twGamePhaseService', 'twGameCache',
+    function ($rootScope, $location, twGamePhaseService, twGameCache) {
       var LETTERA = 'A'.charCodeAt(0);
-
-      function computeWordPhraseDisplay(scope) {
-        if (angular.isUndefined(scope.gameState)) {
-          //  TODO - test this case
-          return;
-        }
-        scope.workingWordPhraseArray = scope.gameState.workingWordPhrase.split('');
-        for (var i = 0; i < scope.workingWordPhraseArray.length; i++) {
-          var r = 'regularwp';
-          if (angular.isDefined(scope.gameState.featureData.ThievingPositionTracking)) {
-            r = (scope.gameState.featureData.ThievingPositionTracking[i] === true) ?
-              'stolenwp' :
-              (
-                (scope.workingWordPhraseArray[i] === '_' &&
-                scope.gameState.penaltiesRemaining > 1)
-                  ? 'stealablewp' : 'regularwp'); //  TODO - test this extra condition
-          }
-          scope.workingWordPhraseClasses[i] = r;
-        }
-      }
 
       function computeImage(scope) {
         if (angular.isUndefined(scope.gameState)) {
-          //  TODO - test this case
           scope.image = 'hangman0.png';
-          return;
-        }
-        if (scope.gameState.penalties === scope.gameState.maxPenalties) {
+        } else if (scope.gameState.penalties === scope.gameState.maxPenalties) {
           scope.image = 'hangman13.png';
-          return;
+        } else {
+          var n = 0;
+          switch (scope.gameState.maxPenalties) {
+            case 6:
+            case 10:
+              n = scope.gameState.penalties + 3;
+              break;
+            default:
+              n = scope.gameState.penalties;
+              break;
+          }
+          scope.image = 'hangman' + n + '.png';
         }
-        var n = 0;
-        switch (scope.gameState.maxPenalties) {
-          case 6:
-          case 10:
-            n = scope.gameState.penalties + 3;
-            break;
-          default:
-            n = scope.gameState.penalties;
-            break;
+      }
+
+      function computeWordPhraseDisplay(scope) {
+        if (angular.isDefined(scope.gameState)) {
+          scope.workingWordPhraseArray = scope.gameState.workingWordPhrase.split('');
+          for (var i = 0; i < scope.workingWordPhraseArray.length; i++) {
+            var r = 'regularwp';
+            if (angular.isDefined(scope.gameState.featureData.ThievingPositionTracking)) {
+              r = (scope.gameState.featureData.ThievingPositionTracking[i] === true) ?
+                'stolenwp' :
+                (
+                  (scope.workingWordPhraseArray[i] === '_' &&
+                  scope.gameState.penaltiesRemaining > 1)
+                    ? 'stealablewp' : 'regularwp'); //  TODO - test this extra condition
+            }
+            scope.workingWordPhraseClasses[i] = r;
+          }
         }
-        scope.image = 'hangman' + n + '.png';
       }
 
       function computeKeyboardDisplay(scope) {
-        if (angular.isUndefined(scope.gameState)) {
-          //  TODO - test case
-          return;
-        }
-        scope.gameState.guessedLetters.forEach(function (item) {
-          scope.letterClasses[item.charCodeAt(0) - LETTERA] = 'guessedkb';
-        });
-        scope.gameState.badlyGuessedLetters.forEach(function (item) {
-          scope.letterClasses[item.charCodeAt(0) - LETTERA] = 'badguesskb';
-        });
-        if (angular.isDefined(scope.gameState.featureData.ThievingLetters)) {
-          scope.gameState.featureData.ThievingLetters.forEach(function (item) {
-            scope.letterClasses[item.charCodeAt(0) - LETTERA] = 'stolenkb';
+        if (angular.isDefined(scope.gameState)) {
+          scope.gameState.guessedLetters.forEach(function (item) {
+            scope.letterClasses[item.charCodeAt(0) - LETTERA] = 'guessedkb';
           });
+          scope.gameState.badlyGuessedLetters.forEach(function (item) {
+            scope.letterClasses[item.charCodeAt(0) - LETTERA] = 'badguesskb';
+          });
+          if (angular.isDefined(scope.gameState.featureData.ThievingLetters)) {
+            scope.gameState.featureData.ThievingLetters.forEach(function (item) {
+              scope.letterClasses[item.charCodeAt(0) - LETTERA] = 'stolenkb';
+            });
+          }
         }
       }
 
@@ -165,15 +158,22 @@ angular.module('twistedHangmanApp').factory('twGameDisplay',
       }
 
       function computeGameDisplay(scope) {
-        if (angular.isUndefined(scope.player) || angular.isUndefined(scope.game)) {
-          return;
+        if (angular.isDefined(scope.player) && angular.isDefined(scope.game)) {
+          scope.gameState = scope.game.solverStates[scope.player.md5];
+          computeDisplayAreas(scope);
+          computeImage(scope);
+          computeWordPhraseDisplay(scope);
+          computeKeyboardDisplay(scope);
+          computeDescription(scope);
         }
-        scope.gameState = scope.game.solverStates[scope.player.md5];
-        computeDisplayAreas(scope);
-        computeImage(scope);
-        computeWordPhraseDisplay(scope);
-        computeKeyboardDisplay(scope);
-        computeDescription(scope);
+      }
+
+      function parseDate(field) {
+        if (angular.isDefined(field) && field > 0) {
+          return new Date(field);
+        } else {
+          return 'N/A';
+        }
       }
 
       return {
@@ -196,25 +196,12 @@ angular.module('twistedHangmanApp').factory('twGameDisplay',
             }, function () {
               //  TODO
             });
-            scope.lastUpdate = new Date(scope.game.lastUpdate);
-            scope.created = new Date(scope.game.created);
 
-            //  TODO - test
-            if (angular.isDefined(scope.game.declined) && scope.game.declined > 0) {
-              scope.declined = new Date(scope.game.declined);
-            } else {
-              scope.declined = 'N/A';
-            }
-            if (angular.isDefined(scope.game.completed) && scope.game.completed > 0) {
-              scope.completed = new Date(scope.game.completed);
-            } else {
-              scope.completed = 'N/A';
-            }
-            if (angular.isDefined(scope.game.rematched) && scope.game.rematched > 0) {
-              scope.rematched = new Date(scope.game.rematched);
-            } else {
-              scope.rematched = 'N/A';
-            }
+            scope.lastUpdate = parseDate(scope.game.lastUpdate);
+            scope.created = parseDate(scope.game.created);
+            scope.declined = parseDate(scope.game.declined);
+            scope.completed = parseDate(scope.game.declined);
+            scope.rematched = parseDate(scope.game.declined);
           }
 
           computeGameDisplay(scope);
