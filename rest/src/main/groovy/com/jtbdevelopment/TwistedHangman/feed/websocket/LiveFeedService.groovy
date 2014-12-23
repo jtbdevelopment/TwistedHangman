@@ -39,6 +39,7 @@ public class LiveFeedService {
         return new WebSocketMessage(messageType: WebSocketMessage.MessageType.Heartbeat, message: "connected to " + id)
     }
 
+    @SuppressWarnings(["GroovyUnusedDeclaration", "GrMethodMayBeStatic"])
     @Disconnect
     public void onDisconnect(final AtmosphereResourceEvent event) {
         if (event.isCancelled()) {
@@ -49,6 +50,7 @@ public class LiveFeedService {
         }
     }
 
+    @SuppressWarnings("GrMethodMayBeStatic")
     @Message(decoders = [HeartbeatJSON.class], encoders = [HeartbeatJSON.class])
     public WebSocketMessage onMessage(WebSocketMessage message) {
         return message

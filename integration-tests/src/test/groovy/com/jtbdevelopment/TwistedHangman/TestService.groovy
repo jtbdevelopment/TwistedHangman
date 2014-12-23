@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType
 @Component
 @CompileStatic
 class TestService {
+    @SuppressWarnings("GrMethodMayBeStatic")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     String get() {

@@ -38,6 +38,7 @@ class PlayerGatewayService {
     @Produces(MediaType.TEXT_PLAIN)
     @GET
     @Path("ping")
+    @SuppressWarnings("GrMethodMayBeStatic")
     String ping() {
         return PING_RESULT
     }
@@ -45,6 +46,7 @@ class PlayerGatewayService {
     @GET
     @Path("features")
     @Produces(MediaType.APPLICATION_JSON)
+    @SuppressWarnings("GrMethodMayBeStatic")
     public Map<GameFeature, String> featuresAndDescriptions() {
         GameFeature.values().findAll { GameFeature it -> !it.internal }.collectEntries() {
             GameFeature it ->
@@ -55,6 +57,7 @@ class PlayerGatewayService {
     @GET
     @Path("phases")
     @Produces(MediaType.APPLICATION_JSON)
+    @SuppressWarnings("GrMethodMayBeStatic")
     public Map<GamePhase, List<String>> phasesAndDescriptions() {
         GamePhase.values().collectEntries() {
             GamePhase it ->

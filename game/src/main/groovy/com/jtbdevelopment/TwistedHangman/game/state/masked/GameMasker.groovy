@@ -15,6 +15,7 @@ import java.time.ZonedDateTime
 @Component
 @CompileStatic
 class GameMasker {
+    @SuppressWarnings("GrMethodMayBeStatic")
     MaskedGame maskGameForPlayer(final Game game, final Player player) {
         MaskedGame playerMaskedGame = new MaskedGame()
 
@@ -26,7 +27,7 @@ class GameMasker {
         playerMaskedGame
     }
 
-    protected void copyMaskedData(final Game game, final Player player, final MaskedGame playerMaskedGame) {
+    protected static void copyMaskedData(final Game game, final Player player, final MaskedGame playerMaskedGame) {
         Map<ObjectId, Player> idmap = [:]
         game.players.each {
             Player p ->
@@ -64,7 +65,7 @@ class GameMasker {
                                 idmap[game.wordPhraseSetter].md5 : null
     }
 
-    protected MaskedIndividualGameState maskGameState(
+    protected static MaskedIndividualGameState maskGameState(
             final Player playerMaskingFor,
             final Game game,
             final Player gameStatePlayer,
@@ -116,7 +117,7 @@ class GameMasker {
         masked
     }
 
-    protected void copyUnmaskedData(final Game game, final MaskedGame playerMaskedGame) {
+    protected static void copyUnmaskedData(final Game game, final MaskedGame playerMaskedGame) {
         playerMaskedGame.completed = convertTime(game.completed)
         playerMaskedGame.created = convertTime(game.created)
         playerMaskedGame.declined = convertTime(game.declined)
@@ -128,7 +129,7 @@ class GameMasker {
         playerMaskedGame.round = game.round
     }
 
-    protected Long convertTime(final ZonedDateTime value) {
+    protected static Long convertTime(final ZonedDateTime value) {
         value ? value.toInstant().toEpochMilli() : null
     }
 }

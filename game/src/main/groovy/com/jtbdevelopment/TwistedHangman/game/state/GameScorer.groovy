@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component
 @Component
 @CompileStatic
 class GameScorer {
+    @SuppressWarnings("GrMethodMayBeStatic")
     public Game scoreGame(final Game game) {
         int winners = 0
         int losers = 0

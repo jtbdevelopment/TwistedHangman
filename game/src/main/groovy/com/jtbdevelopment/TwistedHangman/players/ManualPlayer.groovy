@@ -22,6 +22,7 @@ class ManualPlayer extends Player {
     String password
 
     boolean verified = false
+    //  TODO
     String verificationToken = ""
 
     public ManualPlayer() {

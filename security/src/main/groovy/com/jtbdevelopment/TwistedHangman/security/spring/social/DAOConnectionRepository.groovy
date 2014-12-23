@@ -3,6 +3,8 @@ package com.jtbdevelopment.TwistedHangman.security.spring.social
 import com.jtbdevelopment.TwistedHangman.security.spring.social.dao.UserConnection
 import com.jtbdevelopment.TwistedHangman.security.spring.social.dao.UserConnectionRepository
 import groovy.transform.CompileStatic
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.data.domain.Sort
 import org.springframework.security.crypto.encrypt.TextEncryptor
@@ -16,6 +18,7 @@ import org.springframework.util.MultiValueMap
  */
 @CompileStatic
 class DAOConnectionRepository implements ConnectionRepository {
+    private static Logger logger = LoggerFactory.getLogger(DAOConnectionRepository.class)
     static UserConnectionRepository userConnectionRepository
     static ConnectionFactoryLocator connectionFactoryLocator;
     static Map<String, ConnectionFactory<?>> providerConnectionFactoryMap = [:]
@@ -147,6 +150,7 @@ class DAOConnectionRepository implements ConnectionRepository {
             )
             userConnectionRepository.save(userConnection)
         } catch (DuplicateKeyException e) {
+            logger.warn("addConnection failed with " + e.message)
             throw new DuplicateConnectionException(connection.getKey());
         }
     }

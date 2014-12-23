@@ -34,7 +34,7 @@ class OptimisticLockingExecutor implements Ordered {
     @Around("com.jtbdevelopment.TwistedHangman.rest.aop.RestSystemArchitecture.inRestServices()")
     public Object doConcurrentOperation(ProceedingJoinPoint pjp) throws Throwable {
         int numAttempts = 0;
-        OptimisticLockingFailureException lockFailureException;
+        OptimisticLockingFailureException lockFailureException = null;
         while (numAttempts <= this.maxRetries) {
             numAttempts++
             try {

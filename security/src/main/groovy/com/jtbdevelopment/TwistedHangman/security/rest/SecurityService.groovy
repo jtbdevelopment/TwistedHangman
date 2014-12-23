@@ -24,6 +24,7 @@ import javax.ws.rs.core.MediaType
 @CompileStatic
 class SecurityService {
 
+    @SuppressWarnings("GrMethodMayBeStatic")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     Player getSessionPlayer() {

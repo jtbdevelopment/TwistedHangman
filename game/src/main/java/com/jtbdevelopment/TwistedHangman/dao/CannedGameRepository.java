@@ -21,8 +21,6 @@ import java.util.List;
 public interface CannedGameRepository extends PagingAndSortingRepository<CannedGame, ObjectId> {
     public abstract long countBySource(final String source);
 
-    public abstract List<CannedGame> findBySource(final String source);
-
     public abstract List<CannedGame> findBySource(final String source, final Pageable page);
 
     public abstract List<CannedGame> removeBySource(final String source);

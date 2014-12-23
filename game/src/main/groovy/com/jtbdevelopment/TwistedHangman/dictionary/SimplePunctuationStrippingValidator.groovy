@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component
 class SimplePunctuationStrippingValidator implements Validator {
     private static Logger log = LoggerFactory.getLogger(SimplePunctuationStrippingValidator.class)
     @Autowired
-    com.jtbdevelopment.TwistedHangman.dictionary.Dictionary dictionary
+    Dictionary dictionary
 
     @Override
     List<String> validateWordPhrase(final String wordPhrase) {

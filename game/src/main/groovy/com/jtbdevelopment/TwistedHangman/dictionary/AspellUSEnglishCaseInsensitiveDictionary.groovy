@@ -41,7 +41,7 @@ import org.springframework.stereotype.Component
 
 @CompileStatic
 @Component
-class AspellUSEnglishCaseInsensitiveDictionary implements com.jtbdevelopment.TwistedHangman.dictionary.Dictionary {
+class AspellUSEnglishCaseInsensitiveDictionary implements Dictionary {
     private static final Logger log = LoggerFactory.getLogger(AspellUSEnglishCaseInsensitiveDictionary.class)
 
     private final Set<String> words = new HashSet<>(700000);

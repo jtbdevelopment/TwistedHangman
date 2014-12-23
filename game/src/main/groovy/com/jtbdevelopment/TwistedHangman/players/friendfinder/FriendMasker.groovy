@@ -21,6 +21,7 @@ class FriendMasker {
     @Value('${player.md5salt:SALT}')
     String md5Salter
 
+    @SuppressWarnings("GrMethodMayBeStatic")
     Map<String, String> maskFriends(final Set<Player> friends) {
         friends.collectEntries {
             Player p ->
