@@ -1,5 +1,5 @@
+/*global $:false */
 'use strict';
-
 angular.module('twistedHangmanApp').factory('twLiveGameFeed',
   ['$rootScope', 'twPlayerService',
     function ($rootScope, twPlayerService) {

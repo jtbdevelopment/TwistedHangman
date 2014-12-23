@@ -36,8 +36,8 @@ angular.module('twistedHangmanApp').factory('twGameDisplay',
                 'stolenwp' :
                 (
                   (scope.workingWordPhraseArray[i] === '_' &&
-                  scope.gameState.penaltiesRemaining > 1)
-                    ? 'stealablewp' : 'regularwp'); //  TODO - test this extra condition
+                    //  TODO - test this extra condition
+                  scope.gameState.penaltiesRemaining > 1) ? 'stealablewp' : 'regularwp');
             }
             scope.workingWordPhraseClasses[i] = r;
           }

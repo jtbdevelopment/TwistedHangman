@@ -1,12 +1,5 @@
+/*global $:false */
 'use strict';
-
-/**
- * @ngdoc function
- * @name twistedHangmanApp.controller:MainCtrl
- * @description
- * # MainCtrl
- * Controller of the twistedHangmanApp
- */
 
 //  TODO - this would probably work better and more efficiently as a central cache of games
 //  TODO - it would also allow publishing real-time etc.
@@ -19,6 +12,7 @@ var phasesAndSymbols = {
   NextRoundStarted: 'ok-sign',
   Quit: 'flag'
 };
+
 angular.forEach(phasesAndSymbols, function (glyph, phase) {
   var name = phase + 'Games';
   angular.module('twistedHangmanApp').controller(name,
