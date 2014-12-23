@@ -23,9 +23,9 @@ class OptimisticLockingExecutor implements Ordered {
     private static final Logger logger = LoggerFactory.getLogger(OptimisticLockingExecutor.class)
 
     @Value('${optimisticlocking.retries:5}')
-    private int maxRetries;
+    protected int maxRetries;
     @Value('${optimisticlocking.order:1}')
-    private int order;
+    protected int order;
 
     public int getOrder() {
         return this.order;

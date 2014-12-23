@@ -33,8 +33,8 @@ class AtmosphereGameListener implements GameListener {
                 Broadcaster broadcaster = getBroadcasterFactory().lookup(LiveFeedService.PATH_ROOT + publish.id.toHexString())
                 if (broadcaster != null) {
                     broadcaster.broadcast(
-                            new TWMessage(
-                                    messageType: TWMessage.MessageType.Game,
+                            new WebSocketMessage(
+                                    messageType: WebSocketMessage.MessageType.Game,
                                     game: gameMasker.maskGameForPlayer(game, publish)
                             )
                     )

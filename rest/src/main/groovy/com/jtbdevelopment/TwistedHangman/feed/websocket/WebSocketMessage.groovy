@@ -6,7 +6,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
  * Date: 12/8/14
  * Time: 6:59 AM
  */
-class TWMessage {
+class WebSocketMessage {
     public enum MessageType {
         Heartbeat,
         Game,

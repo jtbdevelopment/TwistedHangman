@@ -26,8 +26,8 @@ class AtmosphereGameListenerTest extends TwistedHangmanTestCase {
         Broadcaster b2 = [
                 broadcast: {
                     Object o ->
-                        assert o in TWMessage
-                        assert o.messageType == TWMessage.MessageType.Game
+                        assert o in WebSocketMessage
+                        assert o.messageType == WebSocketMessage.MessageType.Game
                         assert o.game.is(mg2)
                         assert o.message == null
                         p2pub = true
@@ -37,8 +37,8 @@ class AtmosphereGameListenerTest extends TwistedHangmanTestCase {
         Broadcaster b4 = [
                 broadcast: {
                     Object o ->
-                        assert o in TWMessage
-                        assert o.messageType == TWMessage.MessageType.Game
+                        assert o in WebSocketMessage
+                        assert o.messageType == WebSocketMessage.MessageType.Game
                         assert o.game.is(mg4)
                         assert o.message == null
                         p4pub = true

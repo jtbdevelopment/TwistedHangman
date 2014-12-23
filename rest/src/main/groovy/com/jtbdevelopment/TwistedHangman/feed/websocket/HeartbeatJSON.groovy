@@ -10,18 +10,18 @@ import org.atmosphere.config.managed.Encoder
  * Time: 6:52 AM
  */
 @CompileStatic
-class HeartbeatJSON implements Encoder<TWMessage, String>, Decoder<String, TWMessage> {
+class HeartbeatJSON implements Encoder<WebSocketMessage, String>, Decoder<String, WebSocketMessage> {
     private static final ObjectMapper mapper = new ObjectMapper()
 
     @Override
-    String encode(final TWMessage input) {
+    String encode(final WebSocketMessage input) {
         String string = mapper.writeValueAsString(input)
         return string
     }
 
     @Override
-    TWMessage decode(final String s) {
-        TWMessage message = mapper.readValue(s, TWMessage.class)
+    WebSocketMessage decode(final String s) {
+        WebSocketMessage message = mapper.readValue(s, WebSocketMessage.class)
         return message
     }
 }

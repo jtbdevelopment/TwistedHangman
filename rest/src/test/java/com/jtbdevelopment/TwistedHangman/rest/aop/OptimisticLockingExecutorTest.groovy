@@ -10,6 +10,10 @@ import org.springframework.dao.OptimisticLockingFailureException
 class OptimisticLockingExecutorTest extends GroovyTestCase {
     OptimisticLockingExecutor retry = new OptimisticLockingExecutor(maxRetries: 2)
 
+    public void testOrder() {
+        retry.order = 2
+        assert retry.getOrder() == retry.order
+    }
     public void testCallsFine() {
         int count = 0
         Object retVal = new Object();

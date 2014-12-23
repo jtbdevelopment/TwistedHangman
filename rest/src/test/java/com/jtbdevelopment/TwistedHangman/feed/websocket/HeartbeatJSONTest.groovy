@@ -53,15 +53,15 @@ class HeartbeatJSONTest extends TwistedHangmanTestCase {
     String expectedString = "{\"messageType\":\"Game\",\"game\":{\"maskedForPlayerID\":\"100000000000000000000000\",\"maskedForPlayerMD5\":\"ee02ab36f4f4b92d0a2316022a11cce2\",\"id\":\"XYZ\",\"created\":1000,\"lastUpdate\":5000,\"declined\":null,\"completed\":100,\"rematched\":null,\"round\":10,\"gamePhase\":\"Setup\",\"initiatingPlayer\":null,\"players\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":\"1\"},\"playerStates\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":\"Accepted\"},\"features\":[\"DrawFace\",\"TurnBased\"],\"featureData\":{\"DrawFace\":\"A String\"},\"wordPhraseSetter\":\"ee12d2fed34c2bc747e63c9309864810\",\"solverStates\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":{\"wordPhrase\":\"555\",\"workingWordPhrase\":\"____\",\"badlyGuessedLetters\":[\"A\",\"B\"],\"guessedLetters\":[\"B\"],\"featureData\":{\"Thieving\":10,\"DrawGallows\":\"X\"},\"category\":\"Test\",\"maxPenalties\":13,\"moveCount\":4,\"penalties\":3,\"blanksRemaining\":10,\"features\":[\"AllComplete\"],\"isPuzzleSolved\":false,\"isPlayerHung\":true,\"isPuzzleOver\":false,\"penaltiesRemaining\":5}},\"playerRoundScores\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":10},\"playerRunningScores\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":13}},\"message\":null}"
 
     void testToJson() {
-        assert expectedString == heartbeatJSON.encode(new TWMessage(
+        assert expectedString == heartbeatJSON.encode(new WebSocketMessage(
                 messageType:
-                        TWMessage.MessageType.Game,
+                        WebSocketMessage.MessageType.Game,
                 game: maskedGame))
     }
 
     void testFromJson() {
-        TWMessage message = heartbeatJSON.decode(expectedString)
-        assert TWMessage.MessageType.Game == message.messageType
+        WebSocketMessage message = heartbeatJSON.decode(expectedString)
+        assert WebSocketMessage.MessageType.Game == message.messageType
         assert message.game in MaskedGame
         //  Selected comparisons
         assert message.game.solverStates.size() == maskedGame.solverStates.size()
