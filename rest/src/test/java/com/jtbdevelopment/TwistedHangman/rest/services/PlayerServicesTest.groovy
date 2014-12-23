@@ -2,15 +2,23 @@ package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.handlers.NewGameHandler
+import com.jtbdevelopment.TwistedHangman.game.handlers.PlayerGamesFinderHandler
+import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
 import com.jtbdevelopment.TwistedHangman.players.friendfinder.FriendFinder
+import com.jtbdevelopment.TwistedHangman.security.SessionUserInfo
 import groovy.transform.TypeChecked
 import org.bson.types.ObjectId
 import org.glassfish.jersey.message.internal.OutboundJaxrsResponse
 import org.springframework.context.ApplicationContext
+import org.springframework.security.authentication.TestingAuthenticationToken
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.context.SecurityContextImpl
 
+import javax.annotation.security.RolesAllowed
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
@@ -124,6 +132,46 @@ class PlayerServicesTest extends GroovyTestCase {
         assert returned.toString() == p.toString()
     }
 
+    void testPlayerInfoAnnotations() {
+        def gameServices = PlayerServices.getMethod("playerInfo", [] as Class[])
+        assert (gameServices.annotations.size() == 2 ||
+                (gameServices.isAnnotationPresent(TypeChecked.TypeCheckingInfo) && gameServices.annotations.size() == 3)
+        )
+        assert gameServices.isAnnotationPresent(Produces.class)
+        assert gameServices.getAnnotation(Produces.class).value() == [MediaType.APPLICATION_JSON]
+        assert gameServices.isAnnotationPresent(GET.class)
+        def params = gameServices.parameterAnnotations
+        assert params.length == 0
+    }
+
+    void testGetGames() {
+        def APLAYER = new ObjectId()
+        def results = [new Game(), new Game(), new Game()]
+        playerServices.playerGamesFinderHandler = [
+                findGames: {
+                    ObjectId it ->
+                        assert it == APLAYER
+                        return results
+                }
+        ] as PlayerGamesFinderHandler
+        playerServices.playerID.set(APLAYER)
+        assert results.is(playerServices.gamesForPlayer())
+    }
+
+    void testGamesAnnotations() {
+        def gameServices = PlayerServices.getMethod("gamesForPlayer", [] as Class[])
+        assert (gameServices.annotations.size() == 3 ||
+                (gameServices.isAnnotationPresent(TypeChecked.TypeCheckingInfo) && gameServices.annotations.size() == 4)
+        )
+        assert gameServices.isAnnotationPresent(Path.class)
+        assert gameServices.getAnnotation(Path.class).value() == "games"
+        assert gameServices.isAnnotationPresent(Produces.class)
+        assert gameServices.getAnnotation(Produces.class).value() == [MediaType.APPLICATION_JSON]
+        assert gameServices.isAnnotationPresent(GET.class)
+        def params = gameServices.parameterAnnotations
+        assert params.length == 0
+    }
+
     void testGetFriends() {
         def id = new ObjectId();
         playerServices.playerID.set(id)
@@ -144,5 +192,72 @@ class PlayerServicesTest extends GroovyTestCase {
 
 
         assert playerServices.getFriends() == ['1': '2', '3': '4', '5': '6']
+    }
+
+    void testFriendsInfoAnnotations() {
+        def gameServices = PlayerServices.getMethod("getFriends", [] as Class[])
+        assert (gameServices.annotations.size() == 3 ||
+                (gameServices.isAnnotationPresent(TypeChecked.TypeCheckingInfo) && gameServices.annotations.size() == 4)
+        )
+        assert gameServices.isAnnotationPresent(Path.class)
+        assert gameServices.getAnnotation(Path.class).value() == "friends"
+        assert gameServices.isAnnotationPresent(Produces.class)
+        assert gameServices.getAnnotation(Produces.class).value() == [MediaType.APPLICATION_JSON]
+        assert gameServices.isAnnotationPresent(GET.class)
+        def params = gameServices.parameterAnnotations
+        assert params.length == 0
+    }
+
+    void testGetFriendsNoAppContext() {
+        playerServices.applicationContext = null
+        try {
+            playerServices.getFriends()
+            fail("should fail")
+        } catch (IllegalStateException e) {
+            //
+        }
+    }
+
+    void testAdminServicesAnnotation() {
+        def gameServices = PlayerServices.getMethod("adminServices", [] as Class[])
+        assert (gameServices.annotations.size() == 2 ||
+                (gameServices.isAnnotationPresent(TypeChecked.TypeCheckingInfo) && gameServices.annotations.size() == 3)
+        )
+        assert gameServices.isAnnotationPresent(Path.class)
+        assert gameServices.getAnnotation(Path.class).value() == "admin"
+        assert gameServices.isAnnotationPresent(RolesAllowed.class)
+        assert gameServices.getAnnotation(RolesAllowed.class).value() == [PlayerRoles.ADMIN]
+        def params = gameServices.parameterAnnotations
+        assert params.length == 0
+    }
+
+    void testAdminServices() {
+        def APLAYER = new ObjectId()
+        def REALPLAYER = new ObjectId()
+        def adminServices = [
+                playerID: new ThreadLocal<String>()
+        ] as AdminServices
+
+        SecurityContextHolder.context = new SecurityContextImpl()
+        SecurityContextHolder.context.authentication = new TestingAuthenticationToken(new SessionUserInfo() {
+            @Override
+            Player getSessionUser() {
+                return new Player(id: REALPLAYER)
+            }
+
+            @Override
+            Player getEffectiveUser() {
+                return null
+            }
+
+            @Override
+            void setEffectiveUser(final Player player) {
+
+            }
+        }, null)
+        playerServices.adminServices = adminServices
+        playerServices.playerID.set(APLAYER)
+        assert adminServices.is(playerServices.adminServices())
+        assert adminServices.playerID.get() == REALPLAYER
     }
 }

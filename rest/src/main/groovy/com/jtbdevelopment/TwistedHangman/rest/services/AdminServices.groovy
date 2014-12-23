@@ -25,6 +25,8 @@ import javax.ws.rs.core.Response
 //  TODO - test test test
 //  -------------------------------------------
 class AdminServices {
+    public static final int DEFAULT_PAGE = 0
+    public static final int DEFAULT_PAGE_SIZE = 500
     @Autowired
     PlayerRepository playerRepository
 
@@ -36,7 +38,11 @@ class AdminServices {
     //  TODO - review review review
     //  -------------------------------------------
     Set<Player> playersToSimulate(@QueryParam("page") Integer page, @QueryParam("pageSize") Integer pageSize) {
-        return playerRepository.findAll(new PageRequest(page ?: 0, pageSize ?: 500, Sort.Direction.ASC, 'displayName')) as Set
+        return playerRepository.findAll(new PageRequest(
+                page ?: DEFAULT_PAGE,
+                pageSize ?: DEFAULT_PAGE_SIZE,
+                Sort.Direction.ASC,
+                'displayName')) as Set
     }
 
     @PUT

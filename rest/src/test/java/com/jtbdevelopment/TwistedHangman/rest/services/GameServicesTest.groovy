@@ -127,6 +127,18 @@ class GameServicesTest extends GroovyTestCase {
         assert result.is(services.acceptGame())
     }
 
+    void testQuitGame() {
+        services.quitHandler = [
+                handleAction: {
+                    ObjectId p, ObjectId g ->
+                        assert p == PID
+                        assert g == GID
+                        result
+                }
+        ] as QuitHandler
+        assert result.is(services.quitGame())
+    }
+
     void testSetPuzzle() {
         String c = "Cat"
         String w = "Anim"

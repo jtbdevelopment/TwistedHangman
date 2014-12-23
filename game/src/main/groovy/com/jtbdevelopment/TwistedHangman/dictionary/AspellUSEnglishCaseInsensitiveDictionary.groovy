@@ -73,16 +73,8 @@ class AspellUSEnglishCaseInsensitiveDictionary implements Dictionary {
             stream = new BufferedInputStream(AspellUSEnglishCaseInsensitiveDictionary.class.getResourceAsStream("/aspell/" + file))
             stream.eachLine {
                 String line ->
-                    if (hitWords) {
-                        words.remove(line.toUpperCase())
-                        counter++
-                        if (counter % 50000 == 0) {
-                            log.info("Processed = " + counter)
-                        }
-                    } else if (line == "---") {
-                        log.info("Found dictionary start")
-                        hitWords = true
-                    }
+                    words.remove(line.toUpperCase())
+                    counter++
             }
             log.info("Processed = " + counter)
             stream.close()
