@@ -11,7 +11,7 @@ import org.atmosphere.config.managed.Encoder
  */
 @CompileStatic
 class HeartbeatJSON implements Encoder<TWMessage, String>, Decoder<String, TWMessage> {
-    public static final ObjectMapper mapper = new ObjectMapper()
+    private static final ObjectMapper mapper = new ObjectMapper()
 
     @Override
     String encode(final TWMessage input) {

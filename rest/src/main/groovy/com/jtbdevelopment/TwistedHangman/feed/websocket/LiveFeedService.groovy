@@ -18,7 +18,7 @@ import javax.annotation.security.RolesAllowed
 @ManagedService(
         path = "/livefeed/{id: [a-zA-Z][a-zA-Z_0-9]*}",
         interceptors = [
-                SecuritySessionInterceptor.class,
+                SpringSecuritySessionInterceptor.class,
                 AtmosphereResourceLifecycleInterceptor.class,
                 TrackMessageSizeInterceptor.class,
                 SuspendTrackerInterceptor.class
@@ -29,6 +29,7 @@ import javax.annotation.security.RolesAllowed
 public class LiveFeedService {
 
     static final Logger logger = LoggerFactory.getLogger(LiveFeedService.class)
+    static final String PATH_ROOT = "/livefeed/"
 
     @PathParam("id")
     String id
@@ -41,7 +42,6 @@ public class LiveFeedService {
     }
 
     @Ready(encoders = [HeartbeatJSON.class])
-    @SuppressWarnings("unused")
     public TWMessage onReady(final AtmosphereResource r) {
         logger.info("Browser {} connected.", r.uuid());
 

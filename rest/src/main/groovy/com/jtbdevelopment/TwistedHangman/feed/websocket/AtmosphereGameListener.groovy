@@ -16,12 +16,11 @@ import org.springframework.stereotype.Component
  */
 @Component
 @CompileStatic
-//  TODO - test
 class AtmosphereGameListener implements GameListener {
     @Autowired
     GameMasker gameMasker
 
-    //  TODO - springify Atmosphere?  There are extensions
+    //  TODO - injectable in theory when 2.3 comes out, currently only a RC.  Replace getBroadcasterFactory then
     BroadcasterFactory broadcasterFactory
 
     @Override
@@ -31,8 +30,7 @@ class AtmosphereGameListener implements GameListener {
                 p != initiatingPlayer
         }.each {
             Player publish ->
-                //  TODO - this will need to be a lookup when we encode it
-                Broadcaster broadcaster = getBroadcasterFactory().lookup("/livefeed/" + publish.id)
+                Broadcaster broadcaster = getBroadcasterFactory().lookup(LiveFeedService.PATH_ROOT + publish.id.toHexString())
                 if (broadcaster != null) {
                     broadcaster.broadcast(
                             new TWMessage(

@@ -7,6 +7,7 @@ import groovy.transform.TypeChecked
 import org.bson.types.ObjectId
 import org.springframework.security.authentication.TestingAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.context.SecurityContextImpl
 
 import javax.ws.rs.GET
 import javax.ws.rs.Path
@@ -38,6 +39,7 @@ class PlayerGatewayServiceTest extends GroovyTestCase {
 
     void testValidPlayer() {
         def APLAYER = new ObjectId()
+        SecurityContextHolder.context = new SecurityContextImpl()
         SecurityContextHolder.context.authentication = new TestingAuthenticationToken(new SessionUserInfo() {
             @Override
             Player getSessionUser() {
