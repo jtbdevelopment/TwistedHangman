@@ -9,7 +9,7 @@ describe('Service: gameCache', function () {
   var ng3 = {id: 'ng3', gamePhase: 'Phase2'};
   var ng4 = {id: 'ng4', gamePhase: 'Phase1'};
 
-  var phaseDeferred, q;
+  var phaseDeferred;
   var phases = {Phase1: [], Phase2: [], Phase3: []};
 
   var baseURL = '/api/player/MANUAL1';
@@ -46,7 +46,6 @@ describe('Service: gameCache', function () {
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($injector, $q, $rootScope, $location, $httpBackend) {
-    q = $q;
     rootScope = $rootScope;
     location = $location;
     http = $httpBackend;

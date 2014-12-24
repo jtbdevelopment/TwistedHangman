@@ -35,7 +35,7 @@ describe('Service: showGameSevice', function () {
     md5: 'md1'
   };
 
-  var service, rootscope, gameCacheSpy, scope, twGameDetails;
+  var service, rootscope, gameCacheSpy, scope, twGameDetails, phaseDeferred;
 
   describe('using real game details ', function () {
     beforeEach(module(function ($provide) {
@@ -43,13 +43,24 @@ describe('Service: showGameSevice', function () {
       $provide.factory('twGameCache', function () {
         return gameCacheSpy;
       });
+      $provide.factory('twGamePhaseService', ['$q', function ($q) {
+        return {
+          phases: function () {
+            phaseDeferred = $q.defer();
+            return phaseDeferred.promise;
+          }
+        };
+      }]);
     }));
 
+    var location;
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($rootScope, $injector) {
+    beforeEach(inject(function ($rootScope, $injector, $location) {
       rootscope = $rootScope;
       scope = rootscope.$new();
-      spyOn($rootScope, '$broadcast');
+      location = $location;
+      spyOn($rootScope, '$broadcast').and.callThrough();
+      spyOn(location, 'path');
       service = $injector.get('twGameDisplay');
     }));
 
@@ -60,6 +71,21 @@ describe('Service: showGameSevice', function () {
       expect(scope.workingWordPhraseClasses).toEqual([]);
       expect(scope.letters).toEqual(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']);
       expect(scope.letterClasses).toEqual(['regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular']);
+    });
+
+    it('computeState with phase error', function () {
+      service.updateScopeForGame(scope, testGame);
+      phaseDeferred.reject();
+      rootscope.$apply();
+      expect(location.path).toHaveBeenCalledWith('/error');
+    });
+
+    it('computeState with phase description', function () {
+      service.updateScopeForGame(scope, testGame);
+      phaseDeferred.resolve({something: ['X', 'Y'], Playing: ['havefun', 'ornot']});
+      rootscope.$apply();
+      expect(location.path).not.toHaveBeenCalledWith('/error');
+      expect(scope.phaseDescription).toEqual('havefun');
     });
 
     it('computeState without player or game does not work', function () {
