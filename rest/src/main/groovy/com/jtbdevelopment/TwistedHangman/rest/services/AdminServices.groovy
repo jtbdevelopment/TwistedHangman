@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
 import com.jtbdevelopment.TwistedHangman.security.SessionUserInfo
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Sort
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 
+import javax.annotation.security.RolesAllowed
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
@@ -21,9 +23,7 @@ import javax.ws.rs.core.Response
  */
 @Component
 @CompileStatic
-//  -------------------------------------------
-//  TODO - test test test
-//  -------------------------------------------
+@RolesAllowed([PlayerRoles.ADMIN])
 class AdminServices {
     public static final int DEFAULT_PAGE = 0
     public static final int DEFAULT_PAGE_SIZE = 500
@@ -34,15 +34,12 @@ class AdminServices {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    //  -------------------------------------------
-    //  TODO - review review review
-    //  -------------------------------------------
     Set<Player> playersToSimulate(@QueryParam("page") Integer page, @QueryParam("pageSize") Integer pageSize) {
         return playerRepository.findAll(new PageRequest(
                 page ?: DEFAULT_PAGE,
                 pageSize ?: DEFAULT_PAGE_SIZE,
                 Sort.Direction.ASC,
-                'displayName')) as Set
+                'displayName')).toList() as Set
     }
 
     @PUT

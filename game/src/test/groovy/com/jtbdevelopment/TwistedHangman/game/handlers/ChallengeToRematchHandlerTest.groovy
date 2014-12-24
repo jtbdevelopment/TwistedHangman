@@ -85,7 +85,7 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
                         players: ps,
                         features: [GameFeature.TurnBased],
                         featureData: [(GameFeature.TurnBased): PONE.id])
-                handler.rotateTurnBasedGame(game);
+                assert game.is(handler.rotateTurnBasedGame(game));
                 assert game.players[0] == PONE
                 assert game.players[1] == PTWO
                 assert game.players[2] == PFOUR
