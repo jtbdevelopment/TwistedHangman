@@ -4,8 +4,6 @@ import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.players.ManualPlayer
 import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Component
 @Component
 @CompileStatic
 class PlayerUserDetailsService implements UserDetailsService {
-    private final static Logger logger = LoggerFactory.getLogger(PlayerUserDetails.class)
     @Autowired
     PlayerRepository playerRepository
 
