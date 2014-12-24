@@ -34,7 +34,9 @@ angular.module('twistedHangmanApp').factory('twGameDetails',
         if (game.features.indexOf('TurnBased') >= 0) {
           return md5 === game.featureData.TurnBased;
         }
-        return true;
+
+        var puzzle = game.solverStates[md5];
+        return angular.isDefined(puzzle) && !puzzle.isPuzzleOver;
       },
 
       playerIsSetter: function (game, md5) {
@@ -54,7 +56,6 @@ angular.module('twistedHangmanApp').factory('twGameDetails',
 
         var ret = false;
         if (game.wordPhraseSetter === null) {
-
           angular.forEach(game.solverStates, function (state, stateMd5) {
             if (stateMd5 !== md5) {
               ret = (state.wordPhrase === '');

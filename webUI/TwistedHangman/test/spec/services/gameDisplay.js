@@ -15,7 +15,7 @@ describe('Service: showGameSevice', function () {
     guessedLetters: ['A', 'X', 'Y'],
     featureData: {}
   };
-  var showGameServiceGame = {
+  var testGame = {
     id: 'id2',
     players: {'md1': 'P1', 'md2': 'P2', 'md3': 'P3', 'md4': 'P4', 'md5': 'P5'},
     wordPhraseSetter: 'md4',
@@ -30,153 +30,381 @@ describe('Service: showGameSevice', function () {
     featureData: {},
     features: []
   };
-  var player = {
+  var testPlayer = {
     id: 'pid',
     md5: 'md1'
   };
 
-  var service, rootscope, gameCacheSpy;
-  beforeEach(module(function ($provide) {
-    gameCacheSpy = jasmine.createSpyObj('gameCacheSpy', ['putUpdatedGame']);
-    $provide.factory('twGameCache', function () {
-      return gameCacheSpy;
+  var service, rootscope, gameCacheSpy, scope, twGameDetails;
+
+  describe('using real game details ', function () {
+    beforeEach(module(function ($provide) {
+      gameCacheSpy = jasmine.createSpyObj('gameCacheSpy', ['putUpdatedGame']);
+      $provide.factory('twGameCache', function () {
+        return gameCacheSpy;
+      });
+    }));
+
+    // Initialize the controller and a mock scope
+    beforeEach(inject(function ($rootScope, $injector) {
+      rootscope = $rootScope;
+      scope = rootscope.$new();
+      spyOn($rootScope, '$broadcast');
+      service = $injector.get('twGameDisplay');
+    }));
+
+    it('initialize scope', function () {
+      scope.game = testGame;
+      service.initializeScope(scope);
+      expect(scope.workingWordPhraseArray).toEqual([]);
+      expect(scope.workingWordPhraseClasses).toEqual([]);
+      expect(scope.letters).toEqual(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']);
+      expect(scope.letterClasses).toEqual(['regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular']);
     });
-  }));
 
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function ($rootScope, $injector) {
-    rootscope = $rootScope;
-    spyOn($rootScope, '$broadcast');
-    service = $injector.get('twGameDisplay');
-  }));
+    it('computeState without player or game does not work', function () {
+      service.updateScopeForGame(scope);
+      expect(scope.gameState).toBeUndefined();
+    });
 
-  it('initialize scope', function () {
-    var scope = rootscope.$new();
+    it('computeState without player does not work', function () {
+      service.updateScopeForGame(scope, testGame);
+      expect(scope.gameState).toBeUndefined();
+    });
 
-    scope.game = showGameServiceGame;
-    service.initializeScope(scope);
-    expect(scope.workingWordPhraseArray).toEqual([]);
-    expect(scope.workingWordPhraseClasses).toEqual([]);
-    expect(scope.letters).toEqual(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']);
-    expect(scope.letterClasses).toEqual(['regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular']);
+    it('computeState without game does not work', function () {
+      scope.player = testPlayer;
+      service.updateScopeForGame(scope);
+      expect(scope.gameState).toBeUndefined();
+    });
+
+    describe('Post Initialization Tests', function () {
+      beforeEach(function () {
+        scope.player = angular.copy(testPlayer);
+        service.initializeScope(scope);
+      });
+
+      it('computeState for non-thieving game', function () {
+        service.updateScopeForGame(scope, testGame);
+        expect(scope.gameState).toBe(md1SS);
+        expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
+        expect(scope.image).toEqual('hangman5.png');
+        expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'regular']);
+      });
+
+      it('computeState image for no gameState', function () {
+        scope.player.md5 = 'XXX';
+        var game = angular.copy(testGame);
+        game.solverStates.md1.maxPenalties = 13;
+        delete scope.gameState;
+        service.updateScopeForGame(scope, game);
+        expect(scope.image).toEqual('hangman0.png');
+      });
+
+      it('computeState image for diff max penalties', function () {
+        var game = angular.copy(testGame);
+        game.solverStates.md1.maxPenalties = 13;
+        service.updateScopeForGame(scope, game);
+        expect(scope.image).toEqual('hangman2.png');
+        game.solverStates.md1.maxPenalties = 10;
+        service.updateScopeForGame(scope, game);
+        expect(scope.image).toEqual('hangman5.png');
+        game.solverStates.md1.maxPenalties = 9;
+        service.updateScopeForGame(scope, game);
+        expect(scope.image).toEqual('hangman2.png');
+        game.solverStates.md1.maxPenalties = 2;
+        service.updateScopeForGame(scope, game);
+        expect(scope.image).toEqual('hangman13.png');
+      });
+
+      it('computeState for thieving game', function () {
+        var game = angular.copy(testGame);
+        game.solverStates.md1.featureData.ThievingPositionTracking = [false, true, false, false, true];
+        game.solverStates.md1.featureData.ThievingLetters = ['B'];
+        service.updateScopeForGame(scope, game);
+        expect(scope.workingWordPhraseClasses).toEqual(['stealablewp', 'stolenwp', 'regularwp', 'regularwp', 'stolenwp']);
+        expect(scope.image).toEqual('hangman5.png');
+        expect(scope.letterClasses).toEqual(['guessedkb', 'stolenkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'regular']);
+      });
+
+      it('computeState for thieving game on last penalty', function () {
+        var game = angular.copy(testGame);
+        game.solverStates.md1.featureData.ThievingPositionTracking = [false, true, false, false, true];
+        game.solverStates.md1.featureData.ThievingLetters = ['B'];
+        game.solverStates.md1.penalties = 5;
+        game.solverStates.md1.penaltiesRemaining = 1;
+        service.updateScopeForGame(scope, game);
+        expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'stolenwp', 'regularwp', 'regularwp', 'stolenwp']);
+        expect(scope.image).toEqual('hangman8.png');
+        expect(scope.letterClasses).toEqual(['guessedkb', 'stolenkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'regular']);
+      });
+
+      it('updateScopeForGame with new copy', function () {
+        var game = angular.copy(testGame);
+        service.updateScopeForGame(scope, game);
+
+        var update = angular.copy(testGame);
+        update.lastUpdate = 1345100;
+        update.created = 1345000;
+        update.solverStates.md1.penalties = 3;
+        update.solverStates.md1.badlyGuessedLetters = ['X', 'Y', 'Z'];
+
+        service.updateScopeForGame(scope, update);
+        expect(scope.lastUpdate).toEqual(new Date(1345100));
+        expect(scope.created).toEqual(new Date(1345000));
+        expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
+        expect(scope.image).toEqual('hangman6.png');
+        expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'badguesskb']);
+      });
+
+      it('processGameUpdateForScope calls cache to update', function () {
+        var game = angular.copy(testGame);
+        service.updateScopeForGame(scope, game);
+
+        var update = angular.copy(testGame);
+        update.lastUpdate = 1345100;
+        update.created = 1345000;
+        update.solverStates.md1.penalties = 3;
+        update.solverStates.md1.badlyGuessedLetters = ['X', 'Y', 'Z'];
+
+        service.processGameUpdateForScope(scope, update);
+        expect(scope.lastUpdate).toEqual(new Date(1345100));
+        expect(scope.created).toEqual(new Date(1345000));
+        expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
+        expect(scope.image).toEqual('hangman6.png');
+        expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'badguesskb']);
+        expect(gameCacheSpy.putUpdatedGame).toHaveBeenCalledWith(update);
+      });
+
+    });
   });
 
-  it('computeState without player or game does not work', function () {
-    var scope = rootscope.$new();
-    service.updateScopeForGame(scope);
-    expect(scope.gameState).toBeUndefined();
-  });
+  describe('using mock game details ', function () {
+    var game;
+    beforeEach(module(function ($provide) {
+      gameCacheSpy = jasmine.createSpyObj('gameCacheSpy', ['putUpdatedGame']);
+      twGameDetails = {
+        playerIsSetter: function () {
+          return false;
+        },
+        playerCanPlay: function () {
+          return false;
+        }
+      };
+      $provide.factory('twGameCache', function () {
+        return gameCacheSpy;
+      });
+      $provide.factory('twGameDetails', function () {
+        return twGameDetails;
+      });
+    }));
 
-  it('computeState without player does not work', function () {
-    var scope = rootscope.$new();
-    service.updateScopeForGame(scope, showGameServiceGame);
-    expect(scope.gameState).toBeUndefined();
-  });
+    // Initialize the controller and a mock scope
+    beforeEach(inject(function ($rootScope, $injector) {
+      rootscope = $rootScope;
+      scope = rootscope.$new();
+      spyOn($rootScope, '$broadcast');
+      service = $injector.get('twGameDisplay');
+      game = angular.copy(testGame);
+      scope.game = game;
+      scope.player = testPlayer;
+      service.initializeScope(scope);
+    }));
 
-  it('computeState without game does not work', function () {
-    var scope = rootscope.$new();
-    scope.player = player;
-    service.updateScopeForGame(scope);
-    expect(scope.gameState).toBeUndefined();
-  });
+    describe('testing the description function', function () {
+      it('1', function () {
+        game.features = ['Thieving', 'TurnBased', 'SystemPuzzles', 'SinglePlayer', 'SingleWinner'];
+        game.featureData.TurnBased = 'md2';
+        service.updateScopeForGame(scope, game);
+        expect(scope.generalInfo).toEqual('Thieving Allowed, Generated Puzzle, P2\'s Turn');
+      });
 
-  it('computeState for non-thieving game', function () {
-    var scope = rootscope.$new();
-    scope.player = player;
-    service.initializeScope(scope);
-    service.updateScopeForGame(scope, showGameServiceGame);
-    expect(scope.gameState).toBe(md1SS);
-    expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
-    expect(scope.image).toEqual('hangman5.png');
-    expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'regular']);
-  });
+      it('2', function () {
+        game.features = ['AlternatingPuzzleSetter', 'TwoPlayer', 'SingleWinner'];
+        game.featureData.TurnBased = 'md2';
+        service.updateScopeForGame(scope, game);
+        expect(scope.generalInfo).toEqual('Puzzle Set By P4, Until First Solver, Live Play');
+      });
 
-  it('computeState image for no gameState', function () {
-    var scope = rootscope.$new();
-    scope.player = angular.copy(player);
-    scope.player.md5 = 'XXX';
-    var game = angular.copy(showGameServiceGame);
-    service.initializeScope(scope);
-    game.solverStates.md1.maxPenalties = 13;
-    delete scope.gameState;
-    service.updateScopeForGame(scope, game);
-    expect(scope.image).toEqual('hangman0.png');
-  });
+      it('3', function () {
+        game.features = [];
+        game.featureData.TurnBased = 'md2';
+        service.updateScopeForGame(scope, game);
+        expect(scope.generalInfo).toEqual('Head-2-Head Puzzles, Until All Finish, Live Play');
+      });
+    });
 
-  it('computeState image for diff max penalties', function () {
-    var scope = rootscope.$new();
-    scope.player = player;
-    var game = angular.copy(showGameServiceGame);
-    service.initializeScope(scope);
-    game.solverStates.md1.maxPenalties = 13;
-    service.updateScopeForGame(scope, game);
-    expect(scope.image).toEqual('hangman2.png');
-    game.solverStates.md1.maxPenalties = 10;
-    service.updateScopeForGame(scope, game);
-    expect(scope.image).toEqual('hangman5.png');
-    game.solverStates.md1.maxPenalties = 9;
-    service.updateScopeForGame(scope, game);
-    expect(scope.image).toEqual('hangman2.png');
-    game.solverStates.md1.maxPenalties = 2;
-    service.updateScopeForGame(scope, game);
-    expect(scope.image).toEqual('hangman13.png');
-  });
+    describe('testing the show function', function () {
+      it('show play section', function () {
+        twGameDetails.playerIsSetter = function () {
+          return true;
+        };
+        service.updateScopeForGame(scope, game);
+        expect(scope.showPlaySection).toEqual(false);
+        twGameDetails.playerIsSetter = function () {
+          return false;
+        };
+        service.updateScopeForGame(scope, game);
+        expect(scope.showPlaySection).toEqual(true);
+      });
 
-  it('computeState for thieving game', function () {
-    var scope = rootscope.$new();
-    scope.player = player;
-    var game = angular.copy(showGameServiceGame);
-    game.solverStates.md1.featureData.ThievingPositionTracking = [false, true, false, false, true];
-    game.solverStates.md1.featureData.ThievingLetters = ['B'];
-    service.initializeScope(scope);
-    service.updateScopeForGame(scope, game);
-    expect(scope.workingWordPhraseClasses).toEqual(['stealablewp', 'stolenwp', 'regularwp', 'regularwp', 'stolenwp']);
-    expect(scope.image).toEqual('hangman5.png');
-    expect(scope.letterClasses).toEqual(['guessedkb', 'stolenkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'regular']);
-  });
+      it('show challenge buttons', function () {
+        game.gamePhase = 'Challenged';
+        twGameDetails.playerChallengeResponseNeeded = function () {
+          return true;
+        };
+        service.updateScopeForGame(scope, game);
+        expect(scope.showChallengeButtons).toEqual(true);
+        expect(scope.showAcceptButton).toEqual(true);
+        expect(scope.allowPlayMoves).toEqual(false);
+        expect(scope.showPuzzleEnty).toEqual(false);
+        expect(scope.allowPuzzleEntry).toEqual(false);
+        expect(scope.showRematchButtons).toEqual(false);
+        expect(scope.showQuitButton).toEqual(false);
+        expect(scope.setPuzzleMessage).toEqual('');
 
-  it('updateScopeForGame with new copy', function () {
-    var scope = rootscope.$new();
-    scope.player = player;
-    var game = angular.copy(showGameServiceGame);
-    service.initializeScope(scope);
-    service.updateScopeForGame(scope, game);
+        twGameDetails.playerChallengeResponseNeeded = function () {
+          return false;
+        };
+        service.updateScopeForGame(scope, game);
+        expect(scope.showChallengeButtons).toEqual(true);
+        expect(scope.showAcceptButton).toEqual(false);
+        expect(scope.allowPlayMoves).toEqual(false);
+        expect(scope.showPuzzleEnty).toEqual(false);
+        expect(scope.allowPuzzleEntry).toEqual(false);
+        expect(scope.showRematchButtons).toEqual(false);
+        expect(scope.showQuitButton).toEqual(false);
+        expect(scope.setPuzzleMessage).toEqual('');
+      });
 
-    var update = angular.copy(showGameServiceGame);
-    update.lastUpdate = 1345100;
-    update.created = 1345000;
-    update.solverStates.md1.penalties = 3;
-    update.solverStates.md1.badlyGuessedLetters = ['X', 'Y', 'Z'];
+      it('show play buttons', function () {
+        game.gamePhase = 'Playing';
+        twGameDetails.playerCanPlay = function () {
+          return true;
+        };
+        service.updateScopeForGame(scope, game);
+        expect(scope.showChallengeButtons).toEqual(false);
+        expect(scope.showAcceptButton).toEqual(false);
+        expect(scope.allowPlayMoves).toEqual(true);
+        expect(scope.showPuzzleEnty).toEqual(false);
+        expect(scope.allowPuzzleEntry).toEqual(false);
+        expect(scope.showRematchButtons).toEqual(false);
+        expect(scope.showQuitButton).toEqual(true);
+        expect(scope.setPuzzleMessage).toEqual('');
 
-    service.updateScopeForGame(scope, update);
-    expect(scope.lastUpdate).toEqual(new Date(1345100));
-    expect(scope.created).toEqual(new Date(1345000));
-    expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
-    expect(scope.image).toEqual('hangman6.png');
-    expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'badguesskb']);
-  });
+        twGameDetails.playerCanPlay = function () {
+          return false;
+        };
+        service.updateScopeForGame(scope, game);
+        expect(scope.showChallengeButtons).toEqual(false);
+        expect(scope.showAcceptButton).toEqual(false);
+        expect(scope.allowPlayMoves).toEqual(false);
+        expect(scope.showPuzzleEnty).toEqual(false);
+        expect(scope.allowPuzzleEntry).toEqual(false);
+        expect(scope.showRematchButtons).toEqual(false);
+        expect(scope.showQuitButton).toEqual(true);
+        expect(scope.setPuzzleMessage).toEqual('');
+      });
 
-  it('processGameUpdateForScope calls cache to update', function () {
-    var scope = rootscope.$new();
-    scope.player = player;
-    var game = angular.copy(showGameServiceGame);
-    service.initializeScope(scope);
-    service.updateScopeForGame(scope, game);
+      it('show round over buttons', function () {
+        game.gamePhase = 'RoundOver';
+        service.updateScopeForGame(scope, game);
+        expect(scope.showChallengeButtons).toEqual(false);
+        expect(scope.showAcceptButton).toEqual(false);
+        expect(scope.allowPlayMoves).toEqual(false);
+        expect(scope.showPuzzleEnty).toEqual(false);
+        expect(scope.allowPuzzleEntry).toEqual(false);
+        expect(scope.showRematchButtons).toEqual(true);
+        expect(scope.showQuitButton).toEqual(false);
+        expect(scope.setPuzzleMessage).toEqual('');
+      });
 
-    var update = angular.copy(showGameServiceGame);
-    update.lastUpdate = 1345100;
-    update.created = 1345000;
-    update.solverStates.md1.penalties = 3;
-    update.solverStates.md1.badlyGuessedLetters = ['X', 'Y', 'Z'];
+      it('show quit buttons', function () {
+        game.gamePhase = 'Quit';
+        service.updateScopeForGame(scope, game);
+        expect(scope.showChallengeButtons).toEqual(false);
+        expect(scope.showAcceptButton).toEqual(false);
+        expect(scope.allowPlayMoves).toEqual(false);
+        expect(scope.showPuzzleEnty).toEqual(false);
+        expect(scope.allowPuzzleEntry).toEqual(false);
+        expect(scope.showRematchButtons).toEqual(false);
+        expect(scope.showQuitButton).toEqual(false);
+        expect(scope.setPuzzleMessage).toEqual('');
+      });
 
+      it('show declined buttons', function () {
+        game.gamePhase = 'Declined';
+        service.updateScopeForGame(scope, game);
+        expect(scope.showChallengeButtons).toEqual(false);
+        expect(scope.showAcceptButton).toEqual(false);
+        expect(scope.allowPlayMoves).toEqual(false);
+        expect(scope.showPuzzleEnty).toEqual(false);
+        expect(scope.allowPuzzleEntry).toEqual(false);
+        expect(scope.showRematchButtons).toEqual(false);
+        expect(scope.showQuitButton).toEqual(false);
+        expect(scope.setPuzzleMessage).toEqual('');
+      });
 
-    service.processGameUpdateForScope(scope, update);
-    expect(scope.lastUpdate).toEqual(new Date(1345100));
-    expect(scope.created).toEqual(new Date(1345000));
-    expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
-    expect(scope.image).toEqual('hangman6.png');
-    expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'badguesskb']);
-    expect(gameCacheSpy.putUpdatedGame).toHaveBeenCalledWith(update);
+      it('show rematched buttons', function () {
+        game.gamePhase = 'NextRoundStarted';
+        service.updateScopeForGame(scope, game);
+        expect(scope.showChallengeButtons).toEqual(false);
+        expect(scope.showAcceptButton).toEqual(false);
+        expect(scope.allowPlayMoves).toEqual(false);
+        expect(scope.showPuzzleEnty).toEqual(false);
+        expect(scope.allowPuzzleEntry).toEqual(false);
+        expect(scope.showRematchButtons).toEqual(false);
+        expect(scope.showQuitButton).toEqual(false);
+        expect(scope.setPuzzleMessage).toEqual('');
+      });
+
+      it('show setup buttons head 2 head', function () {
+        game.gamePhase = 'Setup';
+        game.wordPhraseSetter = null;
+        twGameDetails.playerSetupEntryRequired = function () {
+          return true;
+        };
+        service.updateScopeForGame(scope, game);
+        expect(scope.allowPlayMoves).toEqual(false);
+        expect(scope.showPuzzleEnty).toEqual(true);
+        expect(scope.allowPuzzleEntry).toEqual(true);
+        expect(scope.showRematchButtons).toEqual(false);
+        expect(scope.showQuitButton).toEqual(true);
+        expect(scope.showChallengeButtons).toEqual(false);
+        expect(scope.showAcceptButton).toEqual(false);
+        expect(scope.setPuzzleMessage).toEqual('');
+
+        twGameDetails.playerSetupEntryRequired = function () {
+          return false;
+        };
+        service.updateScopeForGame(scope, game);
+        expect(scope.allowPlayMoves).toEqual(false);
+        expect(scope.showPuzzleEnty).toEqual(true);
+        expect(scope.allowPuzzleEntry).toEqual(false);
+        expect(scope.showRematchButtons).toEqual(false);
+        expect(scope.showQuitButton).toEqual(true);
+        expect(scope.showChallengeButtons).toEqual(false);
+        expect(scope.showAcceptButton).toEqual(false);
+        expect(scope.setPuzzleMessage).toEqual('Waiting for P5 to set puzzle.');
+      });
+
+      it('show setup buttons head 2 head', function () {
+        game.gamePhase = 'Setup';
+        game.wordPhraseSetter = 'md4';
+        twGameDetails.playerSetupEntryRequired = function () {
+          return true;
+        };
+        service.updateScopeForGame(scope, game);
+        expect(scope.allowPlayMoves).toEqual(false);
+        expect(scope.showPuzzleEnty).toEqual(true);
+        expect(scope.allowPuzzleEntry).toEqual(true);
+        expect(scope.showRematchButtons).toEqual(false);
+        expect(scope.showQuitButton).toEqual(true);
+        expect(scope.showChallengeButtons).toEqual(false);
+        expect(scope.showAcceptButton).toEqual(false);
+        expect(scope.setPuzzleMessage).toEqual('Waiting for P4 to set puzzle.');
+      });
+    });
   });
 });
 

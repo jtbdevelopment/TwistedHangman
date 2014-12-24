@@ -1,9 +1,8 @@
 'use strict';
 
-//  TODO - break this monster up
 angular.module('twistedHangmanApp').factory('twGameDisplay',
-  ['$rootScope', '$location', 'twGamePhaseService', 'twGameCache',
-    function ($rootScope, $location, twGamePhaseService, twGameCache) {
+  ['$rootScope', '$location', 'twGamePhaseService', 'twGameCache', 'twGameDetails',
+    function ($rootScope, $location, twGamePhaseService, twGameCache, twGameDetails) {
       var LETTERA = 'A'.charCodeAt(0);
 
       function computeImage(scope) {
@@ -35,9 +34,9 @@ angular.module('twistedHangmanApp').factory('twGameDisplay',
               r = (scope.gameState.featureData.ThievingPositionTracking[i] === true) ?
                 'stolenwp' :
                 (
-                  (scope.workingWordPhraseArray[i] === '_' &&
-                    //  TODO - test this extra condition
-                  scope.gameState.penaltiesRemaining > 1) ? 'stealablewp' : 'regularwp');
+                  (scope.workingWordPhraseArray[i] === '_' && scope.gameState.penaltiesRemaining > 1) ?
+                    'stealablewp' : 'regularwp'
+                );
             }
             scope.workingWordPhraseClasses[i] = r;
           }
@@ -60,7 +59,6 @@ angular.module('twistedHangmanApp').factory('twGameDisplay',
         }
       }
 
-      //  TODO - test
       function computeDescription(scope) {
         var t = '';
         if (scope.game.features.indexOf('Thieving') >= 0) {
@@ -90,8 +88,6 @@ angular.module('twistedHangmanApp').factory('twGameDisplay',
         scope.generalInfo = t;
       }
 
-      //  TODO - test this function
-      //  TODO - overlap with gameDetails
       function computeDisplayAreas(scope) {
         scope.showPlaySection = false;
         scope.allowPlayMoves = false;
@@ -101,59 +97,43 @@ angular.module('twistedHangmanApp').factory('twGameDisplay',
         scope.allowPuzzleEntry = false;
         scope.showRematchButtons = false;
         scope.showQuitButton = false;
-        if (angular.isUndefined(scope.game) ||
-          angular.isUndefined(scope.player) ||
-          (angular.isUndefined(scope.gameState) && scope.player.md5 !== scope.game.wordPhraseSetter)) {
-          return;
-        }
-        scope.showPlaySection = (scope.game.wordPhraseSetter !== scope.player.md5);
-        switch (scope.game.gamePhase) {
-          case 'Challenged':
-            scope.showChallengeButtons = true;
-            if (scope.game.playerStates[scope.player.md5] === 'Pending') {
-              scope.showAcceptButton = true;
-            }
-            break;
-          case 'Setup':
-            scope.showQuitButton = true;
-            scope.showPuzzleEnty = true;
-            if (scope.game.wordPhraseSetter === null) {
-              angular.forEach(scope.game.solverStates, function (state, md5) {
-                if (md5 !== scope.player.md5) {
-                  scope.allowPuzzleEntry = (state.wordPhrase === '');
+        scope.setPuzzleMessage = '';
+        if (angular.isDefined(scope.game) && angular.isDefined(scope.player)) {
+          var md5 = scope.player.md5;
+          scope.showPlaySection = !twGameDetails.playerIsSetter(scope.game, md5);
+          switch (scope.game.gamePhase) {
+            case 'Challenged':
+              scope.showChallengeButtons = true;
+              scope.showAcceptButton = twGameDetails.playerChallengeResponseNeeded(scope.game, md5);
+              break;
+            case 'Setup':
+              scope.showQuitButton = true;
+              scope.showPuzzleEnty = true;
+              scope.allowPuzzleEntry = twGameDetails.playerSetupEntryRequired(scope.game, md5);
+              if (scope.game.wordPhraseSetter === null) {
+                if (scope.allowPuzzleEntry === false) {
+                  angular.forEach(scope.game.players, function (name, md5) {
+                    if (md5 !== scope.player.md5) {
+                      scope.setPuzzleMessage = 'Waiting for ' + name + ' to set puzzle.';
+                    }
+                  });
                 }
-              });
-              if (scope.allowPuzzleEntry === false) {
-                angular.forEach(scope.game.players, function (name, md5) {
-                  if (md5 !== scope.player.md5) {
-                    scope.setPuzzleMessage = 'Waiting for ' + name + ' to set puzzle.';
-                  }
-                });
+              } else {
+                scope.setPuzzleMessage = 'Waiting for ' + scope.game.players[scope.game.wordPhraseSetter] + ' to set puzzle.';
               }
-            } else {
-              scope.allowPuzzleEntry = (scope.game.wordPhraseSetter === scope.player.md5);
-              scope.setPuzzleMessage = 'Waiting for ' + scope.game.players[scope.game.wordPhraseSetter] + ' to set puzzle.';
-            }
-            break;
-          case 'Playing':
-            scope.showQuitButton = true;
-            if (angular.isDefined(scope.gameState)) {
-              if (scope.gameState.isPuzzleOver === false) {
-                if (angular.isUndefined(scope.game.featureData.TurnBased)) {
-                  scope.allowPlayMoves = true;
-                } else {
-                  scope.allowPlayMoves = (scope.player.md5 === scope.game.featureData.TurnBased);
-                }
-              }
-            }
-            break;
-          case 'RoundOver':
-            scope.showRematchButtons = true;
-            break;
-          case 'Declined':
-          case 'Quit':
-          case 'NextRoundStarted':
-            break;
+              break;
+            case 'Playing':
+              scope.showQuitButton = true;
+              scope.allowPlayMoves = twGameDetails.playerCanPlay(scope.game, md5);
+              break;
+            case 'RoundOver':
+              scope.showRematchButtons = true;
+              break;
+            case 'Declined':
+            case 'Quit':
+            case 'NextRoundStarted':
+              break;
+          }
         }
       }
 
@@ -194,7 +174,7 @@ angular.module('twistedHangmanApp').factory('twGameDisplay',
             twGamePhaseService.phases().then(function (phases) {
               scope.phaseDescription = phases[scope.game.gamePhase][0];
             }, function () {
-              //  TODO
+              $location.path('/error');
             });
 
             scope.lastUpdate = parseDate(scope.game.lastUpdate);

@@ -79,8 +79,8 @@ describe('Service: twGameDetails', function () {
       game.gamePhase = 'Playing';
       game.wordPhraseSetter = 'md1';
       game.features = [];
-      expect(service.playerCanPlay(game, 'md1')).toEqual(false);
-      ['md2', 'md3', 'md4', 'md5'].forEach(function (md) {
+      expect(service.playerCanPlay(game, 'md1', 'md2', 'md4', 'md5')).toEqual(false);
+      ['md3'].forEach(function (md) {
         expect(service.playerCanPlay(game, md)).toEqual(true);
       });
     });
