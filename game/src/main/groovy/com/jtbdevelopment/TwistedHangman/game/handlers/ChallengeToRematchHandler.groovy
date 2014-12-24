@@ -42,7 +42,6 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
         newGame
     }
 
-    //  TODO - test for this
     @Override
     protected Game rotateTurnBasedGame(final Game game) {
         //  Don't rotate, create already did

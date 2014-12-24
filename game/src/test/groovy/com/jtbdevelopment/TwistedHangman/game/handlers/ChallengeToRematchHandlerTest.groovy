@@ -5,6 +5,7 @@ import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.input.GameIsNotAvailableToRematchException
 import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
@@ -75,6 +76,22 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
         puzzled.is(handler.handleActionInternal(PONE, previous, null))
     }
 
+    public void testNoRotation() {
+        GamePhase.values().each {
+            GamePhase it ->
+                def ps = [PONE, PTWO, PFOUR]
+                Game game = new Game(
+                        gamePhase: it,
+                        players: ps,
+                        features: [GameFeature.TurnBased],
+                        featureData: [(GameFeature.TurnBased): PONE.id])
+                handler.rotateTurnBasedGame(game);
+                assert game.players[0] == PONE
+                assert game.players[1] == PTWO
+                assert game.players[2] == PFOUR
+                assert game.featureData[GameFeature.TurnBased] == PONE.id
+        }
+    }
 
     public void testNotInRematchPhase() {
         GamePhase.values().find { it != GamePhase.RoundOver }.each {
