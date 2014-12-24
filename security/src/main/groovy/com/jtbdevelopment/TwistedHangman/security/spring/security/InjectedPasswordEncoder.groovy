@@ -21,7 +21,7 @@ class InjectedPasswordEncoder implements PasswordEncoder {
     final BCryptPasswordEncoder passwordEncoder;
 
     InjectedPasswordEncoder() {
-        passwordEncoder = new BCryptPasswordEncoder(10, new SecureRandom())
+        passwordEncoder = new BCryptPasswordEncoder(12, new SecureRandom())
     }
 
     @Override

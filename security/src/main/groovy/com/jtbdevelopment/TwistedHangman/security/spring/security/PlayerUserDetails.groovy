@@ -13,9 +13,6 @@ import org.springframework.social.security.SocialUserDetails
 /**
  * Date: 12/14/14
  * Time: 5:27 PM
- *
- * TODO - lots of cleanup
- *
  */
 @CompileStatic
 class PlayerUserDetails implements SocialUserDetails, UserDetails, SessionUserInfo {
