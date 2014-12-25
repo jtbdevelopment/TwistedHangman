@@ -104,7 +104,7 @@ class JettyServer {
     }
 
     static void main(final String[] args) throws Exception {
-        Server server = makeServer(9998, "spring-context-rest.xml");
+        Server server = makeServer(9998, "spring-context-integration.xml");
         server.start()
         Thread.sleep(Long.MAX_VALUE);
         server.stop()
