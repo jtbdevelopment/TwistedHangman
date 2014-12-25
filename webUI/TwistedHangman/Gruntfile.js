@@ -67,7 +67,6 @@ module.exports = function (grunt) {
     connect: {
       options: {
         port: 9000,
-        protocol: 'https"',
         // Change this to '0.0.0.0' to access the server from outside.
         hostname: 'localhost',
         livereload: 35729
@@ -76,20 +75,17 @@ module.exports = function (grunt) {
         {
           context: '/api', // the context of the data service
           host: 'localhost', // wherever the data service is running
-          port: 9998, // the port that the data service is running on
-          https: false
+          port: 9998 // the port that the data service is running on
         },
         {
           context: '/auth', // the context of the data service
           host: 'localhost', // wherever the data service is running
-          port: 9998, // the port that the data service is running on
-          https: false
+          port: 9998 // the port that the data service is running on
         },
         {
           context: '/signin/authenticate', // the context of the data service
           host: 'localhost', // wherever the data service is running
-          port: 9999, // the port that the data service is running on
-          https: true
+          port: 9998 // the port that the data service is running on
         },
         {
           context: '/livefeed', // the context of the data service
