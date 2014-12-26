@@ -23,9 +23,13 @@ class DAOPersistentTokenRepository implements PersistentTokenRepository {
     void updateToken(final String series, final String tokenValue, final Date lastUsed) {
         MongoPersistentRememberMeToken mongoPersistentRememberMeToken = persistentRememberMeTokenRepository.findBySeries(series)
         if (mongoPersistentRememberMeToken) {
-            mongoPersistentRememberMeToken.tokenValue = tokenValue
-            mongoPersistentRememberMeToken.date = lastUsed
-            persistentRememberMeTokenRepository.save(mongoPersistentRememberMeToken)
+            MongoPersistentRememberMeToken newToken = new MongoPersistentRememberMeToken(
+                    mongoPersistentRememberMeToken.username,
+                    mongoPersistentRememberMeToken.series,
+                    mongoPersistentRememberMeToken.tokenValue,
+                    mongoPersistentRememberMeToken.date,
+                    mongoPersistentRememberMeToken.id)
+            persistentRememberMeTokenRepository.save(newToken)
         }
     }
 

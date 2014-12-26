@@ -19,6 +19,7 @@ angular.module('twistedHangmanApp')
         if (!auto) {
           $scope.showFacebook = true;
           $scope.showManual = true;
+          $scope.$apply();
         } else {
           $scope.message = 'Logging in via Facebook';
           $window.location = '/auth/facebook';

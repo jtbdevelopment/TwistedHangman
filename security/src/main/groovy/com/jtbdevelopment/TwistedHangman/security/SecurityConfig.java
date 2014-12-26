@@ -77,7 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutUrl("/signout").deleteCookies("JSESSIONID")
                 .and()
-                .rememberMe().key(tokenKey).tokenRepository(persistentTokenRepository)
+                .rememberMe().key(tokenKey).tokenRepository(persistentTokenRepository).userDetailsService(playerUserDetailsService)
                 .and()
                 .portMapper().portMapper(portMapper)
                 .and()
@@ -99,7 +99,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             http.httpBasic();
         } else {
             http.requiresChannel().antMatchers("/**").requiresSecure();
-
+            http.rememberMe().useSecureCookie(true);
         }
     }
 }
