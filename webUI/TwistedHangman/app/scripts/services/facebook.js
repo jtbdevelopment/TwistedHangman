@@ -10,7 +10,7 @@ angular.module('twistedHangmanApp').factory('twFacebook',
       //  TODO - should probably use promises not callbacks
       function loadFB(callback) {
         if (!loaded) {
-          $http.get('/api/signin/apis', {cache: true}).success(function (response) {
+          $http.get('/api/social/apis', {cache: true}).success(function (response) {
             facebookAppId = response.facebookAppId;
             window.fbAsyncInit = function () {
               FB.init({

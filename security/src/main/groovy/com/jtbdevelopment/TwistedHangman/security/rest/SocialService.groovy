@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType
  * Date: 12/25/14
  * Time: 9:10 PM
  */
-@Path("/signin/apis")
+@Path("social")
 @Component
 @CompileStatic
 class SocialService {
@@ -23,6 +23,7 @@ class SocialService {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("apis")
     Map<String, String> apiInfo() {
         def apis = [:]
         if (facebookProperties && "NOTSET" != facebookProperties.clientID) {

@@ -33,9 +33,17 @@
   </div>
 </div>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-2 col-sm-offset-5">
+<div ng-controller="SignInCtrl">
+  <div class="container">
+    <div class="row text-center">
+      <div class="center">
+        <p>{{message}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" ng-show="showFacebook">
+    <div class="row text-center">
       <div class="center">
         <p><a href="/auth/facebook"><img src="/images/sign-in-with-facebook.png" border="0"/></a></p>
       </div>
@@ -43,22 +51,37 @@
   </div>
 
 
-  <div class="container-fluid">
-    <div class="row">
-      <form id="signin" action="/signin/authenticate" method="post">
-        <label for="login">Username</label>
-        <input id="login" name="username" type="text" size="25"/>
-        <label for="password">Password</label>
-        <input id="password" name="password" type="password" size="25"/>
-        <button type="submit">Sign In</button>
+  <div class="container" ng-show="showManual">
+    <div class="row text-center">
+      <p>Don't want to login with Facebook?</p>
+
+      <form id="signin" action="/signin/authenticate" method="post" class="form-group">
+        <div class="form-group">
+          <label for="login">Username</label>
+          <input id="login" name="username" type="text" size="25"/>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" size="25"/>
+        </div>
+        <div class="form-group">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" id="remember-me"> Remember me
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">Sign in</button>
+        </div>
       </form>
     </div>
   </div>
 
-  <!--div class="footer">
-    <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
-  </div-->
 </div>
+<!--div class="footer">
+  <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
+</div-->
 
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -128,6 +151,7 @@
 <script src="/scripts/services/gamePhases.js"></script>
 <script src="/scripts/services/playerService.js"></script>
 <script src="/scripts/services/gameDisplay.js"></script>
+<script src="/scripts/controllers/signin.js"></script>
 <script src="/scripts/controllers/main.js"></script>
 <script src="/scripts/controllers/about.js"></script>
 <script src="/scripts/controllers/confirm.js"></script>
@@ -136,7 +160,6 @@
 <script src="/scripts/controllers/gamefinders.js"></script>
 <script src="/scripts/controllers/showgame.js"></script>
 <script src="/scripts/controllers/create.js"></script>
-
 <script src="/scripts/directives/gameButtons.js"></script>
 
 <!-- endbuild -->

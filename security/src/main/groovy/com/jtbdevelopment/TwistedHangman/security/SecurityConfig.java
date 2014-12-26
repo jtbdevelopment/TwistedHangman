@@ -14,9 +14,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.PortMapperImpl;
-import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.social.security.SpringSocialConfigurer;
 // TODO - lots of cleanup
 
@@ -40,6 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     SecurityProperties securityProperties;
 
     @Autowired
+    PersistentTokenRepository persistentTokenRepository;
+
+    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(injectedPasswordEncoder);
@@ -56,14 +58,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                         //  TODO - review signup/disconnect
-                .antMatchers("/favicon.ico", "/images/**", "/facebook/**", "/auth/**", "/signin/**", "/signup/**", "/disconnect/facebook", "/styles/**", "/scripts/**").permitAll()
+                .antMatchers(
+                        "/favicon.ico",
+                        "/images/**",
+                        "/styles/**",
+                        "/scripts/**",
+                        "/facebook/**",
+                        "/auth/**",
+                        "/signin/**",
+                        "/signup/**",
+                        "/api/social/apis",
+                        "/disconnect/facebook"
+                )
+                .permitAll()
                 .antMatchers("/**").authenticated()
                 .and()
-                .formLogin().loginPage("/signin/signin.html").loginProcessingUrl("/signin/authenticate").failureUrl("/signin/signin.html?error=BadCredentials").defaultSuccessUrl("/", true)
+                .formLogin().loginPage("/signin/index.html").loginProcessingUrl("/signin/authenticate").failureUrl("/signin/index.html?error=BadCredentials").defaultSuccessUrl("/", true)
                 .and()
                 .logout().logoutUrl("/signout").deleteCookies("JSESSIONID")
                 .and()
-                .rememberMe().key(tokenKey)
+                .rememberMe().key(tokenKey).tokenRepository(persistentTokenRepository)
                 .and()
                 .portMapper().portMapper(portMapper)
                 .and()
@@ -87,8 +101,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             http.requiresChannel().antMatchers("/**").requiresSecure();
 
         }
-        TokenBasedRememberMeServices twistedHangman = new TokenBasedRememberMeServices(tokenKey, http.getSharedObject(UserDetailsService.class));
-//        twistedHangman.setAlwaysRemember(true);
-        http.rememberMe().rememberMeServices(twistedHangman);
     }
 }
