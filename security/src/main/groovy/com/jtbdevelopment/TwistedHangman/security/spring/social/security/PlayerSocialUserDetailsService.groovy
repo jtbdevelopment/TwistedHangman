@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.security.spring.social
+package com.jtbdevelopment.TwistedHangman.security.spring.social.security
 
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.players.Player

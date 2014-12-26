@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.security.spring.social.dao
+package com.jtbdevelopment.TwistedHangman.security.spring.security.dao
 
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
@@ -12,16 +12,16 @@ import org.springframework.security.web.authentication.rememberme.PersistentReme
  * Date: 12/26/14
  * Time: 9:03 AM
  */
-@Document(collection = 'persistentTokens')
+@Document()
 @CompoundIndexes(
         [@CompoundIndex(name = 'series', unique = true, def = "{'series':1}")]
 )
-class MongoPersistentRememberMeToken extends PersistentRememberMeToken {
+class RememberMeToken extends PersistentRememberMeToken {
     @Id
     ObjectId id
 
     @PersistenceConstructor
-    MongoPersistentRememberMeToken(
+    RememberMeToken(
             final String username,
             final String series,
             final String tokenValue,
@@ -31,7 +31,7 @@ class MongoPersistentRememberMeToken extends PersistentRememberMeToken {
         this.id = id;
     }
 
-    MongoPersistentRememberMeToken(final PersistentRememberMeToken persistentRememberMeToken) {
+    RememberMeToken(final PersistentRememberMeToken persistentRememberMeToken) {
         this(persistentRememberMeToken.username,
                 persistentRememberMeToken.series,
                 persistentRememberMeToken.tokenValue,

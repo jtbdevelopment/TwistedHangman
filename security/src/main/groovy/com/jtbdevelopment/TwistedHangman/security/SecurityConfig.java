@@ -2,7 +2,7 @@ package com.jtbdevelopment.TwistedHangman.security;
 
 import com.jtbdevelopment.TwistedHangman.security.spring.security.InjectedPasswordEncoder;
 import com.jtbdevelopment.TwistedHangman.security.spring.security.PlayerUserDetailsService;
-import com.jtbdevelopment.TwistedHangman.security.spring.social.PlayerSocialUserDetailsService;
+import com.jtbdevelopment.TwistedHangman.security.spring.social.security.PlayerSocialUserDetailsService;
 import groovy.transform.CompileStatic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

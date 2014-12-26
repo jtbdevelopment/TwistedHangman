@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.security.spring.social.dao
+package com.jtbdevelopment.TwistedHangman.security.spring.security.dao
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken
@@ -16,14 +16,14 @@ class DAOPersistentTokenRepository implements PersistentTokenRepository {
 
     @Override
     void createNewToken(final PersistentRememberMeToken token) {
-        persistentRememberMeTokenRepository.save(new MongoPersistentRememberMeToken(token))
+        persistentRememberMeTokenRepository.save(new RememberMeToken(token))
     }
 
     @Override
     void updateToken(final String series, final String tokenValue, final Date lastUsed) {
-        MongoPersistentRememberMeToken mongoPersistentRememberMeToken = persistentRememberMeTokenRepository.findBySeries(series)
+        RememberMeToken mongoPersistentRememberMeToken = persistentRememberMeTokenRepository.findBySeries(series)
         if (mongoPersistentRememberMeToken) {
-            MongoPersistentRememberMeToken newToken = new MongoPersistentRememberMeToken(
+            RememberMeToken newToken = new RememberMeToken(
                     mongoPersistentRememberMeToken.username,
                     mongoPersistentRememberMeToken.series,
                     mongoPersistentRememberMeToken.tokenValue,

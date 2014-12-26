@@ -1,7 +1,5 @@
-package com.jtbdevelopment.TwistedHangman.security.spring.social
+package com.jtbdevelopment.TwistedHangman.security.spring.social.dao
 
-import com.jtbdevelopment.TwistedHangman.security.spring.social.dao.UserConnection
-import com.jtbdevelopment.TwistedHangman.security.spring.social.dao.UserConnectionRepository
 import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
