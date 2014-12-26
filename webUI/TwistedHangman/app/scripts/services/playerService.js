@@ -2,8 +2,8 @@
 
 
 angular.module('twistedHangmanApp').factory('twPlayerService',
-  ['$http', '$rootScope', '$location',
-    function ($http, $rootScope, $location) {
+  ['$http', '$rootScope', '$location', '$window', 'twFacebook',
+    function ($http, $rootScope, $location, $window, twFacebook) {
       var realPID = '';
       var simulatedPID = '';
       var BASE_PLAYER_URL = '/api/player';
@@ -47,14 +47,37 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
         $rootScope.$broadcast('playerLoaded');
       }
 
-      $http.get('/api/security', {cache: true}).success(function (response) {
-        simulatedPlayer = response;
-        realPID = response.id;
-        simulatedPID = response.id;
-        broadcastLoaded();
-      }).error(function () {
-        $location.path('/error');
-      });
+      function initializePlayer() {
+        $http.get('/api/security', {cache: true}).success(function (response) {
+          simulatedPlayer = response.player;
+          realPID = simulatedPlayer.id;
+          simulatedPID = simulatedPlayer.id;
+          switch (simulatedPlayer.source) {
+            case 'facebook':
+              twFacebook.playerAndFBMatch(response.player, function (match) {
+                  if (!match) {
+                    $http.post('/signout').success(function () {
+                      $window.location = '/';
+                    }).error(function () {
+                      $location.path('/error');
+                    });
+                  } else {
+                    broadcastLoaded();
+                  }
+                }
+              );
+              break;
+            default:
+              broadcastLoaded();
+              break;
+          }
+
+        }).error(function () {
+          $location.path('/error');
+        });
+      }
+
+      initializePlayer();
 
       return service;
     }]);

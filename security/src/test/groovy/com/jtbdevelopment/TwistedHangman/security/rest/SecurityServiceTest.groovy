@@ -51,7 +51,7 @@ class SecurityServiceTest extends TwistedHangmanTestCase {
                 }
                 , null)
 
-        assert PONE == service.sessionPlayer
+        assert PONE == service.sessionPlayer.player
     }
 
     void testSessionPlayerAnnotations() {
