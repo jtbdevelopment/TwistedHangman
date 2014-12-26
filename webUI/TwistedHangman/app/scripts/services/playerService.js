@@ -54,7 +54,7 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
           simulatedPID = simulatedPlayer.id;
           switch (simulatedPlayer.source) {
             case 'facebook':
-              twFacebook.playerAndFBMatch(response.player, function (match) {
+              twFacebook.playerAndFBMatch(simulatedPlayer, function (match) {
                   if (!match) {
                     $http.post('/signout').success(function () {
                       $window.location = '/';

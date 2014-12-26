@@ -56,10 +56,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                         //  TODO - review signup/disconnect
-                .antMatchers("/favicon.ico", "/images/**", "/facebook/**", "/auth/**", "/signin/**", "/signup/**", "/disconnect/facebook").permitAll()
+                .antMatchers("/favicon.ico", "/images/**", "/facebook/**", "/auth/**", "/signin/**", "/signup/**", "/disconnect/facebook", "/styles/**", "/scripts/**").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()
-                .formLogin().loginPage("/signin/signin.html").loginProcessingUrl("/signin/authenticate").failureUrl("/signin/signin.html?error=BadCredentials")
+                .formLogin().loginPage("/signin/signin.html").loginProcessingUrl("/signin/authenticate").failureUrl("/signin/signin.html?error=BadCredentials").defaultSuccessUrl("/", true)
                 .and()
                 .logout().logoutUrl("/signout").deleteCookies("JSESSIONID")
                 .and()
@@ -71,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 //  TODO - better answer for this for canvas
                 .headers().frameOptions().disable()
-                .apply(new SpringSocialConfigurer());
+                .apply(new SpringSocialConfigurer().postLoginUrl("/"));
 
         if (Boolean.parseBoolean(securityProperties.getAllowBasicAuth())) {
             logger.warn("-----------------------------------------------------");

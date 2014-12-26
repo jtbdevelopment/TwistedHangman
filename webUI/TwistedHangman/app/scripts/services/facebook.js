@@ -35,7 +35,7 @@ angular.module('twistedHangmanApp').factory('twFacebook',
             loaded = true;
           }).error(function () {
             $location.path('/error');
-          })
+          });
         } else {
           callback();
         }

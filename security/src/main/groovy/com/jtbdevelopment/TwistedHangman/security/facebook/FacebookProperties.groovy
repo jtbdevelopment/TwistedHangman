@@ -5,7 +5,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
-import org.springframework.util.StringUtils
 
 import javax.annotation.PostConstruct
 
@@ -17,14 +16,14 @@ import javax.annotation.PostConstruct
 @Component
 class FacebookProperties {
     private static final Logger logger = LoggerFactory.getLogger(FacebookProperties.class)
-    @Value('${facebook.clientID:\'\'}')
+    @Value('${facebook.clientID:NOTSET}')
     String clientID;
-    @Value('${facebook.clientSecret:\'\'}')
+    @Value('${facebook.clientSecret:NOTSET}')
     String clientSecret;
 
     @PostConstruct
     public void testDefaults() {
-        if (StringUtils.isEmpty(clientID) || StringUtils.isEmpty(clientSecret)) {
+        if (clientID == 'NOTSET' || clientSecret == 'NOTSET') {
             logger.warn('----------------------------------------------------------------------------------------------')
             logger.warn('----------------------------------------------------------------------------------------------')
             logger.warn('----------------------------------------------------------------------------------------------')
