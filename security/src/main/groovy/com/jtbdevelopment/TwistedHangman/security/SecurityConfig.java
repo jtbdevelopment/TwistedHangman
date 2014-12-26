@@ -51,7 +51,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        String tokenKey = "TwistedHangman";
         PortMapperImpl portMapper = new PortMapperImpl();
         portMapper.getTranslatedPortMappings().put(8998, 8999);
         portMapper.getTranslatedPortMappings().put(9998, 9999);
@@ -77,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutUrl("/signout").deleteCookies("JSESSIONID")
                 .and()
-                .rememberMe().key(tokenKey).tokenRepository(persistentTokenRepository).userDetailsService(playerUserDetailsService)
+                .rememberMe().tokenRepository(persistentTokenRepository).userDetailsService(playerUserDetailsService)
                 .and()
                 .portMapper().portMapper(portMapper)
                 .and()
