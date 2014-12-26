@@ -13,9 +13,6 @@ describe('Service: playerService', function () {
     disabled: false,
     displayName: 'Manual Player1'
   };
-  var fullResult = {
-    player: playerResult
-  };
   var friendResult = {1: '2', 5: '6'};
 
   // Initialize the controller and a mock scope
@@ -30,7 +27,7 @@ describe('Service: playerService', function () {
 
   describe('with player responses', function () {
     beforeEach(function () {
-      httpBackend.expectGET('/api/security').respond(fullResult);
+      httpBackend.expectGET('/api/security').respond(playerResult);
       service = injector.get('twPlayerService');
     });
 

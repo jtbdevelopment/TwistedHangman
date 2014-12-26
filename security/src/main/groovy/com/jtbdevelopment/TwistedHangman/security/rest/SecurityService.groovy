@@ -1,10 +1,9 @@
 package com.jtbdevelopment.TwistedHangman.security.rest
 
+import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
 import com.jtbdevelopment.TwistedHangman.security.SessionUserInfo
-import com.jtbdevelopment.TwistedHangman.security.facebook.FacebookProperties
 import groovy.transform.CompileStatic
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 
@@ -25,18 +24,10 @@ import javax.ws.rs.core.MediaType
 @CompileStatic
 class SecurityService {
 
-    @Autowired(required = false)
-    FacebookProperties facebookProperties
-
     @SuppressWarnings("GrMethodMayBeStatic")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    Map<String, Object> getSessionPlayer() {
-        Map<String, Object> ret = [:]
-        ret["player"] = ((SessionUserInfo) SecurityContextHolder.context.authentication.principal).sessionUser
-        if (facebookProperties) {
-            ret["facebookAppId"] = facebookProperties.clientID
-        }
-        ret
+    Player getSessionPlayer() {
+        return ((SessionUserInfo) SecurityContextHolder.context.authentication.principal).sessionUser
     }
 }

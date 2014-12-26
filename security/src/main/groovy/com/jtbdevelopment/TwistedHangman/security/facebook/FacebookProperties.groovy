@@ -17,9 +17,9 @@ import javax.annotation.PostConstruct
 @Component
 class FacebookProperties {
     private static final Logger logger = LoggerFactory.getLogger(FacebookProperties.class)
-    @Value('${facebook.clientID:#{null}}')
+    @Value('${facebook.clientID:\'\'}')
     String clientID;
-    @Value('${facebook.clientSecret:#{null}}')
+    @Value('${facebook.clientSecret:\'\'}')
     String clientSecret;
 
     @PostConstruct

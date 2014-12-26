@@ -49,7 +49,7 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
 
       function initializePlayer() {
         $http.get('/api/security', {cache: true}).success(function (response) {
-          simulatedPlayer = response.player;
+          simulatedPlayer = response;
           realPID = simulatedPlayer.id;
           simulatedPID = simulatedPlayer.id;
           switch (simulatedPlayer.source) {
