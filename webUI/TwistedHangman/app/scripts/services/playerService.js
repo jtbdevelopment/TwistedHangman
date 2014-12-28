@@ -35,7 +35,8 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
         currentPlayerFriends: function () {
           //  TODO - local cookie?
           return $http.get(this.currentPlayerBaseURL() + FRIENDS_PATH, {cache: true}).then(function (response) {
-            return response.data;
+            console.info(JSON.stringify(response.data));
+            return response.data.masked_friends;
           });
         },
         currentPlayer: function () {

@@ -93,7 +93,7 @@ class PlayerServices implements ApplicationContextAware {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("friends")
-    public Map<String, String> getFriends() {
+    public Map<String, Object> getFriends() {
         //  Social Media Requires Session Specific Requests
         if (applicationContext) {
             logger.info("Able to retrieve FriendFinder from application context");

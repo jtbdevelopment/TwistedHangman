@@ -15,13 +15,18 @@ angular.module('twistedHangmanApp')
       $scope.showFacebook = false;
       $scope.showManual = false;
 
+      //  TODO - probably wouldnt need apply if using promises
       twFacebook.canAutoSignIn(function (auto) {
         if (!auto) {
           $scope.showFacebook = true;
           $scope.showManual = true;
+          $scope.message = '';
           $scope.$apply();
         } else {
+          $scope.showFacebook = false;
+          $scope.showManual = false;
           $scope.message = 'Logging in via Facebook';
+          $scope.$apply();
           $window.location = '/auth/facebook';
         }
       });

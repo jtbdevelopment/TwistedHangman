@@ -8,6 +8,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.ManualPlayer
+import com.jtbdevelopment.TwistedHangman.players.friendfinder.SourceBasedFriendFinder
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerGatewayService
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerServices
 import org.bson.types.ObjectId
@@ -121,11 +122,12 @@ class ServerIntegration {
         WebTarget path = client
                 .target(PLAYER_API)
                 .path("friends")
-        Map<String, String> friends = path
+        Map<String, Object> friends = path
                 .request(MediaType.APPLICATION_JSON)
-                .get(new GenericType<Map<String, String>>() {});
-        assert friends[TEST_PLAYER2.md5] == TEST_PLAYER2.displayName
-        assert friends[TEST_PLAYER3.md5] == TEST_PLAYER3.displayName
+                .get(new GenericType<Map<String, Object>>() {});
+        Map<String, String> players = friends[SourceBasedFriendFinder.MASKED_FRIENDS_KEY]
+        assert players[TEST_PLAYER2.md5] == TEST_PLAYER2.displayName
+        assert players[TEST_PLAYER3.md5] == TEST_PLAYER3.displayName
     }
 
     @Test

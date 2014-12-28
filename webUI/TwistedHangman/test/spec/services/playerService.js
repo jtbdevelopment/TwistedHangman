@@ -13,7 +13,7 @@ describe('Service: playerService', function () {
     disabled: false,
     displayName: 'Manual Player1'
   };
-  var friendResult = {1: '2', 5: '6'};
+  var friendResult = {masked_friends: {1: '2', 5: '6'}, otherdata: ['1,', '2']};
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($injector, $rootScope, $location, $httpBackend) {
@@ -111,7 +111,7 @@ describe('Service: playerService', function () {
       });
       httpBackend.flush();
 
-      expect(friends).toEqual(friendResult);
+      expect(friends).toEqual(friendResult.masked_friends);
     });
 
     it('sets current friends with error', function () {
@@ -145,7 +145,7 @@ describe('Service: playerService', function () {
       });
       httpBackend.flush();
 
-      expect(friends).toEqual(friendResult);
+      expect(friends).toEqual(friendResult.masked_friends);
 
       service.currentPlayerFriends().then(function (data) {
         friends = data;
@@ -153,7 +153,7 @@ describe('Service: playerService', function () {
         friends = error;
       });
 
-      expect(friends).toEqual(friendResult);
+      expect(friends).toEqual(friendResult.masked_friends);
     });
   });
 

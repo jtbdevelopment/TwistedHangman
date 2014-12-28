@@ -26,18 +26,30 @@ class FriendFinder {
     @Autowired
     FriendMasker friendMasker
 
-    Map<String, String> findFriends(final ObjectId playerId) {
+    Map<String, Object> findFriends(final ObjectId playerId) {
         Player player = playerRepository.findOne(playerId)
         if (player == null || player.disabled) {
             throw new FailedToFindPlayersException()
         }
-        Set<? extends Player> friends = [] as Set;
+        Map<String, Object> friends = [:]
         friendFinders.each {
             SourceBasedFriendFinder friendFinder ->
                 if (friendFinder.handlesSource(player.source)) {
-                    friends.addAll(friendFinder.findFriends(player))
+                    Map<String, Set<Object>> subFriends = friendFinder.findFriends(player)
+                    subFriends.each {
+                        String key, Set<Object> values ->
+                            if (friends.containsKey(key)) {
+                                ((Set<Object>) friends[key]).addAll(values)
+                            } else {
+                                friends[key] = values;
+                            }
+                    }
                 }
         }
-        return friendMasker.maskFriends(friends);
+        Set<Player> playerFriends = (Set<Player>) friends.remove(SourceBasedFriendFinder.FRIENDS_KEY)
+        if (playerFriends) {
+            friends[SourceBasedFriendFinder.MASKED_FRIENDS_KEY] = friendMasker.maskFriends(playerFriends)
+        }
+        return friends
     }
 }

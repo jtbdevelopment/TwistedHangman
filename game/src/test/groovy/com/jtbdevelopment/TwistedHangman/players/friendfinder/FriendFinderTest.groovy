@@ -23,7 +23,7 @@ class FriendFinderTest extends TwistedHangmanTestCase {
                 findFriends  : {
                     Player p ->
                         assert p.is(param)
-                        return [PONE, PTWO] as Set
+                        return [(SourceBasedFriendFinder.FRIENDS_KEY): [PONE, PTWO] as Set, 'Y': ['Yes'] as Set]
                 }
         ] as SourceBasedFriendFinder
         def f2 = [
@@ -34,7 +34,7 @@ class FriendFinderTest extends TwistedHangmanTestCase {
                 findFriends  : {
                     Player p ->
                         assert p.is(param)
-                        return [PONE, PTHREE] as Set
+                        return [(SourceBasedFriendFinder.FRIENDS_KEY): [PONE, PTHREE] as Set, 'X': [1, 2, 3] as Set]
                 }
         ] as SourceBasedFriendFinder
         def f3 = [
@@ -61,7 +61,11 @@ class FriendFinderTest extends TwistedHangmanTestCase {
                 }
         ] as FriendMasker
 
-        assert finder.findFriends(param.id) == masked
+        assert finder.findFriends(param.id) == [
+                (SourceBasedFriendFinder.MASKED_FRIENDS_KEY): masked,
+                'Y'                                         : ['Yes'] as Set,
+                'X'                                         : [1, 2, 3] as Set
+        ]
     }
 
     void testNoPlayerInRepository() {

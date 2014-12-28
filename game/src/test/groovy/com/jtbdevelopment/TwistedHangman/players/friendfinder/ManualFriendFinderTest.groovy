@@ -31,6 +31,6 @@ class ManualFriendFinderTest extends TwistedHangmanTestCase {
                 }
         ] as PlayerRepository
 
-        assert finder.findFriends(playerA) == [pX, pY, pZ] as Set
+        assert finder.findFriends(playerA) == [(SourceBasedFriendFinder.FRIENDS_KEY): [pX, pY, pZ] as Set]
     }
 }

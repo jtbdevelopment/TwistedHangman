@@ -34,26 +34,25 @@ class FacebookFriendFinder implements SourceBasedFriendFinder {
     }
 
     @Override
-    Set<Player> findFriends(final Player player) {
-        PagedList<Reference> friends = facebook.friendOperations().friends
-        return friends.collect {
-            Reference it ->
-                playerRepository.findBySourceAndSourceId("facebook", it.id)
-        }.findAll {
-            Player p ->
-                p != null
-        } as Set
-    }
+    Map<String, Set<Object>> findFriends(final Player player) {
+        Map<String, Set<Object>> results = [
+                (FRIENDS_KEY)          : [] as Set,
+                (NOT_FOUND_KEY)        : [] as Set,
+                (INVITABLE_FRIENDS_KEY): [] as Set
+        ]
 
-    /*
-    TODO
-            friends = facebook.fetchConnections("me", "invitable_friends", Reference.class);
+        PagedList<Reference> friends = facebook.friendOperations().friends
         friends.each {
             Reference it ->
-                println it.id
-                println it.name
-                println it
+                Player p = playerRepository.findBySourceAndSourceId("facebook", it.id)
+                if (p) {
+                    results[FRIENDS_KEY].add(p)
+                } else {
+                    results[NOT_FOUND_KEY].add(it)
+                }
         }
-
-     */
+        PagedList<Reference> canInvite = facebook.fetchConnections("me", "invitable_friends", Reference.class);
+        results[INVITABLE_FRIENDS_KEY].addAll(canInvite)
+        return results
+    }
 }

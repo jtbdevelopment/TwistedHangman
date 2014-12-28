@@ -3,10 +3,8 @@ package com.jtbdevelopment.TwistedHangman.security.facebook
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.players.ManualPlayer
-import org.springframework.social.facebook.api.Facebook
-import org.springframework.social.facebook.api.FriendOperations
-import org.springframework.social.facebook.api.PagedList
-import org.springframework.social.facebook.api.PagingParameters
+import com.jtbdevelopment.TwistedHangman.players.friendfinder.SourceBasedFriendFinder
+import org.springframework.social.facebook.api.*
 
 /**
  * Date: 12/24/14
@@ -20,20 +18,11 @@ class FacebookFriendFinderTest extends TwistedHangmanTestCase {
         assert !friendFinder.handlesSource(ManualPlayer.MANUAL_SOURCE)
         assert !friendFinder.handlesSource("twitter")
     }
-/*
-                friendOperations: {
-                    getFriends: {
-                        return new PagedList<Reference>(
-                                [PTWO.sourceId, PFOUR.source, PINACTIVE1.sourceId],
-                                new PagingParameters(0, 0, 0, 0),
-                                new PagingParameters(0, 0, 0, 0)
-                        )
-                    ] as FriendOperations
-                    }
-
- */
 
     void testFindFriends() {
+        def R1 = new Reference("1")
+        def R2 = new Reference("2")
+        def R3 = new Reference("4")
         def facebook = [
                 friendOperations: {
                     return [
@@ -49,6 +38,22 @@ class FacebookFriendFinderTest extends TwistedHangmanTestCase {
                                 )
                             }
                     ] as FriendOperations
+                },
+                fetchConnections: {
+                    String start, String type, Class ret, String[] va ->
+                        assert start == "me"
+                        assert type == "invitable_friends"
+                        assert ret == org.springframework.social.facebook.api.Reference.class
+
+                        return new PagedList<org.springframework.social.facebook.api.Reference>(
+                                [
+                                        R1,
+                                        R2,
+                                        R3,
+                                ],
+                                new PagingParameters(0, 0, 0, 0),
+                                new PagingParameters(0, 0, 0, 0)
+                        )
                 }
         ] as Facebook
         def repo = [
@@ -70,6 +75,12 @@ class FacebookFriendFinderTest extends TwistedHangmanTestCase {
         friendFinder.playerRepository = repo
         friendFinder.facebook = facebook
 
-        assert friendFinder.findFriends(PONE) == [PTWO, PFOUR, PINACTIVE1] as Set
+
+        def friends = friendFinder.findFriends(PONE)
+        assert friends == [
+                (SourceBasedFriendFinder.FRIENDS_KEY)          : [PTWO, PFOUR, PINACTIVE1] as Set,
+                (SourceBasedFriendFinder.NOT_FOUND_KEY)        : [] as Set,
+                (SourceBasedFriendFinder.INVITABLE_FRIENDS_KEY): [R1, R2, R3] as Set
+        ]
     }
 }
