@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.players
+package com.jtbdevelopment.gamecore.players
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import org.bson.types.ObjectId

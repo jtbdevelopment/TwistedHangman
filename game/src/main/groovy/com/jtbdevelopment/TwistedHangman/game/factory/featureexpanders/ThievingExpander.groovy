@@ -2,7 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.factory.featureexpanders
 
 import com.jtbdevelopment.TwistedHangman.game.factory.FeatureExpander
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.gamecore.players.Player
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
 

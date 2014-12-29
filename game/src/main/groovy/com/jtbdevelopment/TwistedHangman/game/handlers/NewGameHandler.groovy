@@ -8,8 +8,8 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
-import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
+import com.jtbdevelopment.gamecore.players.Player
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired

@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.gamecore.players.Player
 
 /**
  * Date: 11/8/2014

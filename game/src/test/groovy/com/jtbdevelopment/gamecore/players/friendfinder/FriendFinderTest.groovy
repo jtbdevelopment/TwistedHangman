@@ -1,9 +1,9 @@
-package com.jtbdevelopment.TwistedHangman.players.friendfinder
+package com.jtbdevelopment.gamecore.players.friendfinder
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindPlayersException
-import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.gamecore.dao.PlayerRepository
+import com.jtbdevelopment.gamecore.players.Player
 import org.bson.types.ObjectId
 
 /**

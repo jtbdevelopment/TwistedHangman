@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.feed.websocket
 
-import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.gamecore.players.Player
 import com.jtbdevelopment.gamecore.security.SessionUserInfo
 import org.atmosphere.cpr.Action
 import org.atmosphere.cpr.AtmosphereRequest

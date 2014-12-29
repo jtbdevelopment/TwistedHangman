@@ -1,9 +1,9 @@
-package com.jtbdevelopment.TwistedHangman.players
+package com.jtbdevelopment.gamecore.players
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.jtbdevelopment.TwistedHangman.json.ObjectIdDeserializer
-import com.jtbdevelopment.TwistedHangman.json.ObjectIdSerializer
+import com.jtbdevelopment.gamecore.json.ObjectIdDeserializer
+import com.jtbdevelopment.gamecore.json.ObjectIdSerializer
 import groovy.transform.CompileStatic
 import org.apache.commons.codec.digest.DigestUtils
 import org.bson.types.ObjectId
@@ -16,18 +16,18 @@ import org.springframework.util.StringUtils
  * Date: 11/3/14
  * Time: 6:53 AM
  */
-@Document
+//  TODO
 //  This propagating to game table...
 //@CompoundIndex(unique = true, name = "id_source", def = "{'sourceId':1, 'source':1}")
+@Document
 @CompileStatic
-
 class Player implements Cloneable {
     //  Klunky - but initialized by FriendMasker
     public static String ID_SALT = ""
 
     public static final String SYSTEM_ID_DISPLAY_NAME = "TwistedHangman"
     public static final String SYSTEM_ID_SOURCE = "System"
-    public static final ObjectId SYSTEM_ID_ID = new ObjectId("".padRight(24, "0"));
+    public static final ObjectId SYSTEM_ID_ID = new ObjectId("000000000000000000000000");
     public static final Player SYSTEM_PLAYER = new Player(
             id: SYSTEM_ID_ID,
             displayName: SYSTEM_ID_DISPLAY_NAME,

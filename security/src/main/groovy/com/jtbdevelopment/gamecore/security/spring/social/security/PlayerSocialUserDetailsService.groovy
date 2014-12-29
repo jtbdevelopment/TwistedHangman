@@ -1,7 +1,7 @@
 package com.jtbdevelopment.gamecore.security.spring.social.security
 
-import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.gamecore.dao.PlayerRepository
+import com.jtbdevelopment.gamecore.players.Player
 import com.jtbdevelopment.gamecore.security.spring.security.PlayerUserDetails
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId

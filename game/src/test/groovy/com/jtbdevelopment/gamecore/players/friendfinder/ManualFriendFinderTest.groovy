@@ -1,8 +1,8 @@
-package com.jtbdevelopment.TwistedHangman.players.friendfinder
+package com.jtbdevelopment.gamecore.players.friendfinder
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.gamecore.dao.PlayerRepository
+import com.jtbdevelopment.gamecore.players.Player
 
 /**
  * Date: 11/26/14

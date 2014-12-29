@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.players
+package com.jtbdevelopment.gamecore.players
 
 /**
  * Date: 12/22/14

@@ -3,7 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.gamecore.players.Player
 
 /**
  * Date: 11/5/14

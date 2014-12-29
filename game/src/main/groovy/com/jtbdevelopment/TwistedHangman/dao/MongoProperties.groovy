@@ -11,12 +11,12 @@ import org.springframework.stereotype.Component
 @Component
 @CompileStatic
 class MongoProperties {
-    @Value('${mongo.dbName:twistedhangman}')
+    @Value('${mongo.dbName:twisted}')
     String dbName;
     @Value('${mongo.host:localhost}')
     String dbHost;
-    @Value('${mongo.userName:twistedhangman}')
+    @Value('${mongo.userName:twisted}')
     String dbUser;
-    @Value('${mongo.userPassword:twistedhangman}')
+    @Value('${mongo.userPassword:twisted}')
     String dbPassword;
 }

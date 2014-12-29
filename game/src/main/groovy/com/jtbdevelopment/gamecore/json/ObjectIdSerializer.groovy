@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.json
+package com.jtbdevelopment.gamecore.json
 
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonProcessingException

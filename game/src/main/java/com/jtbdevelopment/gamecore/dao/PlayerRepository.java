@@ -1,6 +1,6 @@
 package com.jtbdevelopment.gamecore.dao;
 
-import com.jtbdevelopment.TwistedHangman.players.Player;
+import com.jtbdevelopment.gamecore.players.Player;
 import org.bson.types.ObjectId;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;

@@ -1,8 +1,8 @@
 package com.jtbdevelopment.gamecore.security.spring.security
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.players.ManualPlayer
 import com.jtbdevelopment.gamecore.dao.PlayerRepository
+import com.jtbdevelopment.gamecore.players.ManualPlayer
 
 /**
  * Date: 12/24/14

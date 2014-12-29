@@ -1,6 +1,6 @@
-package com.jtbdevelopment.TwistedHangman.players.friendfinder;
+package com.jtbdevelopment.gamecore.players.friendfinder;
 
-import com.jtbdevelopment.TwistedHangman.players.Player;
+import com.jtbdevelopment.gamecore.players.Player;
 
 import java.util.Map;
 import java.util.Set;

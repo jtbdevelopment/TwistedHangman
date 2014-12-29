@@ -6,7 +6,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedIndividualGameState
-import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.gamecore.players.Player
 
 /**
  * Date: 12/9/14

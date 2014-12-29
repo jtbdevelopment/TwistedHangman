@@ -1,9 +1,9 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.players.Player
-import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
 import com.jtbdevelopment.gamecore.dao.PlayerRepository
+import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.PlayerRoles
 import com.jtbdevelopment.gamecore.security.SessionUserInfo
 import groovy.transform.TypeChecked
 import org.bson.types.ObjectId

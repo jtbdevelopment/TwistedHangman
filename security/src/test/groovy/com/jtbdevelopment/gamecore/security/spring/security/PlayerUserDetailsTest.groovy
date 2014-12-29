@@ -1,9 +1,9 @@
 package com.jtbdevelopment.gamecore.security.spring.security
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.players.ManualPlayer
-import com.jtbdevelopment.TwistedHangman.players.Player
-import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
+import com.jtbdevelopment.gamecore.players.ManualPlayer
+import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.PlayerRoles
 import org.bson.types.ObjectId
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 
