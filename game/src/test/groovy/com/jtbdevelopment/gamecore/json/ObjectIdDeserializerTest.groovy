@@ -1,6 +1,7 @@
 package com.jtbdevelopment.gamecore.json
 
 import com.fasterxml.jackson.core.*
+import com.jtbdevelopment.gamecore.json.mongo.ObjectIdDeserializer
 import org.bson.types.ObjectId
 
 /**

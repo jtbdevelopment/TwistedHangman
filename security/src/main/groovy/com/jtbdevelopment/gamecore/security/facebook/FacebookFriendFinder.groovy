@@ -1,6 +1,6 @@
 package com.jtbdevelopment.gamecore.security.facebook
 
-import com.jtbdevelopment.gamecore.dao.PlayerRepository
+import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.gamecore.players.Player
 import com.jtbdevelopment.gamecore.players.friendfinder.SourceBasedFriendFinder
 import groovy.transform.CompileStatic

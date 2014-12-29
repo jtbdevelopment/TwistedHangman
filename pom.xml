@@ -11,9 +11,9 @@
         <module>game</module>
         <module>utilities</module>
         <module>rest</module>
-        <module>webUI</module>
         <module>security</module>
         <module>integration-tests</module>
+        <module>webUI</module>
         <module>example-tomcat</module>
     </modules>
 

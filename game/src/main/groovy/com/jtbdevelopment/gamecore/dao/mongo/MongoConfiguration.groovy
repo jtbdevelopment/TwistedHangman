@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.dao
+package com.jtbdevelopment.gamecore.dao.mongo
 
 import com.jtbdevelopment.gamecore.dao.mongo.converters.MongoConverter
 import com.mongodb.Mongo

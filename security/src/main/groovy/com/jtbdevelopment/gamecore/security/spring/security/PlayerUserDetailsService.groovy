@@ -1,6 +1,6 @@
 package com.jtbdevelopment.gamecore.security.spring.security
 
-import com.jtbdevelopment.gamecore.dao.PlayerRepository
+import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.gamecore.players.ManualPlayer
 import com.jtbdevelopment.gamecore.players.Player
 import groovy.transform.CompileStatic

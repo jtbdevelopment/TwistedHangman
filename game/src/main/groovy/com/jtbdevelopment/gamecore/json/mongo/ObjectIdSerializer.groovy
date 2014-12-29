@@ -1,4 +1,4 @@
-package com.jtbdevelopment.gamecore.json
+package com.jtbdevelopment.gamecore.json.mongo
 
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonProcessingException

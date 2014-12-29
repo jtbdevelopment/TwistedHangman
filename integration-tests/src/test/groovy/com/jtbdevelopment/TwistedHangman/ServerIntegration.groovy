@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedHangman
 
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
+import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
@@ -8,7 +9,6 @@ import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerGatewayService
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerServices
-import com.jtbdevelopment.gamecore.dao.PlayerRepository
 import com.jtbdevelopment.gamecore.players.ManualPlayer
 import com.jtbdevelopment.gamecore.players.friendfinder.SourceBasedFriendFinder
 import org.bson.types.ObjectId

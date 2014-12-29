@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.dao
+package com.jtbdevelopment.gamecore.dao.mongo
 
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Value

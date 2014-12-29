@@ -1,5 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.dao
 
+import com.jtbdevelopment.gamecore.dao.mongo.MongoConfiguration
+import com.jtbdevelopment.gamecore.dao.mongo.MongoProperties
 import com.jtbdevelopment.gamecore.dao.mongo.converters.MongoConverter
 import org.springframework.core.convert.support.GenericConversionService
 import org.springframework.data.authentication.UserCredentials

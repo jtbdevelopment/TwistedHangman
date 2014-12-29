@@ -2,8 +2,8 @@ package com.jtbdevelopment.gamecore.players
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.jtbdevelopment.gamecore.json.ObjectIdDeserializer
-import com.jtbdevelopment.gamecore.json.ObjectIdSerializer
+import com.jtbdevelopment.gamecore.json.mongo.ObjectIdDeserializer
+import com.jtbdevelopment.gamecore.json.mongo.ObjectIdSerializer
 import groovy.transform.CompileStatic
 import org.apache.commons.codec.digest.DigestUtils
 import org.bson.types.ObjectId
