@@ -25,16 +25,6 @@ class Player implements Cloneable {
     //  Klunky - but initialized by FriendMasker
     public static String ID_SALT = ""
 
-    public static final String SYSTEM_ID_DISPLAY_NAME = "TwistedHangman"
-    public static final String SYSTEM_ID_SOURCE = "System"
-    public static final ObjectId SYSTEM_ID_ID = new ObjectId("000000000000000000000000");
-    public static final Player SYSTEM_PLAYER = new Player(
-            id: SYSTEM_ID_ID,
-            displayName: SYSTEM_ID_DISPLAY_NAME,
-            source: SYSTEM_ID_SOURCE,
-            sourceId: SYSTEM_ID_ID.toHexString())
-    public static final String SYSTEM_ID_MD5 = SYSTEM_PLAYER.md5
-
     @Id
     @JsonSerialize(using = ObjectIdSerializer.class)
     @JsonDeserialize(using = ObjectIdDeserializer.class)
@@ -103,7 +93,7 @@ class Player implements Cloneable {
         return md5
     }
 
-    private String computeMD5Hex() {
+    protected String computeMD5Hex() {
         if (id == null || source == null || displayName == null || sourceId == null) {
             md5 = ""
         } else {

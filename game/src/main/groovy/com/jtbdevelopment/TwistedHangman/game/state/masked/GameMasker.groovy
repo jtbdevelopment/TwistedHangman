@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.state.masked
 
 import com.jtbdevelopment.TwistedHangman.game.state.*
 import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.SystemPlayer
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
@@ -62,8 +63,8 @@ class GameMasker {
         }
         playerMaskedGame.wordPhraseSetter =
                 game.wordPhraseSetter ?
-                        game.wordPhraseSetter == Player.SYSTEM_PLAYER.id ?
-                                Player.SYSTEM_PLAYER.md5 :
+                        game.wordPhraseSetter == SystemPlayer.SYSTEM_PLAYER.id ?
+                                SystemPlayer.SYSTEM_PLAYER.md5 :
                                 idmap[game.wordPhraseSetter].md5 : null
     }
 

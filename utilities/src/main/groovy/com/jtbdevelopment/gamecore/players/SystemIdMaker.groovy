@@ -16,15 +16,15 @@ class SystemIdMaker {
 
         PlayerRepository repository = ctx.getBean(PlayerRepository.class)
 
-        Player player = repository.findOne(Player.SYSTEM_ID_ID)
+        Player player = repository.findOne(SystemPlayer.SYSTEM_ID_ID)
         if (player == null) {
             println "Making system id"
-            player = repository.save(Player.SYSTEM_PLAYER)
+            player = repository.save(SystemPlayer.SYSTEM_PLAYER)
         }
         println "Verifying system id"
-        assert player.source == Player.SYSTEM_ID_SOURCE
-        assert player.displayName == Player.SYSTEM_ID_DISPLAY_NAME
-        assert player.md5 == Player.SYSTEM_ID_MD5
+        assert player.source == SystemPlayer.SYSTEM_ID_SOURCE
+        assert player.displayName == SystemPlayer.SYSTEM_ID_DISPLAY_NAME
+        assert player.md5 == SystemPlayer.SYSTEM_ID_MD5
 
         println "Complete"
     }

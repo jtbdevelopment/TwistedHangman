@@ -11,6 +11,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
 import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.SystemPlayer
 import org.bson.types.ObjectId
 
 import java.time.ZoneId
@@ -61,7 +62,7 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
                 publish: {
                     Game g, Player p ->
                         assert g.is(previousS)
-                        assert p.is(Player.SYSTEM_PLAYER)
+                        assert p.is(SystemPlayer.SYSTEM_PLAYER)
                         previousP
                 }
         ] as GamePublisher

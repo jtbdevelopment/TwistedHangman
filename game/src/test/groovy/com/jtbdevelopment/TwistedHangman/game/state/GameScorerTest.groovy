@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.SystemPlayer
 
 /**
  * Date: 11/8/2014
@@ -192,7 +192,7 @@ class GameScorerTest extends TwistedHangmanTestCase {
     public void testScoreWinForSinglePlayerGame() {
         Game game = new Game()
         game.players = [PONE]
-        game.wordPhraseSetter = Player.SYSTEM_PLAYER.id
+        game.wordPhraseSetter = SystemPlayer.SYSTEM_PLAYER.id
         game.playerRunningScores = [(PONE.id): 1]
         game.solverStates = [
                 (PONE.id): [isPuzzleSolved: { true }, isPlayerHung: { false }, isPuzzleOver: {
@@ -210,7 +210,7 @@ class GameScorerTest extends TwistedHangmanTestCase {
     public void testLossWinForSinglePlayerGame() {
         Game game = new Game()
         game.players = [PONE]
-        game.wordPhraseSetter = Player.SYSTEM_PLAYER.id
+        game.wordPhraseSetter = SystemPlayer.SYSTEM_PLAYER.id
         game.playerRunningScores = [(PONE.id): 1]
         game.solverStates = [
                 (PONE.id): [isPuzzleSolved: { false }, isPlayerHung: { true }, isPuzzleOver: {

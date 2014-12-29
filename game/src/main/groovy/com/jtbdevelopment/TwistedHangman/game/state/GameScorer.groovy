@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.SystemPlayer
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
@@ -37,7 +38,7 @@ class GameScorer {
                 }
         }
 
-        if (game.wordPhraseSetter != null && game.wordPhraseSetter != Player.SYSTEM_PLAYER.id) {
+        if (game.wordPhraseSetter != null && game.wordPhraseSetter != SystemPlayer.SYSTEM_PLAYER.id) {
             int net = losers - winners
             game.playerRoundScores[game.wordPhraseSetter] = net
             game.playerRunningScores[game.wordPhraseSetter] = game.playerRunningScores[game.wordPhraseSetter] + net
