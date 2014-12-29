@@ -1,2 +1,28 @@
-<!--  TODO -->
-<p>This is the about view.</p>
+<div>
+  <carousel interval="0" disable-animation="true">
+    <slide ng-repeat="slide in slides" active="slide.active">
+      <img ng-src="{{slide.image}}">
+
+      <div class="carousel-caption">
+        <h4>{{slide.title}}</h4>
+
+        <p>{{slide.text}}</p>
+      </div>
+    </slide>
+  </carousel>
+</div>
+
+<div class="footer">
+  <p>Built with
+    <a href="https://angularjs.org/" target="_blank">Angular</a>,
+    <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>,
+    <a href="http://glyphicons.com/" target="_blank">Glyphicons</a>,
+    <a href="https://github.com/Atmosphere" target="_blank">Atmosphere</a>,
+    <a href="http://spring.io/projects" target="_blank">Spring (Core, Data, Social, Security, etc)</a>,
+    <a href="https://jersey.java.net/" target="_blank">Jersey</a>,
+    <a href="http://jackson.codehaus.org/" target="_blank">Jackson</a>,
+    <a href="http://www.mongodb.org/" target="_blank">Mongo</a>,
+    <a href="http://groovy.codehaus.org/" target="_blank">Groovy</a></p>
+
+  <p>More Info at <a href="http://www.jtbdevelopment.com/" target="_blank">www.jtbdevelopment.com</a></p>
+</div>

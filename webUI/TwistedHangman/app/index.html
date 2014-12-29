@@ -45,6 +45,9 @@
       </li>
       <li><a ng-href="#/about">About</a></li>
       <li><a ng-href="#/admin" ng-show="showAdmin">Admin</a></li>
+      <li>
+        <div class="beta">BETA</div>
+      </li>
     </ul>
     <a href="#/">
       <h3 class="text-muted">
@@ -158,6 +161,8 @@
 <script src="scripts/services/gameCache.js"></script>
 <script src="scripts/services/liveGameFeed.js"></script>
 <script src="scripts/services/gameDetails.js"></script>
+<script src="scripts/directives/gameButtons.js"></script>
+<script src="scripts/directives/disableAnimation.js"></script>
 <script src="scripts/filters/propsFilter.js"></script>
 <script src="scripts/services/gameFeatures.js"></script>
 <script src="scripts/services/gamePhases.js"></script>
@@ -172,8 +177,6 @@
 <script src="scripts/controllers/gamefinders.js"></script>
 <script src="scripts/controllers/showgame.js"></script>
 <script src="scripts/controllers/create.js"></script>
-<script src="scripts/directives/gameButtons.js"></script>
-
 <!-- endbuild -->
 </body>
 </html>
