@@ -22,9 +22,6 @@ import org.springframework.util.StringUtils
 @Document
 @CompileStatic
 class Player implements Cloneable {
-    //  Klunky - but initialized by FriendMasker
-    public static String ID_SALT = ""
-
     @Id
     @JsonSerialize(using = ObjectIdSerializer.class)
     @JsonDeserialize(using = ObjectIdDeserializer.class)
@@ -97,7 +94,7 @@ class Player implements Cloneable {
         if (id == null || source == null || displayName == null || sourceId == null) {
             md5 = ""
         } else {
-            String key = ID_SALT + id.toHexString() + source + ID_SALT + displayName + sourceId + ID_SALT
+            String key = id.toHexString() + source + displayName + sourceId
             md5 = DigestUtils.md5Hex(key)
         }
         md5

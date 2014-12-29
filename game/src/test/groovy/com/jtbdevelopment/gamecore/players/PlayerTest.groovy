@@ -8,11 +8,6 @@ import org.bson.types.ObjectId
  * Time: 3:44 PM
  */
 class PlayerTest extends TwistedHangmanTestCase {
-    @Override
-    void setUp() {
-        Player.ID_SALT = 'SALTED'
-    }
-
     void testEquals() {
         assert PONE.equals(PONE)
         assertFalse PONE.equals(PTWO)
