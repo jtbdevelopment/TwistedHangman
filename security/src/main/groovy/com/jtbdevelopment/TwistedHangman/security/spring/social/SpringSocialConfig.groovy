@@ -9,8 +9,6 @@ import org.springframework.context.annotation.Scope
 import org.springframework.context.annotation.ScopedProxyMode
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.crypto.encrypt.Encryptors
-import org.springframework.security.crypto.encrypt.TextEncryptor
 import org.springframework.social.connect.ConnectionRepository
 import org.springframework.social.connect.UsersConnectionRepository
 import org.springframework.social.security.SocialAuthenticationServiceRegistry
@@ -31,14 +29,6 @@ class SpringSocialConfig {
             socialAuthenticationServiceRegistry.addAuthenticationService(service);
         }
         return socialAuthenticationServiceRegistry;
-    }
-
-    @Bean
-    @Autowired
-    TextEncryptor textEncryptor(TextEncryptionProperties textEncryptionProperties) {
-        //  TODO
-        //return Encryptors.text(textEncryptionProperties.password, textEncryptionProperties.salt)
-        return Encryptors.noOpText()
     }
 
     @Bean

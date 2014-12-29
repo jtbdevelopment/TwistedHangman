@@ -14,15 +14,15 @@ import javax.annotation.PostConstruct
 @Component
 class TextEncryptionProperties {
     private static final Logger logger = LoggerFactory.getLogger(TextEncryptionProperties.class)
-    @Value('${textEncryption.password:PASSWORD}')
+    @Value('${textEncryption.password:NOTSET}')
     String password
 
-    @Value('${textEncryption.salt:1234}')
+    @Value('${textEncryption.salt:NOTSET}')
     String salt;
 
     @PostConstruct
     public void testDefaults() {
-        if (password == 'PASSWORD' || salt == '1234') {
+        if (password == 'NOTSET' || salt == 'NOTSET') {
             logger.warn('-----------------------------------------------------------------------------')
             logger.warn('-----------------------------------------------------------------------------')
             logger.warn('-----------------------------------------------------------------------------')
