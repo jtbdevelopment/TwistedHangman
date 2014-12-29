@@ -1,6 +1,5 @@
 package com.jtbdevelopment.TwistedHangman.security.spring.social.security
 
-import com.jtbdevelopment.TwistedHangman.security.spring.social.TextEncryptionProperties
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.encrypt.BytesEncryptor

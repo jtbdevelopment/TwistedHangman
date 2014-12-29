@@ -1,7 +1,4 @@
 package com.jtbdevelopment.TwistedHangman.security.spring.social.security
-
-import com.jtbdevelopment.TwistedHangman.security.spring.social.TextEncryptionProperties
-
 /**
  * Date: 12/29/14
  * Time: 11:52 AM

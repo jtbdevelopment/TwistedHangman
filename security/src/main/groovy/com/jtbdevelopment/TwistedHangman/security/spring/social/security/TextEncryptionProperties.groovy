@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.security.spring.social
+package com.jtbdevelopment.TwistedHangman.security.spring.social.security
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
