@@ -13,10 +13,6 @@ import org.springframework.stereotype.Component
 /**
  * Date: 12/14/14
  * Time: 5:11 PM
- *
- * TODO - lots of cleanup
- * TODO - get images / facebook specific etc etc
- *
  */
 @Component
 @CompileStatic
@@ -34,9 +30,11 @@ class AutoConnectionSignUp implements ConnectionSignUp {
         } else {
             Player p = new Player(
                     disabled: false,
-                    displayName: connection.fetchUserProfile().name,
+                    displayName: connection.displayName,
                     source: connection.key.providerId,
-                    sourceId: connection.key.providerUserId
+                    sourceId: connection.key.providerUserId,
+                    profileUrl: connection.profileUrl,
+                    imageUrl: connection.imageUrl
             );
             p = playerRepository.save(p);
             return p.id

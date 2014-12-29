@@ -42,6 +42,8 @@ class Player implements Cloneable {
     String source
     String sourceId
     String displayName
+    String imageUrl
+    String profileUrl
 
     @Indexed
     private String md5

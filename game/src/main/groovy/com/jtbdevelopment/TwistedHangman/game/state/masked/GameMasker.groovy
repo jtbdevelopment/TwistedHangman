@@ -32,6 +32,8 @@ class GameMasker {
         game.players.each {
             Player p ->
                 playerMaskedGame.players[p.md5] = p.displayName
+                playerMaskedGame.playerImages[p.md5] = p.imageUrl
+                playerMaskedGame.playerProfiles[p.md5] = p.profileUrl
                 idmap[p.id] = p
         }
         playerMaskedGame.initiatingPlayer = idmap[game.initiatingPlayer].md5

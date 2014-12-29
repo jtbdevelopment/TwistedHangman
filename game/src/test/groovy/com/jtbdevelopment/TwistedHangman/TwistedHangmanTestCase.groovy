@@ -18,7 +18,14 @@ abstract class TwistedHangmanTestCase extends GroovyTestCase {
     protected static final Player PINACTIVE2 = makeSimplePlayer("A2", true)
 
     protected static Player makeSimplePlayer(final String id, final boolean disabled = false) {
-        return new Player(id: new ObjectId(id.padRight(24, "0")), source: "MADEUP", sourceId: "MADEUP" + id, displayName: id, disabled: disabled)
+        return new Player(
+                id: new ObjectId(id.padRight(24, "0")),
+                source: "MADEUP",
+                sourceId: "MADEUP" + id,
+                displayName: id,
+                disabled: disabled,
+                imageUrl: "http://somewhere.com/image/" + id,
+                profileUrl: "http://somewhere.com/profile/" + id)
     }
 
     protected static Game makeSimpleGame(final String id) {

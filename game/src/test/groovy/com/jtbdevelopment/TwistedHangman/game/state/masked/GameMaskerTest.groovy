@@ -54,6 +54,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         checkUnmaskedGameFields(maskedGame, game)
 
         assert maskedGame.players == [(PONE.md5): PONE.displayName]
+        assert maskedGame.playerImages == [(PONE.md5): PONE.imageUrl]
+        assert maskedGame.playerProfiles == [(PONE.md5): PONE.profileUrl]
         assert maskedGame.initiatingPlayer == PONE.md5
         assert maskedGame.playerStates == [(PONE.md5): PlayerState.Accepted]
         assert maskedGame.playerRunningScores == [(PONE.md5): 5]
@@ -129,6 +131,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         checkUnmaskedGameFields(maskedGame, game)
 
         assert maskedGame.players == [(PONE.md5): PONE.displayName, (PTWO.md5): PTWO.displayName]
+        assert maskedGame.playerImages == [(PONE.md5): PONE.imageUrl, (PTWO.md5): PTWO.imageUrl]
+        assert maskedGame.playerProfiles == [(PONE.md5): PONE.profileUrl, (PTWO.md5): PTWO.profileUrl]
         assert maskedGame.initiatingPlayer == PTWO.md5
         assert maskedGame.playerStates == [(PONE.md5): PlayerState.Accepted, (PTWO.md5): PlayerState.Rejected]
         assert maskedGame.playerRunningScores == [(PONE.md5): 5, (PTWO.md5): 7]
@@ -383,6 +387,9 @@ class GameMaskerTest extends TwistedHangmanTestCase {
 
     protected void checkMultiPlayerGame(MaskedGame maskedGame) {
         assert maskedGame.players == [(PONE.md5): PONE.displayName, (PTWO.md5): PTWO.displayName, (PTHREE.md5): PTHREE.displayName]
+        assert maskedGame.playerImages == [(PONE.md5): PONE.imageUrl, (PTWO.md5): PTWO.imageUrl, (PTHREE.md5): PTHREE.imageUrl]
+        assert maskedGame.playerProfiles == [(PONE.md5): PONE.profileUrl, (PTWO.md5): PTWO.profileUrl, (PTHREE.md5): PTHREE.profileUrl]
+
         assert maskedGame.initiatingPlayer == PTWO.md5
         assert maskedGame.playerStates == [(PONE.md5): PlayerState.Accepted, (PTWO.md5): PlayerState.Rejected, (PTHREE.md5): PlayerState.Pending]
         assert maskedGame.playerRunningScores == [(PONE.md5): 5, (PTWO.md5): 7, (PTHREE.md5): -10]

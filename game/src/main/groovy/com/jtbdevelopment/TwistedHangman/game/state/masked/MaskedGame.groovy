@@ -31,6 +31,8 @@ class MaskedGame implements Cloneable {
     String initiatingPlayer
     Map<String, String> players = [:]  //  players will be hashed down to an md5 key + displayName
     Map<String, PlayerState> playerStates = [:]  // key will be md5 key
+    Map<String, String> playerImages = [:] // key will be md5
+    Map<String, String> playerProfiles = [:] // key will be md5
 
     Set<GameFeature> features = [] as Set
     Map<GameFeature, Object> featureData = [:]  // Any objects referring to players will be changed to md5
