@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.feed.websocket
 
-import com.jtbdevelopment.TwistedHangman.security.SessionUserInfo
+import com.jtbdevelopment.gamecore.security.SessionUserInfo
 import groovy.transform.CompileStatic
 import org.atmosphere.cpr.*
 import org.bson.types.ObjectId

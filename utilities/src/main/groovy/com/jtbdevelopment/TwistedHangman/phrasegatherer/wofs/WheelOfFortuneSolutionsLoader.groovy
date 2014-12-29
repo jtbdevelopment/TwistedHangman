@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.phrasegatherer.wofs
 
 import com.jtbdevelopment.TwistedHangman.dao.CannedGameRepository
-import com.jtbdevelopment.TwistedHangman.dictionary.Validator
 import com.jtbdevelopment.TwistedHangman.game.utility.CannedGame
+import com.jtbdevelopment.gamecore.dictionary.Validator
 import org.springframework.context.ApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext
 

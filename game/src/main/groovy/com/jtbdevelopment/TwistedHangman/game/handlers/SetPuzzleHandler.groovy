@@ -1,6 +1,5 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
-import com.jtbdevelopment.TwistedHangman.dictionary.Validator
 import com.jtbdevelopment.TwistedHangman.exceptions.input.GameIsNotInSetupPhaseException
 import com.jtbdevelopment.TwistedHangman.exceptions.input.InvalidPuzzleWordsException
 import com.jtbdevelopment.TwistedHangman.exceptions.input.PuzzlesAreAlreadySetException
@@ -9,6 +8,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.gamecore.dictionary.Validator
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired

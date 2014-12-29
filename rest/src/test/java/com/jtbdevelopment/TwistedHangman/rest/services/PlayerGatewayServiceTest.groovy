@@ -4,7 +4,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
-import com.jtbdevelopment.TwistedHangman.security.SessionUserInfo
+import com.jtbdevelopment.gamecore.security.SessionUserInfo
 import groovy.transform.TypeChecked
 import org.bson.types.ObjectId
 import org.springframework.security.authentication.TestingAuthenticationToken

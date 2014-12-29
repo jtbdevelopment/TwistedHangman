@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.players
 
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
+import com.jtbdevelopment.gamecore.dao.PlayerRepository
 import org.springframework.context.ApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext
 

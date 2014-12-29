@@ -1,7 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.dictionary.Validator
 import com.jtbdevelopment.TwistedHangman.exceptions.input.GameIsNotInSetupPhaseException
 import com.jtbdevelopment.TwistedHangman.exceptions.input.InvalidPuzzleWordsException
 import com.jtbdevelopment.TwistedHangman.exceptions.input.PuzzlesAreAlreadySetException
@@ -9,6 +8,7 @@ import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
+import com.jtbdevelopment.gamecore.dictionary.Validator
 
 /**
  * Date: 11/10/14

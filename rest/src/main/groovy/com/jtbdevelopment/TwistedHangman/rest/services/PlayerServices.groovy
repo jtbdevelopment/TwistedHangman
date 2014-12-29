@@ -1,6 +1,5 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.handlers.NewGameHandler
 import com.jtbdevelopment.TwistedHangman.game.handlers.PlayerGamesFinderHandler
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
@@ -8,7 +7,8 @@ import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
 import com.jtbdevelopment.TwistedHangman.players.friendfinder.FriendFinder
-import com.jtbdevelopment.TwistedHangman.security.SessionUserInfo
+import com.jtbdevelopment.gamecore.dao.PlayerRepository
+import com.jtbdevelopment.gamecore.security.SessionUserInfo
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.slf4j.Logger

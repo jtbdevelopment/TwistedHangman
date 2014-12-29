@@ -3,7 +3,7 @@ package com.jtbdevelopment.TwistedHangman.rest.services
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
-import com.jtbdevelopment.TwistedHangman.security.SessionUserInfo
+import com.jtbdevelopment.gamecore.security.SessionUserInfo
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder

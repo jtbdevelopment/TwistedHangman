@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.dao
 
-import com.jtbdevelopment.TwistedHangman.dao.converters.MongoConverter
+import com.jtbdevelopment.gamecore.dao.mongo.converters.MongoConverter
 import com.mongodb.Mongo
 import com.mongodb.WriteConcern
 import groovy.transform.CompileStatic
@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
  * Time: 6:17 PM
  */
 @Configuration
-@EnableMongoRepositories("com.jtbdevelopment.TwistedHangman")
+@EnableMongoRepositories("com.jtbdevelopment")
 @CompileStatic
 class MongoConfiguration extends AbstractMongoConfiguration {
     @Autowired
