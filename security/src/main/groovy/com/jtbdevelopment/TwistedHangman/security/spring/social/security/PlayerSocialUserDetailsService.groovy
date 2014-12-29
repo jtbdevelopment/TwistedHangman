@@ -16,8 +16,6 @@ import org.springframework.stereotype.Component
  * Date: 12/13/14
  * Time: 9:36 PM
  *
- * TODO - lots of cleanup
- *
  */
 @Component
 @CompileStatic

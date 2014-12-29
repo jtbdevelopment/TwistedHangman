@@ -18,7 +18,6 @@ import org.springframework.data.mongodb.core.mapping.Document
 class ManualPlayer extends Player {
     public static final String MANUAL_SOURCE = "MANUAL"
 
-    //  TODO - Encrypted + salted password
     String password
 
     boolean verified = false

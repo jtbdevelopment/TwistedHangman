@@ -1,8 +1,6 @@
 /*global $:false */
 'use strict';
 
-//  TODO - this would probably work better and more efficiently as a central cache of games
-//  TODO - it would also allow publishing real-time etc.
 var phasesAndSymbols = {
   Playing: 'play',
   Setup: 'comment',
