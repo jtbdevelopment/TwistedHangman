@@ -5,7 +5,7 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.PlayerNotPartOfGameExc
 import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindGameException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.slf4j.Logger
@@ -26,7 +26,7 @@ class AbstractGameGetterHandler extends AbstractHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractGameActionHandler.class)
 
-    protected void validatePlayerForGame(final Game game, final Player player) {
+    protected void validatePlayerForGame(final Game game, final PlayerInt<ObjectId> player) {
         if (!game.players.contains(player)) {
             throw new PlayerNotPartOfGameException()
         }

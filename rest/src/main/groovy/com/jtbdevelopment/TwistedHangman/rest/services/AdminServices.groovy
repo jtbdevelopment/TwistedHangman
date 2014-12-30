@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import com.jtbdevelopment.gamecore.players.PlayerRoles
 import com.jtbdevelopment.gamecore.security.SessionUserInfo
 import groovy.transform.CompileStatic
@@ -28,13 +28,14 @@ class AdminServices {
     public static final int DEFAULT_PAGE = 0
     public static final int DEFAULT_PAGE_SIZE = 500
     @Autowired
-    PlayerRepository playerRepository
+    AbstractPlayerRepository<ObjectId> playerRepository
 
     ThreadLocal<ObjectId> playerID = new ThreadLocal<>()
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    Set<Player> playersToSimulate(@QueryParam("page") Integer page, @QueryParam("pageSize") Integer pageSize) {
+    Set<PlayerInt<ObjectId>> playersToSimulate(
+            @QueryParam("page") Integer page, @QueryParam("pageSize") Integer pageSize) {
         return playerRepository.findAll(new PageRequest(
                 page ?: DEFAULT_PAGE,
                 pageSize ?: DEFAULT_PAGE_SIZE,
@@ -46,9 +47,9 @@ class AdminServices {
     @Path("{playerID}")
     @Produces(MediaType.APPLICATION_JSON)
     Object switchEffectiveUser(@PathParam("playerID") final String effectivePlayerID) {
-        Player p = playerRepository.findOne(new ObjectId(effectivePlayerID));
+        PlayerInt<ObjectId> p = playerRepository.findOne(new ObjectId(effectivePlayerID));
         if (p != null) {
-            ((SessionUserInfo) SecurityContextHolder.context.authentication.principal).effectiveUser = p;
+            ((SessionUserInfo<ObjectId>) SecurityContextHolder.context.authentication.principal).effectiveUser = p;
             return p;
         }
         return Response.status(Response.Status.NOT_FOUND)

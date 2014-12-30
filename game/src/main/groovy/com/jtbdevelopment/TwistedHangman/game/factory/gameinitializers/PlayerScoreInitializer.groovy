@@ -2,8 +2,9 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 
 import com.jtbdevelopment.TwistedHangman.game.factory.GameInitializer
 import com.jtbdevelopment.TwistedHangman.game.state.Game
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
 
 /**
@@ -16,7 +17,7 @@ class PlayerScoreInitializer implements GameInitializer {
     @Override
     void initializeGame(final Game game) {
         game.players.each {
-            Player it ->
+            PlayerInt<ObjectId> it ->
                 game.playerRoundScores[it.id] = 0
                 if (!game.playerRunningScores.containsKey(it.id)) {
                     game.playerRunningScores[it.id] = 0

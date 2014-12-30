@@ -2,7 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
+import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindPlayersException
 import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
@@ -62,7 +62,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                     assert it == PONE.id
                     return PONE
                 }
-        ] as PlayerRepository
+        ] as TwistedHangmanPlayerRepository
         handler.transitionEngine = [
                 evaluateGamePhaseForGame: {
                     assert it.is(puzzled)
@@ -106,7 +106,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                     assert it == playerId
                     return null
                 }
-        ] as PlayerRepository
+        ] as TwistedHangmanPlayerRepository
 
         try {
             handler.handleCreateNewGame(playerId, players.collect { it.md5 }, features)
@@ -131,7 +131,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                     assert it == PFOUR.id
                     return PFOUR
                 }
-        ] as PlayerRepository
+        ] as TwistedHangmanPlayerRepository
 
         try {
             handler.handleCreateNewGame(initiatingPlayer.id, players.collect { it.md5 }, features)

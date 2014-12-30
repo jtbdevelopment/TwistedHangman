@@ -1,7 +1,8 @@
 package com.jtbdevelopment.gamecore.players.friendfinder;
 
-import com.jtbdevelopment.gamecore.players.Player;
+import com.jtbdevelopment.gamecore.players.PlayerInt;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 
@@ -9,7 +10,7 @@ import java.util.Set;
  * Date: 11/26/14
  * Time: 1:04 PM
  */
-public interface SourceBasedFriendFinder {
+public interface SourceBasedFriendFinder<ID extends Serializable> {
     public static final String FRIENDS_KEY = "friends";
     public static final String MASKED_FRIENDS_KEY = "masked_friends";
     public static final String INVITABLE_FRIENDS_KEY = "invitable";
@@ -21,5 +22,5 @@ public interface SourceBasedFriendFinder {
         Return a set of data regarding friends
             At a minimu, the FRIENDS_KEY needs to be provided with a list of Players
      */
-    public abstract Map<String, Set<Object>> findFriends(final Player player);
+    public abstract Map<String, Set<Object>> findFriends(final PlayerInt<ID> player);
 }

@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
  * Time: 6:57 AM
  */
 @Repository
-public interface PlayerRepository extends MongoPlayerRepository {
+public interface TwistedHangmanPlayerRepository extends MongoPlayerRepository {
 }

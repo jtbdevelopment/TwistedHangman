@@ -1,8 +1,8 @@
 package com.jtbdevelopment.gamecore.security.spring.security
 
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
+import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
 import com.jtbdevelopment.gamecore.players.ManualPlayer
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
@@ -20,11 +20,11 @@ import org.springframework.stereotype.Component
 @CompileStatic
 class PlayerUserDetailsService implements UserDetailsService {
     @Autowired
-    PlayerRepository playerRepository
+    AbstractPlayerRepository playerRepository
 
     @Override
     UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        Player player = playerRepository.findBySourceAndSourceId(ManualPlayer.MANUAL_SOURCE, username)
+        PlayerInt player = playerRepository.findBySourceAndSourceId(ManualPlayer.MANUAL_SOURCE, username)
         if (player) {
             return new PlayerUserDetails(player)
         } else {

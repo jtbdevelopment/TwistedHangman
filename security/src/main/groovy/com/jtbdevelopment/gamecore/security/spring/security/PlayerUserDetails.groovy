@@ -1,7 +1,7 @@
 package com.jtbdevelopment.gamecore.security.spring.security
 
 import com.jtbdevelopment.gamecore.players.ManualPlayer
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import com.jtbdevelopment.gamecore.players.PlayerRoles
 import com.jtbdevelopment.gamecore.security.SessionUserInfo
 import groovy.transform.CompileStatic
@@ -15,14 +15,14 @@ import org.springframework.social.security.SocialUserDetails
  * Time: 5:27 PM
  */
 @CompileStatic
-class PlayerUserDetails implements SocialUserDetails, UserDetails, SessionUserInfo {
+class PlayerUserDetails<ID extends Serializable> implements SocialUserDetails, UserDetails, SessionUserInfo {
 
-    final Player player
-    Player effectivePlayer
+    final PlayerInt<ID> player
+    PlayerInt<ID> effectivePlayer
 
     final List<SimpleGrantedAuthority> grantedAuthorities = [new SimpleGrantedAuthority(PlayerRoles.PLAYER)]
 
-    PlayerUserDetails(final Player player) {
+    PlayerUserDetails(final PlayerInt<ID> player) {
         this.player = player
         this.effectivePlayer = player
         if (player.adminUser) {
@@ -31,23 +31,23 @@ class PlayerUserDetails implements SocialUserDetails, UserDetails, SessionUserIn
     }
 
     @Override
-    Player getSessionUser() {
+    PlayerInt<ID> getSessionUser() {
         return player
     }
 
     @Override
-    Player getEffectiveUser() {
+    PlayerInt<ID> getEffectiveUser() {
         return effectivePlayer
-    };
+    }
 
     @Override
-    void setEffectiveUser(final Player player) {
+    void setEffectiveUser(final PlayerInt player) {
         this.effectivePlayer = player
     }
 
     @Override
     String getUserId() {
-        return player.id.toHexString()
+        return player.idAsString
     }
 
     @Override
@@ -68,7 +68,7 @@ class PlayerUserDetails implements SocialUserDetails, UserDetails, SessionUserIn
         if (player instanceof ManualPlayer) {
             return player.getSourceId()
         }
-        return player.id.toHexString()
+        return player.idAsString
     }
 
     @Override

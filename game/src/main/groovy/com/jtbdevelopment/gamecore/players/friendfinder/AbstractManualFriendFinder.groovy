@@ -1,21 +1,19 @@
 package com.jtbdevelopment.gamecore.players.friendfinder
 
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
 
 /**
  * Date: 11/26/14
  * Time: 1:09 PM
  */
-@Component
 @CompileStatic
-class ManualFriendFinder implements SourceBasedFriendFinder {
+class AbstractManualFriendFinder<ID extends Serializable> implements SourceBasedFriendFinder<ID> {
     public static final String MANUAL = "MANUAL"
     @Autowired
-    PlayerRepository playerRepository
+    AbstractPlayerRepository<ID> playerRepository
 
     @Override
     boolean handlesSource(final String source) {
@@ -23,8 +21,8 @@ class ManualFriendFinder implements SourceBasedFriendFinder {
     }
 
     @Override
-    Map<String, Set<Object>> findFriends(final Player player) {
-        Set<? extends Player> players = playerRepository.findBySourceAndDisabled(MANUAL, false) as Set
+    Map<String, Set<Object>> findFriends(final PlayerInt<ID> player) {
+        Set<? extends PlayerInt<ID>> players = playerRepository.findBySourceAndDisabled(MANUAL, false) as Set
         players.remove(player)
         return [(FRIENDS_KEY): players]
     }

@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.gamevalidators
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
+import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 
 /**
@@ -21,7 +21,7 @@ class PlayersActiveGameValidatorTest extends TwistedHangmanTestCase {
                         assert input.collect { it } as Set == [PONE.id, PTWO.id] as Set
                         return [PONE, PTWO]
                 },
-        ] as PlayerRepository
+        ] as TwistedHangmanPlayerRepository
         assert validator.validateGame(game)
     }
 
@@ -35,7 +35,7 @@ class PlayersActiveGameValidatorTest extends TwistedHangmanTestCase {
                         assert input.collect { it } as Set == [PONE.id, PINACTIVE2.id] as Set
                         return [PONE, PINACTIVE2]
                 },
-        ] as PlayerRepository
+        ] as TwistedHangmanPlayerRepository
         assertFalse validator.validateGame(game)
     }
 

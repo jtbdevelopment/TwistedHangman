@@ -6,7 +6,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,10 +22,10 @@ abstract class AbstractGameActionHandler<T> extends AbstractGameGetterHandler {
     @Autowired
     protected GamePublisher gamePublisher
 
-    abstract protected Game handleActionInternal(final Player player, final Game game, T param);
+    abstract protected Game handleActionInternal(final PlayerInt<ObjectId> player, final Game game, T param);
 
     public MaskedGame handleAction(final ObjectId playerID, final ObjectId gameID, T param = null) {
-        Player player = loadPlayer(playerID)
+        PlayerInt<ObjectId> player = loadPlayer(playerID)
         Game game = loadGame(gameID)
         validatePlayerForGame(game, player)
         return gameMasker.maskGameForPlayer(
@@ -50,7 +50,7 @@ abstract class AbstractGameActionHandler<T> extends AbstractGameGetterHandler {
     }
 
     protected static void rotateOnePlayer(final Game game) {
-        int index = game.players.findIndexOf { Player p -> p.id == game.featureData[GameFeature.TurnBased] } + 1
+        int index = game.players.findIndexOf { PlayerInt<ObjectId> p -> p.id == game.featureData[GameFeature.TurnBased] } + 1
         if (index >= game.players.size()) {
             index = 0
         }

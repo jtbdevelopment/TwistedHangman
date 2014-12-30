@@ -3,6 +3,7 @@ package com.jtbdevelopment.TwistedHangman.rest.services
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import com.jtbdevelopment.gamecore.players.PlayerRoles
 import com.jtbdevelopment.gamecore.security.SessionUserInfo
 import groovy.transform.TypeChecked
@@ -48,19 +49,19 @@ class PlayerGatewayServiceTest extends GroovyTestCase {
     void testValidPlayer() {
         def APLAYER = new ObjectId()
         SecurityContextHolder.context = new SecurityContextImpl()
-        SecurityContextHolder.context.authentication = new TestingAuthenticationToken(new SessionUserInfo() {
+        SecurityContextHolder.context.authentication = new TestingAuthenticationToken(new SessionUserInfo<ObjectId>() {
             @Override
-            Player getSessionUser() {
+            PlayerInt<ObjectId> getSessionUser() {
                 return null
             }
 
             @Override
-            Player getEffectiveUser() {
+            PlayerInt<ObjectId> getEffectiveUser() {
                 return new Player(id: APLAYER)
             }
 
             @Override
-            void setEffectiveUser(final Player player) {
+            void setEffectiveUser(final PlayerInt<ObjectId> player) {
 
             }
         }, null)

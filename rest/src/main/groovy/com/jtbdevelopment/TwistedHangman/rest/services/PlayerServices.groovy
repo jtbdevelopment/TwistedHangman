@@ -1,13 +1,12 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.handlers.NewGameHandler
 import com.jtbdevelopment.TwistedHangman.game.handlers.PlayerGamesFinderHandler
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
 import com.jtbdevelopment.gamecore.players.PlayerRoles
-import com.jtbdevelopment.gamecore.players.friendfinder.FriendFinder
+import com.jtbdevelopment.gamecore.players.mongo.FriendFinder
 import com.jtbdevelopment.gamecore.security.SessionUserInfo
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -43,7 +42,7 @@ class PlayerServices implements ApplicationContextAware {
     @Autowired
     PlayerGamesFinderHandler playerGamesFinderHandler
     @Autowired
-    PlayerRepository playerRepository
+    AbstractPlayerRepository<ObjectId> playerRepository
     @Autowired
     AdminServices adminServices
 
@@ -86,7 +85,7 @@ class PlayerServices implements ApplicationContextAware {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Player playerInfo() {
+    public Object playerInfo() {
         return playerRepository.findOne(playerID.get())
     }
 
@@ -108,7 +107,7 @@ class PlayerServices implements ApplicationContextAware {
     @Path("admin")
     @RolesAllowed([PlayerRoles.ADMIN])
     public Object adminServices() {
-        adminServices.playerID.set(((SessionUserInfo) SecurityContextHolder.context.authentication.principal).sessionUser.id)
+        adminServices.playerID.set(((SessionUserInfo<ObjectId>) SecurityContextHolder.context.authentication.principal).sessionUser.id)
         return adminServices
     }
 }

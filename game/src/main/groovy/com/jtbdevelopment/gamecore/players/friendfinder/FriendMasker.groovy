@@ -1,9 +1,7 @@
 package com.jtbdevelopment.gamecore.players.friendfinder
 
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import groovy.transform.CompileStatic
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
 /**
@@ -13,12 +11,10 @@ import org.springframework.stereotype.Component
 @Component
 @CompileStatic
 class FriendMasker {
-    private static final Logger logger = LoggerFactory.getLogger(FriendMasker.class)
-
     @SuppressWarnings("GrMethodMayBeStatic")
-    Map<String, String> maskFriends(final Set<Player> friends) {
+    Map<String, String> maskFriends(final Set<? extends PlayerInt> friends) {
         friends.collectEntries {
-            Player p ->
+            PlayerInt p ->
                 [p.md5, p.displayName]
         }
     }

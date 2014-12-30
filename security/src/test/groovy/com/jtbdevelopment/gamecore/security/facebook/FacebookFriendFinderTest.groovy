@@ -1,7 +1,7 @@
 package com.jtbdevelopment.gamecore.security.facebook
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
+import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
 import com.jtbdevelopment.gamecore.players.ManualPlayer
 import com.jtbdevelopment.gamecore.players.friendfinder.SourceBasedFriendFinder
 import org.springframework.social.facebook.api.*
@@ -70,7 +70,7 @@ class FacebookFriendFinderTest extends TwistedHangmanTestCase {
                         }
                         fail("Unknown sourceId")
                 }
-        ] as PlayerRepository
+        ] as TwistedHangmanPlayerRepository
 
         friendFinder.playerRepository = repo
         friendFinder.facebook = facebook

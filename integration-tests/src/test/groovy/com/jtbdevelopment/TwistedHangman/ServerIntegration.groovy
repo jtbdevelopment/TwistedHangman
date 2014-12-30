@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman
 
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
+import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
@@ -56,7 +56,7 @@ class ServerIntegration {
 
     static ApplicationContext applicationContext
     static PasswordEncoder passwordEncoder
-    static PlayerRepository playerRepository
+    static TwistedHangmanPlayerRepository playerRepository
     public static final EMPTY_PUT_POST = Entity.entity("", MediaType.TEXT_PLAIN)
 
     @BeforeClass
@@ -65,7 +65,7 @@ class ServerIntegration {
         SERVER.start()
 
         assert applicationContext != null
-        playerRepository = applicationContext.getBean(PlayerRepository.class)
+        playerRepository = applicationContext.getBean(TwistedHangmanPlayerRepository.class)
         passwordEncoder = applicationContext.getBean(PasswordEncoder.class)
 
         TEST_PLAYER1 = createPlayer("f1234", "ITP1", "TEST PLAYER1")

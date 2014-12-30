@@ -1,5 +1,6 @@
 package com.jtbdevelopment.gamecore.players
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.jtbdevelopment.gamecore.json.mongo.ObjectIdDeserializer
@@ -8,6 +9,7 @@ import groovy.transform.CompileStatic
 import org.apache.commons.codec.digest.DigestUtils
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
+import org.springframework.data.annotation.Transient
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.util.StringUtils
@@ -19,9 +21,10 @@ import org.springframework.util.StringUtils
 //  TODO
 //  This propagating to game table...
 //@CompoundIndex(unique = true, name = "id_source", def = "{'sourceId':1, 'source':1}")
-@Document
+@Document(collection = "player")
 @CompileStatic
-class Player implements Cloneable {
+@JsonIgnoreProperties(["idAsString"])
+class Player implements Cloneable, PlayerInt<ObjectId> {
     @Id
     @JsonSerialize(using = ObjectIdSerializer.class)
     @JsonDeserialize(using = ObjectIdDeserializer.class)
@@ -48,8 +51,19 @@ class Player implements Cloneable {
         return true
     }
 
+    @JsonSerialize(using = ObjectIdSerializer.class)
+    @Override
+    ObjectId getId() {
+        return id;
+    }
+
     int hashCode() {
         return id.hashCode()
+    }
+
+    @Transient
+    String getIdAsString() {
+        return id.toHexString()
     }
 
     void setId(final ObjectId id) {

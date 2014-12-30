@@ -2,7 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
+import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
@@ -47,7 +47,7 @@ class PlayerGamesFinderHandlerTest extends TwistedHangmanTestCase {
                         assert it == PONE.id
                         return PONE
                 }
-        ] as PlayerRepository
+        ] as TwistedHangmanPlayerRepository
 
         handler.gameRepository = [
                 findByPlayersIdAndGamePhaseAndLastUpdateGreaterThan: {

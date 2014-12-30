@@ -9,7 +9,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -37,8 +37,8 @@ class NewGameHandler extends AbstractHandler {
 
     public MaskedGame handleCreateNewGame(
             final ObjectId initiatingPlayerID, final List<String> playersIDs, final Set<GameFeature> features) {
-        Set<Player> players = loadPlayerMD5s(playersIDs)  //  Load as set to prevent dupes in initial setup
-        Player initiatingPlayer = players.find { Player player -> player.id == initiatingPlayerID }
+        Set<PlayerInt<ObjectId>> players = loadPlayerMD5s(playersIDs)  //  Load as set to prevent dupes in initial setup
+        PlayerInt<ObjectId> initiatingPlayer = players.find { PlayerInt<ObjectId> player -> player.id == initiatingPlayerID }
         if (initiatingPlayer == null) {
             initiatingPlayer = loadPlayer(initiatingPlayerID)
         }
@@ -51,8 +51,8 @@ class NewGameHandler extends AbstractHandler {
 
     private Game setupGame(
             final Set<GameFeature> features,
-            final Set<Player> players,
-            final Player initiatingPlayer) {
+            final Set<PlayerInt<ObjectId>> players,
+            final PlayerInt<ObjectId> initiatingPlayer) {
         Game game = transitionEngine.evaluateGamePhaseForGame(
                 systemPuzzlerSetter.setWordPhraseFromSystem(
                         gameFactory.createGame(features, players.toList(), initiatingPlayer)))

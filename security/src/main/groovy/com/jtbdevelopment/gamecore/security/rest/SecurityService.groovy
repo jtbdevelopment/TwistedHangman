@@ -1,6 +1,5 @@
 package com.jtbdevelopment.gamecore.security.rest
 
-import com.jtbdevelopment.gamecore.players.Player
 import com.jtbdevelopment.gamecore.players.PlayerRoles
 import com.jtbdevelopment.gamecore.security.SessionUserInfo
 import groovy.transform.CompileStatic
@@ -27,7 +26,7 @@ class SecurityService {
     @SuppressWarnings("GrMethodMayBeStatic")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    Player getSessionPlayer() {
+    Object getSessionPlayer() {
         return ((SessionUserInfo) SecurityContextHolder.context.authentication.principal).sessionUser
     }
 }

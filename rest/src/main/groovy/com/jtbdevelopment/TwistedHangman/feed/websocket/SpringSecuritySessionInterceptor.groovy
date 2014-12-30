@@ -49,7 +49,7 @@ class SpringSecuritySessionInterceptor implements AtmosphereInterceptor {
     }
 
     protected static ObjectId getSessionUserId() {
-        ObjectId sessionUserId = ((SessionUserInfo) SecurityContextHolder.context?.authentication?.principal)?.effectiveUser?.id
+        ObjectId sessionUserId = ((SessionUserInfo<ObjectId>) SecurityContextHolder.context?.authentication?.principal)?.effectiveUser?.id
         if (sessionUserId == null) {
             logger.warn("Unable to obtain an authentication.principal.effectiveUser.id, null somewhere?  Is spring security active?")
             throw new IllegalStateException("No session user")

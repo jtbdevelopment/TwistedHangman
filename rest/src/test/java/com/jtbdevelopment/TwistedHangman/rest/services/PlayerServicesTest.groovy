@@ -1,14 +1,15 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
+import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.handlers.NewGameHandler
 import com.jtbdevelopment.TwistedHangman.game.handlers.PlayerGamesFinderHandler
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import com.jtbdevelopment.gamecore.players.PlayerRoles
-import com.jtbdevelopment.gamecore.players.friendfinder.FriendFinder
+import com.jtbdevelopment.gamecore.players.mongo.FriendFinder
 import com.jtbdevelopment.gamecore.security.SessionUserInfo
 import groovy.transform.TypeChecked
 import org.bson.types.ObjectId
@@ -123,7 +124,7 @@ class PlayerServicesTest extends GroovyTestCase {
                         assert it == p.id
                         return p.clone()
                 }
-        ] as PlayerRepository
+        ] as TwistedHangmanPlayerRepository
 
         playerServices.playerID.set(p.id)
 
@@ -239,19 +240,19 @@ class PlayerServicesTest extends GroovyTestCase {
         ] as AdminServices
 
         SecurityContextHolder.context = new SecurityContextImpl()
-        SecurityContextHolder.context.authentication = new TestingAuthenticationToken(new SessionUserInfo() {
+        SecurityContextHolder.context.authentication = new TestingAuthenticationToken(new SessionUserInfo<ObjectId>() {
             @Override
-            Player getSessionUser() {
+            PlayerInt<ObjectId> getSessionUser() {
                 return new Player(id: REALPLAYER)
             }
 
             @Override
-            Player getEffectiveUser() {
+            PlayerInt<ObjectId> getEffectiveUser() {
                 return null
             }
 
             @Override
-            void setEffectiveUser(final Player player) {
+            void setEffectiveUser(final PlayerInt<ObjectId> player) {
 
             }
         }, null)

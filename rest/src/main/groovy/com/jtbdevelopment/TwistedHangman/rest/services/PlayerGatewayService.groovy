@@ -5,6 +5,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.gamecore.players.PlayerRoles
 import com.jtbdevelopment.gamecore.security.SessionUserInfo
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
@@ -31,7 +32,7 @@ class PlayerGatewayService {
 
     @Path("player")
     public Object gameServices() {
-        playerServices.playerID.set(((SessionUserInfo) SecurityContextHolder.context.authentication.principal).effectiveUser.id)
+        playerServices.playerID.set(((SessionUserInfo<ObjectId>) SecurityContextHolder.context.authentication.principal).effectiveUser.id)
         return playerServices
     }
 

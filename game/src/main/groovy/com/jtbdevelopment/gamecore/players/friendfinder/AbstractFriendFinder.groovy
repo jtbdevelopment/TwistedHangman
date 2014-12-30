@@ -1,33 +1,26 @@
 package com.jtbdevelopment.gamecore.players.friendfinder
 
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindPlayersException
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import groovy.transform.CompileStatic
-import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.springframework.context.annotation.Scope
-import org.springframework.context.annotation.ScopedProxyMode
-import org.springframework.stereotype.Component
 
 /**
  * Date: 11/26/14
  * Time: 1:04 PM
  */
 @CompileStatic
-@Component
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.INTERFACES)
-class FriendFinder {
+abstract class AbstractFriendFinder<ID extends Serializable> {
     @Autowired
     List<SourceBasedFriendFinder> friendFinders
     @Autowired
-    PlayerRepository playerRepository
+    AbstractPlayerRepository<ID> playerRepository
     @Autowired
     FriendMasker friendMasker
 
-    Map<String, Object> findFriends(final ObjectId playerId) {
-        Player player = playerRepository.findOne(playerId)
+    Map<String, Object> findFriends(final ID playerId) {
+        PlayerInt<ID> player = playerRepository.findOne(playerId)
         if (player == null || player.disabled) {
             throw new FailedToFindPlayersException()
         }
@@ -46,7 +39,7 @@ class FriendFinder {
                     }
                 }
         }
-        Set<Player> playerFriends = (Set<Player>) friends.remove(SourceBasedFriendFinder.FRIENDS_KEY)
+        Set<PlayerInt> playerFriends = (Set<PlayerInt>) friends.remove(SourceBasedFriendFinder.FRIENDS_KEY)
         if (playerFriends) {
             friends[SourceBasedFriendFinder.MASKED_FRIENDS_KEY] = friendMasker.maskFriends(playerFriends)
         }

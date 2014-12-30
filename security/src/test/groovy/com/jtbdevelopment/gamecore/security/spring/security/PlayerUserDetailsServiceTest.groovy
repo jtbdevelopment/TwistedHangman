@@ -1,7 +1,7 @@
 package com.jtbdevelopment.gamecore.security.spring.security
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
+import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
 import com.jtbdevelopment.gamecore.players.ManualPlayer
 
 /**
@@ -19,7 +19,7 @@ class PlayerUserDetailsServiceTest extends TwistedHangmanTestCase {
                         assert username == PTWO.sourceId
                         PTWO
                 }
-        ] as PlayerRepository
+        ] as TwistedHangmanPlayerRepository
         userDetailsService.playerRepository = repo
 
         PlayerUserDetails d = userDetailsService.loadUserByUsername(PTWO.sourceId)
@@ -35,7 +35,7 @@ class PlayerUserDetailsServiceTest extends TwistedHangmanTestCase {
                         assert username == PTWO.sourceId
                         null
                 }
-        ] as PlayerRepository
+        ] as TwistedHangmanPlayerRepository
         userDetailsService.playerRepository = repo
 
         assert userDetailsService.loadUserByUsername(PTWO.sourceId) == null

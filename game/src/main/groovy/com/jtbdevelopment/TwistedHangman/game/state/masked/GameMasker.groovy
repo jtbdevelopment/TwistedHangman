@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.state.masked
 
 import com.jtbdevelopment.TwistedHangman.game.state.*
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import com.jtbdevelopment.gamecore.players.SystemPlayer
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -17,10 +17,10 @@ import java.time.ZonedDateTime
 @CompileStatic
 class GameMasker {
     @SuppressWarnings("GrMethodMayBeStatic")
-    MaskedGame maskGameForPlayer(final Game game, final Player player) {
+    MaskedGame maskGameForPlayer(final Game game, final PlayerInt<ObjectId> player) {
         MaskedGame playerMaskedGame = new MaskedGame()
 
-        playerMaskedGame.maskedForPlayerID = player.id.toHexString()
+        playerMaskedGame.maskedForPlayerID = player.idAsString
         playerMaskedGame.maskedForPlayerMD5 = player.md5
         copyUnmaskedData(game, playerMaskedGame)
         copyMaskedData(game, player, playerMaskedGame)
@@ -28,10 +28,11 @@ class GameMasker {
         playerMaskedGame
     }
 
-    protected static void copyMaskedData(final Game game, final Player player, final MaskedGame playerMaskedGame) {
-        Map<ObjectId, Player> idmap = [:]
+    protected static void copyMaskedData(
+            final Game game, final PlayerInt<ObjectId> player, final MaskedGame playerMaskedGame) {
+        Map<ObjectId, PlayerInt<ObjectId>> idmap = [:]
         game.players.each {
-            Player p ->
+            PlayerInt<ObjectId> p ->
                 playerMaskedGame.players[p.md5] = p.displayName
                 playerMaskedGame.playerImages[p.md5] = p.imageUrl
                 playerMaskedGame.playerProfiles[p.md5] = p.profileUrl
@@ -69,11 +70,11 @@ class GameMasker {
     }
 
     protected static MaskedIndividualGameState maskGameState(
-            final Player playerMaskingFor,
+            final PlayerInt<ObjectId> playerMaskingFor,
             final Game game,
-            final Player gameStatePlayer,
+            final PlayerInt<ObjectId> gameStatePlayer,
             final IndividualGameState gameState,
-            final Map<ObjectId, Player> idmap) {
+            final Map<ObjectId, PlayerInt<ObjectId>> idmap) {
         MaskedIndividualGameState masked = new MaskedIndividualGameState()
 
         if (game.gamePhase == GamePhase.RoundOver ||

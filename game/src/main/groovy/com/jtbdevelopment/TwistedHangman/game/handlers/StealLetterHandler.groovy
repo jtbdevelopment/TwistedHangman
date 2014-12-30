@@ -6,8 +6,9 @@ import com.jtbdevelopment.TwistedHangman.game.mechanics.ThievingHangmanGameActio
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -22,7 +23,7 @@ class StealLetterHandler extends AbstractGamePlayActionHandler<Integer> {
     ThievingHangmanGameActions gameActions
 
     @Override
-    protected Game handleActionInternal(final Player player, final Game game, final Integer param) {
+    protected Game handleActionInternal(final PlayerInt<ObjectId> player, final Game game, final Integer param) {
         if (game.gamePhase != GamePhase.Playing) {
             throw new GameIsNotInPlayModeException()
         }

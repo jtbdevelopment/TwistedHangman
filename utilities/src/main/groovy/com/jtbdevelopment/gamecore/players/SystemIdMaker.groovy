@@ -1,6 +1,6 @@
 package com.jtbdevelopment.gamecore.players
 
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
+import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
 import org.springframework.context.ApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext
 
@@ -14,7 +14,7 @@ class SystemIdMaker {
         ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-context-game.xml");
         ctx.refresh();
 
-        PlayerRepository repository = ctx.getBean(PlayerRepository.class)
+        TwistedHangmanPlayerRepository repository = ctx.getBean(TwistedHangmanPlayerRepository.class)
 
         Player player = repository.findOne(SystemPlayer.SYSTEM_ID_ID)
         if (player == null) {

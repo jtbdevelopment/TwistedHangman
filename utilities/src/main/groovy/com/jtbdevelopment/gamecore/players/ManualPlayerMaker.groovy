@@ -1,6 +1,6 @@
 package com.jtbdevelopment.gamecore.players
 
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
+import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
 import org.springframework.context.ApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -17,7 +17,7 @@ class ManualPlayerMaker {
         ctx.refresh();
 
 
-        PlayerRepository repository = ctx.getBean(PlayerRepository.class)
+        TwistedHangmanPlayerRepository repository = ctx.getBean(TwistedHangmanPlayerRepository.class)
         passwordEncoder = ctx.getBean(PasswordEncoder.class)
 
         Player[] players = [

@@ -5,9 +5,10 @@ import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import com.jtbdevelopment.gamecore.players.SystemPlayer
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -28,7 +29,7 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
     protected GameFactory gameFactory
 
     @Override
-    protected Game handleActionInternal(final Player player, final Game previousGame, final Object param) {
+    protected Game handleActionInternal(final PlayerInt<ObjectId> player, final Game previousGame, final Object param) {
         if (previousGame.gamePhase != GamePhase.RoundOver) {
             throw new GameIsNotAvailableToRematchException()
         }
@@ -49,7 +50,7 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
         return game
     }
 
-    private Game setupGame(final Game previousGame, final Player initiatingPlayer) {
+    private Game setupGame(final Game previousGame, final PlayerInt<ObjectId> initiatingPlayer) {
         return systemPuzzlerSetter.setWordPhraseFromSystem(
                 gameFactory.createGame(previousGame, initiatingPlayer))
     }

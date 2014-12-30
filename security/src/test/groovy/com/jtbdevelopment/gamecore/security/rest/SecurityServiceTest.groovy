@@ -1,10 +1,11 @@
 package com.jtbdevelopment.gamecore.security.rest
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import com.jtbdevelopment.gamecore.players.PlayerRoles
 import com.jtbdevelopment.gamecore.security.SessionUserInfo
 import groovy.transform.TypeChecked
+import org.bson.types.ObjectId
 import org.springframework.security.authentication.TestingAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.context.SecurityContextImpl
@@ -33,19 +34,19 @@ class SecurityServiceTest extends TwistedHangmanTestCase {
     void testGetSessionPlayer() {
         SecurityContextHolder.context = new SecurityContextImpl()
         SecurityContextHolder.context.authentication = new TestingAuthenticationToken(
-                new SessionUserInfo() {
+                new SessionUserInfo<ObjectId>() {
                     @Override
-                    Player getSessionUser() {
+                    PlayerInt<ObjectId> getSessionUser() {
                         return PONE
                     }
 
                     @Override
-                    Player getEffectiveUser() {
+                    PlayerInt<ObjectId> getEffectiveUser() {
                         return PTWO
                     }
 
                     @Override
-                    void setEffectiveUser(final Player player) {
+                    void setEffectiveUser(final PlayerInt<ObjectId> player) {
 
                     }
                 }

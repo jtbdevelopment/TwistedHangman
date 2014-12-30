@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
+import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindPlayersException
 import org.bson.types.ObjectId
 
@@ -23,7 +23,7 @@ class AbstractHandlerTest extends TwistedHangmanTestCase {
                         assert it == PTWO.id
                         return PTWO
                 }
-        ] as PlayerRepository
+        ] as TwistedHangmanPlayerRepository
 
         assert PTWO.is(handler.loadPlayer(PTWO.id))
     }
@@ -37,7 +37,7 @@ class AbstractHandlerTest extends TwistedHangmanTestCase {
                         assert it == PTWO.id
                         return null
                 }
-        ] as PlayerRepository
+        ] as TwistedHangmanPlayerRepository
 
         try {
             handler.loadPlayer(PTWO.id)

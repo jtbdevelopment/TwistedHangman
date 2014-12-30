@@ -8,7 +8,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.gamecore.dictionary.Validator
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -35,7 +35,8 @@ class SetPuzzleHandler extends AbstractGameActionHandler<CategoryAndWordPhrase> 
     PhraseSetter phraseSetter
 
     @Override
-    protected Game handleActionInternal(final Player player, final Game game, final CategoryAndWordPhrase param) {
+    protected Game handleActionInternal(
+            final PlayerInt<ObjectId> player, final Game game, final CategoryAndWordPhrase param) {
         validatePuzzleStates(game, player)
 
         String wordPhrase = param.wordPhrase
@@ -49,7 +50,7 @@ class SetPuzzleHandler extends AbstractGameActionHandler<CategoryAndWordPhrase> 
         game
     }
 
-    protected void validateWordPhraseAndCategory(String wordPhrase, String category) {
+    protected void validateWordPhraseAndCategory(final String wordPhrase, final String category) {
         List<String> invalid = validator.validateWordPhrase(wordPhrase)
         invalid.addAll(validator.validateWordPhrase(category))
         if (invalid.size() > 0) {
@@ -57,7 +58,7 @@ class SetPuzzleHandler extends AbstractGameActionHandler<CategoryAndWordPhrase> 
         }
     }
 
-    protected static void validatePuzzleStates(Game game, Player player) {
+    protected static void validatePuzzleStates(final Game game, final PlayerInt<ObjectId> player) {
         if (game.gamePhase != GamePhase.Setup) {
             throw new GameIsNotInSetupPhaseException();
         }
@@ -70,7 +71,8 @@ class SetPuzzleHandler extends AbstractGameActionHandler<CategoryAndWordPhrase> 
         }
     }
 
-    protected static Map<String, IndividualGameState> findPuzzlesToSetForPlayer(final Game game, final Player player) {
+    protected static Map<String, IndividualGameState> findPuzzlesToSetForPlayer(
+            final Game game, final PlayerInt<ObjectId> player) {
         game.solverStates.findAll {
             ObjectId gamePlayer, IndividualGameState gameState ->
                 (player.id != gamePlayer) &&

@@ -1,8 +1,8 @@
 package com.jtbdevelopment.gamecore.players.friendfinder
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindPlayersException
+import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
 import com.jtbdevelopment.gamecore.players.Player
 import org.bson.types.ObjectId
 
@@ -10,8 +10,8 @@ import org.bson.types.ObjectId
  * Date: 11/26/14
  * Time: 4:18 PM
  */
-class FriendFinderTest extends TwistedHangmanTestCase {
-    FriendFinder finder = new FriendFinder();
+class AbstractFriendFinderTest extends TwistedHangmanTestCase {
+    AbstractFriendFinder<ObjectId> finder = new AbstractFriendFinder<ObjectId>() {};
 
     void testSumOfSourceBasedFinders() {
         Player param = new Player(id: new ObjectId("12ab".padRight(24, "0")), source: "MANUAL")
@@ -51,7 +51,7 @@ class FriendFinderTest extends TwistedHangmanTestCase {
                         assert it == param.id
                         return param
                 }
-        ] as PlayerRepository
+        ] as AbstractPlayerRepository<ObjectId>
         def masked = ['x': 'y', '1': '2']
         finder.friendMasker = [
                 maskFriends: {
@@ -77,7 +77,7 @@ class FriendFinderTest extends TwistedHangmanTestCase {
                         assert it == param.id
                         return null
                 }
-        ] as PlayerRepository
+        ] as AbstractPlayerRepository<ObjectId>
 
         try {
             finder.findFriends(param.id)
@@ -96,7 +96,7 @@ class FriendFinderTest extends TwistedHangmanTestCase {
                         assert it == param.id
                         return PINACTIVE1
                 }
-        ] as PlayerRepository
+        ] as AbstractPlayerRepository<ObjectId>
 
         try {
             finder.findFriends(param.id)

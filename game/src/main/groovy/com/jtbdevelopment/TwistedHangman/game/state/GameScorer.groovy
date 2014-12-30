@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import com.jtbdevelopment.gamecore.players.SystemPlayer
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -25,7 +25,7 @@ class GameScorer {
                     game.playerRunningScores[playerId] = game.playerRunningScores[playerId] + 1
                     //  Move to list of post-scorers?
                     if (game.features.contains(GameFeature.SingleWinner)) {
-                        game.featureData[GameFeature.SingleWinner] = (game.players.find { Player player -> player.id == playerId }).id
+                        game.featureData[GameFeature.SingleWinner] = (game.players.find { PlayerInt<ObjectId> player -> player.id == playerId }).id
                     }
                 }
         }

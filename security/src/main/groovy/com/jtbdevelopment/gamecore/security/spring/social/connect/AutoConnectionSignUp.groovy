@@ -1,7 +1,8 @@
 package com.jtbdevelopment.gamecore.security.spring.social.connect
 
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
+import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
 import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -20,11 +21,11 @@ class AutoConnectionSignUp implements ConnectionSignUp {
     private final static Logger logger = LoggerFactory.getLogger(AutoConnectionSignUp.class)
 
     @Autowired
-    PlayerRepository playerRepository
+    AbstractPlayerRepository playerRepository
 
     @Override
     String execute(final Connection<?> connection) {
-        Player player = playerRepository.findBySourceAndSourceId(connection.key.providerId, connection.key.providerUserId)
+        PlayerInt player = playerRepository.findBySourceAndSourceId(connection.key.providerId, connection.key.providerUserId)
         if (player) {
             return player.id
         } else {
@@ -37,7 +38,7 @@ class AutoConnectionSignUp implements ConnectionSignUp {
                     imageUrl: connection.imageUrl
             );
             p = playerRepository.save(p);
-            return p.id
+            return p.idAsString
         }
     }
 }

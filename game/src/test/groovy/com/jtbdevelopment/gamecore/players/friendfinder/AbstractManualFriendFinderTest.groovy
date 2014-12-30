@@ -1,18 +1,18 @@
 package com.jtbdevelopment.gamecore.players.friendfinder
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.dao.PlayerRepository
+import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
 import com.jtbdevelopment.gamecore.players.Player
 
 /**
  * Date: 11/26/14
  * Time: 1:12 PM
  */
-class ManualFriendFinderTest extends TwistedHangmanTestCase {
-    ManualFriendFinder finder = new ManualFriendFinder()
+class AbstractManualFriendFinderTest extends TwistedHangmanTestCase {
+    AbstractManualFriendFinder finder = new AbstractManualFriendFinder()
 
     void testHandlesSource() {
-        assert finder.handlesSource(ManualFriendFinder.MANUAL)
+        assert finder.handlesSource(AbstractManualFriendFinder.MANUAL)
         assertFalse finder.handlesSource("Facebook")
     }
 
@@ -25,11 +25,11 @@ class ManualFriendFinderTest extends TwistedHangmanTestCase {
         finder.playerRepository = [
                 findBySourceAndDisabled: {
                     String source, boolean disabled ->
-                        assert source == ManualFriendFinder.MANUAL
+                        assert source == AbstractManualFriendFinder.MANUAL
                         assertFalse disabled
                         return ps
                 }
-        ] as PlayerRepository
+        ] as TwistedHangmanPlayerRepository
 
         assert finder.findFriends(playerA) == [(SourceBasedFriendFinder.FRIENDS_KEY): [pX, pY, pZ] as Set]
     }

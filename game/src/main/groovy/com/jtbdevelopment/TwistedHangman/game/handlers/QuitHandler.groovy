@@ -4,8 +4,9 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.GameIsNotPossibleToQui
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.players.PlayerInt
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
 
 /**
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Component
 @Component
 class QuitHandler extends AbstractGameActionHandler<Object> {
     @Override
-    protected Game handleActionInternal(final Player player, final Game game, final Object param) {
+    protected Game handleActionInternal(final PlayerInt<ObjectId> player, final Game game, final Object param) {
         if (game.gamePhase == GamePhase.NextRoundStarted ||
                 game.gamePhase == GamePhase.RoundOver ||
                 game.gamePhase == GamePhase.Quit ||
