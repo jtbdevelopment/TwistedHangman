@@ -1,6 +1,5 @@
 package com.jtbdevelopment.gamecore.dao.mongo.converters;
 
-import groovy.transform.CompileStatic;
 import org.springframework.core.convert.converter.Converter;
 
 /**
@@ -9,6 +8,5 @@ import org.springframework.core.convert.converter.Converter;
  * <p>
  * Marker interface
  */
-@CompileStatic
 public interface MongoConverter<S, T> extends Converter<S, T> {
 }

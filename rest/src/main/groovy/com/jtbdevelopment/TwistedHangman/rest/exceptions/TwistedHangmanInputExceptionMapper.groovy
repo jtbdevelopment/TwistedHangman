@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.rest.exceptions
 
-import com.jtbdevelopment.TwistedHangman.exceptions.TwistedHangmanInputException
+import com.jtbdevelopment.gamecore.exceptions.GameInputException
 import groovy.transform.CompileStatic
 
 import javax.ws.rs.core.MediaType
@@ -14,9 +14,9 @@ import javax.ws.rs.ext.Provider
  */
 @Provider
 @CompileStatic
-class TwistedHangmanInputExceptionMapper implements ExceptionMapper<TwistedHangmanInputException> {
+class TwistedHangmanInputExceptionMapper implements ExceptionMapper<GameInputException> {
     @Override
-    Response toResponse(final TwistedHangmanInputException e) {
+    Response toResponse(final GameInputException e) {
         return Response.status(Response.Status.BAD_REQUEST)
                 .entity(e.message)
                 .type(MediaType.TEXT_PLAIN_TYPE)

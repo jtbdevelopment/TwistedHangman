@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.rest.exceptions
 
-import com.jtbdevelopment.TwistedHangman.exceptions.TwistedHangmanSystemException
+import com.jtbdevelopment.gamecore.exceptions.GameSystemException
 import groovy.transform.CompileStatic
 
 import javax.ws.rs.core.MediaType
@@ -14,10 +14,10 @@ import javax.ws.rs.ext.Provider
  */
 @Provider
 @CompileStatic
-class TwistedHangmanSystemExceptionMapper implements ExceptionMapper<TwistedHangmanSystemException> {
+class TwistedHangmanSystemExceptionMapper implements ExceptionMapper<GameSystemException> {
 
     @Override
-    Response toResponse(final TwistedHangmanSystemException e) {
+    Response toResponse(final GameSystemException e) {
         return Response.status(Response.Status.NOT_FOUND)
                 .entity(e.message)
                 .type(MediaType.TEXT_PLAIN_TYPE)

@@ -2,13 +2,11 @@ package com.jtbdevelopment.gamecore.players
 
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
-import org.springframework.data.mongodb.core.mapping.Document
 
 /**
  * Date: 11/3/14
  * Time: 6:53 AM
  */
-@Document(collection = "player")
 @CompileStatic
 class SystemPlayer extends Player {
     public static final String SYSTEM_ID_DISPLAY_NAME = "TwistedHangman"
@@ -20,5 +18,4 @@ class SystemPlayer extends Player {
             source: SYSTEM_ID_SOURCE,
             sourceId: SYSTEM_ID_ID.toHexString())
     public static final String SYSTEM_ID_MD5 = SYSTEM_PLAYER.md5
-
 }

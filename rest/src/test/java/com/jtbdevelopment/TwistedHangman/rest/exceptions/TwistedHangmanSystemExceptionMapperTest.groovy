@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.rest.exceptions
 
-import com.jtbdevelopment.TwistedHangman.exceptions.TwistedHangmanSystemException
+import com.jtbdevelopment.gamecore.exceptions.GameSystemException
 
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
@@ -14,7 +14,7 @@ class TwistedHangmanSystemExceptionMapperTest extends GroovyTestCase {
 
     void testToResponse() {
         String s = "A MESSAGE"
-        Response response = mapper.toResponse(new TwistedHangmanSystemException(s) {})
+        Response response = mapper.toResponse(new GameSystemException(s) {})
         assert response.entity == s
         assert response.status == Response.Status.NOT_FOUND.statusCode
         assert response.mediaType == MediaType.TEXT_PLAIN_TYPE

@@ -1,16 +1,16 @@
 package com.jtbdevelopment.gamecore.players.friendfinder
 
-import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindPlayersException
 import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
+import com.jtbdevelopment.gamecore.exceptions.system.FailedToFindPlayersException
 import com.jtbdevelopment.gamecore.players.PlayerInt
-import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * Date: 11/26/14
  * Time: 1:04 PM
+ *
+ * TODO - can't compile static
  */
-@CompileStatic
 abstract class AbstractFriendFinder<ID extends Serializable> {
     @Autowired
     List<SourceBasedFriendFinder> friendFinders
@@ -26,7 +26,7 @@ abstract class AbstractFriendFinder<ID extends Serializable> {
         }
         Map<String, Object> friends = [:]
         friendFinders.each {
-            SourceBasedFriendFinder friendFinder ->
+            SourceBasedFriendFinder<ID> friendFinder ->
                 if (friendFinder.handlesSource(player.source)) {
                     Map<String, Set<Object>> subFriends = friendFinder.findFriends(player)
                     subFriends.each {

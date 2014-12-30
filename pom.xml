@@ -15,6 +15,7 @@
         <module>integration-tests</module>
         <module>webUI</module>
         <module>example-tomcat</module>
+        <module>gamecore</module>
     </modules>
 
     <properties>

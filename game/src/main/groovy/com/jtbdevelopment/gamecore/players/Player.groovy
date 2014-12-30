@@ -6,13 +6,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.jtbdevelopment.gamecore.json.mongo.ObjectIdDeserializer
 import com.jtbdevelopment.gamecore.json.mongo.ObjectIdSerializer
 import groovy.transform.CompileStatic
-import org.apache.commons.codec.digest.DigestUtils
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
-import org.springframework.data.annotation.Transient
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
-import org.springframework.util.StringUtils
 
 /**
  * Date: 11/3/14
@@ -24,44 +21,15 @@ import org.springframework.util.StringUtils
 @Document(collection = "player")
 @CompileStatic
 @JsonIgnoreProperties(["idAsString"])
-class Player implements Cloneable, PlayerInt<ObjectId> {
+class Player extends AbstractPlayer<ObjectId> implements Cloneable {
     @Id
     @JsonSerialize(using = ObjectIdSerializer.class)
     @JsonDeserialize(using = ObjectIdDeserializer.class)
     ObjectId id = new ObjectId()
-    String source
-    String sourceId
-    String displayName
-    String imageUrl
-    String profileUrl
 
     @Indexed
     private String md5
-    boolean disabled = false
-    boolean adminUser = false
 
-    boolean equals(final o) {
-        if (this.is(o)) return true
-        if (!(o instanceof Player)) return false
-
-        final Player player = (Player) o
-
-        if (id != player.id) return false
-
-        return true
-    }
-
-    @JsonSerialize(using = ObjectIdSerializer.class)
-    @Override
-    ObjectId getId() {
-        return id;
-    }
-
-    int hashCode() {
-        return id.hashCode()
-    }
-
-    @Transient
     String getIdAsString() {
         return id.toHexString()
     }
@@ -71,48 +39,7 @@ class Player implements Cloneable, PlayerInt<ObjectId> {
         computeMD5Hex()
     }
 
-    void setSource(final String source) {
-        if (StringUtils.isEmpty(this.source)) {
-            this.source = source
-            computeMD5Hex()
-        }
-    }
-
-    void setSourceId(final String sourceId) {
-        this.sourceId = sourceId
-        computeMD5Hex()
-    }
-
-    void setDisplayName(final String displayName) {
-        this.displayName = displayName
-        computeMD5Hex()
-    }
-
-    String getMd5() {
-        if (StringUtils.isEmpty(md5)) {
-            computeMD5Hex()
-        }
-        return md5
-    }
-
-    @Override
-    public String toString() {
-        return "Player{" +
-                "id='" + id + '\'' +
-                ", source='" + source + '\'' +
-                ", sourceId='" + sourceId + '\'' +
-                ", displayName='" + displayName + '\'' +
-                ", disabled=" + disabled +
-                '}';
-    }
-
-    protected String computeMD5Hex() {
-        if (id == null || source == null || displayName == null || sourceId == null) {
-            md5 = ""
-        } else {
-            String key = id.toHexString() + source + displayName + sourceId
-            md5 = DigestUtils.md5Hex(key)
-        }
-        md5
+    protected void setMd5(final String md5) {
+        this.md5 = md5
     }
 }

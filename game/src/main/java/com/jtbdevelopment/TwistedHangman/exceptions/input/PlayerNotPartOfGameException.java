@@ -1,12 +1,12 @@
 package com.jtbdevelopment.TwistedHangman.exceptions.input;
 
-import com.jtbdevelopment.TwistedHangman.exceptions.TwistedHangmanInputException;
+import com.jtbdevelopment.gamecore.exceptions.GameInputException;
 
 /**
  * Date: 11/9/2014
  * Time: 6:38 PM
  */
-public class PlayerNotPartOfGameException extends TwistedHangmanInputException {
+public class PlayerNotPartOfGameException extends GameInputException {
     public static final String MESSAGE = "Player trying to act on a game they are not part of.";
 
     public PlayerNotPartOfGameException() {

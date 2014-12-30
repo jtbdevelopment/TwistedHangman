@@ -51,6 +51,7 @@
     <orderEntry type="library" name="Maven: org.atmosphere:atmosphere-runtime:2.2.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:3.2.5.RELEASE" level="project" />
     <orderEntry type="module" module-name="game" scope="TEST" production-on-test="" />
+    <orderEntry type="module" module-name="gamecore" />
     <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.10" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.3.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.social:spring-social-core:1.1.0.RELEASE" level="project" />

@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
-import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindPlayersException
 import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
+import com.jtbdevelopment.gamecore.exceptions.system.FailedToFindPlayersException
 import com.jtbdevelopment.gamecore.players.PlayerInt
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -21,12 +21,14 @@ abstract class AbstractHandler {
     protected AbstractPlayerRepository<ObjectId> playerRepository
 
     protected Set<PlayerInt<ObjectId>> loadPlayerMD5s(final Collection<String> playerMD5s) {
-        LinkedHashSet<PlayerInt<ObjectId>> players = new LinkedHashSet<>(playerRepository.findByMd5In(playerMD5s).collect { PlayerInt it -> it })
+        /*
+        LinkedHashSet<PlayerInt<ObjectId>> players = new LinkedHashSet<>(playerRepository.findByMd5In(playerMD5s).collect { PlayerInt<ObjectId> it -> it })
         if (players.size() != playerMD5s.size()) {
             logger.info("Not all players were loaded " + playerMD5s + " vs. " + players)
             throw new FailedToFindPlayersException()
         }
         players
+        */
     }
 
     protected PlayerInt<ObjectId> loadPlayer(final ObjectId playerID) {

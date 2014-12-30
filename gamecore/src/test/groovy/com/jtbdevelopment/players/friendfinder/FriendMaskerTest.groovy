@@ -1,12 +1,13 @@
-package com.jtbdevelopment.gamecore.players.friendfinder
+package com.jtbdevelopment.players.friendfinder
 
-import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
+import com.jtbdevelopment.GameCoreTestCase
+import com.jtbdevelopment.gamecore.players.friendfinder.FriendMasker
 
 /**
  * Date: 11/26/14
  * Time: 9:00 PM
  */
-class FriendMaskerTest extends TwistedHangmanTestCase {
+class FriendMaskerTest extends GameCoreTestCase {
     FriendMasker masker = new FriendMasker();
 
     void testMaskFriends() {

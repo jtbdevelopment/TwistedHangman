@@ -1,12 +1,12 @@
 package com.jtbdevelopment.TwistedHangman.exceptions.input;
 
-import com.jtbdevelopment.TwistedHangman.exceptions.TwistedHangmanInputException;
+import com.jtbdevelopment.gamecore.exceptions.GameInputException;
 
 /**
  * Date: 11/5/14
  * Time: 6:37 AM
  */
-public class GameOverException extends TwistedHangmanInputException {
+public class GameOverException extends GameInputException {
     public static final String GAME_OVER_ERROR = "Game is already over.";
 
     public GameOverException() {

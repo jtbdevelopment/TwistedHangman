@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="example-tomcat:war exploded">
-    <output-path>$PROJECT_DIR$/example-tomcat/target/example-tomcat-0.2.1-SNAPSHOT</output-path>
+    <output-path>$PROJECT_DIR$/example-tomcat/target/example-tomcat-0.2-SNAPSHOT</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -12,6 +12,9 @@
           </element>
           <element id="archive" name="game-0.2-SNAPSHOT.jar">
             <element id="module-output" name="game" />
+          </element>
+          <element id="archive" name="gamecore-0.2-SNAPSHOT.jar">
+            <element id="module-output" name="gamecore" />
           </element>
           <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.10" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.3.2" />
@@ -88,7 +91,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/example-tomcat/target/MANIFEST.MF" />
+        <element id="file-copy" path="C:\DEV\TwistedHangman\example-tomcat\target/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="example-tomcat/web/Web" />
     </root>

@@ -8,6 +8,6 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 class PlayerRoles {
-    public static final String PLAYER = 'Player'
-    public static final String ADMIN = 'Admin'
+    static final String PLAYER = 'Player'
+    static final String ADMIN = 'Admin'
 }

@@ -1,12 +1,12 @@
 package com.jtbdevelopment.TwistedHangman.exceptions.system;
 
-import com.jtbdevelopment.TwistedHangman.exceptions.TwistedHangmanSystemException;
+import com.jtbdevelopment.gamecore.exceptions.GameSystemException;
 
 /**
  * Date: 11/7/14
  * Time: 6:57 AM
  */
-public class RandomCannedGameFinderException extends TwistedHangmanSystemException {
+public class RandomCannedGameFinderException extends GameSystemException {
     public final static String NO_GAMES_FOUND = "No pre-made games were found.";
     public final static String GAME_NOT_LOADED = "Pre-made game failed to load.";
 

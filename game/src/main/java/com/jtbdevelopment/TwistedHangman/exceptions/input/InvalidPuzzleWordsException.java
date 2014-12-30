@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.exceptions.input;
 
-import com.jtbdevelopment.TwistedHangman.exceptions.TwistedHangmanInputException;
+import com.jtbdevelopment.gamecore.exceptions.GameInputException;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * Date: 11/10/14
  * Time: 6:41 AM
  */
-public class InvalidPuzzleWordsException extends TwistedHangmanInputException {
+public class InvalidPuzzleWordsException extends GameInputException {
     public static final String BASE_ERROR = "Your puzzle has invalid words ";
     public static final String END_EROR = ".";
 

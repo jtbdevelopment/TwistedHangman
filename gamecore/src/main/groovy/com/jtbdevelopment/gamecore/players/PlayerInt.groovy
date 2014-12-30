@@ -1,13 +1,14 @@
-package com.jtbdevelopment.gamecore.players;
+package com.jtbdevelopment.gamecore.players
 
-import org.springframework.data.annotation.Transient;
+import groovy.transform.CompileStatic
+import org.springframework.data.annotation.Transient
 
 /**
- * Date: 11/3/14
- * Time: 6:53 AM
+ * Date: 12/30/2014
+ * Time: 11:08 AM
  */
-public interface PlayerInt<ID> {
-
+@CompileStatic
+interface PlayerInt<ID extends Serializable> {
     ID getId();
 
     void setId(final ID id);

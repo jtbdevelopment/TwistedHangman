@@ -25,6 +25,7 @@
         <module name="example-tomcat" />
         <module name="facebook" />
         <module name="game" />
+        <module name="gamecore" />
         <module name="integration-tests" />
         <module name="model" />
         <module name="rest" />

@@ -1,28 +1,29 @@
-package com.jtbdevelopment.gamecore.players.friendfinder
+package com.jtbdevelopment.players.friendfinder
 
-import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindPlayersException
+import com.jtbdevelopment.GameCoreTestCase
 import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
-import com.jtbdevelopment.gamecore.players.Player
-import org.bson.types.ObjectId
+import com.jtbdevelopment.gamecore.exceptions.system.FailedToFindPlayersException
+import com.jtbdevelopment.gamecore.players.PlayerInt
+import com.jtbdevelopment.gamecore.players.friendfinder.AbstractFriendFinder
+import com.jtbdevelopment.gamecore.players.friendfinder.FriendMasker
+import com.jtbdevelopment.gamecore.players.friendfinder.SourceBasedFriendFinder
 
 /**
  * Date: 11/26/14
  * Time: 4:18 PM
  */
-class AbstractFriendFinderTest extends TwistedHangmanTestCase {
-    AbstractFriendFinder<ObjectId> finder = new AbstractFriendFinder<ObjectId>() {};
+class AbstractFriendFinderTest extends GameCoreTestCase {
+    AbstractFriendFinder<String> finder = new AbstractFriendFinder<String>() {};
 
     void testSumOfSourceBasedFinders() {
-        Player param = new Player(id: new ObjectId("12ab".padRight(24, "0")), source: "MANUAL")
         def f1 = [
                 handlesSource: {
                     String it ->
                         true;
                 },
                 findFriends  : {
-                    Player p ->
-                        assert p.is(param)
+                    StringPlayer p ->
+                        assert p.is(PFOUR)
                         return [(SourceBasedFriendFinder.FRIENDS_KEY): [PONE, PTWO] as Set, 'Y': ['Yes'] as Set]
                 }
         ] as SourceBasedFriendFinder
@@ -32,8 +33,8 @@ class AbstractFriendFinderTest extends TwistedHangmanTestCase {
                         true;
                 },
                 findFriends  : {
-                    Player p ->
-                        assert p.is(param)
+                    StringPlayer p ->
+                        assert p.is(PFOUR)
                         return [(SourceBasedFriendFinder.FRIENDS_KEY): [PONE, PTHREE] as Set, 'X': [1, 2, 3] as Set]
                 }
         ] as SourceBasedFriendFinder
@@ -47,21 +48,21 @@ class AbstractFriendFinderTest extends TwistedHangmanTestCase {
         finder.friendFinders = [f1, f2, f3]
         finder.playerRepository = [
                 findOne: {
-                    ObjectId it ->
-                        assert it == param.id
-                        return param
+                    String it ->
+                        assert it == PFOUR.id
+                        return PFOUR
                 }
-        ] as AbstractPlayerRepository<ObjectId>
+        ] as AbstractPlayerRepository<String>
         def masked = ['x': 'y', '1': '2']
         finder.friendMasker = [
                 maskFriends: {
-                    Set<Player> friends ->
+                    Set<PlayerInt> friends ->
                         assert friends == [PONE, PTWO, PTHREE] as Set
                         return masked
                 }
         ] as FriendMasker
 
-        assert finder.findFriends(param.id) == [
+        assert finder.findFriends(PFOUR.id) == [
                 (SourceBasedFriendFinder.MASKED_FRIENDS_KEY): masked,
                 'Y'                                         : ['Yes'] as Set,
                 'X'                                         : [1, 2, 3] as Set
@@ -69,18 +70,16 @@ class AbstractFriendFinderTest extends TwistedHangmanTestCase {
     }
 
     void testNoPlayerInRepository() {
-        Player param = new Player(id: new ObjectId("12ab".padRight(24, "0")), source: "MANUAL")
-
         finder.playerRepository = [
                 findOne: {
-                    ObjectId it ->
-                        assert it == param.id
+                    String it ->
+                        assert it == PFOUR.id
                         return null
                 }
-        ] as AbstractPlayerRepository<ObjectId>
+        ] as AbstractPlayerRepository<String>
 
         try {
-            finder.findFriends(param.id)
+            finder.findFriends(PFOUR.id)
             fail("should have failed")
         } catch (FailedToFindPlayersException e) {
             //
@@ -88,18 +87,16 @@ class AbstractFriendFinderTest extends TwistedHangmanTestCase {
     }
 
     void testDisabledPlayer() {
-        Player param = new Player(id: new ObjectId("12ab".padRight(24, "0")), source: "MANUAL")
-
         finder.playerRepository = [
                 findOne: {
-                    ObjectId it ->
-                        assert it == param.id
+                    String it ->
+                        assert it == PINACTIVE1.id
                         return PINACTIVE1
                 }
-        ] as AbstractPlayerRepository<ObjectId>
+        ] as AbstractPlayerRepository<String>
 
         try {
-            finder.findFriends(param.id)
+            finder.findFriends(PINACTIVE1.id)
             fail("should have failed")
         } catch (FailedToFindPlayersException e) {
             //
