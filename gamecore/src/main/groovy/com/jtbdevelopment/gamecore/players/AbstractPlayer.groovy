@@ -53,11 +53,13 @@ abstract class AbstractPlayer<ID extends Serializable> implements Cloneable, Pla
 
     abstract protected void setMd5(final String md5);
 
+    abstract protected String getMd5Internal()
+
     String getMd5() {
-        if (StringUtils.isEmpty(md5)) {
+        if (StringUtils.isEmpty(getMd5Internal())) {
             computeMD5Hex()
         }
-        return md5
+        return this.getMd5Internal()
     }
 
     @Override
@@ -72,6 +74,7 @@ abstract class AbstractPlayer<ID extends Serializable> implements Cloneable, Pla
     }
 
     protected void computeMD5Hex() {
+        String md5
         if (id == null || source == null || displayName == null || sourceId == null) {
             md5 = ""
         } else {

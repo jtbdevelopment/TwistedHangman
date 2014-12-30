@@ -39,6 +39,9 @@ class Player extends AbstractPlayer<ObjectId> implements Cloneable {
         computeMD5Hex()
     }
 
+    protected String getMd5Internal() {
+        return this.md5
+    }
     protected void setMd5(final String md5) {
         this.md5 = md5
     }

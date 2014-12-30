@@ -25,7 +25,7 @@ class PlayerTest extends TwistedHangmanTestCase {
     void testHashCode() {
         def SOMEID = new ObjectId("1234".padRight(24, "0"))
         Player player = new Player(id: SOMEID)
-        assert SOMEID.hashCode() == player.hashCode()
+        assert SOMEID.toHexString().hashCode() == player.hashCode()
     }
 
 

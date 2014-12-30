@@ -26,6 +26,11 @@ abstract class GameCoreTestCase extends GroovyTestCase {
         }
 
         @Override
+        protected String getMd5Internal() {
+            return this.md5
+        }
+
+        @Override
         String getIdAsString() {
             return id
         }

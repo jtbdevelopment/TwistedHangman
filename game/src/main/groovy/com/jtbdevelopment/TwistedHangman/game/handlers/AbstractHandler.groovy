@@ -3,7 +3,6 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
 import com.jtbdevelopment.gamecore.exceptions.system.FailedToFindPlayersException
 import com.jtbdevelopment.gamecore.players.PlayerInt
-import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -12,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired
 /**
  * Date: 11/4/2014
  * Time: 9:54 PM
+ *
+ * TODO - compile static
+ *
  */
-@CompileStatic
 abstract class AbstractHandler {
     private static final Logger logger = LoggerFactory.getLogger(AbstractHandler.class)
 
@@ -21,14 +22,12 @@ abstract class AbstractHandler {
     protected AbstractPlayerRepository<ObjectId> playerRepository
 
     protected Set<PlayerInt<ObjectId>> loadPlayerMD5s(final Collection<String> playerMD5s) {
-        /*
         LinkedHashSet<PlayerInt<ObjectId>> players = new LinkedHashSet<>(playerRepository.findByMd5In(playerMD5s).collect { PlayerInt<ObjectId> it -> it })
         if (players.size() != playerMD5s.size()) {
             logger.info("Not all players were loaded " + playerMD5s + " vs. " + players)
             throw new FailedToFindPlayersException()
         }
         players
-        */
     }
 
     protected PlayerInt<ObjectId> loadPlayer(final ObjectId playerID) {

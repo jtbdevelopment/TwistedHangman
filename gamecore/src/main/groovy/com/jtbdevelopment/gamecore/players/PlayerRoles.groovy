@@ -8,6 +8,7 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 class PlayerRoles {
-    static final String PLAYER = 'Player'
-    static final String ADMIN = 'Admin'
+    //  Public to allow direct access in annotations, instead of via generated getter
+    public static final String PLAYER = 'Player'
+    public static final String ADMIN = 'Admin'
 }
