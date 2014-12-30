@@ -1,6 +1,6 @@
 package com.jtbdevelopment.gamecore.dao
 
-import com.jtbdevelopment.gamecore.players.PlayerInt
+import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.springframework.data.repository.NoRepositoryBean
 import org.springframework.data.repository.PagingAndSortingRepository
@@ -11,10 +11,10 @@ import org.springframework.data.repository.PagingAndSortingRepository
  */
 @CompileStatic
 @NoRepositoryBean
-interface AbstractPlayerRepository<ID extends Serializable> extends PagingAndSortingRepository<PlayerInt<ID>, ID> {
-    List<PlayerInt<ID>> findByMd5In(final Collection<String> md5s);
+interface AbstractPlayerRepository<ID extends Serializable> extends PagingAndSortingRepository<Player<ID>, ID> {
+    List<Player<ID>> findByMd5In(final Collection<String> md5s);
 
-    PlayerInt<ID> findBySourceAndSourceId(final String source, final String sourceId);
+    Player<ID> findBySourceAndSourceId(final String source, final String sourceId);
 
-    List<PlayerInt<ID>> findBySourceAndDisabled(final String source, final boolean disabled);
+    List<Player<ID>> findBySourceAndDisabled(final String source, final boolean disabled);
 }

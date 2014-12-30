@@ -1,14 +1,14 @@
-package com.jtbdevelopment.players.friendfinder
+package com.jtbdevelopment.players
 
 import com.jtbdevelopment.GameCoreTestCase
-import com.jtbdevelopment.gamecore.players.friendfinder.FriendMasker
+import com.jtbdevelopment.TwistedHangman.players.PlayerMasker
 
 /**
  * Date: 11/26/14
  * Time: 9:00 PM
  */
-class FriendMaskerTest extends GameCoreTestCase {
-    FriendMasker masker = new FriendMasker();
+class PlayerMaskerTest extends GameCoreTestCase {
+    PlayerMasker masker = new PlayerMasker();
 
     void testMaskFriends() {
         assert masker.maskFriends([PONE, PTWO, PTHREE] as Set) == [

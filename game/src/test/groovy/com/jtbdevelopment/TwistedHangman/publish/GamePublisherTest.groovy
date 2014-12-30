@@ -2,7 +2,7 @@ package com.jtbdevelopment.TwistedHangman.publish
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
 
 import java.util.concurrent.Callable
 import java.util.concurrent.ThreadPoolExecutor
@@ -36,8 +36,8 @@ class GamePublisherTest extends TwistedHangmanTestCase {
 
         Game g1 = makeSimpleGame("1")
         Game g2 = makeSimpleGame("2")
-        Player p1 = PONE
-        Player p2 = PTWO
+        MongoPlayer p1 = PONE
+        MongoPlayer p2 = PTWO
 
         assert publisher.subscribers == null
         publisher.publish(g1, p2)
@@ -56,14 +56,14 @@ class GamePublisherTest extends TwistedHangmanTestCase {
         def players = []
         def gl1 = [
                 gameChanged: {
-                    Game g, Player p ->
+                    Game g, MongoPlayer p ->
                         games.add(g)
                         players.add(p)
                 },
         ] as GameListener
         def gl2 = [
                 gameChanged: {
-                    Game g, Player p ->
+                    Game g, MongoPlayer p ->
                         games.add(g)
                         players.add(p)
                 },
@@ -73,8 +73,8 @@ class GamePublisherTest extends TwistedHangmanTestCase {
 
         Game g1 = makeSimpleGame("1")
         Game g2 = makeSimpleGame("2")
-        Player p1 = PONE
-        Player p2 = PTWO
+        MongoPlayer p1 = PONE
+        MongoPlayer p2 = PTWO
 
         publisher.publish(g1, p2)
         publisher.publish(g2, p1)

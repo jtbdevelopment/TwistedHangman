@@ -6,7 +6,7 @@ import com.jtbdevelopment.TwistedHangman.game.mechanics.HangmanGameActions
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
-import com.jtbdevelopment.gamecore.players.PlayerInt
+import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,7 +23,7 @@ class GuessLetterHandler extends AbstractGamePlayActionHandler<Character> {
     HangmanGameActions gameActions
 
     @Override
-    protected Game handleActionInternal(final PlayerInt<ObjectId> player, final Game game, final Character param) {
+    protected Game handleActionInternal(final Player<ObjectId> player, final Game game, final Character param) {
         if (game.gamePhase != GamePhase.Playing) {
             throw new GameIsNotInPlayModeException()
         }

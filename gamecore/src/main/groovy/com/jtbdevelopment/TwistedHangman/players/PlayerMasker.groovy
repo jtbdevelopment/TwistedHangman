@@ -1,6 +1,5 @@
-package com.jtbdevelopment.gamecore.players.friendfinder
+package com.jtbdevelopment.TwistedHangman.players
 
-import com.jtbdevelopment.gamecore.players.PlayerInt
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
 
@@ -12,11 +11,11 @@ import org.springframework.stereotype.Component
  */
 @Component
 @CompileStatic
-class FriendMasker {
+class PlayerMasker {
     @SuppressWarnings("GrMethodMayBeStatic")
-    Map<String, String> maskFriends(final Set<? extends PlayerInt> friends) {
+    Map<String, String> maskFriends(final Set<? extends Player> friends) {
         friends.collectEntries {
-            PlayerInt p ->
+            Player p ->
                 [p.md5, p.displayName]
         }
     }

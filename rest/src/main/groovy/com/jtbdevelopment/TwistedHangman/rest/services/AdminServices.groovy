@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
+import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
 import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
-import com.jtbdevelopment.gamecore.players.PlayerInt
-import com.jtbdevelopment.gamecore.players.PlayerRoles
 import com.jtbdevelopment.gamecore.security.SessionUserInfo
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -34,7 +34,7 @@ class AdminServices {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    Set<PlayerInt<ObjectId>> playersToSimulate(
+    Set<Player<ObjectId>> playersToSimulate(
             @QueryParam("page") Integer page, @QueryParam("pageSize") Integer pageSize) {
         return playerRepository.findAll(new PageRequest(
                 page ?: DEFAULT_PAGE,
@@ -47,7 +47,7 @@ class AdminServices {
     @Path("{playerID}")
     @Produces(MediaType.APPLICATION_JSON)
     Object switchEffectiveUser(@PathParam("playerID") final String effectivePlayerID) {
-        PlayerInt<ObjectId> p = playerRepository.findOne(new ObjectId(effectivePlayerID));
+        Player<ObjectId> p = playerRepository.findOne(new ObjectId(effectivePlayerID));
         if (p != null) {
             ((SessionUserInfo<ObjectId>) SecurityContextHolder.context.authentication.principal).effectiveUser = p;
             return p;

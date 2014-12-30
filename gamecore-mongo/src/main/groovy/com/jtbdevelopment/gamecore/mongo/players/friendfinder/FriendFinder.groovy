@@ -1,6 +1,6 @@
-package com.jtbdevelopment.gamecore.players.mongo
+package com.jtbdevelopment.gamecore.mongo.players.friendfinder
 
-import com.jtbdevelopment.gamecore.players.friendfinder.AbstractFriendFinder
+import com.jtbdevelopment.TwistedHangman.players.friendfinder.AbstractFriendFinder
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.config.ConfigurableBeanFactory

@@ -2,7 +2,7 @@ package com.jtbdevelopment.gamecore.security.spring.security
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
-import com.jtbdevelopment.gamecore.players.ManualPlayer
+import com.jtbdevelopment.gamecore.mongo.players.MongoManualPlayer
 
 /**
  * Date: 12/24/14
@@ -15,7 +15,7 @@ class PlayerUserDetailsServiceTest extends TwistedHangmanTestCase {
         def repo = [
                 findBySourceAndSourceId: {
                     String source, String username ->
-                        assert source == ManualPlayer.MANUAL_SOURCE
+                        assert source == MongoManualPlayer.MANUAL_SOURCE
                         assert username == PTWO.sourceId
                         PTWO
                 }
@@ -31,7 +31,7 @@ class PlayerUserDetailsServiceTest extends TwistedHangmanTestCase {
         def repo = [
                 findBySourceAndSourceId: {
                     String source, String username ->
-                        assert source == ManualPlayer.MANUAL_SOURCE
+                        assert source == MongoManualPlayer.MANUAL_SOURCE
                         assert username == PTWO.sourceId
                         null
                 }

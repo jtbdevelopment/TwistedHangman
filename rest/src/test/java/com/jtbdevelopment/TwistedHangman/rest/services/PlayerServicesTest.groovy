@@ -6,10 +6,10 @@ import com.jtbdevelopment.TwistedHangman.game.handlers.PlayerGamesFinderHandler
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
-import com.jtbdevelopment.gamecore.players.Player
-import com.jtbdevelopment.gamecore.players.PlayerInt
-import com.jtbdevelopment.gamecore.players.PlayerRoles
-import com.jtbdevelopment.gamecore.players.mongo.FriendFinder
+import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
+import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
+import com.jtbdevelopment.gamecore.mongo.players.friendfinder.FriendFinder
 import com.jtbdevelopment.gamecore.security.SessionUserInfo
 import groovy.transform.TypeChecked
 import org.bson.types.ObjectId
@@ -117,7 +117,7 @@ class PlayerServicesTest extends GroovyTestCase {
     }
 
     void testPlayerInfo() {
-        Player p = new Player(id: new ObjectId(), displayName: "y", disabled: true, source: "here");
+        MongoPlayer p = new MongoPlayer(id: new ObjectId(), displayName: "y", disabled: true, source: "here");
         playerServices.playerRepository = [
                 findOne: {
                     ObjectId it ->
@@ -242,17 +242,17 @@ class PlayerServicesTest extends GroovyTestCase {
         SecurityContextHolder.context = new SecurityContextImpl()
         SecurityContextHolder.context.authentication = new TestingAuthenticationToken(new SessionUserInfo<ObjectId>() {
             @Override
-            PlayerInt<ObjectId> getSessionUser() {
-                return new Player(id: REALPLAYER)
+            Player<ObjectId> getSessionUser() {
+                return new MongoPlayer(id: REALPLAYER)
             }
 
             @Override
-            PlayerInt<ObjectId> getEffectiveUser() {
+            Player<ObjectId> getEffectiveUser() {
                 return null
             }
 
             @Override
-            void setEffectiveUser(final PlayerInt<ObjectId> player) {
+            void setEffectiveUser(final Player<ObjectId> player) {
 
             }
         }, null)

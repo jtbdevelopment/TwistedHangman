@@ -1,8 +1,8 @@
 package com.jtbdevelopment.gamecore.security.spring.social.connect
 
+import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
-import com.jtbdevelopment.gamecore.players.Player
-import com.jtbdevelopment.gamecore.players.PlayerInt
+import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
 import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -25,13 +25,13 @@ class AutoConnectionSignUp implements ConnectionSignUp {
 
     @Override
     String execute(final Connection<?> connection) {
-        PlayerInt player = playerRepository.findBySourceAndSourceId(connection.key.providerId, connection.key.providerUserId)
+        Player player = playerRepository.findBySourceAndSourceId(connection.key.providerId, connection.key.providerUserId)
         if (player) {
             return player.id
         } else {
-            Player p = new Player(
+            MongoPlayer p = new MongoPlayer(
                     disabled: false,
-                    displayName: connection.displayName,
+                    displayName: connection.fetchUserProfile().name,
                     source: connection.key.providerId,
                     sourceId: connection.key.providerUserId,
                     profileUrl: connection.profileUrl,

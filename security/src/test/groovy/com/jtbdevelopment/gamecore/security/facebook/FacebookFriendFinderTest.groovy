@@ -2,8 +2,8 @@ package com.jtbdevelopment.gamecore.security.facebook
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
-import com.jtbdevelopment.gamecore.players.ManualPlayer
-import com.jtbdevelopment.gamecore.players.friendfinder.SourceBasedFriendFinder
+import com.jtbdevelopment.TwistedHangman.players.friendfinder.SourceBasedFriendFinder
+import com.jtbdevelopment.gamecore.mongo.players.MongoManualPlayer
 import org.springframework.social.facebook.api.*
 
 /**
@@ -15,7 +15,7 @@ class FacebookFriendFinderTest extends TwistedHangmanTestCase {
 
     void testHandlesSource() {
         assert friendFinder.handlesSource("facebook")
-        assert !friendFinder.handlesSource(ManualPlayer.MANUAL_SOURCE)
+        assert !friendFinder.handlesSource(MongoManualPlayer.MANUAL_SOURCE)
         assert !friendFinder.handlesSource("twitter")
     }
 

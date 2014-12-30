@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.publish
 
 import com.jtbdevelopment.TwistedHangman.game.state.Game
-import com.jtbdevelopment.gamecore.players.PlayerInt
+import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -27,7 +27,7 @@ class GamePublisher {
     ExecutorService service;
 
     //  Returns game primarily to allow easy chaining
-    Game publish(final Game game, final PlayerInt initiatingPlayer) {
+    Game publish(final Game game, final Player initiatingPlayer) {
         service.submit(new Runnable() {
             @Override
             void run() {

@@ -1,8 +1,9 @@
-package com.jtbdevelopment.gamecore.players
+package com.jtbdevelopment.gamecore.mongo.players
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.jtbdevelopment.TwistedHangman.players.AbstractPlayer
 import com.jtbdevelopment.gamecore.mongo.json.ObjectIdDeserializer
 import com.jtbdevelopment.gamecore.mongo.json.ObjectIdSerializer
 import groovy.transform.CompileStatic
@@ -21,7 +22,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document(collection = "player")
 @CompileStatic
 @JsonIgnoreProperties(["idAsString"])
-class Player extends AbstractPlayer<ObjectId> implements Cloneable {
+class MongoPlayer extends AbstractPlayer<ObjectId> implements Cloneable {
     @Id
     @JsonSerialize(using = ObjectIdSerializer.class)
     @JsonDeserialize(using = ObjectIdDeserializer.class)
@@ -42,6 +43,7 @@ class Player extends AbstractPlayer<ObjectId> implements Cloneable {
     protected String getMd5Internal() {
         return this.md5
     }
+
     protected void setMd5(final String md5) {
         this.md5 = md5
     }

@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.publish;
 
 import com.jtbdevelopment.TwistedHangman.game.state.Game;
-import com.jtbdevelopment.gamecore.players.PlayerInt;
+import com.jtbdevelopment.TwistedHangman.players.Player;
 
 /**
  * Date: 12/8/14
@@ -10,5 +10,5 @@ import com.jtbdevelopment.gamecore.players.PlayerInt;
  * TODO - publish between instances of servers so players on different servers get notified
  */
 public interface GameListener {
-    public void gameChanged(final Game game, final PlayerInt initiatingPlayer);
+    public void gameChanged(final Game game, final Player initiatingPlayer);
 }

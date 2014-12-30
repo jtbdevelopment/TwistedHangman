@@ -1,6 +1,8 @@
-package com.jtbdevelopment.gamecore.players
+package com.jtbdevelopment.TwistedHangman.players
 
 import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
+import com.jtbdevelopment.gamecore.mongo.players.MongoManualPlayer
+import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
 import org.springframework.context.ApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -20,7 +22,7 @@ class ManualPlayerMaker {
         TwistedHangmanPlayerRepository repository = ctx.getBean(TwistedHangmanPlayerRepository.class)
         passwordEncoder = ctx.getBean(PasswordEncoder.class)
 
-        Player[] players = [
+        MongoPlayer[] players = [
                 makePlayer("Manual Player1", 'M1@MANUAL.COM', "M1"),
                 makePlayer("Manual Player2", 'M2@MANUAL.COM', "M2"),
                 makePlayer("Manual Player3", 'M3@MANUAL.COM', "M3"),
@@ -28,8 +30,8 @@ class ManualPlayerMaker {
         ]
 
         players.each {
-            Player it ->
-                Player loaded = repository.findBySourceAndSourceId(it.source, it.sourceId);
+            MongoPlayer it ->
+                MongoPlayer loaded = repository.findBySourceAndSourceId(it.source, it.sourceId);
                 if (!loaded) {
                     println "Creating player " + it
                     repository.save(it)
@@ -41,8 +43,8 @@ class ManualPlayerMaker {
         println "Complete"
     }
 
-    static ManualPlayer makePlayer(final String displayName, final String sourceId, final String password) {
-        return new ManualPlayer(
+    static MongoManualPlayer makePlayer(final String displayName, final String sourceId, final String password) {
+        return new MongoManualPlayer(
                 disabled: false,
                 adminUser: true,
                 verified: true,

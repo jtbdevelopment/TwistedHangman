@@ -1,26 +1,27 @@
-package com.jtbdevelopment.gamecore.players.friendfinder
+package com.jtbdevelopment.TwistedHangman.players.friendfinder
 
+import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.players.PlayerMasker
 import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
 import com.jtbdevelopment.gamecore.exceptions.system.FailedToFindPlayersException
-import com.jtbdevelopment.gamecore.players.PlayerInt
+import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * Date: 11/26/14
  * Time: 1:04 PM
- *
- * TODO - can't compile static
  */
+@CompileStatic
 abstract class AbstractFriendFinder<ID extends Serializable> {
     @Autowired
     List<SourceBasedFriendFinder> friendFinders
     @Autowired
     AbstractPlayerRepository<ID> playerRepository
     @Autowired
-    FriendMasker friendMasker
+    PlayerMasker friendMasker
 
     Map<String, Object> findFriends(final ID playerId) {
-        PlayerInt<ID> player = playerRepository.findOne(playerId)
+        Player<ID> player = playerRepository.findOne(playerId)
         if (player == null || player.disabled) {
             throw new FailedToFindPlayersException()
         }
@@ -39,7 +40,7 @@ abstract class AbstractFriendFinder<ID extends Serializable> {
                     }
                 }
         }
-        Set<PlayerInt> playerFriends = (Set<PlayerInt>) friends.remove(SourceBasedFriendFinder.FRIENDS_KEY)
+        Set<Player> playerFriends = (Set<Player>) friends.remove(SourceBasedFriendFinder.FRIENDS_KEY)
         if (playerFriends) {
             friends[SourceBasedFriendFinder.MASKED_FRIENDS_KEY] = friendMasker.maskFriends(playerFriends)
         }

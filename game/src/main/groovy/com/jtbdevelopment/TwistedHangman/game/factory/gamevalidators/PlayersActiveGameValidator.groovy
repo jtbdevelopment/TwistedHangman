@@ -2,8 +2,8 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gamevalidators
 
 import com.jtbdevelopment.TwistedHangman.game.factory.GameValidator
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
-import com.jtbdevelopment.gamecore.players.PlayerInt
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,14 +22,14 @@ class PlayersActiveGameValidator implements GameValidator {
 
     @Override
     boolean validateGame(final Game game) {
-        Iterable<PlayerInt<ObjectId>> loaded = playerRepository.findAll(game.players.collect { PlayerInt<ObjectId> player -> player.id })
+        Iterable<Player<ObjectId>> loaded = playerRepository.findAll(game.players.collect { Player<ObjectId> player -> player.id })
 
-        Collection<PlayerInt<ObjectId>> all = loaded.findAll {
-            PlayerInt<ObjectId> player ->
+        Collection<Player<ObjectId>> all = loaded.findAll {
+            Player<ObjectId> player ->
                 !player.disabled
         }
         Collection<ObjectId> loadedActivePlayers = all.collect {
-            PlayerInt<ObjectId> player ->
+            Player<ObjectId> player ->
                 player.id
         }
         return loadedActivePlayers.size() == game.players.size()

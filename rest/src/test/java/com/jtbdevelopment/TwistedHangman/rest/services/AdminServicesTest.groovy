@@ -2,9 +2,9 @@ package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
-import com.jtbdevelopment.gamecore.players.Player
-import com.jtbdevelopment.gamecore.players.PlayerInt
-import com.jtbdevelopment.gamecore.players.PlayerRoles
+import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
+import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
 import com.jtbdevelopment.gamecore.security.SessionUserInfo
 import groovy.transform.TypeChecked
 import org.bson.types.ObjectId
@@ -41,7 +41,7 @@ class AdminServicesTest extends TwistedHangmanTestCase {
                         assert pageRequest.pageSize == AdminServices.DEFAULT_PAGE_SIZE
                         assert pageRequest.sort.properties.size() == 1
                         assert pageRequest.sort.getOrderFor("displayName").direction == Sort.Direction.ASC
-                        new PageImpl<Player>([PTWO, PTHREE])
+                        new PageImpl<MongoPlayer>([PTWO, PTHREE])
                 }
         ] as TwistedHangmanPlayerRepository
         adminServices.playerRepository = repo;
@@ -70,21 +70,21 @@ class AdminServicesTest extends TwistedHangmanTestCase {
     void testSwitchEffectiveUser() {
         SecurityContextHolder.context = new SecurityContextImpl()
         def session = new SessionUserInfo<ObjectId>() {
-            PlayerInt<ObjectId> sessionUser = PONE
-            PlayerInt<ObjectId> effectiveUser = PONE
+            Player<ObjectId> sessionUser = PONE
+            Player<ObjectId> effectiveUser = PONE
 
             @Override
-            PlayerInt<ObjectId> getSessionUser() {
+            Player<ObjectId> getSessionUser() {
                 return sessionUser
             }
 
             @Override
-            PlayerInt<ObjectId> getEffectiveUser() {
+            Player<ObjectId> getEffectiveUser() {
                 return effectiveUser
             }
 
             @Override
-            void setEffectiveUser(final PlayerInt<ObjectId> player) {
+            void setEffectiveUser(final Player<ObjectId> player) {
                 this.effectiveUser = player
             }
         }
@@ -109,21 +109,21 @@ class AdminServicesTest extends TwistedHangmanTestCase {
     void testSwitchEffectiveUserBadID() {
         SecurityContextHolder.context = new SecurityContextImpl()
         def session = new SessionUserInfo<ObjectId>() {
-            PlayerInt<ObjectId> sessionUser = PONE
-            PlayerInt<ObjectId> effectiveUser = PONE
+            Player<ObjectId> sessionUser = PONE
+            Player<ObjectId> effectiveUser = PONE
 
             @Override
-            PlayerInt<ObjectId> getSessionUser() {
+            Player<ObjectId> getSessionUser() {
                 return sessionUser
             }
 
             @Override
-            PlayerInt<ObjectId> getEffectiveUser() {
+            Player<ObjectId> getEffectiveUser() {
                 return effectiveUser
             }
 
             @Override
-            void setEffectiveUser(final PlayerInt<ObjectId> player) {
+            void setEffectiveUser(final Player<ObjectId> player) {
                 this.effectiveUser = player
             }
         }

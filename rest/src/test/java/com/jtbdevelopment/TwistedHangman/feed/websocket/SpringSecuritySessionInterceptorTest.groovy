@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.feed.websocket
 
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
 import com.jtbdevelopment.gamecore.security.SessionUserInfo
 import org.atmosphere.cpr.Action
 import org.atmosphere.cpr.AtmosphereRequest
@@ -33,7 +33,7 @@ class SpringSecuritySessionInterceptorTest extends GroovyTestCase {
                                             {
                                                 return id;
                                             }
-                                        } as Player
+                                        } as MongoPlayer
                                     }
                                 } as SessionUserInfo
                             }
@@ -73,7 +73,7 @@ class SpringSecuritySessionInterceptorTest extends GroovyTestCase {
                                             {
                                                 return id;
                                             }
-                                        } as Player
+                                        } as MongoPlayer
                                     }
                                 } as SessionUserInfo
                             }

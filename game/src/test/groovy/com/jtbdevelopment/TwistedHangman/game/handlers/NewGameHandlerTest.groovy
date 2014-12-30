@@ -12,7 +12,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
 import com.jtbdevelopment.gamecore.exceptions.system.FailedToFindPlayersException
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
 import org.bson.types.ObjectId
 
 /**
@@ -25,8 +25,8 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
 
     public void testCreateGame() {
         Set<GameFeature> features = [GameFeature.SystemPuzzles, GameFeature.Thieving]
-        List<Player> players = [PTWO, PTHREE, PFOUR]
-        Player initiatingPlayer = PONE
+        List<MongoPlayer> players = [PTWO, PTHREE, PFOUR]
+        MongoPlayer initiatingPlayer = PONE
         Game game = new Game()
         game.features.addAll(features)
         Game savedGame = new Game()
@@ -71,7 +71,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
         ] as GamePhaseTransitionEngine
         handler.gamePublisher = [
                 publish: {
-                    Game g, Player p ->
+                    Game g, MongoPlayer p ->
                         assert g.is(savedGame)
                         assert p.is(initiatingPlayer)
                         publishedGame
@@ -80,7 +80,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
         MaskedGame maskedGame = new MaskedGame()
         handler.gameMasker = [
                 maskGameForPlayer: {
-                    Game g, Player p ->
+                    Game g, MongoPlayer p ->
                         assert g.is(publishedGame)
                         assert p.is(initiatingPlayer)
                         return maskedGame
@@ -93,7 +93,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
 
     public void testInvalidInitiator() {
         Set<GameFeature> features = [GameFeature.AlternatingPuzzleSetter, GameFeature.Thieving]
-        List<Player> players = [PONE, PTWO, PTHREE]
+        List<MongoPlayer> players = [PONE, PTWO, PTHREE]
 
         ObjectId playerId = new ObjectId();
         handler.playerRepository = [
@@ -119,8 +119,8 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
 
     public void testNotAllPlayersFound() {
         Set<GameFeature> features = [GameFeature.AlternatingPuzzleSetter, GameFeature.Thieving]
-        List<Player> players = [PONE, PTWO, PTHREE]
-        Player initiatingPlayer = PFOUR
+        List<MongoPlayer> players = [PONE, PTWO, PTHREE]
+        MongoPlayer initiatingPlayer = PFOUR
         handler.playerRepository = [
                 findByMd5In: {
                     Iterable<String> it ->

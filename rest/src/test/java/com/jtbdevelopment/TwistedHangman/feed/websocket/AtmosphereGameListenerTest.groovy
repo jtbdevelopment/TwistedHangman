@@ -4,7 +4,7 @@ import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
 import org.atmosphere.cpr.Broadcaster
 import org.atmosphere.cpr.BroadcasterFactory
 
@@ -47,7 +47,7 @@ class AtmosphereGameListenerTest extends TwistedHangmanTestCase {
         ] as Broadcaster
         GameMasker masker = [
                 maskGameForPlayer: {
-                    Game g, Player p ->
+                    Game g, MongoPlayer p ->
                         assert game.is(g)
                         if (p == PTWO) return mg2
                         if (p == PFOUR) return mg4

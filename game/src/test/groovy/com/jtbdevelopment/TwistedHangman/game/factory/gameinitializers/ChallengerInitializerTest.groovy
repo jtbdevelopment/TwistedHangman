@@ -3,7 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.gamecore.players.SystemPlayer
+import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayer
 
 /**
  * Date: 11/5/14
@@ -20,7 +20,7 @@ class ChallengerInitializerTest extends TwistedHangmanTestCase {
         game.solverStates = expectedSolvers
         initializer.initializeGame(game)
 
-        assert game.wordPhraseSetter == SystemPlayer.SYSTEM_PLAYER.id
+        assert game.wordPhraseSetter == TwistedHangmanSystemPlayer.TH_PLAYER.id
         assert game.solverStates == expectedSolvers
     }
 
@@ -33,7 +33,7 @@ class ChallengerInitializerTest extends TwistedHangmanTestCase {
         game.solverStates = expectedSolvers
         initializer.initializeGame(game)
 
-        assert game.wordPhraseSetter == SystemPlayer.SYSTEM_PLAYER.id
+        assert game.wordPhraseSetter == TwistedHangmanSystemPlayer.TH_PLAYER.id
         assert game.solverStates == expectedSolvers
     }
 

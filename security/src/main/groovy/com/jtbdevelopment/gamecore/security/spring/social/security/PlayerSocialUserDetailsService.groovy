@@ -1,7 +1,7 @@
 package com.jtbdevelopment.gamecore.security.spring.social.security
 
+import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
-import com.jtbdevelopment.gamecore.players.PlayerInt
 import com.jtbdevelopment.gamecore.security.spring.security.PlayerUserDetails
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -25,7 +25,7 @@ class PlayerSocialUserDetailsService implements SocialUserDetailsService {
 
     @Override
     SocialUserDetails loadUserByUserId(final String userId) throws UsernameNotFoundException, DataAccessException {
-        PlayerInt<ObjectId> p = playerRepository.findOne(new ObjectId(userId));
+        Player<ObjectId> p = playerRepository.findOne(new ObjectId(userId));
         return (p != null ? new PlayerUserDetails(p) : null);
     }
 }

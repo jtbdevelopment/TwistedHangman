@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.game.state.masked
 
 import com.jtbdevelopment.TwistedHangman.game.state.*
-import com.jtbdevelopment.gamecore.players.PlayerInt
-import com.jtbdevelopment.gamecore.players.SystemPlayer
+import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayer
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
@@ -17,7 +17,7 @@ import java.time.ZonedDateTime
 @CompileStatic
 class GameMasker {
     @SuppressWarnings("GrMethodMayBeStatic")
-    MaskedGame maskGameForPlayer(final Game game, final PlayerInt<ObjectId> player) {
+    MaskedGame maskGameForPlayer(final Game game, final Player<ObjectId> player) {
         MaskedGame playerMaskedGame = new MaskedGame()
 
         playerMaskedGame.maskedForPlayerID = player.idAsString
@@ -29,10 +29,10 @@ class GameMasker {
     }
 
     protected static void copyMaskedData(
-            final Game game, final PlayerInt<ObjectId> player, final MaskedGame playerMaskedGame) {
-        Map<ObjectId, PlayerInt<ObjectId>> idmap = [:]
+            final Game game, final Player<ObjectId> player, final MaskedGame playerMaskedGame) {
+        Map<ObjectId, Player<ObjectId>> idmap = [:]
         game.players.each {
-            PlayerInt<ObjectId> p ->
+            Player<ObjectId> p ->
                 playerMaskedGame.players[p.md5] = p.displayName
                 playerMaskedGame.playerImages[p.md5] = p.imageUrl
                 playerMaskedGame.playerProfiles[p.md5] = p.profileUrl
@@ -64,17 +64,17 @@ class GameMasker {
         }
         playerMaskedGame.wordPhraseSetter =
                 game.wordPhraseSetter ?
-                        game.wordPhraseSetter == SystemPlayer.SYSTEM_PLAYER.id ?
-                                SystemPlayer.SYSTEM_PLAYER.md5 :
+                        game.wordPhraseSetter == TwistedHangmanSystemPlayer.TH_PLAYER.id ?
+                                TwistedHangmanSystemPlayer.TH_PLAYER.md5 :
                                 idmap[game.wordPhraseSetter].md5 : null
     }
 
     protected static MaskedIndividualGameState maskGameState(
-            final PlayerInt<ObjectId> playerMaskingFor,
+            final Player<ObjectId> playerMaskingFor,
             final Game game,
-            final PlayerInt<ObjectId> gameStatePlayer,
+            final Player<ObjectId> gameStatePlayer,
             final IndividualGameState gameState,
-            final Map<ObjectId, PlayerInt<ObjectId>> idmap) {
+            final Map<ObjectId, Player<ObjectId>> idmap) {
         MaskedIndividualGameState masked = new MaskedIndividualGameState()
 
         if (game.gamePhase == GamePhase.RoundOver ||

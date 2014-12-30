@@ -1,4 +1,6 @@
-package com.jtbdevelopment.gamecore.players
+package com.jtbdevelopment.players
+
+import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
 
 /**
  * Date: 12/22/14

@@ -1,17 +1,17 @@
-package com.jtbdevelopment.gamecore.players
+package com.jtbdevelopment.gamecore.mongo.players
 
-import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
+import com.jtbdevelopment.gamecore.mongo.MongoGameCoreTestCase
 import org.bson.types.ObjectId
 
 /**
  * Date: 11/9/14
  * Time: 3:44 PM
  */
-class PlayerTest extends TwistedHangmanTestCase {
+class MongoPlayerTest extends MongoGameCoreTestCase {
     void testEquals() {
         assert PONE.equals(PONE)
         assertFalse PONE.equals(PTWO)
-        assert PONE.equals(new Player(id: PONE.id))
+        assert PONE.equals(new MongoPlayer(id: PONE.id))
         assertFalse PONE.equals("String")
         assertFalse PONE.equals(null)
     }
@@ -24,13 +24,13 @@ class PlayerTest extends TwistedHangmanTestCase {
 
     void testHashCode() {
         def SOMEID = new ObjectId("1234".padRight(24, "0"))
-        Player player = new Player(id: SOMEID)
+        MongoPlayer player = new MongoPlayer(id: SOMEID)
         assert SOMEID.toHexString().hashCode() == player.hashCode()
     }
 
 
     void testToString() {
-        assert new Player(
+        assert new MongoPlayer(
                 id: new ObjectId("0a123".padRight(24, "0")),
                 disabled: false,
                 displayName: "BAYMAX",
@@ -43,7 +43,7 @@ class PlayerTest extends TwistedHangmanTestCase {
     }
 
     void testMD5FromBlank() {
-        Player p = new Player()
+        MongoPlayer p = new MongoPlayer()
         assert p.md5 == ""
     }
 }

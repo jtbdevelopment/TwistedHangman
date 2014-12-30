@@ -4,7 +4,7 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.FailedToCreateValidGam
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.gamecore.players.PlayerInt
+import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,15 +28,15 @@ class GameFactory {
 
     public Game createGame(
             final Set<GameFeature> features,
-            final List<PlayerInt<ObjectId>> players,
-            final PlayerInt<ObjectId> initiatingPlayer) {
+            final List<Player<ObjectId>> players,
+            final Player<ObjectId> initiatingPlayer) {
         Game game = createFreshGame(features, players, initiatingPlayer)
 
         prepareGame(game)
     }
 
-    public Game createGame(final Game previousGame, final PlayerInt<ObjectId> initiatingPlayer) {
-        List<PlayerInt<ObjectId>> players = rotatePlayers(previousGame)
+    public Game createGame(final Game previousGame, final Player<ObjectId> initiatingPlayer) {
+        List<Player<ObjectId>> players = rotatePlayers(previousGame)
 
         Game game = createFreshGame(previousGame.features, players, initiatingPlayer)
         game.previousId = previousGame.id
@@ -46,9 +46,9 @@ class GameFactory {
         prepareGame(game)
     }
 
-    private static List<PlayerInt<ObjectId>> rotatePlayers(final Game previousGame) {
+    private static List<Player<ObjectId>> rotatePlayers(final Game previousGame) {
         //  Rotate players
-        List<PlayerInt<ObjectId>> players = []
+        List<Player<ObjectId>> players = []
         players.addAll(previousGame.players)
         players.add(players.remove(0))
         players
@@ -85,8 +85,8 @@ class GameFactory {
     }
 
     private static Game createFreshGame(final Set<GameFeature> features,
-                                        final List<PlayerInt<ObjectId>> players,
-                                        final PlayerInt<ObjectId> initiatingPlayer) {
+                                        final List<Player<ObjectId>> players,
+                                        final Player<ObjectId> initiatingPlayer) {
         Game game = new Game()
         game.initiatingPlayer = initiatingPlayer.id
         game.version = null

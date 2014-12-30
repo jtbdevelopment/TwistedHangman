@@ -1,6 +1,6 @@
 package com.jtbdevelopment.gamecore.security
 
-import com.jtbdevelopment.gamecore.players.PlayerInt
+import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 
 /**
@@ -9,9 +9,9 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 interface SessionUserInfo<ID extends Serializable> {
-    PlayerInt<ID> getSessionUser();
+    Player<ID> getSessionUser();
 
-    PlayerInt<ID> getEffectiveUser();
+    Player<ID> getEffectiveUser();
 
-    void setEffectiveUser(final PlayerInt<ID> player);
+    void setEffectiveUser(final Player<ID> player);
 }

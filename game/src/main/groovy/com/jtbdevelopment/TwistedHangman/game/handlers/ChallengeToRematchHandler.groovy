@@ -5,8 +5,8 @@ import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
-import com.jtbdevelopment.gamecore.players.PlayerInt
-import com.jtbdevelopment.gamecore.players.SystemPlayer
+import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayer
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,7 +29,7 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
     protected GameFactory gameFactory
 
     @Override
-    protected Game handleActionInternal(final PlayerInt<ObjectId> player, final Game previousGame, final Object param) {
+    protected Game handleActionInternal(final Player<ObjectId> player, final Game previousGame, final Object param) {
         if (previousGame.gamePhase != GamePhase.RoundOver) {
             throw new GameIsNotAvailableToRematchException()
         }
@@ -37,7 +37,7 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
         Game transitioned = gamePublisher.publish(
                 gameRepository.save(
                         transitionEngine.evaluateGamePhaseForGame(previousGame)),
-                SystemPlayer.SYSTEM_PLAYER)
+                TwistedHangmanSystemPlayer.TH_PLAYER)
         //  We set to system player so it gets published to all players, including this one
         //  TODO - handle newGame setup failing..
         Game newGame = setupGame(transitioned, player)
@@ -50,7 +50,7 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
         return game
     }
 
-    private Game setupGame(final Game previousGame, final PlayerInt<ObjectId> initiatingPlayer) {
+    private Game setupGame(final Game previousGame, final Player<ObjectId> initiatingPlayer) {
         return systemPuzzlerSetter.setWordPhraseFromSystem(
                 gameFactory.createGame(previousGame, initiatingPlayer))
     }

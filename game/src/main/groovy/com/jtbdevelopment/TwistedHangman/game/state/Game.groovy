@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
-import com.jtbdevelopment.gamecore.players.PlayerInt
+import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.CreatedDate
@@ -51,7 +51,7 @@ public class Game implements Cloneable {
 
     @Indexed
     ObjectId initiatingPlayer
-    List<PlayerInt<ObjectId>> players = []  //  Ordered by turns, challengers etc
+    List<Player<ObjectId>> players = []  //  Ordered by turns, challengers etc
     Map<ObjectId, PlayerState> playerStates = [:]
 
     @Indexed

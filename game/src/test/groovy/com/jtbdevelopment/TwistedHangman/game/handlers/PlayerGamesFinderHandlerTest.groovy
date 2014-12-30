@@ -7,7 +7,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
 import org.bson.types.ObjectId
 import org.springframework.data.domain.PageRequest
 
@@ -57,7 +57,7 @@ class PlayerGamesFinderHandlerTest extends TwistedHangmanTestCase {
         ] as GameRepository
         handler.gameMasker = [
                 maskGameForPlayer: {
-                    Game game, Player player ->
+                    Game game, MongoPlayer player ->
                         assert player.is(PONE)
                         return maskResults[game]
                 }

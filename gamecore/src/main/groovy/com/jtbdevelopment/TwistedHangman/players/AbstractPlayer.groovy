@@ -1,4 +1,4 @@
-package com.jtbdevelopment.gamecore.players
+package com.jtbdevelopment.TwistedHangman.players
 
 import groovy.transform.CompileStatic
 import org.apache.commons.codec.digest.DigestUtils
@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils
  * Time: 6:53 AM
  */
 @CompileStatic
-abstract class AbstractPlayer<ID extends Serializable> implements Cloneable, PlayerInt<ID> {
+abstract class AbstractPlayer<ID extends Serializable> implements Cloneable, Player<ID> {
 
     String source
     String sourceId

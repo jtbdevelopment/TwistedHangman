@@ -1,12 +1,12 @@
 package com.jtbdevelopment.players.friendfinder
 
 import com.jtbdevelopment.GameCoreTestCase
+import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.players.PlayerMasker
+import com.jtbdevelopment.TwistedHangman.players.friendfinder.AbstractFriendFinder
+import com.jtbdevelopment.TwistedHangman.players.friendfinder.SourceBasedFriendFinder
 import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
 import com.jtbdevelopment.gamecore.exceptions.system.FailedToFindPlayersException
-import com.jtbdevelopment.gamecore.players.PlayerInt
-import com.jtbdevelopment.gamecore.players.friendfinder.AbstractFriendFinder
-import com.jtbdevelopment.gamecore.players.friendfinder.FriendMasker
-import com.jtbdevelopment.gamecore.players.friendfinder.SourceBasedFriendFinder
 
 /**
  * Date: 11/26/14
@@ -56,11 +56,11 @@ class AbstractFriendFinderTest extends GameCoreTestCase {
         def masked = ['x': 'y', '1': '2']
         finder.friendMasker = [
                 maskFriends: {
-                    Set<PlayerInt> friends ->
+                    Set<Player> friends ->
                         assert friends == [PONE, PTWO, PTHREE] as Set
                         return masked
                 }
-        ] as FriendMasker
+        ] as PlayerMasker
 
         assert finder.findFriends(PFOUR.id) == [
                 (SourceBasedFriendFinder.MASKED_FRIENDS_KEY): masked,

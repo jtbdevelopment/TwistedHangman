@@ -9,9 +9,9 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
+import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayer
 import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
-import com.jtbdevelopment.gamecore.players.Player
-import com.jtbdevelopment.gamecore.players.SystemPlayer
+import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
 import org.bson.types.ObjectId
 
 import java.time.ZoneId
@@ -36,7 +36,7 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
         Game puzzled = newGame.clone()
         handler.gameFactory = [
                 createGame: {
-                    Game g, Player p ->
+                    Game g, MongoPlayer p ->
                         assert g.is(previousP)
                         assert p.is(PONE)
                         newGame
@@ -60,9 +60,9 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
         ] as GameRepository
         handler.gamePublisher = [
                 publish: {
-                    Game g, Player p ->
+                    Game g, MongoPlayer p ->
                         assert g.is(previousS)
-                        assert p.is(SystemPlayer.SYSTEM_PLAYER)
+                        assert p.is(TwistedHangmanSystemPlayer.TH_PLAYER)
                         previousP
                 }
         ] as GamePublisher

@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
+import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
 import com.jtbdevelopment.gamecore.exceptions.system.FailedToFindPlayersException
-import com.jtbdevelopment.gamecore.players.PlayerInt
 import org.bson.types.ObjectId
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -21,8 +21,8 @@ abstract class AbstractHandler {
     @Autowired
     protected AbstractPlayerRepository<ObjectId> playerRepository
 
-    protected Set<PlayerInt<ObjectId>> loadPlayerMD5s(final Collection<String> playerMD5s) {
-        LinkedHashSet<PlayerInt<ObjectId>> players = new LinkedHashSet<>(playerRepository.findByMd5In(playerMD5s).collect { PlayerInt<ObjectId> it -> it })
+    protected Set<Player<ObjectId>> loadPlayerMD5s(final Collection<String> playerMD5s) {
+        LinkedHashSet<Player<ObjectId>> players = new LinkedHashSet<>(playerRepository.findByMd5In(playerMD5s).collect { Player<ObjectId> it -> it })
         if (players.size() != playerMD5s.size()) {
             logger.info("Not all players were loaded " + playerMD5s + " vs. " + players)
             throw new FailedToFindPlayersException()
@@ -30,8 +30,8 @@ abstract class AbstractHandler {
         players
     }
 
-    protected PlayerInt<ObjectId> loadPlayer(final ObjectId playerID) {
-        PlayerInt<ObjectId> player = playerRepository.findOne(playerID)
+    protected Player<ObjectId> loadPlayer(final ObjectId playerID) {
+        Player<ObjectId> player = playerRepository.findOne(playerID)
         if (player == null) {
             logger.info("Player was not loaded " + playerID.toHexString())
             throw new FailedToFindPlayersException()

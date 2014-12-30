@@ -11,9 +11,9 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
+import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
-import com.jtbdevelopment.gamecore.players.Player
-import com.jtbdevelopment.gamecore.players.PlayerInt
+import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
 import org.bson.types.ObjectId
 
 /**
@@ -28,7 +28,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
 
     private class TestHandler extends AbstractGameActionHandler<String> {
         @Override
-        protected Game handleActionInternal(final PlayerInt<ObjectId> player, final Game game, final String param) {
+        protected Game handleActionInternal(final Player<ObjectId> player, final Game game, final String param) {
             assert param == testParam
             assert gameParam.is(game)
             return handledGame
@@ -70,7 +70,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         ] as GamePhaseTransitionEngine
         handler.gamePublisher = [
                 publish: {
-                    Game g, Player p ->
+                    Game g, MongoPlayer p ->
                         assert g.is(saved)
                         assert p.is(PONE)
                         published
@@ -79,7 +79,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         MaskedGame maskedGame = new MaskedGame()
         handler.gameMasker = [
                 maskGameForPlayer: {
-                    Game g, Player p ->
+                    Game g, MongoPlayer p ->
                         assert g.is(published)
                         assert p.is(PONE)
                         return maskedGame
@@ -187,7 +187,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         ] as GamePhaseTransitionEngine
         handler.gamePublisher = [
                 publish: {
-                    Game g, Player p ->
+                    Game g, MongoPlayer p ->
                         assert g.is(saved)
                         assert p.is(PONE)
                         published
@@ -196,7 +196,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         MaskedGame maskedGame = new MaskedGame()
         handler.gameMasker = [
                 maskGameForPlayer: {
-                    Game g, Player p ->
+                    Game g, MongoPlayer p ->
                         assert g.is(published)
                         assert p.is(PONE)
                         return maskedGame
@@ -253,7 +253,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         ] as GamePhaseTransitionEngine
         handler.gamePublisher = [
                 publish: {
-                    Game g, Player p ->
+                    Game g, MongoPlayer p ->
                         assert g.is(saved)
                         assert p.is(PONE)
                         published
@@ -262,7 +262,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         MaskedGame maskedGame = new MaskedGame()
         handler.gameMasker = [
                 maskGameForPlayer: {
-                    Game g, Player p ->
+                    Game g, MongoPlayer p ->
                         assert g.is(published)
                         assert p.is(PONE)
                         return maskedGame
@@ -317,7 +317,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         ] as GamePhaseTransitionEngine
         handler.gamePublisher = [
                 publish: {
-                    Game g, Player p ->
+                    Game g, MongoPlayer p ->
                         assert g.is(saved)
                         assert p.is(PONE)
                         published
@@ -326,7 +326,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         MaskedGame maskedGame = new MaskedGame()
         handler.gameMasker = [
                 maskGameForPlayer: {
-                    Game g, Player p ->
+                    Game g, MongoPlayer p ->
                         assert g.is(published)
                         assert p.is(PONE)
                         return maskedGame
@@ -382,7 +382,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         ] as GamePhaseTransitionEngine
         handler.gamePublisher = [
                 publish: {
-                    Game g, Player p ->
+                    Game g, MongoPlayer p ->
                         assert g.is(saved)
                         assert p.is(PONE)
                         published
@@ -391,7 +391,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         MaskedGame maskedGame = new MaskedGame()
         handler.gameMasker = [
                 maskGameForPlayer: {
-                    Game g, Player p ->
+                    Game g, MongoPlayer p ->
                         assert g.is(published)
                         assert p.is(PONE)
                         return maskedGame

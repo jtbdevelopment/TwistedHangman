@@ -15,6 +15,14 @@
             <artifactId>gamecore-mongo</artifactId>
             <version>0.2-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
+            <artifactId>gamecore-mongo</artifactId>
+            <version>0.2-SNAPSHOT</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>

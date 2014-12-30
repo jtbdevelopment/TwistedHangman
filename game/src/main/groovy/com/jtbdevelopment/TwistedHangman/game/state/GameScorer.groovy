@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
-import com.jtbdevelopment.gamecore.players.PlayerInt
-import com.jtbdevelopment.gamecore.players.SystemPlayer
+import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayer
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
@@ -25,7 +25,7 @@ class GameScorer {
                     game.playerRunningScores[playerId] = game.playerRunningScores[playerId] + 1
                     //  Move to list of post-scorers?
                     if (game.features.contains(GameFeature.SingleWinner)) {
-                        game.featureData[GameFeature.SingleWinner] = (game.players.find { PlayerInt<ObjectId> player -> player.id == playerId }).id
+                        game.featureData[GameFeature.SingleWinner] = (game.players.find { Player<ObjectId> player -> player.id == playerId }).id
                     }
                 }
         }
@@ -38,7 +38,7 @@ class GameScorer {
                 }
         }
 
-        if (game.wordPhraseSetter != null && game.wordPhraseSetter != SystemPlayer.SYSTEM_PLAYER.id) {
+        if (game.wordPhraseSetter != null && game.wordPhraseSetter != TwistedHangmanSystemPlayer.TH_PLAYER.id) {
             int net = losers - winners
             game.playerRoundScores[game.wordPhraseSetter] = net
             game.playerRunningScores[game.wordPhraseSetter] = game.playerRunningScores[game.wordPhraseSetter] + net

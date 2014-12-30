@@ -1,6 +1,6 @@
-package com.jtbdevelopment.gamecore.players.friendfinder
+package com.jtbdevelopment.TwistedHangman.players.friendfinder
 
-import com.jtbdevelopment.gamecore.players.PlayerInt
+import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 
 /**
@@ -21,5 +21,5 @@ interface SourceBasedFriendFinder<ID extends Serializable> {
             At a minimu, the FRIENDS_KEY needs to be provided with a list of Players
      */
 
-    Map<String, Set<Object>> findFriends(final PlayerInt<ID> player);
+    Map<String, Set<Object>> findFriends(final Player<ID> player);
 }

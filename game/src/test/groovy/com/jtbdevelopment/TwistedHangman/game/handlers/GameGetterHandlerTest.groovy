@@ -8,7 +8,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
 import org.bson.types.ObjectId
 
 /**
@@ -44,7 +44,7 @@ class GameGetterHandlerTest extends TwistedHangmanTestCase {
         MaskedGame maskedGame = new MaskedGame()
         handler.gameMasker = [
                 maskGameForPlayer: {
-                    Game g, Player p ->
+                    Game g, MongoPlayer p ->
                         assert g.is(gameParam)
                         assert p.is(PONE)
                         return maskedGame

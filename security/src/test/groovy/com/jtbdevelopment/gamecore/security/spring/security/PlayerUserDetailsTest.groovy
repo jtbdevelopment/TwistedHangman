@@ -1,9 +1,9 @@
 package com.jtbdevelopment.gamecore.security.spring.security
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.gamecore.players.ManualPlayer
-import com.jtbdevelopment.gamecore.players.Player
-import com.jtbdevelopment.gamecore.players.PlayerRoles
+import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
+import com.jtbdevelopment.gamecore.mongo.players.MongoManualPlayer
+import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
 import org.bson.types.ObjectId
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 
@@ -39,40 +39,40 @@ class PlayerUserDetailsTest extends TwistedHangmanTestCase {
     }
 
     void testGetAuthorities() {
-        assert new PlayerUserDetails(new ManualPlayer()).authorities == [new SimpleGrantedAuthority(PlayerRoles.PLAYER)]
-        assert new PlayerUserDetails(new ManualPlayer(adminUser: true)).authorities == [
+        assert new PlayerUserDetails(new MongoManualPlayer()).authorities == [new SimpleGrantedAuthority(PlayerRoles.PLAYER)]
+        assert new PlayerUserDetails(new MongoManualPlayer(adminUser: true)).authorities == [
                 new SimpleGrantedAuthority(PlayerRoles.PLAYER),
                 new SimpleGrantedAuthority(PlayerRoles.ADMIN),
         ]
     }
 
     void testGetPassword() {
-        assert new PlayerUserDetails(new Player()).password == null
-        assert new PlayerUserDetails(new ManualPlayer(password: "1")).password == "1"
+        assert new PlayerUserDetails(new MongoPlayer()).password == null
+        assert new PlayerUserDetails(new MongoManualPlayer(password: "1")).password == "1"
     }
 
     void testGetUsername() {
         ObjectId pid = new ObjectId()
-        assert new PlayerUserDetails(new Player(id: pid)).username == pid.toHexString()
-        assert new PlayerUserDetails(new ManualPlayer(id: pid, sourceId: "ha")).username == "ha"
+        assert new PlayerUserDetails(new MongoPlayer(id: pid)).username == pid.toHexString()
+        assert new PlayerUserDetails(new MongoManualPlayer(id: pid, sourceId: "ha")).username == "ha"
     }
 
     void testIsAccountNonExpired() {
-        assert new PlayerUserDetails(new Player()).accountNonExpired
+        assert new PlayerUserDetails(new MongoPlayer()).accountNonExpired
     }
 
     void testIsAccountNonLocked() {
-        assert new PlayerUserDetails(new Player()).accountNonLocked
-        assert new PlayerUserDetails(new ManualPlayer(verified: true)).accountNonLocked
-        assert !(new PlayerUserDetails(new ManualPlayer(verified: false)).accountNonLocked)
+        assert new PlayerUserDetails(new MongoPlayer()).accountNonLocked
+        assert new PlayerUserDetails(new MongoManualPlayer(verified: true)).accountNonLocked
+        assert !(new PlayerUserDetails(new MongoManualPlayer(verified: false)).accountNonLocked)
     }
 
     void testIsCredentialsNonExpired() {
-        assert new PlayerUserDetails(new Player()).credentialsNonExpired
+        assert new PlayerUserDetails(new MongoPlayer()).credentialsNonExpired
     }
 
     void testIsEnabled() {
-        assert new PlayerUserDetails(new Player()).enabled
-        assert !(new PlayerUserDetails(new Player(disabled: true)).enabled)
+        assert new PlayerUserDetails(new MongoPlayer()).enabled
+        assert !(new PlayerUserDetails(new MongoPlayer(disabled: true)).enabled)
     }
 }

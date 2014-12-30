@@ -1,8 +1,8 @@
 package com.jtbdevelopment.gamecore.security.spring.security
 
-import com.jtbdevelopment.gamecore.players.ManualPlayer
-import com.jtbdevelopment.gamecore.players.PlayerInt
-import com.jtbdevelopment.gamecore.players.PlayerRoles
+import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
+import com.jtbdevelopment.gamecore.mongo.players.MongoManualPlayer
 import com.jtbdevelopment.gamecore.security.SessionUserInfo
 import groovy.transform.CompileStatic
 import org.springframework.security.core.GrantedAuthority
@@ -17,12 +17,12 @@ import org.springframework.social.security.SocialUserDetails
 @CompileStatic
 class PlayerUserDetails<ID extends Serializable> implements SocialUserDetails, UserDetails, SessionUserInfo {
 
-    final PlayerInt<ID> player
-    PlayerInt<ID> effectivePlayer
+    final Player<ID> player
+    Player<ID> effectivePlayer
 
     final List<SimpleGrantedAuthority> grantedAuthorities = [new SimpleGrantedAuthority(PlayerRoles.PLAYER)]
 
-    PlayerUserDetails(final PlayerInt<ID> player) {
+    PlayerUserDetails(final Player<ID> player) {
         this.player = player
         this.effectivePlayer = player
         if (player.adminUser) {
@@ -31,17 +31,17 @@ class PlayerUserDetails<ID extends Serializable> implements SocialUserDetails, U
     }
 
     @Override
-    PlayerInt<ID> getSessionUser() {
+    Player<ID> getSessionUser() {
         return player
     }
 
     @Override
-    PlayerInt<ID> getEffectiveUser() {
+    Player<ID> getEffectiveUser() {
         return effectivePlayer
     }
 
     @Override
-    void setEffectiveUser(final PlayerInt player) {
+    void setEffectiveUser(final Player player) {
         this.effectivePlayer = player
     }
 
@@ -57,7 +57,7 @@ class PlayerUserDetails<ID extends Serializable> implements SocialUserDetails, U
 
     @Override
     String getPassword() {
-        if (player instanceof ManualPlayer) {
+        if (player instanceof MongoManualPlayer) {
             return player.password
         }
         return null
@@ -65,7 +65,7 @@ class PlayerUserDetails<ID extends Serializable> implements SocialUserDetails, U
 
     @Override
     String getUsername() {
-        if (player instanceof ManualPlayer) {
+        if (player instanceof MongoManualPlayer) {
             return player.getSourceId()
         }
         return player.idAsString
@@ -78,7 +78,7 @@ class PlayerUserDetails<ID extends Serializable> implements SocialUserDetails, U
 
     @Override
     boolean isAccountNonLocked() {
-        if (player instanceof ManualPlayer) {
+        if (player instanceof MongoManualPlayer) {
             return player.verified
         }
         return true

@@ -2,8 +2,8 @@ package com.jtbdevelopment.TwistedHangman.feed.websocket
 
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
+import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.TwistedHangman.publish.GameListener
-import com.jtbdevelopment.gamecore.players.PlayerInt
 import groovy.transform.CompileStatic
 import org.atmosphere.cpr.Broadcaster
 import org.atmosphere.cpr.BroadcasterFactory
@@ -24,12 +24,12 @@ class AtmosphereGameListener implements GameListener {
     BroadcasterFactory broadcasterFactory
 
     @Override
-    void gameChanged(final Game game, final PlayerInt initiatingPlayer) {
+    void gameChanged(final Game game, final Player initiatingPlayer) {
         game.players.findAll {
-            PlayerInt p ->
+            Player p ->
                 p != initiatingPlayer
         }.each {
-            PlayerInt publish ->
+            Player publish ->
                 Broadcaster broadcaster = getBroadcasterFactory().lookup(LiveFeedService.PATH_ROOT + publish.idAsString)
                 if (broadcaster != null) {
                     broadcaster.broadcast(

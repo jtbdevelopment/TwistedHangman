@@ -2,7 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.factory.featureexpanders
 
 import com.jtbdevelopment.TwistedHangman.game.factory.FeatureExpander
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.gamecore.players.PlayerInt
+import com.jtbdevelopment.TwistedHangman.players.Player
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
 
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
 @Component
 class TwoPlayerExpander implements FeatureExpander {
     @Override
-    void enhanceFeatureSet(final Set<GameFeature> features, final Collection<PlayerInt> players) {
+    void enhanceFeatureSet(final Set<GameFeature> features, final Collection<Player> players) {
         if (players.size() == 2) {
             features.add(GameFeature.TwoPlayer)
         }

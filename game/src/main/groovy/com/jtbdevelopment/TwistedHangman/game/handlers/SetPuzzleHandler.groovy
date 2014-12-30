@@ -7,8 +7,8 @@ import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
+import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.gamecore.dictionary.Validator
-import com.jtbdevelopment.gamecore.players.PlayerInt
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -36,7 +36,7 @@ class SetPuzzleHandler extends AbstractGameActionHandler<CategoryAndWordPhrase> 
 
     @Override
     protected Game handleActionInternal(
-            final PlayerInt<ObjectId> player, final Game game, final CategoryAndWordPhrase param) {
+            final Player<ObjectId> player, final Game game, final CategoryAndWordPhrase param) {
         validatePuzzleStates(game, player)
 
         String wordPhrase = param.wordPhrase
@@ -58,7 +58,7 @@ class SetPuzzleHandler extends AbstractGameActionHandler<CategoryAndWordPhrase> 
         }
     }
 
-    protected static void validatePuzzleStates(final Game game, final PlayerInt<ObjectId> player) {
+    protected static void validatePuzzleStates(final Game game, final Player<ObjectId> player) {
         if (game.gamePhase != GamePhase.Setup) {
             throw new GameIsNotInSetupPhaseException();
         }
@@ -72,7 +72,7 @@ class SetPuzzleHandler extends AbstractGameActionHandler<CategoryAndWordPhrase> 
     }
 
     protected static Map<String, IndividualGameState> findPuzzlesToSetForPlayer(
-            final Game game, final PlayerInt<ObjectId> player) {
+            final Game game, final Player<ObjectId> player) {
         game.solverStates.findAll {
             ObjectId gamePlayer, IndividualGameState gameState ->
                 (player.id != gamePlayer) &&

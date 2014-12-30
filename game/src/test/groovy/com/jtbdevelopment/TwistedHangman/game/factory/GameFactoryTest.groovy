@@ -5,7 +5,7 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.FailedToCreateValidGam
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
 
 /**
  * Date: 11/7/14
@@ -36,8 +36,8 @@ class GameFactoryTest extends TwistedHangmanTestCase {
 
 
         Set<GameFeature> expectedFeatures = [GameFeature.DrawFace, GameFeature.SinglePlayer] as Set
-        Player initiatingPlayer = PONE
-        List<Player> players = [PTWO, PTHREE, PFOUR]
+        MongoPlayer initiatingPlayer = PONE
+        List<MongoPlayer> players = [PTWO, PTHREE, PFOUR]
         Thread.sleep(1)
         Game game = gameFactory.createGame(expectedFeatures, players, initiatingPlayer)
 
@@ -79,8 +79,8 @@ class GameFactoryTest extends TwistedHangmanTestCase {
 
 
         Set<GameFeature> expectedFeatures = [GameFeature.DrawFace, GameFeature.SinglePlayer] as Set
-        Player initiatingPlayer = PONE
-        List<Player> players = [PTWO, PTHREE, PFOUR]
+        MongoPlayer initiatingPlayer = PONE
+        List<MongoPlayer> players = [PTWO, PTHREE, PFOUR]
         Thread.sleep(1)
 
         Game priorGame = new Game();
@@ -120,8 +120,8 @@ class GameFactoryTest extends TwistedHangmanTestCase {
 
 
         Set<GameFeature> expectedFeatures = [GameFeature.DrawFace, GameFeature.SinglePlayer] as Set
-        Player initiatingPlayer = PONE
-        List<Player> players = [PTWO, PTHREE, PFOUR]
+        MongoPlayer initiatingPlayer = PONE
+        List<MongoPlayer> players = [PTWO, PTHREE, PFOUR]
 
         Game priorGame = new Game();
         priorGame.features = expectedFeatures

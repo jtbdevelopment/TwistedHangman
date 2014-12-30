@@ -1,8 +1,8 @@
 package com.jtbdevelopment.gamecore.security.facebook
 
+import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.TwistedHangman.players.friendfinder.SourceBasedFriendFinder
 import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
-import com.jtbdevelopment.gamecore.players.PlayerInt
-import com.jtbdevelopment.gamecore.players.friendfinder.SourceBasedFriendFinder
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
@@ -34,7 +34,7 @@ class FacebookFriendFinder implements SourceBasedFriendFinder {
     }
 
     @Override
-    Map<String, Set<Object>> findFriends(final PlayerInt player) {
+    Map<String, Set<Object>> findFriends(final Player player) {
         Map<String, Set<Object>> results = [
                 (FRIENDS_KEY)          : [] as Set,
                 (NOT_FOUND_KEY)        : [] as Set,
@@ -44,7 +44,7 @@ class FacebookFriendFinder implements SourceBasedFriendFinder {
         PagedList<Reference> friends = facebook.friendOperations().friends
         friends.each {
             Reference it ->
-                PlayerInt p = playerRepository.findBySourceAndSourceId("facebook", it.id)
+                Player p = playerRepository.findBySourceAndSourceId("facebook", it.id)
                 if (p) {
                     results[FRIENDS_KEY].add(p)
                 } else {

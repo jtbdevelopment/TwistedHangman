@@ -1,6 +1,8 @@
-package com.jtbdevelopment.gamecore.players
+package com.jtbdevelopment.gamecore.mongo.players
 
+import com.jtbdevelopment.TwistedHangman.players.ManualPlayer
 import groovy.transform.CompileStatic
+import org.bson.types.ObjectId
 import org.springframework.data.mongodb.core.mapping.Document
 
 /**
@@ -15,16 +17,14 @@ import org.springframework.data.mongodb.core.mapping.Document
  */
 @Document(collection = "player")
 @CompileStatic
-class ManualPlayer extends Player {
-    public static final String MANUAL_SOURCE = "MANUAL"
-
+class MongoManualPlayer extends MongoPlayer implements ManualPlayer<ObjectId> {
     String password
 
     boolean verified = false
     //  TODO
     String verificationToken = ""
 
-    public ManualPlayer() {
+    public MongoManualPlayer() {
         super.source = MANUAL_SOURCE
     }
 }

@@ -1,4 +1,4 @@
-package com.jtbdevelopment.gamecore.players
+package com.jtbdevelopment.TwistedHangman.players
 
 import groovy.transform.CompileStatic
 import org.springframework.data.annotation.Transient
@@ -8,7 +8,7 @@ import org.springframework.data.annotation.Transient
  * Time: 11:08 AM
  */
 @CompileStatic
-interface PlayerInt<ID extends Serializable> {
+interface Player<ID extends Serializable> {
     ID getId();
 
     void setId(final ID id);

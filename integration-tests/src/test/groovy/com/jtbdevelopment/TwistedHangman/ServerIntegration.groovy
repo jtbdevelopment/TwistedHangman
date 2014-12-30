@@ -7,10 +7,10 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
+import com.jtbdevelopment.TwistedHangman.players.friendfinder.SourceBasedFriendFinder
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerGatewayService
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerServices
-import com.jtbdevelopment.gamecore.players.ManualPlayer
-import com.jtbdevelopment.gamecore.players.friendfinder.SourceBasedFriendFinder
+import com.jtbdevelopment.gamecore.mongo.players.MongoManualPlayer
 import org.bson.types.ObjectId
 import org.eclipse.jetty.server.Server
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature
@@ -39,12 +39,12 @@ class ServerIntegration {
     private static final URI API_URI = BASE_URI.resolve("/api")
     private static final URI PLAYER_API = BASE_URI.resolve("api/player")
 
-    static ManualPlayer TEST_PLAYER1
-    static ManualPlayer TEST_PLAYER2
-    static ManualPlayer TEST_PLAYER3
+    static MongoManualPlayer TEST_PLAYER1
+    static MongoManualPlayer TEST_PLAYER2
+    static MongoManualPlayer TEST_PLAYER3
 
-    static ManualPlayer createPlayer(final String id, final String sourceId, final String displayName) {
-        return new ManualPlayer(
+    static MongoManualPlayer createPlayer(final String id, final String sourceId, final String displayName) {
+        return new MongoManualPlayer(
                 id: new ObjectId(id.padRight(24, "0")),
                 sourceId: sourceId,
                 password: passwordEncoder.encode(sourceId),
@@ -84,7 +84,7 @@ class ServerIntegration {
     public static void tearDown() {
         GameRepository gameRepository = applicationContext.getBean(GameRepository.class)
         [TEST_PLAYER1, TEST_PLAYER2, TEST_PLAYER3].each {
-            ManualPlayer p ->
+            MongoManualPlayer p ->
                 gameRepository.findByPlayersId(p.id).each {
                     gameRepository.delete(it)
                 }
@@ -109,7 +109,7 @@ class ServerIntegration {
     @Test
     void testGetCurrentPlayer() {
         Client client = createConnection(TEST_PLAYER1)
-        def p = client.target(PLAYER_API).request(MediaType.APPLICATION_JSON).get(ManualPlayer.class);
+        def p = client.target(PLAYER_API).request(MediaType.APPLICATION_JSON).get(MongoManualPlayer.class);
         assert p.id == TEST_PLAYER1.id
         assert p.disabled == TEST_PLAYER1.disabled
         assert p.displayName == TEST_PLAYER1.displayName
@@ -292,7 +292,7 @@ class ServerIntegration {
         return webTarget.request(MediaType.APPLICATION_JSON).put(EMPTY_PUT_POST, MaskedGame.class)
     }
 
-    private static Client createConnection(ManualPlayer p) {
+    private static Client createConnection(MongoManualPlayer p) {
         Client client = ClientBuilder.newClient()
         HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic(p.sourceId, p.sourceId)
         client.register(feature)

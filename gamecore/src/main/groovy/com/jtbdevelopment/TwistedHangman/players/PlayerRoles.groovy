@@ -1,4 +1,4 @@
-package com.jtbdevelopment.gamecore.players
+package com.jtbdevelopment.TwistedHangman.players
 
 import groovy.transform.CompileStatic
 
