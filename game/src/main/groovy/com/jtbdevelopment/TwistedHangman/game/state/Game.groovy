@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
-import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.gamecore.players.Player
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.CreatedDate

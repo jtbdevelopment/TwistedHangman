@@ -1,7 +1,6 @@
-package com.jtbdevelopment.players
+package com.jtbdevelopment.gamecore.players
 
-import com.jtbdevelopment.GameCoreTestCase
-import com.jtbdevelopment.TwistedHangman.players.PlayerMasker
+import com.jtbdevelopment.gamecore.GameCoreTestCase
 
 /**
  * Date: 11/26/14

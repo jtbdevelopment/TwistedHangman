@@ -1,7 +1,4 @@
-package com.jtbdevelopment.players
-
-import com.jtbdevelopment.TwistedHangman.players.PlayerRoles
-
+package com.jtbdevelopment.gamecore.players
 /**
  * Date: 12/22/14
  * Time: 12:19 PM

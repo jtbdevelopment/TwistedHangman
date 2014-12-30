@@ -1,7 +1,7 @@
-package com.jtbdevelopment.TwistedHangman.players.friendfinder
+package com.jtbdevelopment.gamecore.players.friendfinder
 
-import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
+import com.jtbdevelopment.gamecore.players.Player
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 

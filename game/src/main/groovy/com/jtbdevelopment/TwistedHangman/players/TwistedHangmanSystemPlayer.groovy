@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.players
 
 import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
 import com.jtbdevelopment.gamecore.mongo.players.MongoSystemPlayer
+import com.jtbdevelopment.gamecore.players.SystemPlayer
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.slf4j.Logger

@@ -1,6 +1,6 @@
 package com.jtbdevelopment.gamecore.mongo.players.friendfinder
 
-import com.jtbdevelopment.TwistedHangman.players.friendfinder.AbstractManualFriendFinder
+import com.jtbdevelopment.gamecore.players.friendfinder.AbstractManualFriendFinder
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
 

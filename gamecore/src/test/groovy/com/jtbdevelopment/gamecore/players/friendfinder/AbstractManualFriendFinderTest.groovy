@@ -1,8 +1,6 @@
-package com.jtbdevelopment.players.friendfinder
+package com.jtbdevelopment.gamecore.players.friendfinder
 
-import com.jtbdevelopment.GameCoreTestCase
-import com.jtbdevelopment.TwistedHangman.players.friendfinder.AbstractManualFriendFinder
-import com.jtbdevelopment.TwistedHangman.players.friendfinder.SourceBasedFriendFinder
+import com.jtbdevelopment.gamecore.GameCoreTestCase
 import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
 
 /**

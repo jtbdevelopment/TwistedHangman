@@ -5,7 +5,7 @@
     <parent>
         <artifactId>TwistedHangman</artifactId>
         <groupId>com.jtbdevelopment.TwistedHangman</groupId>
-        <version>0.2-SNAPSHOT</version>
+        <version>0.3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,20 +15,20 @@
         <dependency>
             <groupId>com.jtbdevelopment.TwistedHangman</groupId>
             <artifactId>rest</artifactId>
-            <version>0.2-SNAPSHOT</version>
+            <version>0.3-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.jtbdevelopment.TwistedHangman</groupId>
             <artifactId>gamecore-mongo</artifactId>
-            <version>0.2-SNAPSHOT</version>
+            <version>0.3-SNAPSHOT</version>
             <scope>test</scope>
             <type>test-jar</type>
         </dependency>
         <dependency>
             <groupId>com.jtbdevelopment.TwistedHangman</groupId>
             <artifactId>game</artifactId>
-            <version>0.2-SNAPSHOT</version>
+            <version>0.3-SNAPSHOT</version>
             <scope>test</scope>
             <type>test-jar</type>
         </dependency>

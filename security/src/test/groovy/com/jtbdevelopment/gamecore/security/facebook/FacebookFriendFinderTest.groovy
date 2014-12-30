@@ -2,8 +2,8 @@ package com.jtbdevelopment.gamecore.security.facebook
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
-import com.jtbdevelopment.TwistedHangman.players.friendfinder.SourceBasedFriendFinder
 import com.jtbdevelopment.gamecore.mongo.players.MongoManualPlayer
+import com.jtbdevelopment.gamecore.players.friendfinder.SourceBasedFriendFinder
 import org.springframework.social.facebook.api.*
 
 /**

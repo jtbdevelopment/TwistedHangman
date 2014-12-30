@@ -1,6 +1,6 @@
 package com.jtbdevelopment.gamecore.mongo.players
 
-import com.jtbdevelopment.TwistedHangman.players.ManualPlayer
+import com.jtbdevelopment.gamecore.players.ManualPlayer
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.data.mongodb.core.mapping.Document

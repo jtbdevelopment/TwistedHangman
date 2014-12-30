@@ -3,9 +3,9 @@ package com.jtbdevelopment.gamecore.mongo.players
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.jtbdevelopment.TwistedHangman.players.AbstractPlayer
 import com.jtbdevelopment.gamecore.mongo.json.ObjectIdDeserializer
 import com.jtbdevelopment.gamecore.mongo.json.ObjectIdSerializer
+import com.jtbdevelopment.gamecore.players.AbstractPlayer
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id

@@ -1,8 +1,8 @@
 package com.jtbdevelopment.gamecore.security.spring.social.connect
 
-import com.jtbdevelopment.TwistedHangman.players.Player
 import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
 import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
+import com.jtbdevelopment.gamecore.players.Player
 import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

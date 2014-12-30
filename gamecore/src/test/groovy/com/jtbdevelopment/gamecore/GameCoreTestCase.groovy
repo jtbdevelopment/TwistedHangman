@@ -1,7 +1,7 @@
-package com.jtbdevelopment
+package com.jtbdevelopment.gamecore
 
-import com.jtbdevelopment.TwistedHangman.players.AbstractPlayer
-import com.jtbdevelopment.TwistedHangman.players.Player
+import com.jtbdevelopment.gamecore.players.AbstractPlayer
+import com.jtbdevelopment.gamecore.players.Player
 
 /**
  * Date: 11/8/14
