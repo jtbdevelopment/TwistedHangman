@@ -11,11 +11,4 @@ class ManualPlayerTest extends GroovyTestCase {
 
         assert p.source == ManualPlayer.MANUAL_SOURCE
     }
-
-    void testSourceCantChange() {
-        ManualPlayer p = new ManualPlayer()
-
-        p.source = "SomethingElse"
-        assert p.source == ManualPlayer.MANUAL_SOURCE
-    }
 }

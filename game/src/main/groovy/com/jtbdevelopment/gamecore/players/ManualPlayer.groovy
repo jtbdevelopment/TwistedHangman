@@ -27,10 +27,4 @@ class ManualPlayer extends Player {
     public ManualPlayer() {
         super.source = MANUAL_SOURCE
     }
-
-    @Override
-    void setSource(final String source) {
-    }
-
-
 }

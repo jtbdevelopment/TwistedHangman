@@ -58,7 +58,14 @@ class Player implements Cloneable {
     }
 
     void setSource(final String source) {
-        this.source = source
+        if (StringUtils.isEmpty(this.source)) {
+            this.source = source
+            computeMD5Hex()
+        }
+    }
+
+    void setSourceId(final String sourceId) {
+        this.sourceId = sourceId
         computeMD5Hex()
     }
 
@@ -67,9 +74,11 @@ class Player implements Cloneable {
         computeMD5Hex()
     }
 
-    void setSourceId(final String sourceId) {
-        this.sourceId = sourceId
-        computeMD5Hex()
+    String getMd5() {
+        if (StringUtils.isEmpty(md5)) {
+            computeMD5Hex()
+        }
+        return md5
     }
 
     @Override
@@ -81,13 +90,6 @@ class Player implements Cloneable {
                 ", displayName='" + displayName + '\'' +
                 ", disabled=" + disabled +
                 '}';
-    }
-
-    String getMd5() {
-        if (StringUtils.isEmpty(md5)) {
-            computeMD5Hex()
-        }
-        return md5
     }
 
     protected String computeMD5Hex() {

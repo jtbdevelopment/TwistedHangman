@@ -16,6 +16,11 @@ class PlayerTest extends TwistedHangmanTestCase {
         assertFalse PONE.equals(null)
     }
 
+    void testChangingSourceFails() {
+        String originalSource = PONE.source
+        PONE.source = originalSource + "XYZ"
+        assert originalSource == PONE.source
+    }
 
     void testHashCode() {
         def SOMEID = new ObjectId("1234".padRight(24, "0"))
