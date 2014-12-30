@@ -20,24 +20,16 @@
 
         <dependency>
             <groupId>com.jtbdevelopment.TwistedHangman</groupId>
-            <artifactId>gamecore-mongo</artifactId>
+            <artifactId>core-spring-web-mongo</artifactId>
             <version>0.3-SNAPSHOT</version>
-            <scope>test</scope>
-            <type>test-jar</type>
-        </dependency>
-        <dependency>
-            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
-            <artifactId>game</artifactId>
-            <version>0.3-SNAPSHOT</version>
-            <scope>test</scope>
-            <type>test-jar</type>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-core</artifactId>
-            <version>${spring.social.version}</version>
+            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
+            <artifactId>games-core-web</artifactId>
+            <version>0.3-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-web</artifactId>
@@ -53,17 +45,7 @@
             <artifactId>spring-social-facebook</artifactId>
             <version>${spring.social.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-security</artifactId>
-            <version>${spring.social.version}</version>
-        </dependency>
 
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>${spring.security.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
@@ -74,6 +56,28 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${javax.servletapi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
+            <artifactId>game</artifactId>
+            <version>0.3-SNAPSHOT</version>
+            <scope>test</scope>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
+            <artifactId>games-core-mongo</artifactId>
+            <version>0.3-SNAPSHOT</version>
+            <scope>test</scope>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
+            <artifactId>games-core-web</artifactId>
+            <version>0.3-SNAPSHOT</version>
+            <scope>test</scope>
+            <type>test-jar</type>
         </dependency>
     </dependencies>
 

@@ -12,6 +12,13 @@
 
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
+            <artifactId>core-spring-web</artifactId>
+            <version>0.3-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>com.jtbdevelopment.TwistedHangman</groupId>
             <artifactId>game</artifactId>
@@ -20,7 +27,7 @@
 
         <dependency>
             <groupId>com.jtbdevelopment.TwistedHangman</groupId>
-            <artifactId>gamecore-mongo</artifactId>
+            <artifactId>games-core-mongo</artifactId>
             <version>0.3-SNAPSHOT</version>
             <scope>test</scope>
             <type>test-jar</type>
@@ -67,11 +74,6 @@
             <version>${atmosphere.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>${spring.security.version}</version>
-        </dependency>
 
     </dependencies>
 </project>

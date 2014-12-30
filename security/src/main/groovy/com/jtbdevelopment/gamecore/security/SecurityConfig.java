@@ -1,8 +1,8 @@
 package com.jtbdevelopment.gamecore.security;
 
 import com.jtbdevelopment.gamecore.security.spring.security.InjectedPasswordEncoder;
-import com.jtbdevelopment.gamecore.security.spring.security.PlayerUserDetailsService;
 import com.jtbdevelopment.gamecore.security.spring.social.security.PlayerSocialUserDetailsService;
+import com.jtbdevelopment.gamecore.security.spring.userdetails.PlayerUserDetailsService;
 import groovy.transform.CompileStatic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

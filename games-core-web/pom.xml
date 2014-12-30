@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!--  TODO - move this out of TH  -->
+    <parent>
+        <artifactId>TwistedHangman</artifactId>
+        <groupId>com.jtbdevelopment.TwistedHangman</groupId>
+        <version>0.3-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>games-core-web</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
+            <artifactId>core-spring-web</artifactId>
+            <version>0.3-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
+            <artifactId>games-core</artifactId>
+            <version>0.3-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-security</artifactId>
+            <version>${spring.social.version}</version>
+        </dependency>
+
+    </dependencies>
+</project>

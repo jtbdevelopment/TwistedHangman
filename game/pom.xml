@@ -12,13 +12,13 @@
     <dependencies>
         <dependency>
             <groupId>com.jtbdevelopment.TwistedHangman</groupId>
-            <artifactId>gamecore-mongo</artifactId>
+            <artifactId>games-core-mongo</artifactId>
             <version>0.3-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.jtbdevelopment.TwistedHangman</groupId>
-            <artifactId>gamecore-mongo</artifactId>
+            <artifactId>games-core-mongo</artifactId>
             <version>0.3-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>

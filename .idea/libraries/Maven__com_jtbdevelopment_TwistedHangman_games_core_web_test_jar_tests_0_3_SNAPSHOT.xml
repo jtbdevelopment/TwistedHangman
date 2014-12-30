@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Maven: com.jtbdevelopment.TwistedHangman:games-core-web:test-jar:tests:0.3-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/jtbdevelopment/TwistedHangman/games-core-web/0.3-SNAPSHOT/games-core-web-0.3-SNAPSHOT-tests.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/games-core-web/games-core-web-0.3-SNAPSHOT-test-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/jtbdevelopment/TwistedHangman/games-core-web/0.3-SNAPSHOT/games-core-web-0.3-SNAPSHOT-test-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/games-core-web/games-core-web-0.3-SNAPSHOT-test-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/jtbdevelopment/TwistedHangman/games-core-web/0.3-SNAPSHOT/games-core-web-0.3-SNAPSHOT-test-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

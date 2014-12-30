@@ -3,6 +3,8 @@ package com.jtbdevelopment.gamecore.security.spring.security
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
 import com.jtbdevelopment.gamecore.mongo.players.MongoManualPlayer
+import com.jtbdevelopment.gamecore.security.spring.PlayerUserDetails
+import com.jtbdevelopment.gamecore.security.spring.userdetails.PlayerUserDetailsService
 
 /**
  * Date: 12/24/14

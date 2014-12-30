@@ -2,7 +2,7 @@ package com.jtbdevelopment.gamecore.security.spring.social.security
 
 import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
 import com.jtbdevelopment.gamecore.players.Player
-import com.jtbdevelopment.gamecore.security.spring.security.PlayerUserDetails
+import com.jtbdevelopment.gamecore.security.spring.PlayerUserDetails
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired

@@ -31,15 +31,14 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="rest" />
-    <orderEntry type="module" module-name="game" />
-    <orderEntry type="module" module-name="gamecore-mongo" />
-    <orderEntry type="module" module-name="gamecore" />
-    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.10" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:1.9.1.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-mongodb:1.6.1.RELEASE" level="project" />
+    <orderEntry type="module" module-name="core-spring-web" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:4.1.1.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.mongodb:mongo-java-driver:2.12.3" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:1.9.1.RELEASE" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.slf4j:jcl-over-slf4j:1.7.7" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:3.2.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.social:spring-social-core:1.1.0.RELEASE" level="project" />
+    <orderEntry type="module" module-name="game" />
+    <orderEntry type="module" module-name="games-core-mongo" />
     <orderEntry type="library" name="Maven: org.glassfish.jersey.containers:jersey-container-servlet:2.13" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-common:2.13" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jersey.bundles.repackaged:jersey-guava:2.13" level="project" />
@@ -53,10 +52,15 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:4.1.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.8.2" level="project" />
     <orderEntry type="library" name="Maven: org.atmosphere:atmosphere-runtime:2.2.3" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:3.2.5.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
     <orderEntry type="module" module-name="security" />
-    <orderEntry type="library" name="Maven: org.springframework.social:spring-social-core:1.1.0.RELEASE" level="project" />
+    <orderEntry type="module" module-name="core-spring-web-mongo" />
+    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-mongodb:1.6.1.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:mongo-java-driver:2.12.3" level="project" />
+    <orderEntry type="module" module-name="games-core-web" />
+    <orderEntry type="module" module-name="games-core" />
+    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.10" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:3.2.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.social:spring-social-security:1.1.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.social:spring-social-web:1.1.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:4.1.1.RELEASE" level="project" />
@@ -64,9 +68,8 @@
     <orderEntry type="library" name="Maven: org.springframework.social:spring-social-facebook:1.1.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.3.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.3.2" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.social:spring-social-security:1.1.0.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:3.2.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:3.2.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jersey.ext:jersey-spring3:2.13" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-server:2.13" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.jersey.core:jersey-client:2.13" level="project" />

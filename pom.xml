@@ -8,8 +8,10 @@
     <packaging>pom</packaging>
     <version>0.3-SNAPSHOT</version>
     <modules>
-        <module>gamecore</module>
-        <module>gamecore-mongo</module>
+        <module>core-spring-web</module>
+        <module>games-core</module>
+        <module>games-core-mongo</module>
+        <module>games-core-web</module>
         <module>game</module>
         <module>utilities</module>
         <module>rest</module>
@@ -17,11 +19,14 @@
         <module>integration-tests</module>
         <module>webUI</module>
         <module>example-tomcat</module>
+        <module>core-spring-web-mongo</module>
     </modules>
 
     <properties>
         <jersey.version>2.13</jersey.version>
         <spring.version>4.1.1.RELEASE</spring.version>
+        <spring.data.common.version>1.9.1.RELEASE</spring.data.common.version>
+        <spring.data.mongodb.version>1.6.1.RELEASE</spring.data.mongodb.version>
         <spring.security.version>3.2.5.RELEASE</spring.security.version>
         <spring.social.version>1.1.0.RELEASE</spring.social.version>
         <javax.servletapi.version>3.1.0</javax.servletapi.version>
