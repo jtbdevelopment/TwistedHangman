@@ -26,6 +26,7 @@
         <module name="facebook" />
         <module name="game" />
         <module name="gamecore" />
+        <module name="gamecore-mongo" />
         <module name="integration-tests" />
         <module name="model" />
         <module name="rest" />

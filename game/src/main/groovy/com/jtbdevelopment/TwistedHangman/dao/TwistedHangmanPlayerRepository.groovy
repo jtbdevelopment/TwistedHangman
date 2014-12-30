@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.dao
 
-import com.jtbdevelopment.gamecore.dao.mongo.MongoPlayerRepository
+import com.jtbdevelopment.gamecore.mongo.dao.MongoPlayerRepository
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Repository
 

@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/example-tomcat/example-tomcat.iml" filepath="$PROJECT_DIR$/example-tomcat/example-tomcat.iml" />
       <module fileurl="file://$PROJECT_DIR$/game/game.iml" filepath="$PROJECT_DIR$/game/game.iml" />
       <module fileurl="file://$PROJECT_DIR$/gamecore/gamecore.iml" filepath="$PROJECT_DIR$/gamecore/gamecore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gamecore-mongo/gamecore-mongo.iml" filepath="$PROJECT_DIR$/gamecore-mongo/gamecore-mongo.iml" />
       <module fileurl="file://$PROJECT_DIR$/integration-tests/integration-tests.iml" filepath="$PROJECT_DIR$/integration-tests/integration-tests.iml" />
       <module fileurl="file://$PROJECT_DIR$/rest/rest.iml" filepath="$PROJECT_DIR$/rest/rest.iml" />
       <module fileurl="file://$PROJECT_DIR$/security/security.iml" filepath="$PROJECT_DIR$/security/security.iml" />
