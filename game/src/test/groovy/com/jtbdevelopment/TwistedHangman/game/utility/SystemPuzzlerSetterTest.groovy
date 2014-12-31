@@ -14,7 +14,7 @@ import org.springframework.util.StringUtils
 class SystemPuzzlerSetterTest extends TwistedHangmanTestCase {
     private static final String phrase = "WHO LET THE DOGS OUT?"
     private static final String category = "SONG"
-    private static final CannedGame cannedGame = new CannedGame(wordPhrase: phrase, category: category)
+    private static final PreMadePuzzle cannedGame = new PreMadePuzzle(wordPhrase: phrase, category: category)
     SystemPuzzlerSetter puzzlerSetter = new SystemPuzzlerSetter()
 
     @Override

@@ -46,8 +46,8 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
                 evaluateGamePhaseForGame: {
                     Game g ->
                         assert g.is(previous)
-                        assert g.rematched != null
-                        assert now < g.rematched
+                        assert g.rematchTimestamp != null
+                        assert now < g.rematchTimestamp
                         return previousT
                 }
         ] as GamePhaseTransitionEngine

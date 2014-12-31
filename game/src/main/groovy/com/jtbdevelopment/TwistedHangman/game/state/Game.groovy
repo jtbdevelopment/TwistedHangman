@@ -1,15 +1,11 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
-import com.jtbdevelopment.games.players.Player
+import com.jtbdevelopment.games.games.AbstractMultiPlayerGame
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
-import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
-import org.springframework.data.annotation.LastModifiedDate
-import org.springframework.data.annotation.Version
 import org.springframework.data.mongodb.core.index.CompoundIndex
 import org.springframework.data.mongodb.core.index.CompoundIndexes
-import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 
 import java.time.ZonedDateTime
@@ -19,42 +15,23 @@ import java.time.ZonedDateTime
  * Time: 9:36 PM
  */
 
-@Document
+@Document(collection = "game")
 @CompileStatic
 @CompoundIndexes([
-        @CompoundIndex(name = "player_phase", def = "{'players._id': 1, 'gamePhase': 1}"),
+        @CompoundIndex(name = "player_phase", def = "{'players._id': 1, 'gamePhase': 1, 'lastUpdate': 1}"),
 ])
-public class Game implements Cloneable {
+public class Game extends AbstractMultiPlayerGame<ObjectId> implements Cloneable {
     @Id
     ObjectId id
-    @Version
-    Integer version
 
-    @Indexed
-    @CreatedDate
-    ZonedDateTime created
-    @Indexed
-    @LastModifiedDate
-    ZonedDateTime lastUpdate
+    ZonedDateTime rematchTimestamp
 
-    ZonedDateTime declined
-    ZonedDateTime completed
-    ZonedDateTime rematched
-
-    @Indexed
     ObjectId previousId
 
     int round;
 
-    @Indexed
     GamePhase gamePhase
 
-    @Indexed
-    ObjectId initiatingPlayer
-    List<Player<ObjectId>> players = []  //  Ordered by turns, challengers etc
-    Map<ObjectId, PlayerState> playerStates = [:]
-
-    @Indexed
     Set<GameFeature> features = [] as Set
     Map<GameFeature, Object> featureData = [:]
 
@@ -64,19 +41,11 @@ public class Game implements Cloneable {
     Map<ObjectId, Integer> playerRoundScores = [:]
     Map<ObjectId, Integer> playerRunningScores = [:]
 
-    boolean equals(final o) {
-        if (this.is(o)) return true
-        if (!(o instanceof Game)) return false
-
-        final Game game = (Game) o
-
-        if (id != game.id) return false
-
-        return true
-    }
-
-    int hashCode() {
-        return id.hashCode()
+    String getIdAsString() {
+        if (id) {
+            return id.toHexString()
+        }
+        return null;
     }
 
     @Override
@@ -85,10 +54,10 @@ public class Game implements Cloneable {
                 "id='" + id + '\'' +
                 ", version=" + version +
                 ", created=" + created +
-                ", declined=" + declined +
+                ", declinedTimestamp=" + declinedTimestamp +
                 ", lastUpdate=" + lastUpdate +
-                ", completed=" + completed +
-                ", rematched=" + rematched +
+                ", completedTimestamp=" + completedTimestamp +
+                ", rematchTimestamp=" + rematchTimestamp +
                 ", previousId='" + previousId + '\'' +
                 ", gamePhase=" + gamePhase +
                 ", initiatingPlayer=" + initiatingPlayer +

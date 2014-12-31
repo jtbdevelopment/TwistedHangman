@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.utility
 
-import com.jtbdevelopment.TwistedHangman.dao.CannedGameRepository
+import com.jtbdevelopment.TwistedHangman.dao.PreMadePuzzleRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.system.RandomCannedGameFinderException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
@@ -9,13 +9,13 @@ import org.springframework.data.domain.PageRequest
  * Date: 11/2/14
  * Time: 4:01 PM
  */
-class RandomCannedGameFinderTest extends GroovyTestCase {
+class RandomPreMadePuzzleFinderTest extends GroovyTestCase {
     RandomCannedGameFinder finder = new RandomCannedGameFinder()
 
 
     public void testReturnsARandomGameFromSingleItemUniverse() {
-        CannedGame game = [] as CannedGame
-        Page<CannedGame> page = [getContent: { [game] }] as Page<CannedGame>
+        PreMadePuzzle game = [] as PreMadePuzzle
+        Page<PreMadePuzzle> page = [getContent: { [game] }] as Page<PreMadePuzzle>
         finder.repository = [
                 count  : {
                     1L
@@ -26,7 +26,7 @@ class RandomCannedGameFinderTest extends GroovyTestCase {
                         assert it.pageSize == 1
                         page
                 }
-        ] as CannedGameRepository
+        ] as PreMadePuzzleRepository
         assert game.is(finder.getRandomGame())
     }
 
@@ -36,7 +36,7 @@ class RandomCannedGameFinderTest extends GroovyTestCase {
                 count: {
                     0L
                 }
-        ] as CannedGameRepository
+        ] as PreMadePuzzleRepository
         try {
             finder.getRandomGame()
         } catch (RandomCannedGameFinderException e) {
@@ -46,7 +46,7 @@ class RandomCannedGameFinderTest extends GroovyTestCase {
 
 
     public void testExceptionIfNoContent() {
-        Page<CannedGame> page = [getContent: { [] }] as Page<CannedGame>
+        Page<PreMadePuzzle> page = [getContent: { [] }] as Page<PreMadePuzzle>
         finder.repository = [
                 count  : {
                     1L
@@ -57,7 +57,7 @@ class RandomCannedGameFinderTest extends GroovyTestCase {
                         assert it.pageSize == 1
                         page
                 }
-        ] as CannedGameRepository
+        ] as PreMadePuzzleRepository
         try {
             finder.getRandomGame()
         } catch (RandomCannedGameFinderException e) {
@@ -67,8 +67,8 @@ class RandomCannedGameFinderTest extends GroovyTestCase {
 
 
     public void testExceptionIfTooMuchContent() {
-        CannedGame game = [] as CannedGame
-        Page<CannedGame> page = [getContent: { [game, game] }] as Page<CannedGame>
+        PreMadePuzzle game = [] as PreMadePuzzle
+        Page<PreMadePuzzle> page = [getContent: { [game, game] }] as Page<PreMadePuzzle>
         finder.repository = [
                 count  : {
                     1L
@@ -79,7 +79,7 @@ class RandomCannedGameFinderTest extends GroovyTestCase {
                         assert it.pageSize == 1
                         page
                 }
-        ] as CannedGameRepository
+        ] as PreMadePuzzleRepository
         try {
             finder.getRandomGame()
         } catch (RandomCannedGameFinderException e) {
@@ -89,9 +89,9 @@ class RandomCannedGameFinderTest extends GroovyTestCase {
 
 
     public void testReturnsARandomGameFromLargeUniverse() {
-        CannedGame game = [] as CannedGame
+        PreMadePuzzle game = [] as PreMadePuzzle
         long top = Long.MAX_VALUE / 2
-        Page<CannedGame> page = [getContent: { [game] }] as Page<CannedGame>
+        Page<PreMadePuzzle> page = [getContent: { [game] }] as Page<PreMadePuzzle>
         finder.repository = [
                 count  : {
                     top
@@ -102,14 +102,14 @@ class RandomCannedGameFinderTest extends GroovyTestCase {
                         assert it.pageSize == 1
                         page
                 }
-        ] as CannedGameRepository
+        ] as PreMadePuzzleRepository
         assert game.is(finder.getRandomGame())
     }
 
 
     public void testReturnsARandomGameFromWithSource() {
         String source = "Interwebs"
-        CannedGame game = [] as CannedGame
+        PreMadePuzzle game = [] as PreMadePuzzle
         long top = Integer.MAX_VALUE / 2
         finder.repository = [
                 countBySource: {
@@ -124,7 +124,7 @@ class RandomCannedGameFinderTest extends GroovyTestCase {
                         assert p.pageSize == 1
                         [game]
                 }
-        ] as CannedGameRepository
+        ] as PreMadePuzzleRepository
         assert game.is(finder.getRandomGame(source))
     }
 }

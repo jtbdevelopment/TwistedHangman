@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
+import com.jtbdevelopment.games.games.PlayerState
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -46,7 +47,7 @@ class GamePhaseTransitionEngine {
                 break;
             case GamePhase.RoundOver:
                 //  TODO - auto-rematch?
-                if (game.rematched != null) {
+                if (game.rematchTimestamp != null) {
                     return changeStateAndReevaluate(GamePhase.NextRoundStarted, game)
                 }
                 break;

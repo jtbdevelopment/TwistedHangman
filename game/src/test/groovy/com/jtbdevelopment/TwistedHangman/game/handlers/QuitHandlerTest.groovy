@@ -4,7 +4,7 @@ import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.exceptions.input.GameIsNotPossibleToQuitNowException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
+import com.jtbdevelopment.games.games.PlayerState
 
 /**
  * Date: 11/28/2014

@@ -3,10 +3,10 @@ package com.jtbdevelopment.TwistedHangman.feed.websocket
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedIndividualGameState
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayer
+import com.jtbdevelopment.games.games.PlayerState
 
 /**
  * Date: 12/9/14
@@ -16,7 +16,7 @@ class HeartbeatJSONTest extends TwistedHangmanTestCase {
     HeartbeatJSON heartbeatJSON = new HeartbeatJSON()
 
     MaskedGame maskedGame = new MaskedGame(
-            completed: 100,
+            completedTimestamp: 100,
             created: 1000,
             featureData: [(GameFeature.DrawFace): 'A String'],
             features: [GameFeature.DrawFace, GameFeature.TurnBased],
@@ -50,7 +50,7 @@ class HeartbeatJSONTest extends TwistedHangmanTestCase {
             wordPhraseSetter: TwistedHangmanSystemPlayer.TH_MD5
     )
 
-    String expectedString = "{\"messageType\":\"Game\",\"game\":{\"maskedForPlayerID\":\"100000000000000000000000\",\"maskedForPlayerMD5\":\"ee02ab36f4f4b92d0a2316022a11cce2\",\"id\":\"XYZ\",\"created\":1000,\"lastUpdate\":5000,\"declined\":null,\"completed\":100,\"rematched\":null,\"round\":10,\"gamePhase\":\"Setup\",\"initiatingPlayer\":null,\"players\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":\"1\"},\"playerStates\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":\"Accepted\"},\"playerImages\":{},\"playerProfiles\":{},\"features\":[\"DrawFace\",\"TurnBased\"],\"featureData\":{\"DrawFace\":\"A String\"},\"wordPhraseSetter\":\"eb3e279a50b4c330f8d4a9e2abc678fe\",\"solverStates\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":{\"wordPhrase\":\"555\",\"workingWordPhrase\":\"____\",\"badlyGuessedLetters\":[\"A\",\"B\"],\"guessedLetters\":[\"B\"],\"featureData\":{\"Thieving\":10,\"DrawGallows\":\"X\"},\"category\":\"Test\",\"maxPenalties\":13,\"moveCount\":4,\"penalties\":3,\"blanksRemaining\":10,\"features\":[\"AllComplete\"],\"isPuzzleSolved\":false,\"isPlayerHung\":true,\"isPuzzleOver\":false,\"penaltiesRemaining\":5}},\"playerRoundScores\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":10},\"playerRunningScores\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":13}},\"message\":null}"
+    String expectedString = "{\"messageType\":\"Game\",\"game\":{\"maskedForPlayerID\":\"100000000000000000000000\",\"maskedForPlayerMD5\":\"ee02ab36f4f4b92d0a2316022a11cce2\",\"id\":\"XYZ\",\"created\":1000,\"lastUpdate\":5000,\"declinedTimestamp\":null,\"completedTimestamp\":100,\"rematchTimestamp\":null,\"round\":10,\"gamePhase\":\"Setup\",\"initiatingPlayer\":null,\"players\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":\"1\"},\"playerStates\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":\"Accepted\"},\"playerImages\":{},\"playerProfiles\":{},\"features\":[\"DrawFace\",\"TurnBased\"],\"featureData\":{\"DrawFace\":\"A String\"},\"wordPhraseSetter\":\"eb3e279a50b4c330f8d4a9e2abc678fe\",\"solverStates\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":{\"wordPhrase\":\"555\",\"workingWordPhrase\":\"____\",\"badlyGuessedLetters\":[\"A\",\"B\"],\"guessedLetters\":[\"B\"],\"featureData\":{\"Thieving\":10,\"DrawGallows\":\"X\"},\"category\":\"Test\",\"maxPenalties\":13,\"moveCount\":4,\"penalties\":3,\"blanksRemaining\":10,\"features\":[\"AllComplete\"],\"isPuzzleSolved\":false,\"isPlayerHung\":true,\"isPuzzleOver\":false,\"penaltiesRemaining\":5}},\"playerRoundScores\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":10},\"playerRunningScores\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":13}},\"message\":null}"
 
     void testToJson() {
         assert expectedString == heartbeatJSON.encode(new WebSocketMessage(

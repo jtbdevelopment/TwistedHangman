@@ -1,7 +1,11 @@
 package com.jtbdevelopment.TwistedHangman.game.state.masked
 
-import com.jtbdevelopment.TwistedHangman.game.state.*
+import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
+import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayer
+import com.jtbdevelopment.games.games.PlayerState
 import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -122,11 +126,11 @@ class GameMasker {
     }
 
     protected static void copyUnmaskedData(final Game game, final MaskedGame playerMaskedGame) {
-        playerMaskedGame.completed = convertTime(game.completed)
+        playerMaskedGame.completedTimestamp = convertTime(game.completedTimestamp)
         playerMaskedGame.created = convertTime(game.created)
-        playerMaskedGame.declined = convertTime(game.declined)
+        playerMaskedGame.declinedTimestamp = convertTime(game.declinedTimestamp)
         playerMaskedGame.lastUpdate = convertTime(game.lastUpdate)
-        playerMaskedGame.rematched = convertTime(game.rematched)
+        playerMaskedGame.rematchTimestamp = convertTime(game.rematchTimestamp)
         playerMaskedGame.features.addAll(game.features)
         playerMaskedGame.gamePhase = game.gamePhase
         playerMaskedGame.id = game.id.toHexString()

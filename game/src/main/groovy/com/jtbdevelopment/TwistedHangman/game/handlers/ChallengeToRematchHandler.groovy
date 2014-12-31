@@ -33,7 +33,7 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
         if (previousGame.gamePhase != GamePhase.RoundOver) {
             throw new GameIsNotAvailableToRematchException()
         }
-        previousGame.rematched = ZonedDateTime.now(GMT)
+        previousGame.rematchTimestamp = ZonedDateTime.now(GMT)
         Game transitioned = gamePublisher.publish(
                 gameRepository.save(
                         transitionEngine.evaluateGamePhaseForGame(previousGame)),

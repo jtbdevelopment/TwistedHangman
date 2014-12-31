@@ -25,7 +25,7 @@ class SystemPuzzlerSetter {
 
     public Game setWordPhraseFromSystem(final Game game) {
         if (game.features.contains(GameFeature.SystemPuzzles)) {
-            CannedGame cannedGame = randomCannedGameFinder.getRandomGame()
+            PreMadePuzzle cannedGame = randomCannedGameFinder.getRandomGame()
             logger.info("System Challenger setting for " + game.id + " using canned id " + cannedGame.id)
             game.solverStates.values().each {
                 IndividualGameState gameState ->

@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
+import com.jtbdevelopment.games.games.PlayerState
 
 import java.time.ZonedDateTime
 
@@ -166,7 +167,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     public void testRematchToRematch() {
         assert transitionEngine.gameRepository == null
         assert transitionEngine.gameScorer == null
-        Game game = new Game(gamePhase: GamePhase.RoundOver, rematched: null)
+        Game game = new Game(gamePhase: GamePhase.RoundOver, rematchTimestamp: null)
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
@@ -174,7 +175,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     public void testRematchToRematched() {
         assert transitionEngine.gameScorer == null
 
-        Game game = new Game(gamePhase: GamePhase.RoundOver, rematched: ZonedDateTime.now())
+        Game game = new Game(gamePhase: GamePhase.RoundOver, rematchTimestamp: ZonedDateTime.now())
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
         assert game.gamePhase == GamePhase.NextRoundStarted
     }

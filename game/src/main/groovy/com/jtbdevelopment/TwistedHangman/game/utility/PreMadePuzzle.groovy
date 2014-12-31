@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document
  */
 @Document
 @CompileStatic
-class CannedGame {
+class PreMadePuzzle {
     @Id
     ObjectId id
 

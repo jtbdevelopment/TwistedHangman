@@ -33,7 +33,7 @@ class AbstractGameGetterHandler extends AbstractHandler {
     }
 
     protected Game loadGame(final ObjectId gameID) {
-        Game game = gameRepository.findOne(gameID)
+        Game game = (Game) gameRepository.findOne(gameID)
         if (game == null) {
             logger.info("Game was not loaded " + gameID.toHexString())
             throw new FailedToFindGameException()

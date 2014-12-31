@@ -1,8 +1,12 @@
 package com.jtbdevelopment.TwistedHangman.game.state.masked
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.game.state.*
+import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
+import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayer
+import com.jtbdevelopment.games.games.PlayerState
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import org.bson.types.ObjectId
 
@@ -34,8 +38,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 players: [PONE],
                 wordPhraseSetter: TwistedHangmanSystemPlayer.TH_PLAYER.id,
                 created: ZonedDateTime.now(),
-                completed: ZonedDateTime.now(),
-                declined: ZonedDateTime.now(),
+                completedTimestamp: ZonedDateTime.now(),
+                declinedTimestamp: ZonedDateTime.now(),
                 featureData: [(GameFeature.DrawFace): ""],
                 features: [GameFeature.SystemPuzzles, GameFeature.SinglePlayer],
                 id: new ObjectId("1234".padRight(24, "0")),
@@ -45,7 +49,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 playerRunningScores: [(PONE.id): 5],
                 playerRoundScores: [(PONE.id): 0],
                 previousId: new ObjectId("34".padRight(24, "0")),
-                rematched: ZonedDateTime.now(),
+                rematchTimestamp: ZonedDateTime.now(),
                 round: new Random().nextInt(1000),
                 solverStates: [(PONE.id): state],
                 version: 10,
@@ -111,8 +115,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 players: [PONE, PTWO],
                 wordPhraseSetter: null,
                 created: ZonedDateTime.now(),
-                completed: ZonedDateTime.now(),
-                declined: ZonedDateTime.now(),
+                completedTimestamp: ZonedDateTime.now(),
+                declinedTimestamp: ZonedDateTime.now(),
                 featureData: [(GameFeature.DrawFace): "", (GameFeature.SingleWinner): PTWO.id],
                 features: [GameFeature.SystemPuzzles, GameFeature.SinglePlayer],
                 id: new ObjectId("1234".padRight(24, "0")),
@@ -122,7 +126,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 playerRunningScores: [(PONE.id): 5, (PTWO.id): 7],
                 playerRoundScores: [(PONE.id): 1, (PTWO.id): 0],
                 previousId: new ObjectId("34".padRight(24, "0")),
-                rematched: ZonedDateTime.now(),
+                rematchTimestamp: ZonedDateTime.now(),
                 solverStates: [(PONE.id): state1, (PTWO.id): state2],
                 round: new Random().nextInt(1000),
                 version: 10,
@@ -377,11 +381,11 @@ class GameMaskerTest extends TwistedHangmanTestCase {
     protected void checkUnmaskedGameFields(MaskedGame maskedGame, Game game) {
         assert maskedGame.id == game.id.toHexString()
         assert maskedGame.gamePhase == game.gamePhase
-        assert maskedGame.completed == (game.completed ? game.completed.toInstant().toEpochMilli() : null)
+        assert maskedGame.completedTimestamp == (game.completedTimestamp ? game.completedTimestamp.toInstant().toEpochMilli() : null)
         assert maskedGame.created == (game.created ? game.created.toInstant().toEpochMilli() : null)
-        assert maskedGame.declined == (game.declined ? game.declined.toInstant().toEpochMilli() : null)
+        assert maskedGame.declinedTimestamp == (game.declinedTimestamp ? game.declinedTimestamp.toInstant().toEpochMilli() : null)
         assert maskedGame.lastUpdate == (game.lastUpdate ? game.lastUpdate.toInstant().toEpochMilli() : null)
-        assert maskedGame.rematched == (game.rematched ? game.rematched.toInstant().toEpochMilli() : null)
+        assert maskedGame.rematchTimestamp == (game.rematchTimestamp ? game.rematchTimestamp.toInstant().toEpochMilli() : null)
         assert maskedGame.features == game.features
         assert maskedGame.round == game.round
     }
@@ -404,8 +408,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 players: [PONE, PTWO, PTHREE],
                 wordPhraseSetter: puzzler.id,
                 created: ZonedDateTime.now(),
-                completed: ZonedDateTime.now(),
-                declined: ZonedDateTime.now(),
+                completedTimestamp: ZonedDateTime.now(),
+                declinedTimestamp: ZonedDateTime.now(),
                 featureData: [(GameFeature.DrawFace): "", (GameFeature.SingleWinner): PTWO.id],
                 features: [GameFeature.SystemPuzzles, GameFeature.SinglePlayer],
                 id: new ObjectId("1234".padRight(24, "0")),
@@ -415,7 +419,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 playerRunningScores: [(PONE.id): 5, (PTWO.id): 7, (PTHREE.id): -10],
                 playerRoundScores: [(PONE.id): 1, (PTWO.id): 0, (PTHREE.id): -1],
                 previousId: new ObjectId("34".padRight(24, "0")),
-                rematched: ZonedDateTime.now(),
+                rematchTimestamp: ZonedDateTime.now(),
                 solverStates: states,
                 round: new Random().nextInt(1000),
                 version: 10,

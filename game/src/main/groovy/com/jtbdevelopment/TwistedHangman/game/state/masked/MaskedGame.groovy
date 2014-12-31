@@ -2,7 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.state.masked
 
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
+import com.jtbdevelopment.games.games.PlayerState
 import groovy.transform.CompileStatic
 
 /**
@@ -20,9 +20,9 @@ class MaskedGame implements Cloneable {
 
     Long created
     Long lastUpdate
-    Long declined
-    Long completed
-    Long rematched
+    Long declinedTimestamp
+    Long completedTimestamp
+    Long rematchTimestamp
 
     Integer round
 

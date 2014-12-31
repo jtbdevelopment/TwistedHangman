@@ -4,11 +4,12 @@ import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.TwistedHangman.game.state.PlayerState
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerGatewayService
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerServices
+import com.jtbdevelopment.games.dao.AbstractMultiPlayerGameRepository
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.games.PlayerState
 import com.jtbdevelopment.games.mongo.players.MongoManualPlayer
 import com.jtbdevelopment.games.players.friendfinder.SourceBasedFriendFinder
 import org.bson.types.ObjectId
@@ -249,8 +250,8 @@ class ServerIntegration {
         assert game.solverStates[TEST_PLAYER3.md5]
         assert game.solverStates[TEST_PLAYER3.md5].wordPhrase == ""
 
-        GameRepository gameRepository = applicationContext.getBean(GameRepository.class)
-        Game dbLoaded1 = gameRepository.findOne(new ObjectId(game.id))
+        AbstractMultiPlayerGameRepository gameRepository = applicationContext.getBean(AbstractMultiPlayerGameRepository.class)
+        Game dbLoaded1 = (Game) gameRepository.findOne(new ObjectId(game.id))
         String wordPhrase = dbLoaded1.solverStates[TEST_PLAYER1.id].wordPhraseString
         Set<Character> chars = wordPhrase.toCharArray().findAll { it.letter }.collect { it } as Set
         def letter = chars.iterator().next()
@@ -271,7 +272,7 @@ class ServerIntegration {
         Game dbLoaded2 = gameRepository.findOne(new ObjectId(newGame.id))
         dbLoaded1 = gameRepository.findOne(dbLoaded1.id)
         assert dbLoaded2.previousId == dbLoaded1.id
-        assert dbLoaded1.rematched != null
+        assert dbLoaded1.rematchTimestamp != null
         assert newGame.gamePhase == GamePhase.Challenged
         assert newGame.players == game.players
         assert newGame.playerRunningScores == game.playerRunningScores

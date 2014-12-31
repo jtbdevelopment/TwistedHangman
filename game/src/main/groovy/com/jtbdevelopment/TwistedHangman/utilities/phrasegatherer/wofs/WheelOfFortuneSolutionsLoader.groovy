@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.utilities.phrasegatherer.wofs
 
-import com.jtbdevelopment.TwistedHangman.dao.CannedGameRepository
-import com.jtbdevelopment.TwistedHangman.game.utility.CannedGame
+import com.jtbdevelopment.TwistedHangman.dao.PreMadePuzzleRepository
+import com.jtbdevelopment.TwistedHangman.game.utility.PreMadePuzzle
 import com.jtbdevelopment.games.dictionary.Validator
 import org.springframework.context.ApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext
@@ -15,12 +15,12 @@ class WheelOfFortuneSolutionsLoader {
         ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-context-game.xml");
         ctx.refresh();
 
-        CannedGameRepository repository = ctx.getBean(CannedGameRepository.class)
+        PreMadePuzzleRepository repository = ctx.getBean(PreMadePuzzleRepository.class)
         Validator validator = ctx.getBean(Validator.class)
 
         String WOFS = "WOFS"
         repository.removeBySource(WOFS)
-        WheelOfFortuneSolutionsParser.parseTimeframe(10, 2009, 12, 2013, {
+        WheelOfFortuneSolutionsParser.parseTimeframe(10, 2009, 12, 2014, {
             String category, String item ->
                 if (category && item) {
                     def c = category.toUpperCase()
@@ -28,7 +28,7 @@ class WheelOfFortuneSolutionsLoader {
                     def vc = validator.validateWordPhrase(c)
                     def vi = validator.validateWordPhrase(i)
                     if (vc.isEmpty() && vi.isEmpty()) {
-                        repository.save(new CannedGame(source: WOFS, category: c, wordPhrase: i))
+                        repository.save(new PreMadePuzzle(source: WOFS, category: c, wordPhrase: i))
                     } else {
                         println "category validator " + vc + " / phrase validaotr " + vi
                     }

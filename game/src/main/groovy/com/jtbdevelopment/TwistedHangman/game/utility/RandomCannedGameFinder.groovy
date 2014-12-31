@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.utility
 
-import com.jtbdevelopment.TwistedHangman.dao.CannedGameRepository
+import com.jtbdevelopment.TwistedHangman.dao.PreMadePuzzleRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.system.RandomCannedGameFinderException
 import groovy.transform.CompileStatic
 import org.slf4j.Logger
@@ -21,18 +21,18 @@ class RandomCannedGameFinder {
     private static final Logger logger = LoggerFactory.getLogger(RandomCannedGameFinder.class)
 
     @Autowired
-    CannedGameRepository repository
+    PreMadePuzzleRepository repository
 
     private final Random random = new Random()
 
-    public CannedGame getRandomGame(final String source = "") {
+    public PreMadePuzzle getRandomGame(final String source = "") {
         if (StringUtils.isEmpty(source)) {
             long count = repository.count()
             int index = getRandomIndex(count)
 
-            Page<CannedGame> all = repository.findAll(new PageRequest(index, 1))
+            Page<PreMadePuzzle> all = repository.findAll(new PageRequest(index, 1))
 
-            List<CannedGame> content = all.content
+            List<PreMadePuzzle> content = all.content
             return extractGame(content)
         } else {
             long max = repository.countBySource(source)
@@ -53,7 +53,7 @@ class RandomCannedGameFinder {
         }
     }
 
-    static protected CannedGame extractGame(final List<CannedGame> games) {
+    static protected PreMadePuzzle extractGame(final List<PreMadePuzzle> games) {
         if (games.size() == 1) {
             return games[0]
         } else {

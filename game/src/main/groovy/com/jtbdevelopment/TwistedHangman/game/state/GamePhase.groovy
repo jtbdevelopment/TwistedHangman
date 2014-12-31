@@ -6,7 +6,7 @@ package com.jtbdevelopment.TwistedHangman.game.state
  */
 enum GamePhase {
     Challenged('Challenge delivered.', 'Challenges'),  /*  Agreement from initial players  */
-    Declined('Challenge declined.', 'Declined', 7),  /*  Challenged was rejected by a player */
+    Declined('Challenge declinedTimestamp.', 'Declined', 7),  /*  Challenged was rejected by a player */
     Quit('Game quit.', 'Quit Rounds', 7),  /*  Player Quit, similar to Declined but after game started  */
     Setup('Game setup in progress.', 'Setting Up'), /*  Setting word phrases  */
     Playing('Game in play!', 'Play!'),

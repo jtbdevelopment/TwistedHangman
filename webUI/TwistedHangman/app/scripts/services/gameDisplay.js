@@ -154,9 +154,9 @@ angular.module('twistedHangmanApp').factory('twGameDisplay',
 
             scope.lastUpdate = parseDate(scope.game.lastUpdate);
             scope.created = parseDate(scope.game.created);
-            scope.declined = parseDate(scope.game.declined);
-            scope.completed = parseDate(scope.game.declined);
-            scope.rematched = parseDate(scope.game.declined);
+            scope.declined = parseDate(scope.game.declinedTimestamp);
+            scope.completed = parseDate(scope.game.completedTimestamp);
+            scope.rematched = parseDate(scope.game.rematchTimestamp);
           }
 
           computeGameDisplay(scope);
