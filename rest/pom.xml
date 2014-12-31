@@ -12,7 +12,6 @@
 
 
     <dependencies>
-
         <dependency>
             <groupId>com.jtbdevelopment.TwistedHangman</groupId>
             <artifactId>core-spring-web</artifactId>

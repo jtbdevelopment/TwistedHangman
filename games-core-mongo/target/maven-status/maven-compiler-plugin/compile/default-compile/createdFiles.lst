@@ -6,6 +6,7 @@ com\jtbdevelopment\gamecore\mongo\players\MongoManualPlayer.class
 com\jtbdevelopment\gamecore\mongo\dao\converters\ZonedDateTimeToStringConverter.class
 com\jtbdevelopment\gamecore\mongo\dao\MongoPlayerRepository.class
 com\jtbdevelopment\gamecore\mongo\dao\converters\MongoConverter.class
+com\jtbdevelopment\gamecore\mongo\players\MongoPlayerFactory.class
 com\jtbdevelopment\gamecore\mongo\players\friendfinder\FriendFinder.class
 com\jtbdevelopment\gamecore\mongo\players\MongoSystemPlayer.class
 com\jtbdevelopment\gamecore\mongo\dao\converters\StringToZonedDateTimeConverter.class

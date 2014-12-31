@@ -14,6 +14,6 @@ import org.springframework.stereotype.Component
 @Component
 class RestSystemArchitecture {
     @SuppressWarnings("GroovyUnusedDeclaration")
-    @Pointcut("within(com.jtbdevelopment.TwistedHangman.rest.services..*)")
+    @Pointcut("within(com.jtbdevelopment.TwistedHangman.rest.services..*) || within(com.jtbdevelopment.gamecore.rest.services..*)")
     public void inRestServices() {}
 }

@@ -18,6 +18,6 @@ class RestSystemArchitectureTest extends GroovyTestCase {
         Method m = RestSystemArchitecture.class.getMethod("inRestServices", [] as Class<?>[])
         Pointcut p = m.getAnnotation(Pointcut.class)
         assert p != null
-        assert p.value() == "within(com.jtbdevelopment.TwistedHangman.rest.services..*)"
+        assert p.value() == "within(com.jtbdevelopment.TwistedHangman.rest.services..*) || within(com.jtbdevelopment.gamecore.rest.services..*)"
     }
 }

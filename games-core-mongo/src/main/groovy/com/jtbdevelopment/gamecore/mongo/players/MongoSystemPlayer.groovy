@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document
  * Date: 12/30/2014
  * Time: 1:23 PM
  */
-@Document
+@Document(collection = "player")
 @CompileStatic
 class MongoSystemPlayer extends MongoPlayer implements SystemPlayer<ObjectId> {
 

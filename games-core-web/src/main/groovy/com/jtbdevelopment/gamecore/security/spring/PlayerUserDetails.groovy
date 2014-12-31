@@ -25,7 +25,7 @@ class PlayerUserDetails<ID extends Serializable> implements SocialUserDetails, U
     PlayerUserDetails(final Player<ID> player) {
         this.player = player
         this.effectivePlayer = player
-        if (player.adminUser) {
+        if (player && player.adminUser) {
             grantedAuthorities.push(new SimpleGrantedAuthority(PlayerRoles.ADMIN))
         }
     }

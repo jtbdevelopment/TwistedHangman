@@ -1,6 +1,7 @@
 package com.jtbdevelopment.gamecore
 
 import com.jtbdevelopment.gamecore.players.AbstractPlayer
+import com.jtbdevelopment.gamecore.players.ManualPlayer
 import com.jtbdevelopment.gamecore.players.Player
 
 /**
@@ -36,6 +37,12 @@ abstract class GameCoreTestCase extends GroovyTestCase {
         }
     }
 
+    public static class StringManualPlayer extends StringPlayer implements ManualPlayer<String> {
+        String password
+        String verificationToken
+        boolean verified
+    }
+
     protected static Player<String> makeSimplePlayer(final String id, final boolean disabled = false) {
         return new StringPlayer(
                 id: id,
@@ -46,4 +53,22 @@ abstract class GameCoreTestCase extends GroovyTestCase {
                 imageUrl: "http://somewhere.com/image/" + id,
                 profileUrl: "http://somewhere.com/profile/" + id)
     }
+
+    protected static ManualPlayer<String> makeSimpleManualPlayer(
+            final String id,
+            final String password = "",
+            final boolean verified = true, final boolean disabled = false, final admin = false) {
+        return new StringManualPlayer(
+                id: id,
+                source: "MADEUP",
+                sourceId: "MADEUP" + id,
+                displayName: id,
+                disabled: disabled,
+                adminUser: admin,
+                password: password,
+                verified: verified,
+                imageUrl: "http://somewhere.com/image/" + id,
+                profileUrl: "http://somewhere.com/profile/" + id)
+    }
+
 }
