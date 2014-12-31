@@ -2,7 +2,6 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
-import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.input.PlayerNotPartOfGameException
 import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindGameException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
@@ -12,6 +11,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
+import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
 import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
 import com.jtbdevelopment.gamecore.players.Player
 import org.bson.types.ObjectId
@@ -60,7 +60,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                         assert it == PONE.id
                         return PONE
                 }
-        ] as TwistedHangmanPlayerRepository
+        ] as AbstractPlayerRepository<ObjectId>
         handler.transitionEngine = [
                 evaluateGamePhaseForGame: {
                     Game it ->
@@ -105,7 +105,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                         assert it == PONE.id
                         return PONE
                 }
-        ] as TwistedHangmanPlayerRepository
+        ] as AbstractPlayerRepository<ObjectId>
 
         try {
             handler.handleAction(PONE.id, gameId, testParam)
@@ -131,7 +131,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                         assert it == PTHREE.id
                         return PTHREE
                 }
-        ] as TwistedHangmanPlayerRepository
+        ] as AbstractPlayerRepository<ObjectId>
 
         try {
             handler.handleAction(PTHREE.id, gameId, testParam)
@@ -176,7 +176,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                         assert it == PONE.id
                         return PONE
                 }
-        ] as TwistedHangmanPlayerRepository
+        ] as AbstractPlayerRepository<ObjectId>
         handler.transitionEngine = [
                 evaluateGamePhaseForGame: {
                     Game it ->
@@ -242,7 +242,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                         assert it == PONE.id
                         return PONE
                 }
-        ] as TwistedHangmanPlayerRepository
+        ] as AbstractPlayerRepository<ObjectId>
         handler.transitionEngine = [
                 evaluateGamePhaseForGame: {
                     Game it ->
@@ -306,7 +306,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                         assert it == PONE.id
                         return PONE
                 }
-        ] as TwistedHangmanPlayerRepository
+        ] as AbstractPlayerRepository<ObjectId>
         handler.transitionEngine = [
                 evaluateGamePhaseForGame: {
                     Game it ->
@@ -371,7 +371,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                         assert it == PONE.id
                         return PONE
                 }
-        ] as TwistedHangmanPlayerRepository
+        ] as AbstractPlayerRepository<ObjectId>
         handler.transitionEngine = [
                 evaluateGamePhaseForGame: {
                     Game it ->

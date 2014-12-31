@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.utilities.playerCreator
 
-import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
+import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
 import com.jtbdevelopment.gamecore.mongo.players.MongoManualPlayer
 import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
 import org.springframework.context.ApplicationContext
@@ -19,7 +19,7 @@ class ManualPlayerMaker {
         ctx.refresh();
 
 
-        TwistedHangmanPlayerRepository repository = ctx.getBean(TwistedHangmanPlayerRepository.class)
+        AbstractPlayerRepository repository = ctx.getBean(AbstractPlayerRepository.class)
         passwordEncoder = ctx.getBean(PasswordEncoder.class)
 
         MongoPlayer[] players = [
@@ -31,7 +31,7 @@ class ManualPlayerMaker {
 
         players.each {
             MongoPlayer it ->
-                MongoPlayer loaded = repository.findBySourceAndSourceId(it.source, it.sourceId);
+                MongoPlayer loaded = (MongoPlayer) repository.findBySourceAndSourceId(it.source, it.sourceId);
                 if (!loaded) {
                     println "Creating player " + it
                     repository.save(it)

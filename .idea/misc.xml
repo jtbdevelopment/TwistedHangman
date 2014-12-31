@@ -30,6 +30,7 @@
       <set>
         <option value="$PROJECT_DIR$/gamecore-dictionary/pom.xml" />
         <option value="$PROJECT_DIR$/games-core-dictionary/pom.xml" />
+        <option value="$PROJECT_DIR$/rest/pom.xml" />
         <option value="$PROJECT_DIR$/utilities/pom.xml" />
       </set>
     </option>

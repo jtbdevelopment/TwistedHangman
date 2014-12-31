@@ -1,11 +1,11 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
-import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.handlers.NewGameHandler
 import com.jtbdevelopment.TwistedHangman.game.handlers.PlayerGamesFinderHandler
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
+import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
 import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
 import com.jtbdevelopment.gamecore.mongo.players.friendfinder.FriendFinder
 import com.jtbdevelopment.gamecore.players.Player
@@ -124,7 +124,7 @@ class PlayerServicesTest extends GroovyTestCase {
                         assert it == p.id
                         return p.clone()
                 }
-        ] as TwistedHangmanPlayerRepository
+        ] as AbstractPlayerRepository<ObjectId>
 
         playerServices.playerID.set(p.id)
 

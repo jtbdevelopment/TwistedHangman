@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
+import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
 import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
 import com.jtbdevelopment.gamecore.players.Player
 import com.jtbdevelopment.gamecore.players.PlayerRoles
@@ -43,7 +43,7 @@ class AdminServicesTest extends TwistedHangmanTestCase {
                         assert pageRequest.sort.getOrderFor("displayName").direction == Sort.Direction.ASC
                         new PageImpl<MongoPlayer>([PTWO, PTHREE])
                 }
-        ] as TwistedHangmanPlayerRepository
+        ] as AbstractPlayerRepository<ObjectId>
         adminServices.playerRepository = repo;
 
         assert adminServices.playersToSimulate(null, null) == [PTWO, PTHREE] as Set
@@ -97,7 +97,7 @@ class AdminServicesTest extends TwistedHangmanTestCase {
                         assert id == PTWO.id
                         return PTWO
                 }
-        ] as TwistedHangmanPlayerRepository
+        ] as AbstractPlayerRepository<ObjectId>
 
         adminServices.playerRepository = repo
 
@@ -136,7 +136,7 @@ class AdminServicesTest extends TwistedHangmanTestCase {
                         assert id == PTWO.id
                         return null
                 }
-        ] as TwistedHangmanPlayerRepository
+        ] as AbstractPlayerRepository<ObjectId>
 
         adminServices.playerRepository = repo
 

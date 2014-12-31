@@ -6,5 +6,5 @@
     <bean id="properties" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="location" value="classpath:/integration.properties"/>
     </bean>
-    <import resource="spring-context-rest.xml"/>
+    <import resource="spring-context-game.xml"/>
 </beans>

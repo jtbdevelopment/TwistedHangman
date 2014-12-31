@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.players
 
-import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
+import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
 import com.jtbdevelopment.gamecore.mongo.players.MongoSystemPlayer
 import com.jtbdevelopment.gamecore.players.SystemPlayer
 import groovy.transform.CompileStatic
@@ -26,7 +26,7 @@ class TwistedHangmanSystemPlayer {
 
     private static Logger logger = LoggerFactory.getLogger(SystemPlayer.class)
     @Autowired
-    TwistedHangmanPlayerRepository playerRepository
+    AbstractPlayerRepository playerRepository
 
     @PostConstruct
     void loadOrCreateSystemPlayers() {

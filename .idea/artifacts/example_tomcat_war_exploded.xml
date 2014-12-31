@@ -7,24 +7,28 @@
           <element id="module-output" name="example-tomcat" />
         </element>
         <element id="directory" name="lib">
-          <element id="archive" name="rest-0.3-SNAPSHOT.jar">
-            <element id="module-output" name="rest" />
-          </element>
-          <element id="archive" name="core-spring-web-0.3-SNAPSHOT.jar">
-            <element id="module-output" name="core-spring-web" />
-          </element>
-          <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.1.1.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework.data:spring-data-commons:1.9.1.RELEASE" />
-          <element id="library" level="project" name="Maven: org.slf4j:jcl-over-slf4j:1.7.7" />
-          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:3.2.5.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework.social:spring-social-core:1.1.0.RELEASE" />
           <element id="archive" name="game-0.3-SNAPSHOT.jar">
             <element id="module-output" name="game" />
           </element>
           <element id="archive" name="games-core-mongo-0.3-SNAPSHOT.jar">
             <element id="module-output" name="games-core-mongo" />
           </element>
+          <element id="archive" name="core-spring-web-0.3-SNAPSHOT.jar">
+            <element id="module-output" name="core-spring-web" />
+          </element>
+          <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.1.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.data:spring-data-commons:1.9.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:3.2.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.social:spring-social-core:1.1.0.RELEASE" />
+          <element id="archive" name="games-core-0.3-SNAPSHOT.jar">
+            <element id="module-output" name="games-core" />
+          </element>
+          <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.10" />
+          <element id="library" level="project" name="Maven: org.springframework.data:spring-data-mongodb:1.6.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.mongodb:mongo-java-driver:2.12.3" />
+          <element id="library" level="project" name="Maven: org.slf4j:jcl-over-slf4j:1.7.7" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.3.2" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.3.2" />
           <element id="archive" name="games-core-dictionaries-0.3-SNAPSHOT.jar">
             <element id="module-output" name="games-core-dictionaries" />
           </element>
@@ -37,29 +41,22 @@
           <element id="library" level="project" name="Maven: org.glassfish.hk2:osgi-resource-locator:1.0.1" />
           <element id="library" level="project" name="Maven: org.glassfish.jersey.media:jersey-media-json-jackson:2.13" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:2.3.2" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.3.2" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.3.2" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.3.2" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.3.2" />
+          <element id="library" level="project" name="Maven: org.atmosphere:atmosphere-runtime:2.2.3" />
           <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:3.1.0" />
           <element id="library" level="project" name="Maven: org.springframework:spring-aspects:4.1.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.8.2" />
-          <element id="library" level="project" name="Maven: org.atmosphere:atmosphere-runtime:2.2.3" />
           <element id="archive" name="security-0.3-SNAPSHOT.jar">
             <element id="module-output" name="security" />
           </element>
           <element id="archive" name="core-spring-web-mongo-0.3-SNAPSHOT.jar">
             <element id="module-output" name="core-spring-web-mongo" />
           </element>
-          <element id="library" level="project" name="Maven: org.springframework.data:spring-data-mongodb:1.6.1.RELEASE" />
-          <element id="library" level="project" name="Maven: org.mongodb:mongo-java-driver:2.12.3" />
           <element id="archive" name="games-core-web-0.3-SNAPSHOT.jar">
             <element id="module-output" name="games-core-web" />
           </element>
-          <element id="archive" name="games-core-0.3-SNAPSHOT.jar">
-            <element id="module-output" name="games-core" />
-          </element>
-          <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.10" />
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-core:3.2.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.social:spring-social-security:1.1.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:4.1.1.RELEASE" />

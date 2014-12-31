@@ -2,7 +2,6 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
-import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
 import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
@@ -11,6 +10,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
+import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
 import com.jtbdevelopment.gamecore.exceptions.system.FailedToFindPlayersException
 import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
 import org.bson.types.ObjectId
@@ -62,7 +62,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                     assert it == PONE.id
                     return PONE
                 }
-        ] as TwistedHangmanPlayerRepository
+        ] as AbstractPlayerRepository<ObjectId>
         handler.transitionEngine = [
                 evaluateGamePhaseForGame: {
                     assert it.is(puzzled)
@@ -106,7 +106,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                     assert it == playerId
                     return null
                 }
-        ] as TwistedHangmanPlayerRepository
+        ] as AbstractPlayerRepository<ObjectId>
 
         try {
             handler.handleCreateNewGame(playerId, players.collect { it.md5 }, features)
@@ -131,7 +131,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                     assert it == PFOUR.id
                     return PFOUR
                 }
-        ] as TwistedHangmanPlayerRepository
+        ] as AbstractPlayerRepository<ObjectId>
 
         try {
             handler.handleCreateNewGame(initiatingPlayer.id, players.collect { it.md5 }, features)
