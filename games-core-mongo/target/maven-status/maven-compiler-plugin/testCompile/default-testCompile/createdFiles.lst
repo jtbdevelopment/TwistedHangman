@@ -1,9 +1,0 @@
-com\jtbdevelopment\gamecore\mongo\dao\converters\ZonedDateTimeToStringConverterTest.class
-com\jtbdevelopment\gamecore\mongo\json\ObjectIdDeserializerTest$FakeParser.class
-com\jtbdevelopment\gamecore\mongo\json\ObjectIdSerializerTest$_testSerializesHexString_closure1.class
-com\jtbdevelopment\gamecore\mongo\players\MongoPlayerTest.class
-com\jtbdevelopment\gamecore\mongo\json\ObjectIdDeserializerTest.class
-com\jtbdevelopment\gamecore\mongo\json\ObjectIdSerializerTest.class
-com\jtbdevelopment\gamecore\mongo\MongoGameCoreTestCase.class
-com\jtbdevelopment\gamecore\mongo\players\MongoManualPlayerTest.class
-com\jtbdevelopment\gamecore\mongo\dao\converters\StringToZonedDateTimeConverterTest.class

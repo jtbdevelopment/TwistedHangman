@@ -1,7 +1,0 @@
-C:\DEV\TwistedHangman\games-core-mongo\src\test\groovy\com\jtbdevelopment\gamecore\mongo\players\MongoPlayerTest.groovy
-C:\DEV\TwistedHangman\games-core-mongo\src\test\groovy\com\jtbdevelopment\gamecore\mongo\dao\converters\ZonedDateTimeToStringConverterTest.groovy
-C:\DEV\TwistedHangman\games-core-mongo\src\test\groovy\com\jtbdevelopment\gamecore\mongo\MongoGameCoreTestCase.groovy
-C:\DEV\TwistedHangman\games-core-mongo\src\test\groovy\com\jtbdevelopment\gamecore\mongo\players\MongoManualPlayerTest.groovy
-C:\DEV\TwistedHangman\games-core-mongo\src\test\groovy\com\jtbdevelopment\gamecore\mongo\dao\converters\StringToZonedDateTimeConverterTest.groovy
-C:\DEV\TwistedHangman\games-core-mongo\src\test\groovy\com\jtbdevelopment\gamecore\mongo\json\ObjectIdDeserializerTest.groovy
-C:\DEV\TwistedHangman\games-core-mongo\src\test\groovy\com\jtbdevelopment\gamecore\mongo\json\ObjectIdSerializerTest.groovy
