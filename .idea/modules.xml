@@ -8,12 +8,12 @@
       <module fileurl="file://$PROJECT_DIR$/example-tomcat/example-tomcat.iml" filepath="$PROJECT_DIR$/example-tomcat/example-tomcat.iml" />
       <module fileurl="file://$PROJECT_DIR$/game/game.iml" filepath="$PROJECT_DIR$/game/game.iml" />
       <module fileurl="file://$PROJECT_DIR$/games-core/games-core.iml" filepath="$PROJECT_DIR$/games-core/games-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/games-core-dictionaries/games-core-dictionaries.iml" filepath="$PROJECT_DIR$/games-core-dictionaries/games-core-dictionaries.iml" />
       <module fileurl="file://$PROJECT_DIR$/games-core-mongo/games-core-mongo.iml" filepath="$PROJECT_DIR$/games-core-mongo/games-core-mongo.iml" />
       <module fileurl="file://$PROJECT_DIR$/games-core-web/games-core-web.iml" filepath="$PROJECT_DIR$/games-core-web/games-core-web.iml" />
       <module fileurl="file://$PROJECT_DIR$/integration-tests/integration-tests.iml" filepath="$PROJECT_DIR$/integration-tests/integration-tests.iml" />
       <module fileurl="file://$PROJECT_DIR$/rest/rest.iml" filepath="$PROJECT_DIR$/rest/rest.iml" />
       <module fileurl="file://$PROJECT_DIR$/security/security.iml" filepath="$PROJECT_DIR$/security/security.iml" />
-      <module fileurl="file://$PROJECT_DIR$/utilities/utilities.iml" filepath="$PROJECT_DIR$/utilities/utilities.iml" />
       <module fileurl="file://$PROJECT_DIR$/webUI/webUI.iml" filepath="$PROJECT_DIR$/webUI/webUI.iml" />
     </modules>
   </component>

@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.players
+package com.jtbdevelopment.TwistedHangman.utilities.playerCreator
 
 import com.jtbdevelopment.TwistedHangman.dao.TwistedHangmanPlayerRepository
 import com.jtbdevelopment.gamecore.mongo.players.MongoManualPlayer

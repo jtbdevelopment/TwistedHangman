@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.jtbdevelopment.gamecore.mongo.players.MongoPlayerTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.048 sec - in com.jtbdevelopment.gamecore.mongo.players.MongoPlayerTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.056 sec - in com.jtbdevelopment.gamecore.mongo.players.MongoPlayerTest

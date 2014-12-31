@@ -28,15 +28,16 @@
         <module name="facebook" />
         <module name="game" />
         <module name="gamecore" />
+        <module name="gamecore-dictionary" />
         <module name="gamecore-mongo" />
         <module name="games-core" />
+        <module name="games-core-dictionaries" />
         <module name="games-core-mongo" />
         <module name="games-core-web" />
         <module name="integration-tests" />
         <module name="model" />
         <module name="rest" />
         <module name="security" />
-        <module name="utilities" />
         <module name="webUI" />
       </profile>
     </annotationProcessing>

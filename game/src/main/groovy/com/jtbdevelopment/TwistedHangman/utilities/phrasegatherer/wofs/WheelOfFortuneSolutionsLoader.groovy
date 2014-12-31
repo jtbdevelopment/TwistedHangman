@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.phrasegatherer.wofs
+package com.jtbdevelopment.TwistedHangman.utilities.phrasegatherer.wofs
 
 import com.jtbdevelopment.TwistedHangman.dao.CannedGameRepository
 import com.jtbdevelopment.TwistedHangman.game.utility.CannedGame

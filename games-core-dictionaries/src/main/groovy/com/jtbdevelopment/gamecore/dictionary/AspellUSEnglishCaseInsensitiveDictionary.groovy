@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component
  * Date: 10/27/14
  * Time: 6:55 PM
  *
- * Dictionary that loads from generated aspell net file
+ * Dictionary that loads from generated com.jtbdevelopment.gamecore.dictionary.aspell net file
  *
- * As per aspell net copyright:
+ * As per com.jtbdevelopment.gamecore.dictionary.aspell net copyright:
  *
  * The dictionary file loaded as part of this code and committed in source tree is from apsell.net
  *
