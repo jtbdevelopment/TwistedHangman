@@ -14,9 +14,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
+            <groupId>com.jtbdevelopment.core-common</groupId>
             <artifactId>core-spring-web</artifactId>
-            <version>0.3-SNAPSHOT</version>
+            <version>0.1</version>
         </dependency>
         <dependency>
             <groupId>com.jtbdevelopment.TwistedHangman</groupId>

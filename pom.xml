@@ -8,8 +8,6 @@
     <packaging>pom</packaging>
     <version>0.3-SNAPSHOT</version>
     <modules>
-        <module>core-spring-web</module>
-        <module>core-spring-web-mongo</module>
         <module>games-core-dictionaries</module>
         <module>games-core</module>
         <module>games-core-mongo</module>
@@ -51,7 +49,21 @@
 
     <scm>
         <developerConnection>scm:git:https://github.com/jtbdevelopment/TwistedHangman.git</developerConnection>
-  </scm>
+    </scm>
+
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <id>bintray</id>
+            <name>bintray</name>
+            <url>http://dl.bintray.com/jtbdevelopment/maven</url>
+        </repository>
+    </repositories>
 
     <build>
         <pluginManagement>

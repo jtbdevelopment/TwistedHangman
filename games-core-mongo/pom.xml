@@ -15,11 +15,6 @@
     <dependencies>
         <dependency>
             <groupId>com.jtbdevelopment.TwistedHangman</groupId>
-            <artifactId>core-spring-web</artifactId>
-            <version>0.3-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
             <artifactId>games-core</artifactId>
             <version>0.3-SNAPSHOT</version>
         </dependency>

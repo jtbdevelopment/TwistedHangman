@@ -22,8 +22,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="core-spring-web" />
-        <module name="core-spring-web-mongo" />
         <module name="example-tomcat" />
         <module name="facebook" />
         <module name="game" />

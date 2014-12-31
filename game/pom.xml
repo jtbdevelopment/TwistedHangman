@@ -11,9 +11,9 @@
     <artifactId>game</artifactId>
     <dependencies>
         <dependency>
-            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
+            <groupId>com.jtbdevelopment.core-common</groupId>
             <artifactId>core-spring-web-mongo</artifactId>
-            <version>0.3-SNAPSHOT</version>
+            <version>0.1</version>
         </dependency>
         <dependency>
             <groupId>com.jtbdevelopment.TwistedHangman</groupId>
@@ -22,12 +22,12 @@
         </dependency>
         <dependency>
             <groupId>com.jtbdevelopment.TwistedHangman</groupId>
-            <artifactId>games-core-dictionaries</artifactId>
+            <artifactId>games-core-web</artifactId>
             <version>0.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.jtbdevelopment.TwistedHangman</groupId>
-            <artifactId>games-core-web</artifactId>
+            <artifactId>games-core-dictionaries</artifactId>
             <version>0.3-SNAPSHOT</version>
         </dependency>
 

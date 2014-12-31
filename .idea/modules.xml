@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TwistedHangman.iml" filepath="$PROJECT_DIR$/TwistedHangman.iml" />
-      <module fileurl="file://$PROJECT_DIR$/core-spring-web/core-spring-web.iml" filepath="$PROJECT_DIR$/core-spring-web/core-spring-web.iml" />
-      <module fileurl="file://$PROJECT_DIR$/core-spring-web-mongo/core-spring-web-mongo.iml" filepath="$PROJECT_DIR$/core-spring-web-mongo/core-spring-web-mongo.iml" />
       <module fileurl="file://$PROJECT_DIR$/example-tomcat/example-tomcat.iml" filepath="$PROJECT_DIR$/example-tomcat/example-tomcat.iml" />
       <module fileurl="file://$PROJECT_DIR$/game/game.iml" filepath="$PROJECT_DIR$/game/game.iml" />
       <module fileurl="file://$PROJECT_DIR$/games-core/games-core.iml" filepath="$PROJECT_DIR$/games-core/games-core.iml" />
