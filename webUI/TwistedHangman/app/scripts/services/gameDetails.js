@@ -122,6 +122,58 @@ angular.module('twistedHangmanApp').factory('twGameDetails',
         }
 
         return game.playerRunningScores[md5];
+      },
+
+      profileForPlayer: function (game, md5) {
+        if (checkParams(game, md5)) {
+          if (angular.isDefined(game.playerProfiles[md5])) {
+            return game.playerProfiles[md5];
+          }
+        }
+        return '';
+      },
+      imageForPlayer: function (game, md5) {
+        if (checkParams(game, md5)) {
+          if (angular.isDefined(game.playerImages[md5])) {
+            return game.playerImages[md5];
+          }
+        }
+        return '/images/hangman13.png';
+      },
+      stateIconForPlayer: function (game, md5) {
+        if (checkParams(game, md5)) {
+          switch (game.playerStates[md5]) {
+            case 'Quit':
+              return 'flag';
+            case 'Pending':
+              return 'inbox';
+            case 'Accepted':
+              return 'thumbs-up';
+            case 'Rejected':
+              return 'thumbs-down';
+          }
+        }
+        return 'question-sign';
+      },
+      roleIconForPlayer: function (game, md5) {
+        switch (this.roleForPlayer(game, md5)) {
+          case 'Set Puzzle':
+            return 'eye-open';
+          case 'Solver':
+            return 'pencil';
+        }
+        return 'question-sign';
+      },
+      gameStateIconForPlayer: function (game, md5) {
+        switch (this.gameEndForPlayer(game, md5)) {
+          case 'Solved!':
+            return 'ok';
+          case 'Hung!':
+            return 'remove';
+          case 'Not Solved.':
+            return 'search';
+        }
+        return 'question-sign';
       }
     };
   }

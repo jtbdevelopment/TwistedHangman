@@ -108,7 +108,17 @@
 
 }
 
-.gameTimes {
+.playerThumbnails {
+  .thumbnail {
+    img {
+      float: left;
+    }
+  }
+  h5 {
+    padding: 0;
+    margin: 1px;
+    font-weight: bold;
+  }
 }
 
 .playerInfo {

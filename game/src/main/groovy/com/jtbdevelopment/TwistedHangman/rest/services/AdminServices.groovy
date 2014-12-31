@@ -34,7 +34,7 @@ class AdminServices {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    Set<Player<ObjectId>> playersToSimulate(
+    Object playersToSimulate(
             @QueryParam("page") Integer page, @QueryParam("pageSize") Integer pageSize) {
         return playerRepository.findAll(new PageRequest(
                 page ?: DEFAULT_PAGE,
