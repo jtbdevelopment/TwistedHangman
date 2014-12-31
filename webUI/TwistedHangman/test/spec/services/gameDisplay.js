@@ -215,6 +215,9 @@ describe('Service: showGameSevice', function () {
         },
         playerCanPlay: function () {
           return false;
+        },
+        gameDescription: function () {
+          return 'Show Me';
         }
       };
       $provide.factory('twGameCache', function () {
@@ -238,25 +241,11 @@ describe('Service: showGameSevice', function () {
     }));
 
     describe('testing the description function', function () {
-      it('1', function () {
+      it('test value is what is returned', function () {
         game.features = ['Thieving', 'TurnBased', 'SystemPuzzles', 'SinglePlayer', 'SingleWinner'];
         game.featureData.TurnBased = 'md2';
         service.updateScopeForGame(scope, game);
-        expect(scope.generalInfo).toEqual('Thieving Allowed, Generated Puzzle, P2\'s Turn');
-      });
-
-      it('2', function () {
-        game.features = ['AlternatingPuzzleSetter', 'TwoPlayer', 'SingleWinner'];
-        game.featureData.TurnBased = 'md2';
-        service.updateScopeForGame(scope, game);
-        expect(scope.generalInfo).toEqual('Puzzle Set By P4, Until First Solver, Live Play');
-      });
-
-      it('3', function () {
-        game.features = [];
-        game.featureData.TurnBased = 'md2';
-        service.updateScopeForGame(scope, game);
-        expect(scope.generalInfo).toEqual('Head-2-Head Puzzles, Until All Finish, Live Play');
+        expect(scope.generalInfo).toEqual('Show Me');
       });
     });
 

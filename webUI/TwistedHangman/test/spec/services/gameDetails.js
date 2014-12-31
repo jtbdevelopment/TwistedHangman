@@ -21,6 +21,8 @@ describe('Service: twGameDetails', function () {
       md4: 'Quit',
       md5: 'Accepted'
     },
+    featureData: {},
+    features: [],
     playerRunningScores: {'md1': 0, 'md2': 2, 'md3': 10, 'md4': -3, 'md5': -5},
     playerRoundScores: {'md1': 1, 'md2': 0, 'md3': -1, 'md4': 3, 'md5': 2}
   };
@@ -213,5 +215,26 @@ describe('Service: twGameDetails', function () {
       });
     });
   });
+
+  describe('testing the description function', function () {
+    it('1', function () {
+      game.features = ['Thieving', 'TurnBased', 'SystemPuzzles', 'SinglePlayer', 'SingleWinner'];
+      game.featureData.TurnBased = 'md2';
+      expect(service.gameDescription(game)).toEqual('Thieving Allowed, Generated Puzzle, P2\'s Turn');
+    });
+
+    it('2', function () {
+      game.features = ['AlternatingPuzzleSetter', 'TwoPlayer', 'SingleWinner'];
+      game.featureData.TurnBased = 'md2';
+      expect(service.gameDescription(game)).toEqual('Puzzle Set By P4, Until First Solver, Live Play');
+    });
+
+    it('3', function () {
+      game.features = [];
+      game.featureData.TurnBased = 'md2';
+      expect(service.gameDescription(game)).toEqual('Head-2-Head Puzzles, Until All Finish, Live Play');
+    });
+  });
+
 
 });

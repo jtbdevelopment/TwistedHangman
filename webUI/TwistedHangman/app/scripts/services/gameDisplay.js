@@ -60,32 +60,7 @@ angular.module('twistedHangmanApp').factory('twGameDisplay',
       }
 
       function computeDescription(scope) {
-        var t = '';
-        if (scope.game.features.indexOf('Thieving') >= 0) {
-          t = t + 'Thieving Allowed, ';
-        }
-        if (scope.game.features.indexOf('SystemPuzzles') >= 0) {
-          t = t + 'Generated Puzzle, ';
-        } else {
-          if (scope.game.features.indexOf('AlternatingPuzzleSetter') >= 0) {
-            t = t + 'Puzzle Set By ' + scope.game.players[scope.game.wordPhraseSetter] + ', ';
-          } else {
-            t = t + 'Head-2-Head Puzzles, ';
-          }
-        }
-        if (scope.game.features.indexOf('SinglePlayer') < 0) {
-          if (scope.game.features.indexOf('SingleWinner') >= 0) {
-            t = t + 'Until First Solver, ';
-          } else {
-            t = t + 'Until All Finish, ';
-          }
-        }
-        if (scope.game.features.indexOf('TurnBased') >= 0) {
-          t = t + scope.game.players[scope.game.featureData.TurnBased] + '\'s Turn';
-        } else {
-          t = t + 'Live Play';
-        }
-        scope.generalInfo = t;
+        scope.generalInfo = twGameDetails.gameDescription(scope.game);
       }
 
       function computeDisplayAreas(scope) {

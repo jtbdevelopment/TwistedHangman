@@ -14,14 +14,15 @@ var phasesAndSymbols = {
 angular.forEach(phasesAndSymbols, function (glyph, phase) {
   var name = phase + 'Games';
   angular.module('twistedHangmanApp').controller(name,
-    ['$scope', '$location', '$animate', '$timeout', 'twGamePhaseService', 'twGameCache',
-      function ($scope, $location, $animate, $timeout, twGamePhaseService, twGameCache) {
+    ['$scope', '$location', '$animate', '$timeout', 'twGamePhaseService', 'twGameCache', 'twGameDetails',
+      function ($scope, $location, $animate, $timeout, twGamePhaseService, twGameCache, twGameDetails) {
         $scope.games = [];
         $scope.style = phase.toLowerCase() + 'Button';
         $scope.glyph = 'glyphicon-' + glyph;
         $scope.label = '';
         $scope.phase = phase;
         $scope.hideGames = false;
+        $scope.gameDetails = twGameDetails;
 
         $scope.switchHideGames = function () {
           $scope.hideGames = !$scope.hideGames;

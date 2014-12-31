@@ -174,7 +174,68 @@ angular.module('twistedHangmanApp').factory('twGameDetails',
             return 'search';
         }
         return 'question-sign';
+      },
+      gameDescription: function (game) {
+        var t = '';
+        if (angular.isDefined(game)) {
+          if (game.features.indexOf('Thieving') >= 0) {
+            t = t + 'Thieving Allowed, ';
+          }
+          if (game.features.indexOf('SystemPuzzles') >= 0) {
+            t = t + 'Generated Puzzle, ';
+          } else {
+            if (game.features.indexOf('AlternatingPuzzleSetter') >= 0) {
+              t = t + 'Puzzle Set By ' + game.players[game.wordPhraseSetter] + ', ';
+            } else {
+              t = t + 'Head-2-Head Puzzles, ';
+            }
+          }
+          if (game.features.indexOf('SinglePlayer') < 0) {
+            if (game.features.indexOf('SingleWinner') >= 0) {
+              t = t + 'Until First Solver, ';
+            } else {
+              t = t + 'Until All Finish, ';
+            }
+          }
+          if (game.features.indexOf('TurnBased') >= 0) {
+            t = t + game.players[game.featureData.TurnBased] + '\'s Turn';
+          } else {
+            t = t + 'Live Play';
+          }
+        }
+        return t;
+      },
+      shortGameDescription: function (game) {
+        var t = '';
+        if (angular.isDefined(game)) {
+          if (game.features.indexOf('Thieving') >= 0) {
+            t = t + 'Thieving, ';
+          }
+          if (game.features.indexOf('SystemPuzzles') >= 0) {
+            t = t + 'Generated, ';
+          } else {
+            if (game.features.indexOf('AlternatingPuzzleSetter') >= 0) {
+              t = t + 'Player Puzzle, ';
+            } else {
+              t = t + 'Head-2-Head, ';
+            }
+          }
+          if (game.features.indexOf('SinglePlayer') < 0) {
+            if (game.features.indexOf('SingleWinner') >= 0) {
+              t = t + '1st Solver, ';
+            } else {
+              t = t + 'All Finish, ';
+            }
+          }
+          if (game.features.indexOf('TurnBased') >= 0) {
+            t = t + 'Turns';
+          } else {
+            t = t + 'Live';
+          }
+        }
+        return t;
       }
     };
   }
 );
+
