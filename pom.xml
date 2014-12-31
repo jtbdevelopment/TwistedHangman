@@ -8,10 +8,6 @@
     <packaging>pom</packaging>
     <version>0.3-SNAPSHOT</version>
     <modules>
-        <module>games-core-dictionaries</module>
-        <module>games-core</module>
-        <module>games-core-mongo</module>
-        <module>games-core-web</module>
         <module>game</module>
         <module>integration-tests</module>
         <module>webUI</module>

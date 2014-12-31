@@ -16,19 +16,19 @@
             <version>0.1</version>
         </dependency>
         <dependency>
-            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
-            <artifactId>games-core-mongo</artifactId>
-            <version>0.3-SNAPSHOT</version>
+            <groupId>com.jtbdevelopment.core-games</groupId>
+            <artifactId>games-mongo</artifactId>
+            <version>0.2</version>
         </dependency>
         <dependency>
-            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
-            <artifactId>games-core-web</artifactId>
-            <version>0.3-SNAPSHOT</version>
+            <groupId>com.jtbdevelopment.core-games</groupId>
+            <artifactId>games-web</artifactId>
+            <version>0.2</version>
         </dependency>
         <dependency>
-            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
-            <artifactId>games-core-dictionaries</artifactId>
-            <version>0.3-SNAPSHOT</version>
+            <groupId>com.jtbdevelopment.core-games</groupId>
+            <artifactId>games-dictionaries</artifactId>
+            <version>0.2</version>
         </dependency>
 
         <dependency>
@@ -83,16 +83,16 @@
         </dependency>
 
         <dependency>
-            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
-            <artifactId>games-core-mongo</artifactId>
-            <version>0.3-SNAPSHOT</version>
+            <groupId>com.jtbdevelopment.core-games</groupId>
+            <artifactId>games-mongo</artifactId>
+            <version>0.2</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
-            <artifactId>games-core-web</artifactId>
-            <version>0.3-SNAPSHOT</version>
+            <groupId>com.jtbdevelopment.core-games</groupId>
+            <artifactId>games-web</artifactId>
+            <version>0.2</version>
             <scope>test</scope>
             <type>test-jar</type>
         </dependency>

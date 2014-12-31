@@ -3,7 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.state.masked
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.*
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayer
-import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
+import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import org.bson.types.ObjectId
 
 import java.time.ZonedDateTime

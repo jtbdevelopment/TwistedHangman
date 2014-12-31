@@ -2,7 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gamevalidators
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
-import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.dao.AbstractPlayerRepository
 import org.bson.types.ObjectId
 
 /**

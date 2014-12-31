@@ -30,7 +30,11 @@
         <option value="$PROJECT_DIR$/core-spring-web-mongo/pom.xml" />
         <option value="$PROJECT_DIR$/core-spring-web/pom.xml" />
         <option value="$PROJECT_DIR$/gamecore-dictionary/pom.xml" />
+        <option value="$PROJECT_DIR$/games-core-dictionaries/pom.xml" />
         <option value="$PROJECT_DIR$/games-core-dictionary/pom.xml" />
+        <option value="$PROJECT_DIR$/games-core-mongo/pom.xml" />
+        <option value="$PROJECT_DIR$/games-core-web/pom.xml" />
+        <option value="$PROJECT_DIR$/games-core/pom.xml" />
         <option value="$PROJECT_DIR$/rest/pom.xml" />
         <option value="$PROJECT_DIR$/security/pom.xml" />
         <option value="$PROJECT_DIR$/utilities/pom.xml" />

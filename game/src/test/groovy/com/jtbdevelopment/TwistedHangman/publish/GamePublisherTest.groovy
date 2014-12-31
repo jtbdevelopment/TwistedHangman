@@ -2,7 +2,7 @@ package com.jtbdevelopment.TwistedHangman.publish
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
-import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
+import com.jtbdevelopment.games.mongo.players.MongoPlayer
 
 import java.util.concurrent.Callable
 import java.util.concurrent.ThreadPoolExecutor

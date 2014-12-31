@@ -2,8 +2,8 @@ package com.jtbdevelopment.TwistedHangman
 
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayer
-import com.jtbdevelopment.gamecore.mongo.MongoGameCoreTestCase
-import com.jtbdevelopment.gamecore.mongo.players.MongoSystemPlayer
+import com.jtbdevelopment.games.mongo.MongoGameCoreTestCase
+import com.jtbdevelopment.games.mongo.players.MongoSystemPlayer
 import org.bson.types.ObjectId
 
 /**

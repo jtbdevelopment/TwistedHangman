@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
-import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
-import com.jtbdevelopment.gamecore.exceptions.system.FailedToFindPlayersException
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.games.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.exceptions.system.FailedToFindPlayersException
+import com.jtbdevelopment.games.players.Player
 import org.bson.types.ObjectId
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

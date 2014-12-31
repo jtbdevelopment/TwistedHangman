@@ -5,7 +5,7 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.FailedToCreateValidGam
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
+import com.jtbdevelopment.games.mongo.players.MongoPlayer
 
 /**
  * Date: 11/7/14

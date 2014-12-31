@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.utilities.playerCreator
 
-import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
-import com.jtbdevelopment.gamecore.mongo.players.MongoManualPlayer
-import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
+import com.jtbdevelopment.games.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.mongo.players.MongoManualPlayer
+import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import org.springframework.context.ApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext
 import org.springframework.security.crypto.password.PasswordEncoder

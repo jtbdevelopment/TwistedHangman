@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.publish;
 
 import com.jtbdevelopment.TwistedHangman.game.state.Game;
-import com.jtbdevelopment.gamecore.players.Player;
+import com.jtbdevelopment.games.players.Player;
 
 /**
  * Date: 12/8/14

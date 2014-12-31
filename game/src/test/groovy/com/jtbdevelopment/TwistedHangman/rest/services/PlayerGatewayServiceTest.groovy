@@ -2,10 +2,10 @@ package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
-import com.jtbdevelopment.gamecore.players.Player
-import com.jtbdevelopment.gamecore.players.PlayerRoles
-import com.jtbdevelopment.gamecore.security.SessionUserInfo
+import com.jtbdevelopment.games.mongo.players.MongoPlayer
+import com.jtbdevelopment.games.players.Player
+import com.jtbdevelopment.games.players.PlayerRoles
+import com.jtbdevelopment.games.security.SessionUserInfo
 import groovy.transform.TypeChecked
 import org.bson.types.ObjectId
 import org.springframework.security.authentication.TestingAuthenticationToken

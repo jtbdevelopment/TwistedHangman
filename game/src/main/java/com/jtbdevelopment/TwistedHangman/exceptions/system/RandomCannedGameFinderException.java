@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.exceptions.system;
 
-import com.jtbdevelopment.gamecore.exceptions.GameSystemException;
+import com.jtbdevelopment.games.exceptions.GameSystemException;
 
 /**
  * Date: 11/7/14

@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.factory;
 
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
-import com.jtbdevelopment.gamecore.players.Player;
+import com.jtbdevelopment.games.players.Player;
 
 import java.util.Collection;
 import java.util.Set;

@@ -4,10 +4,10 @@ import com.jtbdevelopment.TwistedHangman.game.handlers.NewGameHandler
 import com.jtbdevelopment.TwistedHangman.game.handlers.PlayerGamesFinderHandler
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
-import com.jtbdevelopment.gamecore.dao.AbstractPlayerRepository
-import com.jtbdevelopment.gamecore.mongo.players.friendfinder.FriendFinder
-import com.jtbdevelopment.gamecore.players.PlayerRoles
-import com.jtbdevelopment.gamecore.security.SessionUserInfo
+import com.jtbdevelopment.games.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.mongo.players.friendfinder.FriendFinder
+import com.jtbdevelopment.games.players.PlayerRoles
+import com.jtbdevelopment.games.security.SessionUserInfo
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.slf4j.Logger

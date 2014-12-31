@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.exceptions.input;
 
-import com.jtbdevelopment.gamecore.exceptions.GameInputException;
+import com.jtbdevelopment.games.exceptions.GameInputException;
 
 /**
  * Date: 11/12/14

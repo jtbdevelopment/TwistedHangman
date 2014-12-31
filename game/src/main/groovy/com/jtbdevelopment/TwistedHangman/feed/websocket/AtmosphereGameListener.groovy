@@ -3,7 +3,7 @@ package com.jtbdevelopment.TwistedHangman.feed.websocket
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.publish.GameListener
-import com.jtbdevelopment.gamecore.players.Player
+import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
 import org.atmosphere.cpr.Broadcaster
 import org.atmosphere.cpr.BroadcasterFactory

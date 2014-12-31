@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.feed.websocket
 
-import com.jtbdevelopment.gamecore.mongo.players.MongoPlayer
-import com.jtbdevelopment.gamecore.security.SessionUserInfo
+import com.jtbdevelopment.games.mongo.players.MongoPlayer
+import com.jtbdevelopment.games.security.SessionUserInfo
 import org.atmosphere.cpr.Action
 import org.atmosphere.cpr.AtmosphereRequest
 import org.atmosphere.cpr.AtmosphereResource
