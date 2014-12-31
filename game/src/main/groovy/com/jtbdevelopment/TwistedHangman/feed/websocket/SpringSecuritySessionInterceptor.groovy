@@ -38,7 +38,7 @@ class SpringSecuritySessionInterceptor implements AtmosphereInterceptor {
             String requestUserId = request.pathInfo
             String expectedRequestPath = "/" + getSessionUserId().toHexString()
             if (requestUserId != expectedRequestPath) {
-                logger.warn("INVALID REQUEST FOR " + requestUserId + " FROM " + sessionUserId)
+                logger.warn("INVALID REQUEST FOR " + requestUserId + " FROM " + sessionUserId.toHexString())
                 return Action.CANCELLED
             }
             return Action.CONTINUE

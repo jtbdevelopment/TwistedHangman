@@ -23,7 +23,6 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/security/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
@@ -31,6 +30,7 @@
         <option value="$PROJECT_DIR$/gamecore-dictionary/pom.xml" />
         <option value="$PROJECT_DIR$/games-core-dictionary/pom.xml" />
         <option value="$PROJECT_DIR$/rest/pom.xml" />
+        <option value="$PROJECT_DIR$/security/pom.xml" />
         <option value="$PROJECT_DIR$/utilities/pom.xml" />
       </set>
     </option>

@@ -15,7 +15,6 @@
         <module>games-core-mongo</module>
         <module>games-core-web</module>
         <module>game</module>
-        <module>security</module>
         <module>integration-tests</module>
         <module>webUI</module>
         <module>example-tomcat</module>

@@ -12,12 +12,22 @@
     <dependencies>
         <dependency>
             <groupId>com.jtbdevelopment.TwistedHangman</groupId>
+            <artifactId>core-spring-web-mongo</artifactId>
+            <version>0.3-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
             <artifactId>games-core-mongo</artifactId>
             <version>0.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.jtbdevelopment.TwistedHangman</groupId>
             <artifactId>games-core-dictionaries</artifactId>
+            <version>0.3-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
+            <artifactId>games-core-web</artifactId>
             <version>0.3-SNAPSHOT</version>
         </dependency>
 
@@ -67,11 +77,24 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.jtbdevelopment.TwistedHangman</groupId>
             <artifactId>games-core-mongo</artifactId>
             <version>0.3-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
+            <artifactId>games-core-web</artifactId>
+            <version>0.3-SNAPSHOT</version>
+            <scope>test</scope>
+            <type>test-jar</type>
         </dependency>
     </dependencies>
 

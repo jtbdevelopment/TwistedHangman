@@ -11,7 +11,7 @@
     <property name="guice.disable.misplaced.annotation.check" value="true"/>
     <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
     <property name="file.encoding.pkg" value="sun.io"/>
-    <property name="idea.launcher.port" value="7539"/>
+    <property name="idea.launcher.port" value="7536"/>
     <property name="user.script" value=""/>
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
@@ -63,9 +63,9 @@
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
   <testcase name="testMD5" classname="com.jtbdevelopment.gamecore.mongo.players.MongoPlayerTest" time="0"/>
-  <testcase name="testToString" classname="com.jtbdevelopment.gamecore.mongo.players.MongoPlayerTest" time="0.001"/>
+  <testcase name="testToString" classname="com.jtbdevelopment.gamecore.mongo.players.MongoPlayerTest" time="0.002"/>
   <testcase name="testMD5FromBlank" classname="com.jtbdevelopment.gamecore.mongo.players.MongoPlayerTest" time="0"/>
-  <testcase name="testHashCode" classname="com.jtbdevelopment.gamecore.mongo.players.MongoPlayerTest" time="0.003"/>
+  <testcase name="testHashCode" classname="com.jtbdevelopment.gamecore.mongo.players.MongoPlayerTest" time="0.004"/>
   <testcase name="testChangingSourceFails" classname="com.jtbdevelopment.gamecore.mongo.players.MongoPlayerTest" time="0"/>
-  <testcase name="testEquals" classname="com.jtbdevelopment.gamecore.mongo.players.MongoPlayerTest" time="0.012"/>
+  <testcase name="testEquals" classname="com.jtbdevelopment.gamecore.mongo.players.MongoPlayerTest" time="0.01"/>
 </testsuite>

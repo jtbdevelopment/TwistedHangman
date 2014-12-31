@@ -12,7 +12,6 @@
       <module fileurl="file://$PROJECT_DIR$/games-core-mongo/games-core-mongo.iml" filepath="$PROJECT_DIR$/games-core-mongo/games-core-mongo.iml" />
       <module fileurl="file://$PROJECT_DIR$/games-core-web/games-core-web.iml" filepath="$PROJECT_DIR$/games-core-web/games-core-web.iml" />
       <module fileurl="file://$PROJECT_DIR$/integration-tests/integration-tests.iml" filepath="$PROJECT_DIR$/integration-tests/integration-tests.iml" />
-      <module fileurl="file://$PROJECT_DIR$/security/security.iml" filepath="$PROJECT_DIR$/security/security.iml" />
       <module fileurl="file://$PROJECT_DIR$/webUI/webUI.iml" filepath="$PROJECT_DIR$/webUI/webUI.iml" />
     </modules>
   </component>

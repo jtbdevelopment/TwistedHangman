@@ -16,11 +16,6 @@
             <artifactId>game</artifactId>
             <version>0.3-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.jtbdevelopment.TwistedHangman</groupId>
-            <artifactId>security</artifactId>
-            <version>0.3-SNAPSHOT</version>
-        </dependency>
 
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
