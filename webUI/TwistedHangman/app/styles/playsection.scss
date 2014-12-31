@@ -112,6 +112,8 @@
   .thumbnail {
     img {
       float: left;
+      height: 50px;
+      width: 50px;
     }
   }
   h5 {
@@ -121,7 +123,4 @@
   }
 }
 
-.playerInfo {
-  margin-top: 25px;
-}
 

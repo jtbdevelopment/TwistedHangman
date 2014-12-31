@@ -108,7 +108,9 @@
 <div class="row playerThumbnails">
   <div class="col-sm-2 text-center" ng-repeat="(md5, name) in game.players | orderBy:name">
     <div class="thumbnail">
-      <img ng-src="{{gameDetails.imageForPlayer(game, md5)}}" class="playerImage">
+      <img
+        ng-src="{{gameDetails.imageForPlayer(game, md5) ? gameDetails.imageForPlayer(game, md5) : 'images/hangman13.png'}}"
+        class="playerImage">
 
       <div class="caption">
         <h5 class="center-block">{{name}}</h5>
@@ -150,8 +152,8 @@
       <td>{{lastUpdate |date:'short'}}</td>
       <!--  TODO - not being populated  -->
       <!--td><b>Completed:</b></td>
-      <td>{{completed |date:'short'}}</td>
-      <td><b>Declined:</b></td-->
+      <td>{{completed |date:'short'}}</td-->
+      <td><b>Declined:</b></td>
       <td>{{declined |date:'short'}}</td>
       <td><b>Next Round Started:</b></td>
       <td>{{rematched |date:'short'}}</td>

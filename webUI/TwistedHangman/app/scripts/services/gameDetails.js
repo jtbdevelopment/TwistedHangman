@@ -138,7 +138,7 @@ angular.module('twistedHangmanApp').factory('twGameDetails',
             return game.playerImages[md5];
           }
         }
-        return '/images/hangman13.png';
+        return null;
       },
       stateIconForPlayer: function (game, md5) {
         if (checkParams(game, md5)) {
