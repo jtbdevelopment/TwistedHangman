@@ -46,8 +46,18 @@
     </dependencyManagement>
 
     <scm>
-        <developerConnection>scm:git:https://github.com/jtbdevelopment/TwistedHangman.git</developerConnection>
+        <connection>scm:git:https://github.com/jtbdevelopment/TwistedHangman.git</connection>
+        <developerConnection>scm:git:git@github.com:jtbdevelopment/TwistedHangman.git</developerConnection>
+        <url>https://github.com/jtbdevelopment/TwistedHangman.git</url>
+        <tag>HEAD</tag>
     </scm>
+    <distributionManagement>
+        <repository>
+            <id>bintray-jtbdevelopment-maven-TwistedHangman</id>
+            <name>jtbdevelopment-maven-TwistedHangman</name>
+            <url>https://api.bintray.com/maven/jtbdevelopment/maven/TwistedHangman</url>
+        </repository>
+    </distributionManagement>
 
     <repositories>
         <repository>
