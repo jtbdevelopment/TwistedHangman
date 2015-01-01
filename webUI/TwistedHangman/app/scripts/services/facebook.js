@@ -70,7 +70,7 @@ angular.module('twistedHangmanApp').factory('twFacebook',
               function (response) {
                 //  TODO - track?
                 console.info(JSON.stringify(response));
-              })
+              });
           });
         },
         playerAndFBMatch: function (player, callback) {

@@ -33,7 +33,7 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
           return BASE_PLAYER_URL;
         },
         currentPlayerFriends: function () {
-          return $http.get(this.currentPlayerBaseURL() + FRIENDS_PATH, {cache: true}).then(function (response) {
+          return $http.get(this.currentPlayerBaseURL() + FRIENDS_PATH).then(function (response) {
             console.info(JSON.stringify(response.data));
             return response.data;
           });
