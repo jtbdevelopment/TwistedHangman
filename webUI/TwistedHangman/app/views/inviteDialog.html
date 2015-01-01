@@ -1,8 +1,8 @@
-<div class="modal-header">
-  <h3 class="modal-title">Invite Friends to Play Twisted Hangman</h3>
-</div>
-<div class="modal-body">
-  <div class="col-sm-8">
+<div class="inviteDialog">
+  <div class="modal-header">
+    <h3 class="modal-title">Invite Friends to Play Twisted Hangman</h3>
+  </div>
+  <div class="modal-body">
     <ui-select multiple ng-model="$parent.chosenFriends" theme="bootstrap" reset-search-input="true">
       <ui-select-match placeholder="Select friends...">{{$item.name}}</ui-select-match>
       <ui-select-choices repeat="friend in invitableFriends | propsFilter: {name: $select.search}">
@@ -10,8 +10,8 @@
       </ui-select-choices>
     </ui-select>
   </div>
-</div>
-<div class="modal-footer">
-  <button class="btn btn-primary" ng-click="invite()">Invite</button>
-  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="invite()">Invite</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  </div>
 </div>
