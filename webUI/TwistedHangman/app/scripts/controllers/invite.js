@@ -6,7 +6,11 @@ angular.module('twistedHangmanApp').controller('InviteCtrl',
       $scope.invitableFriends = invitableFriends;
       $scope.chosenFriends = [];
       $scope.invite = function () {
-        console.error(JSON.stringify($scope.chosenFriends));
+        var ids = [];
+        angular.forEach($scope.chosenFriends, function (chosen) {
+          ids.push(chosen.id);
+        });
+        twFacebook.inviteFriends(ids);
         $modalInstance.close();
       };
       $scope.cancel = function () {

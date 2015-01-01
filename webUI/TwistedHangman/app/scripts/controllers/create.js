@@ -34,27 +34,25 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
       $scope.friends = [];
       $scope.invitableFBFriends = [];
       twPlayerService.currentPlayerFriends().then(function (data) {
-        /* jshint camelcase:false */
         angular.forEach(data.maskedFriends, function (displayName, hash) {
-          /* jshint camelcase:true */
           var friend = {
             md5: hash,
             displayName: displayName
           };
           $scope.friends.push(friend);
-          if (twPlayerService.currentPlayer().source === 'facebook') {
-            angular.forEach(data.invitableFriends, function (friend) {
-              var invite = {
-                id: friend.id,
-                name: friend.name
-              };
-              if (angular.isDefined(friend.picture) && angular.isDefined(friend.picture.url)) {
-                invite.url = friend.picture.url;
-              }
-              $scope.invitableFBFriends.push(invite);
-            });
-          }
         });
+        if (twPlayerService.currentPlayer().source === 'facebook') {
+          angular.forEach(data.invitableFriends, function (friend) {
+            var invite = {
+              id: friend.id,
+              name: friend.name
+            };
+            if (angular.isDefined(friend.picture) && angular.isDefined(friend.picture.url)) {
+              invite.url = friend.picture.url;
+            }
+            $scope.invitableFBFriends.push(invite);
+          });
+        }
       }, function () {
         $location.path('/error');
       });

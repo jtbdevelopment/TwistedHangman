@@ -50,6 +50,29 @@ angular.module('twistedHangmanApp').factory('twFacebook',
             callback(false);
           });
         },
+        inviteFriends: function (ids) {
+          loadFB(function () {
+            var first = true;
+            var s = '';
+            angular.forEach(ids, function (id) {
+              if (!first) {
+                s = s + ', ';
+              } else {
+                first = false;
+              }
+              s = s + id;
+            });
+            FB.ui({
+                method: 'apprequests',
+                message: 'Come play Twisted Hangman with me!',
+                to: s
+              },
+              function (response) {
+                //  TODO - track?
+                console.info(JSON.stringify(response));
+              })
+          });
+        },
         playerAndFBMatch: function (player, callback) {
           loadFB(function () {
             if (player.source === 'facebook') {
