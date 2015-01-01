@@ -6,7 +6,8 @@ describe('Controller: CreateCtrl', function () {
   beforeEach(module('twistedHangmanApp'));
 
   var ctrl, scope, http, q, rootScope, featureDeferred, location, friendsDeferred, gameCache;
-  var friends = {md1: 'friend1', md2: 'friend2', md3: 'friend3', md4: 'friend4'};
+  var friends = {maskedFriends: {md1: 'friend1', md2: 'friend2', md3: 'friend3', md4: 'friend4'}};
+  var currentPlayer = {source: 'MANUAL'};
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($rootScope, $httpBackend, $q, $controller) {
@@ -24,6 +25,9 @@ describe('Controller: CreateCtrl', function () {
     };
 
     var mockPlayerService = {
+      currentPlayer: function () {
+        return currentPlayer;
+      },
       currentID: function () {
         return 'MANUAL1';
       },
