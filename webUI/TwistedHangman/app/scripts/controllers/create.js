@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twistedHangmanApp').controller('CreateCtrl',
-  ['$scope', 'twGameCache', 'twGameFeatureService', 'twPlayerService', '$http', '$location',
-    function ($scope, twGameCache, twGameFeatureService, twPlayerService, $http, $location) {
+  ['$scope', 'twGameCache', 'twGameFeatureService', 'twPlayerService', '$http', '$location', '$modal',
+    function ($scope, twGameCache, twGameFeatureService, twPlayerService, $http, $location, $modal) {
 
       var SINGLE_PLAYER = 'SinglePlayer';
       var TWO_PLAYERS = 'TwoPlayer';
@@ -32,13 +32,28 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
       });
 
       $scope.friends = [];
+      $scope.invitableFBFriends = [];
       twPlayerService.currentPlayerFriends().then(function (data) {
-        angular.forEach(data, function (displayName, hash) {
+        /* jshint camelcase:false */
+        angular.forEach(data.maskedFriends, function (displayName, hash) {
+          /* jshint camelcase:true */
           var friend = {
             md5: hash,
             displayName: displayName
           };
           $scope.friends.push(friend);
+          if (twPlayerService.currentPlayer().source === 'facebook') {
+            angular.forEach(data.invitableFriends, function (friend) {
+              var invite = {
+                id: friend.id,
+                name: friend.name
+              };
+              if (angular.isDefined(friend.picture) && angular.isDefined(friend.picture.url)) {
+                invite.url = friend.picture.url;
+              }
+              $scope.invitableFBFriends.push(invite);
+            });
+          }
         });
       }, function () {
         $location.path('/error');
@@ -124,6 +139,18 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
         }).error(function (data, status, headers, config) {
           $scope.alerts.push({type: 'danger', msg: 'Error creating game - ' + status + ':' + data});
           console.error(data + status + headers + config);
+        });
+      };
+
+      $scope.showInvite = function () {
+        $modal.open({
+          templateUrl: 'views/inviteDialog.html',
+          controller: 'InviteCtrl',
+          resolve: {
+            invitable: function () {
+              return $scope.invitableFBFriends;
+            }
+          }
         });
       };
 
