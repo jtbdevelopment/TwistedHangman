@@ -17,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.PortMapperImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.social.security.SpringSocialConfigurer;
+
+import javax.annotation.PostConstruct;
 // TODO - lots of cleanup
 
 @Configuration
@@ -42,11 +44,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     PersistentTokenRepository persistentTokenRepository;
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    @PostConstruct
+    public void configureGlobal() throws Exception {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(injectedPasswordEncoder);
         daoAuthenticationProvider.setUserDetailsService(playerUserDetailsService);
-        auth.authenticationProvider(daoAuthenticationProvider);
+        authenticationManagerBuilder.authenticationProvider(daoAuthenticationProvider);
     }
 
     @Override
@@ -56,7 +61,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         portMapper.getTranslatedPortMappings().put(9998, 9999);
         http
                 .authorizeRequests()
-                        //  TODO - review signup/disconnect
                 .antMatchers(
                         "/favicon.ico",
                         "/images/**",
@@ -65,9 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/facebook/**",
                         "/auth/**",
                         "/signin/**",
-                        "/signup/**",
-                        "/api/social/apis",
-                        "/disconnect/facebook"
+                        "/api/social/apis"
                 )
                 .permitAll()
                 .antMatchers("/**").authenticated()

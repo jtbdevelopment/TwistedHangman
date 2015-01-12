@@ -8,6 +8,7 @@ angular.module('twistedHangmanApp').factory('twFacebook',
       var facebookAppId = '';
 
       //  TODO - should probably use promises not callbacks
+      //  TODO - deal with facebook disconnect and such
       function loadFB(callback) {
         if (!loaded) {
           $http.get('/api/social/apis', {cache: true}).success(function (response) {
