@@ -1,9 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
-import com.jtbdevelopment.games.games.AbstractMultiPlayerGame
+import com.jtbdevelopment.games.mongo.games.AbstractMongoMultiPlayerGame
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
-import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.CompoundIndex
 import org.springframework.data.mongodb.core.index.CompoundIndexes
 import org.springframework.data.mongodb.core.mapping.Document
@@ -20,10 +19,7 @@ import java.time.ZonedDateTime
 @CompoundIndexes([
         @CompoundIndex(name = "player_phase", def = "{'players._id': 1, 'gamePhase': 1, 'lastUpdate': 1}"),
 ])
-public class Game extends AbstractMultiPlayerGame<ObjectId> implements Cloneable {
-    @Id
-    ObjectId id
-
+public class Game extends AbstractMongoMultiPlayerGame implements Cloneable {
     ZonedDateTime rematchTimestamp
 
     ObjectId previousId
@@ -40,13 +36,6 @@ public class Game extends AbstractMultiPlayerGame<ObjectId> implements Cloneable
 
     Map<ObjectId, Integer> playerRoundScores = [:]
     Map<ObjectId, Integer> playerRunningScores = [:]
-
-    String getIdAsString() {
-        if (id) {
-            return id.toHexString()
-        }
-        return null;
-    }
 
     @Override
     public String toString() {
