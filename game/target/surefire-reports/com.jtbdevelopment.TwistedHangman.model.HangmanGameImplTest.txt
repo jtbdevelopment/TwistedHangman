@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.jtbdevelopment.TwistedHangman.model.HangmanGameImplTest
--------------------------------------------------------------------------------
-Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.059 sec - in com.jtbdevelopment.TwistedHangman.model.HangmanGameImplTest

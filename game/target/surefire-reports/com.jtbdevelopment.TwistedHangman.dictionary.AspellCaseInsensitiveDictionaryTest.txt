@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.jtbdevelopment.TwistedHangman.dictionary.AspellCaseInsensitiveDictionaryTest
--------------------------------------------------------------------------------
-Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.913 sec - in com.jtbdevelopment.TwistedHangman.dictionary.AspellCaseInsensitiveDictionaryTest
