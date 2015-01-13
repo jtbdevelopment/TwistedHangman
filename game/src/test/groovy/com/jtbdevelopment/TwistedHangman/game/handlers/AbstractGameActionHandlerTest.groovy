@@ -3,7 +3,6 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.input.PlayerNotPartOfGameException
-import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindGameException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
@@ -12,6 +11,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.exceptions.system.FailedToFindGameException
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.Player
 import org.bson.types.ObjectId

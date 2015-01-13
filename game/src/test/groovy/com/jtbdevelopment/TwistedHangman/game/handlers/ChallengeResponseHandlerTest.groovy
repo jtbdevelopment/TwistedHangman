@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.exceptions.input.TooLateToRespondToChallenge
+import com.jtbdevelopment.TwistedHangman.exceptions.input.TooLateToRespondToChallengeException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.games.games.PlayerState
@@ -20,7 +20,7 @@ class ChallengeResponseHandlerTest extends TwistedHangmanTestCase {
             try {
                 handler.handleActionInternal(PONE, game, PlayerState.Rejected)
                 fail("Should have exceptioned on state " + it)
-            } catch (TooLateToRespondToChallenge e) {
+            } catch (TooLateToRespondToChallengeException e) {
                 //
             }
         }

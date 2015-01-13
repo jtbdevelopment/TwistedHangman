@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
-import com.jtbdevelopment.TwistedHangman.exceptions.input.TooLateToRespondToChallenge
+import com.jtbdevelopment.TwistedHangman.exceptions.input.TooLateToRespondToChallengeException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.games.games.PlayerState
@@ -24,7 +24,7 @@ class ChallengeResponseHandler extends AbstractGameActionHandler<PlayerState> {
             game.playerStates[player.id] = param         //  Players can change their mind in the server side
             return game
         } else {
-            throw new TooLateToRespondToChallenge()
+            throw new TooLateToRespondToChallengeException()
         }
     }
 }

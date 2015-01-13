@@ -2,9 +2,9 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.input.PlayerNotPartOfGameException
-import com.jtbdevelopment.TwistedHangman.exceptions.system.FailedToFindGameException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
+import com.jtbdevelopment.games.exceptions.system.FailedToFindGameException
 import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId

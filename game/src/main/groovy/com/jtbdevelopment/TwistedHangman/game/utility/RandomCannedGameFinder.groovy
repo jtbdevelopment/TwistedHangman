@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.utility
 
 import com.jtbdevelopment.TwistedHangman.dao.PreMadePuzzleRepository
-import com.jtbdevelopment.TwistedHangman.exceptions.system.RandomCannedGameFinderException
+import com.jtbdevelopment.TwistedHangman.exceptions.system.PreMadePuzzleFinderException
 import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -44,7 +44,7 @@ class RandomCannedGameFinder {
     protected int getRandomIndex(long count) {
         if (count < 1) {
             logger.warn("No random games! (" + count + ")")
-            throw new RandomCannedGameFinderException(RandomCannedGameFinderException.NO_GAMES_FOUND)
+            throw new PreMadePuzzleFinderException(PreMadePuzzleFinderException.NO_GAMES_FOUND)
         }
         if (count <= Integer.MAX_VALUE) {
             return random.nextInt(((int) count))
@@ -58,7 +58,7 @@ class RandomCannedGameFinder {
             return games[0]
         } else {
             logger.warn("Failed to load random games! (" + games + ")")
-            throw new RandomCannedGameFinderException(RandomCannedGameFinderException.GAME_NOT_LOADED)
+            throw new PreMadePuzzleFinderException(PreMadePuzzleFinderException.GAME_NOT_LOADED)
         }
     }
 }

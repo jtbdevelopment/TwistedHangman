@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.utility
 
 import com.jtbdevelopment.TwistedHangman.dao.PreMadePuzzleRepository
-import com.jtbdevelopment.TwistedHangman.exceptions.system.RandomCannedGameFinderException
+import com.jtbdevelopment.TwistedHangman.exceptions.system.PreMadePuzzleFinderException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 
@@ -39,7 +39,7 @@ class RandomPreMadePuzzleFinderTest extends GroovyTestCase {
         ] as PreMadePuzzleRepository
         try {
             finder.getRandomGame()
-        } catch (RandomCannedGameFinderException e) {
+        } catch (PreMadePuzzleFinderException e) {
             assert e.message == "No pre-made games were found."
         }
     }
@@ -60,7 +60,7 @@ class RandomPreMadePuzzleFinderTest extends GroovyTestCase {
         ] as PreMadePuzzleRepository
         try {
             finder.getRandomGame()
-        } catch (RandomCannedGameFinderException e) {
+        } catch (PreMadePuzzleFinderException e) {
             assert e.message == "Pre-made game failed to load."
         }
     }
@@ -82,7 +82,7 @@ class RandomPreMadePuzzleFinderTest extends GroovyTestCase {
         ] as PreMadePuzzleRepository
         try {
             finder.getRandomGame()
-        } catch (RandomCannedGameFinderException e) {
+        } catch (PreMadePuzzleFinderException e) {
             assert e.message == "Pre-made game failed to load."
         }
     }
