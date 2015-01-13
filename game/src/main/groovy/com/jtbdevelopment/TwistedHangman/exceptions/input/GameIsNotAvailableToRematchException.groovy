@@ -7,9 +7,9 @@ import com.jtbdevelopment.games.exceptions.GameInputException
  * Time: 6:48 PM
  */
 class GameIsNotAvailableToRematchException extends GameInputException {
-    public static final String ERROR = 'Game is not available for rematching.'
+    static final String ERROR = 'Game is not available for rematching.'
 
-    public GameIsNotAvailableToRematchException() {
+    GameIsNotAvailableToRematchException() {
         super(ERROR)
     }
 }

@@ -9,7 +9,7 @@ import com.jtbdevelopment.games.exceptions.GameInputException
 class FailedToCreateValidGameException extends GameInputException {
     static final String BASE_ERROR = 'System failed to create a valid game.  '
 
-    public FailedToCreateValidGameException(final String s) {
+    FailedToCreateValidGameException(final String s) {
         super(BASE_ERROR + s)
     }
 }

@@ -7,9 +7,9 @@ import com.jtbdevelopment.games.exceptions.GameInputException
  * Time: 6:48 PM
  */
 class GameIsNotInPlayModeException extends GameInputException {
-    public static final String ERROR = 'Game is not open for playing.'
+    static final String ERROR = 'Game is not open for playing.'
 
-    public GameIsNotInPlayModeException() {
+    GameIsNotInPlayModeException() {
         super(ERROR)
     }
 }
