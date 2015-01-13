@@ -49,6 +49,8 @@ public class LiveFeedService {
             logger.info("Browser {} unexpectedly disconnected", event.getResource().uuid());
         } else if (event.isClosedByClient()) {
             logger.info("Browser {} closed the connection", event.getResource().uuid());
+        } else {
+            logger.info("Browser {} closed for other reason", event.getResource().uuid());
         }
     }
 

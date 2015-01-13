@@ -44,6 +44,7 @@ class AtmosphereGameListener implements GameListener {
 
     protected BroadcasterFactory getBroadcasterFactory() {
         if (!broadcasterFactory) {
+            //  Explicitly not tested for now - see TODO above
             broadcasterFactory = BroadcasterFactory.default
         }
         broadcasterFactory

@@ -1,6 +1,5 @@
 package com.jtbdevelopment.TwistedHangman.security
 
-import com.jtbdevelopment.games.security.spring.social.facebook.FacebookProperties
 import org.springframework.beans.factory.annotation.Value
 
 /**
@@ -11,7 +10,7 @@ class SecurityPropertiesTest extends GroovyTestCase {
     SecurityProperties properties = new SecurityProperties()
 
     void testValueAnnotations() {
-        assert FacebookProperties.class.
+        assert SecurityProperties.class.
                 getDeclaredField('allowBasicAuth')?.
                 getAnnotation(Value.class)?.
                 value() == '${http.allowBasicAuth:false}'

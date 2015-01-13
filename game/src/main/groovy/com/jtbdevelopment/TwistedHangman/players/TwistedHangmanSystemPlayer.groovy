@@ -30,6 +30,7 @@ class TwistedHangmanSystemPlayer {
 
     @PostConstruct
     void loadOrCreateSystemPlayers() {
+        logger.info('Checking for system player.')
         MongoSystemPlayer player = (MongoSystemPlayer) playerRepository.findOne(TH_ID)
         if (player == null) {
             logger.info("Making system id")
@@ -38,10 +39,6 @@ class TwistedHangmanSystemPlayer {
                     displayName: TH_DISPLAY_NAME,
                     sourceId: TH_ID.toHexString())
             player = playerRepository.save(player)
-        } else {
-            logger.info("Verifying system id")
-            assert player.source == SystemPlayer.SYSTEM_SOURCE
-            assert player.displayName == TH_DISPLAY_NAME
         }
         TH_PLAYER = player
         TH_MD5 = player.md5

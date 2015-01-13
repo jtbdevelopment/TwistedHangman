@@ -5,6 +5,8 @@ import org.atmosphere.config.service.ManagedService
 import org.atmosphere.config.service.Message
 import org.atmosphere.config.service.Ready
 import org.atmosphere.cpr.AtmosphereResource
+import org.atmosphere.cpr.AtmosphereResourceEventImpl
+import org.atmosphere.cpr.AtmosphereResourceImpl
 import org.atmosphere.interceptor.AtmosphereResourceLifecycleInterceptor
 import org.atmosphere.interceptor.SuspendTrackerInterceptor
 
@@ -62,5 +64,23 @@ class LiveFeedServiceTest extends GroovyTestCase {
         assert message != null
         assert message.encoders() == [HeartbeatJSON.class]
         assert message.decoders() == [HeartbeatJSON.class]
+    }
+
+    void testOnDisconnectOnCancel() {
+        def r = new AtmosphereResourceEventImpl(new AtmosphereResourceImpl(), true, false)
+        liveFeedService.onDisconnect(r)
+        //  No asserts since its all logging right now
+    }
+
+    void testOnDisconnectOnClosedByClient() {
+        def r = new AtmosphereResourceEventImpl(new AtmosphereResourceImpl(), false, false, true, null)
+        liveFeedService.onDisconnect(r)
+        //  No asserts since its all logging right now
+    }
+
+    void testOnDisconnectOnOther() {
+        def r = new AtmosphereResourceEventImpl(new AtmosphereResourceImpl(), false, false, false, null)
+        liveFeedService.onDisconnect(r)
+        //  No asserts since its all logging right now
     }
 }
