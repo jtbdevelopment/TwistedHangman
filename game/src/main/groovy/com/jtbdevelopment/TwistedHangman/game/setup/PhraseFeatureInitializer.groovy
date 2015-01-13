@@ -9,5 +9,5 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 interface PhraseFeatureInitializer {
-    public abstract void initializeForPhrase(final IndividualGameState gameState)
+      void initializeForPhrase(final IndividualGameState gameState)
 }

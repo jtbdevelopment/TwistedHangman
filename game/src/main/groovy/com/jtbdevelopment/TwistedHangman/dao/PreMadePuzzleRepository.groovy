@@ -12,9 +12,9 @@ import org.springframework.data.repository.PagingAndSortingRepository
  */
 @CompileStatic
 interface PreMadePuzzleRepository extends PagingAndSortingRepository<PreMadePuzzle, ObjectId> {
-    public abstract long countBySource(final String source)
+      long countBySource(final String source)
 
-    public abstract List<PreMadePuzzle> findBySource(final String source, final Pageable page)
+      List<PreMadePuzzle> findBySource(final String source, final Pageable page)
 
-    public abstract List<PreMadePuzzle> removeBySource(final String source)
+      List<PreMadePuzzle> removeBySource(final String source)
 }

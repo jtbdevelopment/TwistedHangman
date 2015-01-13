@@ -9,7 +9,7 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 interface GameValidator {
-    public abstract boolean validateGame(final Game game)
+      boolean validateGame(final Game game)
 
-    public abstract String errorMessage()
+      String errorMessage()
 }

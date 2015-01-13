@@ -8,5 +8,5 @@ import com.jtbdevelopment.games.players.Player
  * Time: 7:12 AM
  */
 interface FeatureExpander {
-    public void enhanceFeatureSet(final Set<GameFeature> features, final Collection<Player> players)
+     void enhanceFeatureSet(final Set<GameFeature> features, final Collection<Player> players)
 }

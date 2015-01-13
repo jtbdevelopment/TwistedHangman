@@ -9,5 +9,5 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 interface GameInitializer {
-    public abstract void initializeGame(final Game game)
+      void initializeGame(final Game game)
 }
