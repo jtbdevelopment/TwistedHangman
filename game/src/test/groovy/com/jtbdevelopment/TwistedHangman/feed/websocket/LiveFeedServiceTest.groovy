@@ -54,7 +54,7 @@ class LiveFeedServiceTest extends GroovyTestCase {
         assert m != null
         Ready r = m.getAnnotation(Ready.class)
         assert r != null
-        assert r.encoders() == [HeartbeatJSON.class]
+        assert r.encoders() == [WebSocketJSONConverter.class]
     }
 
     void testOnMessageAnnotations() {
@@ -62,8 +62,8 @@ class LiveFeedServiceTest extends GroovyTestCase {
         assert m != null
         Message message = m.getAnnotation(Message.class)
         assert message != null
-        assert message.encoders() == [HeartbeatJSON.class]
-        assert message.decoders() == [HeartbeatJSON.class]
+        assert message.encoders() == [WebSocketJSONConverter.class]
+        assert message.decoders() == [WebSocketJSONConverter.class]
     }
 
     void testOnDisconnectOnCancel() {

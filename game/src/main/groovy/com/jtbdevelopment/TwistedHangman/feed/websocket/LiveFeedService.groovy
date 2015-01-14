@@ -35,7 +35,7 @@ public class LiveFeedService {
         logger.info("LiveFeedService instantiated")
     }
 
-    @Ready(encoders = [HeartbeatJSON.class])
+    @Ready(encoders = [WebSocketJSONConverter.class])
     public WebSocketMessage onReady(final AtmosphereResource r) {
         logger.info("Browser {} connected to pathParam id {}.", r.uuid(), id);
         return new WebSocketMessage(messageType: WebSocketMessage.MessageType.Heartbeat, message: "connected to " + id)
@@ -55,7 +55,7 @@ public class LiveFeedService {
     }
 
     @SuppressWarnings("GrMethodMayBeStatic")
-    @Message(decoders = [HeartbeatJSON.class], encoders = [HeartbeatJSON.class])
+    @Message(decoders = [WebSocketJSONConverter.class], encoders = [WebSocketJSONConverter.class])
     public WebSocketMessage onMessage(WebSocketMessage message) {
         return message
     }
