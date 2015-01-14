@@ -44,13 +44,13 @@ public class LiveFeedService {
     @SuppressWarnings(["GroovyUnusedDeclaration", "GrMethodMayBeStatic"])
     @Disconnect
     public void onDisconnect(final AtmosphereResourceEvent event) {
-        if (event.isCancelled()) {
+        if (event.cancelled) {
             // We didn't get notified, so we remove the user.
-            logger.info("Browser {} unexpectedly disconnected", event.getResource().uuid());
-        } else if (event.isClosedByClient()) {
-            logger.info("Browser {} closed the connection", event.getResource().uuid());
+            logger.info("Browser {} unexpectedly disconnected for pathParam {}.", event.resource.uuid(), id)
+        } else if (event.closedByClient) {
+            logger.info("Browser {} closed the connection for pathParam {}.", event.resource.uuid(), id)
         } else {
-            logger.info("Browser {} closed for other reason", event.getResource().uuid());
+            logger.info("Browser {} closed for other reason for pathParam {}.", event.resource.uuid(), id)
         }
     }
 
