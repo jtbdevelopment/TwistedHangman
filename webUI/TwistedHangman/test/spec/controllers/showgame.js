@@ -142,9 +142,9 @@ describe('Controller: ShowCtrl', function () {
     });
 
     describe('checking for posting errors using game error modal', function () {
-      var modalMessage, confirmModelOpen;
+      var modalMessage, confirmModalOpen;
       beforeEach(function () {
-        confirmModelOpen = modal.open;
+        confirmModalOpen = modal.open;
         modal.open = function (params) {
           expect(params.controller).toEqual('ErrorCtrl');
           expect(params.templateUrl).toEqual('views/gameErrorDialog.html');
@@ -158,7 +158,7 @@ describe('Controller: ShowCtrl', function () {
         //  Two modals in this one
         http.expectPUT('/api/player/MANUAL1/game/gameid/reject').respond(502, 'more bad stuff');
         var errorOpen = modal.open;
-        modal.open = confirmModelOpen;
+        modal.open = confirmModalOpen;
         scope.reject();
         modalResult.resolve();
         modal.open = errorOpen;
@@ -213,7 +213,7 @@ describe('Controller: ShowCtrl', function () {
 
         http.expectPUT('/api/player/MANUAL1/game/gameid/quit').respond(503, 'something');
         var errorOpen = modal.open;
-        modal.open = confirmModelOpen;
+        modal.open = confirmModalOpen;
         scope.quit();
         modalResult.resolve();
         modal.open = errorOpen;

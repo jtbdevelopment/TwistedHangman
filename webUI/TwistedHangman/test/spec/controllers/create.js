@@ -6,8 +6,60 @@ describe('Controller: CreateCtrl', function () {
   beforeEach(module('twistedHangmanApp'));
 
   var ctrl, scope, http, q, rootScope, featureDeferred, location, friendsDeferred, gameCache;
-  var friends = {maskedFriends: {md1: 'friend1', md2: 'friend2', md3: 'friend3', md4: 'friend4'}};
-  var currentPlayer = {source: 'MANUAL'};
+  var friends = {
+    maskedFriends: {
+      md1: 'friend1',
+      md2: 'friend2',
+      md3: 'friend3',
+      md4: 'friend4'
+    },
+    invitableFriends: [
+      {
+        id: 'if1',
+        name: 'ifriend1'
+      },
+      {
+        id: 'if2',
+        name: 'ifriend2',
+        picture: {}
+      },
+      {
+        id: 'if3',
+        name: 'ifriend3',
+        picture: {
+          url: 'http://ifriend3image.png'
+        }
+      }
+    ]
+
+
+  };
+  var manualPlayer = {source: 'MANUAL'};
+  var fbPlayer = {source: 'facebook'};
+  var currentPlayer = manualPlayer;
+
+  var mockPlayerService = {
+    currentPlayer: function () {
+      return currentPlayer;
+    },
+    currentID: function () {
+      return 'MANUAL1';
+    },
+    currentPlayerBaseURL: function () {
+      return '/api/player/MANUAL1';
+    },
+    currentPlayerFriends: function () {
+      friendsDeferred = q.defer();
+      return friendsDeferred.promise;
+    }
+  };
+
+  var mockFeatureService = {
+    features: function () {
+      featureDeferred = q.defer();
+      return featureDeferred.promise;
+    }
+  };
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($rootScope, $httpBackend, $q, $controller) {
@@ -17,29 +69,6 @@ describe('Controller: CreateCtrl', function () {
     gameCache = {putUpdatedGame: jasmine.createSpy()};
     location = {path: jasmine.createSpy()};
     scope = rootScope.$new();
-    var mockFeatureService = {
-      features: function () {
-        featureDeferred = q.defer();
-        return featureDeferred.promise;
-      }
-    };
-
-    var mockPlayerService = {
-      currentPlayer: function () {
-        return currentPlayer;
-      },
-      currentID: function () {
-        return 'MANUAL1';
-      },
-      currentPlayerBaseURL: function () {
-        return '/api/player/MANUAL1';
-      },
-      currentPlayerFriends: function () {
-        friendsDeferred = q.defer();
-        return friendsDeferred.promise;
-      }
-    };
-
     ctrl = $controller('CreateCtrl', {
       $scope: scope,
       twGameCache: gameCache,
@@ -50,88 +79,161 @@ describe('Controller: CreateCtrl', function () {
 
   }));
 
-  it('initializes', function () {
-    var featureData = {X: 'Y'};
-    featureDeferred.resolve(featureData);
-    friendsDeferred.resolve(friends);
-    rootScope.$apply();
+  describe('core initialization tests', function () {
 
-    expect(scope.featureData).toEqual(featureData);
-    expect(scope.alerts).toEqual([]);
-    expect(scope.thieving).toEqual('Thieving');
-    expect(scope.drawGallows).toEqual('');
-    expect(scope.drawFace).toEqual('DrawFace');
-    expect(scope.gamePace).toEqual('Live');
+    it('initializes', function () {
+      var featureData = {X: 'Y'};
+      featureDeferred.resolve(featureData);
+      friendsDeferred.resolve(friends);
+      rootScope.$apply();
 
-    expect(scope.desiredPlayerCount).toEqual('SinglePlayer');
-    expect(scope.friends).toEqual([
-      {md5: 'md1', displayName: 'friend1'},
-      {md5: 'md2', displayName: 'friend2'},
-      {md5: 'md3', displayName: 'friend3'},
-      {md5: 'md4', displayName: 'friend4'}
-    ]);
-    expect(scope.gamePace).toEqual('Live');
-    expect(scope.wordPhraseSetter).toEqual('SystemPuzzles');
-    expect(scope.winners).toEqual('SingleWinner');
-    expect(scope.h2hEnabled).toBe(false);
-    expect(scope.alternatingEnabled).toBe(false);
-    expect(scope.allFinishedEnabled).toBe(false);
-    expect(scope.turnBasedEnabled).toBe(false);
-    expect(scope.submitEnabled).toBe(true);
-    expect(location.path).not.toHaveBeenCalled();
+      expect(scope.featureData).toEqual(featureData);
+      expect(scope.alerts).toEqual([]);
+      expect(scope.thieving).toEqual('Thieving');
+      expect(scope.drawGallows).toEqual('');
+      expect(scope.drawFace).toEqual('DrawFace');
+      expect(scope.gamePace).toEqual('Live');
+
+      expect(scope.desiredPlayerCount).toEqual('SinglePlayer');
+      expect(scope.friends).toEqual([
+        {md5: 'md1', displayName: 'friend1'},
+        {md5: 'md2', displayName: 'friend2'},
+        {md5: 'md3', displayName: 'friend3'},
+        {md5: 'md4', displayName: 'friend4'}
+      ]);
+      expect(scope.invitableFBFriends).toEqual([]);
+      expect(scope.gamePace).toEqual('Live');
+      expect(scope.wordPhraseSetter).toEqual('SystemPuzzles');
+      expect(scope.winners).toEqual('SingleWinner');
+      expect(scope.h2hEnabled).toBe(false);
+      expect(scope.alternatingEnabled).toBe(false);
+      expect(scope.allFinishedEnabled).toBe(false);
+      expect(scope.turnBasedEnabled).toBe(false);
+      expect(scope.submitEnabled).toBe(true);
+      expect(location.path).not.toHaveBeenCalled();
+    });
+
+    it('errors on features', function () {
+      featureDeferred.reject();
+      friendsDeferred.resolve(friends);
+      rootScope.$apply();
+
+      expect(scope.alerts).toEqual([]);
+      expect(scope.thieving).toEqual('Thieving');
+      expect(scope.drawGallows).toEqual('');
+      expect(scope.drawFace).toEqual('DrawFace');
+      expect(scope.gamePace).toEqual('Live');
+
+      expect(scope.desiredPlayerCount).toEqual('SinglePlayer');
+      expect(scope.friends).toEqual([
+        {md5: 'md1', displayName: 'friend1'},
+        {md5: 'md2', displayName: 'friend2'},
+        {md5: 'md3', displayName: 'friend3'},
+        {md5: 'md4', displayName: 'friend4'}
+      ]);
+      expect(scope.invitableFBFriends).toEqual([]);
+      expect(scope.gamePace).toEqual('Live');
+      expect(scope.wordPhraseSetter).toEqual('SystemPuzzles');
+      expect(scope.winners).toEqual('SingleWinner');
+      expect(scope.h2hEnabled).toBe(false);
+      expect(scope.alternatingEnabled).toBe(false);
+      expect(scope.allFinishedEnabled).toBe(false);
+      expect(scope.turnBasedEnabled).toBe(false);
+      expect(scope.submitEnabled).toBe(true);
+      expect(location.path).toHaveBeenCalledWith('/error');
+    });
+
+    it('errors on friends', function () {
+      featureDeferred.resolve({});
+      friendsDeferred.reject();
+      rootScope.$apply();
+
+      expect(scope.alerts).toEqual([]);
+      expect(scope.thieving).toEqual('Thieving');
+      expect(scope.drawGallows).toEqual('');
+      expect(scope.drawFace).toEqual('DrawFace');
+      expect(scope.gamePace).toEqual('Live');
+
+      expect(scope.desiredPlayerCount).toEqual('SinglePlayer');
+      expect(scope.friends).toEqual([]);
+      expect(scope.invitableFBFriends).toEqual([]);
+      expect(scope.gamePace).toEqual('Live');
+      expect(scope.wordPhraseSetter).toEqual('SystemPuzzles');
+      expect(scope.winners).toEqual('SingleWinner');
+      expect(scope.h2hEnabled).toBe(false);
+      expect(scope.alternatingEnabled).toBe(false);
+      expect(scope.allFinishedEnabled).toBe(false);
+      expect(scope.turnBasedEnabled).toBe(false);
+      expect(scope.submitEnabled).toBe(true);
+      expect(location.path).toHaveBeenCalledWith('/error');
+    });
   });
 
-  it('errors on features', function () {
-    featureDeferred.reject();
-    friendsDeferred.resolve(friends);
-    rootScope.$apply();
+  describe('additional fb initialization tests', function () {
+    var modalOpened;
+    var modal = {
+      open: function (params) {
+        expect(params.controller).toEqual('InviteCtrl');
+        expect(params.templateUrl).toEqual('views/inviteDialog.html');
+        expect(params.size).toEqual('lg');
+        expect(params.resolve.invitable()).toEqual(scope.invitableFBFriends);
+        modalOpened = true;
+      }
+    };
 
-    expect(scope.alerts).toEqual([]);
-    expect(scope.thieving).toEqual('Thieving');
-    expect(scope.drawGallows).toEqual('');
-    expect(scope.drawFace).toEqual('DrawFace');
-    expect(scope.gamePace).toEqual('Live');
+    beforeEach(inject(function ($rootScope, $httpBackend, $q, $controller) {
+      currentPlayer = fbPlayer;
+      modalOpened = false;
+      ctrl = $controller('CreateCtrl', {
+        $scope: scope,
+        twGameCache: gameCache,
+        twGameFeatureService: mockFeatureService,
+        twPlayerService: mockPlayerService,
+        $location: location,
+        $modal: modal
+      });
+    }));
 
-    expect(scope.desiredPlayerCount).toEqual('SinglePlayer');
-    expect(scope.friends).toEqual([
-      {md5: 'md1', displayName: 'friend1'},
-      {md5: 'md2', displayName: 'friend2'},
-      {md5: 'md3', displayName: 'friend3'},
-      {md5: 'md4', displayName: 'friend4'}
-    ]);
-    expect(scope.gamePace).toEqual('Live');
-    expect(scope.wordPhraseSetter).toEqual('SystemPuzzles');
-    expect(scope.winners).toEqual('SingleWinner');
-    expect(scope.h2hEnabled).toBe(false);
-    expect(scope.alternatingEnabled).toBe(false);
-    expect(scope.allFinishedEnabled).toBe(false);
-    expect(scope.turnBasedEnabled).toBe(false);
-    expect(scope.submitEnabled).toBe(true);
-    expect(location.path).toHaveBeenCalledWith('/error');
-  });
+    it('initializes invitable friends too', function () {
+      var featureData = {X: 'Y'};
+      featureDeferred.resolve(featureData);
+      friendsDeferred.resolve(friends);
+      rootScope.$apply();
 
-  it('errors on friends', function () {
-    featureDeferred.resolve({});
-    friendsDeferred.reject();
-    rootScope.$apply();
+      expect(scope.featureData).toEqual(featureData);
+      expect(scope.alerts).toEqual([]);
+      expect(scope.thieving).toEqual('Thieving');
+      expect(scope.drawGallows).toEqual('');
+      expect(scope.drawFace).toEqual('DrawFace');
+      expect(scope.gamePace).toEqual('Live');
 
-    expect(scope.alerts).toEqual([]);
-    expect(scope.thieving).toEqual('Thieving');
-    expect(scope.drawGallows).toEqual('');
-    expect(scope.drawFace).toEqual('DrawFace');
-    expect(scope.gamePace).toEqual('Live');
+      expect(scope.desiredPlayerCount).toEqual('SinglePlayer');
+      expect(scope.friends).toEqual([
+        {md5: 'md1', displayName: 'friend1'},
+        {md5: 'md2', displayName: 'friend2'},
+        {md5: 'md3', displayName: 'friend3'},
+        {md5: 'md4', displayName: 'friend4'}
+      ]);
+      expect(scope.invitableFBFriends).toEqual([
+        {id: 'if1', name: 'ifriend1'},
+        {id: 'if2', name: 'ifriend2'},
+        {id: 'if3', name: 'ifriend3', url: 'http://ifriend3image.png'}
+      ]);
+      expect(scope.gamePace).toEqual('Live');
+      expect(scope.wordPhraseSetter).toEqual('SystemPuzzles');
+      expect(scope.winners).toEqual('SingleWinner');
+      expect(scope.h2hEnabled).toBe(false);
+      expect(scope.alternatingEnabled).toBe(false);
+      expect(scope.allFinishedEnabled).toBe(false);
+      expect(scope.turnBasedEnabled).toBe(false);
+      expect(scope.submitEnabled).toBe(true);
+      expect(location.path).not.toHaveBeenCalled();
+    });
 
-    expect(scope.desiredPlayerCount).toEqual('SinglePlayer');
-    expect(scope.friends).toEqual([]);
-    expect(scope.gamePace).toEqual('Live');
-    expect(scope.wordPhraseSetter).toEqual('SystemPuzzles');
-    expect(scope.winners).toEqual('SingleWinner');
-    expect(scope.h2hEnabled).toBe(false);
-    expect(scope.alternatingEnabled).toBe(false);
-    expect(scope.allFinishedEnabled).toBe(false);
-    expect(scope.turnBasedEnabled).toBe(false);
-    expect(scope.submitEnabled).toBe(true);
-    expect(location.path).toHaveBeenCalledWith('/error');
+    it('show invite opens dialog', function () {
+      scope.showInvite();
+      expect(modalOpened).toEqual(true);
+    });
   });
 
   describe('post initialization', function () {
