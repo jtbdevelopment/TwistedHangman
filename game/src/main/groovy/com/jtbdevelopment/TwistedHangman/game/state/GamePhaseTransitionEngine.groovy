@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
 
+import java.time.ZoneId
+import java.time.ZonedDateTime
+
 /**
  * Date: 11/8/2014
  * Time: 4:18 PM
@@ -14,6 +17,8 @@ import org.springframework.util.StringUtils
 @Component
 @CompileStatic
 class GamePhaseTransitionEngine {
+    private static final ZoneId GMT = ZoneId.of('GMT')
+
     @Autowired
     GameRepository gameRepository
     @Autowired
@@ -42,11 +47,11 @@ class GamePhaseTransitionEngine {
                 def won = game.solverStates.values().find { IndividualGameState it -> it.puzzleSolved }
                 def pending = game.solverStates.values().find { IndividualGameState it -> !it.puzzleOver }
                 if (pending == null || (won != null && game.features.contains(GameFeature.SingleWinner))) {
+                    game.completedTimestamp = ZonedDateTime.now(GMT)
                     return gameScorer.scoreGame(changeStateAndReevaluate(GamePhase.RoundOver, game))
                 }
                 break;
             case GamePhase.RoundOver:
-                //  TODO - auto-rematch?
                 if (game.rematchTimestamp != null) {
                     return changeStateAndReevaluate(GamePhase.NextRoundStarted, game)
                 }

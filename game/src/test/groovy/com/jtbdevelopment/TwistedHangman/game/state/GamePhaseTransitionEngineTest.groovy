@@ -131,6 +131,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                     Game it ->
                         assert it.is(game)
                         assert it.gamePhase == GamePhase.RoundOver
+                        assert it.completedTimestamp
                         return scored
                 }
         ] as GameScorer
@@ -156,6 +157,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                     Game it ->
                         assert it.is(game)
                         assert it.gamePhase == GamePhase.RoundOver
+                        assert it.completedTimestamp
                         return scored
                 }
         ] as GameScorer
