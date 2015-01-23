@@ -47,6 +47,14 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
         $rootScope.$broadcast('playerLoaded');
       }
 
+      function signOutAndRedirect() {
+        $http.post('/signout').success(function () {
+          $window.location = '/';
+        }).error(function () {
+          $location.path('/error');
+        });
+      }
+
       function initializePlayer() {
         $http.get('/api/security', {cache: true}).success(function (response) {
           simulatedPlayer = response;
@@ -54,24 +62,20 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
           simulatedPID = simulatedPlayer.id;
           switch (simulatedPlayer.source) {
             case 'facebook':
-              twFacebook.playerAndFBMatch(simulatedPlayer, function (match) {
-                  if (!match) {
-                    $http.post('/signout').success(function () {
-                      $window.location = '/';
-                    }).error(function () {
-                      $location.path('/error');
-                    });
-                  } else {
-                    broadcastLoaded();
-                  }
+              twFacebook.playerAndFBMatch(simulatedPlayer).then(function (match) {
+                if (!match) {
+                  signOutAndRedirect();
+                } else {
+                  broadcastLoaded();
                 }
-              );
+              }, function () {
+                signOutAndRedirect();
+              });
               break;
             default:
               broadcastLoaded();
               break;
           }
-
         }).error(function () {
           $location.path('/error');
         });

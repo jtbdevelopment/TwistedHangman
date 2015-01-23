@@ -2,14 +2,14 @@
 'use strict';
 
 angular.module('twistedHangmanApp').factory('twFacebook',
-  ['$http', '$location',
-    function ($http, $location) {
+  ['$http', '$location', '$q',
+    function ($http, $location, $q) {
       var loaded = false;
       var facebookAppId = '';
 
-      //  TODO - should probably use promises not callbacks
       //  TODO - deal with facebook disconnect and such
-      function loadFB(callback) {
+      function loadFB() {
+        var fbLoaded = $q.defer();
         if (!loaded) {
           $http.get('/api/social/apis', {cache: true}).success(function (response) {
             facebookAppId = response.facebookAppId;
@@ -19,7 +19,7 @@ angular.module('twistedHangmanApp').factory('twFacebook',
                 xfbml: true,
                 version: 'v2.1'
               });
-              callback();
+              fbLoaded.resolve();
             };
 
             (function (d, s, id) {
@@ -36,23 +36,32 @@ angular.module('twistedHangmanApp').factory('twFacebook',
             loaded = true;
           }).error(function () {
             $location.path('/error');
+            fbLoaded.reject();
           });
+
+          return fbLoaded.promise;
         } else {
-          callback();
+          fbLoaded.resolve();
+          return fbLoaded.promise;
         }
       }
 
       return {
-        canAutoSignIn: function (callback) {
-          loadFB(function () {
+        canAutoSignIn: function () {
+          var autoDefer = $q.defer();
+          loadFB().then(function () {
             FB.getLoginStatus(function (response) {
-              callback(response.status === 'connected');
+              autoDefer.resolve(
+                angular.isDefined(response) &&
+                angular.isDefined(response.status) &&
+                response.status === 'connected');
             });
-            callback(false);
           });
+          return autoDefer.promise;
         },
+
         inviteFriends: function (ids) {
-          loadFB(function () {
+          loadFB().then(function () {
             var first = true;
             var s = '';
             angular.forEach(ids, function (id) {
@@ -72,23 +81,27 @@ angular.module('twistedHangmanApp').factory('twFacebook',
                 //  TODO - track?
                 console.info(JSON.stringify(response));
               });
+          }, function () {
+            //  TODO - alert error
           });
         },
-        playerAndFBMatch: function (player, callback) {
-          loadFB(function () {
+        playerAndFBMatch: function (player) {
+          var matchDeferred = $q.defer();
+          loadFB().then(function () {
             if (player.source === 'facebook') {
               FB.getLoginStatus(function (response) {
                 if (response.status === 'connected') {
-                  callback(response.authResponse.userID === player.sourceId);
+                  matchDeferred.resolve(response.authResponse.userID === player.sourceId);
                 }
                 else {
-                  callback(false);
+                  matchDeferred.resolve(false);
                 }
               });
             } else {
-              callback(false);
+              matchDeferred.resolve(false);
             }
           });
+          return matchDeferred.promise;
         }
       };
     }
