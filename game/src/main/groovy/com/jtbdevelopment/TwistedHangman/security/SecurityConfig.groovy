@@ -103,7 +103,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
             http.requiresChannel().antMatchers("/**").requiresSecure()
             http.rememberMe().useSecureCookie(true)
             http.csrf().csrfTokenRepository(csrfTokenRepository()).
-                    and().addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
+                    and().addFilterAfter(new XSRFTokenCookieFilter(), CsrfFilter.class)
         }
     }
 }

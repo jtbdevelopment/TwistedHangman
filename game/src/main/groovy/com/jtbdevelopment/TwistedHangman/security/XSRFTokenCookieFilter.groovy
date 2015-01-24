@@ -14,14 +14,13 @@ import javax.servlet.http.HttpServletResponse
  * Date: 1/23/15
  * Time: 5:27 PM
  */
-class CsrfHeaderFilter extends OncePerRequestFilter {
+class XSRFTokenCookieFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(
             final HttpServletRequest request,
             final HttpServletResponse response,
-            final FilterChain filterChain) throws ServletException, java.io.IOException {
-        CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class
-                .getName());
+            final FilterChain filterChain) throws ServletException {
+        CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
         if (csrf != null) {
             Cookie cookie = WebUtils.getCookie(request, "XSRF-TOKEN");
             String token = csrf.getToken();
