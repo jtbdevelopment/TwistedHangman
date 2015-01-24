@@ -9,11 +9,12 @@
  */
 angular.module('twistedHangmanApp')
   .controller('SignInCtrl',
-  ['$scope', '$window', 'twFacebook',
-    function ($scope, $window, twFacebook) {
+  ['$scope', '$window', '$cookies', 'twFacebook',
+    function ($scope, $window, $cookies, twFacebook) {
       $scope.message = 'Initializing...';
       $scope.showFacebook = false;
       $scope.showManual = false;
+      $scope.csrf = $cookies['XSRF-TOKEN'];
 
       function showLoginOptions() {
         $scope.showFacebook = true;

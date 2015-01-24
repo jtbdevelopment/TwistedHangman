@@ -15,6 +15,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.PortMapperImpl
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository
+import org.springframework.security.web.csrf.CsrfFilter
+import org.springframework.security.web.csrf.CsrfTokenRepository
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository
 import org.springframework.social.security.SpringSocialConfigurer
 
 import javax.annotation.PostConstruct
@@ -55,6 +58,12 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationManagerBuilder.authenticationProvider(daoAuthenticationProvider)
     }
 
+    private CsrfTokenRepository csrfTokenRepository() {
+        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository()
+        repository.setHeaderName('X-XSRF-TOKEN')
+        repository
+    }
+
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         PortMapperImpl portMapper = new PortMapperImpl()
@@ -77,8 +86,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 and().logout().logoutUrl("/signout").deleteCookies("JSESSIONID").
                 and().rememberMe().tokenRepository(persistentTokenRepository).userDetailsService(playerUserDetailsService).
                 and().portMapper().portMapper(portMapper).
-                and().csrf().disable().        //  TODO - what?
-                headers().frameOptions().disable(). //  TODO - better answer for this for canvas
+                and().headers().frameOptions().disable(). //  TODO - better answer for this for canvas
                 apply(new SpringSocialConfigurer().postLoginUrl("/"))
 
         if (Boolean.parseBoolean(securityProperties.getAllowBasicAuth())) {
@@ -90,10 +98,12 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
             logger.warn("-----------------------------------------------------")
             logger.warn("-----------------------------------------------------")
             logger.warn("-----------------------------------------------------")
-            http.httpBasic()
+            http.httpBasic().and().csrf().disable()
         } else {
             http.requiresChannel().antMatchers("/**").requiresSecure()
             http.rememberMe().useSecureCookie(true)
+            http.csrf().csrfTokenRepository(csrfTokenRepository()).
+                    and().addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
         }
     }
 }
