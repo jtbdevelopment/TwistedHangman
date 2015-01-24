@@ -7,7 +7,9 @@ angular.module('twistedHangmanApp').factory('twLiveGameFeed',
         url: '',
         contentType: 'application/json',
         logLevel: 'debug',
-        transport: 'websocket',
+        //  AWS doesn't support so kind of pointless and slow to default to it
+        //transport: 'websocket',
+        transport: 'long-polling',
         trackMessageLength: true,
         fallbackTransport: 'long-polling',
 
