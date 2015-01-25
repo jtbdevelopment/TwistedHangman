@@ -9,8 +9,8 @@
  */
 angular.module('twistedHangmanApp')
   .controller('MainCtrl',
-  ['$rootScope', '$scope', '$location', '$timeout', 'twPlayerService', 'twGameDetails',
-    function ($rootScope, $scope, $location, $timeout, twPlayerService, twGameDetails) {
+  ['$rootScope', '$scope', '$http', '$location', '$window', '$timeout', 'twPlayerService', 'twGameDetails',
+    function ($rootScope, $scope, $http, $location, $window, $timeout, twPlayerService, twGameDetails) {
       $scope.playerGreeting = '';
       //  TODO - initialize from local storage?
       $scope.alerts = [];
@@ -32,6 +32,14 @@ angular.module('twistedHangmanApp')
 
       $scope.refreshGames = function () {
         $rootScope.$broadcast('refreshGames', '');
+      };
+
+      $scope.logout = function () {
+        $http.post('/signout', {}).success(function () {
+          $window.location = '/signin';
+        }).error(function () {
+          $window.location = '/signin';
+        });
       };
 
       $scope.$on('playerLoaded', function () {
