@@ -102,7 +102,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         } else {
             http.requiresChannel().antMatchers("/**").requiresSecure()
             http.rememberMe().useSecureCookie(true)
-            http.csrf().csrfTokenRepository(csrfTokenRepository()).
+            http.csrf().csrfTokenRepository(csrfTokenRepository()).requireCsrfProtectionMatcher(new CanvasAllowingProtectionMatcher()).
                     and().addFilterAfter(new XSRFTokenCookieFilter(), CsrfFilter.class)
         }
     }
