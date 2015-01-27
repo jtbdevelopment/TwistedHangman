@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse
 /**
  * Date: 1/23/15
  * Time: 5:27 PM
+ *
+ * Based on https://spring.io/blog/2015/01/12/the-login-page-angular-js-and-spring-security-part-ii
  */
 class XSRFTokenCookieFilter extends OncePerRequestFilter {
     @Override

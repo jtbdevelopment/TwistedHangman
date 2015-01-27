@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.ObjectPostProcessor
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository
 
 import javax.annotation.PostConstruct
 import java.lang.reflect.Method
@@ -57,5 +58,10 @@ class SecurityConfigTest extends GroovyTestCase {
         //assert provider.passwordEncoder.is(securityConfig.injectedPasswordEncoder)
         assert encodeCalled
         assert provider.userDetailsService.is(securityConfig.playerUserDetailsService)
+    }
+
+    void testCsrfRepositoryTokenHeader() {
+        HttpSessionCsrfTokenRepository repository = securityConfig.csrfTokenRepository()
+        assert repository.headerName == 'X-XSRF-TOKEN'
     }
 }

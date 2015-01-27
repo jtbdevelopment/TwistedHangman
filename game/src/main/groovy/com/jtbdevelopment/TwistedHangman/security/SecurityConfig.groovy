@@ -59,7 +59,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationManagerBuilder.authenticationProvider(daoAuthenticationProvider)
     }
 
-    private CsrfTokenRepository csrfTokenRepository() {
+    protected CsrfTokenRepository csrfTokenRepository() {
         HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository()
         repository.setHeaderName('X-XSRF-TOKEN')
         repository
