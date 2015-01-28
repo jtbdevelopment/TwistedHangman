@@ -5,10 +5,12 @@ describe('Controller: MainCtrl', function () {
   // load the controller's module
   beforeEach(module('twistedHangmanApp'));
 
-  var MainCtrl, rootScope, scope, playerService, location, timeout, player, gameDetails;
+  var MainCtrl, rootScope, scope, playerService, location, timeout, player, gameDetails, window, http;
+  window = {location: jasmine.createSpy()};
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, $timeout, $location) {
+  beforeEach(inject(function ($controller, $rootScope, $timeout, $location, $httpBackend) {
+    http = $httpBackend;
     scope = $rootScope.$new();
     rootScope = $rootScope;
     timeout = $timeout;
@@ -24,6 +26,7 @@ describe('Controller: MainCtrl', function () {
     MainCtrl = $controller('MainCtrl', {
       $scope: scope,
       $location: location,
+      $window: window,
       twPlayerService: playerService,
       twGameDetails: gameDetails
     });
@@ -33,12 +36,14 @@ describe('Controller: MainCtrl', function () {
     expect(scope.playerGreeting).toEqual('');
     expect(scope.createRefreshEnabled).toEqual(false);
     expect(scope.showAdmin).toEqual(false);
+    expect(scope.showLogout).toEqual(false);
     rootScope.$broadcast('playerLoaded');
     rootScope.$apply();
     expect(scope.playerGreeting).toEqual('Welcome XYZ');
     expect(scope.alerts).toEqual([]);
     expect(scope.createRefreshEnabled).toEqual(true);
     expect(scope.showAdmin).toEqual(true);
+    expect(scope.showLogout).toEqual(false);
   });
 
   it('test refresh button', function () {
@@ -53,14 +58,30 @@ describe('Controller: MainCtrl', function () {
     expect(scope.playerGreeting).toEqual('Welcome XYZ');
     expect(scope.alerts).toEqual([]);
     expect(scope.showAdmin).toEqual(true);
+    expect(scope.showLogout).toEqual(false);
 
     scope.alerts.push('x');
-    player = {displayName: 'ABC', md5: '6666', adminUser: false};
+    player = {displayName: 'ABC', md5: '6666', adminUser: false, source: 'MANUAL'};
     rootScope.$broadcast('playerLoaded');
     rootScope.$apply();
     expect(scope.playerGreeting).toEqual('Welcome ABC');
     expect(scope.alerts).toEqual([]);
     expect(scope.showAdmin).toEqual(true);
+    expect(scope.showLogout).toEqual(true);
+  });
+
+  it('logout function success', function () {
+    http.expectPOST('/signout').respond({});
+    scope.logout();
+    http.flush();
+    expect(window.location).toEqual('/signin');
+  });
+
+  it('logout function fail', function () {
+    http.expectPOST('/signout').respond(404, {});
+    scope.logout();
+    http.flush();
+    expect(window.location).toEqual('/signin');
   });
 
   describe('go to game', function () {
