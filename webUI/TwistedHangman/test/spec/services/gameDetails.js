@@ -19,7 +19,8 @@ describe('Service: twGameDetails', function () {
       md2: 'Accepted',
       md3: 'Declined',
       md4: 'Quit',
-      md5: 'Accepted'
+      md5: 'Accepted',
+      md6: 'Rejected'
     },
     featureData: {},
     features: [],
@@ -43,6 +44,18 @@ describe('Service: twGameDetails', function () {
       expect(service.playerChallengeResponseNeeded(undef, 'md4')).toEqual(false);
       expect(service.playerChallengeResponseNeeded(game, undef)).toEqual(false);
       expect(service.playerChallengeResponseNeeded(game, ' ')).toEqual(false);
+    });
+
+    it('player icon based on state', function () {
+      expect(service.stateIconForPlayer(game, 'md1')).toEqual('inbox');
+      expect(service.stateIconForPlayer(game, 'md2')).toEqual('thumbs-up');
+      expect(service.stateIconForPlayer(game, 'md3')).toEqual('question-sign');
+      expect(service.stateIconForPlayer(game, 'md4')).toEqual('flag');
+      expect(service.stateIconForPlayer(game, 'md5')).toEqual('thumbs-up');
+      expect(service.stateIconForPlayer(game, 'md6')).toEqual('thumbs-down');
+      expect(service.stateIconForPlayer(undef, 'md4')).toEqual('question-sign');
+      expect(service.stateIconForPlayer(game, undef)).toEqual('question-sign');
+      expect(service.stateIconForPlayer(game, ' ')).toEqual('question-sign');
     });
 
     it('player response needed for game not in challenged ', function () {
