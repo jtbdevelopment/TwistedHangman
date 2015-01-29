@@ -5,6 +5,7 @@ describe('Service: playerService', function () {
   beforeEach(module('twistedHangmanApp'));
 
   var service, httpBackend, injector, rootScope, location;
+  var window = {location: jasmine.createSpy()};
 
   var testID = 'MANUAL1';
   var playerResult = {
@@ -14,9 +15,14 @@ describe('Service: playerService', function () {
     displayName: 'Manual Player1'
   };
   var friendResult = {maskedFriends: {1: '2', 5: '6'}, otherdata: ['1,', '2']};
+  beforeEach(module(function ($provide) {
+    $provide.factory('$window', function () {
+      return window;
+    });
+  }));
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($injector, $rootScope, $location, $httpBackend) {
+  beforeEach(inject(function ($injector, $rootScope, $location, $httpBackend, $window) {
     rootScope = $rootScope;
     location = $location;
     spyOn(rootScope, '$broadcast').and.callThrough();
@@ -155,6 +161,21 @@ describe('Service: playerService', function () {
 
       expect(friends).toEqual(friendResult);
     });
+
+    it('logout function success', function () {
+      httpBackend.expectPOST('/signout').respond({});
+      service.signOutAndRedirect();
+      httpBackend.flush();
+      expect(window.location).toEqual('/signin');
+    });
+
+    it('logout function fail', function () {
+      httpBackend.expectPOST('/signout').respond(404, {});
+      service.signOutAndRedirect();
+      httpBackend.flush();
+      expect(window.location).toEqual('/signin');
+    });
+
   });
 
   describe('with bad responses', function () {

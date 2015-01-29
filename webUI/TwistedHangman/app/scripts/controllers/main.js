@@ -9,8 +9,8 @@
  */
 angular.module('twistedHangmanApp')
   .controller('MainCtrl',
-  ['$rootScope', '$scope', '$http', '$location', '$window', '$timeout', 'twPlayerService', 'twGameDetails',
-    function ($rootScope, $scope, $http, $location, $window, $timeout, twPlayerService, twGameDetails) {
+  ['$rootScope', '$scope', '$location', '$timeout', 'twPlayerService', 'twGameDetails',
+    function ($rootScope, $scope, $location, $timeout, twPlayerService, twGameDetails) {
       $scope.playerGreeting = '';
       //  TODO - initialize from local storage?
       $scope.alerts = [];
@@ -36,11 +36,7 @@ angular.module('twistedHangmanApp')
       };
 
       $scope.logout = function () {
-        $http.post('/signout', {}).success(function () {
-          $window.location = '/signin';
-        }).error(function () {
-          $window.location = '/signin';
-        });
+        twPlayerService.signOutAndRedirect();
       };
 
       $scope.$on('playerLoaded', function () {
@@ -48,7 +44,7 @@ angular.module('twistedHangmanApp')
         var currentPlayer = twPlayerService.currentPlayer();
         $scope.playerGreeting = 'Welcome ' + currentPlayer.displayName;
         $scope.showAdmin = currentPlayer.adminUser || $scope.showAdmin;
-        $scope.showLogout = currentPlayer.source == 'MANUAL';
+        $scope.showLogout = currentPlayer.source === 'MANUAL';
         $scope.createRefreshEnabled = true;
       });
 

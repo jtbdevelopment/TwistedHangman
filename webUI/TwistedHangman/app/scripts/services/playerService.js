@@ -40,19 +40,19 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
         },
         currentPlayer: function () {
           return simulatedPlayer;
+        },
+
+        signOutAndRedirect: function () {
+          $http.post('/signout').success(function () {
+            $window.location = '/signin';
+          }).error(function () {
+            $window.location = '/signin';
+          });
         }
       };
 
       function broadcastLoaded() {
         $rootScope.$broadcast('playerLoaded');
-      }
-
-      function signOutAndRedirect() {
-        $http.post('/signout').success(function () {
-          $window.location = '/';
-        }).error(function () {
-          $location.path('/error');
-        });
       }
 
       function initializePlayer() {
@@ -64,12 +64,12 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
             case 'facebook':
               twFacebook.playerAndFBMatch(simulatedPlayer).then(function (match) {
                 if (!match) {
-                  signOutAndRedirect();
+                  service.signOutAndRedirect();
                 } else {
                   broadcastLoaded();
                 }
               }, function () {
-                signOutAndRedirect();
+                service.signOutAndRedirect();
               });
               break;
             default:

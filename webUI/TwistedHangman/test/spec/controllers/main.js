@@ -5,28 +5,30 @@ describe('Controller: MainCtrl', function () {
   // load the controller's module
   beforeEach(module('twistedHangmanApp'));
 
-  var MainCtrl, rootScope, scope, playerService, location, timeout, player, gameDetails, window, http;
-  window = {location: jasmine.createSpy()};
+  var MainCtrl, rootScope, scope, playerService, location, timeout, player, gameDetails;
+  var logoutCalled;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, $timeout, $location, $httpBackend) {
-    http = $httpBackend;
+  beforeEach(inject(function ($controller, $rootScope, $timeout, $location) {
     scope = $rootScope.$new();
     rootScope = $rootScope;
     timeout = $timeout;
     location = $location;
     gameDetails = {};
     spyOn(rootScope, '$broadcast').and.callThrough();
+    logoutCalled = false;
     playerService = {
       currentPlayer: function () {
         return player;
+      },
+      signOutAndRedirect: function () {
+        logoutCalled = true;
       }
     };
     player = {displayName: 'XYZ', md5: '1234', adminUser: true};
     MainCtrl = $controller('MainCtrl', {
       $scope: scope,
       $location: location,
-      $window: window,
       twPlayerService: playerService,
       twGameDetails: gameDetails
     });
@@ -70,18 +72,10 @@ describe('Controller: MainCtrl', function () {
     expect(scope.showLogout).toEqual(true);
   });
 
-  it('logout function success', function () {
-    http.expectPOST('/signout').respond({});
+  it('logout', function () {
+    expect(logoutCalled).toEqual(false);
     scope.logout();
-    http.flush();
-    expect(window.location).toEqual('/signin');
-  });
-
-  it('logout function fail', function () {
-    http.expectPOST('/signout').respond(404, {});
-    scope.logout();
-    http.flush();
-    expect(window.location).toEqual('/signin');
+    expect(logoutCalled).toEqual(true);
   });
 
   describe('go to game', function () {
