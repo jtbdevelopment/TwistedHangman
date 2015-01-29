@@ -22,6 +22,14 @@ describe('Service: twGameDetails', function () {
       md5: 'Accepted',
       md6: 'Rejected'
     },
+    playerImages: {
+      md1: 'someimagelink',
+      md2: 'anotherlink'
+    },
+    playerProfiles: {
+      md1: 'someprofile',
+      md2: 'anotherprofile'
+    },
     featureData: {},
     features: [],
     playerRunningScores: {'md1': 0, 'md2': 2, 'md3': 10, 'md4': -3, 'md5': -5},
@@ -56,6 +64,28 @@ describe('Service: twGameDetails', function () {
       expect(service.stateIconForPlayer(undef, 'md4')).toEqual('question-sign');
       expect(service.stateIconForPlayer(game, undef)).toEqual('question-sign');
       expect(service.stateIconForPlayer(game, ' ')).toEqual('question-sign');
+    });
+
+    it('player profile', function () {
+      expect(service.profileForPlayer(game, 'md1')).toEqual('someprofile');
+      expect(service.profileForPlayer(game, 'md2')).toEqual('anotherprofile');
+      expect(service.profileForPlayer(game, 'md3')).toEqual('');
+      expect(service.profileForPlayer(game, 'md4')).toEqual('');
+      expect(service.profileForPlayer(game, 'md5')).toEqual('');
+      expect(service.profileForPlayer(undef, 'md4')).toEqual('');
+      expect(service.profileForPlayer(game, undef)).toEqual('');
+      expect(service.profileForPlayer(game, ' ')).toEqual('');
+    });
+
+    it('player image', function () {
+      expect(service.imageForPlayer(game, 'md1')).toEqual('someimagelink');
+      expect(service.imageForPlayer(game, 'md2')).toEqual('anotherlink');
+      expect(service.imageForPlayer(game, 'md3')).toEqual(null);
+      expect(service.imageForPlayer(game, 'md4')).toEqual(null);
+      expect(service.imageForPlayer(game, 'md5')).toEqual(null);
+      expect(service.imageForPlayer(undef, 'md4')).toEqual(null);
+      expect(service.imageForPlayer(game, undef)).toEqual(null);
+      expect(service.imageForPlayer(game, ' ')).toEqual(null);
     });
 
     it('player response needed for game not in challenged ', function () {
