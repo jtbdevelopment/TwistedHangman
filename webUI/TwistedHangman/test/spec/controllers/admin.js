@@ -15,7 +15,7 @@ describe('Controller: AdminCtrl', function () {
     http = $httpBackend;
     realPID = 'REAL';
     overridePID = '';
-    window = {location: jasmine.createSpy()};
+
     mockPlayerService = {
       realPID: function () {
         return realPID;
