@@ -286,22 +286,32 @@ describe('Service: twGameDetails', function () {
   });
 
   describe('testing the description function', function () {
+    it('undef', function () {
+      game.features = ['Thieving', 'TurnBased', 'SystemPuzzles', 'SinglePlayer', 'SingleWinner'];
+      game.featureData.TurnBased = 'md2';
+      expect(service.gameDescription(undefined)).toEqual('');
+      expect(service.shortGameDescription(undefined)).toEqual('');
+    });
+
     it('1', function () {
       game.features = ['Thieving', 'TurnBased', 'SystemPuzzles', 'SinglePlayer', 'SingleWinner'];
       game.featureData.TurnBased = 'md2';
       expect(service.gameDescription(game)).toEqual('Thieving Allowed, Generated Puzzle, P2\'s Turn');
+      expect(service.shortGameDescription(game)).toEqual('Thieving, Generated, Turns');
     });
 
     it('2', function () {
       game.features = ['AlternatingPuzzleSetter', 'TwoPlayer', 'SingleWinner'];
       game.featureData.TurnBased = 'md2';
       expect(service.gameDescription(game)).toEqual('Puzzle Set By P4, Until First Solver, Live Play');
+      expect(service.shortGameDescription(game)).toEqual('Player Puzzle, 1st Solver, Live');
     });
 
     it('3', function () {
       game.features = [];
       game.featureData.TurnBased = 'md2';
       expect(service.gameDescription(game)).toEqual('Head-2-Head Puzzles, Until All Finish, Live Play');
+      expect(service.shortGameDescription(game)).toEqual('Head-2-Head, All Finish, Live');
     });
   });
 
