@@ -4,7 +4,8 @@ describe('Service: playerService', function () {
   // load the controller's module
   beforeEach(module('twistedHangmanApp'));
 
-  var service, httpBackend, injector, rootScope, location;
+  var service, httpBackend, injector, rootScope, location, q;
+  var window = {location: jasmine.createSpy()};
 
   var testID = 'MANUAL1';
   var playerResult = {
@@ -15,10 +16,28 @@ describe('Service: playerService', function () {
   };
   var friendResult = {maskedFriends: {1: '2', 5: '6'}, otherdata: ['1,', '2']};
 
+  var facebookDeferred, matchedPlayer;
+  beforeEach(module(function ($provide) {
+    var facebookService = {
+      playerAndFBMatch: function (player) {
+        matchedPlayer = player;
+        facebookDeferred = q.defer();
+        return facebookDeferred.promise;
+      }
+    };
+    $provide.factory('twFacebook', function () {
+      return facebookService;
+    });
+    $provide.factory('$window', function () {
+      return window;
+    });
+  }));
+
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($injector, $rootScope, $location, $httpBackend) {
+  beforeEach(inject(function ($injector, $rootScope, $location, $httpBackend, $q) {
     rootScope = $rootScope;
     location = $location;
+    q = $q;
     spyOn(rootScope, '$broadcast').and.callThrough();
     spyOn(location, 'path');
     httpBackend = $httpBackend;
@@ -155,6 +174,21 @@ describe('Service: playerService', function () {
 
       expect(friends).toEqual(friendResult);
     });
+
+    it('logout function success', function () {
+      httpBackend.expectPOST('/signout').respond({});
+      service.signOutAndRedirect();
+      httpBackend.flush();
+      expect(window.location).toEqual('/signin');
+    });
+
+    it('logout function fail', function () {
+      httpBackend.expectPOST('/signout').respond(404, {});
+      service.signOutAndRedirect();
+      httpBackend.flush();
+      expect(window.location).toEqual('/signin');
+    });
+
   });
 
   describe('with bad responses', function () {
@@ -174,5 +208,74 @@ describe('Service: playerService', function () {
     });
   });
 
+  describe('with facebook player', function () {
+    var fbPlayerResult = {
+      id: testID,
+      md5: 'b8da6510b173e84f6cd3a2bd697d7612',
+      disabled: false,
+      displayName: 'Manual Player1',
+      source: 'facebook'
+    };
+    beforeEach(function () {
+      httpBackend.expectGET('/api/security').respond(fbPlayerResult);
+      matchedPlayer = {};
+      service = injector.get('twPlayerService');
+    });
+
+    it('initializes and can autologin', function () {
+      expect(service.currentID()).toEqual('');
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player');
+      expect(service.realPID()).toEqual('');
+      expect(service.currentPlayer()).toBeUndefined();
+      httpBackend.flush();
+      facebookDeferred.resolve(true);
+      rootScope.$apply();
+      expect(service.currentID()).toEqual(testID);
+      expect(service.realPID()).toEqual(testID);
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player');
+      expect(service.currentPlayer()).toEqual(fbPlayerResult);
+      expect(rootScope.$broadcast).toHaveBeenCalledWith('playerLoaded');
+      expect(location.path).not.toHaveBeenCalledWith('/error');
+      expect(matchedPlayer).toEqual(fbPlayerResult);
+    });
+
+    it('initializes and cannot autologin', function () {
+      expect(service.currentID()).toEqual('');
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player');
+      expect(service.realPID()).toEqual('');
+      expect(service.currentPlayer()).toBeUndefined();
+      httpBackend.flush();
+      facebookDeferred.resolve(false);
+      httpBackend.expectPOST('/signout').respond({});
+      rootScope.$apply();
+      httpBackend.flush();
+      expect(service.currentID()).toEqual(testID);
+      expect(service.realPID()).toEqual(testID);
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player');
+      expect(service.currentPlayer()).toEqual(fbPlayerResult);
+      expect(rootScope.$broadcast).not.toHaveBeenCalledWith('playerLoaded');
+      expect(matchedPlayer).toEqual(fbPlayerResult);
+      expect(window.location).toEqual('/signin');
+    });
+
+    it('initializes and cannot autologin with fb error', function () {
+      expect(service.currentID()).toEqual('');
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player');
+      expect(service.realPID()).toEqual('');
+      expect(service.currentPlayer()).toBeUndefined();
+      httpBackend.flush();
+      facebookDeferred.reject();
+      httpBackend.expectPOST('/signout').respond({});
+      rootScope.$apply();
+      httpBackend.flush();
+      expect(service.currentID()).toEqual(testID);
+      expect(service.realPID()).toEqual(testID);
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player');
+      expect(service.currentPlayer()).toEqual(fbPlayerResult);
+      expect(rootScope.$broadcast).not.toHaveBeenCalledWith('playerLoaded');
+      expect(matchedPlayer).toEqual(fbPlayerResult);
+      expect(window.location).toEqual('/signin');
+    });
+  });
 });
 

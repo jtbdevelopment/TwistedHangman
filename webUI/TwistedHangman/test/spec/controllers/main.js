@@ -6,6 +6,7 @@ describe('Controller: MainCtrl', function () {
   beforeEach(module('twistedHangmanApp'));
 
   var MainCtrl, rootScope, scope, playerService, location, timeout, player, gameDetails;
+  var logoutCalled;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope, $timeout, $location) {
@@ -15,9 +16,13 @@ describe('Controller: MainCtrl', function () {
     location = $location;
     gameDetails = {};
     spyOn(rootScope, '$broadcast').and.callThrough();
+    logoutCalled = false;
     playerService = {
       currentPlayer: function () {
         return player;
+      },
+      signOutAndRedirect: function () {
+        logoutCalled = true;
       }
     };
     player = {displayName: 'XYZ', md5: '1234', adminUser: true};
@@ -33,12 +38,14 @@ describe('Controller: MainCtrl', function () {
     expect(scope.playerGreeting).toEqual('');
     expect(scope.createRefreshEnabled).toEqual(false);
     expect(scope.showAdmin).toEqual(false);
+    expect(scope.showLogout).toEqual(false);
     rootScope.$broadcast('playerLoaded');
     rootScope.$apply();
     expect(scope.playerGreeting).toEqual('Welcome XYZ');
     expect(scope.alerts).toEqual([]);
     expect(scope.createRefreshEnabled).toEqual(true);
     expect(scope.showAdmin).toEqual(true);
+    expect(scope.showLogout).toEqual(false);
   });
 
   it('test refresh button', function () {
@@ -53,14 +60,22 @@ describe('Controller: MainCtrl', function () {
     expect(scope.playerGreeting).toEqual('Welcome XYZ');
     expect(scope.alerts).toEqual([]);
     expect(scope.showAdmin).toEqual(true);
+    expect(scope.showLogout).toEqual(false);
 
     scope.alerts.push('x');
-    player = {displayName: 'ABC', md5: '6666', adminUser: false};
+    player = {displayName: 'ABC', md5: '6666', adminUser: false, source: 'MANUAL'};
     rootScope.$broadcast('playerLoaded');
     rootScope.$apply();
     expect(scope.playerGreeting).toEqual('Welcome ABC');
     expect(scope.alerts).toEqual([]);
     expect(scope.showAdmin).toEqual(true);
+    expect(scope.showLogout).toEqual(true);
+  });
+
+  it('logout', function () {
+    expect(logoutCalled).toEqual(false);
+    scope.logout();
+    expect(logoutCalled).toEqual(true);
   });
 
   describe('go to game', function () {

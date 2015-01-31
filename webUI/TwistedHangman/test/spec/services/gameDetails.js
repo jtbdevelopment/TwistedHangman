@@ -19,7 +19,8 @@ describe('Service: twGameDetails', function () {
       md2: 'Accepted',
       md3: 'Declined',
       md4: 'Quit',
-      md5: 'Accepted'
+      md5: 'Accepted',
+      md6: 'Rejected'
     },
     featureData: {},
     features: [],
@@ -43,6 +44,18 @@ describe('Service: twGameDetails', function () {
       expect(service.playerChallengeResponseNeeded(undef, 'md4')).toEqual(false);
       expect(service.playerChallengeResponseNeeded(game, undef)).toEqual(false);
       expect(service.playerChallengeResponseNeeded(game, ' ')).toEqual(false);
+    });
+
+    it('player icon based on state', function () {
+      expect(service.stateIconForPlayer(game, 'md1')).toEqual('inbox');
+      expect(service.stateIconForPlayer(game, 'md2')).toEqual('thumbs-up');
+      expect(service.stateIconForPlayer(game, 'md3')).toEqual('question-sign');
+      expect(service.stateIconForPlayer(game, 'md4')).toEqual('flag');
+      expect(service.stateIconForPlayer(game, 'md5')).toEqual('thumbs-up');
+      expect(service.stateIconForPlayer(game, 'md6')).toEqual('thumbs-down');
+      expect(service.stateIconForPlayer(undef, 'md4')).toEqual('question-sign');
+      expect(service.stateIconForPlayer(game, undef)).toEqual('question-sign');
+      expect(service.stateIconForPlayer(game, ' ')).toEqual('question-sign');
     });
 
     it('player response needed for game not in challenged ', function () {
@@ -154,6 +167,13 @@ describe('Service: twGameDetails', function () {
       });
     });
 
+    it('roleIcon for player', function () {
+      expect(service.roleIconForPlayer(game, 'md4')).toEqual('eye-open');
+      ['md1', 'md2', 'md3', 'md5'].forEach(function (md) {
+        expect(service.roleIconForPlayer(game, md)).toEqual('pencil');
+      });
+    });
+
     it('role for player with undefined game/player', function () {
       expect(service.roleForPlayer(undef, 'md4')).toEqual('');
       expect(service.roleForPlayer(game, undef)).toEqual('');
@@ -163,6 +183,12 @@ describe('Service: twGameDetails', function () {
       expect(service.playerIsSetter(game, ' ')).toEqual(false);
     });
 
+    it('roleIcon for player with undefined game/player', function () {
+      expect(service.roleIconForPlayer(undef, 'md4')).toEqual('question-sign');
+      expect(service.roleIconForPlayer(game, undef)).toEqual('question-sign');
+      expect(service.roleIconForPlayer(game, ' ')).toEqual('question-sign');
+    });
+
     it('gameEndForPlayer for player', function () {
       expect(service.gameEndForPlayer(game, 'md1')).toEqual('Solved!');
       expect(service.gameEndForPlayer(game, 'md2')).toEqual('Hung!');
@@ -170,11 +196,24 @@ describe('Service: twGameDetails', function () {
       expect(service.gameEndForPlayer(game, 'md4')).toEqual('N/A');
       expect(service.gameEndForPlayer(game, 'md5')).toEqual('Unknown');
     });
+    it('gameStateIconForPlayer for player', function () {
+      expect(service.gameStateIconForPlayer(game, 'md1')).toEqual('ok');
+      expect(service.gameStateIconForPlayer(game, 'md2')).toEqual('remove');
+      expect(service.gameStateIconForPlayer(game, 'md3')).toEqual('search');
+      expect(service.gameStateIconForPlayer(game, 'md4')).toEqual('question-sign');
+      expect(service.gameStateIconForPlayer(game, 'md5')).toEqual('question-sign');
+    });
 
     it('gameEndForPlayer with undefined game', function () {
       expect(service.gameEndForPlayer(undef, 'md4')).toEqual('');
       expect(service.gameEndForPlayer(game, undef)).toEqual('');
       expect(service.gameEndForPlayer(game, ' ')).toEqual('');
+    });
+
+    it('gameStateIconForPlayer with undefined game', function () {
+      expect(service.gameStateIconForPlayer(undef, 'md4')).toEqual('question-sign');
+      expect(service.gameStateIconForPlayer(game, undef)).toEqual('question-sign');
+      expect(service.gameStateIconForPlayer(game, ' ')).toEqual('question-sign');
     });
 
     it('stateForPlayer for player', function () {

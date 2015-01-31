@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twistedHangmanApp').controller('AdminCtrl',
-  ['$rootScope', '$scope', '$http', '$location', 'twPlayerService',
-    function ($rootScope, $scope, $http, $location, twPlayerService) {
+  ['$scope', '$http', '$location', 'twPlayerService',
+    function ($scope, $http, $location, twPlayerService) {
       $scope.searchText = '';
       $scope.players = [];
       $scope.selected = {};
@@ -10,8 +10,8 @@ angular.module('twistedHangmanApp').controller('AdminCtrl',
         $scope.players = data;
 
       }).error(function (data, status, headers, config) {
-        //  TODO
         console.error(data + status + headers + config);
+        $location.path('/error');
       });
 
       $scope.changeUser = function () {
