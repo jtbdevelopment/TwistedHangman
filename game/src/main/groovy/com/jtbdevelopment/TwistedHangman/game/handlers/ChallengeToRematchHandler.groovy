@@ -5,7 +5,7 @@ import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
-import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayer
+import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
 import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -37,7 +37,7 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
         Game transitioned = gamePublisher.publish(
                 gameRepository.save(
                         transitionEngine.evaluateGamePhaseForGame(previousGame)),
-                TwistedHangmanSystemPlayer.TH_PLAYER)
+                TwistedHangmanSystemPlayerCreator.TH_PLAYER)
         //  We set to system player so it gets published to all players, including this one
         //  TODO - handle newGame setup failing..
         Game newGame = setupGame(transitioned, player)

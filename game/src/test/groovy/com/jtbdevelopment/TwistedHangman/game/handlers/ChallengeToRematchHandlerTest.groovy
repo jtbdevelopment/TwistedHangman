@@ -9,7 +9,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
-import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayer
+import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
 import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import org.bson.types.ObjectId
@@ -62,7 +62,7 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
                 publish: {
                     Game g, MongoPlayer p ->
                         assert g.is(previousS)
-                        assert p.is(TwistedHangmanSystemPlayer.TH_PLAYER)
+                        assert p.is(TwistedHangmanSystemPlayerCreator.TH_PLAYER)
                         previousP
                 }
         ] as GamePublisher

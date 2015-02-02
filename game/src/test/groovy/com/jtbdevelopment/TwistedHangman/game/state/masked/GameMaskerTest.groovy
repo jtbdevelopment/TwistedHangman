@@ -5,7 +5,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
-import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayer
+import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
 import com.jtbdevelopment.games.games.PlayerState
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import org.bson.types.ObjectId
@@ -36,7 +36,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         Game game = new Game(
                 gamePhase: GamePhase.Playing,
                 players: [PONE],
-                wordPhraseSetter: TwistedHangmanSystemPlayer.TH_PLAYER.id,
+                wordPhraseSetter: TwistedHangmanSystemPlayerCreator.TH_PLAYER.id,
                 created: ZonedDateTime.now(),
                 completedTimestamp: ZonedDateTime.now(),
                 declinedTimestamp: ZonedDateTime.now(),
@@ -67,7 +67,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         assert maskedGame.playerRoundScores == [(PONE.md5): 0]
         assert maskedGame.maskedForPlayerID == PONE.id.toHexString()
         assert maskedGame.maskedForPlayerMD5 == PONE.md5
-        assert maskedGame.wordPhraseSetter == TwistedHangmanSystemPlayer.TH_PLAYER.md5
+        assert maskedGame.wordPhraseSetter == TwistedHangmanSystemPlayerCreator.TH_PLAYER.md5
         assert maskedGame.featureData == game.featureData
 
         assert maskedGame.solverStates.size() == 1 && maskedGame.solverStates.containsKey(PONE.md5)
@@ -219,12 +219,12 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         )
 
         LinkedHashMap<ObjectId, IndividualGameState> states = [(PONE.id): state1, (PTWO.id): state2, (PTHREE.id): state3]
-        Game game = makeMultiPlayerGame(TwistedHangmanSystemPlayer.TH_PLAYER, states)
+        Game game = makeMultiPlayerGame(TwistedHangmanSystemPlayerCreator.TH_PLAYER, states)
 
         MaskedGame maskedGame = masker.maskGameForPlayer(game, PONE)
         checkUnmaskedGameFields(maskedGame, game)
         checkMultiPlayerGame(maskedGame)
-        assert maskedGame.wordPhraseSetter == TwistedHangmanSystemPlayer.TH_PLAYER.md5
+        assert maskedGame.wordPhraseSetter == TwistedHangmanSystemPlayerCreator.TH_PLAYER.md5
         assert maskedGame.maskedForPlayerID == PONE.id.toHexString()
         assert maskedGame.maskedForPlayerMD5 == PONE.md5
         assert maskedGame.solverStates.size() == 3 && maskedGame.solverStates.containsKey(PONE.md5)
@@ -242,7 +242,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         maskedGame = masker.maskGameForPlayer(game, PTHREE)
         checkUnmaskedGameFields(maskedGame, game)
         checkMultiPlayerGame(maskedGame)
-        assert maskedGame.wordPhraseSetter == TwistedHangmanSystemPlayer.TH_PLAYER.md5
+        assert maskedGame.wordPhraseSetter == TwistedHangmanSystemPlayerCreator.TH_PLAYER.md5
         assert maskedGame.maskedForPlayerMD5 == PTHREE.md5
         assert maskedGame.solverStates.size() == 3 && maskedGame.solverStates.containsKey(PTHREE.md5)
         maskedState = maskedGame.solverStates[PTHREE.md5]

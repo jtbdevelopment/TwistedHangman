@@ -3,7 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 import com.jtbdevelopment.TwistedHangman.game.factory.GameInitializer
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayer
+import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
@@ -18,7 +18,7 @@ class ChallengerInitializer implements GameInitializer {
     @Override
     void initializeGame(final Game game) {
         if (game.features.contains(GameFeature.SystemPuzzles)) {
-            game.wordPhraseSetter = (ObjectId) TwistedHangmanSystemPlayer.TH_PLAYER.id
+            game.wordPhraseSetter = (ObjectId) TwistedHangmanSystemPlayerCreator.TH_PLAYER.id
         } else if (game.features.contains(GameFeature.AlternatingPuzzleSetter)) {
             game.wordPhraseSetter = game.players[0].id
         } else if (game.features.contains(GameFeature.TwoPlayer)) {

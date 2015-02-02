@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
-import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayer
+import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
 import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -38,7 +38,7 @@ class GameScorer {
                 }
         }
 
-        if (game.wordPhraseSetter != null && game.wordPhraseSetter != TwistedHangmanSystemPlayer.TH_PLAYER.id) {
+        if (game.wordPhraseSetter != null && game.wordPhraseSetter != TwistedHangmanSystemPlayerCreator.TH_PLAYER.id) {
             int net = losers - winners
             game.playerRoundScores[game.wordPhraseSetter] = net
             game.playerRunningScores[game.wordPhraseSetter] = game.playerRunningScores[game.wordPhraseSetter] + net

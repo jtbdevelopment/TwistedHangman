@@ -4,7 +4,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
-import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayer
+import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
 import com.jtbdevelopment.games.games.PlayerState
 import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
@@ -68,8 +68,8 @@ class GameMasker {
         }
         playerMaskedGame.wordPhraseSetter =
                 game.wordPhraseSetter ?
-                        game.wordPhraseSetter == TwistedHangmanSystemPlayer.TH_PLAYER.id ?
-                                TwistedHangmanSystemPlayer.TH_PLAYER.md5 :
+                        game.wordPhraseSetter == TwistedHangmanSystemPlayerCreator.TH_PLAYER.id ?
+                                TwistedHangmanSystemPlayerCreator.TH_PLAYER.md5 :
                                 idmap[game.wordPhraseSetter].md5 : null
     }
 

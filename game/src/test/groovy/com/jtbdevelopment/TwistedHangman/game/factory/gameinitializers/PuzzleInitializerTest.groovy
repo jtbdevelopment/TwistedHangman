@@ -4,7 +4,7 @@ import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
-import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayer
+import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
 
 /**
  * Date: 11/5/14
@@ -20,7 +20,7 @@ class PuzzleInitializerTest extends TwistedHangmanTestCase {
         def features = [GameFeature.DrawFace, GameFeature.ThievingCountTracking] as Set
         game.players = players
         game.features += features
-        game.wordPhraseSetter = TwistedHangmanSystemPlayer.TH_PLAYER.id
+        game.wordPhraseSetter = TwistedHangmanSystemPlayerCreator.TH_PLAYER.id
         game.features
         initializer.initializeGame(game)
 
