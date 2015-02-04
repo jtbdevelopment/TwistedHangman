@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twistedHangmanApp').controller('CreateCtrl',
-  ['$scope', 'twGameCache', 'twGameFeatureService', 'twPlayerService', '$http', '$location', '$modal',
-    function ($scope, twGameCache, twGameFeatureService, twPlayerService, $http, $location, $modal) {
+  ['$scope', 'twGameCache', 'twGameFeatureService', 'twPlayerService', '$http', '$location', '$modal', 'twAds',
+    function ($scope, twGameCache, twGameFeatureService, twPlayerService, $http, $location, $modal, twAds) {
 
       var SINGLE_PLAYER = 'SinglePlayer';
       var TWO_PLAYERS = 'TwoPlayer';
@@ -114,29 +114,31 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
       };
 
       $scope.createGame = function () {
-        var featureNames = ['wordPhraseSetter', 'desiredPlayerCount', 'thieving', 'drawGallows', 'drawFace', 'gamePace', 'winners'];
-        var featureSet = [];
-        featureSet = featureSet.concat(featureNames.map(function (name) {
-            var data = $scope[name];
-            if ((angular.isDefined(data)) && (data !== '')) {
-              return data;
+        twAds.showAdPopup().result.then(function () {
+          var featureNames = ['wordPhraseSetter', 'desiredPlayerCount', 'thieving', 'drawGallows', 'drawFace', 'gamePace', 'winners'];
+          var featureSet = [];
+          featureSet = featureSet.concat(featureNames.map(function (name) {
+              var data = $scope[name];
+              if ((angular.isDefined(data)) && (data !== '')) {
+                return data;
+              }
+              return '';
             }
-            return '';
-          }
-        ).filter(function (item) {
-            return item !== '';
-          }));
+          ).filter(function (item) {
+              return item !== '';
+            }));
 
-        var players = $scope.playerChoices.map(function (player) {
-          return player.md5;
-        });
-        var playersAndFeatures = {'players': players, 'features': featureSet};
-        $http.post(twPlayerService.currentPlayerBaseURL() + '/new', playersAndFeatures).success(function (data) {
-          twGameCache.putUpdatedGame(data);
-          $location.path('/show/' + data.id);
-        }).error(function (data, status, headers, config) {
-          $scope.alerts.push({type: 'danger', msg: 'Error creating game - ' + status + ':' + data});
-          console.error(data + status + headers + config);
+          var players = $scope.playerChoices.map(function (player) {
+            return player.md5;
+          });
+          var playersAndFeatures = {'players': players, 'features': featureSet};
+          $http.post(twPlayerService.currentPlayerBaseURL() + '/new', playersAndFeatures).success(function (data) {
+            twGameCache.putUpdatedGame(data);
+            $location.path('/show/' + data.id);
+          }).error(function (data, status, headers, config) {
+            $scope.alerts.push({type: 'danger', msg: 'Error creating game - ' + status + ':' + data});
+            console.error(data + status + headers + config);
+          });
         });
       };
 

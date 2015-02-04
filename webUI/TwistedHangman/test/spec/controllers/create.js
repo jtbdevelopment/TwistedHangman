@@ -61,6 +61,15 @@ describe('Controller: CreateCtrl', function () {
     }
   };
 
+  var adPopupModalResult, ads, adsCalled;
+  ads = {
+    showAdPopup: function () {
+      adPopupModalResult = q.defer();
+      adsCalled = true;
+      return {result: adPopupModalResult.promise};
+    }
+  };
+
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($rootScope, $httpBackend, $q, $controller) {
     rootScope = $rootScope;
@@ -74,9 +83,11 @@ describe('Controller: CreateCtrl', function () {
       twGameCache: gameCache,
       twGameFeatureService: mockFeatureService,
       twPlayerService: mockPlayerService,
+      twAds: ads,
       $location: location
     });
 
+    adsCalled = false;
   }));
 
   describe('core initialization tests', function () {
@@ -111,6 +122,7 @@ describe('Controller: CreateCtrl', function () {
       expect(scope.turnBasedEnabled).toBe(false);
       expect(scope.submitEnabled).toBe(true);
       expect(location.path).not.toHaveBeenCalled();
+      expect(adsCalled).toEqual(false);
     });
 
     it('errors on features', function () {
@@ -141,6 +153,7 @@ describe('Controller: CreateCtrl', function () {
       expect(scope.turnBasedEnabled).toBe(false);
       expect(scope.submitEnabled).toBe(true);
       expect(location.path).toHaveBeenCalledWith('/error');
+      expect(adsCalled).toEqual(false);
     });
 
     it('errors on friends', function () {
@@ -166,6 +179,7 @@ describe('Controller: CreateCtrl', function () {
       expect(scope.turnBasedEnabled).toBe(false);
       expect(scope.submitEnabled).toBe(true);
       expect(location.path).toHaveBeenCalledWith('/error');
+      expect(adsCalled).toEqual(false);
     });
   });
 
@@ -228,11 +242,13 @@ describe('Controller: CreateCtrl', function () {
       expect(scope.turnBasedEnabled).toBe(false);
       expect(scope.submitEnabled).toBe(true);
       expect(location.path).not.toHaveBeenCalled();
+      expect(adsCalled).toEqual(false);
     });
 
     it('show invite opens dialog', function () {
       scope.showInvite();
       expect(modalOpened).toEqual(true);
+      expect(adsCalled).toEqual(false);
     });
   });
 
@@ -276,6 +292,7 @@ describe('Controller: CreateCtrl', function () {
       expect(scope.allFinishedEnabled).toBe(false);
       expect(scope.turnBasedEnabled).toBe(false);
       expect(scope.submitEnabled).toBe(true);
+      expect(adsCalled).toEqual(false);
     });
 
     it('changes to two player from multiplayer', function () {
@@ -314,6 +331,7 @@ describe('Controller: CreateCtrl', function () {
       expect(scope.allFinishedEnabled).toBe(true);
       expect(scope.turnBasedEnabled).toBe(true);
       expect(scope.submitEnabled).toBe(false);
+      expect(adsCalled).toEqual(false);
     });
 
     it('changes to two player from multiplayer with only one opponent', function () {
@@ -322,6 +340,7 @@ describe('Controller: CreateCtrl', function () {
       scope.setTwoPlayers();
       expect(scope.playerChoices).toEqual([scope.friends[1]]);
       expect(scope.submitEnabled).toBe(true);
+      expect(adsCalled).toEqual(false);
     });
 
     it('changes to multi player from multiplayer', function () {
@@ -360,7 +379,7 @@ describe('Controller: CreateCtrl', function () {
       expect(scope.allFinishedEnabled).toBe(true);
       expect(scope.turnBasedEnabled).toBe(true);
       expect(scope.submitEnabled).toBe(true);
-
+      expect(adsCalled).toEqual(false);
     });
 
     it('test submit enable for single player game', function () {
@@ -378,6 +397,7 @@ describe('Controller: CreateCtrl', function () {
       scope.clearPlayers();
       expect(scope.playerChoices).toEqual([]);
       expect(scope.submitEnabled).toBe(true);
+      expect(adsCalled).toEqual(false);
     });
 
 
@@ -408,6 +428,7 @@ describe('Controller: CreateCtrl', function () {
       scope.clearPlayers();
       expect(scope.playerChoices).toEqual([]);
       expect(scope.submitEnabled).toBe(false);
+      expect(adsCalled).toEqual(false);
     });
 
     it('test submit enable for multi player game', function () {
@@ -434,6 +455,7 @@ describe('Controller: CreateCtrl', function () {
       scope.clearPlayers();
       expect(scope.playerChoices).toEqual([]);
       expect(scope.submitEnabled).toBe(false);
+      expect(adsCalled).toEqual(false);
     });
 
     it('test create game submission sp', function () {
@@ -445,9 +467,11 @@ describe('Controller: CreateCtrl', function () {
         features: ['SystemPuzzles', 'SinglePlayer', 'Thieving', 'DrawFace', 'Live', 'SingleWinner']
       }).respond(createdGame);
       scope.createGame();
+      adPopupModalResult.resolve();
       http.flush();
       expect(gameCache.putUpdatedGame).toHaveBeenCalledWith(createdGame);
       expect(location.path).toHaveBeenCalledWith('/show/anid');
+      expect(adsCalled).toEqual(true);
     });
 
     it('test create game submission 2player', function () {
@@ -465,9 +489,11 @@ describe('Controller: CreateCtrl', function () {
         features: ['Head2Head', 'TwoPlayer', 'TurnBased', 'SingleWinner']
       }).respond(createdGame);
       scope.createGame();
+      adPopupModalResult.resolve();
       http.flush();
       expect(gameCache.putUpdatedGame).toHaveBeenCalledWith(createdGame);
       expect(location.path).toHaveBeenCalledWith('/show/anid');
+      expect(adsCalled).toEqual(true);
     });
 
     it('test create game submission 3+player', function () {
@@ -483,15 +509,18 @@ describe('Controller: CreateCtrl', function () {
         features: ['SystemPuzzles', 'ThreePlus', 'DrawFace', 'TurnBased', 'AllComplete']
       }).respond(createdGame);
       scope.createGame();
+      adPopupModalResult.resolve();
       http.flush();
       expect(gameCache.putUpdatedGame).toHaveBeenCalledWith(createdGame);
       expect(location.path).toHaveBeenCalledWith('/show/anid');
+      expect(adsCalled).toEqual(true);
     });
 
     it('test closing alerts', function () {
       scope.alerts = ['1', '2'];
       scope.closeAlert(0);
       expect(scope.alerts).toEqual(['2']);
+      expect(adsCalled).toEqual(false);
     });
 
     it('test closing alerts with bad values', function () {
@@ -516,8 +545,10 @@ describe('Controller: CreateCtrl', function () {
         features: ['SystemPuzzles', 'ThreePlus', 'Live', 'AllComplete']
       }).respond(404, 'badstuff');
       scope.createGame();
+      adPopupModalResult.resolve();
       http.flush();
       expect(scope.alerts).toEqual([{type: 'danger', msg: 'Error creating game - 404:badstuff'}]);
+      expect(adsCalled).toEqual(true);
     });
   });
 });

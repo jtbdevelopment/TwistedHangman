@@ -3,9 +3,9 @@
 //  TODO - should all the playing failures refresh game?
 angular.module('twistedHangmanApp').controller('ShowCtrl',
   ['$scope', '$routeParams', '$http', '$location', '$modal',
-    'twPlayerService', 'twGameDisplay', 'twGameCache', 'twGameDetails',
+    'twPlayerService', 'twGameDisplay', 'twGameCache', 'twGameDetails', 'twAds',
     function ($scope, $routeParams, $http, $location, $modal,
-              twPlayerService, twGameDisplay, twGameCache, twGameDetails) {
+              twPlayerService, twGameDisplay, twGameCache, twGameDetails, twAds) {
       twGameDisplay.initializeScope($scope);
       $scope.gameID = $routeParams.gameID;
       $scope.enteredCategory = '';
@@ -56,26 +56,28 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
         });
       }
 
-      //  TODO - state change alerts
       //  TODO - refresh game on error on action?
-      //  TODO - move the broadcast
 
       $scope.startNextRound = function () {
-        $http.put(twPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/rematch').success(function (data) {
-          twGameDisplay.processGameUpdateForScope($scope, data);
-          $location.path('/show/' + data.id);
-        }).error(function (data, status, headers, config) {
-          showMessage(status + ': ' + data);
-          console.error(data + status + headers + config);
+        twAds.showAdPopup().result.then(function () {
+          $http.put(twPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/rematch').success(function (data) {
+            twGameDisplay.processGameUpdateForScope($scope, data);
+            $location.path('/show/' + data.id);
+          }).error(function (data, status, headers, config) {
+            showMessage(status + ': ' + data);
+            console.error(data + status + headers + config);
+          });
         });
       };
 
       $scope.accept = function () {
-        $http.put(twPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/accept').success(function (data) {
-          twGameDisplay.processGameUpdateForScope($scope, data);
-        }).error(function (data, status, headers, config) {
-          showMessage(status + ': ' + data);
-          console.error(data + status + headers + config);
+        twAds.showAdPopup().result.then(function () {
+          $http.put(twPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/accept').success(function (data) {
+            twGameDisplay.processGameUpdateForScope($scope, data);
+          }).error(function (data, status, headers, config) {
+            showMessage(status + ': ' + data);
+            console.error(data + status + headers + config);
+          });
         });
       };
 
