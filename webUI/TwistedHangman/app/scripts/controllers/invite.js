@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('twistedHangmanApp').controller('InviteCtrl',
-  ['$modalInstance', '$scope', 'invitable', 'twFacebook',
+  ['$modalInstance', '$scope', 'invitableFriends', 'twFacebook',
     function ($modalInstance, $scope, invitableFriends, twFacebook) {
-      $scope.invitableFriends = invitableFriends();
+      $scope.invitableFriends = invitableFriends;
       $scope.chosenFriends = [];
       $scope.invite = function () {
         var ids = [];

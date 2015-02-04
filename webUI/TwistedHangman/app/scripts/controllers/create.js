@@ -146,7 +146,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
           controller: 'InviteCtrl',
           size: 'lg',
           resolve: {
-            invitable: function () {
+            invitableFriends: function () {
               return $scope.invitableFBFriends;
             }
           }
