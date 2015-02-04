@@ -176,7 +176,7 @@ describe('Controller: CreateCtrl', function () {
         expect(params.controller).toEqual('InviteCtrl');
         expect(params.templateUrl).toEqual('views/inviteDialog.html');
         expect(params.size).toEqual('lg');
-        expect(params.resolve.invitable()).toEqual(scope.invitableFBFriends);
+        expect(params.resolve.invitableFriends()).toEqual(scope.invitableFBFriends);
         modalOpened = true;
       }
     };

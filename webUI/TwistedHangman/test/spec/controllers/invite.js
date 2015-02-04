@@ -19,14 +19,14 @@ describe('Controller: InviteCtrl', function () {
       $scope: scope,
       twFacebook: facebookMock,
       $modalInstance: modalInstance,
-      invitable: function () {
+      invitableFriends: function () {
         return invitableFriends;
       }
     });
   }));
 
   it('initializes to friends and none chosen', function () {
-    expect(scope.invitableFriends).toEqual(invitableFriends);
+    expect(scope.invitableFriends()).toEqual(invitableFriends);
     expect(scope.chosenFriends).toEqual([]);
   });
 
