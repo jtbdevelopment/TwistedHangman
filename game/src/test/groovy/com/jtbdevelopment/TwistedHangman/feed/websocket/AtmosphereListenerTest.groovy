@@ -12,11 +12,63 @@ import org.atmosphere.cpr.BroadcasterFactory
  * Date: 12/22/14
  * Time: 7:18 PM
  */
-class AtmosphereGameListenerTest extends TwistedHangmanTestCase {
+class AtmosphereListenerTest extends TwistedHangmanTestCase {
 
-    AtmosphereGameListener listener = new AtmosphereGameListener()
+    AtmosphereListener listener = new AtmosphereListener()
 
-    void testPublishToConnectedNonInitiatingPlayers() {
+    void testPublishPlayerToConnectedPlayer() {
+        boolean p2pub = false;
+        boolean p4pub = false;
+        Broadcaster b2 = [
+                broadcast: {
+                    Object o ->
+                        assert o in WebSocketMessage
+                        assert o.messageType == WebSocketMessage.MessageType.Player
+                        assert o.player.is(PTWO)
+                        assert o.message == null
+                        p2pub = true
+                        null
+                }
+        ] as Broadcaster
+        Broadcaster b4 = [
+                broadcast: {
+                    Object o ->
+                        assert o in WebSocketMessage
+                        assert o.messageType == WebSocketMessage.MessageType.Player
+                        assert o.player.is(PFOUR)
+                        assert o.message == null
+                        p4pub = true
+                        null
+                }
+        ] as Broadcaster
+        BroadcasterFactory factory = [
+                lookup: {
+                    String id ->
+                        switch (id) {
+                            case LiveFeedService.PATH_ROOT + PONE.id.toHexString():
+                                return null
+                                break;
+                            case LiveFeedService.PATH_ROOT + PTWO.id.toHexString():
+                                return b2
+                                break;
+                            case LiveFeedService.PATH_ROOT + PTHREE.id.toHexString():
+                                return null
+                                break;
+                            case LiveFeedService.PATH_ROOT + PFOUR.id.toHexString():
+                                return b4
+                                break;
+                        }
+                        fail("Not sure how we got here")
+                }
+        ] as BroadcasterFactory
+        listener.broadcasterFactory = factory
+        [PONE, PTWO, PTHREE, PFOUR].each {
+            listener.playerChanged(it)
+        }
+        assert p2pub && p4pub
+    }
+
+    void testPublishGameToConnectedNonInitiatingPlayers() {
         Game game = new Game()
         game.players = [PONE, PTWO, PTHREE, PFOUR]
         boolean p2pub = false;
@@ -30,6 +82,7 @@ class AtmosphereGameListenerTest extends TwistedHangmanTestCase {
                         assert o.messageType == WebSocketMessage.MessageType.Game
                         assert o.game.is(mg2)
                         assert o.message == null
+                        assert o.player == null
                         p2pub = true
                         null
                 }
@@ -41,6 +94,7 @@ class AtmosphereGameListenerTest extends TwistedHangmanTestCase {
                         assert o.messageType == WebSocketMessage.MessageType.Game
                         assert o.game.is(mg4)
                         assert o.message == null
+                        assert o.player == null
                         p4pub = true
                         null
                 }

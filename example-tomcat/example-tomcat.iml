@@ -43,7 +43,7 @@
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.slf4j:jcl-over-slf4j:1.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.session:spring-session:1.0.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games-mongo:0.8-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-jackson:1.0" level="project" />
+    <orderEntry type="library" name="Maven: com.jtbdevelopment.core-common:core-spring-jackson:1.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.jtbdevelopment.core-games:games:0.8-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.10" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.3.2" level="project" />

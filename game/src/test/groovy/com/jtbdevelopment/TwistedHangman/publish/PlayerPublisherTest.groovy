@@ -1,18 +1,17 @@
 package com.jtbdevelopment.TwistedHangman.publish
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 
 import java.util.concurrent.Callable
 import java.util.concurrent.ThreadPoolExecutor
 
 /**
- * Date: 12/8/14
- * Time: 7:11 PM
+ * Date: 2/6/15
+ * Time: 7:02 PM
  */
-class GamePublisherTest extends TwistedHangmanTestCase {
-    GamePublisher publisher = new GamePublisher()
+class PlayerPublisherTest extends TwistedHangmanTestCase {
+    PlayerPublisher publisher = new PlayerPublisher()
 
     void testCreatesExecutorService() {
         publisher.threads = 20
@@ -33,14 +32,9 @@ class GamePublisherTest extends TwistedHangmanTestCase {
         publisher.threads = 1
         publisher.setUp()
 
-        Game g1 = makeSimpleGame("1")
-        Game g2 = makeSimpleGame("2")
-        MongoPlayer p1 = PONE
-        MongoPlayer p2 = PTWO
-
         assert publisher.subscribers == null
-        publisher.publish(g1, p2)
-        publisher.publish(g2, p1)
+        publisher.publish(PONE)
+        publisher.publish(PTWO)
         publisher.service.shutdown()
 
         //  Not crashing is success
@@ -50,35 +44,26 @@ class GamePublisherTest extends TwistedHangmanTestCase {
         publisher.threads = 1
         publisher.setUp()
 
-        def games = []
         def players = []
         def gl1 = [
-                gameChanged: {
-                    Game g, MongoPlayer p ->
-                        games.add(g)
+                playerChanged: {
+                    MongoPlayer p ->
                         players.add(p)
                 },
-        ] as GameListener
+        ] as PlayerListener
         def gl2 = [
-                gameChanged: {
-                    Game g, MongoPlayer p ->
-                        games.add(g)
+                playerChanged: {
+                    MongoPlayer p ->
                         players.add(p)
                 },
-        ] as GameListener
+        ] as PlayerListener
 
         publisher.subscribers = [gl1, gl2]
 
-        Game g1 = makeSimpleGame("1")
-        Game g2 = makeSimpleGame("2")
-        MongoPlayer p1 = PONE
-        MongoPlayer p2 = PTWO
-
-        publisher.publish(g1, p2)
-        publisher.publish(g2, p1)
+        publisher.publish(PTWO)
+        publisher.publish(PONE)
         Thread.sleep(1000);
         publisher.service.shutdown()
-        assert games == [g1, g1, g2, g2]
-        assert players == [p2, p2, p1, p1]
+        assert players == [PTWO, PTWO, PONE, PONE]
     }
 }

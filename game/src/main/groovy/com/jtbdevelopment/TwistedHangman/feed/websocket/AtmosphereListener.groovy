@@ -3,6 +3,8 @@ package com.jtbdevelopment.TwistedHangman.feed.websocket
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.publish.GameListener
+import com.jtbdevelopment.TwistedHangman.publish.PlayerListener
+import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
 import org.atmosphere.cpr.Broadcaster
@@ -16,7 +18,7 @@ import org.springframework.stereotype.Component
  */
 @Component
 @CompileStatic
-class AtmosphereGameListener implements GameListener {
+class AtmosphereListener implements GameListener, PlayerListener {
     @Autowired
     GameMasker gameMasker
 
@@ -39,6 +41,19 @@ class AtmosphereGameListener implements GameListener {
                             )
                     )
                 }
+        }
+    }
+
+    @Override
+    void playerChanged(final Player player) {
+        Broadcaster broadcaster = getBroadcasterFactory().lookup(LiveFeedService.PATH_ROOT + player.idAsString)
+        if (broadcaster != null) {
+            broadcaster.broadcast(
+                    new WebSocketMessage(
+                            messageType: WebSocketMessage.MessageType.Player,
+                            player: (MongoPlayer) player
+                    )
+            )
         }
     }
 
