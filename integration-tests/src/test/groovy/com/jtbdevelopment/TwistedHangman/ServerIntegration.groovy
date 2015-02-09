@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedHangman
 
+import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
@@ -11,7 +12,9 @@ import com.jtbdevelopment.games.dao.AbstractMultiPlayerGameRepository
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
 import com.jtbdevelopment.games.games.PlayerState
 import com.jtbdevelopment.games.mongo.players.MongoManualPlayer
+import com.jtbdevelopment.games.mongo.players.MongoPlayerFactory
 import com.jtbdevelopment.games.players.friendfinder.SourceBasedFriendFinder
+import com.jtbdevelopment.spring.jackson.ObjectMapperFactory
 import org.bson.types.ObjectId
 import org.eclipse.jetty.server.Server
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature
@@ -45,14 +48,15 @@ class ServerIntegration {
     static MongoManualPlayer TEST_PLAYER3
 
     static MongoManualPlayer createPlayer(final String id, final String sourceId, final String displayName) {
-        return new MongoManualPlayer(
-                id: new ObjectId(id.padRight(24, "0")),
-                sourceId: sourceId,
-                password: passwordEncoder.encode(sourceId),
-                displayName: displayName,
-                disabled: false,
-                verified: true
-        )
+        MongoPlayerFactory factory = applicationContext.getBean(MongoPlayerFactory.class)
+        MongoManualPlayer player = factory.newManualPlayer();
+        player.id = new ObjectId(id.padRight(24, "0"))
+        player.sourceId = sourceId
+        player.password = passwordEncoder.encode(sourceId)
+        player.displayName = displayName
+        player.disabled = false
+        player.verified = true
+        return player
     }
 
     static ApplicationContext applicationContext
@@ -297,6 +301,10 @@ class ServerIntegration {
         Client client = ClientBuilder.newClient()
         HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic(p.sourceId, p.sourceId)
         client.register(feature)
+        client.register(
+                new JacksonJaxbJsonProvider(
+                        applicationContext.getBean(ObjectMapperFactory.class).objectMapper,
+                        JacksonJaxbJsonProvider.DEFAULT_ANNOTATIONS))
         client
     }
 }
