@@ -39,8 +39,10 @@ describe('Controller: MainCtrl', function () {
     expect(scope.createRefreshEnabled).toEqual(false);
     expect(scope.showAdmin).toEqual(false);
     expect(scope.showLogout).toEqual(false);
+    expect(scope.currentPlayer).toEqual({});
     rootScope.$broadcast('playerLoaded');
     rootScope.$apply();
+    expect(scope.currentPlayer).toEqual(player);
     expect(scope.playerGreeting).toEqual('Welcome XYZ');
     expect(scope.alerts).toEqual([]);
     expect(scope.createRefreshEnabled).toEqual(true);
@@ -66,6 +68,8 @@ describe('Controller: MainCtrl', function () {
     player = {displayName: 'ABC', md5: '6666', adminUser: false, source: 'MANUAL'};
     rootScope.$broadcast('playerLoaded');
     rootScope.$apply();
+    expect(scope.currentPlayer).toEqual(player);
+    expect(scope.currentPlayer.displayName).toEqual('ABC');
     expect(scope.playerGreeting).toEqual('Welcome ABC');
     expect(scope.alerts).toEqual([]);
     expect(scope.showAdmin).toEqual(true);

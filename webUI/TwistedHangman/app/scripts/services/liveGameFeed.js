@@ -37,6 +37,9 @@ angular.module('twistedHangmanApp').factory('twLiveGameFeed',
                   case 'Heartbeat':
                     console.info('got a heartbeat ' + JSON.stringify(message.message));
                     return;
+                  case 'Player':
+                    $rootScope.$broadcast('playerUpdate', message.player.id, message.player);
+                    return;
                   default:
                     console.warn('onMessage: unknown message type \'' + message.messageType + '\'');
                     break;

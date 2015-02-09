@@ -64,6 +64,52 @@ describe('Service: playerService', function () {
       expect(location.path).not.toHaveBeenCalledWith('/error');
     });
 
+    it('processes player Updates for same id', function () {
+      var updatedPlayer = {
+        id: testID,
+        md5: 'b8da6510b173e84f6cd3a2bd697d7612',
+        disabled: true,
+        displayName: 'Manual Player1 Updated'
+      };
+      expect(service.currentID()).toEqual('');
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player');
+      expect(service.realPID()).toEqual('');
+      expect(service.currentPlayer()).toBeUndefined();
+      httpBackend.flush();
+      expect(service.currentID()).toEqual(testID);
+      expect(service.realPID()).toEqual(testID);
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player');
+      expect(service.currentPlayer()).toEqual(playerResult);
+      expect(rootScope.$broadcast).toHaveBeenCalledWith('playerLoaded');
+      expect(location.path).not.toHaveBeenCalledWith('/error');
+      rootScope.$broadcast('playerUpdate', updatedPlayer.id, updatedPlayer);
+      rootScope.$apply();
+      expect(service.currentPlayer()).toEqual(updatedPlayer);
+    });
+
+    it('ignores player Updates for diff id', function () {
+      var updatedPlayer = {
+        id: testID + 'X',
+        md5: 'b8da6510b173e84f6cd3a2bd697d7612',
+        disabled: true,
+        displayName: 'Manual Player1 Updated'
+      };
+      expect(service.currentID()).toEqual('');
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player');
+      expect(service.realPID()).toEqual('');
+      expect(service.currentPlayer()).toBeUndefined();
+      httpBackend.flush();
+      expect(service.currentID()).toEqual(testID);
+      expect(service.realPID()).toEqual(testID);
+      expect(service.currentPlayerBaseURL()).toEqual('/api/player');
+      expect(service.currentPlayer()).toEqual(playerResult);
+      expect(rootScope.$broadcast).toHaveBeenCalledWith('playerLoaded');
+      expect(location.path).not.toHaveBeenCalledWith('/error');
+      rootScope.$broadcast('playerUpdate', updatedPlayer.id, updatedPlayer);
+      rootScope.$apply();
+      expect(service.currentPlayer()).toEqual(playerResult);
+    });
+
     it('reloads on switch', function () {
       expect(service.currentID()).toEqual('');
       expect(service.currentPlayerBaseURL()).toEqual('/api/player');

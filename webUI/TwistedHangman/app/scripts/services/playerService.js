@@ -80,6 +80,14 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
         });
       }
 
+      $rootScope.$on('playerUpdate', function (event, id, player) {
+        console.log('playerUpdate');
+        if (simulatedPID === id) {
+          angular.copy(player, simulatedPlayer);
+          $rootScope.$apply();
+        }
+      });
+
       initializePlayer();
 
       return service;

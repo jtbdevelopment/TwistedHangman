@@ -17,6 +17,7 @@ angular.module('twistedHangmanApp')
       $scope.createRefreshEnabled = false;
       $scope.showAdmin = false;
       $scope.showLogout = false;
+      $scope.currentPlayer = {};
 
       function gamePath(id) {
         return '/show/' + id;
@@ -41,10 +42,10 @@ angular.module('twistedHangmanApp')
 
       $scope.$on('playerLoaded', function () {
         $scope.alerts = [];
-        var currentPlayer = twPlayerService.currentPlayer();
-        $scope.playerGreeting = 'Welcome ' + currentPlayer.displayName;
-        $scope.showAdmin = currentPlayer.adminUser || $scope.showAdmin;
-        $scope.showLogout = currentPlayer.source === 'MANUAL';
+        $scope.currentPlayer = twPlayerService.currentPlayer();
+        $scope.playerGreeting = 'Welcome ' + $scope.currentPlayer.displayName;
+        $scope.showAdmin = $scope.currentPlayer.adminUser || $scope.showAdmin;
+        $scope.showLogout = $scope.currentPlayer.source === 'MANUAL';
         $scope.createRefreshEnabled = true;
       });
 
