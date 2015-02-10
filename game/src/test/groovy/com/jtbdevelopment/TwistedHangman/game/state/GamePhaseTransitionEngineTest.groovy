@@ -29,7 +29,6 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
 
     public void testChallengeStayingChallenge() {
         assert transitionEngine.gameScorer == null
-        assert transitionEngine.gameRepository == null
         Game game = new Game(
                 gamePhase: GamePhase.Challenged,
                 features: [GameFeature.SystemPuzzles] as Set,
@@ -69,7 +68,6 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
 
     public void testSetupToSetup() {
         assert transitionEngine.gameScorer == null
-        assert transitionEngine.gameRepository == null
         Game game = new Game(
                 gamePhase: GamePhase.Setup,
                 features: [GameFeature.SystemPuzzles] as Set,
@@ -101,7 +99,6 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
 
     public void testPlayingToPlaying() {
         assert transitionEngine.gameScorer == null
-        assert transitionEngine.gameRepository == null
         Game game = new Game(
                 gamePhase: GamePhase.Playing,
                 features: [] as Set,
@@ -125,7 +122,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                         (PTHREE.id): new IndividualGameState(wordPhrase: "SETUP", penalties: IndividualGameState.BASE_PENALTIES)
                 ]
         )
-        Game scored = game.clone()
+        Game scored = (Game) game.clone()
         transitionEngine.gameScorer = [
                 scoreGame: {
                     Game it ->
@@ -151,7 +148,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                         (PTHREE.id): new IndividualGameState(wordPhrase: "SETUP", penalties: IndividualGameState.BASE_PENALTIES)
                 ]
         )
-        Game scored = game.clone()
+        Game scored = (Game) game.clone()
         transitionEngine.gameScorer = [
                 scoreGame: {
                     Game it ->
@@ -167,7 +164,6 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
 
 
     public void testRematchToRematch() {
-        assert transitionEngine.gameRepository == null
         assert transitionEngine.gameScorer == null
         Game game = new Game(gamePhase: GamePhase.RoundOver, rematchTimestamp: null)
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
@@ -184,7 +180,6 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
 
 
     public void testRematchedToRematched() {
-        assert transitionEngine.gameRepository == null
         assert transitionEngine.gameScorer == null
         Game game = new Game(gamePhase: GamePhase.NextRoundStarted)
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
@@ -192,14 +187,12 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
 
 
     public void testDeclinedToDeclined() {
-        assert transitionEngine.gameRepository == null
         assert transitionEngine.gameScorer == null
         Game game = new Game(gamePhase: GamePhase.Declined)
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
     }
 
     public void testQuitToQuit() {
-        assert transitionEngine.gameRepository == null
         assert transitionEngine.gameScorer == null
         Game game = new Game(gamePhase: GamePhase.Quit)
         assert game.is(transitionEngine.evaluateGamePhaseForGame(game))

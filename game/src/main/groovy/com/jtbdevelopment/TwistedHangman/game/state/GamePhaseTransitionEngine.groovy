@@ -1,6 +1,5 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
-import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.games.games.PlayerState
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,8 +18,6 @@ import java.time.ZonedDateTime
 class GamePhaseTransitionEngine {
     private static final ZoneId GMT = ZoneId.of('GMT')
 
-    @Autowired
-    GameRepository gameRepository
     @Autowired
     GameScorer gameScorer
 
