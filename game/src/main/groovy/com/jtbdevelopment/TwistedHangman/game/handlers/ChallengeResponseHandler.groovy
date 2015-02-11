@@ -17,10 +17,14 @@ import org.springframework.stereotype.Component
 @Component
 class ChallengeResponseHandler extends AbstractGameActionHandler<PlayerState> {
     @Override
+    protected boolean requiresEligibilityCheck(final PlayerState param) {
+        return PlayerState.Accepted == param
+    }
+
+    @Override
     protected Game handleActionInternal(final Player<ObjectId> player, final Game game, final PlayerState param) {
         // We will at least record further ack/nacks for information
-        if (game.gamePhase == GamePhase.Challenged ||
-                game.gamePhase == GamePhase.Declined) {
+        if (game.gamePhase == GamePhase.Challenged || game.gamePhase == GamePhase.Declined) {
             game.playerStates[player.id] = param         //  Players can change their mind in the server side
             return game
         } else {

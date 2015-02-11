@@ -29,6 +29,11 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
     protected GameFactory gameFactory
 
     @Override
+    protected boolean requiresEligibilityCheck(final Object param) {
+        return true;
+    }
+
+    @Override
     protected Game handleActionInternal(final Player<ObjectId> player, final Game previousGame, final Object param) {
         if (previousGame.gamePhase != GamePhase.RoundOver) {
             throw new GameIsNotAvailableToRematchException()

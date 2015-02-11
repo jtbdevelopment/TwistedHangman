@@ -24,6 +24,11 @@ import java.time.ZonedDateTime
 class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
     ChallengeToRematchHandler handler = new ChallengeToRematchHandler()
 
+    void testEligibilityCheck() {
+        assert handler.requiresEligibilityCheck(null)
+        assert handler.requiresEligibilityCheck('')
+        assert handler.requiresEligibilityCheck(1L)
+    }
 
     public void testSetsUpRematch() {
         ZonedDateTime now = ZonedDateTime.now(ZoneId.of("GMT"))

@@ -13,6 +13,12 @@ import com.jtbdevelopment.games.games.PlayerState
 class ChallengeResponseHandlerTest extends TwistedHangmanTestCase {
     ChallengeResponseHandler handler = new ChallengeResponseHandler()
 
+    public void testRequiresEligibilityForAcceptButNotOtherStates() {
+        assert handler.requiresEligibilityCheck(PlayerState.Accepted)
+        PlayerState.values().findAll { it != PlayerState.Accepted }.each {
+            assertFalse handler.requiresEligibilityCheck(it)
+        }
+    }
 
     public void testExceptionOnBadPhases() {
         GamePhase.values().findAll { it != GamePhase.Declined && it != GamePhase.Challenged }.each {

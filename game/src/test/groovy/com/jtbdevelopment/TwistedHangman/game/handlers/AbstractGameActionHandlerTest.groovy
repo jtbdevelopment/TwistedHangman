@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
+import com.jtbdevelopment.TwistedHangman.exceptions.input.OutOfGamesForTodayException
 import com.jtbdevelopment.TwistedHangman.exceptions.input.PlayerNotPartOfGameException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
@@ -9,6 +10,8 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
+import com.jtbdevelopment.TwistedHangman.players.PlayerGameTracker
+import com.jtbdevelopment.TwistedHangman.players.PlayerGameTracker.GameEligibilityResult
 import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
 import com.jtbdevelopment.games.exceptions.system.FailedToFindGameException
@@ -27,17 +30,35 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
     private final ObjectId gameId = new ObjectId();
 
     private class TestHandler extends AbstractGameActionHandler<String> {
+        boolean checkEligibility = false
+        boolean internalException = false
+
+        @Override
+        protected boolean requiresEligibilityCheck(final String param) {
+            return checkEligibility
+        }
+
         @Override
         protected Game handleActionInternal(final Player<ObjectId> player, final Game game, final String param) {
             assert param == testParam
             assert gameParam.is(game)
+            if (internalException) {
+                throw new IllegalStateException()
+            }
             return handledGame
         }
     }
     private TestHandler handler = new TestHandler()
 
 
-    public void testAbstractHandlerBase() {
+    void testDefaultRequiresEligibility() {
+        assertFalse new AbstractGameActionHandler<String>() {
+            protected Game handleActionInternal(final Player<ObjectId> player, final Game game, final String param) {
+            }
+        }.requiresEligibilityCheck(null)
+    }
+
+    public void testAbstractHandlerBasic() {
         Game saved = new Game();
         Game transitioned = new Game();
         Game published = new Game();
@@ -89,6 +110,238 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
     }
 
+    public void testAbstractHandlerWithEligibilityCheckAndEligible() {
+        handler.checkEligibility = true
+        Game saved = new Game();
+        Game transitioned = new Game();
+        Game published = new Game();
+        gameParam.players = [PONE, PTWO]
+        handler.gameRepository = [
+                findOne: {
+                    ObjectId it ->
+                        assert it == gameId
+                        return gameParam
+                },
+                save   : {
+                    Game it ->
+                        assert it.is(transitioned)
+                        return saved
+                }
+        ] as GameRepository
+        handler.gameTracker = [
+                getGameEligibility: {
+                    Player p ->
+                        assert p.is(PONE)
+                        return new GameEligibilityResult(eligibility: PlayerGameTracker.GameEligibility.FreeGameUsed)
+                }
+        ] as PlayerGameTracker
+        handler.playerRepository = [
+                findOne: {
+                    ObjectId it ->
+                        assert it == PONE.id
+                        return PONE
+                }
+        ] as AbstractPlayerRepository<ObjectId>
+        handler.transitionEngine = [
+                evaluateGamePhaseForGame: {
+                    Game it ->
+                        assert it.is(handledGame)
+                        return transitioned
+                }
+        ] as GamePhaseTransitionEngine
+        handler.gamePublisher = [
+                publish: {
+                    Game g, MongoPlayer p ->
+                        assert g.is(saved)
+                        assert p.is(PONE)
+                        published
+                }
+        ] as GamePublisher
+        MaskedGame maskedGame = new MaskedGame()
+        handler.gameMasker = [
+                maskGameForPlayer: {
+                    Game g, MongoPlayer p ->
+                        assert g.is(published)
+                        assert p.is(PONE)
+                        return maskedGame
+                }
+        ] as GameMasker
+
+        assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
+    }
+
+    public void testAbstractHandlerWithEligibilityCheckAndNotEligible() {
+        handler.checkEligibility = true
+        gameParam.players = [PONE, PTWO]
+        handler.gameRepository = [
+                findOne: {
+                    ObjectId it ->
+                        assert it == gameId
+                        return gameParam
+                }
+        ] as GameRepository
+        handler.gameTracker = [
+                getGameEligibility: {
+                    Player p ->
+                        assert p.is(PONE)
+                        return new PlayerGameTracker.GameEligibilityResult(eligibility: PlayerGameTracker.GameEligibility.NoGamesAvailable)
+                }
+        ] as PlayerGameTracker
+        handler.playerRepository = [
+                findOne: {
+                    ObjectId it ->
+                        assert it == PONE.id
+                        return PONE
+                }
+        ] as AbstractPlayerRepository<ObjectId>
+
+        try {
+            handler.handleAction(PONE.id, gameId, testParam)
+            fail('should have exceptioned')
+        } catch (OutOfGamesForTodayException e) {
+            //
+        }
+    }
+
+    public void testAbstractHandlerWithEligibilityCheckAndHandleInternalExceptions() {
+        handler.checkEligibility = true
+        handler.internalException = true
+        boolean revertCalled = false
+        def eligibilityResult = new GameEligibilityResult(eligibility: PlayerGameTracker.GameEligibility.FreeGameUsed)
+        gameParam.players = [PONE, PTWO]
+        handler.gameRepository = [
+                findOne: {
+                    ObjectId it ->
+                        assert it == gameId
+                        return gameParam
+                }
+        ] as GameRepository
+        handler.gameTracker = [
+                getGameEligibility   : {
+                    Player p ->
+                        assert p.is(PONE)
+                        return eligibilityResult
+                },
+                revertGameEligibility: {
+                    GameEligibilityResult r ->
+                        assert r.is(eligibilityResult)
+                        revertCalled = true
+                        return
+                }
+        ] as PlayerGameTracker
+        handler.playerRepository = [
+                findOne: {
+                    ObjectId it ->
+                        assert it == PONE.id
+                        return PONE
+                }
+        ] as AbstractPlayerRepository<ObjectId>
+
+        try {
+            handler.handleAction(PONE.id, gameId, testParam)
+            fail('should have exception')
+        } catch (IllegalStateException e) {
+            assert revertCalled
+        }
+    }
+
+    public void testAbstractHandlerWithEligibilityCheckAndTransitionExceptions() {
+        handler.checkEligibility = true
+        gameParam.players = [PONE, PTWO]
+        boolean revertCalled = false
+        def eligibilityResult = new GameEligibilityResult(eligibility: PlayerGameTracker.GameEligibility.FreeGameUsed)
+        handler.gameRepository = [
+                findOne: {
+                    ObjectId it ->
+                        assert it == gameId
+                        return gameParam
+                }
+        ] as GameRepository
+        handler.gameTracker = [
+                getGameEligibility   : {
+                    Player p ->
+                        assert p.is(PONE)
+                        return eligibilityResult
+                },
+                revertGameEligibility: {
+                    GameEligibilityResult r ->
+                        assert r.is(eligibilityResult)
+                        revertCalled = true
+                        return
+                }
+        ] as PlayerGameTracker
+        handler.playerRepository = [
+                findOne: {
+                    ObjectId it ->
+                        assert it == PONE.id
+                        return PONE
+                }
+        ] as AbstractPlayerRepository<ObjectId>
+        handler.transitionEngine = [
+                evaluateGamePhaseForGame: {
+                    Game it ->
+                        assert it.is(handledGame)
+                        throw new IllegalArgumentException()
+                }
+        ] as GamePhaseTransitionEngine
+
+        try {
+            handler.handleAction(PONE.id, gameId, testParam)
+            fail('should have exceptioned')
+        } catch (IllegalArgumentException e) {
+            assert revertCalled
+        }
+    }
+
+    public void testAbstractHandlerWithEligibilityCheckAndRevertExceptionsAlso() {
+        handler.checkEligibility = true
+        gameParam.players = [PONE, PTWO]
+        boolean revertCalled = false
+        def eligibilityResult = new GameEligibilityResult(eligibility: PlayerGameTracker.GameEligibility.FreeGameUsed)
+        handler.gameRepository = [
+                findOne: {
+                    ObjectId it ->
+                        assert it == gameId
+                        return gameParam
+                }
+        ] as GameRepository
+        handler.gameTracker = [
+                getGameEligibility   : {
+                    Player p ->
+                        assert p.is(PONE)
+                        return eligibilityResult
+                },
+                revertGameEligibility: {
+                    GameEligibilityResult r ->
+                        assert r.is(eligibilityResult)
+                        revertCalled = true
+                        throw new IllegalAccessException()
+                }
+        ] as PlayerGameTracker
+        handler.playerRepository = [
+                findOne: {
+                    ObjectId it ->
+                        assert it == PONE.id
+                        return PONE
+                }
+        ] as AbstractPlayerRepository<ObjectId>
+        handler.transitionEngine = [
+                evaluateGamePhaseForGame: {
+                    Game it ->
+                        assert it.is(handledGame)
+                        throw new IllegalArgumentException()
+                }
+        ] as GamePhaseTransitionEngine
+
+        try {
+            handler.handleAction(PONE.id, gameId, testParam)
+            fail('should have exceptioned')
+        } catch (IllegalArgumentException e) {
+            assert revertCalled
+        } catch (IllegalAccessException e) {
+            fail('Should have caught and discarded IllegalAccessException')
+        }
+    }
 
     public void testAbstractHandlerCantLoadGame() {
         gameParam.players = [PONE, PTWO]
@@ -137,7 +390,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
             handler.handleAction(PTHREE.id, gameId, testParam)
             fail("should have failed")
         } catch (PlayerNotPartOfGameException e) {
-
+            //
         }
     }
 
@@ -220,10 +473,10 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         handledGame.gamePhase = GamePhase.Playing
         gameParam.gamePhase = GamePhase.Playing
 
-        handledGame = gameParam.clone()
-        Game saved = gameParam.clone()
-        Game transitioned = gameParam.clone()
-        Game published = gameParam.clone()
+        handledGame = (Game) gameParam.clone()
+        Game saved = (Game) gameParam.clone()
+        Game transitioned = (Game) gameParam.clone()
+        Game published = (Game) gameParam.clone()
         handler.gameRepository = [
                 findOne: {
                     ObjectId it ->
@@ -285,9 +538,9 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         handledGame.gamePhase = GamePhase.Setup
         gameParam.gamePhase = GamePhase.Setup
 
-        Game saved = gameParam.clone()
-        Game transitioned = gameParam.clone();
-        Game published = gameParam.clone()
+        Game saved = (Game) gameParam.clone()
+        Game transitioned = (Game) gameParam.clone();
+        Game published = (Game) gameParam.clone()
         handler.gameRepository = [
                 findOne: {
                     ObjectId it ->
@@ -350,9 +603,9 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         handledGame.gamePhase = GamePhase.Playing
         gameParam.gamePhase = GamePhase.Playing
 
-        Game saved = gameParam.clone()
-        Game transitioned = gameParam.clone();
-        Game published = gameParam.clone()
+        Game saved = (Game) gameParam.clone()
+        Game transitioned = (Game) gameParam.clone();
+        Game published = (Game) gameParam.clone()
         handler.gameRepository = [
                 findOne: {
                     ObjectId it ->

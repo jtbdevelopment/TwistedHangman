@@ -18,13 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired
  */
 @CompileStatic
 class AbstractGameGetterHandler extends AbstractHandler {
+    private static final Logger logger = LoggerFactory.getLogger(AbstractGameGetterHandler.class)
+
     @Autowired
     protected GameRepository gameRepository
 
     @Autowired
     protected GameMasker gameMasker
-
-    private static final Logger logger = LoggerFactory.getLogger(AbstractGameActionHandler.class)
 
     protected void validatePlayerForGame(final Game game, final Player<ObjectId> player) {
         if (!game.players.contains(player)) {
