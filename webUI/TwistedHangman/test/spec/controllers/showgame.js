@@ -176,7 +176,7 @@ describe('Controller: ShowCtrl', function () {
         scope.reject();
         quitModalResult.resolve();
         quitModal.open = errorOpen;
-        modalMessage = '502: more bad stuff';
+        modalMessage = 'more bad stuff';
         quitModalResult.resolve();
         http.flush();
       });
@@ -185,7 +185,7 @@ describe('Controller: ShowCtrl', function () {
         scope.allowPlayMoves = true;
         http.expectPUT('/api/player/MANUAL1/game/gameid/steal/2').respond(601, 'bad stuff');
         scope.stealLetter('2');
-        modalMessage = '601: bad stuff';
+        modalMessage = 'bad stuff';
         http.flush();
         expect(adsCalled).toEqual(false);
       });
@@ -201,7 +201,7 @@ describe('Controller: ShowCtrl', function () {
         http.expectPUT('/api/player/MANUAL1/game/gameid/rematch').respond(501, 'bad stuff');
         scope.startNextRound();
         adPopupModalResult.resolve();
-        modalMessage = '501: bad stuff';
+        modalMessage = 'bad stuff';
         http.flush();
         expect(adsCalled).toEqual(true);
       });
@@ -210,7 +210,7 @@ describe('Controller: ShowCtrl', function () {
         http.expectPUT('/api/player/MANUAL1/game/gameid/accept').respond(501, 'bad stuff');
         scope.accept();
         adPopupModalResult.resolve();
-        modalMessage = '501: bad stuff';
+        modalMessage = 'bad stuff';
         http.flush();
         expect(adsCalled).toEqual(true);
       });
@@ -223,7 +223,7 @@ describe('Controller: ShowCtrl', function () {
           wordPhrase: 'wp'
         }).respond(503, 'something');
         scope.setPuzzle();
-        modalMessage = '503: something';
+        modalMessage = 'something';
         http.flush();
         expect(adsCalled).toEqual(false);
       });
@@ -238,7 +238,7 @@ describe('Controller: ShowCtrl', function () {
         scope.quit();
         quitModalResult.resolve();
         quitModal.open = errorOpen;
-        modalMessage = '503: something';
+        modalMessage = 'something';
         http.flush();
         expect(adsCalled).toEqual(false);
       });
@@ -247,7 +247,7 @@ describe('Controller: ShowCtrl', function () {
         scope.allowPlayMoves = true;
         http.expectPUT('/api/player/MANUAL1/game/gameid/guess/a').respond(601, 'bad stuff');
         scope.sendGuess('a');
-        modalMessage = '601: bad stuff';
+        modalMessage = 'bad stuff';
         http.flush();
         expect(adsCalled).toEqual(false);
       });

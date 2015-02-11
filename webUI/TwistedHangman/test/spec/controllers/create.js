@@ -547,7 +547,7 @@ describe('Controller: CreateCtrl', function () {
       scope.createGame();
       adPopupModalResult.resolve();
       http.flush();
-      expect(scope.alerts).toEqual([{type: 'danger', msg: 'Error creating game - 404:badstuff'}]);
+      expect(scope.alerts).toEqual([{type: 'danger', msg: 'Error creating game:badstuff'}]);
       expect(adsCalled).toEqual(true);
     });
   });

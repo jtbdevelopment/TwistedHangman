@@ -136,7 +136,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
             twGameCache.putUpdatedGame(data);
             $location.path('/show/' + data.id);
           }).error(function (data, status, headers, config) {
-            $scope.alerts.push({type: 'danger', msg: 'Error creating game - ' + status + ':' + data});
+            $scope.alerts.push({type: 'danger', msg: 'Error creating game:' + data});
             console.error(data + status + headers + config);
           });
         });
