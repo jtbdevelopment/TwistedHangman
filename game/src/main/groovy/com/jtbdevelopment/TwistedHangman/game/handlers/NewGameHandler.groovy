@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
+import com.jtbdevelopment.TwistedHangman.exceptions.input.OutOfGamesForTodayException
 import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
@@ -8,10 +9,13 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
+import com.jtbdevelopment.TwistedHangman.players.PlayerGameTracker
 import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
 import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -22,6 +26,8 @@ import org.springframework.stereotype.Component
 @Component
 @CompileStatic
 class NewGameHandler extends AbstractHandler {
+    private static final Logger logger = LoggerFactory.getLogger(NewGameHandler.class)
+
     @Autowired
     protected SystemPuzzlerSetter systemPuzzlerSetter
     @Autowired
@@ -34,6 +40,8 @@ class NewGameHandler extends AbstractHandler {
     protected GameMasker gameMasker
     @Autowired
     protected GamePublisher gamePublisher
+    @Autowired
+    protected PlayerGameTracker gameTracker
 
     public MaskedGame handleCreateNewGame(
             final ObjectId initiatingPlayerID, final List<String> playersIDs, final Set<GameFeature> features) {
@@ -42,11 +50,33 @@ class NewGameHandler extends AbstractHandler {
         if (initiatingPlayer == null) {
             initiatingPlayer = loadPlayer(initiatingPlayerID)
         }
+        Game game = setupGameWithEligibilityWrapper(initiatingPlayer, features, players)
 
-
-        def game = setupGame(features, players, initiatingPlayer)
-        def playerGame = gameMasker.maskGameForPlayer(game, initiatingPlayer)
+        def playerGame = gameMasker.maskGameForPlayer(
+                gamePublisher.publish(game, initiatingPlayer),
+                initiatingPlayer)
         playerGame
+    }
+
+    protected Game setupGameWithEligibilityWrapper(Player<ObjectId> initiatingPlayer, Set<GameFeature> features, Set<Player<ObjectId>> players) {
+        PlayerGameTracker.GameEligibilityResult eligibilityResult = gameTracker.getGameEligibility(initiatingPlayer)
+        if (eligibilityResult.eligibility == PlayerGameTracker.GameEligibility.NoGamesAvailable) {
+            throw new OutOfGamesForTodayException()
+        }
+
+        Game game
+        try {
+            game = setupGame(features, players, initiatingPlayer)
+        } catch (Exception e) {
+            try {
+                gameTracker.revertGameEligibility(eligibilityResult)
+            } catch (Exception e2) {
+                //  TODO - notification
+                logger.warn('Failed to revert players game eligibility ' + eligibilityResult, e2)
+            }
+            throw e;
+        }
+        game
     }
 
     private Game setupGame(
@@ -56,7 +86,7 @@ class NewGameHandler extends AbstractHandler {
         Game game = transitionEngine.evaluateGamePhaseForGame(
                 systemPuzzlerSetter.setWordPhraseFromSystem(
                         gameFactory.createGame(features, players.toList(), initiatingPlayer)))
-        gamePublisher.publish(gameRepository.save(game), initiatingPlayer)
+        gameRepository.save(game)
     }
 
 }
