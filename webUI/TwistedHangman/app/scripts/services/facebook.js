@@ -30,7 +30,12 @@ angular.module('twistedHangmanApp').factory('twFacebook',
               js = d.createElement(s);
               js.id = id;
               js.src = '//connect.facebook.net/en_US/sdk.js';
+              js.onerror = onLoadCB;
               fjs.parentNode.insertBefore(js, fjs);
+              function onLoadCB() {
+                loaded = false;
+                fbLoaded.reject();
+              }
             }(document, 'script', 'facebook-jssdk'));
 
             loaded = true;
@@ -56,6 +61,8 @@ angular.module('twistedHangmanApp').factory('twFacebook',
                 angular.isDefined(response.status) &&
                 response.status === 'connected');
             });
+          }, function () {
+            autoDefer.reject();
           });
           return autoDefer.promise;
         },
