@@ -6,8 +6,10 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedIndividualGameState
+import com.jtbdevelopment.TwistedHangman.json.GameAttributesJacksonRegistration
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
 import com.jtbdevelopment.games.games.PlayerState
+import com.jtbdevelopment.games.mongo.json.MongoPlayerJacksonRegistration
 import com.jtbdevelopment.spring.jackson.ObjectMapperFactory
 
 /**
@@ -53,23 +55,28 @@ class WebSocketJSONConverterTest extends TwistedHangmanTestCase {
     )
 
     String expectedString = "{\"messageType\":\"Game\",\"game\":{\"maskedForPlayerID\":\"100000000000000000000000\",\"maskedForPlayerMD5\":\"ee02ab36f4f4b92d0a2316022a11cce2\",\"id\":\"XYZ\",\"created\":1000,\"lastUpdate\":5000,\"declinedTimestamp\":null,\"completedTimestamp\":100,\"rematchTimestamp\":null,\"round\":10,\"gamePhase\":\"Setup\",\"initiatingPlayer\":null,\"players\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":\"1\"},\"playerStates\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":\"Accepted\"},\"playerImages\":{},\"playerProfiles\":{},\"features\":[\"DrawFace\",\"TurnBased\"],\"featureData\":{\"DrawFace\":\"A String\"},\"wordPhraseSetter\":\"eb3e279a50b4c330f8d4a9e2abc678fe\",\"solverStates\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":{\"wordPhrase\":\"555\",\"workingWordPhrase\":\"____\",\"badlyGuessedLetters\":[\"A\",\"B\"],\"guessedLetters\":[\"B\"],\"featureData\":{\"Thieving\":10,\"DrawGallows\":\"X\"},\"category\":\"Test\",\"maxPenalties\":13,\"moveCount\":4,\"penalties\":3,\"blanksRemaining\":10,\"features\":[\"AllComplete\"],\"isPuzzleSolved\":false,\"isPlayerHung\":true,\"isPuzzleOver\":false,\"penaltiesRemaining\":5}},\"playerRoundScores\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":10},\"playerRunningScores\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":13}},\"player\":null,\"message\":null}"
+    private ObjectMapper mapper
 
     @Override
     protected void setUp() throws Exception {
         super.setUp()
-        WebSocketJSONConverter.mapper = new ObjectMapper()
+        ObjectMapperFactory objectMapperFactory = new ObjectMapperFactory()
+        objectMapperFactory.customizations = [
+                new GameAttributesJacksonRegistration(),
+                new MongoPlayerJacksonRegistration()
+        ]
+        objectMapperFactory.initializeMapper()
+        def factory = [
+                getObjectMapper: {
+                    return this.mapper
+                }
+        ] as ObjectMapperFactory
+        mapper = objectMapperFactory.objectMapper
+        webSocketJsonConverter.setObjectMapperFactory(factory)
     }
 
     void testSettingObjectMapper() {
-        ObjectMapper mapper = new ObjectMapper()
-        def factory = [
-                getObjectMapper: {
-                    return mapper
-                }
-        ] as ObjectMapperFactory
-        webSocketJsonConverter.setObjectMapperFactory(factory)
-
-        assert WebSocketJSONConverter.mapper.is(mapper)
+        assert WebSocketJSONConverter.mapper.is(this.mapper)
     }
 
     void testToJson() {
