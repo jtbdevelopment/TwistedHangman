@@ -11,6 +11,12 @@
     <artifactId>game</artifactId>
     <dependencies>
         <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.jtbdevelopment.core-common</groupId>
             <artifactId>core-spring-web-mongo</artifactId>
             <version>${core.common.version}</version>
@@ -80,6 +86,12 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
             <version>${spring.security.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
         </dependency>
 
         <dependency>

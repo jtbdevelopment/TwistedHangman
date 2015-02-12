@@ -4,6 +4,7 @@ import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
+import com.jtbdevelopment.games.dao.AbstractPlayerRepository
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import org.atmosphere.cpr.Broadcaster
 import org.atmosphere.cpr.BroadcasterFactory
@@ -65,6 +66,72 @@ class AtmosphereListenerTest extends TwistedHangmanTestCase {
         [PONE, PTWO, PTHREE, PFOUR].each {
             listener.playerChanged(it)
         }
+        assert p2pub && p4pub
+    }
+
+    void testPublishRefreshPlayerToAllValidConnectedPlayers() {
+        boolean p2pub = false;
+        boolean p4pub = false;
+        Broadcaster bJunk = [
+                broadcast: {
+                    Object o ->
+                        fail('should not get here')
+                },
+                getID    : {
+                    return '/livefeed/JUNK'
+                }
+        ] as Broadcaster
+        Broadcaster b2 = [
+                broadcast: {
+                    Object o ->
+                        assert o in WebSocketMessage
+                        assert o.messageType == WebSocketMessage.MessageType.Player
+                        assert o.player.is(PTWO)
+                        assertNull o.message
+                        assertNull o.game
+                        p2pub = true
+                        null
+                },
+                getID    : {
+                    return '/livefeed/' + PTWO.idAsString
+                }
+        ] as Broadcaster
+        Broadcaster b4 = [
+                broadcast: {
+                    Object o ->
+                        assert o in WebSocketMessage
+                        assert o.messageType == WebSocketMessage.MessageType.Player
+                        assert o.player.is(PFOUR)
+                        assertNull o.message
+                        assertNull o.game
+                        p4pub = true
+                        null
+                },
+                getID    : {
+                    return '/livefeed/' + PFOUR.idAsString
+                }
+        ] as Broadcaster
+        listener.broadcasterFactory = [
+                lookupAll: {
+                    return [b2, b4, bJunk]
+                }
+        ] as BroadcasterFactory
+        listener.playerRepository = [
+                findOne: {
+                    String id ->
+                        if (id == PTWO.idAsString) {
+                            return PTWO
+                        }
+                        if (id == PFOUR.idAsString) {
+                            return PFOUR
+                        }
+                        if (id == 'JUNK') {
+                            return null
+                        }
+                        fail('unknown id')
+                }
+        ] as AbstractPlayerRepository
+        listener.allPlayersChanged()
         assert p2pub && p4pub
     }
 

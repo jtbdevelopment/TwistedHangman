@@ -20,12 +20,12 @@ import org.springframework.stereotype.Component
 @Component
 @CompileStatic
 class PlayerGameTracker {
-    private static final String FREE_GAMES_FIELD = 'gameSpecificPlayerAttributes.freeGamesUsedToday'
-    private static final String PAID_GAMES_FIELD = 'gameSpecificPlayerAttributes.availablePurchasedGames'
-    private static final Update UPDATE_FREE_GAMES = new Update().inc(FREE_GAMES_FIELD, 1)
-    private static final Update REVERT_FREE_GAMES = new Update().inc(FREE_GAMES_FIELD, -1)
-    private static final Update UPDATE_PAID_GAMES = new Update().inc(PAID_GAMES_FIELD, -1)
-    private static final Update REVERT_PAID_GAMES = new Update().inc(PAID_GAMES_FIELD, 1)
+    private static final Update UPDATE_FREE_GAMES = new Update().inc(TwistedHangmanPlayerAttributes.FREE_GAMES_FIELD, 1)
+    private static
+    final Update REVERT_FREE_GAMES = new Update().inc(TwistedHangmanPlayerAttributes.FREE_GAMES_FIELD, -1)
+    private static
+    final Update UPDATE_PAID_GAMES = new Update().inc(TwistedHangmanPlayerAttributes.PAID_GAMES_FIELD, -1)
+    private static final Update REVERT_PAID_GAMES = new Update().inc(TwistedHangmanPlayerAttributes.PAID_GAMES_FIELD, 1)
     private static final FindAndModifyOptions RETURN_NEW_OPTION = new FindAndModifyOptions().returnNew(true)
 
     @Autowired
@@ -57,7 +57,7 @@ class PlayerGameTracker {
 
         //  Try free game first
         MongoPlayer updated = (MongoPlayer) mongoOperations.findAndModify(
-                Query.query(Criteria.where('_id').is(player.id).and(FREE_GAMES_FIELD).lt(freeGames)),
+                Query.query(Criteria.where('_id').is(player.id).and(TwistedHangmanPlayerAttributes.FREE_GAMES_FIELD).lt(freeGames)),
                 UPDATE_FREE_GAMES,
                 RETURN_NEW_OPTION,
                 player.class
@@ -70,7 +70,7 @@ class PlayerGameTracker {
         }
 
         updated = (MongoPlayer) mongoOperations.findAndModify(
-                Query.query(Criteria.where('_id').is(player.id).and(PAID_GAMES_FIELD).gt(0)),
+                Query.query(Criteria.where('_id').is(player.id).and(TwistedHangmanPlayerAttributes.PAID_GAMES_FIELD).gt(0)),
                 UPDATE_PAID_GAMES,
                 RETURN_NEW_OPTION,
                 player.class

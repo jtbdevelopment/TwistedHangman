@@ -8,4 +8,6 @@ import com.jtbdevelopment.games.players.Player
  */
 interface PlayerListener {
     void playerChanged(final Player player)
+
+    void allPlayersChanged()
 }

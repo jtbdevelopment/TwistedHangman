@@ -11,6 +11,8 @@ import org.springframework.data.mongodb.core.mapping.Document
 @CompileStatic
 @Document
 class TwistedHangmanPlayerAttributes implements GameSpecificPlayerAttributes {
+    public static final String FREE_GAMES_FIELD = 'gameSpecificPlayerAttributes.freeGamesUsedToday'
+    public static final String PAID_GAMES_FIELD = 'gameSpecificPlayerAttributes.availablePurchasedGames'
     public static final int DEFAULT_FREE_GAMES_PER_DAY = 10;
     public static final int DEFAULT_PREMIUM_PLAYER_GAMES_PER_DAY = 25;
 

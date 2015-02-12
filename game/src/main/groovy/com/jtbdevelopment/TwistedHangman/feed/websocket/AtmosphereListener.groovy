@@ -4,6 +4,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.publish.GameListener
 import com.jtbdevelopment.TwistedHangman.publish.PlayerListener
+import com.jtbdevelopment.games.dao.AbstractPlayerRepository
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
@@ -21,6 +22,9 @@ import org.springframework.stereotype.Component
 class AtmosphereListener implements GameListener, PlayerListener {
     @Autowired
     GameMasker gameMasker
+
+    @Autowired
+    AbstractPlayerRepository playerRepository
 
     //  TODO - injectable in theory when 2.3 comes out, currently only a RC.  Replace getBroadcasterFactory then
     BroadcasterFactory broadcasterFactory
@@ -54,6 +58,17 @@ class AtmosphereListener implements GameListener, PlayerListener {
                             player: (MongoPlayer) player
                     )
             )
+        }
+    }
+
+    @Override
+    void allPlayersChanged() {
+        getBroadcasterFactory().lookupAll().each {
+            Broadcaster broadcaster ->
+                Player p = (Player) playerRepository.findOne(broadcaster.ID.replace('/livefeed/', ''))
+                if (p) {
+                    broadcaster.broadcast(new WebSocketMessage(messageType: WebSocketMessage.MessageType.Player, player: p))
+                }
         }
     }
 

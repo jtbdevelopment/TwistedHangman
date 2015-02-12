@@ -25,7 +25,6 @@ class PlayerPublisher {
 
     ExecutorService service;
 
-    //  Returns game primarily to allow easy chaining
     void publish(final Player player) {
         service.submit(new Runnable() {
             @Override
@@ -40,6 +39,19 @@ class PlayerPublisher {
         })
     }
 
+    void publishAll() {
+        service.submit(new Runnable() {
+            @Override
+            void run() {
+                if (subscribers != null) {
+                    subscribers.each {
+                        PlayerListener listener ->
+                            listener.allPlayersChanged()
+                    }
+                }
+            }
+        })
+    }
 
     @PostConstruct
     public void setUp() {
