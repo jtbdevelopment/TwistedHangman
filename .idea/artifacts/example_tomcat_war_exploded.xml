@@ -10,6 +10,8 @@
           <element id="archive" name="game-0.5-SNAPSHOT.jar">
             <element id="module-output" name="game" />
           </element>
+          <element id="library" level="project" name="Maven: org.quartz-scheduler:quartz:2.2.1" />
+          <element id="library" level="project" name="Maven: c3p0:c3p0:0.9.1.1" />
           <element id="library" level="project" name="Maven: com.jtbdevelopment.core-common:core-spring-web-mongo:1.0" />
           <element id="library" level="project" name="Maven: com.jtbdevelopment.core-common:core-spring-web:1.0" />
           <element id="library" level="project" name="Maven: com.jtbdevelopment.core-common:core-spring:1.0" />
@@ -57,6 +59,7 @@
           <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.8.2" />
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-config:3.2.5.RELEASE" />
           <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context-support:4.1.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.glassfish.jersey.ext:jersey-spring3:2.13" />
           <element id="library" level="project" name="Maven: org.glassfish.jersey.core:jersey-server:2.13" />
           <element id="library" level="project" name="Maven: org.glassfish.jersey.core:jersey-client:2.13" />

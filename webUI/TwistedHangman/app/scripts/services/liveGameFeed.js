@@ -31,6 +31,7 @@ angular.module('twistedHangmanApp').factory('twLiveGameFeed',
 
               if (angular.isDefined(message.messageType)) {
                 switch (message.messageType.toString()) {
+                  //  TODO - Handle Alert
                   case 'Game':
                     $rootScope.$broadcast('gameUpdate', message.game.id, message.game);
                     return;

@@ -23,6 +23,10 @@ angular.module('twistedHangmanApp').factory('twFacebook',
             };
 
             (function (d, s, id) {
+              function onLoadCB() {
+                loaded = false;
+                fbLoaded.reject();
+              }
               var js, fjs = d.getElementsByTagName(s)[0];
               if (d.getElementById(id)) {
                 return;
@@ -32,10 +36,6 @@ angular.module('twistedHangmanApp').factory('twFacebook',
               js.src = '//connect.facebook.net/en_US/sdk.js';
               js.onerror = onLoadCB;
               fjs.parentNode.insertBefore(js, fjs);
-              function onLoadCB() {
-                loaded = false;
-                fbLoaded.reject();
-              }
             }(document, 'script', 'facebook-jssdk'));
 
             loaded = true;

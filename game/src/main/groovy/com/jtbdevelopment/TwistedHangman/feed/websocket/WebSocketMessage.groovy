@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.feed.websocket
 
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
-import com.jtbdevelopment.games.mongo.players.MongoPlayer
+import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
 
 /**
@@ -11,13 +11,14 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class WebSocketMessage {
     public enum MessageType {
-        Heartbeat,
-        Game,
-        Player,
+        Heartbeat,      //  Check message
+        Game,           //  Check game
+        Player,         //  Check player
+        Alert,          //  Check message
     }
 
     MessageType messageType
     MaskedGame game
-    MongoPlayer player
+    Player player
     String message
 }
