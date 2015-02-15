@@ -25,21 +25,6 @@
         <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
-    <option name="ignoredFiles">
-      <set>
-        <option value="$PROJECT_DIR$/core-spring-web-mongo/pom.xml" />
-        <option value="$PROJECT_DIR$/core-spring-web/pom.xml" />
-        <option value="$PROJECT_DIR$/gamecore-dictionary/pom.xml" />
-        <option value="$PROJECT_DIR$/games-core-dictionaries/pom.xml" />
-        <option value="$PROJECT_DIR$/games-core-dictionary/pom.xml" />
-        <option value="$PROJECT_DIR$/games-core-mongo/pom.xml" />
-        <option value="$PROJECT_DIR$/games-core-web/pom.xml" />
-        <option value="$PROJECT_DIR$/games-core/pom.xml" />
-        <option value="$PROJECT_DIR$/rest/pom.xml" />
-        <option value="$PROJECT_DIR$/security/pom.xml" />
-        <option value="$PROJECT_DIR$/utilities/pom.xml" />
-      </set>
-    </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
