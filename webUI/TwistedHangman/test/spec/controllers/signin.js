@@ -44,12 +44,14 @@ describe('Controller: SignInCtrl', function () {
     expect(scope.showFacebook).toEqual(false);
     expect(scope.showManual).toEqual(false);
     expect(scope.message).toEqual('Initializing...');
-    facebookDeferred.resolve(true);
+    expect(scope.facebookPermissions).toEqual('');
+    facebookDeferred.resolve({auto: true, permissions: 'perm'});
     scope.$apply();
     expect(scope.showFacebook).toEqual(false);
     expect(scope.showManual).toEqual(false);
     expect(scope.message).toEqual('Logging in via Facebook');
     expect(window.location).toEqual('/auth/facebook');
+    expect(scope.facebookPermissions).toEqual('perm');
   });
 
   it('initializes and cannot autologin with localhost', function () {
@@ -57,12 +59,14 @@ describe('Controller: SignInCtrl', function () {
     expect(scope.showFacebook).toEqual(false);
     expect(scope.showManual).toEqual(false);
     expect(scope.message).toEqual('Initializing...');
+    expect(scope.facebookPermissions).toEqual('');
     window.location = {href: 'somethinglocalhostsomething'};
-    facebookDeferred.resolve(false);
+    facebookDeferred.resolve({auto: false, permissions: 'perm'});
     scope.$apply();
     expect(scope.showFacebook).toEqual(true);
     expect(scope.showManual).toEqual(true);
     expect(scope.message).toEqual('');
+    expect(scope.facebookPermissions).toEqual('perm');
   });
 
   it('errors with localhost', function () {
@@ -70,12 +74,14 @@ describe('Controller: SignInCtrl', function () {
     expect(scope.showFacebook).toEqual(false);
     expect(scope.showManual).toEqual(false);
     expect(scope.message).toEqual('Initializing...');
+    expect(scope.facebookPermissions).toEqual('');
     window.location = {href: 'somethinglocalhostsomething'};
     facebookDeferred.reject();
     scope.$apply();
     expect(scope.showFacebook).toEqual(true);
     expect(scope.showManual).toEqual(true);
     expect(scope.message).toEqual('');
+    expect(scope.facebookPermissions).toEqual('');
   });
 
   it('initializes and cannot autologin with -dev', function () {
@@ -83,12 +89,14 @@ describe('Controller: SignInCtrl', function () {
     expect(scope.showFacebook).toEqual(false);
     expect(scope.showManual).toEqual(false);
     expect(scope.message).toEqual('Initializing...');
+    expect(scope.facebookPermissions).toEqual('');
     window.location = {href: 'something-devsomething'};
-    facebookDeferred.resolve(false);
+    facebookDeferred.resolve({auto: false, permissions: 'perm'});
     scope.$apply();
     expect(scope.showFacebook).toEqual(true);
     expect(scope.showManual).toEqual(true);
     expect(scope.message).toEqual('');
+    expect(scope.facebookPermissions).toEqual('perm');
   });
 
   it('errors with -dev', function () {
@@ -96,12 +104,14 @@ describe('Controller: SignInCtrl', function () {
     expect(scope.showFacebook).toEqual(false);
     expect(scope.showManual).toEqual(false);
     expect(scope.message).toEqual('Initializing...');
+    expect(scope.facebookPermissions).toEqual('');
     window.location = {href: 'something-devsomething'};
     facebookDeferred.reject();
     scope.$apply();
     expect(scope.showFacebook).toEqual(true);
     expect(scope.showManual).toEqual(true);
     expect(scope.message).toEqual('');
+    expect(scope.facebookPermissions).toEqual('');
   });
 
   it('initializes and cannot autologin with non-manual', function () {
@@ -109,12 +119,14 @@ describe('Controller: SignInCtrl', function () {
     expect(scope.showFacebook).toEqual(false);
     expect(scope.showManual).toEqual(false);
     expect(scope.message).toEqual('Initializing...');
+    expect(scope.facebookPermissions).toEqual('');
     window.location = {href: 'somethingsomething'};
-    facebookDeferred.resolve(false);
+    facebookDeferred.resolve({auto: false, permissions: 'perm2'});
     scope.$apply();
     expect(scope.showFacebook).toEqual(true);
     expect(scope.showManual).toEqual(false);
     expect(scope.message).toEqual('');
+    expect(scope.facebookPermissions).toEqual('perm2');
   });
 
   it('errors with non-manual', function () {
@@ -122,11 +134,13 @@ describe('Controller: SignInCtrl', function () {
     expect(scope.showFacebook).toEqual(false);
     expect(scope.showManual).toEqual(false);
     expect(scope.message).toEqual('Initializing...');
+    expect(scope.facebookPermissions).toEqual('');
     window.location = {href: 'somethingsomething'};
     facebookDeferred.reject();
     scope.$apply();
     expect(scope.showFacebook).toEqual(true);
     expect(scope.showManual).toEqual(false);
     expect(scope.message).toEqual('');
+    expect(scope.facebookPermissions).toEqual('');
   });
 });

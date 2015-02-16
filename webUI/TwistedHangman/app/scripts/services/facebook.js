@@ -6,6 +6,7 @@ angular.module('twistedHangmanApp').factory('twFacebook',
     function ($http, $location, $q) {
       var loaded = false;
       var facebookAppId = '';
+      var facebookPermissions = '';
 
       //  TODO - deal with facebook disconnect and such
       function loadFB() {
@@ -13,13 +14,14 @@ angular.module('twistedHangmanApp').factory('twFacebook',
         if (!loaded) {
           $http.get('/api/social/apis', {cache: true}).success(function (response) {
             facebookAppId = response.facebookAppId;
+            facebookPermissions = response.facebookPermissions;
             window.fbAsyncInit = function () {
               FB.init({
                 appId: facebookAppId,
                 xfbml: true,
                 version: 'v2.1'
               });
-              fbLoaded.resolve();
+              fbLoaded.resolve(facebookPermissions);
             };
 
             (function (d, s, id) {
@@ -27,6 +29,7 @@ angular.module('twistedHangmanApp').factory('twFacebook',
                 loaded = false;
                 fbLoaded.reject();
               }
+
               var js, fjs = d.getElementsByTagName(s)[0];
               if (d.getElementById(id)) {
                 return;
@@ -54,12 +57,14 @@ angular.module('twistedHangmanApp').factory('twFacebook',
       return {
         canAutoSignIn: function () {
           var autoDefer = $q.defer();
-          loadFB().then(function () {
+          loadFB().then(function (facebookPermissions) {
             FB.getLoginStatus(function (response) {
               autoDefer.resolve(
-                angular.isDefined(response) &&
-                angular.isDefined(response.status) &&
-                response.status === 'connected');
+                {
+                  auto: angular.isDefined(response) && angular.isDefined(response.status) && response.status === 'connected',
+                  permissions: facebookPermissions
+                }
+              );
             });
           }, function () {
             autoDefer.reject();

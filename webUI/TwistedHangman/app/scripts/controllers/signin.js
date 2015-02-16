@@ -15,6 +15,7 @@ angular.module('twistedHangmanApp')
       $scope.showFacebook = false;
       $scope.showManual = false;
       $scope.csrf = $cookies['XSRF-TOKEN'];
+      $scope.facebookPermissions = '';
 
       function showLoginOptions() {
         $scope.showFacebook = true;
@@ -29,8 +30,9 @@ angular.module('twistedHangmanApp')
         $window.location = '/auth/facebook';
       }
 
-      twFacebook.canAutoSignIn().then(function (auto) {
-        if (!auto) {
+      twFacebook.canAutoSignIn().then(function (details) {
+        $scope.facebookPermissions = details.permissions;
+        if (!details.auto) {
           showLoginOptions();
         } else {
           autoLogin();

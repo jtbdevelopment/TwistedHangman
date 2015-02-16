@@ -45,7 +45,7 @@
   <div class="container" ng-show="showFacebook">
     <div class="row text-center">
       <div class="center">
-        <fb:login-button scope="public_profile,email,user_friends" onlogin="window.location.reload()"></fb:login-button>
+        <fb:login-button scope="{{facebookPermissions}}" onlogin="window.location.reload()"></fb:login-button>
       </div>
     </div>
   </div>
