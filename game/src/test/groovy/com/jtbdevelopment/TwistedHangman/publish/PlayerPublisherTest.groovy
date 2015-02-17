@@ -40,20 +40,22 @@ class PlayerPublisherTest extends TwistedHangmanTestCase {
         //  Not crashing is success
     }
 
-    void testPublish() {
+    void testPublishDefaultInitiatingServer() {
         publisher.threads = 1
         publisher.setUp()
 
         def players = []
         def gl1 = [
                 playerChanged: {
-                    MongoPlayer p ->
+                    MongoPlayer p, boolean iS ->
+                        assert iS
                         players.add(p)
                 },
         ] as PlayerListener
         def gl2 = [
                 playerChanged: {
-                    MongoPlayer p ->
+                    MongoPlayer p, boolean iS ->
+                        assert iS
                         players.add(p)
                 },
         ] as PlayerListener
@@ -65,5 +67,164 @@ class PlayerPublisherTest extends TwistedHangmanTestCase {
         Thread.sleep(1000);
         publisher.service.shutdown()
         assert players == [PTWO, PTWO, PONE, PONE]
+    }
+
+    void testPublishTrueInitiatingServer() {
+        publisher.threads = 1
+        publisher.setUp()
+
+        def players = []
+        def gl1 = [
+                playerChanged: {
+                    MongoPlayer p, boolean iS ->
+                        assert iS
+                        players.add(p)
+                },
+        ] as PlayerListener
+        def gl2 = [
+                playerChanged: {
+                    MongoPlayer p, boolean iS ->
+                        assert iS
+                        players.add(p)
+                },
+        ] as PlayerListener
+
+        publisher.subscribers = [gl1, gl2]
+
+        publisher.publish(PTWO, true)
+        publisher.publish(PONE, true)
+        Thread.sleep(1000);
+        publisher.service.shutdown()
+        assert players == [PTWO, PTWO, PONE, PONE]
+    }
+
+    void testPublishFalseInitiatingServer() {
+        publisher.threads = 1
+        publisher.setUp()
+
+        def players = []
+        def gl1 = [
+                playerChanged: {
+                    MongoPlayer p, boolean iS ->
+                        assertFalse iS
+                        players.add(p)
+                },
+        ] as PlayerListener
+        def gl2 = [
+                playerChanged: {
+                    MongoPlayer p, boolean iS ->
+                        assertFalse iS
+                        players.add(p)
+                },
+        ] as PlayerListener
+
+        publisher.subscribers = [gl1, gl2]
+
+        publisher.publish(PTWO, false)
+        publisher.publish(PONE, false)
+        Thread.sleep(1000);
+        publisher.service.shutdown()
+        assert players == [PTWO, PTWO, PONE, PONE]
+    }
+
+    void testPublishAllWithNoListeners() {
+        publisher.threads = 1
+        publisher.setUp()
+
+        assert publisher.subscribers == null
+        publisher.publishAll()
+        publisher.service.shutdown()
+
+        //  Not crashing is success
+    }
+
+    void testPublishAllDefaultInitiatingServer() {
+        publisher.threads = 1
+        publisher.setUp()
+
+        def gl1Called = false, gl2Called = false
+        def gl1 = [
+                allPlayersChanged: {
+                    boolean iS ->
+                        assert iS
+                        gl1Called = true
+                },
+        ] as PlayerListener
+        def gl2 = [
+                allPlayersChanged: {
+                    boolean iS ->
+                        assert iS
+                        gl2Called = true
+                },
+        ] as PlayerListener
+
+        publisher.subscribers = [gl1, gl2]
+
+        publisher.publishAll()
+        publisher.publishAll()
+        Thread.sleep(1000);
+        publisher.service.shutdown()
+        assert gl1Called
+        assert gl2Called
+    }
+
+    void testPublishAllTrueInitiatingServer() {
+        publisher.threads = 1
+        publisher.setUp()
+
+        def gl1Called = false, gl2Called = false
+        def gl1 = [
+                allPlayersChanged: {
+                    boolean iS ->
+                        assert iS
+                        gl1Called = true
+                },
+        ] as PlayerListener
+        def gl2 = [
+                allPlayersChanged: {
+                    boolean iS ->
+                        assert iS
+                        gl2Called = true
+                },
+        ] as PlayerListener
+
+        publisher.subscribers = [gl1, gl2]
+
+        publisher.publishAll(true)
+        publisher.publishAll(true)
+        Thread.sleep(1000);
+        publisher.service.shutdown()
+        assert gl1Called
+        assert gl2Called
+    }
+
+    void testPublishAllFalseInitiatingServer() {
+        publisher.threads = 1
+        publisher.setUp()
+
+        def gl1Called = false, gl2Called = false
+        def gl1 = [
+                allPlayersChanged: {
+                    boolean iS ->
+                        assertFalse iS
+                        gl1Called = true
+                },
+        ] as PlayerListener
+        def gl2 = [
+                allPlayersChanged: {
+                    boolean iS ->
+                        assertFalse iS
+                        gl2Called = true
+                },
+        ] as PlayerListener
+
+        publisher.subscribers = [gl1, gl2]
+
+        publisher.publishAll(false)
+        publisher.publishAll(false)
+        Thread.sleep(1000);
+        publisher.service.shutdown()
+        assert gl1Called
+        assert gl2Called
     }
 }

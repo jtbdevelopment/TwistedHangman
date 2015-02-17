@@ -17,6 +17,9 @@ class AtmosphereListenerTest extends TwistedHangmanTestCase {
 
     AtmosphereListener listener = new AtmosphereListener()
 
+    //  Initiating Server Flag irrelevant here
+    boolean initiatingServer = new Random().nextBoolean()
+
     void testPublishPlayerToConnectedPlayer() {
         boolean p2pub = false;
         boolean p4pub = false;
@@ -64,7 +67,7 @@ class AtmosphereListenerTest extends TwistedHangmanTestCase {
         ] as BroadcasterFactory
         listener.broadcasterFactory = factory
         [PONE, PTWO, PTHREE, PFOUR].each {
-            listener.playerChanged(it)
+            listener.playerChanged(it, initiatingServer)
         }
         assert p2pub && p4pub
     }
@@ -131,7 +134,7 @@ class AtmosphereListenerTest extends TwistedHangmanTestCase {
                         fail('unknown id')
                 }
         ] as AbstractPlayerRepository
-        listener.allPlayersChanged()
+        listener.allPlayersChanged(initiatingServer)
         assert p2pub && p4pub
     }
 
@@ -198,7 +201,7 @@ class AtmosphereListenerTest extends TwistedHangmanTestCase {
         listener.broadcasterFactory = factory
         listener.gameMasker = masker
 
-        listener.gameChanged(game, PONE)
+        listener.gameChanged(game, PONE, initiatingServer)
         assert p2pub && p4pub
     }
 }

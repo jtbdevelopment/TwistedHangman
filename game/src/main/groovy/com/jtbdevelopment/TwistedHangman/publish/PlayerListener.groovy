@@ -7,7 +7,7 @@ import com.jtbdevelopment.games.players.Player
  * Time: 9:45 PM
  */
 interface PlayerListener {
-    void playerChanged(final Player player)
+    void playerChanged(final Player player, final boolean initiatingServer)
 
-    void allPlayersChanged()
+    void allPlayersChanged(final boolean initiatingServer)
 }

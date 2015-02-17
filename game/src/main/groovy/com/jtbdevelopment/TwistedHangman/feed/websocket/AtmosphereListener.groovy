@@ -30,7 +30,7 @@ class AtmosphereListener implements GameListener, PlayerListener {
     BroadcasterFactory broadcasterFactory
 
     @Override
-    void gameChanged(final Game game, final Player initiatingPlayer) {
+    void gameChanged(final Game game, final Player initiatingPlayer, final boolean initiatingServer) {
         game.players.findAll {
             Player p ->
                 p != initiatingPlayer
@@ -49,7 +49,7 @@ class AtmosphereListener implements GameListener, PlayerListener {
     }
 
     @Override
-    void playerChanged(final Player player) {
+    void playerChanged(final Player player, final boolean initiatingServer) {
         Broadcaster broadcaster = getBroadcasterFactory().lookup(LiveFeedService.PATH_ROOT + player.idAsString)
         if (broadcaster != null) {
             broadcaster.broadcast(
@@ -62,7 +62,7 @@ class AtmosphereListener implements GameListener, PlayerListener {
     }
 
     @Override
-    void allPlayersChanged() {
+    void allPlayersChanged(final boolean initiatingServer) {
         getBroadcasterFactory().lookupAll().each {
             Broadcaster broadcaster ->
                 Player p = (Player) playerRepository.findOne(broadcaster.ID.replace('/livefeed/', ''))

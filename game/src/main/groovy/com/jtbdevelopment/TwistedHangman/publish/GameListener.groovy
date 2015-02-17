@@ -10,5 +10,5 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 interface GameListener {
-    void gameChanged(final Game game, final Player initiatingPlayer)
+    void gameChanged(final Game game, final Player initiatingPlayer, final boolean initiatingServer)
 }

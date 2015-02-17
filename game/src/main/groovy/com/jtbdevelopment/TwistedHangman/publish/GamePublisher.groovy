@@ -27,14 +27,14 @@ class GamePublisher {
     ExecutorService service;
 
     //  Returns game primarily to allow easy chaining
-    Game publish(final Game game, final Player initiatingPlayer) {
+    Game publish(final Game game, final Player initiatingPlayer, boolean initiatingServer = true) {
         service.submit(new Runnable() {
             @Override
             void run() {
                 if (subscribers != null) {
                     subscribers.each {
                         GameListener listener ->
-                            listener.gameChanged(game, initiatingPlayer)
+                            listener.gameChanged(game, initiatingPlayer, initiatingServer)
                     }
                 }
             }

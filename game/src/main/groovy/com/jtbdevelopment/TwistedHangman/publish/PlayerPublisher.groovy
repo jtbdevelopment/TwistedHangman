@@ -25,28 +25,28 @@ class PlayerPublisher {
 
     ExecutorService service;
 
-    void publish(final Player player) {
+    void publish(final Player player, final boolean initiatingServer = true) {
         service.submit(new Runnable() {
             @Override
             void run() {
                 if (subscribers != null) {
                     subscribers.each {
                         PlayerListener listener ->
-                            listener.playerChanged(player)
+                            listener.playerChanged(player, initiatingServer)
                     }
                 }
             }
         })
     }
 
-    void publishAll() {
+    void publishAll(boolean initiatingServer = true) {
         service.submit(new Runnable() {
             @Override
             void run() {
                 if (subscribers != null) {
                     subscribers.each {
                         PlayerListener listener ->
-                            listener.allPlayersChanged()
+                            listener.allPlayersChanged(initiatingServer)
                     }
                 }
             }

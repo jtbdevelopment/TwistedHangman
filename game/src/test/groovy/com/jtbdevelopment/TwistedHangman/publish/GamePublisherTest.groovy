@@ -46,7 +46,7 @@ class GamePublisherTest extends TwistedHangmanTestCase {
         //  Not crashing is success
     }
 
-    void testPublish() {
+    void testPublishWithDefaultInitiatingServer() {
         publisher.threads = 1
         publisher.setUp()
 
@@ -54,14 +54,16 @@ class GamePublisherTest extends TwistedHangmanTestCase {
         def players = []
         def gl1 = [
                 gameChanged: {
-                    Game g, MongoPlayer p ->
+                    Game g, MongoPlayer p, boolean iS ->
+                        assert iS
                         games.add(g)
                         players.add(p)
                 },
         ] as GameListener
         def gl2 = [
                 gameChanged: {
-                    Game g, MongoPlayer p ->
+                    Game g, MongoPlayer p, boolean iS ->
+                        assert iS
                         games.add(g)
                         players.add(p)
                 },
@@ -76,6 +78,82 @@ class GamePublisherTest extends TwistedHangmanTestCase {
 
         publisher.publish(g1, p2)
         publisher.publish(g2, p1)
+        Thread.sleep(1000);
+        publisher.service.shutdown()
+        assert games == [g1, g1, g2, g2]
+        assert players == [p2, p2, p1, p1]
+    }
+
+    void testPublishWithTrueInitiatingServer() {
+        publisher.threads = 1
+        publisher.setUp()
+
+        def games = []
+        def players = []
+        def gl1 = [
+                gameChanged: {
+                    Game g, MongoPlayer p, boolean iS ->
+                        assert iS
+                        games.add(g)
+                        players.add(p)
+                },
+        ] as GameListener
+        def gl2 = [
+                gameChanged: {
+                    Game g, MongoPlayer p, boolean iS ->
+                        assert iS
+                        games.add(g)
+                        players.add(p)
+                },
+        ] as GameListener
+
+        publisher.subscribers = [gl1, gl2]
+
+        Game g1 = makeSimpleGame("1")
+        Game g2 = makeSimpleGame("2")
+        MongoPlayer p1 = PONE
+        MongoPlayer p2 = PTWO
+
+        publisher.publish(g1, p2, true)
+        publisher.publish(g2, p1, true)
+        Thread.sleep(1000);
+        publisher.service.shutdown()
+        assert games == [g1, g1, g2, g2]
+        assert players == [p2, p2, p1, p1]
+    }
+
+    void testPublishWithFalseInitiatingServer() {
+        publisher.threads = 1
+        publisher.setUp()
+
+        def games = []
+        def players = []
+        def gl1 = [
+                gameChanged: {
+                    Game g, MongoPlayer p, boolean iS ->
+                        assertFalse iS
+                        games.add(g)
+                        players.add(p)
+                },
+        ] as GameListener
+        def gl2 = [
+                gameChanged: {
+                    Game g, MongoPlayer p, boolean iS ->
+                        assertFalse iS
+                        games.add(g)
+                        players.add(p)
+                },
+        ] as GameListener
+
+        publisher.subscribers = [gl1, gl2]
+
+        Game g1 = makeSimpleGame("1")
+        Game g2 = makeSimpleGame("2")
+        MongoPlayer p1 = PONE
+        MongoPlayer p2 = PTWO
+
+        publisher.publish(g1, p2, false)
+        publisher.publish(g2, p1, false)
         Thread.sleep(1000);
         publisher.service.shutdown()
         assert games == [g1, g1, g2, g2]
