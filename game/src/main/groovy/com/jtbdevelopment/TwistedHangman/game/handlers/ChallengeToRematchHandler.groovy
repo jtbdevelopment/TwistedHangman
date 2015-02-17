@@ -39,7 +39,7 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
             throw new GameIsNotAvailableToRematchException()
         }
         previousGame.rematchTimestamp = ZonedDateTime.now(GMT)
-        Game transitioned = gamePublisher.publish(
+        Game transitioned = (Game) gamePublisher.publish(
                 gameRepository.save(
                         transitionEngine.evaluateGamePhaseForGame(previousGame)),
                 TwistedHangmanSystemPlayerCreator.TH_PLAYER)

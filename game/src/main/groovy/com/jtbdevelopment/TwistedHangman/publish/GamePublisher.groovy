@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.publish
 
-import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.games.games.Game
 import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired

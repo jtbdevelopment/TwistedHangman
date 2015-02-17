@@ -21,15 +21,19 @@ import java.time.ZonedDateTime
 @CompileStatic
 class GameMasker {
     @SuppressWarnings("GrMethodMayBeStatic")
-    MaskedGame maskGameForPlayer(final Game game, final Player<ObjectId> player) {
-        MaskedGame playerMaskedGame = new MaskedGame()
+    MaskedGame maskGameForPlayer(final com.jtbdevelopment.games.games.Game game, final Player<ObjectId> player) {
+        if (game instanceof Game) {
+            MaskedGame playerMaskedGame = new MaskedGame()
 
-        playerMaskedGame.maskedForPlayerID = player.idAsString
-        playerMaskedGame.maskedForPlayerMD5 = player.md5
-        copyUnmaskedData(game, playerMaskedGame)
-        copyMaskedData(game, player, playerMaskedGame)
+            playerMaskedGame.maskedForPlayerID = player.idAsString
+            playerMaskedGame.maskedForPlayerMD5 = player.md5
+            copyUnmaskedData(game, playerMaskedGame)
+            copyMaskedData(game, player, playerMaskedGame)
 
-        playerMaskedGame
+            playerMaskedGame
+        } else {
+            //  TODO
+        }
     }
 
     protected static void copyMaskedData(

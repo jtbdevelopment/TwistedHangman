@@ -1,10 +1,11 @@
 package com.jtbdevelopment.TwistedHangman.feed.websocket
 
-import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.publish.GameListener
 import com.jtbdevelopment.TwistedHangman.publish.PlayerListener
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.games.Game
+import com.jtbdevelopment.games.games.MultiPlayerGame
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
@@ -31,20 +32,24 @@ class AtmosphereListener implements GameListener, PlayerListener {
 
     @Override
     void gameChanged(final Game game, final Player initiatingPlayer, final boolean initiatingServer) {
-        game.players.findAll {
-            Player p ->
-                p != initiatingPlayer
-        }.each {
-            Player publish ->
-                Broadcaster broadcaster = getBroadcasterFactory().lookup(LiveFeedService.PATH_ROOT + publish.idAsString)
-                if (broadcaster != null) {
-                    broadcaster.broadcast(
-                            new WebSocketMessage(
-                                    messageType: WebSocketMessage.MessageType.Game,
-                                    game: gameMasker.maskGameForPlayer(game, publish)
-                            )
-                    )
-                }
+        if (game instanceof MultiPlayerGame) {
+            game.players.findAll {
+                Player p ->
+                    p != initiatingPlayer
+            }.each {
+                Player publish ->
+                    Broadcaster broadcaster = getBroadcasterFactory().lookup(LiveFeedService.PATH_ROOT + publish.idAsString)
+                    if (broadcaster != null) {
+                        broadcaster.broadcast(
+                                new WebSocketMessage(
+                                        messageType: WebSocketMessage.MessageType.Game,
+                                        game: gameMasker.maskGameForPlayer(game, publish)
+                                )
+                        )
+                    }
+            }
+        } else {
+            //  TODO
         }
     }
 
