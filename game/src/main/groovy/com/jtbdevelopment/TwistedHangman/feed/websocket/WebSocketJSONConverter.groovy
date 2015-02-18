@@ -1,7 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.feed.websocket
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.jtbdevelopment.spring.jackson.ObjectMapperFactory
 import groovy.transform.CompileStatic
 import org.atmosphere.config.managed.Decoder
 import org.atmosphere.config.managed.Encoder
@@ -19,8 +18,8 @@ class WebSocketJSONConverter implements Encoder<WebSocketMessage, String>, Decod
 
     @SuppressWarnings("GrMethodMayBeStatic")
     @Autowired
-    void setObjectMapperFactory(final ObjectMapperFactory objectMapperFactory) {
-        mapper = objectMapperFactory.objectMapper
+    void setObjectMapper(final ObjectMapper objectMapper) {
+        mapper = objectMapper
     }
 
     @Override

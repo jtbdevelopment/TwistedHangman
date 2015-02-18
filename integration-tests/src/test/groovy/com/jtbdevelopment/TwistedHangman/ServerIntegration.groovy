@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedHangman
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
@@ -14,7 +15,6 @@ import com.jtbdevelopment.games.games.PlayerState
 import com.jtbdevelopment.games.mongo.players.MongoManualPlayer
 import com.jtbdevelopment.games.mongo.players.MongoPlayerFactory
 import com.jtbdevelopment.games.players.friendfinder.SourceBasedFriendFinder
-import com.jtbdevelopment.spring.jackson.ObjectMapperFactory
 import org.bson.types.ObjectId
 import org.eclipse.jetty.server.Server
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature
@@ -303,7 +303,7 @@ class ServerIntegration {
         client.register(feature)
         client.register(
                 new JacksonJaxbJsonProvider(
-                        applicationContext.getBean(ObjectMapperFactory.class).objectMapper,
+                        applicationContext.getBean(ObjectMapper.class),
                         JacksonJaxbJsonProvider.DEFAULT_ANNOTATIONS))
         client
     }
