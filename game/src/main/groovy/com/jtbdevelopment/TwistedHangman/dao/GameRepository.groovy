@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.dao
 
 import com.jtbdevelopment.TwistedHangman.game.state.Game
+import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.games.mongo.dao.AbstractMongoMultiPlayerGameRepository
 import groovy.transform.CompileStatic
@@ -14,7 +15,7 @@ import java.time.ZonedDateTime
  * Time: 7:07 AM
  */
 @CompileStatic
-interface GameRepository extends AbstractMongoMultiPlayerGameRepository<Game> {
+interface GameRepository extends AbstractMongoMultiPlayerGameRepository<GameFeature, Game> {
     List<Game> findByPlayersIdAndGamePhaseAndLastUpdateGreaterThan(
             final ObjectId id, final GamePhase gamePhase, final ZonedDateTime cutoff, final Pageable pageable)
 }

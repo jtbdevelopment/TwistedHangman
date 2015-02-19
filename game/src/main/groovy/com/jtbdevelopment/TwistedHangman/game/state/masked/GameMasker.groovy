@@ -130,10 +130,10 @@ class GameMasker {
     }
 
     protected static void copyUnmaskedData(final Game game, final MaskedGame playerMaskedGame) {
-        playerMaskedGame.completedTimestamp = convertTime(game.completedTimestamp)
-        playerMaskedGame.created = convertTime(game.created)
-        playerMaskedGame.declinedTimestamp = convertTime(game.declinedTimestamp)
-        playerMaskedGame.lastUpdate = convertTime(game.lastUpdate)
+        playerMaskedGame.completedTimestamp = convertTime((ZonedDateTime) game.completedTimestamp)
+        playerMaskedGame.created = convertTime((ZonedDateTime) game.created)
+        playerMaskedGame.declinedTimestamp = convertTime((ZonedDateTime) game.declinedTimestamp)
+        playerMaskedGame.lastUpdate = convertTime((ZonedDateTime) game.lastUpdate)
         playerMaskedGame.rematchTimestamp = convertTime(game.rematchTimestamp)
         playerMaskedGame.features.addAll(game.features)
         playerMaskedGame.gamePhase = game.gamePhase

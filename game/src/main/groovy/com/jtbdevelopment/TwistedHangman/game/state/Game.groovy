@@ -19,7 +19,7 @@ import java.time.ZonedDateTime
 @CompoundIndexes([
         @CompoundIndex(name = "player_phase", def = "{'players._id': 1, 'gamePhase': 1, 'lastUpdate': 1}"),
 ])
-public class Game extends AbstractMongoMultiPlayerGame implements Cloneable {
+public class Game extends AbstractMongoMultiPlayerGame<GameFeature> implements Cloneable {
     ZonedDateTime rematchTimestamp
 
     ObjectId previousId
@@ -27,9 +27,6 @@ public class Game extends AbstractMongoMultiPlayerGame implements Cloneable {
     int round;
 
     GamePhase gamePhase
-
-    Set<GameFeature> features = [] as Set
-    Map<GameFeature, Object> featureData = [:]
 
     ObjectId wordPhraseSetter
     Map<ObjectId, IndividualGameState> solverStates = [:]
