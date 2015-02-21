@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component
 /**
  * Date: 2/17/15
  * Time: 6:56 AM
+ *
+ * TODO - actually hook up to something
  */
 @Component
 class UpdatesFromClusterListener {
@@ -44,7 +46,7 @@ class UpdatesFromClusterListener {
         //  TODO - clear cache
         Player p = (Player) playerRepository.findOne(playerId)
         Game g = (Game) gameRepository.findOne(gameId)
-        if (p && g) {
+        if (p != null && g != null) {
             gamePublisher.publish(g, p, false)
         }
     }
