@@ -39,7 +39,7 @@ class GameFactory {
         List<Player<ObjectId>> players = rotatePlayers(previousGame)
 
         Game game = createFreshGame(previousGame.features, players, initiatingPlayer)
-        game.previousId = previousGame.id
+        game.previousId = (ObjectId) previousGame.id
         game.round = previousGame.round + 1
         game.playerRunningScores.putAll(previousGame.playerRunningScores)
 

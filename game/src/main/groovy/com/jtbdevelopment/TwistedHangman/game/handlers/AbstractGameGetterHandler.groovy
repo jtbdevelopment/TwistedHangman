@@ -3,8 +3,8 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.input.PlayerNotPartOfGameException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
-import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.games.exceptions.system.FailedToFindGameException
+import com.jtbdevelopment.games.games.masked.MultiPlayerGameMasker
 import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -24,7 +24,7 @@ class AbstractGameGetterHandler extends AbstractHandler {
     protected GameRepository gameRepository
 
     @Autowired
-    protected GameMasker gameMasker
+    protected MultiPlayerGameMasker gameMasker
 
     protected void validatePlayerForGame(final Game game, final Player<ObjectId> player) {
         if (!game.players.contains(player)) {

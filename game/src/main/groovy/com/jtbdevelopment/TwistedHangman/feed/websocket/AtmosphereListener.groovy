@@ -1,11 +1,11 @@
 package com.jtbdevelopment.TwistedHangman.feed.websocket
 
-import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.publish.GameListener
 import com.jtbdevelopment.TwistedHangman.publish.PlayerListener
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
 import com.jtbdevelopment.games.games.Game
 import com.jtbdevelopment.games.games.MultiPlayerGame
+import com.jtbdevelopment.games.games.masked.MultiPlayerGameMasker
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component
 @CompileStatic
 class AtmosphereListener implements GameListener, PlayerListener {
     @Autowired
-    GameMasker gameMasker
+    MultiPlayerGameMasker gameMasker
 
     @Autowired
     AbstractPlayerRepository playerRepository
@@ -43,7 +43,7 @@ class AtmosphereListener implements GameListener, PlayerListener {
                         broadcaster.broadcast(
                                 new WebSocketMessage(
                                         messageType: WebSocketMessage.MessageType.Game,
-                                        game: gameMasker.maskGameForPlayer(game, publish)
+                                        game: gameMasker.maskGameForPlayer((MultiPlayerGame) game, publish)
                                 )
                         )
                     }

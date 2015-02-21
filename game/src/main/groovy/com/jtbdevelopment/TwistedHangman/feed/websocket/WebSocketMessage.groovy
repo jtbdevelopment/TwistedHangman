@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.feed.websocket
 
-import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
+import com.jtbdevelopment.games.games.masked.MaskedMultiPlayerGame
 import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
 
@@ -18,7 +18,7 @@ class WebSocketMessage {
     }
 
     MessageType messageType
-    MaskedGame game
+    MaskedMultiPlayerGame game
     Player player
     String message
 }

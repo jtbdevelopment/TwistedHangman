@@ -2,7 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
+import com.jtbdevelopment.games.games.masked.MaskedMultiPlayerGame
 import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -26,11 +26,11 @@ class PlayerGamesFinderHandler extends AbstractGameGetterHandler {
     public static final Sort SORT = new Sort(Sort.Direction.DESC, ["lastUpdate", "created"])
     public static final PageRequest PAGE = new PageRequest(DEFAULT_PAGE, DEFAULT_PAGE_SIZE, SORT)
 
-    public List<MaskedGame> findGames(final ObjectId playerID) {
+    public List<MaskedMultiPlayerGame> findGames(final ObjectId playerID) {
         Player<ObjectId> player = loadPlayer(playerID);
         ZonedDateTime now = ZonedDateTime.now(GMT)
 
-        List<MaskedGame> result = [];
+        List<MaskedMultiPlayerGame> result = [];
         //  TODO - Would be nice to be parallel
         //  GPars and compile static not nice
         //  JDK1.8 streams and this build seemed to have issues

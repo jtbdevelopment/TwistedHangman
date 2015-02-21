@@ -3,8 +3,8 @@ package com.jtbdevelopment.TwistedHangman.rest.services
 import com.jtbdevelopment.TwistedHangman.game.handlers.NewGameHandler
 import com.jtbdevelopment.TwistedHangman.game.handlers.PlayerGamesFinderHandler
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.games.masked.MaskedMultiPlayerGame
 import com.jtbdevelopment.games.mongo.players.friendfinder.FriendFinder
 import com.jtbdevelopment.games.players.PlayerRoles
 import com.jtbdevelopment.games.security.SessionUserInfo
@@ -72,14 +72,14 @@ class PlayerServices implements ApplicationContextAware {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("new")
-    MaskedGame createNewGame(final FeaturesAndPlayers featuresAndPlayers) {
+    MaskedMultiPlayerGame createNewGame(final FeaturesAndPlayers featuresAndPlayers) {
         newGameHandler.handleCreateNewGame(playerID.get(), featuresAndPlayers.players, featuresAndPlayers.features)
     }
 
     @GET
     @Path("games")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<MaskedGame> gamesForPlayer() {
+    public List gamesForPlayer() {
         playerGamesFinderHandler.findGames(playerID.get())
     }
 

@@ -5,9 +5,9 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
-import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.PlayerGameTracker
 import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
+import com.jtbdevelopment.games.games.masked.MaskedMultiPlayerGame
 import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -36,13 +36,13 @@ abstract class AbstractGameActionHandler<T> extends AbstractGameGetterHandler {
         return false
     }
 
-    public MaskedGame handleAction(final ObjectId playerID, final ObjectId gameID, T param = null) {
+    public MaskedMultiPlayerGame handleAction(final ObjectId playerID, final ObjectId gameID, T param = null) {
         Player<ObjectId> player = loadPlayer(playerID)
         Game game = loadGame(gameID)
         validatePlayerForGame(game, player)
         Game updatedGame = updateGameWithEligibilityWrapper(player, game, param)
         return gameMasker.maskGameForPlayer(
-                gamePublisher.publish(updatedGame, player),
+                (Game) gamePublisher.publish(updatedGame, player),
                 player
         )
     }

@@ -2,9 +2,9 @@ package com.jtbdevelopment.TwistedHangman.feed.websocket
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
-import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.games.masked.MultiPlayerGameMasker
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import org.atmosphere.cpr.Broadcaster
 import org.atmosphere.cpr.BroadcasterFactory
@@ -169,7 +169,7 @@ class AtmosphereListenerTest extends TwistedHangmanTestCase {
                         null
                 }
         ] as Broadcaster
-        GameMasker masker = [
+        MultiPlayerGameMasker masker = [
                 maskGameForPlayer: {
                     Game g, MongoPlayer p ->
                         assert game.is(g)
@@ -177,7 +177,7 @@ class AtmosphereListenerTest extends TwistedHangmanTestCase {
                         if (p == PFOUR) return mg4
                         fail("Masking for unexpected player")
                 }
-        ] as GameMasker
+        ] as MultiPlayerGameMasker
         BroadcasterFactory factory = [
                 lookup: {
                     String id ->

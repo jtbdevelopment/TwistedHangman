@@ -5,7 +5,9 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
-import com.jtbdevelopment.games.games.PlayerState
+import com.jtbdevelopment.games.games.MultiPlayerGame
+import com.jtbdevelopment.games.games.masked.MaskedMultiPlayerGame
+import com.jtbdevelopment.games.mongo.games.masked.AbstractMongoMultiPlayerGameMasker
 import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -19,70 +21,41 @@ import java.time.ZonedDateTime
  */
 @Component
 @CompileStatic
-class GameMasker {
-    @SuppressWarnings("GrMethodMayBeStatic")
-    MaskedGame maskGameForPlayer(final com.jtbdevelopment.games.games.Game game, final Player<ObjectId> player) {
-        if (game instanceof Game) {
-            MaskedGame playerMaskedGame = new MaskedGame()
-
-            playerMaskedGame.maskedForPlayerID = player.idAsString
-            playerMaskedGame.maskedForPlayerMD5 = player.md5
-            copyUnmaskedData(game, playerMaskedGame)
-            copyMaskedData(game, player, playerMaskedGame)
-
-            playerMaskedGame
-        } else {
-            //  TODO
-        }
-    }
-
-    protected static void copyMaskedData(
-            final Game game, final Player<ObjectId> player, final MaskedGame playerMaskedGame) {
-        Map<ObjectId, Player<ObjectId>> idmap = [:]
-        game.players.each {
-            Player<ObjectId> p ->
-                playerMaskedGame.players[p.md5] = p.displayName
-                playerMaskedGame.playerImages[p.md5] = p.imageUrl
-                playerMaskedGame.playerProfiles[p.md5] = p.profileUrl
-                idmap[p.id] = p
-        }
-        playerMaskedGame.initiatingPlayer = idmap[game.initiatingPlayer].md5
+class GameMasker extends AbstractMongoMultiPlayerGameMasker<GameFeature, Game, MaskedGame> {
+    @Override
+    protected void copyMaskedData(
+            final MultiPlayerGame<ObjectId, ZonedDateTime, GameFeature> g,
+            final Player<ObjectId> player,
+            final MaskedMultiPlayerGame<GameFeature> pmg, final Map<ObjectId, Player<ObjectId>> idMap) {
+        super.copyMaskedData(g, player, pmg, idMap)
+        Game game = (Game) g
+        MaskedGame playerMaskedGame = (MaskedGame) pmg
         game.playerRunningScores.each {
             ObjectId p, Integer score ->
-                playerMaskedGame.playerRunningScores[idmap[p].md5] = score
+                playerMaskedGame.playerRunningScores[idMap[p].md5] = score
         }
         game.playerRoundScores.each {
             ObjectId p, Integer score ->
-                playerMaskedGame.playerRoundScores[idmap[p].md5] = score
-        }
-        game.playerStates.each {
-            ObjectId p, PlayerState state ->
-                playerMaskedGame.playerStates[idmap[p].md5] = state
-        }
-        game.featureData.each {
-            GameFeature feature, Object data ->
-                playerMaskedGame.featureData[feature] =
-                        (data in ObjectId && idmap.containsKey(data)) ?
-                                idmap[(ObjectId) data].md5 :
-                                data
+                playerMaskedGame.playerRoundScores[idMap[p].md5] = score
         }
         game.solverStates.findAll {
             ObjectId p, IndividualGameState gameState ->
-                playerMaskedGame.solverStates[idmap[p].md5] = maskGameState(player, game, idmap[p], gameState, idmap)
+                playerMaskedGame.solverStates[idMap[p].md5] = maskGameState(player, game, idMap[p], gameState, idMap)
         }
         playerMaskedGame.wordPhraseSetter =
                 game.wordPhraseSetter ?
                         game.wordPhraseSetter == TwistedHangmanSystemPlayerCreator.TH_PLAYER.id ?
                                 TwistedHangmanSystemPlayerCreator.TH_PLAYER.md5 :
-                                idmap[game.wordPhraseSetter].md5 : null
+                                idMap[game.wordPhraseSetter].md5 : null
     }
 
-    protected static MaskedIndividualGameState maskGameState(
+    @SuppressWarnings("GrMethodMayBeStatic")
+    protected MaskedIndividualGameState maskGameState(
             final Player<ObjectId> playerMaskingFor,
             final Game game,
             final Player<ObjectId> gameStatePlayer,
             final IndividualGameState gameState,
-            final Map<ObjectId, Player<ObjectId>> idmap) {
+            final Map<ObjectId, Player<ObjectId>> idMap) {
         MaskedIndividualGameState masked = new MaskedIndividualGameState()
 
         if (game.gamePhase == GamePhase.RoundOver ||
@@ -98,8 +71,8 @@ class GameMasker {
             gameState.featureData.each {
                 GameFeature feature, Object data ->
                     masked.featureData[feature] =
-                            (data in ObjectId && idmap.containsKey(data)) ?
-                                    idmap[(ObjectId) data].md5 :
+                            (data in ObjectId && idMap.containsKey(data)) ?
+                                    idMap[(ObjectId) data].md5 :
                                     data
             }
         } else {
@@ -129,19 +102,21 @@ class GameMasker {
         masked
     }
 
-    protected static void copyUnmaskedData(final Game game, final MaskedGame playerMaskedGame) {
-        playerMaskedGame.completedTimestamp = convertTime((ZonedDateTime) game.completedTimestamp)
-        playerMaskedGame.created = convertTime((ZonedDateTime) game.created)
-        playerMaskedGame.declinedTimestamp = convertTime((ZonedDateTime) game.declinedTimestamp)
-        playerMaskedGame.lastUpdate = convertTime((ZonedDateTime) game.lastUpdate)
+    @Override
+    protected void copyUnmaskedData(
+            final MultiPlayerGame<ObjectId, ZonedDateTime, GameFeature> g,
+            final MaskedMultiPlayerGame<GameFeature> pmg) {
+        super.copyUnmaskedData(g, pmg)
+        Game game = (Game) g
+        MaskedGame playerMaskedGame = (MaskedGame) pmg
         playerMaskedGame.rematchTimestamp = convertTime(game.rematchTimestamp)
-        playerMaskedGame.features.addAll(game.features)
         playerMaskedGame.gamePhase = game.gamePhase
-        playerMaskedGame.id = game.id.toHexString()
         playerMaskedGame.round = game.round
     }
 
-    protected static Long convertTime(final ZonedDateTime value) {
-        value ? value.toInstant().toEpochMilli() : null
+    @Override
+    protected MaskedGame newMaskedGame() {
+        return new MaskedGame()
     }
+
 }

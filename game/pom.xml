@@ -97,14 +97,14 @@
         <dependency>
             <groupId>com.jtbdevelopment.core-games</groupId>
             <artifactId>games-mongo</artifactId>
-            <version>0.2</version>
+            <version>${core.games.version}</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.jtbdevelopment.core-games</groupId>
             <artifactId>games-web</artifactId>
-            <version>0.2</version>
+            <version>${core.games.version}</version>
             <scope>test</scope>
             <type>test-jar</type>
         </dependency>

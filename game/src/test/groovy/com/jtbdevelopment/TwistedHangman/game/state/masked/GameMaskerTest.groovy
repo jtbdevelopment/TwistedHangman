@@ -36,7 +36,7 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         Game game = new Game(
                 gamePhase: GamePhase.Playing,
                 players: [PONE],
-                wordPhraseSetter: TwistedHangmanSystemPlayerCreator.TH_PLAYER.id,
+                wordPhraseSetter: (ObjectId) TwistedHangmanSystemPlayerCreator.TH_PLAYER.id,
                 created: ZonedDateTime.now(),
                 completedTimestamp: ZonedDateTime.now(),
                 declinedTimestamp: ZonedDateTime.now(),
@@ -426,5 +426,4 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         )
         game
     }
-
 }

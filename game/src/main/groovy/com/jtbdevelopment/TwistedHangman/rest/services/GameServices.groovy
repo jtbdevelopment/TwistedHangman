@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.game.handlers.*
-import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.games.games.PlayerState
+import com.jtbdevelopment.games.games.masked.MaskedMultiPlayerGame
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -39,35 +39,35 @@ class GameServices {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    MaskedGame getGame() {
+    MaskedMultiPlayerGame getGame() {
         gameGetterHandler.handleAction(playerID.get(), gameID.get())
     }
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Path("rematch")
-    MaskedGame createRematch() {
+    MaskedMultiPlayerGame createRematch() {
         rematchHandler.handleAction(playerID.get(), gameID.get())
     }
 
     @PUT
     @Path("reject")
     @Produces(MediaType.APPLICATION_JSON)
-    MaskedGame rejectGame() {
+    MaskedMultiPlayerGame rejectGame() {
         responseHandler.handleAction(playerID.get(), gameID.get(), PlayerState.Rejected)
     }
 
     @PUT
     @Path("accept")
     @Produces(MediaType.APPLICATION_JSON)
-    MaskedGame acceptGame() {
+    MaskedMultiPlayerGame acceptGame() {
         responseHandler.handleAction(playerID.get(), gameID.get(), PlayerState.Accepted)
     }
 
     @PUT
     @Path("quit")
     @Produces(MediaType.APPLICATION_JSON)
-    MaskedGame quitGame() {
+    MaskedMultiPlayerGame quitGame() {
         quitHandler.handleAction(playerID.get(), gameID.get())
     }
 
@@ -75,7 +75,7 @@ class GameServices {
     @Path("puzzle")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    MaskedGame setPuzzle(SetPuzzleHandler.CategoryAndWordPhrase categoryAndWordPhrase) {
+    MaskedMultiPlayerGame setPuzzle(SetPuzzleHandler.CategoryAndWordPhrase categoryAndWordPhrase) {
         puzzleHandler.handleAction(
                 playerID.get(), gameID.get(), categoryAndWordPhrase)
     }
@@ -83,14 +83,14 @@ class GameServices {
     @PUT
     @Path("steal/{position}")
     @Produces(MediaType.APPLICATION_JSON)
-    MaskedGame stealLetter(@PathParam("position") final int position) {
+    MaskedMultiPlayerGame stealLetter(@PathParam("position") final int position) {
         stealLetterHandler.handleAction(playerID.get(), gameID.get(), position)
     }
 
     @PUT
     @Path("guess/{letter}")
     @Produces(MediaType.APPLICATION_JSON)
-    MaskedGame guessLetter(@PathParam("letter") final String letter) {
+    MaskedMultiPlayerGame guessLetter(@PathParam("letter") final String letter) {
         String validated = letter
         if (StringUtils.isEmpty(letter) || StringUtils.isEmpty(letter.trim())) {
             validated = " "

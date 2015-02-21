@@ -4,9 +4,9 @@ import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.games.masked.MultiPlayerGameMasker
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import org.bson.types.ObjectId
 import org.springframework.data.domain.PageRequest
@@ -61,7 +61,7 @@ class PlayerGamesFinderHandlerTest extends TwistedHangmanTestCase {
                         assert player.is(PONE)
                         return maskResults[game]
                 }
-        ] as GameMasker
+        ] as MultiPlayerGameMasker
 
         assert handler.findGames(PONE.id) as Set == [masked3, masked2, masked1] as Set
     }

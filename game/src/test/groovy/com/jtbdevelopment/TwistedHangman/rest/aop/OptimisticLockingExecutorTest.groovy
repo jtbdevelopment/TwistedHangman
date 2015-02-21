@@ -14,6 +14,7 @@ class OptimisticLockingExecutorTest extends GroovyTestCase {
         retry.order = 2
         assert retry.getOrder() == retry.order
     }
+
     public void testCallsFine() {
         int count = 0
         Object retVal = new Object();

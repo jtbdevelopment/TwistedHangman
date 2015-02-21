@@ -5,9 +5,9 @@ import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.games.masked.MultiPlayerGameMasker
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import org.bson.types.ObjectId
 
@@ -49,7 +49,7 @@ class GameGetterHandlerTest extends TwistedHangmanTestCase {
                         assert p.is(PONE)
                         return maskedGame
                 }
-        ] as GameMasker
+        ] as MultiPlayerGameMasker
 
         assert maskedGame.is(handler.handleAction(PONE.id, gameId))
     }

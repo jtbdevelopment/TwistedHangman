@@ -6,11 +6,11 @@ import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
-import com.jtbdevelopment.TwistedHangman.game.state.masked.GameMasker
-import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.players.PlayerGameTracker
 import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
+import com.jtbdevelopment.games.games.masked.MaskedMultiPlayerGame
+import com.jtbdevelopment.games.games.masked.MultiPlayerGameMasker
 import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -37,13 +37,13 @@ class NewGameHandler extends AbstractHandler {
     @Autowired
     protected GamePhaseTransitionEngine transitionEngine
     @Autowired
-    protected GameMasker gameMasker
+    protected MultiPlayerGameMasker gameMasker
     @Autowired
     protected GamePublisher gamePublisher
     @Autowired
     protected PlayerGameTracker gameTracker
 
-    public MaskedGame handleCreateNewGame(
+    public MaskedMultiPlayerGame handleCreateNewGame(
             final ObjectId initiatingPlayerID, final List<String> playersIDs, final Set<GameFeature> features) {
         Set<Player<ObjectId>> players = loadPlayerMD5s(playersIDs)  //  Load as set to prevent dupes in initial setup
         Player<ObjectId> initiatingPlayer = players.find { Player<ObjectId> player -> player.id == initiatingPlayerID }
@@ -53,7 +53,7 @@ class NewGameHandler extends AbstractHandler {
         Game game = setupGameWithEligibilityWrapper(initiatingPlayer, features, players)
 
         def playerGame = gameMasker.maskGameForPlayer(
-                gamePublisher.publish(game, initiatingPlayer),
+                (Game) gamePublisher.publish(game, initiatingPlayer),
                 initiatingPlayer)
         playerGame
     }
