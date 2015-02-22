@@ -10,8 +10,8 @@ import java.lang.reflect.Field
  * Date: 2/21/15
  * Time: 7:00 PM
  */
-class TwistedHangmanSchedulerFactoryBeanTest extends GroovyTestCase {
-    TwistedHangmanSchedulerFactoryBean schedulerFactoryBean = new TwistedHangmanSchedulerFactoryBean()
+class AutowiredSchedulerFactoryBeanTest extends GroovyTestCase {
+    AutowiredSchedulerFactoryBean schedulerFactoryBean = new AutowiredSchedulerFactoryBean()
 
     void testSetup() {
         def t1 = new CronTriggerImpl()

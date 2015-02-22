@@ -15,7 +15,7 @@ import javax.annotation.PostConstruct
  */
 @Component
 @CompileStatic
-class TwistedHangmanSchedulerFactoryBean extends SchedulerFactoryBean {
+class AutowiredSchedulerFactoryBean extends SchedulerFactoryBean {
     @Autowired
     List<CronTriggerFactoryBean> cronTriggerFactoryBeans
 
