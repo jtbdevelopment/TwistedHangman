@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest
  * Date: 1/27/2015
  * Time: 2:24 PM
  */
-class CanvasXFrameAllowFromStrategy implements AllowFromStrategy {
+class FacebookCanvasXFrameAllowFromStrategy implements AllowFromStrategy {
     @Override
     String getAllowFromValue(final HttpServletRequest request) {
         return "https://apps.facebook.com"

@@ -10,7 +10,7 @@ import java.util.regex.Pattern
  * Date: 1/27/2015
  * Time: 1:35 PM
  */
-class CanvasAllowingProtectionMatcher implements RequestMatcher {
+class FacebookCanvasAllowingProtectionMatcher implements RequestMatcher {
     private Pattern allowedMethods = Pattern.compile('^(GET|HEAD|TRACE|OPTIONS)$')
 
     /* (non-Javadoc)

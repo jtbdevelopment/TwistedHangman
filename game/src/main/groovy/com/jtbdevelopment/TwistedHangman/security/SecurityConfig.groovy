@@ -87,7 +87,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 and().logout().logoutUrl("/signout").deleteCookies("JSESSIONID").
                 and().rememberMe().tokenRepository(persistentTokenRepository).userDetailsService(playerUserDetailsService).
                 and().portMapper().portMapper(portMapper).
-                and().headers().addHeaderWriter(new XFrameOptionsHeaderWriter(new CanvasXFrameAllowFromStrategy())).
+                and().headers().addHeaderWriter(new ContentSecurityPolicyHeaderWriter()).addHeaderWriter(new XFrameOptionsHeaderWriter(new FacebookCanvasXFrameAllowFromStrategy())).
                 and().apply(new SpringSocialConfigurer().postLoginUrl("/"))
 
         if (Boolean.parseBoolean(securityProperties.getAllowBasicAuth())) {
@@ -103,7 +103,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         } else {
             http.requiresChannel().antMatchers("/**").requiresSecure()
             http.rememberMe().useSecureCookie(true)
-            http.csrf().csrfTokenRepository(csrfTokenRepository()).requireCsrfProtectionMatcher(new CanvasAllowingProtectionMatcher()).
+            http.csrf().csrfTokenRepository(csrfTokenRepository()).requireCsrfProtectionMatcher(new FacebookCanvasAllowingProtectionMatcher()).
                     and().addFilterAfter(new XSRFTokenCookieFilter(), CsrfFilter.class)
         }
     }
