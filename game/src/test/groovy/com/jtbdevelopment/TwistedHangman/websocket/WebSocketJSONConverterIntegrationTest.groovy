@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.feed.websocket
+package com.jtbdevelopment.TwistedHangman.websocket
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
@@ -9,13 +9,16 @@ import com.jtbdevelopment.TwistedHangman.json.TwistedHangmanJacksonRegistration
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
 import com.jtbdevelopment.games.games.PlayerState
 import com.jtbdevelopment.games.mongo.json.MongoPlayerJacksonRegistration
+import com.jtbdevelopment.games.websocket.WebSocketJSONConverter
+import com.jtbdevelopment.games.websocket.WebSocketMessage
 import com.jtbdevelopment.spring.jackson.ObjectMapperFactory
 
 /**
  * Date: 12/9/14
  * Time: 11:47 AM
+ *
  */
-class WebSocketJSONConverterTest extends TwistedHangmanTestCase {
+class WebSocketJSONConverterIntegrationTest extends TwistedHangmanTestCase {
     WebSocketJSONConverter webSocketJsonConverter = new WebSocketJSONConverter()
 
     MaskedGame maskedGame = new MaskedGame(
