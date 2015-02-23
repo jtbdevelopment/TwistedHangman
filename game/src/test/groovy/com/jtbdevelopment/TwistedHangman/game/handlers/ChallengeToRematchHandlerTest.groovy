@@ -10,8 +10,8 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
-import com.jtbdevelopment.TwistedHangman.publish.GamePublisher
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
+import com.jtbdevelopment.games.publish.GamePublisher
 import org.bson.types.ObjectId
 
 import java.time.ZoneId

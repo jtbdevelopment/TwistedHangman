@@ -1,13 +1,13 @@
 package com.jtbdevelopment.TwistedHangman.feed.websocket
 
-import com.jtbdevelopment.TwistedHangman.publish.GameListener
-import com.jtbdevelopment.TwistedHangman.publish.PlayerListener
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
 import com.jtbdevelopment.games.games.Game
 import com.jtbdevelopment.games.games.MultiPlayerGame
 import com.jtbdevelopment.games.games.masked.MultiPlayerGameMasker
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.Player
+import com.jtbdevelopment.games.publish.GameListener
+import com.jtbdevelopment.games.publish.PlayerListener
 import groovy.transform.CompileStatic
 import org.atmosphere.cpr.Broadcaster
 import org.atmosphere.cpr.BroadcasterFactory

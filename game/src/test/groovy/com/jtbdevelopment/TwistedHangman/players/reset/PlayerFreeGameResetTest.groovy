@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.players.reset
 
-import com.jtbdevelopment.TwistedHangman.publish.PlayerPublisher
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
+import com.jtbdevelopment.games.publish.PlayerPublisher
 import org.springframework.data.mongodb.core.MongoOperations
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.core.query.Update

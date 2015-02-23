@@ -1,9 +1,9 @@
 package com.jtbdevelopment.TwistedHangman.players
 
-import com.jtbdevelopment.TwistedHangman.publish.PlayerPublisher
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.players.PlayerPayLevel
+import com.jtbdevelopment.games.publish.PlayerPublisher
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.FindAndModifyOptions

@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.players.reset
 
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanPlayerAttributes
-import com.jtbdevelopment.TwistedHangman.publish.PlayerPublisher
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
+import com.jtbdevelopment.games.publish.PlayerPublisher
 import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

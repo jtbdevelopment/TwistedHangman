@@ -10,12 +10,9 @@
           <element id="archive" name="game-0.7-SNAPSHOT.jar">
             <element id="module-output" name="game" />
           </element>
-          <element id="library" level="project" name="Maven: org.quartz-scheduler:quartz:2.2.1" />
-          <element id="library" level="project" name="Maven: c3p0:c3p0:0.9.1.1" />
           <element id="library" level="project" name="Maven: com.jtbdevelopment.core-common:core-spring-web-mongo:1.2-SNAPSHOT" />
           <element id="library" level="project" name="Maven: com.jtbdevelopment.core-common:core-spring-web:1.2-SNAPSHOT" />
           <element id="library" level="project" name="Maven: com.jtbdevelopment.core-common:core-spring:1.2-SNAPSHOT" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.1.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.data:spring-data-commons:1.9.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:3.2.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.social:spring-social-core:1.1.0.RELEASE" />
@@ -38,6 +35,12 @@
           <element id="library" level="project" name="Maven: org.springframework.social:spring-social-config:1.1.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.social:spring-social-facebook:1.1.0.RELEASE" />
           <element id="library" level="project" name="Maven: com.jtbdevelopment.core-games:games-dictionaries:0.9-SNAPSHOT" />
+          <element id="library" level="project" name="Maven: com.jtbdevelopment.core-games:games-events:0.9-SNAPSHOT" />
+          <element id="library" level="project" name="Maven: com.jtbdevelopment.core-common:core-spring-quartz:1.2-SNAPSHOT" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context-support:4.1.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.1.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.quartz-scheduler:quartz:2.2.1" />
+          <element id="library" level="project" name="Maven: c3p0:c3p0:0.9.1.1" />
           <element id="library" level="project" name="Maven: net.sourceforge.nekohtml:nekohtml:1.9.21" />
           <element id="library" level="project" name="Maven: xerces:xercesImpl:2.10.0" />
           <element id="library" level="project" name="Maven: xml-apis:xml-apis:1.4.01" />
@@ -59,7 +62,6 @@
           <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.8.2" />
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-config:3.2.5.RELEASE" />
           <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-context-support:4.1.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.glassfish.jersey.ext:jersey-spring3:2.13" />
           <element id="library" level="project" name="Maven: org.glassfish.jersey.core:jersey-server:2.13" />
           <element id="library" level="project" name="Maven: org.glassfish.jersey.core:jersey-client:2.13" />
