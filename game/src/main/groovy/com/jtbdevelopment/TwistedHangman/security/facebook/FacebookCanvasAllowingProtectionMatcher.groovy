@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.security
+package com.jtbdevelopment.TwistedHangman.security.facebook
 
 import org.springframework.security.web.util.matcher.RequestMatcher
 import org.springframework.util.StringUtils

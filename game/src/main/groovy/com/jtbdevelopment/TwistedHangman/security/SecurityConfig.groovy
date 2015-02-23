@@ -1,5 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.security
 
+import com.jtbdevelopment.TwistedHangman.security.csrf.XSRFTokenCookieFilter
+import com.jtbdevelopment.TwistedHangman.security.facebook.FacebookCanvasAllowingProtectionMatcher
+import com.jtbdevelopment.TwistedHangman.security.facebook.FacebookCanvasXFrameAllowFromStrategy
 import com.jtbdevelopment.games.security.spring.social.security.PlayerSocialUserDetailsService
 import com.jtbdevelopment.games.security.spring.userdetails.PlayerUserDetailsService
 import org.slf4j.Logger
@@ -87,7 +90,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 and().logout().logoutUrl("/signout").deleteCookies("JSESSIONID").
                 and().rememberMe().tokenRepository(persistentTokenRepository).userDetailsService(playerUserDetailsService).
                 and().portMapper().portMapper(portMapper).
-                and().headers().addHeaderWriter(new ContentSecurityPolicyHeaderWriter()).addHeaderWriter(new XFrameOptionsHeaderWriter(new FacebookCanvasXFrameAllowFromStrategy())).
+                and().headers().addHeaderWriter(new XFrameOptionsHeaderWriter(new FacebookCanvasXFrameAllowFromStrategy())).
                 and().apply(new SpringSocialConfigurer().postLoginUrl("/"))
 
         if (Boolean.parseBoolean(securityProperties.getAllowBasicAuth())) {
