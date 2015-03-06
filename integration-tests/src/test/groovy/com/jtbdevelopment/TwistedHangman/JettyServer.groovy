@@ -6,6 +6,7 @@ import org.eclipse.jetty.http.HttpVersion
 import org.eclipse.jetty.server.*
 import org.eclipse.jetty.servlet.FilterHolder
 import org.eclipse.jetty.servlet.ServletHolder
+import org.eclipse.jetty.util.log.Slf4jLog
 import org.eclipse.jetty.util.ssl.SslContextFactory
 import org.eclipse.jetty.webapp.WebAppContext
 import org.glassfish.jersey.servlet.ServletContainer
@@ -33,6 +34,7 @@ class JettyServer {
         webAppContext.setParentLoaderPriority(false)
         webAppContext.addEventListener(new ContextLoaderListener())
         webAppContext.addEventListener(new RequestContextListener())
+        webAppContext.logger = new Slf4jLog()
 
         configureAtmosphere(webAppContext)
 

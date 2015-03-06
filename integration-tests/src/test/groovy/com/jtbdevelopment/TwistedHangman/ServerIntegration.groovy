@@ -2,19 +2,21 @@ package com.jtbdevelopment.TwistedHangman
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider
-import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
+import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerGatewayService
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerServices
 import com.jtbdevelopment.games.dao.AbstractMultiPlayerGameRepository
-import com.jtbdevelopment.games.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.games.MultiPlayerGame
 import com.jtbdevelopment.games.games.PlayerState
+import com.jtbdevelopment.games.mongo.dao.MongoPlayerRepository
 import com.jtbdevelopment.games.mongo.players.MongoManualPlayer
 import com.jtbdevelopment.games.mongo.players.MongoPlayerFactory
 import com.jtbdevelopment.games.players.friendfinder.SourceBasedFriendFinder
+import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.eclipse.jetty.server.Server
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature
@@ -36,6 +38,7 @@ import javax.ws.rs.core.UriBuilder
  * Date: 11/15/2014
  * Time: 3:29 PM
  */
+@CompileStatic
 class ServerIntegration {
     private static Server SERVER;
     private static final int port = 8998;
@@ -49,7 +52,7 @@ class ServerIntegration {
 
     static MongoManualPlayer createPlayer(final String id, final String sourceId, final String displayName) {
         MongoPlayerFactory factory = applicationContext.getBean(MongoPlayerFactory.class)
-        MongoManualPlayer player = factory.newManualPlayer();
+        MongoManualPlayer player = (MongoManualPlayer) factory.newManualPlayer();
         player.id = new ObjectId(id.padRight(24, "0"))
         player.sourceId = sourceId
         player.password = passwordEncoder.encode(sourceId)
@@ -61,8 +64,8 @@ class ServerIntegration {
 
     static ApplicationContext applicationContext
     static PasswordEncoder passwordEncoder
-    static AbstractPlayerRepository<ObjectId> playerRepository
-    public static final EMPTY_PUT_POST = Entity.entity("", MediaType.TEXT_PLAIN)
+    static MongoPlayerRepository playerRepository
+    public static final Entity EMPTY_PUT_POST = Entity.entity("", MediaType.TEXT_PLAIN)
 
     @BeforeClass
     public static void initialize() {
@@ -70,33 +73,34 @@ class ServerIntegration {
         SERVER.start()
 
         assert applicationContext != null
-        playerRepository = applicationContext.getBean(AbstractPlayerRepository.class)
+        playerRepository = applicationContext.getBean(MongoPlayerRepository.class)
         passwordEncoder = applicationContext.getBean(PasswordEncoder.class)
 
         TEST_PLAYER1 = createPlayer("f1234", "ITP1", "TEST PLAYER1")
         TEST_PLAYER2 = createPlayer("f2345", "ITP2", "TEST PLAYER2")
         TEST_PLAYER3 = createPlayer("f3456", "ITP3", "TEST PLAYER3")
 
-        playerRepository.delete(TEST_PLAYER1.id)
-        playerRepository.delete(TEST_PLAYER2.id)
-        playerRepository.delete(TEST_PLAYER3.id)
-        TEST_PLAYER1 = playerRepository.save(TEST_PLAYER1)
-        TEST_PLAYER2 = playerRepository.save(TEST_PLAYER2)
-        TEST_PLAYER3 = playerRepository.save(TEST_PLAYER3)
+        playerRepository.delete(TEST_PLAYER1)
+        playerRepository.delete(TEST_PLAYER2)
+        playerRepository.delete(TEST_PLAYER3)
+        TEST_PLAYER1 = (MongoManualPlayer) playerRepository.save(TEST_PLAYER1)
+        TEST_PLAYER2 = (MongoManualPlayer) playerRepository.save(TEST_PLAYER2)
+        TEST_PLAYER3 = (MongoManualPlayer) playerRepository.save(TEST_PLAYER3)
     }
 
     @AfterClass
     public static void tearDown() {
-        GameRepository gameRepository = applicationContext.getBean(GameRepository.class)
+        AbstractMultiPlayerGameRepository gameRepository = applicationContext.getBean(AbstractMultiPlayerGameRepository.class)
         [TEST_PLAYER1, TEST_PLAYER2, TEST_PLAYER3].each {
             MongoManualPlayer p ->
                 gameRepository.findByPlayersId(p.id).each {
-                    gameRepository.delete(it)
+                    MultiPlayerGame it ->
+                        gameRepository.delete(it)
                 }
         }
-        playerRepository.delete(TEST_PLAYER1.id)
-        playerRepository.delete(TEST_PLAYER2.id)
-        playerRepository.delete(TEST_PLAYER3.id)
+        playerRepository.delete(TEST_PLAYER1)
+        playerRepository.delete(TEST_PLAYER2)
+        playerRepository.delete(TEST_PLAYER3)
         SERVER.stop()
     }
 
@@ -130,7 +134,7 @@ class ServerIntegration {
         Map<String, Object> friends = path
                 .request(MediaType.APPLICATION_JSON)
                 .get(new GenericType<Map<String, Object>>() {});
-        Map<String, String> players = friends[SourceBasedFriendFinder.MASKED_FRIENDS_KEY]
+        Map<String, String> players = (Map<String, String>) friends[SourceBasedFriendFinder.MASKED_FRIENDS_KEY]
         assert players[TEST_PLAYER2.md5] == TEST_PLAYER2.displayName
         assert players[TEST_PLAYER3.md5] == TEST_PLAYER3.displayName
     }
@@ -197,7 +201,7 @@ class ServerIntegration {
         assert game.gamePhase == GamePhase.Challenged
         assert game.solverStates[TEST_PLAYER1.md5] != null
         assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase != ""
-        def P1G = P1.path("game").path(game.id)
+        def P1G = P1.path("game").path(game.idAsString)
 
         game = putMG(P1G.path("quit"))
         assert game.gamePhase == GamePhase.Quit
@@ -225,9 +229,9 @@ class ServerIntegration {
         assert game.gamePhase == GamePhase.Challenged
         assert game.solverStates[TEST_PLAYER1.md5] != null
         assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase != ""
-        def P1G = P1.path("game").path(game.id)
-        def P2G = P2.path("game").path(game.id)
-        def P3G = P3.path("game").path(game.id)
+        def P1G = P1.path("game").path(game.idAsString)
+        def P2G = P2.path("game").path(game.idAsString)
+        def P3G = P3.path("game").path(game.idAsString)
 
 
         game = putMG(P2G.path("accept"))
@@ -243,21 +247,24 @@ class ServerIntegration {
 
         game = putMG(P1G.path("steal").path("0"))
         assert game.gamePhase == GamePhase.Playing
-        assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase.charAt(0).letter
+        assert ((Character) game.solverStates[TEST_PLAYER1.md5].workingWordPhrase.charAt(0))
         assert game.solverStates[TEST_PLAYER1.md5].penalties == 1
         assert game.solverStates[TEST_PLAYER1.md5].wordPhrase == ""
         assert game.solverStates[TEST_PLAYER1.md5].penaltiesRemaining == 9
         assert game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingCountTracking] == 1
         assert game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingLetters] == [game.solverStates[TEST_PLAYER1.md5].workingWordPhrase.charAt(0)]
-        assert game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingPositionTracking][0] == true
-        assert game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingPositionTracking][1] == false
+        assert ((Object[]) game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingPositionTracking])[0] == true
+        assert ((Object[]) game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingPositionTracking])[1] == false
         assert game.solverStates[TEST_PLAYER3.md5]
         assert game.solverStates[TEST_PLAYER3.md5].wordPhrase == ""
 
         AbstractMultiPlayerGameRepository gameRepository = applicationContext.getBean(AbstractMultiPlayerGameRepository.class)
-        Game dbLoaded1 = (Game) gameRepository.findOne(new ObjectId(game.id))
-        String wordPhrase = dbLoaded1.solverStates[TEST_PLAYER1.id].wordPhraseString
-        Set<Character> chars = wordPhrase.toCharArray().findAll { it.letter }.collect { it } as Set
+        Game dbLoaded1 = (Game) gameRepository.findOne(new ObjectId(game.idAsString))
+        String wordPhrase = ((IndividualGameState) dbLoaded1.solverStates[TEST_PLAYER1.id]).wordPhraseString
+
+        Set<Character> chars = wordPhrase.toCharArray().findAll { char it -> Character.isAlphabetic((int) it) }.collect {
+            it
+        } as Set
         def letter = chars.iterator().next()
         game = putMG(P2G.path("guess").path(letter.toString()))
         assert game.gamePhase == GamePhase.Playing
@@ -273,8 +280,8 @@ class ServerIntegration {
 
         MaskedGame newGame = putMG(P2G.path("rematch"))
         assert newGame.id != dbLoaded1.id
-        Game dbLoaded2 = gameRepository.findOne(new ObjectId(newGame.id))
-        dbLoaded1 = gameRepository.findOne(dbLoaded1.id)
+        Game dbLoaded2 = (Game) gameRepository.findOne(new ObjectId(newGame.idAsString))
+        dbLoaded1 = (Game) gameRepository.findOne(dbLoaded1.id)
         assert dbLoaded2.previousId == dbLoaded1.id
         assert dbLoaded1.rematchTimestamp != null
         assert newGame.gamePhase == GamePhase.Challenged
@@ -286,10 +293,10 @@ class ServerIntegration {
         GenericType<List<MaskedGame>> type = new GenericType<List<MaskedGame>>() {}
         List<MaskedGame> games = P1.path("games").request(MediaType.APPLICATION_JSON).get(type)
         assert games.size() >= 2 // other tests make this ambiguous
-        assert games.find { MaskedGame g -> g.id == dbLoaded1.id.toHexString() }
-        assert games.find { MaskedGame g -> g.id == dbLoaded2.id.toHexString() }
+        assert games.find { MaskedGame g -> g.id == dbLoaded1.idAsString }
+        assert games.find { MaskedGame g -> g.id == dbLoaded2.idAsString }
 
-        newGame = putMG(P1.path("game").path(newGame.id).path("reject"))
+        newGame = putMG(P1.path("game").path(newGame.idAsString).path("reject"))
         assert newGame.gamePhase == GamePhase.Declined
     }
 

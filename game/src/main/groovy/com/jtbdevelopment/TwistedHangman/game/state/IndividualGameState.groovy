@@ -11,7 +11,7 @@ import org.springframework.data.annotation.Transient
  * Simple state class for transmission and storage of an individual hangman game
  */
 @CompileStatic
-class IndividualGameState {
+class IndividualGameState implements Serializable {
     public static final int BASE_PENALTIES = 6
     public static final int GALLOWS_PENALTIES = 3
     public static final int FACE_PENALTIES = 4
