@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.mongo.dao.StringToObjectIdConverter
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.players.PlayerRoles
@@ -68,6 +69,7 @@ class AdminServicesTest extends TwistedHangmanTestCase {
     }
 
     void testSwitchEffectiveUser() {
+        adminServices.stringToIDConverter = new StringToObjectIdConverter()
         SecurityContextHolder.context = new SecurityContextImpl()
         def session = new SessionUserInfo<ObjectId>() {
             Player<ObjectId> sessionUser = PONE
@@ -107,6 +109,7 @@ class AdminServicesTest extends TwistedHangmanTestCase {
     }
 
     void testSwitchEffectiveUserBadID() {
+        adminServices.stringToIDConverter = new StringToObjectIdConverter()
         SecurityContextHolder.context = new SecurityContextImpl()
         def session = new SessionUserInfo<ObjectId>() {
             Player<ObjectId> sessionUser = PONE

@@ -72,7 +72,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         PortMapperImpl portMapper = new PortMapperImpl()
         portMapper.getTranslatedPortMappings().put(8998, 8999)
-        portMapper.getTranslatedPortMappings().put(9998, 9999)
+        portMapper.getTranslatedPortMappings().put(8998, 8999)
+        portMapper.getTranslatedPortMappings().put(8090, 8943)
         http.authorizeRequests().
                 antMatchers(
                         "/favicon.ico",

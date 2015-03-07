@@ -259,6 +259,5 @@ class PlayerServicesTest extends GroovyTestCase {
         playerServices.adminServices = adminServices
         playerServices.playerID.set(APLAYER)
         assert adminServices.is(playerServices.adminServices())
-        assert adminServices.playerID.get() == REALPLAYER
     }
 }

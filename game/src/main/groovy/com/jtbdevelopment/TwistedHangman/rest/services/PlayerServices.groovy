@@ -7,7 +7,6 @@ import com.jtbdevelopment.games.dao.AbstractPlayerRepository
 import com.jtbdevelopment.games.games.masked.MaskedMultiPlayerGame
 import com.jtbdevelopment.games.mongo.players.friendfinder.FriendFinder
 import com.jtbdevelopment.games.players.PlayerRoles
-import com.jtbdevelopment.games.security.SessionUserInfo
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.slf4j.Logger
@@ -16,7 +15,6 @@ import org.springframework.beans.BeansException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
 
@@ -107,7 +105,6 @@ class PlayerServices implements ApplicationContextAware {
     @Path("admin")
     @RolesAllowed([PlayerRoles.ADMIN])
     public Object adminServices() {
-        adminServices.playerID.set(((SessionUserInfo<ObjectId>) SecurityContextHolder.context.authentication.principal).sessionUser.id)
         return adminServices
     }
 }

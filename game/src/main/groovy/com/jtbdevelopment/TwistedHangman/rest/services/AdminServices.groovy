@@ -1,11 +1,11 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.dao.StringToIDConverter
 import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.players.PlayerRoles
 import com.jtbdevelopment.games.security.SessionUserInfo
 import groovy.transform.CompileStatic
-import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
@@ -28,9 +28,10 @@ class AdminServices {
     public static final int DEFAULT_PAGE = 0
     public static final int DEFAULT_PAGE_SIZE = 500
     @Autowired
-    AbstractPlayerRepository<ObjectId> playerRepository
+    AbstractPlayerRepository playerRepository
 
-    ThreadLocal<ObjectId> playerID = new ThreadLocal<>()
+    @Autowired
+    StringToIDConverter<? extends Serializable> stringToIDConverter
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -47,9 +48,9 @@ class AdminServices {
     @Path("{playerID}")
     @Produces(MediaType.APPLICATION_JSON)
     Object switchEffectiveUser(@PathParam("playerID") final String effectivePlayerID) {
-        Player<ObjectId> p = playerRepository.findOne(new ObjectId(effectivePlayerID));
+        Player p = playerRepository.findOne(stringToIDConverter.convert(effectivePlayerID));
         if (p != null) {
-            ((SessionUserInfo<ObjectId>) SecurityContextHolder.context.authentication.principal).effectiveUser = p;
+            ((SessionUserInfo) SecurityContextHolder.context.authentication.principal).effectiveUser = p;
             return p;
         }
         return Response.status(Response.Status.NOT_FOUND)
