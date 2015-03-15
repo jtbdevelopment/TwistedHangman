@@ -10,13 +10,11 @@ angular.module('twistedHangmanApp').factory('twGameCache',
       var phases = [];
       var loadedCounter = 0;
 
-      //  TODO - should we store gameCache locally and initialize from gameCache?  Then pull updates?
-      //  If we do - make cache player id specific
       var initializing = false;
       var tmp = 'Have Live Game Feed ' + twLiveGameFeed;  //  This is just to force instantiation and suppress warnings
       console.info(tmp);
 
-      function loadSubCaches() {
+      function initializeSubCaches() {
         phases.forEach(function (phase) {
             var phaseCache = gameCache.get(phase);
             if (angular.isDefined(phaseCache)) {
@@ -36,7 +34,7 @@ angular.module('twistedHangmanApp').factory('twGameCache',
       }
 
       function loadCache() {
-        loadSubCaches();
+        initializeSubCaches();  // This call presumes phase load in initialize has completed
         $http.get(twPlayerService.currentPlayerBaseURL() + '/games').success(function (data) {
           initializing = true;
           data.forEach(function (game) {
@@ -57,7 +55,7 @@ angular.module('twistedHangmanApp').factory('twGameCache',
           angular.forEach(phaseMap, function (array, phase) {
             phases.push(phase);
           });
-          loadSubCaches();
+          initializeSubCaches();
         }, function () {
           $location.path('/error');
         });
