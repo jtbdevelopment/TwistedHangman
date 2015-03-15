@@ -12,26 +12,6 @@ import java.time.ZonedDateTime
  */
 class GameTest extends TwistedHangmanTestCase {
 
-    //  TODO - move to base
-    void testEquals() {
-        Game one = makeSimpleGame("1")
-        Game oneClone = one.clone()
-        Game two = makeSimpleGame("2")
-        assert one.equals(oneClone)
-        assert oneClone.equals(one)
-        assertFalse one.equals(two)
-        assertFalse one.equals(134L)
-        assertFalse one.equals(null)
-    }
-
-    //  TODO - move to base
-    void testHashCode() {
-        ObjectId SOMEID = new ObjectId()
-        Game game = new Game(id: SOMEID)
-        assert SOMEID.toHexString().hashCode() == game.hashCode()
-    }
-
-
     void testToString() {
         assert new Game(
                 id: new ObjectId("0a123".padRight(24, "0")),

@@ -3,6 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
 import com.jtbdevelopment.games.exceptions.system.FailedToFindPlayersException
 import com.jtbdevelopment.games.players.Player
+import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -11,10 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired
 /**
  * Date: 11/4/2014
  * Time: 9:54 PM
- *
- * TODO - compile static
- *
  */
+@CompileStatic
 abstract class AbstractHandler {
     private static final Logger logger = LoggerFactory.getLogger(AbstractHandler.class)
 
