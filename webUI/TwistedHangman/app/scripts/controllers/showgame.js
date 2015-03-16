@@ -3,15 +3,15 @@
 //  TODO - should all the playing failures refresh game?
 angular.module('twistedHangmanApp').controller('ShowCtrl',
   ['$scope', '$routeParams', '$http', '$location', '$modal',
-    'twPlayerService', 'twGameDisplay', 'twGameCache', 'twGameDetails', 'twAds',
+    'jtbPlayerService', 'twGameDisplay', 'twGameCache', 'twGameDetails', 'twAds',
     function ($scope, $routeParams, $http, $location, $modal,
-              twPlayerService, twGameDisplay, twGameCache, twGameDetails, twAds) {
+              jtbPlayerService, twGameDisplay, twGameCache, twGameDetails, twAds) {
       twGameDisplay.initializeScope($scope);
       $scope.gameID = $routeParams.gameID;
       $scope.enteredCategory = '';
       $scope.enteredWordPhrase = '';
       $scope.gameDetails = twGameDetails;
-      $scope.player = twPlayerService.currentPlayer();
+      $scope.player = jtbPlayerService.currentPlayer();
       var game = twGameCache.getGameForID($scope.gameID);
       if (angular.isDefined(game)) {
         twGameDisplay.updateScopeForGame($scope, game);
@@ -60,7 +60,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
 
       $scope.startNextRound = function () {
         twAds.showAdPopup().result.then(function () {
-          $http.put(twPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/rematch').success(function (data) {
+          $http.put(jtbPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/rematch').success(function (data) {
             twGameDisplay.processGameUpdateForScope($scope, data);
             $location.path('/show/' + data.id);
           }).error(function (data, status, headers, config) {
@@ -72,7 +72,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
 
       $scope.accept = function () {
         twAds.showAdPopup().result.then(function () {
-          $http.put(twPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/accept').success(function (data) {
+          $http.put(jtbPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/accept').success(function (data) {
             twGameDisplay.processGameUpdateForScope($scope, data);
           }).error(function (data, status, headers, config) {
             showMessage(data);
@@ -84,7 +84,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
       $scope.reject = function () {
         var modal = showConfirmDialog();
         modal.result.then(function () {
-          $http.put(twPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/reject').success(function (data) {
+          $http.put(jtbPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/reject').success(function (data) {
             twGameDisplay.processGameUpdateForScope($scope, data);
           }).error(function (data, status, headers, config) {
             showMessage(data);
@@ -95,7 +95,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
 
       $scope.setPuzzle = function () {
         $http.put(
-          twPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/puzzle',
+          jtbPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/puzzle',
           {
             category: $scope.enteredCategory,
             wordPhrase: $scope.enteredWordPhrase
@@ -109,7 +109,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
 
       $scope.sendGuess = function (letter) {
         if ($scope.allowPlayMoves) {
-          $http.put(twPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/guess/' + letter).success(function (data) {
+          $http.put(jtbPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/guess/' + letter).success(function (data) {
             twGameDisplay.processGameUpdateForScope($scope, data);
           }).error(function (data, status, headers, config) {
             showMessage(data);
@@ -122,7 +122,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
 
       $scope.stealLetter = function (position) {
         if ($scope.allowPlayMoves) {
-          $http.put(twPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/steal/' + position).success(function (data) {
+          $http.put(jtbPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/steal/' + position).success(function (data) {
             twGameDisplay.processGameUpdateForScope($scope, data);
           }).error(function (data, status, headers, config) {
             showMessage(data);
@@ -136,7 +136,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
       $scope.quit = function () {
         var modal = showConfirmDialog();
         modal.result.then(function () {
-          $http.put(twPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/quit').success(function (data) {
+          $http.put(jtbPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/quit').success(function (data) {
             twGameDisplay.processGameUpdateForScope($scope, data);
           }).error(function (data, status, headers, config) {
             showMessage(data);

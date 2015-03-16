@@ -82,7 +82,7 @@ describe('Controller: CreateCtrl', function () {
       $scope: scope,
       twGameCache: gameCache,
       twGameFeatureService: mockFeatureService,
-      twPlayerService: mockPlayerService,
+      jtbPlayerService: mockPlayerService,
       twAds: ads,
       $location: location
     });
@@ -202,7 +202,7 @@ describe('Controller: CreateCtrl', function () {
         $scope: scope,
         twGameCache: gameCache,
         twGameFeatureService: mockFeatureService,
-        twPlayerService: mockPlayerService,
+        jtbPlayerService: mockPlayerService,
         $location: location,
         $modal: modal
       });

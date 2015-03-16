@@ -9,7 +9,7 @@ describe('Service: gameAlerts', function () {
   var player;
   var gameDetails = {};
   beforeEach(module(function ($provide) {
-    $provide.factory('twPlayerService', function () {
+    $provide.factory('jtbPlayerService', function () {
       return {
         currentPlayer: function () {
           return player;

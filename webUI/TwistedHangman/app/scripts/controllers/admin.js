@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twistedHangmanApp').controller('AdminCtrl',
-  ['$scope', '$http', '$location', 'twPlayerService',
-    function ($scope, $http, $location, twPlayerService) {
+  ['$scope', '$http', '$location', 'jtbPlayerService',
+    function ($scope, $http, $location, jtbPlayerService) {
       $scope.searchText = '';
       $scope.players = [];
       $scope.selected = {};
@@ -15,11 +15,11 @@ angular.module('twistedHangmanApp').controller('AdminCtrl',
       });
 
       $scope.changeUser = function () {
-        twPlayerService.overridePID($scope.selected.id);
+        jtbPlayerService.overridePID($scope.selected.id);
         $location.path('/');
       };
       $scope.revertUser = function () {
-        twPlayerService.overridePID(twPlayerService.realPID());
+        jtbPlayerService.overridePID(jtbPlayerService.realPID());
         $location.path('/');
       };
     }]);

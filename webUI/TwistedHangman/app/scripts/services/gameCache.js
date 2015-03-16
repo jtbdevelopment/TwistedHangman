@@ -2,16 +2,16 @@
 
 angular.module('twistedHangmanApp').factory('twGameCache',
   ['$rootScope', '$cacheFactory', '$location', '$http',
-    'twGamePhaseService', 'twPlayerService', 'twLiveGameFeed', 'twGameAlerts',
+    'twGamePhaseService', 'jtbPlayerService', 'jtbLiveGameFeed', 'twGameAlerts',
     function ($rootScope, $cacheFactory, $location, $http,
-              twGamePhaseService, twPlayerService, twLiveGameFeed, twGameAlerts) {
+              twGamePhaseService, jtbPlayerService, jtbLiveGameFeed, twGameAlerts) {
       var ALL = 'All';
       var gameCache = $cacheFactory('game-gameCache');
       var phases = [];
       var loadedCounter = 0;
 
       var initializing = false;
-      var tmp = 'Have Live Game Feed ' + twLiveGameFeed;  //  This is just to force instantiation and suppress warnings
+      var tmp = 'Have Live Game Feed ' + jtbLiveGameFeed;  //  This is just to force instantiation and suppress warnings
       console.info(tmp);
 
       function initializeSubCaches() {
@@ -35,7 +35,7 @@ angular.module('twistedHangmanApp').factory('twGameCache',
 
       function loadCache() {
         initializeSubCaches();  // This call presumes phase load in initialize has completed
-        $http.get(twPlayerService.currentPlayerBaseURL() + '/games').success(function (data) {
+        $http.get(jtbPlayerService.currentPlayerBaseURL() + '/games').success(function (data) {
           initializing = true;
           data.forEach(function (game) {
             cache.putUpdatedGame(game);

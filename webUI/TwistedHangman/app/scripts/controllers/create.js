@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twistedHangmanApp').controller('CreateCtrl',
-  ['$scope', 'twGameCache', 'twGameFeatureService', 'twPlayerService', '$http', '$location', '$modal', 'twAds',
-    function ($scope, twGameCache, twGameFeatureService, twPlayerService, $http, $location, $modal, twAds) {
+  ['$scope', 'twGameCache', 'twGameFeatureService', 'jtbPlayerService', '$http', '$location', '$modal', 'twAds',
+    function ($scope, twGameCache, twGameFeatureService, jtbPlayerService, $http, $location, $modal, twAds) {
 
       var SINGLE_PLAYER = 'SinglePlayer';
       var TWO_PLAYERS = 'TwoPlayer';
@@ -33,7 +33,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
 
       $scope.friends = [];
       $scope.invitableFBFriends = [];
-      twPlayerService.currentPlayerFriends().then(function (data) {
+      jtbPlayerService.currentPlayerFriends().then(function (data) {
         angular.forEach(data.maskedFriends, function (displayName, hash) {
           var friend = {
             md5: hash,
@@ -41,7 +41,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
           };
           $scope.friends.push(friend);
         });
-        if (twPlayerService.currentPlayer().source === 'facebook') {
+        if (jtbPlayerService.currentPlayer().source === 'facebook') {
           angular.forEach(data.invitableFriends, function (friend) {
             var invite = {
               id: friend.id,
@@ -132,7 +132,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
             return player.md5;
           });
           var playersAndFeatures = {'players': players, 'features': featureSet};
-          $http.post(twPlayerService.currentPlayerBaseURL() + '/new', playersAndFeatures).success(function (data) {
+          $http.post(jtbPlayerService.currentPlayerBaseURL() + '/new', playersAndFeatures).success(function (data) {
             twGameCache.putUpdatedGame(data);
             $location.path('/show/' + data.id);
           }).error(function (data, status, headers, config) {

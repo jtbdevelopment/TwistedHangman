@@ -9,8 +9,8 @@
  */
 angular.module('twistedHangmanApp')
   .controller('MainCtrl',
-  ['$rootScope', '$scope', '$location', '$timeout', 'twPlayerService', 'twGameDetails',
-    function ($rootScope, $scope, $location, $timeout, twPlayerService, twGameDetails) {
+  ['$rootScope', '$scope', '$location', '$timeout', 'jtbPlayerService', 'twGameDetails',
+    function ($rootScope, $scope, $location, $timeout, jtbPlayerService, twGameDetails) {
       $scope.playerGreeting = '';
       //  TODO - initialize from local storage?
       $scope.alerts = [];
@@ -37,12 +37,12 @@ angular.module('twistedHangmanApp')
       };
 
       $scope.logout = function () {
-        twPlayerService.signOutAndRedirect();
+        jtbPlayerService.signOutAndRedirect();
       };
 
       $scope.$on('playerLoaded', function () {
         $scope.alerts = [];
-        $scope.currentPlayer = twPlayerService.currentPlayer();
+        $scope.currentPlayer = jtbPlayerService.currentPlayer();
         $scope.playerGreeting = 'Welcome ' + $scope.currentPlayer.displayName;
         $scope.showAdmin = $scope.currentPlayer.adminUser || $scope.showAdmin;
         $scope.showLogout = $scope.currentPlayer.source === 'MANUAL';
@@ -62,7 +62,7 @@ angular.module('twistedHangmanApp')
       }
 
       $scope.$on('roundOverAlert', function (event, game) {
-        var score = twGameDetails.gameScoreForPlayer(game, twPlayerService.currentPlayer().md5);
+        var score = twGameDetails.gameScoreForPlayer(game, jtbPlayerService.currentPlayer().md5);
         if (score > 0) {
           generateAlert(game.id, 'Round ended and you scored!');
         }

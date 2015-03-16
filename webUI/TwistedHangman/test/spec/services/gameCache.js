@@ -26,14 +26,14 @@ describe('Service: gameCache', function () {
         }
       };
     }]);
-    $provide.factory('twPlayerService', function () {
+    $provide.factory('jtbPlayerService', function () {
       return {
         currentPlayerBaseURL: function () {
           return baseURL;
         }
       };
     });
-    $provide.factory('twLiveGameFeed', function () {
+    $provide.factory('jtbLiveGameFeed', function () {
       return {};
     });
     gameAlerts = jasmine.createSpyObj('gameAlerts', ['checkUpdateForAlerts', 'checkNewEntryForAlerts']);

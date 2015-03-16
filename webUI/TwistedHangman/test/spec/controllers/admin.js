@@ -29,7 +29,7 @@ describe('Controller: AdminCtrl', function () {
       $scope: scope,
       $location: location,
       $window: window,
-      twPlayerService: mockPlayerService
+      jtbPlayerService: mockPlayerService
     });
   }));
 

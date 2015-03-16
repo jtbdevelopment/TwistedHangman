@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('twistedHangmanApp').factory('twGameAlerts',
-  ['$rootScope', 'twGameDetails', 'twPlayerService',
-    function ($rootScope, twGameDetails, twPlayerService) {
+  ['$rootScope', 'twGameDetails', 'jtbPlayerService',
+    function ($rootScope, twGameDetails, jtbPlayerService) {
       var currentMD5;
 
       function loadMD5() {
-        currentMD5 = twPlayerService.currentPlayer().md5;
+        currentMD5 = jtbPlayerService.currentPlayer().md5;
       }
 
       $rootScope.$on('playerLoaded', function () {
