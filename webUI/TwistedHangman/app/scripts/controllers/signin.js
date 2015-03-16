@@ -9,8 +9,8 @@
  */
 angular.module('twistedHangmanApp')
   .controller('SignInCtrl',
-  ['$scope', '$window', '$cookies', 'twFacebook',
-    function ($scope, $window, $cookies, twFacebook) {
+  ['$scope', '$window', '$cookies', 'jtbFacebook',
+    function ($scope, $window, $cookies, jtbFacebook) {
       $scope.message = 'Initializing...';
       $scope.showFacebook = false;
       $scope.showManual = false;
@@ -30,7 +30,7 @@ angular.module('twistedHangmanApp')
         $window.location = '/auth/facebook';
       }
 
-      twFacebook.canAutoSignIn().then(function (details) {
+      jtbFacebook.canAutoSignIn().then(function (details) {
         $scope.facebookPermissions = details.permissions;
         if (!details.auto) {
           showLoginOptions();

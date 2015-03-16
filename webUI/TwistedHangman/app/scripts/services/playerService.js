@@ -2,8 +2,8 @@
 
 
 angular.module('twistedHangmanApp').factory('twPlayerService',
-  ['$http', '$rootScope', '$location', '$window', 'twFacebook',
-    function ($http, $rootScope, $location, $window, twFacebook) {
+  ['$http', '$rootScope', '$location', '$window', 'jtbFacebook',
+    function ($http, $rootScope, $location, $window, jtbFacebook) {
       var realPID = '';
       var simulatedPID = '';
       var BASE_PLAYER_URL = '/api/player';
@@ -61,7 +61,7 @@ angular.module('twistedHangmanApp').factory('twPlayerService',
           simulatedPID = simulatedPlayer.id;
           switch (simulatedPlayer.source) {
             case 'facebook':
-              twFacebook.playerAndFBMatch(simulatedPlayer).then(function (match) {
+              jtbFacebook.playerAndFBMatch(simulatedPlayer).then(function (match) {
                 if (!match) {
                   service.signOutAndRedirect();
                 } else {

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twistedHangmanApp').controller('InviteCtrl',
-  ['$modalInstance', '$scope', 'invitableFriends', 'twFacebook',
-    function ($modalInstance, $scope, invitableFriends, twFacebook) {
+  ['$modalInstance', '$scope', 'invitableFriends', 'jtbFacebook',
+    function ($modalInstance, $scope, invitableFriends, jtbFacebook) {
       $scope.invitableFriends = invitableFriends;
       $scope.chosenFriends = [];
       $scope.invite = function () {
@@ -10,7 +10,7 @@ angular.module('twistedHangmanApp').controller('InviteCtrl',
         angular.forEach($scope.chosenFriends, function (chosen) {
           ids.push(chosen.id);
         });
-        twFacebook.inviteFriends(ids);
+        jtbFacebook.inviteFriends(ids);
         $modalInstance.close();
       };
       $scope.cancel = function () {

@@ -17,7 +17,7 @@ describe('Controller: InviteCtrl', function () {
     scope = $rootScope.$new();
     InviteCtrl = $controller('InviteCtrl', {
       $scope: scope,
-      twFacebook: facebookMock,
+      jtbFacebook: facebookMock,
       $modalInstance: modalInstance,
       invitableFriends: function () {
         return invitableFriends;

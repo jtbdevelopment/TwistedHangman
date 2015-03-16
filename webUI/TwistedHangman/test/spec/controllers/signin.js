@@ -28,7 +28,7 @@ describe('Controller: SignInCtrl', function () {
       $scope: scope,
       $cookies: cookies,
       $window: window,
-      twFacebook: mockFacebook
+      jtbFacebook: mockFacebook
     });
   }));
 

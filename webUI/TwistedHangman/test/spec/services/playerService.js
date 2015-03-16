@@ -25,7 +25,7 @@ describe('Service: playerService', function () {
         return facebookDeferred.promise;
       }
     };
-    $provide.factory('twFacebook', function () {
+    $provide.factory('jtbFacebook', function () {
       return facebookService;
     });
     $provide.factory('$window', function () {
