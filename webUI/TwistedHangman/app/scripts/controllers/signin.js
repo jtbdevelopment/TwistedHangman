@@ -2,13 +2,12 @@
 
 /**
  * @ngdoc function
- * @name twistedHangmanApp.controller:MainCtrl
  * @description
  * # MainCtrl
  * Controller of the twistedHangmanApp
  */
 angular.module('twistedHangmanApp')
-  .controller('SignInCtrl',
+  .controller('CoreSignInCtrl',
   ['$scope', '$window', '$cookies', 'jtbFacebook',
     function ($scope, $window, $cookies, jtbFacebook) {
       $scope.message = 'Initializing...';

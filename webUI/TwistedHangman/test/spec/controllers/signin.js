@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller: SignInCtrl', function () {
+describe('Controller: CoreSignInCtrl', function () {
 
   // load the controller's module
   beforeEach(module('twistedHangmanApp'));
@@ -24,7 +24,7 @@ describe('Controller: SignInCtrl', function () {
       }
     };
     scope = $rootScope.$new();
-    SignInCtrl = $controller('SignInCtrl', {
+    SignInCtrl = $controller('CoreSignInCtrl', {
       $scope: scope,
       $cookies: cookies,
       $window: window,

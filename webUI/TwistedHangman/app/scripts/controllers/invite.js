@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('twistedHangmanApp').controller('InviteCtrl',
+angular.module('twistedHangmanApp').controller('CoreInviteCtrl',
   ['$modalInstance', '$scope', 'invitableFriends', 'jtbFacebook',
     function ($modalInstance, $scope, invitableFriends, jtbFacebook) {
       $scope.invitableFriends = invitableFriends;

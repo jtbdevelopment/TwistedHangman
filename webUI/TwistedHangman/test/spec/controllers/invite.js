@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller: InviteCtrl', function () {
+describe('Controller: CoreInviteCtrl', function () {
 
   // load the controller's module
   beforeEach(module('twistedHangmanApp'));
@@ -15,7 +15,7 @@ describe('Controller: InviteCtrl', function () {
   beforeEach(inject(function ($controller, $rootScope) {
     invitableFriends = [];
     scope = $rootScope.$new();
-    InviteCtrl = $controller('InviteCtrl', {
+    InviteCtrl = $controller('CoreInviteCtrl', {
       $scope: scope,
       jtbFacebook: facebookMock,
       $modalInstance: modalInstance,
