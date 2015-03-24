@@ -6,12 +6,16 @@ import com.jtbdevelopment.games.players.PlayerPayLevel
 import com.jtbdevelopment.games.publish.PlayerPublisher
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Caching
 import org.springframework.data.mongodb.core.FindAndModifyOptions
 import org.springframework.data.mongodb.core.MongoOperations
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.core.query.Update
 import org.springframework.stereotype.Component
+
+import static com.jtbdevelopment.games.dao.caching.CacheConstants.*
 
 /**
  * Date: 2/4/15
@@ -52,6 +56,13 @@ class PlayerGameTracker {
      * @param player
      * @return result that can be checked if player is eligible and to pass in case reverting needed
      */
+    @Caching(
+            evict = [
+                    @CacheEvict(value = PLAYER_ID_CACHE, key = '#result.player.id'),
+                    @CacheEvict(value = PLAYER_MD5_CACHE, key = '#result.player.md5'),
+                    @CacheEvict(value = PLAYER_S_AND_SID_CACHE, key = '#result.player.sourceAndSourceId')
+            ]
+    )
     GameEligibilityResult getGameEligibility(final Player player) {
         int freeGames = (player.payLevel == PlayerPayLevel.FreeToPlay ? TwistedHangmanPlayerAttributes.DEFAULT_FREE_GAMES_PER_DAY : TwistedHangmanPlayerAttributes.DEFAULT_PREMIUM_PLAYER_GAMES_PER_DAY)
 
@@ -82,6 +93,7 @@ class PlayerGameTracker {
             return new GameEligibilityResult(eligibility: GameEligibility.PaidGameUsed, player: updated)
         }
 
+
         return new GameEligibilityResult(eligibility: GameEligibility.NoGamesAvailable, player: player)
     }
 
@@ -90,6 +102,13 @@ class PlayerGameTracker {
      *
      * @param gameEligibilityResult returned from getGameEligibility
      */
+    @Caching(
+            evict = [
+                    @CacheEvict(value = PLAYER_ID_CACHE, key = '#p0.player.id'),
+                    @CacheEvict(value = PLAYER_MD5_CACHE, key = '#p0.player.md5'),
+                    @CacheEvict(value = PLAYER_S_AND_SID_CACHE, key = '#p0.player.sourceAndSourceId')
+            ]
+    )
     void revertGameEligibility(final GameEligibilityResult gameEligibilityResult) {
         Update revertToUse;
         switch (gameEligibilityResult.eligibility) {

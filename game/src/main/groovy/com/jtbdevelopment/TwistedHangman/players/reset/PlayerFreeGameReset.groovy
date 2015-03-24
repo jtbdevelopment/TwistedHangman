@@ -7,11 +7,15 @@ import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Caching
 import org.springframework.data.mongodb.core.MongoOperations
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.core.query.Update
 import org.springframework.stereotype.Component
+
+import static com.jtbdevelopment.games.dao.caching.CacheConstants.*
 
 /**
  * Date: 2/11/15
@@ -27,6 +31,13 @@ class PlayerFreeGameReset {
     @Autowired
     PlayerPublisher playerPublisher
 
+    @Caching(
+            evict = [
+                    @CacheEvict(value = PLAYER_ID_CACHE, allEntries = true),
+                    @CacheEvict(value = PLAYER_MD5_CACHE, allEntries = true),
+                    @CacheEvict(value = PLAYER_S_AND_SID_CACHE, allEntries = true)
+            ]
+    )
     boolean resetFreeGames() {
         logger.info('Resetting all player free games.')
         //  Error check?
