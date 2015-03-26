@@ -245,7 +245,18 @@ class ServerIntegration {
         assert game.solverStates[TEST_PLAYER3.md5] != null
         assert game.solverStates[TEST_PLAYER3.md5].workingWordPhrase != ""
 
-        game = putMG(P1G.path("steal").path("0"))
+        AbstractMultiPlayerGameRepository gameRepository = applicationContext.getBean(AbstractMultiPlayerGameRepository.class)
+        Game dbLoaded1 = (Game) gameRepository.findOne(new ObjectId(game.idAsString))
+        String wordPhrase = ((IndividualGameState) dbLoaded1.solverStates[TEST_PLAYER1.id]).wordPhraseString
+
+
+        def phraseArray = wordPhrase.toCharArray()
+        int position = 0
+        while (!Character.isAlphabetic((int) phraseArray[0])) {
+            ++position
+        }
+
+        game = putMG(P1G.path("steal").path(position.toString()))
         assert game.gamePhase == GamePhase.Playing
         assert ((Character) game.solverStates[TEST_PLAYER1.md5].workingWordPhrase.charAt(0))
         assert game.solverStates[TEST_PLAYER1.md5].penalties == 1
@@ -258,11 +269,7 @@ class ServerIntegration {
         assert game.solverStates[TEST_PLAYER3.md5]
         assert game.solverStates[TEST_PLAYER3.md5].wordPhrase == ""
 
-        AbstractMultiPlayerGameRepository gameRepository = applicationContext.getBean(AbstractMultiPlayerGameRepository.class)
-        Game dbLoaded1 = (Game) gameRepository.findOne(new ObjectId(game.idAsString))
-        String wordPhrase = ((IndividualGameState) dbLoaded1.solverStates[TEST_PLAYER1.id]).wordPhraseString
-
-        Set<Character> chars = wordPhrase.toCharArray().findAll { char it -> Character.isAlphabetic((int) it) }.collect {
+        Set<Character> chars = phraseArray.findAll { char it -> Character.isAlphabetic((int) it) }.collect {
             it
         } as Set
         def letter = chars.iterator().next()
