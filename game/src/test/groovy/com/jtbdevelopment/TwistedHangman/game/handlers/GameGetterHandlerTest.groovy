@@ -51,7 +51,7 @@ class GameGetterHandlerTest extends TwistedHangmanTestCase {
                 }
         ] as MultiPlayerGameMasker
 
-        assert maskedGame.is(handler.handleAction(PONE.id, gameId))
+        assert maskedGame.is(handler.getGame(PONE.id, gameId))
     }
 
 }

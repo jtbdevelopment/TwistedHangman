@@ -1,5 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
+import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.games.games.masked.MaskedMultiPlayerGame
@@ -38,7 +39,7 @@ class PlayerGamesFinderHandler extends AbstractGameGetterHandler {
         GamePhase.values().each {
             GamePhase phase ->
                 def days = now.minusDays(phase.historyCutoffDays)
-                result.addAll(gameRepository.findByPlayersIdAndGamePhaseAndLastUpdateGreaterThan(
+                result.addAll(((GameRepository) gameRepository).findByPlayersIdAndGamePhaseAndLastUpdateGreaterThan(
                         player.id,
                         phase,
                         days,

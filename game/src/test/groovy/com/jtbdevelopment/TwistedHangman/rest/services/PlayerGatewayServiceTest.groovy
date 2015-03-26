@@ -2,17 +2,8 @@ package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.games.mongo.players.MongoPlayer
-import com.jtbdevelopment.games.players.Player
-import com.jtbdevelopment.games.players.PlayerRoles
-import com.jtbdevelopment.games.security.SessionUserInfo
 import groovy.transform.TypeChecked
-import org.bson.types.ObjectId
-import org.springframework.security.authentication.TestingAuthenticationToken
-import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.context.SecurityContextImpl
 
-import javax.annotation.security.RolesAllowed
 import javax.ws.rs.GET
 import javax.ws.rs.Path
 import javax.ws.rs.Produces
@@ -24,64 +15,6 @@ import javax.ws.rs.core.MediaType
  */
 class PlayerGatewayServiceTest extends GroovyTestCase {
     PlayerGatewayService playerGatewayService = new PlayerGatewayService()
-
-    void testClassAnnotations() {
-        assert PlayerGatewayService.class.getAnnotation(RolesAllowed.class).value() == [PlayerRoles.PLAYER]
-        assert PlayerGatewayService.class.getAnnotation(Path.class).value() == "/"
-    }
-
-    void testPing() {
-        assert PlayerGatewayService.PING_RESULT == playerGatewayService.ping()
-    }
-
-    void testPingAnnotations() {
-        def ping = PlayerGatewayService.getMethod("ping", [] as Class[])
-        assert (ping.annotations.size() == 3 ||
-                (ping.isAnnotationPresent(TypeChecked.TypeCheckingInfo) && ping.annotations.size() == 4)
-        )
-        assert ping.isAnnotationPresent(GET.class)
-        assert ping.isAnnotationPresent(Produces.class)
-        assert ping.getAnnotation(Produces.class).value() == [MediaType.TEXT_PLAIN]
-        assert ping.isAnnotationPresent(Path.class)
-        assert ping.getAnnotation(Path.class).value() == "ping"
-    }
-
-    void testValidPlayer() {
-        def APLAYER = new ObjectId()
-        SecurityContextHolder.context = new SecurityContextImpl()
-        SecurityContextHolder.context.authentication = new TestingAuthenticationToken(new SessionUserInfo<ObjectId>() {
-            @Override
-            Player<ObjectId> getSessionUser() {
-                return null
-            }
-
-            @Override
-            Player<ObjectId> getEffectiveUser() {
-                return new MongoPlayer(id: APLAYER)
-            }
-
-            @Override
-            void setEffectiveUser(final Player<ObjectId> player) {
-
-            }
-        }, null)
-        PlayerServices services = [playerID: new ThreadLocal<String>()] as PlayerServices
-        playerGatewayService.playerServices = services
-
-        assert services.is(playerGatewayService.gameServices())
-        assert services.playerID.get() == APLAYER
-    }
-
-    void testGameServicesAnnotations() {
-        def gameServices = PlayerGatewayService.getMethod("gameServices", [] as Class[])
-        assert (gameServices.annotations.size() == 1 ||
-                (gameServices.isAnnotationPresent(TypeChecked.TypeCheckingInfo) && gameServices.annotations.size() == 2)
-        )
-        assert gameServices.isAnnotationPresent(Path.class)
-        assert gameServices.getAnnotation(Path.class).value() == "player"
-        def params = gameServices.parameterAnnotations
-        assert params.length == 0
-    }
 
     void testGetFeatures() {
         playerGatewayService.featuresAndDescriptions() == [

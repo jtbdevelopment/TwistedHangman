@@ -28,7 +28,7 @@ class GameServicesTest extends GroovyTestCase {
 
     void testGet() {
         services.gameGetterHandler = [
-                handleAction: {
+                getGame: {
                     ObjectId p, ObjectId g ->
                         assert p == PID
                         assert g == GID

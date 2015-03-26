@@ -3,6 +3,7 @@ package com.jtbdevelopment.TwistedHangman.rest.services
 import com.jtbdevelopment.TwistedHangman.game.handlers.*
 import com.jtbdevelopment.games.games.PlayerState
 import com.jtbdevelopment.games.games.masked.MaskedMultiPlayerGame
+import com.jtbdevelopment.games.rest.services.AbstractGameServices
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,10 +19,7 @@ import javax.ws.rs.core.MediaType
  */
 @Component
 @CompileStatic
-class GameServices {
-    ThreadLocal<ObjectId> playerID = new ThreadLocal<>()
-    ThreadLocal<ObjectId> gameID = new ThreadLocal<>()
-
+class GameServices extends AbstractGameServices<ObjectId> {
     @Autowired
     StealLetterHandler stealLetterHandler
     @Autowired
@@ -40,35 +38,35 @@ class GameServices {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     MaskedMultiPlayerGame getGame() {
-        gameGetterHandler.handleAction(playerID.get(), gameID.get())
+        gameGetterHandler.getGame((ObjectId) playerID.get(), (ObjectId) gameID.get())
     }
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Path("rematch")
     MaskedMultiPlayerGame createRematch() {
-        rematchHandler.handleAction(playerID.get(), gameID.get())
+        rematchHandler.handleAction((ObjectId) playerID.get(), (ObjectId) gameID.get())
     }
 
     @PUT
     @Path("reject")
     @Produces(MediaType.APPLICATION_JSON)
     MaskedMultiPlayerGame rejectGame() {
-        responseHandler.handleAction(playerID.get(), gameID.get(), PlayerState.Rejected)
+        responseHandler.handleAction((ObjectId) playerID.get(), (ObjectId) gameID.get(), PlayerState.Rejected)
     }
 
     @PUT
     @Path("accept")
     @Produces(MediaType.APPLICATION_JSON)
     MaskedMultiPlayerGame acceptGame() {
-        responseHandler.handleAction(playerID.get(), gameID.get(), PlayerState.Accepted)
+        responseHandler.handleAction((ObjectId) playerID.get(), (ObjectId) gameID.get(), PlayerState.Accepted)
     }
 
     @PUT
     @Path("quit")
     @Produces(MediaType.APPLICATION_JSON)
     MaskedMultiPlayerGame quitGame() {
-        quitHandler.handleAction(playerID.get(), gameID.get())
+        quitHandler.handleAction((ObjectId) playerID.get(), (ObjectId) gameID.get())
     }
 
     @PUT
@@ -77,14 +75,14 @@ class GameServices {
     @Consumes(MediaType.APPLICATION_JSON)
     MaskedMultiPlayerGame setPuzzle(SetPuzzleHandler.CategoryAndWordPhrase categoryAndWordPhrase) {
         puzzleHandler.handleAction(
-                playerID.get(), gameID.get(), categoryAndWordPhrase)
+                (ObjectId) playerID.get(), (ObjectId) gameID.get(), categoryAndWordPhrase)
     }
 
     @PUT
     @Path("steal/{position}")
     @Produces(MediaType.APPLICATION_JSON)
     MaskedMultiPlayerGame stealLetter(@PathParam("position") final int position) {
-        stealLetterHandler.handleAction(playerID.get(), gameID.get(), position)
+        stealLetterHandler.handleAction((ObjectId) playerID.get(), (ObjectId) gameID.get(), position)
     }
 
     @PUT
@@ -95,6 +93,6 @@ class GameServices {
         if (StringUtils.isEmpty(letter) || StringUtils.isEmpty(letter.trim())) {
             validated = " "
         }
-        guessLetterHandler.handleAction(playerID.get(), gameID.get(), validated.charAt(0))
+        guessLetterHandler.handleAction((ObjectId) playerID.get(), (ObjectId) gameID.get(), validated.charAt(0))
     }
 }

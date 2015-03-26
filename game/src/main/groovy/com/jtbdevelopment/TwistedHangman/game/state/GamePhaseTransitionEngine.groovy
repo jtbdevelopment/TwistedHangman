@@ -61,8 +61,8 @@ class GamePhaseTransitionEngine {
         return game
     }
 
-    private Game changeStateAndReevaluate(final GamePhase setup, final Game game) {
-        game.gamePhase = setup
+    private Game changeStateAndReevaluate(final GamePhase transitionTo, final Game game) {
+        game.gamePhase = transitionTo
         evaluateGamePhaseForGame(game)
     }
 }
