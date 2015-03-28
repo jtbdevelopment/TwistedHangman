@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
 import com.jtbdevelopment.games.players.Player
+import com.jtbdevelopment.games.scoring.GameScorer
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
@@ -12,8 +13,8 @@ import org.springframework.stereotype.Component
  */
 @Component
 @CompileStatic
-class GameScorer {
-    @SuppressWarnings("GrMethodMayBeStatic")
+class GameScorerImpl implements GameScorer<Game> {
+    @Override
     public Game scoreGame(final Game game) {
         int winners = 0
         int losers = 0

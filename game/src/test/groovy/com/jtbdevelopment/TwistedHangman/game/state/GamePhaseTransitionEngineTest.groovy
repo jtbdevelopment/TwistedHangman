@@ -131,7 +131,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                         assert it.completedTimestamp
                         return scored
                 }
-        ] as GameScorer
+        ] as GameScorerImpl
 
 
         assert scored.is(transitionEngine.evaluateGame(game))
@@ -157,7 +157,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                         assert it.completedTimestamp
                         return scored
                 }
-        ] as GameScorer
+        ] as GameScorerImpl
 
         assert scored.is(transitionEngine.evaluateGame(game))
     }

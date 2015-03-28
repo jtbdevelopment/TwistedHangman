@@ -7,8 +7,8 @@ import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreat
  * Date: 11/8/2014
  * Time: 6:57 PM
  */
-class GameScorerTest extends TwistedHangmanTestCase {
-    GameScorer gameScorer = new GameScorer()
+class GameScorerImplTest extends TwistedHangmanTestCase {
+    GameScorerImpl gameScorer = new GameScorerImpl()
 
 
     public void testScoreForMultiWinMultiPlayerSystemGame() {

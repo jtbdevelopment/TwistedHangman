@@ -19,7 +19,7 @@ class GamePhaseTransitionEngine {
     private static final ZoneId GMT = ZoneId.of('GMT')
 
     @Autowired
-    GameScorer gameScorer
+    GameScorerImpl gameScorer
 
     public Game evaluateGame(final Game game) {
         switch (game.gamePhase) {
