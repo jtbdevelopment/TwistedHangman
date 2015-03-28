@@ -79,7 +79,7 @@ abstract class AbstractGameActionHandler<T> extends AbstractGameGetterHandler {
     protected Game updateGame(Player<ObjectId> player, Game game, T param) {
         Game updatedGame
         updatedGame = (Game) gameRepository.save(
-                transitionEngine.evaluateGamePhaseForGame(
+                transitionEngine.evaluateGame(
                         rotateTurnBasedGame(
                                 handleActionInternal(player, game, param))));
         updatedGame

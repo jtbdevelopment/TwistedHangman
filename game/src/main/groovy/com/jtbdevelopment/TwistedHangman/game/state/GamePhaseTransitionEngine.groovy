@@ -21,7 +21,7 @@ class GamePhaseTransitionEngine {
     @Autowired
     GameScorer gameScorer
 
-    public Game evaluateGamePhaseForGame(final Game game) {
+    public Game evaluateGame(final Game game) {
         switch (game.gamePhase) {
             case GamePhase.Challenged:
                 def reject = game.playerStates.values().find { PlayerState it -> it == PlayerState.Rejected }
@@ -63,6 +63,6 @@ class GamePhaseTransitionEngine {
 
     private Game changeStateAndReevaluate(final GamePhase transitionTo, final Game game) {
         game.gamePhase = transitionTo
-        evaluateGamePhaseForGame(game)
+        evaluateGame(game)
     }
 }

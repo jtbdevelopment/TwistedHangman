@@ -48,7 +48,7 @@ class ChallengeToRematchHandlerTest extends TwistedHangmanTestCase {
                 }
         ] as GameFactory
         handler.transitionEngine = [
-                evaluateGamePhaseForGame: {
+                evaluateGame: {
                     Game g ->
                         assert g.is(previous)
                         assert g.rematchTimestamp != null

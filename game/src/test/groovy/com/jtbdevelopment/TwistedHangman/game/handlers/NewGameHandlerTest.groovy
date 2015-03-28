@@ -67,7 +67,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                 }
         ] as AbstractPlayerRepository<ObjectId>
         handler.transitionEngine = [
-                evaluateGamePhaseForGame: {
+                evaluateGame: {
                     assert it.is(puzzled)
                     return transitionedGame
                 }
@@ -134,7 +134,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                 }
         ] as AbstractPlayerRepository<ObjectId>
         handler.transitionEngine = [
-                evaluateGamePhaseForGame: {
+                evaluateGame: {
                     assert it.is(puzzled)
                     throw new IllegalArgumentException()
                 }
@@ -195,7 +195,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                 }
         ] as AbstractPlayerRepository<ObjectId>
         handler.transitionEngine = [
-                evaluateGamePhaseForGame: {
+                evaluateGame: {
                     assert it.is(puzzled)
                     throw new IllegalArgumentException()
                 }

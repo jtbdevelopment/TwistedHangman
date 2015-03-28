@@ -54,7 +54,7 @@ class AbstractGamePlayActionHandlerTest extends TwistedHangmanTestCase {
                 }
         ] as AbstractPlayerRepository<ObjectId>
         handler.transitionEngine = [
-                evaluateGamePhaseForGame: {
+                evaluateGame: {
                     Game it ->
                         assert it.is(gameParam)
                         return transitioned
@@ -108,7 +108,7 @@ class AbstractGamePlayActionHandlerTest extends TwistedHangmanTestCase {
                 }
         ] as AbstractPlayerRepository<ObjectId>
         handler.transitionEngine = [
-                evaluateGamePhaseForGame: {
+                evaluateGame: {
                     Game it ->
                         assert it.is(gameParam)
                         return transitioned
@@ -162,7 +162,7 @@ class AbstractGamePlayActionHandlerTest extends TwistedHangmanTestCase {
                 }
         ] as AbstractPlayerRepository<ObjectId>
         handler.transitionEngine = [
-                evaluateGamePhaseForGame: {
+                evaluateGame: {
                     Game it ->
                         assert it.is(gameParam)
                         return transitioned

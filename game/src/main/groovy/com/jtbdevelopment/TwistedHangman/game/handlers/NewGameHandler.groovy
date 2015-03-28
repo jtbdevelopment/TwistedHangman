@@ -86,7 +86,7 @@ class NewGameHandler extends AbstractHandler {
             final Set<GameFeature> features,
             final Set<Player<ObjectId>> players,
             final Player<ObjectId> initiatingPlayer) {
-        Game game = transitionEngine.evaluateGamePhaseForGame(
+        Game game = transitionEngine.evaluateGame(
                 systemPuzzlerSetter.setWordPhraseFromSystem(
                         gameFactory.createGame(features, players.toList(), initiatingPlayer)))
         gameRepository.save(game)

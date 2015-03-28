@@ -22,7 +22,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                 solverStates: [(PONE.id): new IndividualGameState(maxPenalties: 10, wordPhrase: "SET".toCharArray())]
         )
 
-        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.is(transitionEngine.evaluateGame(game))
         assert game.gamePhase == GamePhase.Playing
     }
 
@@ -35,7 +35,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                 playerStates: [(PONE.id): PlayerState.Accepted, (PTWO.id): PlayerState.Pending],
         )
 
-        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.is(transitionEngine.evaluateGame(game))
     }
 
 
@@ -47,7 +47,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                 playerStates: [(PONE.id): PlayerState.Rejected, (PTWO.id): PlayerState.Pending],
         )
 
-        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.is(transitionEngine.evaluateGame(game))
         assert game.gamePhase == GamePhase.Declined
     }
 
@@ -61,7 +61,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                 solverStates: [(PONE.id): new IndividualGameState(), (PTWO.id): new IndividualGameState()]
         )
 
-        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.is(transitionEngine.evaluateGame(game))
         assert game.gamePhase == GamePhase.Setup
     }
 
@@ -77,7 +77,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                 ]
         )
 
-        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.is(transitionEngine.evaluateGame(game))
     }
 
 
@@ -92,7 +92,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                 ]
         )
 
-        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.is(transitionEngine.evaluateGame(game))
         assert game.gamePhase == GamePhase.Playing
     }
 
@@ -108,7 +108,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                 ]
         )
 
-        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.is(transitionEngine.evaluateGame(game))
     }
 
 
@@ -134,7 +134,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         ] as GameScorer
 
 
-        assert scored.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert scored.is(transitionEngine.evaluateGame(game))
     }
 
 
@@ -159,14 +159,14 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                 }
         ] as GameScorer
 
-        assert scored.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert scored.is(transitionEngine.evaluateGame(game))
     }
 
 
     public void testRematchToRematch() {
         assert transitionEngine.gameScorer == null
         Game game = new Game(gamePhase: GamePhase.RoundOver, rematchTimestamp: null)
-        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.is(transitionEngine.evaluateGame(game))
     }
 
 
@@ -174,7 +174,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         assert transitionEngine.gameScorer == null
 
         Game game = new Game(gamePhase: GamePhase.RoundOver, rematchTimestamp: ZonedDateTime.now())
-        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.is(transitionEngine.evaluateGame(game))
         assert game.gamePhase == GamePhase.NextRoundStarted
     }
 
@@ -182,19 +182,19 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     public void testRematchedToRematched() {
         assert transitionEngine.gameScorer == null
         Game game = new Game(gamePhase: GamePhase.NextRoundStarted)
-        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.is(transitionEngine.evaluateGame(game))
     }
 
 
     public void testDeclinedToDeclined() {
         assert transitionEngine.gameScorer == null
         Game game = new Game(gamePhase: GamePhase.Declined)
-        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.is(transitionEngine.evaluateGame(game))
     }
 
     public void testQuitToQuit() {
         assert transitionEngine.gameScorer == null
         Game game = new Game(gamePhase: GamePhase.Quit)
-        assert game.is(transitionEngine.evaluateGamePhaseForGame(game))
+        assert game.is(transitionEngine.evaluateGame(game))
     }
 }
