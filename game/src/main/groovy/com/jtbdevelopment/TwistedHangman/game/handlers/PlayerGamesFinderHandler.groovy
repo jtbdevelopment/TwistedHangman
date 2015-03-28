@@ -4,9 +4,12 @@ import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.games.games.masked.MaskedMultiPlayerGame
+import com.jtbdevelopment.games.games.masked.MultiPlayerGameMasker
 import com.jtbdevelopment.games.players.Player
+import com.jtbdevelopment.games.rest.handlers.AbstractGameGetterHandler
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Component
@@ -27,6 +30,9 @@ class PlayerGamesFinderHandler extends AbstractGameGetterHandler {
     public static final Sort SORT = new Sort(Sort.Direction.DESC, ["lastUpdate", "created"])
     public static final PageRequest PAGE = new PageRequest(DEFAULT_PAGE, DEFAULT_PAGE_SIZE, SORT)
 
+    @Autowired
+    protected MultiPlayerGameMasker gameMasker
+
     public List<MaskedMultiPlayerGame> findGames(final ObjectId playerID) {
         Player<ObjectId> player = loadPlayer(playerID);
         ZonedDateTime now = ZonedDateTime.now(GMT)
@@ -40,7 +46,7 @@ class PlayerGamesFinderHandler extends AbstractGameGetterHandler {
             GamePhase phase ->
                 def days = now.minusDays(phase.historyCutoffDays)
                 result.addAll(((GameRepository) gameRepository).findByPlayersIdAndGamePhaseAndLastUpdateGreaterThan(
-                        player.id,
+                        (ObjectId) player.id,
                         phase,
                         days,
                         PAGE

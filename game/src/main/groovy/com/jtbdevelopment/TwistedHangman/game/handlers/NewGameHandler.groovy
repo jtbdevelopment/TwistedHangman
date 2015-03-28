@@ -12,6 +12,7 @@ import com.jtbdevelopment.games.games.masked.MaskedMultiPlayerGame
 import com.jtbdevelopment.games.games.masked.MultiPlayerGameMasker
 import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.publish.GamePublisher
+import com.jtbdevelopment.games.rest.handlers.AbstractHandler
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.slf4j.Logger
@@ -44,7 +45,9 @@ class NewGameHandler extends AbstractHandler {
     protected PlayerGameTracker gameTracker
 
     public MaskedMultiPlayerGame handleCreateNewGame(
-            final ObjectId initiatingPlayerID, final List<String> playersIDs, final Set<GameFeature> features) {
+            final ObjectId initiatingPlayerID,
+            final List<String> playersIDs,
+            final Set<GameFeature> features) {
         Set<Player<ObjectId>> players = loadPlayerMD5s(playersIDs)  //  Load as set to prevent dupes in initial setup
         Player<ObjectId> initiatingPlayer = players.find { Player<ObjectId> player -> player.id == initiatingPlayerID }
         if (initiatingPlayer == null) {

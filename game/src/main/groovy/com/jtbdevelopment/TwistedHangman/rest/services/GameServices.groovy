@@ -31,15 +31,7 @@ class GameServices extends AbstractGameServices<ObjectId> {
     @Autowired
     SetPuzzleHandler puzzleHandler
     @Autowired
-    GameGetterHandler gameGetterHandler
-    @Autowired
     QuitHandler quitHandler
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    MaskedMultiPlayerGame getGame() {
-        gameGetterHandler.getGame((ObjectId) playerID.get(), (ObjectId) gameID.get())
-    }
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
