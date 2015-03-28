@@ -5,6 +5,9 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
+import com.jtbdevelopment.TwistedHangman.game.state.masking.GameMasker
+import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
+import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedIndividualGameState
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.state.PlayerState

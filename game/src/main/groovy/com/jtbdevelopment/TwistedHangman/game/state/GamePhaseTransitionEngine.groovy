@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.games.state.PlayerState
+import com.jtbdevelopment.games.state.transition.GameTransitionEngine
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -15,12 +16,13 @@ import java.time.ZonedDateTime
  */
 @Component
 @CompileStatic
-class GamePhaseTransitionEngine {
+class GamePhaseTransitionEngine implements GameTransitionEngine<Game> {
     private static final ZoneId GMT = ZoneId.of('GMT')
 
     @Autowired
     GameScorerImpl gameScorer
 
+    @Override
     public Game evaluateGame(final Game game) {
         switch (game.gamePhase) {
             case GamePhase.Challenged:

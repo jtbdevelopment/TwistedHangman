@@ -7,15 +7,17 @@ import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
-import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
+import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
+import com.jtbdevelopment.TwistedHangman.players.PlayerGameEligibility
+import com.jtbdevelopment.TwistedHangman.players.PlayerGameEligibilityResult
 import com.jtbdevelopment.TwistedHangman.players.PlayerGameTracker
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
 import com.jtbdevelopment.games.exceptions.system.FailedToFindPlayersException
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.publish.GamePublisher
-import com.jtbdevelopment.games.state.masked.MultiPlayerGameMasker
+import com.jtbdevelopment.games.state.masking.MultiPlayerGameMasker
 import org.bson.types.ObjectId
 
 /**
@@ -84,7 +86,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                 getGameEligibility: {
                     Player<ObjectId> p ->
                         assert p.is(PONE)
-                        return new PlayerGameTracker.GameEligibilityResult(eligibility: PlayerGameTracker.GameEligibility.FreeGameUsed, player: PONE)
+                        return new PlayerGameEligibilityResult(eligibility: PlayerGameEligibility.FreeGameUsed, player: PONE)
                 }
         ] as PlayerGameTracker
         MaskedGame maskedGame = new MaskedGame()
@@ -139,7 +141,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                     throw new IllegalArgumentException()
                 }
         ] as GamePhaseTransitionEngine
-        def eligibilityResult = new PlayerGameTracker.GameEligibilityResult(eligibility: PlayerGameTracker.GameEligibility.FreeGameUsed, player: PONE)
+        def eligibilityResult = new PlayerGameEligibilityResult(eligibility: PlayerGameEligibility.FreeGameUsed, player: PONE)
         handler.gameTracker = [
                 getGameEligibility   : {
                     Player<ObjectId> p ->
@@ -147,7 +149,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                         return eligibilityResult
                 },
                 revertGameEligibility: {
-                    PlayerGameTracker.GameEligibilityResult r ->
+                    PlayerGameEligibilityResult r ->
                         assert r.is(eligibilityResult)
                         revertCalled = true
                 }
@@ -200,7 +202,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                     throw new IllegalArgumentException()
                 }
         ] as GamePhaseTransitionEngine
-        def eligibilityResult = new PlayerGameTracker.GameEligibilityResult(eligibility: PlayerGameTracker.GameEligibility.FreeGameUsed, player: PONE)
+        def eligibilityResult = new PlayerGameEligibilityResult(eligibility: PlayerGameEligibility.FreeGameUsed, player: PONE)
         handler.gameTracker = [
                 getGameEligibility   : {
                     Player<ObjectId> p ->
@@ -208,7 +210,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                         return eligibilityResult
                 },
                 revertGameEligibility: {
-                    PlayerGameTracker.GameEligibilityResult r ->
+                    PlayerGameEligibilityResult r ->
                         assert r.is(eligibilityResult)
                         revertCalled = true
                         throw new IllegalStateException()
@@ -251,7 +253,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                     return PONE
                 }
         ] as AbstractPlayerRepository<ObjectId>
-        def eligibilityResult = new PlayerGameTracker.GameEligibilityResult(eligibility: PlayerGameTracker.GameEligibility.FreeGameUsed, player: PONE)
+        def eligibilityResult = new PlayerGameEligibilityResult(eligibility: PlayerGameEligibility.FreeGameUsed, player: PONE)
         handler.gameTracker = [
                 getGameEligibility   : {
                     Player<ObjectId> p ->
@@ -259,7 +261,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                         return eligibilityResult
                 },
                 revertGameEligibility: {
-                    PlayerGameTracker.GameEligibilityResult r ->
+                    PlayerGameEligibilityResult r ->
                         assert r.is(eligibilityResult)
                         revertCalled = true
                 }
@@ -299,7 +301,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                 getGameEligibility: {
                     Player<ObjectId> p ->
                         assert p.is(PONE)
-                        return new PlayerGameTracker.GameEligibilityResult(eligibility: PlayerGameTracker.GameEligibility.NoGamesAvailable, player: PONE)
+                        return new PlayerGameEligibilityResult(eligibility: PlayerGameEligibility.NoGamesAvailable, player: PONE)
                 }
         ] as PlayerGameTracker
 

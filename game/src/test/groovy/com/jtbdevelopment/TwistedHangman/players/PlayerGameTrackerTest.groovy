@@ -48,9 +48,9 @@ class PlayerGameTrackerTest extends TwistedHangmanTestCase {
                         published = true
                 }
         ] as PlayerPublisher
-        PlayerGameTracker.GameEligibilityResult result = tracker.getGameEligibility(input)
+        PlayerGameEligibilityResult result = tracker.getGameEligibility(input)
         assertNotNull result
-        assert result.eligibility == PlayerGameTracker.GameEligibility.FreeGameUsed
+        assert result.eligibility == PlayerGameEligibility.FreeGameUsed
         assert result.player.is(output)
         assert published
     }
@@ -83,9 +83,9 @@ class PlayerGameTrackerTest extends TwistedHangmanTestCase {
                         published = true
                 }
         ] as PlayerPublisher
-        PlayerGameTracker.GameEligibilityResult result = tracker.getGameEligibility(input)
+        PlayerGameEligibilityResult result = tracker.getGameEligibility(input)
         assertNotNull result
-        assert result.eligibility == PlayerGameTracker.GameEligibility.PaidGameUsed
+        assert result.eligibility == PlayerGameEligibility.PaidGameUsed
         assert result.player.is(output)
         assert published
     }
@@ -115,9 +115,9 @@ class PlayerGameTrackerTest extends TwistedHangmanTestCase {
                         fail('publish should not have happened')
                 }
         ] as PlayerPublisher
-        PlayerGameTracker.GameEligibilityResult result = tracker.getGameEligibility(input)
+        PlayerGameEligibilityResult result = tracker.getGameEligibility(input)
         assertNotNull result
-        assert result.eligibility == PlayerGameTracker.GameEligibility.NoGamesAvailable
+        assert result.eligibility == PlayerGameEligibility.NoGamesAvailable
         assert result.player.is(input)
         assertFalse published
     }
@@ -147,9 +147,9 @@ class PlayerGameTrackerTest extends TwistedHangmanTestCase {
                         published = true
                 }
         ] as PlayerPublisher
-        PlayerGameTracker.GameEligibilityResult result = tracker.getGameEligibility(input)
+        PlayerGameEligibilityResult result = tracker.getGameEligibility(input)
         assertNotNull result
-        assert result.eligibility == PlayerGameTracker.GameEligibility.FreeGameUsed
+        assert result.eligibility == PlayerGameEligibility.FreeGameUsed
         assert result.player.is(output)
         assert published
     }
@@ -182,9 +182,9 @@ class PlayerGameTrackerTest extends TwistedHangmanTestCase {
                         published = true
                 }
         ] as PlayerPublisher
-        PlayerGameTracker.GameEligibilityResult result = tracker.getGameEligibility(input)
+        PlayerGameEligibilityResult result = tracker.getGameEligibility(input)
         assertNotNull result
-        assert result.eligibility == PlayerGameTracker.GameEligibility.PaidGameUsed
+        assert result.eligibility == PlayerGameEligibility.PaidGameUsed
         assert result.player.is(output)
         assert published
     }
@@ -214,9 +214,9 @@ class PlayerGameTrackerTest extends TwistedHangmanTestCase {
                         fail('publish should not have happened')
                 }
         ] as PlayerPublisher
-        PlayerGameTracker.GameEligibilityResult result = tracker.getGameEligibility(input)
+        PlayerGameEligibilityResult result = tracker.getGameEligibility(input)
         assertNotNull result
-        assert result.eligibility == PlayerGameTracker.GameEligibility.NoGamesAvailable
+        assert result.eligibility == PlayerGameEligibility.NoGamesAvailable
         assert result.player.is(input)
         assertFalse published
     }
@@ -226,8 +226,8 @@ class PlayerGameTrackerTest extends TwistedHangmanTestCase {
         boolean published = false
         MongoPlayer input = (MongoPlayer) PONE.clone();
         input.gameSpecificPlayerAttributes = new TwistedHangmanPlayerAttributes(freeGamesUsedToday: 1, availablePurchasedGames: 5)
-        PlayerGameTracker.GameEligibilityResult result = new PlayerGameTracker.GameEligibilityResult(
-                eligibility: PlayerGameTracker.GameEligibility.FreeGameUsed,
+        PlayerGameEligibilityResult result = new PlayerGameEligibilityResult(
+                eligibility: PlayerGameEligibility.FreeGameUsed,
                 player: input
         )
         MongoPlayer output = (MongoPlayer) input.clone()
@@ -258,8 +258,8 @@ class PlayerGameTrackerTest extends TwistedHangmanTestCase {
         boolean published = false
         MongoPlayer input = (MongoPlayer) PONE.clone();
         input.gameSpecificPlayerAttributes = new TwistedHangmanPlayerAttributes(freeGamesUsedToday: 1, availablePurchasedGames: 5)
-        PlayerGameTracker.GameEligibilityResult result = new PlayerGameTracker.GameEligibilityResult(
-                eligibility: PlayerGameTracker.GameEligibility.PaidGameUsed,
+        PlayerGameEligibilityResult result = new PlayerGameEligibilityResult(
+                eligibility: PlayerGameEligibility.PaidGameUsed,
                 player: input
         )
         MongoPlayer output = (MongoPlayer) input.clone()
@@ -289,8 +289,8 @@ class PlayerGameTrackerTest extends TwistedHangmanTestCase {
         boolean published = false
         MongoPlayer input = (MongoPlayer) PONE.clone();
         input.gameSpecificPlayerAttributes = new TwistedHangmanPlayerAttributes(freeGamesUsedToday: 1, availablePurchasedGames: 5)
-        PlayerGameTracker.GameEligibilityResult result = new PlayerGameTracker.GameEligibilityResult(
-                eligibility: PlayerGameTracker.GameEligibility.NoGamesAvailable,
+        PlayerGameEligibilityResult result = new PlayerGameEligibilityResult(
+                eligibility: PlayerGameEligibility.NoGamesAvailable,
                 player: input
         )
         tracker.mongoOperations = [

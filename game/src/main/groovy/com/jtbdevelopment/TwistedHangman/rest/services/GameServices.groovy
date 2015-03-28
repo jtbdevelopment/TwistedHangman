@@ -3,7 +3,7 @@ package com.jtbdevelopment.TwistedHangman.rest.services
 import com.jtbdevelopment.TwistedHangman.game.handlers.*
 import com.jtbdevelopment.games.rest.services.AbstractGameServices
 import com.jtbdevelopment.games.state.PlayerState
-import com.jtbdevelopment.games.state.masked.MaskedMultiPlayerGame
+import com.jtbdevelopment.games.state.masking.MaskedMultiPlayerGame
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired

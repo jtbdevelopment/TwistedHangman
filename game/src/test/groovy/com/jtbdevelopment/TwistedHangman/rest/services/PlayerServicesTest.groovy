@@ -4,7 +4,7 @@ import com.jtbdevelopment.TwistedHangman.game.handlers.NewGameHandler
 import com.jtbdevelopment.TwistedHangman.game.handlers.PlayerGamesFinderHandler
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
+import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
 import groovy.transform.TypeChecked
 import org.bson.types.ObjectId
 

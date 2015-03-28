@@ -1,5 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.state.masked
 
+import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
+
 /**
  * Date: 2/19/15
  * Time: 6:56 PM

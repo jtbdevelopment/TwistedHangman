@@ -2,7 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
 import com.jtbdevelopment.games.players.Player
-import com.jtbdevelopment.games.scoring.GameScorer
+import com.jtbdevelopment.games.state.scoring.GameScorer
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component

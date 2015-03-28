@@ -6,7 +6,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
-import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
+import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerGatewayService
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerServices
 import com.jtbdevelopment.games.dao.AbstractMultiPlayerGameRepository

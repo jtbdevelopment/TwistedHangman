@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.game.state.masked
+package com.jtbdevelopment.TwistedHangman.game.state.masking
 
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import groovy.transform.CompileStatic

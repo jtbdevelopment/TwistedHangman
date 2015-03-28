@@ -4,6 +4,7 @@ import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.players.PlayerPayLevel
 import com.jtbdevelopment.games.publish.PlayerPublisher
+import com.jtbdevelopment.games.tracking.GameEligibilityTracker
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.CacheEvict
@@ -23,7 +24,7 @@ import static com.jtbdevelopment.games.dao.caching.CacheConstants.*
  */
 @Component
 @CompileStatic
-class PlayerGameTracker {
+class PlayerGameTracker implements GameEligibilityTracker<PlayerGameEligibilityResult> {
     private static final Update UPDATE_FREE_GAMES = new Update().inc(TwistedHangmanPlayerAttributes.FREE_GAMES_FIELD, 1)
     private static
     final Update REVERT_FREE_GAMES = new Update().inc(TwistedHangmanPlayerAttributes.FREE_GAMES_FIELD, -1)
@@ -37,17 +38,6 @@ class PlayerGameTracker {
 
     @Autowired
     PlayerPublisher playerPublisher
-
-    public enum GameEligibility {
-        FreeGameUsed,
-        PaidGameUsed,
-        NoGamesAvailable
-    }
-
-    public static class GameEligibilityResult {
-        GameEligibility eligibility
-        Player player
-    }
 
     /**
      * Checks eligibility for player and decrements appropriate value
@@ -63,7 +53,8 @@ class PlayerGameTracker {
                     @CacheEvict(value = PLAYER_S_AND_SID_CACHE, key = '#result.player.sourceAndSourceId')
             ]
     )
-    GameEligibilityResult getGameEligibility(final Player player) {
+    @Override
+    PlayerGameEligibilityResult getGameEligibility(final Player player) {
         int freeGames = (player.payLevel == PlayerPayLevel.FreeToPlay ? TwistedHangmanPlayerAttributes.DEFAULT_FREE_GAMES_PER_DAY : TwistedHangmanPlayerAttributes.DEFAULT_PREMIUM_PLAYER_GAMES_PER_DAY)
 
         //  Try free game first
@@ -77,7 +68,7 @@ class PlayerGameTracker {
         if (updated != null &&
                 ((TwistedHangmanPlayerAttributes) updated.gameSpecificPlayerAttributes).freeGamesUsedToday != ((TwistedHangmanPlayerAttributes) player.gameSpecificPlayerAttributes).freeGamesUsedToday) {
             playerPublisher.publish(updated)
-            return new GameEligibilityResult(eligibility: GameEligibility.FreeGameUsed, player: updated)
+            return new PlayerGameEligibilityResult(eligibility: PlayerGameEligibility.FreeGameUsed, player: updated)
         }
 
         updated = (MongoPlayer) mongoOperations.findAndModify(
@@ -90,11 +81,11 @@ class PlayerGameTracker {
         if (updated != null &&
                 ((TwistedHangmanPlayerAttributes) updated.gameSpecificPlayerAttributes).availablePurchasedGames != ((TwistedHangmanPlayerAttributes) player.gameSpecificPlayerAttributes).availablePurchasedGames) {
             playerPublisher.publish(updated)
-            return new GameEligibilityResult(eligibility: GameEligibility.PaidGameUsed, player: updated)
+            return new PlayerGameEligibilityResult(eligibility: PlayerGameEligibility.PaidGameUsed, player: updated)
         }
 
 
-        return new GameEligibilityResult(eligibility: GameEligibility.NoGamesAvailable, player: player)
+        return new PlayerGameEligibilityResult(eligibility: PlayerGameEligibility.NoGamesAvailable, player: player)
     }
 
     /**
@@ -109,13 +100,14 @@ class PlayerGameTracker {
                     @CacheEvict(value = PLAYER_S_AND_SID_CACHE, key = '#p0.player.sourceAndSourceId')
             ]
     )
-    void revertGameEligibility(final GameEligibilityResult gameEligibilityResult) {
+    @Override
+    void revertGameEligibility(final PlayerGameEligibilityResult gameEligibilityResult) {
         Update revertToUse;
         switch (gameEligibilityResult.eligibility) {
-            case GameEligibility.FreeGameUsed:
+            case PlayerGameEligibility.FreeGameUsed:
                 revertToUse = REVERT_FREE_GAMES
                 break;
-            case GameEligibility.PaidGameUsed:
+            case PlayerGameEligibility.PaidGameUsed:
                 revertToUse = REVERT_PAID_GAMES
                 break;
         }

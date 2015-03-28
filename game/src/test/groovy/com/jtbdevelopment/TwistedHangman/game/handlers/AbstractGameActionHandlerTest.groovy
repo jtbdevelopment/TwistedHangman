@@ -7,16 +7,17 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
-import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
+import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
+import com.jtbdevelopment.TwistedHangman.players.PlayerGameEligibility
+import com.jtbdevelopment.TwistedHangman.players.PlayerGameEligibilityResult
 import com.jtbdevelopment.TwistedHangman.players.PlayerGameTracker
-import com.jtbdevelopment.TwistedHangman.players.PlayerGameTracker.GameEligibilityResult
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
 import com.jtbdevelopment.games.exceptions.input.PlayerNotPartOfGameException
 import com.jtbdevelopment.games.exceptions.system.FailedToFindGameException
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.publish.GamePublisher
-import com.jtbdevelopment.games.state.masked.MultiPlayerGameMasker
+import com.jtbdevelopment.games.state.masking.MultiPlayerGameMasker
 import org.bson.types.ObjectId
 
 /**
@@ -132,7 +133,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                 getGameEligibility: {
                     Player p ->
                         assert p.is(PONE)
-                        return new GameEligibilityResult(eligibility: PlayerGameTracker.GameEligibility.FreeGameUsed)
+                        return new PlayerGameEligibilityResult(eligibility: PlayerGameEligibility.FreeGameUsed)
                 }
         ] as PlayerGameTracker
         handler.playerRepository = [
@@ -184,7 +185,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                 getGameEligibility: {
                     Player p ->
                         assert p.is(PONE)
-                        return new PlayerGameTracker.GameEligibilityResult(eligibility: PlayerGameTracker.GameEligibility.NoGamesAvailable)
+                        return new PlayerGameEligibilityResult(eligibility: PlayerGameEligibility.NoGamesAvailable)
                 }
         ] as PlayerGameTracker
         handler.playerRepository = [
@@ -207,7 +208,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         handler.checkEligibility = true
         handler.internalException = true
         boolean revertCalled = false
-        def eligibilityResult = new GameEligibilityResult(eligibility: PlayerGameTracker.GameEligibility.FreeGameUsed)
+        def eligibilityResult = new PlayerGameEligibilityResult(eligibility: PlayerGameEligibility.FreeGameUsed)
         gameParam.players = [PONE, PTWO]
         handler.gameRepository = [
                 findOne: {
@@ -223,7 +224,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                         return eligibilityResult
                 },
                 revertGameEligibility: {
-                    GameEligibilityResult r ->
+                    PlayerGameEligibilityResult r ->
                         assert r.is(eligibilityResult)
                         revertCalled = true
                         return
@@ -249,7 +250,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         handler.checkEligibility = true
         gameParam.players = [PONE, PTWO]
         boolean revertCalled = false
-        def eligibilityResult = new GameEligibilityResult(eligibility: PlayerGameTracker.GameEligibility.FreeGameUsed)
+        def eligibilityResult = new PlayerGameEligibilityResult(eligibility: PlayerGameEligibility.FreeGameUsed)
         handler.gameRepository = [
                 findOne: {
                     ObjectId it ->
@@ -264,7 +265,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                         return eligibilityResult
                 },
                 revertGameEligibility: {
-                    GameEligibilityResult r ->
+                    PlayerGameEligibilityResult r ->
                         assert r.is(eligibilityResult)
                         revertCalled = true
                         return
@@ -297,7 +298,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         handler.checkEligibility = true
         gameParam.players = [PONE, PTWO]
         boolean revertCalled = false
-        def eligibilityResult = new GameEligibilityResult(eligibility: PlayerGameTracker.GameEligibility.FreeGameUsed)
+        def eligibilityResult = new PlayerGameEligibilityResult(eligibility: PlayerGameEligibility.FreeGameUsed)
         handler.gameRepository = [
                 findOne: {
                     ObjectId it ->
@@ -312,7 +313,7 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
                         return eligibilityResult
                 },
                 revertGameEligibility: {
-                    GameEligibilityResult r ->
+                    PlayerGameEligibilityResult r ->
                         assert r.is(eligibilityResult)
                         revertCalled = true
                         throw new IllegalAccessException()

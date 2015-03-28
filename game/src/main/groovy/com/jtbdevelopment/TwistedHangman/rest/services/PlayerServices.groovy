@@ -4,7 +4,7 @@ import com.jtbdevelopment.TwistedHangman.game.handlers.NewGameHandler
 import com.jtbdevelopment.TwistedHangman.game.handlers.PlayerGamesFinderHandler
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.games.rest.services.AbstractPlayerServices
-import com.jtbdevelopment.games.state.masked.MaskedMultiPlayerGame
+import com.jtbdevelopment.games.state.masking.MaskedMultiPlayerGame
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired

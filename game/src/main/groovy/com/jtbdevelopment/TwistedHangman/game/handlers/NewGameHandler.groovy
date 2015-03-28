@@ -7,12 +7,14 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
+import com.jtbdevelopment.TwistedHangman.players.PlayerGameEligibility
+import com.jtbdevelopment.TwistedHangman.players.PlayerGameEligibilityResult
 import com.jtbdevelopment.TwistedHangman.players.PlayerGameTracker
 import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.publish.GamePublisher
 import com.jtbdevelopment.games.rest.handlers.AbstractHandler
-import com.jtbdevelopment.games.state.masked.MaskedMultiPlayerGame
-import com.jtbdevelopment.games.state.masked.MultiPlayerGameMasker
+import com.jtbdevelopment.games.state.masking.MaskedMultiPlayerGame
+import com.jtbdevelopment.games.state.masking.MultiPlayerGameMasker
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.slf4j.Logger
@@ -62,8 +64,8 @@ class NewGameHandler extends AbstractHandler {
     }
 
     protected Game setupGameWithEligibilityWrapper(Player<ObjectId> initiatingPlayer, Set<GameFeature> features, Set<Player<ObjectId>> players) {
-        PlayerGameTracker.GameEligibilityResult eligibilityResult = gameTracker.getGameEligibility(initiatingPlayer)
-        if (eligibilityResult.eligibility == PlayerGameTracker.GameEligibility.NoGamesAvailable) {
+        PlayerGameEligibilityResult eligibilityResult = gameTracker.getGameEligibility(initiatingPlayer)
+        if (eligibilityResult.eligibility == PlayerGameEligibility.NoGamesAvailable) {
             throw new OutOfGamesForTodayException()
         }
 
