@@ -13,10 +13,10 @@ import com.jtbdevelopment.TwistedHangman.players.PlayerGameTracker.GameEligibili
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
 import com.jtbdevelopment.games.exceptions.input.PlayerNotPartOfGameException
 import com.jtbdevelopment.games.exceptions.system.FailedToFindGameException
-import com.jtbdevelopment.games.games.masked.MultiPlayerGameMasker
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.publish.GamePublisher
+import com.jtbdevelopment.games.state.masked.MultiPlayerGameMasker
 import org.bson.types.ObjectId
 
 /**

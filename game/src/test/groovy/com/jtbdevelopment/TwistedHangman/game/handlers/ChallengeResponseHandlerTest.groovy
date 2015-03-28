@@ -4,7 +4,7 @@ import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.exceptions.input.TooLateToRespondToChallengeException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.games.games.PlayerState
+import com.jtbdevelopment.games.state.PlayerState
 
 /**
  * Date: 11/9/2014

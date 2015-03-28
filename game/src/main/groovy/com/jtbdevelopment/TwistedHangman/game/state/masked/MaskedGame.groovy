@@ -2,7 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.state.masked
 
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
-import com.jtbdevelopment.games.games.masked.AbstractMaskedMultiPlayerGame
+import com.jtbdevelopment.games.state.masked.AbstractMaskedMultiPlayerGame
 import groovy.transform.CompileStatic
 
 /**

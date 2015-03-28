@@ -6,11 +6,11 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.players.PlayerGameTracker
-import com.jtbdevelopment.games.games.masked.MaskedMultiPlayerGame
-import com.jtbdevelopment.games.games.masked.MultiPlayerGameMasker
 import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.publish.GamePublisher
 import com.jtbdevelopment.games.rest.handlers.AbstractGameGetterHandler
+import com.jtbdevelopment.games.state.masked.MaskedMultiPlayerGame
+import com.jtbdevelopment.games.state.masked.MultiPlayerGameMasker
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.slf4j.Logger

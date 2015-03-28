@@ -2,7 +2,7 @@ package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.game.handlers.*
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
-import com.jtbdevelopment.games.games.PlayerState
+import com.jtbdevelopment.games.state.PlayerState
 import groovy.transform.TypeChecked
 import org.bson.types.ObjectId
 

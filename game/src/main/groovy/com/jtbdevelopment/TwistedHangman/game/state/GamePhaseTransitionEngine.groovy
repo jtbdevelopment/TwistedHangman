@@ -1,6 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
-import com.jtbdevelopment.games.games.PlayerState
+import com.jtbdevelopment.games.state.PlayerState
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component

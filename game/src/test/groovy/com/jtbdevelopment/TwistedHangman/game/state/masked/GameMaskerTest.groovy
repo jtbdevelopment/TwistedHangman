@@ -6,8 +6,8 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
-import com.jtbdevelopment.games.games.PlayerState
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
+import com.jtbdevelopment.games.state.PlayerState
 import org.bson.types.ObjectId
 
 import java.time.ZonedDateTime

@@ -10,12 +10,12 @@ import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerGatewayService
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerServices
 import com.jtbdevelopment.games.dao.AbstractMultiPlayerGameRepository
-import com.jtbdevelopment.games.games.MultiPlayerGame
-import com.jtbdevelopment.games.games.PlayerState
 import com.jtbdevelopment.games.mongo.dao.MongoPlayerRepository
 import com.jtbdevelopment.games.mongo.players.MongoManualPlayer
 import com.jtbdevelopment.games.mongo.players.MongoPlayerFactory
 import com.jtbdevelopment.games.players.friendfinder.SourceBasedFriendFinder
+import com.jtbdevelopment.games.state.MultiPlayerGame
+import com.jtbdevelopment.games.state.PlayerState
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.eclipse.jetty.server.Server

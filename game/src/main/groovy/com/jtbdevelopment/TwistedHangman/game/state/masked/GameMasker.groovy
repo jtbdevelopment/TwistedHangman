@@ -5,10 +5,10 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
-import com.jtbdevelopment.games.games.MultiPlayerGame
-import com.jtbdevelopment.games.games.masked.MaskedMultiPlayerGame
 import com.jtbdevelopment.games.mongo.games.masked.AbstractMongoMultiPlayerGameMasker
 import com.jtbdevelopment.games.players.Player
+import com.jtbdevelopment.games.state.MultiPlayerGame
+import com.jtbdevelopment.games.state.masked.MaskedMultiPlayerGame
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component

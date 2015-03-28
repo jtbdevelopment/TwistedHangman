@@ -3,8 +3,8 @@ package com.jtbdevelopment.TwistedHangman.json
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanPlayerAttributes
-import com.jtbdevelopment.games.games.masked.MaskedMultiPlayerGame
 import com.jtbdevelopment.games.players.GameSpecificPlayerAttributes
+import com.jtbdevelopment.games.state.masked.MaskedMultiPlayerGame
 
 /**
  * Date: 2/8/15

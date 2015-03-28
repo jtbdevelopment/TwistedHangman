@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.games.games.PlayerState
+import com.jtbdevelopment.games.state.PlayerState
 import org.bson.types.ObjectId
 
 import java.time.ZonedDateTime

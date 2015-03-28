@@ -6,8 +6,8 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
-import com.jtbdevelopment.games.games.masked.MultiPlayerGameMasker
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
+import com.jtbdevelopment.games.state.masked.MultiPlayerGameMasker
 import org.bson.types.ObjectId
 import org.springframework.data.domain.PageRequest
 

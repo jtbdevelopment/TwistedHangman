@@ -2,8 +2,8 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.exceptions.input.PlayerOutOfTurnException
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.games.games.Game
 import com.jtbdevelopment.games.players.Player
+import com.jtbdevelopment.games.state.Game
 import groovy.transform.CompileStatic
 
 /**

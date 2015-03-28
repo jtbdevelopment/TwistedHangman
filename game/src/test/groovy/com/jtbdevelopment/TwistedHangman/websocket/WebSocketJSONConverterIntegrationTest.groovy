@@ -7,8 +7,8 @@ import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.state.masked.MaskedIndividualGameState
 import com.jtbdevelopment.TwistedHangman.json.TwistedHangmanJacksonRegistration
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
-import com.jtbdevelopment.games.games.PlayerState
 import com.jtbdevelopment.games.mongo.json.MongoPlayerJacksonRegistration
+import com.jtbdevelopment.games.state.PlayerState
 import com.jtbdevelopment.games.websocket.WebSocketJSONConverter
 import com.jtbdevelopment.games.websocket.WebSocketMessage
 import com.jtbdevelopment.spring.jackson.ObjectMapperFactory
