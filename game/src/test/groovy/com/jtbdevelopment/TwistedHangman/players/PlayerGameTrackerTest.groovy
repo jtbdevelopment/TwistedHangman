@@ -5,6 +5,8 @@ import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.players.PlayerPayLevel
 import com.jtbdevelopment.games.publish.PlayerPublisher
+import com.jtbdevelopment.games.tracking.PlayerGameEligibility
+import com.jtbdevelopment.games.tracking.PlayerGameEligibilityResult
 import org.springframework.data.mongodb.core.FindAndModifyOptions
 import org.springframework.data.mongodb.core.MongoOperations
 import org.springframework.data.mongodb.core.query.Query

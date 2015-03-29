@@ -8,9 +8,9 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.events.GamePublisher
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.Player
-import com.jtbdevelopment.games.publish.GamePublisher
 import com.jtbdevelopment.games.state.masking.MultiPlayerGameMasker
 import org.bson.types.ObjectId
 
@@ -21,7 +21,7 @@ import org.bson.types.ObjectId
 class AbstractGamePlayActionHandlerTest extends TwistedHangmanTestCase {
     class TestHandler extends AbstractGamePlayActionHandler<Object> {
         @Override
-        protected Game handleActionInternal(final Player<ObjectId> player, final Game game, final Object param) {
+        protected Game handleActionInternal(final Player player, final Game game, final Object param) {
             return game;
         }
     }

@@ -23,7 +23,7 @@ import org.springframework.util.StringUtils
  */
 @CompileStatic
 @Component
-class SetPuzzleHandler extends AbstractGameActionHandler<CategoryAndWordPhrase> {
+class SetPuzzleHandler extends AbstractPlayerRotatingGameActionHandler<CategoryAndWordPhrase> {
     public static class CategoryAndWordPhrase {
         String category
         String wordPhrase
@@ -36,7 +36,7 @@ class SetPuzzleHandler extends AbstractGameActionHandler<CategoryAndWordPhrase> 
 
     @Override
     protected Game handleActionInternal(
-            final Player<ObjectId> player, final Game game, final CategoryAndWordPhrase param) {
+            final Player player, final Game game, final CategoryAndWordPhrase param) {
         validatePuzzleStates(game, player)
 
         String wordPhrase = param.wordPhrase

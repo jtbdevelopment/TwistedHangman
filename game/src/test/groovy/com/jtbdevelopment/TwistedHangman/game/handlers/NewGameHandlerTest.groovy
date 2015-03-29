@@ -2,22 +2,22 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
-import com.jtbdevelopment.TwistedHangman.exceptions.input.OutOfGamesForTodayException
 import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
-import com.jtbdevelopment.TwistedHangman.players.PlayerGameEligibility
-import com.jtbdevelopment.TwistedHangman.players.PlayerGameEligibilityResult
 import com.jtbdevelopment.TwistedHangman.players.PlayerGameTracker
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.events.GamePublisher
+import com.jtbdevelopment.games.exceptions.input.OutOfGamesForTodayException
 import com.jtbdevelopment.games.exceptions.system.FailedToFindPlayersException
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.Player
-import com.jtbdevelopment.games.publish.GamePublisher
 import com.jtbdevelopment.games.state.masking.MultiPlayerGameMasker
+import com.jtbdevelopment.games.tracking.PlayerGameEligibility
+import com.jtbdevelopment.games.tracking.PlayerGameEligibilityResult
 import org.bson.types.ObjectId
 
 /**

@@ -23,12 +23,12 @@ class StealLetterHandler extends AbstractGamePlayActionHandler<Integer> {
     ThievingHangmanGameActions gameActions
 
     @Override
-    protected Game handleActionInternal(final Player<ObjectId> player, final Game game, final Integer param) {
+    protected Game handleActionInternal(final Player player, final Game game, final Integer param) {
         if (game.gamePhase != GamePhase.Playing) {
             throw new GameIsNotInPlayModeException()
         }
 
-        IndividualGameState state = game.solverStates[player.id]
+        IndividualGameState state = game.solverStates[(ObjectId) player.id]
         if (state) {
             gameActions.stealLetter(state, param.intValue())
         } else {

@@ -7,6 +7,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
 import com.jtbdevelopment.games.players.Player
+import com.jtbdevelopment.games.rest.handlers.AbstractGameActionHandler
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,7 +22,7 @@ import java.time.ZonedDateTime
  */
 @CompileStatic
 @Component
-class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
+class ChallengeToRematchHandler extends AbstractGameActionHandler<Object, Game> {
     public static final ZoneId GMT = ZoneId.of("GMT")
     @Autowired
     protected SystemPuzzlerSetter systemPuzzlerSetter
@@ -34,7 +35,8 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
     }
 
     @Override
-    protected Game handleActionInternal(final Player<ObjectId> player, final Game previousGame, final Object param) {
+    protected Game handleActionInternal(
+            final Player player, final Game previousGame, final Object param) {
         if (previousGame.gamePhase != GamePhase.RoundOver) {
             throw new GameIsNotAvailableToRematchException()
         }
@@ -47,12 +49,6 @@ class ChallengeToRematchHandler extends AbstractGameActionHandler<Object> {
         //  TODO - handle newGame setup failing..
         Game newGame = setupGame(transitioned, player)
         newGame
-    }
-
-    @Override
-    protected Game rotateTurnBasedGame(final Game game) {
-        //  Don't rotate, create already did
-        return game
     }
 
     private Game setupGame(final Game previousGame, final Player<ObjectId> initiatingPlayer) {

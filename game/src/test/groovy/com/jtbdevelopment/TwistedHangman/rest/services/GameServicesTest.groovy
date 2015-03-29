@@ -155,7 +155,7 @@ class GameServicesTest extends GroovyTestCase {
                         assert r == 'G'
                         result
                 }
-        ] as GuessLetterHandler
+        ] as AbstractPlayerRotatingGameActionHandler
         assert result.is(services.guessLetter(guess))
     }
 
@@ -169,7 +169,7 @@ class GameServicesTest extends GroovyTestCase {
                         assert r == ' '
                         result
                 }
-        ] as GuessLetterHandler
+        ] as AbstractPlayerRotatingGameActionHandler
         assert result.is(services.guessLetter(guess))
     }
 
@@ -183,7 +183,7 @@ class GameServicesTest extends GroovyTestCase {
                         assert r == ' '
                         result
                 }
-        ] as GuessLetterHandler
+        ] as AbstractPlayerRotatingGameActionHandler
         assert result.is(services.guessLetter(guess))
     }
 }

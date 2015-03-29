@@ -11,7 +11,7 @@ import groovy.transform.CompileStatic
  * Time: 2:48 PM
  */
 @CompileStatic
-abstract class AbstractGamePlayActionHandler<T> extends AbstractGameActionHandler<T> {
+abstract class AbstractGamePlayActionHandler<T> extends AbstractPlayerRotatingGameActionHandler<T> {
     @Override
     protected void validatePlayerForGame(final Game game, final Player player) {
         super.validatePlayerForGame(game, player)

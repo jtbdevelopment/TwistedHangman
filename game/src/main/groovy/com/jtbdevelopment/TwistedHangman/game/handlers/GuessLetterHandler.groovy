@@ -18,17 +18,18 @@ import org.springframework.stereotype.Component
  */
 @CompileStatic
 @Component
-class GuessLetterHandler extends AbstractGamePlayActionHandler<Character> {
+class GuessLetterHandler extends AbstractPlayerRotatingGameActionHandler<Character> {
     @Autowired
     HangmanGameActions gameActions
 
     @Override
-    protected Game handleActionInternal(final Player<ObjectId> player, final Game game, final Character param) {
+    protected Game handleActionInternal(
+            final Player player, final Game game, final Character param) {
         if (game.gamePhase != GamePhase.Playing) {
             throw new GameIsNotInPlayModeException()
         }
 
-        IndividualGameState state = game.solverStates[player.id]
+        IndividualGameState state = game.solverStates[(ObjectId) player.id]
         if (state) {
             gameActions.guessLetter(state, param)
         } else {

@@ -1,20 +1,20 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
-import com.jtbdevelopment.TwistedHangman.exceptions.input.OutOfGamesForTodayException
 import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
-import com.jtbdevelopment.TwistedHangman.players.PlayerGameEligibility
-import com.jtbdevelopment.TwistedHangman.players.PlayerGameEligibilityResult
-import com.jtbdevelopment.TwistedHangman.players.PlayerGameTracker
+import com.jtbdevelopment.games.events.GamePublisher
+import com.jtbdevelopment.games.exceptions.input.OutOfGamesForTodayException
 import com.jtbdevelopment.games.players.Player
-import com.jtbdevelopment.games.publish.GamePublisher
 import com.jtbdevelopment.games.rest.handlers.AbstractHandler
 import com.jtbdevelopment.games.state.masking.MaskedMultiPlayerGame
 import com.jtbdevelopment.games.state.masking.MultiPlayerGameMasker
+import com.jtbdevelopment.games.tracking.GameEligibilityTracker
+import com.jtbdevelopment.games.tracking.PlayerGameEligibility
+import com.jtbdevelopment.games.tracking.PlayerGameEligibilityResult
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.slf4j.Logger
@@ -44,7 +44,7 @@ class NewGameHandler extends AbstractHandler {
     @Autowired
     protected GamePublisher gamePublisher
     @Autowired
-    protected PlayerGameTracker gameTracker
+    protected GameEligibilityTracker gameTracker
 
     public MaskedMultiPlayerGame handleCreateNewGame(
             final ObjectId initiatingPlayerID,

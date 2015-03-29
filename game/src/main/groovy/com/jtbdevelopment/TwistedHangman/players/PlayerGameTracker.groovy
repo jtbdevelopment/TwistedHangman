@@ -5,6 +5,8 @@ import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.players.PlayerPayLevel
 import com.jtbdevelopment.games.publish.PlayerPublisher
 import com.jtbdevelopment.games.tracking.GameEligibilityTracker
+import com.jtbdevelopment.games.tracking.PlayerGameEligibility
+import com.jtbdevelopment.games.tracking.PlayerGameEligibilityResult
 import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.CacheEvict

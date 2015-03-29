@@ -2,35 +2,35 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
-import com.jtbdevelopment.TwistedHangman.exceptions.input.OutOfGamesForTodayException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
-import com.jtbdevelopment.TwistedHangman.players.PlayerGameEligibility
-import com.jtbdevelopment.TwistedHangman.players.PlayerGameEligibilityResult
 import com.jtbdevelopment.TwistedHangman.players.PlayerGameTracker
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.events.GamePublisher
+import com.jtbdevelopment.games.exceptions.input.OutOfGamesForTodayException
 import com.jtbdevelopment.games.exceptions.input.PlayerNotPartOfGameException
 import com.jtbdevelopment.games.exceptions.system.FailedToFindGameException
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.Player
-import com.jtbdevelopment.games.publish.GamePublisher
 import com.jtbdevelopment.games.state.masking.MultiPlayerGameMasker
+import com.jtbdevelopment.games.tracking.PlayerGameEligibility
+import com.jtbdevelopment.games.tracking.PlayerGameEligibilityResult
 import org.bson.types.ObjectId
 
 /**
  * Date: 11/10/14
  * Time: 7:06 PM
  */
-class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
+class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanTestCase {
     private static final String testParam = "TESTPARAM"
     private Game handledGame = new Game();
     private final Game gameParam = new Game()
     private final ObjectId gameId = new ObjectId();
 
-    private class TestHandler extends AbstractGameActionHandler<String> {
+    private class TestHandler extends AbstractPlayerRotatingGameActionHandler<String> {
         boolean checkEligibility = false
         boolean internalException = false
 
@@ -40,7 +40,8 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
         }
 
         @Override
-        protected Game handleActionInternal(final Player<ObjectId> player, final Game game, final String param) {
+        protected Game handleActionInternal(
+                final Player player, final Game game, final String param) {
             assert param == testParam
             assert gameParam.is(game)
             if (internalException) {
@@ -53,8 +54,8 @@ class AbstractGameActionHandlerTest extends TwistedHangmanTestCase {
 
 
     void testDefaultRequiresEligibility() {
-        assertFalse new AbstractGameActionHandler<String>() {
-            protected Game handleActionInternal(final Player<ObjectId> player, final Game game, final String param) {
+        assertFalse new AbstractPlayerRotatingGameActionHandler<String>() {
+            protected Game handleActionInternal(final Player player, final Game game, final String param) {
             }
         }.requiresEligibilityCheck(null)
     }
