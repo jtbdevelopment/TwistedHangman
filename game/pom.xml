@@ -10,7 +10,6 @@
 
     <artifactId>game</artifactId>
     <dependencies>
-
         <dependency>
             <groupId>com.jtbdevelopment.core-common</groupId>
             <artifactId>core-spring-web-mongo</artifactId>
@@ -57,39 +56,6 @@
             <artifactId>nekohtml</artifactId>
             <version>1.9.21</version>
         </dependency>
-        <dependency>
-            <groupId>org.codehaus.gpars</groupId>
-            <artifactId>gpars</artifactId>
-            <version>1.2.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet</artifactId>
-            <version>${jersey.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.ext</groupId>
-            <artifactId>jersey-spring3</artifactId>
-            <version>${jersey.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-json-jackson</artifactId>
-            <version>${jersey.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${javax.servletapi.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>${spring.security.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>com.jtbdevelopment.core-games</groupId>
@@ -105,7 +71,6 @@
             <scope>test</scope>
             <type>test-jar</type>
         </dependency>
-
     </dependencies>
 
 
