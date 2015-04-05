@@ -1,10 +1,12 @@
 package com.jtbdevelopment.TwistedHangman.game.factory
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.exceptions.input.FailedToCreateValidGameException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
+import com.jtbdevelopment.games.exceptions.input.FailedToCreateValidGameException
+import com.jtbdevelopment.games.factory.GameInitializer
+import com.jtbdevelopment.games.factory.GameValidator
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 
 /**
@@ -13,7 +15,6 @@ import com.jtbdevelopment.games.mongo.players.MongoPlayer
  */
 class GameFactoryTest extends TwistedHangmanTestCase {
     GameFactory gameFactory = new GameFactory();
-
 
     public void testCreatingNewGame() {
         int validatorsCalled = 0

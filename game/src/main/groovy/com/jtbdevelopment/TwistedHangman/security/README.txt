@@ -1,1 +1,0 @@
-Most of the files in this package are not easily unit testable due to third-party class designs
