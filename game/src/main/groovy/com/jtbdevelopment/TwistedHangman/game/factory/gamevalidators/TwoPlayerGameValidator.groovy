@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.gamevalidators
 
-import com.jtbdevelopment.TwistedHangman.game.factory.GameValidator
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.games.factory.GameValidator
 import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
  */
 @Component
 @CompileStatic
-class TwoPlayerGameValidator implements GameValidator {
+class TwoPlayerGameValidator implements GameValidator<Game> {
     private static final Logger LOGGER = LoggerFactory.getLogger(TwoPlayerGameValidator.class)
     public static final String ERROR = "Game's two player marker is wrong."
 

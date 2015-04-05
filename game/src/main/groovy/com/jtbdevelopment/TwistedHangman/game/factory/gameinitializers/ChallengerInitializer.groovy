@@ -1,9 +1,9 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 
-import com.jtbdevelopment.TwistedHangman.game.factory.GameInitializer
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
+import com.jtbdevelopment.games.factory.GameInitializer
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
  */
 @Component
 @CompileStatic
-class ChallengerInitializer implements GameInitializer {
+class ChallengerInitializer implements GameInitializer<Game> {
     @Override
     void initializeGame(final Game game) {
         if (game.features.contains(GameFeature.SystemPuzzles)) {

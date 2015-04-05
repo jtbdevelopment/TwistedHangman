@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 
-import com.jtbdevelopment.TwistedHangman.game.factory.GameInitializer
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
+import com.jtbdevelopment.games.factory.GameInitializer
 import com.jtbdevelopment.games.players.Player
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
  */
 @Component
 @CompileStatic
-class PuzzleInitializer implements GameInitializer {
+class PuzzleInitializer implements GameInitializer<Game> {
     @Override
     void initializeGame(final Game game) {
 
