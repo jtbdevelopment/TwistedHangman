@@ -1,8 +1,9 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
-import com.jtbdevelopment.TwistedHangman.game.handlers.*
+import com.jtbdevelopment.TwistedHangman.game.handlers.AbstractPlayerRotatingGameActionHandler
+import com.jtbdevelopment.TwistedHangman.game.handlers.SetPuzzleHandler
+import com.jtbdevelopment.TwistedHangman.game.handlers.StealLetterHandler
 import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
-import com.jtbdevelopment.games.state.PlayerState
 import groovy.transform.TypeChecked
 import org.bson.types.ObjectId
 
@@ -63,56 +64,6 @@ class GameServicesTest extends GroovyTestCase {
                     }
                 }
         }
-    }
-
-    void testCreateRematch() {
-        services.rematchHandler = [
-                handleAction: {
-                    ObjectId p, ObjectId g ->
-                        assert p == PID
-                        assert g == GID
-                        result
-                }
-        ] as ChallengeToRematchHandler
-        assert result.is(services.createRematch())
-    }
-
-    void testRejectGame() {
-        services.responseHandler = [
-                handleAction: {
-                    ObjectId p, ObjectId g, PlayerState r ->
-                        assert p == PID
-                        assert g == GID
-                        assert r == PlayerState.Rejected
-                        result
-                }
-        ] as ChallengeResponseHandler
-        assert result.is(services.rejectGame())
-    }
-
-    void testAcceptGame() {
-        services.responseHandler = [
-                handleAction: {
-                    ObjectId p, ObjectId g, PlayerState r ->
-                        assert p == PID
-                        assert g == GID
-                        assert r == PlayerState.Accepted
-                        result
-                }
-        ] as ChallengeResponseHandler
-        assert result.is(services.acceptGame())
-    }
-
-    void testQuitGame() {
-        services.quitHandler = [
-                handleAction: {
-                    ObjectId p, ObjectId g ->
-                        assert p == PID
-                        assert g == GID
-                        result
-                }
-        ] as QuitHandler
-        assert result.is(services.quitGame())
     }
 
     void testSetPuzzle() {

@@ -1,8 +1,9 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
-import com.jtbdevelopment.TwistedHangman.game.handlers.*
-import com.jtbdevelopment.games.rest.services.AbstractGameServices
-import com.jtbdevelopment.games.state.PlayerState
+import com.jtbdevelopment.TwistedHangman.game.handlers.AbstractPlayerRotatingGameActionHandler
+import com.jtbdevelopment.TwistedHangman.game.handlers.SetPuzzleHandler
+import com.jtbdevelopment.TwistedHangman.game.handlers.StealLetterHandler
+import com.jtbdevelopment.games.rest.AbstractMultiPlayerGameServices
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,47 +19,13 @@ import javax.ws.rs.core.MediaType
  */
 @Component
 @CompileStatic
-class GameServices extends AbstractGameServices<ObjectId> {
+class GameServices extends AbstractMultiPlayerGameServices<ObjectId> {
     @Autowired
     StealLetterHandler stealLetterHandler
     @Autowired
     AbstractPlayerRotatingGameActionHandler guessLetterHandler
     @Autowired
-    ChallengeToRematchHandler rematchHandler
-    @Autowired
-    ChallengeResponseHandler responseHandler
-    @Autowired
     SetPuzzleHandler puzzleHandler
-    @Autowired
-    QuitHandler quitHandler
-
-    @PUT
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("rematch")
-    Object createRematch() {
-        rematchHandler.handleAction((ObjectId) playerID.get(), (ObjectId) gameID.get())
-    }
-
-    @PUT
-    @Path("reject")
-    @Produces(MediaType.APPLICATION_JSON)
-    Object rejectGame() {
-        responseHandler.handleAction((ObjectId) playerID.get(), (ObjectId) gameID.get(), PlayerState.Rejected)
-    }
-
-    @PUT
-    @Path("accept")
-    @Produces(MediaType.APPLICATION_JSON)
-    Object acceptGame() {
-        responseHandler.handleAction((ObjectId) playerID.get(), (ObjectId) gameID.get(), PlayerState.Accepted)
-    }
-
-    @PUT
-    @Path("quit")
-    @Produces(MediaType.APPLICATION_JSON)
-    Object quitGame() {
-        quitHandler.handleAction((ObjectId) playerID.get(), (ObjectId) gameID.get())
-    }
 
     @PUT
     @Path("puzzle")
