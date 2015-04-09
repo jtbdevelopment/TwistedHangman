@@ -18,10 +18,6 @@ import org.springframework.data.mongodb.core.mapping.Document
         @CompoundIndex(name = "player_phase", def = "{'players._id': 1, 'gamePhase': 1, 'lastUpdate': 1}"),
 ])
 public class Game extends AbstractMongoMultiPlayerGame<GameFeature> implements Cloneable {
-    ObjectId previousId
-
-    int round;
-
     ObjectId wordPhraseSetter
     Map<ObjectId, IndividualGameState> solverStates = [:]
 

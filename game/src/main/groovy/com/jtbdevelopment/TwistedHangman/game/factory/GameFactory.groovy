@@ -20,8 +20,7 @@ class GameFactory extends AbstractMultiPlayerGameFactory<Game, GameFeature> {
 
     @Override
     protected void copyFromPreviousGame(final Game previousGame, final Game newGame) {
-        newGame.previousId = previousGame.id
-        newGame.round = previousGame.round + 1
+        super.copyFromPreviousGame(previousGame, newGame)
         newGame.playerRunningScores.putAll(previousGame.playerRunningScores)
     }
 
@@ -48,7 +47,6 @@ class GameFactory extends AbstractMultiPlayerGameFactory<Game, GameFeature> {
             final Set<GameFeature> features, final List<Player> players, final Player initiatingPlayer) {
         Game game = (Game) super.createFreshGame(features, players, initiatingPlayer)
         game.wordPhraseSetter = null
-        game.round = 1;
         game
     }
 }

@@ -10,7 +10,6 @@ class MaskedGameTest extends GroovyTestCase {
     void testInit() {
         MaskedGame maskedGame = new MaskedGame()
 
-        assertNull maskedGame.round
         assertNull maskedGame.wordPhraseSetter
         assert maskedGame.playerRoundScores.isEmpty()
         assert maskedGame.playerRunningScores.isEmpty()

@@ -103,16 +103,6 @@ class GameMasker extends AbstractMongoMultiPlayerGameMasker<GameFeature, Game, M
     }
 
     @Override
-    protected void copyUnmaskedData(
-            final MultiPlayerGame<ObjectId, ZonedDateTime, GameFeature> g,
-            final MaskedMultiPlayerGame<GameFeature> pmg) {
-        super.copyUnmaskedData(g, pmg)
-        Game game = (Game) g
-        MaskedGame playerMaskedGame = (MaskedGame) pmg
-        playerMaskedGame.round = game.round
-    }
-
-    @Override
     protected MaskedGame newMaskedGame() {
         return new MaskedGame()
     }

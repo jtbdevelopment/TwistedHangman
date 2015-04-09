@@ -12,8 +12,6 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 class MaskedGame extends AbstractMaskedMultiPlayerGame<GameFeature> implements Cloneable {
-    Integer round
-
     String wordPhraseSetter  // md5
     Map<String, MaskedIndividualGameState> solverStates = [:] //md5/state - data will vary based on game phase
 

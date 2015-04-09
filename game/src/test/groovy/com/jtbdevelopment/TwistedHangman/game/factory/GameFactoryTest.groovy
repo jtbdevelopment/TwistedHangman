@@ -52,7 +52,6 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assert game.lastUpdate == game.created
         assert game.wordPhraseSetter == null
         assert game.created == null
-        assert game.round == 1
         assertNull game.version
     }
 
@@ -101,7 +100,6 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assert game.lastUpdate == game.created
         assert game.wordPhraseSetter == null
         assert game.created == null
-        assert game.round == (priorGame.round + 1)
         assertNull game.version
     }
 

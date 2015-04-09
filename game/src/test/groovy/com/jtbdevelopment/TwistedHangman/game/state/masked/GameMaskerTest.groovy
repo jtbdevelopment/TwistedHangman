@@ -388,7 +388,6 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         assert maskedGame.declinedTimestamp == (game.declinedTimestamp ? game.declinedTimestamp.toInstant().toEpochMilli() : null)
         assert maskedGame.lastUpdate == (game.lastUpdate ? game.lastUpdate.toInstant().toEpochMilli() : null)
         assert maskedGame.features == game.features
-        assert maskedGame.round == game.round
     }
 
     protected void checkMultiPlayerGame(MaskedGame maskedGame) {
