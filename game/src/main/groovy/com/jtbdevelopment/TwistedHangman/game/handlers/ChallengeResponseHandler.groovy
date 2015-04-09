@@ -3,6 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 import com.jtbdevelopment.TwistedHangman.exceptions.input.TooLateToRespondToChallengeException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.games.players.Player
+import com.jtbdevelopment.games.rest.handlers.AbstractGameActionHandler
 import com.jtbdevelopment.games.state.GamePhase
 import com.jtbdevelopment.games.state.PlayerState
 import groovy.transform.CompileStatic
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component
  */
 @CompileStatic
 @Component
-class ChallengeResponseHandler extends AbstractPlayerRotatingGameActionHandler<PlayerState> {
+class ChallengeResponseHandler extends AbstractGameActionHandler<PlayerState, Game> {
     @Override
     protected boolean requiresEligibilityCheck(final PlayerState param) {
         return PlayerState.Accepted == param

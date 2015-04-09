@@ -1,10 +1,10 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
+import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.rest.handlers.AbstractGameGetterHandler
 import com.jtbdevelopment.games.state.GamePhase
-import com.jtbdevelopment.games.state.MultiPlayerGame
 import com.jtbdevelopment.games.state.masking.MaskedMultiPlayerGame
 import com.jtbdevelopment.games.state.masking.MultiPlayerGameMasker
 import groovy.transform.CompileStatic
@@ -51,7 +51,7 @@ class PlayerGamesFinderHandler extends AbstractGameGetterHandler {
                         days,
                         PAGE
                 ).collect {
-                    MultiPlayerGame game ->
+                    Game game ->
                         gameMasker.maskGameForPlayer(game, player)
                 })
         }

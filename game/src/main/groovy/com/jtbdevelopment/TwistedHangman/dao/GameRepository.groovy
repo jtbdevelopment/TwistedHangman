@@ -17,6 +17,7 @@ import java.time.ZonedDateTime
 @CompileStatic
 interface GameRepository extends AbstractMongoMultiPlayerGameRepository<GameFeature, Game> {
     //  TODO - move to core - see comment there
+    //  TODO - also move PlayerGamesFinderHandler then
     List<Game> findByPlayersIdAndGamePhaseAndLastUpdateGreaterThan(
             final ObjectId id, final GamePhase gamePhase, final ZonedDateTime cutoff, final Pageable pageable)
 }
