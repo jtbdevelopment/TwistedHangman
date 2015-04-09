@@ -1,7 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.games.rest.services.AbstractPlayerGatewayService
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -31,14 +30,4 @@ class PlayerGatewayService extends AbstractPlayerGatewayService<ObjectId> {
         }
     }
 
-    @GET
-    @Path("phases")
-    @Produces(MediaType.APPLICATION_JSON)
-    @SuppressWarnings("GrMethodMayBeStatic")
-    public Map<GamePhase, List<String>> phasesAndDescriptions() {
-        GamePhase.values().collectEntries() {
-            GamePhase it ->
-                [(it): [it.description, it.groupLabel]]
-        }
-    }
 }

@@ -1,9 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
-import com.jtbdevelopment.games.state.PlayerState
-import com.jtbdevelopment.games.state.transition.GameTransitionEngine
-import groovy.transform.CompileStatic
-import org.springframework.beans.factory.annotation.Autowired
+import com.jtbdevelopment.games.state.GamePhase
+import com.jtbdevelopment.games.state.transition.AbstractGamePhaseTransitionEngine
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
 
@@ -15,56 +13,27 @@ import java.time.ZonedDateTime
  * Time: 4:18 PM
  */
 @Component
-@CompileStatic
-class GamePhaseTransitionEngine implements GameTransitionEngine<Game> {
+class GamePhaseTransitionEngine extends AbstractGamePhaseTransitionEngine<Game> {
     private static final ZoneId GMT = ZoneId.of('GMT')
 
-    @Autowired
-    GameScorerImpl gameScorer
-
     @Override
-    public Game evaluateGame(final Game game) {
-        switch (game.gamePhase) {
-            case GamePhase.Challenged:
-                def reject = game.playerStates.values().find { PlayerState it -> it == PlayerState.Rejected }
-                if (reject != null) {
-                    return changeStateAndReevaluate(GamePhase.Declined, game)
-                } else {
-                    def pending = game.playerStates.values().find { PlayerState it -> it == PlayerState.Pending }
-                    if (pending == null) {
-                        return changeStateAndReevaluate(GamePhase.Setup, game)
-                    }
-                }
-                break;
-            case GamePhase.Setup:
-                def pendingWP = game.solverStates.values().find { IndividualGameState gameState -> StringUtils.isEmpty(gameState.wordPhraseString) }
-                if (pendingWP == null) {
-                    return changeStateAndReevaluate(GamePhase.Playing, game)
-                }
-                break;
-            case GamePhase.Playing:
-                def won = game.solverStates.values().find { IndividualGameState it -> it.puzzleSolved }
-                def pending = game.solverStates.values().find { IndividualGameState it -> !it.puzzleOver }
-                if (pending == null || (won != null && game.features.contains(GameFeature.SingleWinner))) {
-                    game.completedTimestamp = ZonedDateTime.now(GMT)
-                    return gameScorer.scoreGame(changeStateAndReevaluate(GamePhase.RoundOver, game))
-                }
-                break;
-            case GamePhase.RoundOver:
-                if (game.rematchTimestamp != null) {
-                    return changeStateAndReevaluate(GamePhase.NextRoundStarted, game)
-                }
-                break;
-            case GamePhase.Declined:
-            case GamePhase.NextRoundStarted:
-            case GamePhase.Quit:
-                break;
+    protected Game evaluateSetupPhase(final Game game) {
+        def pendingWP = game.solverStates.values().find { IndividualGameState gameState -> StringUtils.isEmpty(gameState.wordPhraseString) }
+        if (pendingWP == null) {
+            return changeStateAndReevaluate(GamePhase.Playing, game)
         }
         return game
     }
 
-    private Game changeStateAndReevaluate(final GamePhase transitionTo, final Game game) {
-        game.gamePhase = transitionTo
-        evaluateGame(game)
+    @Override
+    protected Game evaluatePlayingPhase(final Game game) {
+        def won = game.solverStates.values().find { IndividualGameState it -> it.puzzleSolved }
+        def pending = game.solverStates.values().find { IndividualGameState it -> !it.puzzleOver }
+        if (pending == null || (won != null && game.features.contains(GameFeature.SingleWinner))) {
+            game.completedTimestamp = ZonedDateTime.now(GMT)
+            return (Game) gameScorer.scoreGame(changeStateAndReevaluate(GamePhase.RoundOver, game))
+        }
+        return game
     }
+
 }

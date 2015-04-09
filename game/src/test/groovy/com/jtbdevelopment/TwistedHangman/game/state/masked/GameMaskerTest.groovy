@@ -3,13 +3,13 @@ package com.jtbdevelopment.TwistedHangman.game.state.masked
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.TwistedHangman.game.state.masking.GameMasker
 import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedIndividualGameState
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
+import com.jtbdevelopment.games.state.GamePhase
 import com.jtbdevelopment.games.state.PlayerState
 import org.bson.types.ObjectId
 
@@ -383,12 +383,10 @@ class GameMaskerTest extends TwistedHangmanTestCase {
 
     protected void checkUnmaskedGameFields(MaskedGame maskedGame, Game game) {
         assert maskedGame.id == game.id.toHexString()
-        assert maskedGame.gamePhase == game.gamePhase
         assert maskedGame.completedTimestamp == (game.completedTimestamp ? game.completedTimestamp.toInstant().toEpochMilli() : null)
         assert maskedGame.created == (game.created ? game.created.toInstant().toEpochMilli() : null)
         assert maskedGame.declinedTimestamp == (game.declinedTimestamp ? game.declinedTimestamp.toInstant().toEpochMilli() : null)
         assert maskedGame.lastUpdate == (game.lastUpdate ? game.lastUpdate.toInstant().toEpochMilli() : null)
-        assert maskedGame.rematchTimestamp == (game.rematchTimestamp ? game.rematchTimestamp.toInstant().toEpochMilli() : null)
         assert maskedGame.features == game.features
         assert maskedGame.round == game.round
     }

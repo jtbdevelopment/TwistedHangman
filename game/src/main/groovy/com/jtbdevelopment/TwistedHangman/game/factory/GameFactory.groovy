@@ -2,7 +2,6 @@ package com.jtbdevelopment.TwistedHangman.game.factory
 
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.games.factory.AbstractMultiPlayerGameFactory
 import com.jtbdevelopment.games.players.Player
 import org.springframework.beans.factory.annotation.Autowired
@@ -48,7 +47,6 @@ class GameFactory extends AbstractMultiPlayerGameFactory<Game, GameFeature> {
     protected Game createFreshGame(
             final Set<GameFeature> features, final List<Player> players, final Player initiatingPlayer) {
         Game game = (Game) super.createFreshGame(features, players, initiatingPlayer)
-        game.gamePhase = GamePhase.Challenged
         game.wordPhraseSetter = null
         game.round = 1;
         game

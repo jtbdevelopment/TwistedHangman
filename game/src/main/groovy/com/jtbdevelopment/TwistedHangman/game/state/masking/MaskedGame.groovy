@@ -1,7 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.game.state.masking
 
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.games.state.masking.AbstractMaskedMultiPlayerGame
 import groovy.transform.CompileStatic
 
@@ -13,11 +12,7 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 class MaskedGame extends AbstractMaskedMultiPlayerGame<GameFeature> implements Cloneable {
-    Long rematchTimestamp
-
     Integer round
-
-    GamePhase gamePhase
 
     String wordPhraseSetter  // md5
     Map<String, MaskedIndividualGameState> solverStates = [:] //md5/state - data will vary based on game phase

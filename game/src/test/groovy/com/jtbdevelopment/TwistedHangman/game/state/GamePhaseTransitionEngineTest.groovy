@@ -1,9 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
+import com.jtbdevelopment.games.state.GamePhase
 import com.jtbdevelopment.games.state.PlayerState
-
-import java.time.ZonedDateTime
 
 /**
  * Date: 11/9/14
@@ -24,45 +23,6 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
 
         assert game.is(transitionEngine.evaluateGame(game))
         assert game.gamePhase == GamePhase.Playing
-    }
-
-
-    public void testChallengeStayingChallenge() {
-        assert transitionEngine.gameScorer == null
-        Game game = new Game(
-                gamePhase: GamePhase.Challenged,
-                features: [GameFeature.SystemPuzzles] as Set,
-                playerStates: [(PONE.id): PlayerState.Accepted, (PTWO.id): PlayerState.Pending],
-        )
-
-        assert game.is(transitionEngine.evaluateGame(game))
-    }
-
-
-    public void testChallengeToDeclined() {
-        assert transitionEngine.gameScorer == null
-        Game game = new Game(
-                gamePhase: GamePhase.Challenged,
-                features: [GameFeature.SystemPuzzles] as Set,
-                playerStates: [(PONE.id): PlayerState.Rejected, (PTWO.id): PlayerState.Pending],
-        )
-
-        assert game.is(transitionEngine.evaluateGame(game))
-        assert game.gamePhase == GamePhase.Declined
-    }
-
-
-    public void testChallengeToSetup() {
-        assert transitionEngine.gameScorer == null
-        Game game = new Game(
-                gamePhase: GamePhase.Challenged,
-                features: [GameFeature.SystemPuzzles] as Set,
-                playerStates: [(PONE.id): PlayerState.Accepted, (PTWO.id): PlayerState.Accepted],
-                solverStates: [(PONE.id): new IndividualGameState(), (PTWO.id): new IndividualGameState()]
-        )
-
-        assert game.is(transitionEngine.evaluateGame(game))
-        assert game.gamePhase == GamePhase.Setup
     }
 
 
@@ -160,41 +120,5 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
         ] as GameScorerImpl
 
         assert scored.is(transitionEngine.evaluateGame(game))
-    }
-
-
-    public void testRematchToRematch() {
-        assert transitionEngine.gameScorer == null
-        Game game = new Game(gamePhase: GamePhase.RoundOver, rematchTimestamp: null)
-        assert game.is(transitionEngine.evaluateGame(game))
-    }
-
-
-    public void testRematchToRematched() {
-        assert transitionEngine.gameScorer == null
-
-        Game game = new Game(gamePhase: GamePhase.RoundOver, rematchTimestamp: ZonedDateTime.now())
-        assert game.is(transitionEngine.evaluateGame(game))
-        assert game.gamePhase == GamePhase.NextRoundStarted
-    }
-
-
-    public void testRematchedToRematched() {
-        assert transitionEngine.gameScorer == null
-        Game game = new Game(gamePhase: GamePhase.NextRoundStarted)
-        assert game.is(transitionEngine.evaluateGame(game))
-    }
-
-
-    public void testDeclinedToDeclined() {
-        assert transitionEngine.gameScorer == null
-        Game game = new Game(gamePhase: GamePhase.Declined)
-        assert game.is(transitionEngine.evaluateGame(game))
-    }
-
-    public void testQuitToQuit() {
-        assert transitionEngine.gameScorer == null
-        Game game = new Game(gamePhase: GamePhase.Quit)
-        assert game.is(transitionEngine.evaluateGame(game))
     }
 }

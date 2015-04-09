@@ -5,8 +5,8 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.GameIsNotInPlayModeExc
 import com.jtbdevelopment.TwistedHangman.exceptions.input.PlayerNotSolvingAPuzzleException
 import com.jtbdevelopment.TwistedHangman.game.mechanics.HangmanGameActions
 import com.jtbdevelopment.TwistedHangman.game.state.Game
-import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
+import com.jtbdevelopment.games.state.GamePhase
 
 /**
  * Date: 11/10/14

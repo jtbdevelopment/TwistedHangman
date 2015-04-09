@@ -2,12 +2,12 @@ package com.jtbdevelopment.TwistedHangman.websocket
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedIndividualGameState
 import com.jtbdevelopment.TwistedHangman.json.TwistedHangmanJacksonRegistration
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
 import com.jtbdevelopment.games.mongo.json.MongoPlayerJacksonRegistration
+import com.jtbdevelopment.games.state.GamePhase
 import com.jtbdevelopment.games.state.PlayerState
 import com.jtbdevelopment.games.websocket.WebSocketJSONConverter
 import com.jtbdevelopment.games.websocket.WebSocketMessage
@@ -56,7 +56,7 @@ class WebSocketJSONConverterIntegrationTest extends TwistedHangmanTestCase {
             wordPhraseSetter: TwistedHangmanSystemPlayerCreator.TH_MD5
     )
 
-    String expectedString = "{\"messageType\":\"Game\",\"game\":{\"maskedForPlayerID\":\"100000000000000000000000\",\"maskedForPlayerMD5\":\"ee02ab36f4f4b92d0a2316022a11cce2\",\"id\":\"XYZ\",\"version\":null,\"created\":1000,\"lastUpdate\":5000,\"completedTimestamp\":100,\"declinedTimestamp\":null,\"initiatingPlayer\":null,\"players\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":\"1\"},\"playerStates\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":\"Accepted\"},\"playerImages\":{},\"playerProfiles\":{},\"features\":[\"DrawFace\",\"TurnBased\"],\"featureData\":{\"DrawFace\":\"A String\"},\"rematchTimestamp\":null,\"round\":10,\"gamePhase\":\"Setup\",\"wordPhraseSetter\":\"eb3e279a50b4c330f8d4a9e2abc678fe\",\"solverStates\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":{\"wordPhrase\":\"555\",\"workingWordPhrase\":\"____\",\"badlyGuessedLetters\":[\"A\",\"B\"],\"guessedLetters\":[\"B\"],\"featureData\":{\"Thieving\":10,\"DrawGallows\":\"X\"},\"category\":\"Test\",\"maxPenalties\":13,\"moveCount\":4,\"penalties\":3,\"blanksRemaining\":10,\"features\":[\"AllComplete\"],\"isPuzzleSolved\":false,\"isPlayerHung\":true,\"isPuzzleOver\":false,\"penaltiesRemaining\":5}},\"playerRoundScores\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":10},\"playerRunningScores\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":13},\"idAsString\":\"XYZ\"},\"player\":null,\"message\":null}"
+    String expectedString = "{\"messageType\":\"Game\",\"game\":{\"maskedForPlayerID\":\"100000000000000000000000\",\"maskedForPlayerMD5\":\"ee02ab36f4f4b92d0a2316022a11cce2\",\"id\":\"XYZ\",\"version\":null,\"created\":1000,\"lastUpdate\":5000,\"completedTimestamp\":100,\"declinedTimestamp\":null,\"rematchTimestamp\":null,\"gamePhase\":\"Setup\",\"initiatingPlayer\":null,\"players\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":\"1\"},\"playerStates\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":\"Accepted\"},\"playerImages\":{},\"playerProfiles\":{},\"features\":[\"DrawFace\",\"TurnBased\"],\"featureData\":{\"DrawFace\":\"A String\"},\"round\":10,\"wordPhraseSetter\":\"eb3e279a50b4c330f8d4a9e2abc678fe\",\"solverStates\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":{\"wordPhrase\":\"555\",\"workingWordPhrase\":\"____\",\"badlyGuessedLetters\":[\"A\",\"B\"],\"guessedLetters\":[\"B\"],\"featureData\":{\"Thieving\":10,\"DrawGallows\":\"X\"},\"category\":\"Test\",\"maxPenalties\":13,\"moveCount\":4,\"penalties\":3,\"blanksRemaining\":10,\"features\":[\"AllComplete\"],\"isPuzzleSolved\":false,\"isPlayerHung\":true,\"isPuzzleOver\":false,\"penaltiesRemaining\":5}},\"playerRoundScores\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":10},\"playerRunningScores\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":13},\"idAsString\":\"XYZ\"},\"player\":null,\"message\":null}"
 
     @Override
     protected void setUp() throws Exception {

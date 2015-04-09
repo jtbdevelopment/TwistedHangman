@@ -3,7 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.handlers
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.exceptions.input.TooLateToRespondToChallengeException
 import com.jtbdevelopment.TwistedHangman.game.state.Game
-import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
+import com.jtbdevelopment.games.state.GamePhase
 import com.jtbdevelopment.games.state.PlayerState
 
 /**

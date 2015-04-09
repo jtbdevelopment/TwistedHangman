@@ -3,7 +3,6 @@ package com.jtbdevelopment.TwistedHangman.game.factory
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.games.exceptions.input.FailedToCreateValidGameException
 import com.jtbdevelopment.games.factory.GameInitializer
 import com.jtbdevelopment.games.factory.GameValidator
@@ -51,7 +50,6 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assert game.players == [PTWO, PTHREE, PFOUR, PONE]
         assert game.initiatingPlayer == initiatingPlayer.id
         assert game.lastUpdate == game.created
-        assert game.gamePhase == GamePhase.Challenged
         assert game.wordPhraseSetter == null
         assert game.created == null
         assert game.round == 1
@@ -101,7 +99,6 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assert game.players == [PTHREE, PFOUR, PONE, PTWO]
         assert game.initiatingPlayer == initiatingPlayer.id
         assert game.lastUpdate == game.created
-        assert game.gamePhase == GamePhase.Challenged
         assert game.wordPhraseSetter == null
         assert game.created == null
         assert game.round == (priorGame.round + 1)

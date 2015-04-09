@@ -5,10 +5,10 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.InvalidPuzzleWordsExce
 import com.jtbdevelopment.TwistedHangman.exceptions.input.PuzzlesAreAlreadySetException
 import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter
 import com.jtbdevelopment.TwistedHangman.game.state.Game
-import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.games.dictionary.Validator
 import com.jtbdevelopment.games.players.Player
+import com.jtbdevelopment.games.state.GamePhase
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired

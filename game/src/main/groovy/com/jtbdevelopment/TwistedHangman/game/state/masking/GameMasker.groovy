@@ -2,11 +2,11 @@ package com.jtbdevelopment.TwistedHangman.game.state.masking
 
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
 import com.jtbdevelopment.games.mongo.state.masking.AbstractMongoMultiPlayerGameMasker
 import com.jtbdevelopment.games.players.Player
+import com.jtbdevelopment.games.state.GamePhase
 import com.jtbdevelopment.games.state.MultiPlayerGame
 import com.jtbdevelopment.games.state.masking.MaskedMultiPlayerGame
 import groovy.transform.CompileStatic
@@ -109,8 +109,6 @@ class GameMasker extends AbstractMongoMultiPlayerGameMasker<GameFeature, Game, M
         super.copyUnmaskedData(g, pmg)
         Game game = (Game) g
         MaskedGame playerMaskedGame = (MaskedGame) pmg
-        playerMaskedGame.rematchTimestamp = convertTime(game.rematchTimestamp)
-        playerMaskedGame.gamePhase = game.gamePhase
         playerMaskedGame.round = game.round
     }
 

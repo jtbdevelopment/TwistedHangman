@@ -7,8 +7,6 @@ import org.springframework.data.mongodb.core.index.CompoundIndex
 import org.springframework.data.mongodb.core.index.CompoundIndexes
 import org.springframework.data.mongodb.core.mapping.Document
 
-import java.time.ZonedDateTime
-
 /**
  * Date: 11/2/2014
  * Time: 9:36 PM
@@ -20,13 +18,9 @@ import java.time.ZonedDateTime
         @CompoundIndex(name = "player_phase", def = "{'players._id': 1, 'gamePhase': 1, 'lastUpdate': 1}"),
 ])
 public class Game extends AbstractMongoMultiPlayerGame<GameFeature> implements Cloneable {
-    ZonedDateTime rematchTimestamp
-
     ObjectId previousId
 
     int round;
-
-    GamePhase gamePhase
 
     ObjectId wordPhraseSetter
     Map<ObjectId, IndividualGameState> solverStates = [:]

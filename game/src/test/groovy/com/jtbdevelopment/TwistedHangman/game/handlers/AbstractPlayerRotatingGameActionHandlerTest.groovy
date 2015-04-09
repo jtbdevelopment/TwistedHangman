@@ -4,7 +4,6 @@ import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.TwistedHangman.game.state.GamePhase
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
 import com.jtbdevelopment.TwistedHangman.players.PlayerGameTracker
@@ -15,6 +14,7 @@ import com.jtbdevelopment.games.exceptions.input.PlayerNotPartOfGameException
 import com.jtbdevelopment.games.exceptions.system.FailedToFindGameException
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.Player
+import com.jtbdevelopment.games.state.GamePhase
 import com.jtbdevelopment.games.state.masking.MultiPlayerGameMasker
 import com.jtbdevelopment.games.tracking.PlayerGameEligibility
 import com.jtbdevelopment.games.tracking.PlayerGameEligibilityResult
