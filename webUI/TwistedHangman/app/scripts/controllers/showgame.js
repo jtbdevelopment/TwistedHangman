@@ -3,16 +3,16 @@
 //  TODO - should all the playing failures refresh game?
 angular.module('twistedHangmanApp').controller('ShowCtrl',
   ['$scope', '$routeParams', '$http', '$location', '$modal',
-    'jtbPlayerService', 'twGameDisplay', 'twGameCache', 'twGameDetails', 'twAds',
+    'jtbPlayerService', 'twGameDisplay', 'jtbGameCache', 'twGameDetails', 'twAds',
     function ($scope, $routeParams, $http, $location, $modal,
-              jtbPlayerService, twGameDisplay, twGameCache, twGameDetails, twAds) {
+              jtbPlayerService, twGameDisplay, jtbGameCache, twGameDetails, twAds) {
       twGameDisplay.initializeScope($scope);
       $scope.gameID = $routeParams.gameID;
       $scope.enteredCategory = '';
       $scope.enteredWordPhrase = '';
       $scope.gameDetails = twGameDetails;
       $scope.player = jtbPlayerService.currentPlayer();
-      var game = twGameCache.getGameForID($scope.gameID);
+      var game = jtbGameCache.getGameForID($scope.gameID);
       if (angular.isDefined(game)) {
         twGameDisplay.updateScopeForGame($scope, game);
       }
@@ -22,9 +22,9 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
       });
 
       $scope.$on('gameCachesLoaded', function () {
-        var game = twGameCache.getGameForID($scope.gameID);
+        var game = jtbGameCache.getGameForID($scope.gameID);
         if (angular.isDefined(game)) {
-          twGameDisplay.updateScopeForGame($scope, twGameCache.getGameForID($scope.gameID));
+          twGameDisplay.updateScopeForGame($scope, jtbGameCache.getGameForID($scope.gameID));
         } else {
           $location.path('/');
         }

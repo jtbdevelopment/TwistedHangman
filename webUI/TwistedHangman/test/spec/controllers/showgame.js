@@ -89,7 +89,7 @@ describe('Controller: ShowCtrl', function () {
         $modal: quitModal,
         jtbPlayerService: mockPlayerService,
         twGameDisplay: gameDisplay,
-        twGameCache: mockGameCache,
+        jtbGameCache: mockGameCache,
         twGameDetails: mockGameDetails,
         twAds: ads
       });
@@ -119,7 +119,7 @@ describe('Controller: ShowCtrl', function () {
         $modal: quitModal,
         jtbPlayerService: mockPlayerService,
         twGameDisplay: gameDisplay,
-        twGameCache: mockGameCache,
+        jtbGameCache: mockGameCache,
         twGameDetails: mockGameDetails,
         twAds: ads
       });
@@ -149,7 +149,7 @@ describe('Controller: ShowCtrl', function () {
         $modal: quitModal,
         jtbPlayerService: mockPlayerService,
         twGameDisplay: gameDisplay,
-        twGameCache: mockGameCache,
+        jtbGameCache: mockGameCache,
         twGameDetails: mockGameDetails,
         twAds: ads
       });

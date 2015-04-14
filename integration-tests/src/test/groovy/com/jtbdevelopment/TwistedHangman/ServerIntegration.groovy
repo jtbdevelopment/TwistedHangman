@@ -307,11 +307,11 @@ class ServerIntegration {
         assert newGame.gamePhase == GamePhase.Declined
     }
 
-    private static MaskedGame putMG(WebTarget webTarget) {
+    private static MaskedGame putMG(final WebTarget webTarget) {
         return webTarget.request(MediaType.APPLICATION_JSON).put(EMPTY_PUT_POST, MaskedGame.class)
     }
 
-    private static Client createConnection(MongoManualPlayer p) {
+    protected static Client createConnection(final MongoManualPlayer p) {
         Client client = ClientBuilder.newClient()
         HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic(p.sourceId, p.sourceId)
         client.register(feature)

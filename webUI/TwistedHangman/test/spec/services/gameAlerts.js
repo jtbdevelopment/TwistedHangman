@@ -64,7 +64,8 @@ describe('Service: gameAlerts', function () {
       gameDetails.gameEndForPlayer = function () {
         return 'Hung!';
       };
-      service.checkNewEntryForAlerts(newgame);
+      rootScope.$broadcast('gameAdded', newgame);
+      rootScope.$apply();
 
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('roundOverAlert', newgame);
       expect(rootScope.$broadcast).toHaveBeenCalledWith('quitAlert', newgame);
@@ -90,7 +91,8 @@ describe('Service: gameAlerts', function () {
       gameDetails.gameEndForPlayer = function () {
         return 'Solved!';
       };
-      service.checkNewEntryForAlerts(newgame);
+      rootScope.$broadcast('gameAdded', newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('roundOverAlert', newgame);
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('quitAlert', newgame);
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('hungAlert', newgame);
@@ -115,7 +117,8 @@ describe('Service: gameAlerts', function () {
       gameDetails.gameEndForPlayer = function () {
         return 'X';
       };
-      service.checkNewEntryForAlerts(newgame);
+      rootScope.$broadcast('gameAdded', newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).toHaveBeenCalledWith('roundOverAlert', newgame);
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('quitAlert', newgame);
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('hungAlert', newgame);
@@ -163,17 +166,20 @@ describe('Service: gameAlerts', function () {
 
     it('publishes alerts on phase change', function () {
       newgame.gamePhase = '';
-      service.checkUpdateForAlerts(oldgame, newgame);
+      rootScope.$broadcast('gameUpdated', oldgame, newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).toHaveBeenCalledWith('phaseChangeAlert', newgame);
     });
 
     it('does not publish alert on non-phase change', function () {
-      service.checkUpdateForAlerts(oldgame, newgame);
+      rootScope.$broadcast('gameUpdated', oldgame, newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('phaseChangeAlert', newgame);
     });
 
     it('publishes alert on game end change', function () {
-      service.checkUpdateForAlerts(oldgame, newgame);
+      rootScope.$broadcast('gameUpdated', oldgame, newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('phaseChangeAlert', newgame);
     });
 
@@ -184,7 +190,8 @@ describe('Service: gameAlerts', function () {
         }
         return 'Solved!';
       };
-      service.checkUpdateForAlerts(oldgame, newgame);
+      rootScope.$broadcast('gameUpdated', oldgame, newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).toHaveBeenCalledWith('solvedAlert', newgame);
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('hungAlert', newgame);
     });
@@ -196,13 +203,15 @@ describe('Service: gameAlerts', function () {
         }
         return 'Hung!';
       };
-      service.checkUpdateForAlerts(oldgame, newgame);
+      rootScope.$broadcast('gameUpdated', oldgame, newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('solvedAlert', newgame);
       expect(rootScope.$broadcast).toHaveBeenCalledWith('hungAlert', newgame);
     });
 
     it('does not publish alert on non game end change', function () {
-      service.checkUpdateForAlerts(oldgame, newgame);
+      rootScope.$broadcast('gameUpdated', oldgame, newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('solvedAlert', newgame);
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('hungAlert', newgame);
     });
@@ -211,45 +220,53 @@ describe('Service: gameAlerts', function () {
       gameDetails.playerChallengeResponseNeeded = function (game) {
         return game !== oldgame;
       };
-      service.checkUpdateForAlerts(oldgame, newgame);
+      rootScope.$broadcast('gameUpdated', oldgame, newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).toHaveBeenCalledWith('challengedAlert', newgame);
     });
 
     it('does not publish alert on non challenge change', function () {
-      service.checkUpdateForAlerts(oldgame, newgame);
+      rootScope.$broadcast('gameUpdated', oldgame, newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('challengedAlert', newgame);
     });
 
     it('publishes alert on round over change', function () {
       newgame.gamePhase = 'RoundOver';
-      service.checkUpdateForAlerts(oldgame, newgame);
+      rootScope.$broadcast('gameUpdated', oldgame, newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).toHaveBeenCalledWith('roundOverAlert', newgame);
     });
 
     it('does not publish alert on non round over change', function () {
-      service.checkUpdateForAlerts(oldgame, newgame);
+      rootScope.$broadcast('gameUpdated', oldgame, newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('roundOverAlert', newgame);
     });
 
     it('publishes alert on quit change', function () {
       newgame.gamePhase = 'Quit';
-      service.checkUpdateForAlerts(oldgame, newgame);
+      rootScope.$broadcast('gameUpdated', oldgame, newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).toHaveBeenCalledWith('quitAlert', newgame);
     });
 
     it('does not publish alert on non quit change', function () {
-      service.checkUpdateForAlerts(oldgame, newgame);
+      rootScope.$broadcast('gameUpdated', oldgame, newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('quitAlert', newgame);
     });
 
     it('publishes alert on declined change', function () {
       newgame.gamePhase = 'Declined';
-      service.checkUpdateForAlerts(oldgame, newgame);
+      rootScope.$broadcast('gameUpdated', oldgame, newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).toHaveBeenCalledWith('declinedAlert', newgame);
     });
 
     it('does not publish alert on non declined change', function () {
-      service.checkUpdateForAlerts(oldgame, newgame);
+      rootScope.$broadcast('gameUpdated', oldgame, newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('declinedAlert', newgame);
     });
 
@@ -257,12 +274,14 @@ describe('Service: gameAlerts', function () {
       gameDetails.playerCanPlay = function (game) {
         return game !== oldgame;
       };
-      service.checkUpdateForAlerts(oldgame, newgame);
+      rootScope.$broadcast('gameUpdated', oldgame, newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).toHaveBeenCalledWith('playAlert', newgame);
     });
 
     it('does not publish alert on non play', function () {
-      service.checkUpdateForAlerts(oldgame, newgame);
+      rootScope.$broadcast('gameUpdated', oldgame, newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('playAlert', newgame);
     });
 
@@ -270,12 +289,14 @@ describe('Service: gameAlerts', function () {
       gameDetails.playerSetupEntryRequired = function (game) {
         return game !== oldgame;
       };
-      service.checkUpdateForAlerts(oldgame, newgame);
+      rootScope.$broadcast('gameUpdated', oldgame, newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).toHaveBeenCalledWith('setupAlert', newgame);
     });
 
     it('does not publish alert on non setup', function () {
-      service.checkUpdateForAlerts(oldgame, newgame);
+      rootScope.$broadcast('gameUpdated', oldgame, newgame);
+      rootScope.$apply();
       expect(rootScope.$broadcast).not.toHaveBeenCalledWith('setupAlert', newgame);
     });
 

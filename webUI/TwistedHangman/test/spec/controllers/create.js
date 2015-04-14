@@ -80,7 +80,7 @@ describe('Controller: CreateCtrl', function () {
     scope = rootScope.$new();
     ctrl = $controller('CreateCtrl', {
       $scope: scope,
-      twGameCache: gameCache,
+      jtbGameCache: gameCache,
       twGameFeatureService: mockFeatureService,
       jtbPlayerService: mockPlayerService,
       twAds: ads,
@@ -200,7 +200,7 @@ describe('Controller: CreateCtrl', function () {
       modalOpened = false;
       ctrl = $controller('CreateCtrl', {
         $scope: scope,
-        twGameCache: gameCache,
+        jtbGameCache: gameCache,
         twGameFeatureService: mockFeatureService,
         jtbPlayerService: mockPlayerService,
         $location: location,

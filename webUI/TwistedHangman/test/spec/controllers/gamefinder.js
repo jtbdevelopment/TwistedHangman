@@ -45,8 +45,8 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
       ctrl = $controller(name, {
         $scope: scope,
         $location: location,
-        twGamePhaseService: phaseService,
-        twGameCache: gameCache
+        jtbGamePhaseService: phaseService,
+        jtbGameCache: gameCache
       });
     }));
 

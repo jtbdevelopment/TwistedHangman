@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twistedHangmanApp').controller('CreateCtrl',
-  ['$scope', 'twGameCache', 'twGameFeatureService', 'jtbPlayerService', '$http', '$location', '$modal', 'twAds',
-    function ($scope, twGameCache, twGameFeatureService, jtbPlayerService, $http, $location, $modal, twAds) {
+  ['$scope', 'jtbGameCache', 'twGameFeatureService', 'jtbPlayerService', '$http', '$location', '$modal', 'twAds',
+    function ($scope, jtbGameCache, twGameFeatureService, jtbPlayerService, $http, $location, $modal, twAds) {
 
       var SINGLE_PLAYER = 'SinglePlayer';
       var TWO_PLAYERS = 'TwoPlayer';
@@ -133,7 +133,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
           });
           var playersAndFeatures = {'players': players, 'features': featureSet};
           $http.post(jtbPlayerService.currentPlayerBaseURL() + '/new', playersAndFeatures).success(function (data) {
-            twGameCache.putUpdatedGame(data);
+            jtbGameCache.putUpdatedGame(data);
             $location.path('/show/' + data.id);
           }).error(function (data, status, headers, config) {
             $scope.alerts.push({type: 'danger', msg: 'Error creating game:' + data});

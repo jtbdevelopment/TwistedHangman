@@ -40,10 +40,10 @@ describe('Service: showGameSevice', function () {
   describe('using real game details ', function () {
     beforeEach(module(function ($provide) {
       gameCacheSpy = jasmine.createSpyObj('gameCacheSpy', ['putUpdatedGame']);
-      $provide.factory('twGameCache', function () {
+      $provide.factory('jtbGameCache', function () {
         return gameCacheSpy;
       });
-      $provide.factory('twGamePhaseService', ['$q', function ($q) {
+      $provide.factory('jtbGamePhaseService', ['$q', function ($q) {
         return {
           phases: function () {
             phaseDeferred = $q.defer();
@@ -220,7 +220,7 @@ describe('Service: showGameSevice', function () {
           return 'Show Me';
         }
       };
-      $provide.factory('twGameCache', function () {
+      $provide.factory('jtbGameCache', function () {
         return gameCacheSpy;
       });
       $provide.factory('twGameDetails', function () {
