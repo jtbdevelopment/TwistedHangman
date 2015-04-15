@@ -4,7 +4,7 @@ import com.jtbdevelopment.TwistedHangman.dao.PreMadePuzzleRepository
 import com.jtbdevelopment.TwistedHangman.game.utility.PreMadePuzzle
 import com.jtbdevelopment.games.dictionary.Validator
 import org.springframework.context.ApplicationContext
-import org.springframework.context.support.ClassPathXmlApplicationContext
+import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 /**
  * Date: 11/1/14
@@ -12,8 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext
  */
 class WheelOfFortuneSolutionsLoader {
     public static void main(final String[] args) {
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-context-game.xml");
-        ctx.refresh();
+        ApplicationContext ctx = new AnnotationConfigApplicationContext("com.jtbdevelopment");
 
         PreMadePuzzleRepository repository = ctx.getBean(PreMadePuzzleRepository.class)
         Validator validator = ctx.getBean(Validator.class)

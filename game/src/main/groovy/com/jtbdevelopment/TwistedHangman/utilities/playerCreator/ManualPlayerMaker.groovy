@@ -5,7 +5,7 @@ import com.jtbdevelopment.games.mongo.players.MongoManualPlayer
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.mongo.players.MongoPlayerFactory
 import org.springframework.context.ApplicationContext
-import org.springframework.context.support.ClassPathXmlApplicationContext
+import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.security.crypto.password.PasswordEncoder
 
 /**
@@ -18,9 +18,7 @@ class ManualPlayerMaker {
     static MongoPlayerFactory playerFactory
 
     public static void main(final String[] args) {
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-context-game.xml");
-        ctx.refresh();
-
+        ApplicationContext ctx = new AnnotationConfigApplicationContext("com.jtbdevelopment");
 
         AbstractPlayerRepository repository = ctx.getBean(AbstractPlayerRepository.class)
         playerFactory = ctx.getBean(MongoPlayerFactory.class)
@@ -31,6 +29,7 @@ class ManualPlayerMaker {
                 makePlayer("Manual Player2", 'M2@MANUAL.COM', "M2"),
                 makePlayer("Manual Player3", 'M3@MANUAL.COM', "M3"),
                 makePlayer("Manual Player4", 'M4@MANUAL.COM', "M4"),
+                makePlayer("Manual Player5", 'M5@MANUAL.COM', "M5"),
         ]
 
         players.each {
