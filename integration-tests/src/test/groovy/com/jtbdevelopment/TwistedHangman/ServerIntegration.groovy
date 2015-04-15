@@ -2,19 +2,21 @@ package com.jtbdevelopment.TwistedHangman
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider
+import com.jtbdevelopment.TwistedHangman.dao.PreMadePuzzleRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
+import com.jtbdevelopment.TwistedHangman.game.utility.PreMadePuzzle
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerGatewayService
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerServices
+import com.jtbdevelopment.core.mongo.spring.AbstractMongoIntegration
 import com.jtbdevelopment.games.dao.AbstractMultiPlayerGameRepository
 import com.jtbdevelopment.games.mongo.dao.MongoPlayerRepository
 import com.jtbdevelopment.games.mongo.players.MongoManualPlayer
 import com.jtbdevelopment.games.mongo.players.MongoPlayerFactory
 import com.jtbdevelopment.games.players.friendfinder.SourceBasedFriendFinder
 import com.jtbdevelopment.games.state.GamePhase
-import com.jtbdevelopment.games.state.MultiPlayerGame
 import com.jtbdevelopment.games.state.PlayerState
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -39,7 +41,7 @@ import javax.ws.rs.core.UriBuilder
  * Time: 3:29 PM
  */
 @CompileStatic
-class ServerIntegration {
+class ServerIntegration extends AbstractMongoIntegration {
     private static Server SERVER;
     private static final int port = 8998;
     private static final URI BASE_URI = UriBuilder.fromUri("http://localhost/").port(port).build();
@@ -80,9 +82,12 @@ class ServerIntegration {
         TEST_PLAYER2 = createPlayer("f2345", "ITP2", "TEST PLAYER2")
         TEST_PLAYER3 = createPlayer("f3456", "ITP3", "TEST PLAYER3")
 
-        playerRepository.delete(TEST_PLAYER1)
-        playerRepository.delete(TEST_PLAYER2)
-        playerRepository.delete(TEST_PLAYER3)
+        PreMadePuzzle puzzle = new PreMadePuzzle()
+        puzzle.category = 'PHRASE'
+        puzzle.wordPhrase = 'Lorem ipsum'
+        puzzle.source = 'test'
+        applicationContext.getBean(PreMadePuzzleRepository.class).save(puzzle)
+
         TEST_PLAYER1 = (MongoManualPlayer) playerRepository.save(TEST_PLAYER1)
         TEST_PLAYER2 = (MongoManualPlayer) playerRepository.save(TEST_PLAYER2)
         TEST_PLAYER3 = (MongoManualPlayer) playerRepository.save(TEST_PLAYER3)
@@ -90,17 +95,6 @@ class ServerIntegration {
 
     @AfterClass
     public static void tearDown() {
-        AbstractMultiPlayerGameRepository gameRepository = applicationContext.getBean(AbstractMultiPlayerGameRepository.class)
-        [TEST_PLAYER1, TEST_PLAYER2, TEST_PLAYER3].each {
-            MongoManualPlayer p ->
-                gameRepository.findByPlayersId(p.id).each {
-                    MultiPlayerGame it ->
-                        gameRepository.delete(it)
-                }
-        }
-        playerRepository.delete(TEST_PLAYER1)
-        playerRepository.delete(TEST_PLAYER2)
-        playerRepository.delete(TEST_PLAYER3)
         SERVER.stop()
     }
 

@@ -33,6 +33,19 @@
             <version>9.2.6.v20141205</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.jtbdevelopment.core-common</groupId>
+            <artifactId>core-spring-mongo</artifactId>
+            <version>${core.common.version}</version>
+            <type>test-jar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>de.flapdoodle.embed</groupId>
+            <artifactId>de.flapdoodle.embed.mongo</artifactId>
+            <version>1.46.4</version>
+        </dependency>
+
     </dependencies>
 
 </project>
