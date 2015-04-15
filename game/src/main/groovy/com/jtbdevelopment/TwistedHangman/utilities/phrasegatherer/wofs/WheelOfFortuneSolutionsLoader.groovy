@@ -33,5 +33,6 @@ class WheelOfFortuneSolutionsLoader {
                     }
                 }
         })
+        ctx.stop()
     }
 }
