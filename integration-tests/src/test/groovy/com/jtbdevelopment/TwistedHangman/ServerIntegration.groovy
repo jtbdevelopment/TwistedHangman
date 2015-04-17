@@ -5,7 +5,6 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider
 import com.jtbdevelopment.TwistedHangman.dao.PreMadePuzzleRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.utility.PreMadePuzzle
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerGatewayService
@@ -52,6 +51,7 @@ class ServerIntegration extends AbstractMongoIntegration {
     static MongoManualPlayer TEST_PLAYER1
     static MongoManualPlayer TEST_PLAYER2
     static MongoManualPlayer TEST_PLAYER3
+    public static final String LOREMIPSUM = 'Lorem ipsum'
 
     static MongoManualPlayer createPlayer(final String id, final String sourceId, final String displayName) {
         MongoPlayerFactory factory = applicationContext.getBean(MongoPlayerFactory.class)
@@ -85,7 +85,7 @@ class ServerIntegration extends AbstractMongoIntegration {
 
         PreMadePuzzle puzzle = new PreMadePuzzle()
         puzzle.category = 'PHRASE'
-        puzzle.wordPhrase = 'Lorem ipsum'
+        puzzle.wordPhrase = LOREMIPSUM
         puzzle.source = 'test'
         applicationContext.getBean(PreMadePuzzleRepository.class).save(puzzle)
 
@@ -223,7 +223,7 @@ class ServerIntegration extends AbstractMongoIntegration {
 
         assert game.gamePhase == GamePhase.Challenged
         assert game.solverStates[TEST_PLAYER1.md5] != null
-        assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase != ""
+        assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase == "_____ _____"
         def P1G = P1.path("game").path(game.idAsString)
         def P2G = P2.path("game").path(game.idAsString)
         def P3G = P3.path("game").path(game.idAsString)
@@ -233,25 +233,23 @@ class ServerIntegration extends AbstractMongoIntegration {
         game = P2G.request(MediaType.APPLICATION_JSON).get(MaskedGame.class)
         assert game.gamePhase == GamePhase.Challenged
         assert game.solverStates[TEST_PLAYER2.md5] != null
-        assert game.solverStates[TEST_PLAYER2.md5].workingWordPhrase != ""
+        assert game.solverStates[TEST_PLAYER2.md5].workingWordPhrase == "_____ _____"
         game = putMG(P3G.path("accept"))
         game = P3G.request(MediaType.APPLICATION_JSON).get(MaskedGame.class)
         assert game.gamePhase == GamePhase.Playing
         assert game.solverStates[TEST_PLAYER3.md5] != null
-        assert game.solverStates[TEST_PLAYER3.md5].workingWordPhrase != ""
+        assert game.solverStates[TEST_PLAYER3.md5].workingWordPhrase == "_____ _____"
 
         AbstractMultiPlayerGameRepository gameRepository = applicationContext.getBean(AbstractMultiPlayerGameRepository.class)
         Game dbLoaded1 = (Game) gameRepository.findOne(new ObjectId(game.idAsString))
-        String wordPhrase = ((IndividualGameState) dbLoaded1.solverStates[TEST_PLAYER1.id]).wordPhraseString
 
-
-        def phraseArray = wordPhrase.toCharArray()
+        def phraseArray = LOREMIPSUM.toCharArray()
         int position = 0
         while (!Character.isAlphabetic((int) phraseArray[0])) {
             ++position
         }
 
-        game = putMG(P1G.path("steal").path(position.toString()))
+        game = putMG(P1G.path("steal").path("0"))
         assert game.gamePhase == GamePhase.Playing
         assert ((Character) game.solverStates[TEST_PLAYER1.md5].workingWordPhrase.charAt(0))
         assert game.solverStates[TEST_PLAYER1.md5].penalties == 1
@@ -264,7 +262,7 @@ class ServerIntegration extends AbstractMongoIntegration {
         assert game.solverStates[TEST_PLAYER3.md5]
         assert game.solverStates[TEST_PLAYER3.md5].wordPhrase == ""
 
-        Set<Character> chars = phraseArray.findAll { char it -> Character.isAlphabetic((int) it) }.collect {
+        Set<Character> chars = LOREMIPSUM.findAll { char it -> Character.isAlphabetic((int) it) }.collect {
             it
         } as Set
         def letter = chars.iterator().next()
