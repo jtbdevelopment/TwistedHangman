@@ -12,6 +12,7 @@ import com.jtbdevelopment.TwistedHangman.rest.services.PlayerGatewayService
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerServices
 import com.jtbdevelopment.core.mongo.spring.AbstractMongoIntegration
 import com.jtbdevelopment.games.dao.AbstractMultiPlayerGameRepository
+import com.jtbdevelopment.games.dev.utilities.jetty.JettyServer
 import com.jtbdevelopment.games.mongo.dao.MongoPlayerRepository
 import com.jtbdevelopment.games.mongo.players.MongoManualPlayer
 import com.jtbdevelopment.games.mongo.players.MongoPlayerFactory
