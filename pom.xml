@@ -9,7 +9,6 @@
     <version>0.8-SNAPSHOT</version>
     <modules>
         <module>game</module>
-        <module>integration-tests</module>
         <module>webUI</module>
         <module>example-tomcat</module>
     </modules>

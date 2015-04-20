@@ -2,13 +2,13 @@ package com.jtbdevelopment.TwistedHangman
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider
+import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.dao.PreMadePuzzleRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.utility.PreMadePuzzle
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerServices
-import com.jtbdevelopment.games.dao.AbstractMultiPlayerGameRepository
 import com.jtbdevelopment.games.dev.utilities.integrationtesting.AbstractGameIntegration
 import com.jtbdevelopment.games.mongo.players.MongoManualPlayer
 import com.jtbdevelopment.games.state.GamePhase
@@ -29,7 +29,7 @@ import javax.ws.rs.core.MediaType
  * Date: 11/15/2014
  * Time: 3:29 PM
  */
-class ServerIntegration extends AbstractGameIntegration {
+class TwistedHangmanIntegration extends AbstractGameIntegration {
     public static final String LOREMIPSUM = 'Lorem ipsum'
     public static final Entity EMPTY_PUT_POST = Entity.entity("", MediaType.TEXT_PLAIN)
 
@@ -128,7 +128,7 @@ class ServerIntegration extends AbstractGameIntegration {
         assert game.solverStates[TEST_PLAYER3.md5] != null
         assert game.solverStates[TEST_PLAYER3.md5].workingWordPhrase == "_____ _____"
 
-        AbstractMultiPlayerGameRepository gameRepository = applicationContext.getBean(AbstractMultiPlayerGameRepository.class)
+        GameRepository gameRepository = applicationContext.getBean(GameRepository.class)
         Game dbLoaded1 = (Game) gameRepository.findOne(new ObjectId(game.idAsString))
 
         def phraseArray = LOREMIPSUM.toCharArray()

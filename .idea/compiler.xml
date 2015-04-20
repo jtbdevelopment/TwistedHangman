@@ -28,7 +28,6 @@
         <module name="gamecore" />
         <module name="gamecore-dictionary" />
         <module name="gamecore-mongo" />
-        <module name="integration-tests" />
         <module name="model" />
         <module name="security" />
         <module name="webUI" />

@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/TwistedHangman.iml" filepath="$PROJECT_DIR$/TwistedHangman.iml" />
       <module fileurl="file://$PROJECT_DIR$/example-tomcat/example-tomcat.iml" filepath="$PROJECT_DIR$/example-tomcat/example-tomcat.iml" />
       <module fileurl="file://$PROJECT_DIR$/game/game.iml" filepath="$PROJECT_DIR$/game/game.iml" />
-      <module fileurl="file://$PROJECT_DIR$/integration-tests/integration-tests.iml" filepath="$PROJECT_DIR$/integration-tests/integration-tests.iml" />
       <module fileurl="file://$PROJECT_DIR$/webUI/webUI.iml" filepath="$PROJECT_DIR$/webUI/webUI.iml" />
     </modules>
   </component>
