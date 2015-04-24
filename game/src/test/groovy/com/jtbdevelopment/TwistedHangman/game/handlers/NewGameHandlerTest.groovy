@@ -7,7 +7,6 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
-import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
 import com.jtbdevelopment.games.events.GamePublisher
 import com.jtbdevelopment.games.exceptions.input.OutOfGamesForTodayException
@@ -35,7 +34,6 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
         Game game = new Game()
         game.features.addAll(features)
         Game savedGame = new Game()
-        Game puzzled = new Game()
         savedGame.features = features
         Game transitionedGame = new Game()
         Game publishedGame = new Game()
@@ -51,12 +49,6 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
                     return savedGame
                 }
         ] as GameRepository
-        handler.systemPuzzlerSetter = [
-                setWordPhraseFromSystem: {
-                    assert it.is(game)
-                    return puzzled
-                }
-        ] as SystemPuzzlerSetter
         handler.playerRepository = [
                 findByMd5In: {
                     Iterable<String> it ->
@@ -70,7 +62,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
         ] as AbstractPlayerRepository<ObjectId>
         handler.transitionEngine = [
                 evaluateGame: {
-                    assert it.is(puzzled)
+                    assert it.is(game)
                     return transitionedGame
                 }
         ] as GamePhaseTransitionEngine
@@ -109,7 +101,6 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
         Game game = new Game()
         game.features.addAll(features)
         Game savedGame = new Game()
-        Game puzzled = new Game()
         savedGame.features = features
         boolean revertCalled = false
         handler.gameFactory = [createGame: { a, b, c ->
@@ -118,12 +109,6 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
             assert c == initiatingPlayer
             game
         }] as GameFactory
-        handler.systemPuzzlerSetter = [
-                setWordPhraseFromSystem: {
-                    assert it.is(game)
-                    return puzzled
-                }
-        ] as SystemPuzzlerSetter
         handler.playerRepository = [
                 findByMd5In: {
                     Iterable<String> it ->
@@ -137,7 +122,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
         ] as AbstractPlayerRepository<ObjectId>
         handler.transitionEngine = [
                 evaluateGame: {
-                    assert it.is(puzzled)
+                    assert it.is(game)
                     throw new IllegalArgumentException()
                 }
         ] as GamePhaseTransitionEngine
@@ -170,7 +155,6 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
         Game game = new Game()
         game.features.addAll(features)
         Game savedGame = new Game()
-        Game puzzled = new Game()
         savedGame.features = features
         boolean revertCalled = false
         handler.gameFactory = [createGame: { a, b, c ->
@@ -179,12 +163,6 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
             assert c == initiatingPlayer
             game
         }] as GameFactory
-        handler.systemPuzzlerSetter = [
-                setWordPhraseFromSystem: {
-                    assert it.is(game)
-                    return puzzled
-                }
-        ] as SystemPuzzlerSetter
         handler.playerRepository = [
                 findByMd5In: {
                     Iterable<String> it ->
@@ -198,7 +176,7 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
         ] as AbstractPlayerRepository<ObjectId>
         handler.transitionEngine = [
                 evaluateGame: {
-                    assert it.is(puzzled)
+                    assert it.is(game)
                     throw new IllegalArgumentException()
                 }
         ] as GamePhaseTransitionEngine
@@ -282,7 +260,6 @@ class NewGameHandlerTest extends TwistedHangmanTestCase {
         Game game = new Game()
         game.features.addAll(features)
         Game savedGame = new Game()
-        Game puzzled = new Game()
         savedGame.features = features
         Game transitionedGame = new Game()
         Game publishedGame = new Game()

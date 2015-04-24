@@ -3,6 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.factory
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.games.exceptions.input.FailedToCreateValidGameException
 import com.jtbdevelopment.games.factory.GameInitializer
 import com.jtbdevelopment.games.factory.GameValidator
@@ -20,6 +21,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         int expandersCalled = 0
         int initializersCalled = 0
         int individualCalled = 0
+        boolean systemPhraseSetterCalled = false
         def initializer = [initializeGame: { initializersCalled++ }] as GameInitializer
         def validator = [
                 validateGame: { validatorsCalled++; true },
@@ -33,7 +35,13 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         gameFactory.gameValidators = [validator, validator]
         gameFactory.gameInitializers = [initializer, initializer, initializer, initializer]
         gameFactory.individualGamesInitializers = [individual, individual]
-
+        gameFactory.systemPuzzlerSetter = [
+                setWordPhraseFromSystem: {
+                    Game g ->
+                        systemPhraseSetterCalled = true
+                        g
+                }
+        ] as SystemPuzzlerSetter
 
         Set<GameFeature> expectedFeatures = [GameFeature.DrawFace, GameFeature.SinglePlayer] as Set
         MongoPlayer initiatingPlayer = PONE
@@ -46,6 +54,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assert initializersCalled == 4
         assert expandersCalled == 3
         assert individualCalled == 2
+        assert systemPhraseSetterCalled
         assert game.features == expectedFeatures
         assert game.players == [PTWO, PTHREE, PFOUR, PONE]
         assert game.initiatingPlayer == initiatingPlayer.id
@@ -61,6 +70,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         int expandersCalled = 0
         int initializersCalled = 0
         int individualCalled = 0
+        boolean systemPhraseSetterCalled = false
         def initializer = [initializeGame: { initializersCalled++ }] as GameInitializer
         def validator = [
                 validateGame: { validatorsCalled++; true },
@@ -69,6 +79,13 @@ class GameFactoryTest extends TwistedHangmanTestCase {
                 }] as GameValidator
         def expander = [enhanceFeatureSet: { a, b -> expandersCalled++ }] as FeatureExpander
         def individual = [initializeIndividualGameStates: { individualCalled++ }] as IndividualGamesInitializer
+        gameFactory.systemPuzzlerSetter = [
+                setWordPhraseFromSystem: {
+                    Game g ->
+                        systemPhraseSetterCalled = true
+                        g
+                }
+        ] as SystemPuzzlerSetter
 
         gameFactory.featureExpanders = [expander, expander, expander]
         gameFactory.gameValidators = [validator, validator]
@@ -94,6 +111,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assert initializersCalled == 4
         assert expandersCalled == 3
         assert individualCalled == 2
+        assert systemPhraseSetterCalled
         assert game.features == expectedFeatures
         assert game.players == [PTHREE, PFOUR, PONE, PTWO]
         assert game.initiatingPlayer == initiatingPlayer.id
@@ -113,6 +131,14 @@ class GameFactoryTest extends TwistedHangmanTestCase {
                 }] as GameValidator
 
         gameFactory.gameValidators = [validator, validator]
+        boolean systemPhraseSetterCalled = false
+        gameFactory.systemPuzzlerSetter = [
+                setWordPhraseFromSystem: {
+                    Game g ->
+                        systemPhraseSetterCalled = true
+                        g
+                }
+        ] as SystemPuzzlerSetter
 
 
         Set<GameFeature> expectedFeatures = [GameFeature.DrawFace, GameFeature.SinglePlayer] as Set
@@ -130,6 +156,7 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         } catch (FailedToCreateValidGameException e) {
             assert validatorsCalled == 2
             assert e.message == "System failed to create a valid game.  TADA!  TADA!  "
+            assert systemPhraseSetterCalled
         }
     }
 }

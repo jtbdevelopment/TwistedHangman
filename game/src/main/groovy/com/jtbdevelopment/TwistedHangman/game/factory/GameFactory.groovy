@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.factory
 
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.games.factory.AbstractMultiPlayerGameFactory
 import com.jtbdevelopment.games.players.Player
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,6 +18,8 @@ class GameFactory extends AbstractMultiPlayerGameFactory<Game, GameFeature> {
     List<FeatureExpander> featureExpanders = []
     @Autowired
     List<IndividualGamesInitializer> individualGamesInitializers = []
+    @Autowired
+    protected SystemPuzzlerSetter systemPuzzlerSetter
 
     @Override
     protected void copyFromPreviousGame(final Game previousGame, final Game newGame) {
@@ -35,6 +38,7 @@ class GameFactory extends AbstractMultiPlayerGameFactory<Game, GameFeature> {
             IndividualGamesInitializer it ->
                 it.initializeIndividualGameStates(game)
         }
+        systemPuzzlerSetter.setWordPhraseFromSystem(game)
     }
 
     @Override

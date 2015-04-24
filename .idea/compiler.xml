@@ -22,25 +22,43 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="example-tomcat" />
         <module name="facebook" />
-        <module name="game" />
         <module name="gamecore" />
         <module name="gamecore-dictionary" />
         <module name="gamecore-mongo" />
         <module name="model" />
         <module name="security" />
+      </profile>
+      <profile default="false" name="Annotation profile for webUI" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
         <module name="webUI" />
+      </profile>
+      <profile default="false" name="Annotation profile for example-tomcat" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="example-tomcat" />
+      </profile>
+      <profile default="false" name="Annotation profile for game" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="game" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="example-tomcat" target="1.8" />
-      <module name="game" target="1.8" />
+      <module name="example-tomcat" target="1.5" />
+      <module name="game" target="1.5" />
       <module name="integration-tests" target="1.8" />
       <module name="rest" target="1.8" />
-      <module name="TwistedHangman" target="1.8" />
+      <module name="TwistedHangman" target="1.5" />
       <module name="utilities" target="1.8" />
-      <module name="webUI" target="1.8" />
+      <module name="webUI" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

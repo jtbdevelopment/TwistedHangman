@@ -5,7 +5,6 @@ import com.jtbdevelopment.TwistedHangman.game.factory.GameFactory
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
-import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.games.events.GamePublisher
 import com.jtbdevelopment.games.exceptions.input.OutOfGamesForTodayException
 import com.jtbdevelopment.games.players.Player
@@ -31,8 +30,6 @@ import org.springframework.stereotype.Component
 class NewGameHandler extends AbstractHandler {
     private static final Logger logger = LoggerFactory.getLogger(NewGameHandler.class)
 
-    @Autowired
-    protected SystemPuzzlerSetter systemPuzzlerSetter
     @Autowired
     protected GameFactory gameFactory
     @Autowired
@@ -84,13 +81,12 @@ class NewGameHandler extends AbstractHandler {
         game
     }
 
-    private Game setupGame(
+    protected Game setupGame(
             final Set<GameFeature> features,
             final Set<Player<ObjectId>> players,
             final Player<ObjectId> initiatingPlayer) {
         Game game = transitionEngine.evaluateGame(
-                systemPuzzlerSetter.setWordPhraseFromSystem(
-                        gameFactory.createGame(features, players.toList(), initiatingPlayer)))
+                gameFactory.createGame(features, players.toList(), initiatingPlayer))
         gameRepository.save(game)
     }
 
