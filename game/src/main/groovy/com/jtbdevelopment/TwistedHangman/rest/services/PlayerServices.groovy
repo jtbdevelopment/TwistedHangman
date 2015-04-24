@@ -1,9 +1,10 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
-import com.jtbdevelopment.TwistedHangman.game.handlers.NewGameHandler
 import com.jtbdevelopment.TwistedHangman.game.handlers.PlayerGamesFinderHandler
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.games.rest.handlers.NewGameHandler
 import com.jtbdevelopment.games.rest.services.AbstractPlayerServices
+import com.jtbdevelopment.games.state.masking.AbstractMaskedMultiPlayerGame
 import com.jtbdevelopment.games.state.masking.MaskedMultiPlayerGame
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
@@ -36,7 +37,10 @@ class PlayerServices extends AbstractPlayerServices<ObjectId> {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("new")
     MaskedMultiPlayerGame createNewGame(final FeaturesAndPlayers featuresAndPlayers) {
-        newGameHandler.handleCreateNewGame((ObjectId) playerID.get(), featuresAndPlayers.players, featuresAndPlayers.features)
+        (AbstractMaskedMultiPlayerGame) newGameHandler.handleCreateNewGame(
+                (Serializable) playerID.get(),
+                featuresAndPlayers.players,
+                featuresAndPlayers.features)
     }
 
     @GET
