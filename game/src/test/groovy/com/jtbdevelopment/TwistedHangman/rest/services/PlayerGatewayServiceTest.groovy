@@ -20,8 +20,12 @@ class PlayerGatewayServiceTest extends GroovyTestCase {
                 (GameFeature.DrawFace)               : GameFeature.DrawFace.description,
                 (GameFeature.DrawGallows)            : GameFeature.DrawGallows.description,
                 (GameFeature.TurnBased)              : GameFeature.TurnBased.description,
+                (GameFeature.Live)        : GameFeature.Live.description,
+                (GameFeature.SingleWinner): GameFeature.SingleWinner.description,
+                (GameFeature.AllComplete) : GameFeature.AllComplete.description,
                 (GameFeature.AlternatingPuzzleSetter): GameFeature.AlternatingPuzzleSetter.description,
                 (GameFeature.SystemPuzzles)          : GameFeature.SystemPuzzles.description,
+                (GameFeature.Head2Head)   : GameFeature.Head2Head.description,
                 (GameFeature.Thieving)               : GameFeature.Thieving.description
         ]
     }
