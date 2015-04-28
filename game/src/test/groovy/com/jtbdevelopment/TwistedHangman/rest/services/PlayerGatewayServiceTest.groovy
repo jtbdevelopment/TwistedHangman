@@ -16,7 +16,7 @@ class PlayerGatewayServiceTest extends GroovyTestCase {
     PlayerGatewayService playerGatewayService = new PlayerGatewayService()
 
     void testGetFeatures() {
-        playerGatewayService.featuresAndDescriptions() == [
+        assert playerGatewayService.featuresAndDescriptions() == [
                 (GameFeature.DrawFace)               : GameFeature.DrawFace.description,
                 (GameFeature.DrawGallows)            : GameFeature.DrawGallows.description,
                 (GameFeature.TurnBased)              : GameFeature.TurnBased.description,

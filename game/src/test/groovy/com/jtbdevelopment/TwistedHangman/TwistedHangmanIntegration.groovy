@@ -1,7 +1,5 @@
 package com.jtbdevelopment.TwistedHangman
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository
 import com.jtbdevelopment.TwistedHangman.dao.PreMadePuzzleRepository
 import com.jtbdevelopment.TwistedHangman.game.state.Game
@@ -10,16 +8,12 @@ import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.utility.PreMadePuzzle
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerServices
 import com.jtbdevelopment.games.dev.utilities.integrationtesting.AbstractGameIntegration
-import com.jtbdevelopment.games.mongo.players.MongoManualPlayer
 import com.jtbdevelopment.games.state.GamePhase
 import com.jtbdevelopment.games.state.PlayerState
 import org.bson.types.ObjectId
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature
 import org.junit.BeforeClass
 import org.junit.Test
 
-import javax.ws.rs.client.Client
-import javax.ws.rs.client.ClientBuilder
 import javax.ws.rs.client.Entity
 import javax.ws.rs.client.WebTarget
 import javax.ws.rs.core.GenericType
@@ -190,16 +184,5 @@ class TwistedHangmanIntegration extends AbstractGameIntegration {
 
     private static MaskedGame putMG(final WebTarget webTarget) {
         return webTarget.request(MediaType.APPLICATION_JSON).put(EMPTY_PUT_POST, MaskedGame.class)
-    }
-
-    protected static Client createConnection(final MongoManualPlayer p) {
-        Client client = ClientBuilder.newClient()
-        HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic(p.sourceId, p.sourceId)
-        client.register(feature)
-        client.register(
-                new JacksonJaxbJsonProvider(
-                        applicationContext.getBean(ObjectMapper.class),
-                        JacksonJaxbJsonProvider.DEFAULT_ANNOTATIONS))
-        client
     }
 }
