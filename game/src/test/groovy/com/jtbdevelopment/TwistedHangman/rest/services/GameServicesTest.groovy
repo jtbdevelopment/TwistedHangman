@@ -31,10 +31,6 @@ class GameServicesTest extends GroovyTestCase {
 
         Map<String, List<Object>> stuff = [
                 //  method: [name, params, path, path param values, consumes
-                "createRematch": ["rematch", [], [], []],
-                "rejectGame"   : ["reject", [], [], []],
-                "quitGame": ["quit", [], [], []],
-                "acceptGame"   : ["accept", [], [], []],
                 "setPuzzle"    : ["puzzle", [SetPuzzleHandler.CategoryAndWordPhrase.class], [], [MediaType.APPLICATION_JSON]],
                 "stealLetter"  : ["steal/{position}", [int.class], ["position"], []],
                 "guessLetter"  : ["guess/{letter}", [String.class], ["letter"], []]

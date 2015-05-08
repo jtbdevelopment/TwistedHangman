@@ -23,9 +23,13 @@ import javax.ws.rs.core.MediaType
  * Date: 11/15/2014
  * Time: 3:29 PM
  */
-class TwistedHangmanIntegration extends AbstractGameIntegration {
+class TwistedHangmanIntegration extends AbstractGameIntegration<MaskedGame> {
     public static final String LOREMIPSUM = 'Lorem ipsum'
-    public static final Entity EMPTY_PUT_POST = Entity.entity("", MediaType.TEXT_PLAIN)
+
+    @Override
+    Class<MaskedGame> returnedGameClass() {
+        return MaskedGame.class
+    }
 
     @BeforeClass
     static void createPuzzle() {
@@ -38,9 +42,8 @@ class TwistedHangmanIntegration extends AbstractGameIntegration {
 
     @Test
     void testGetFeatures() {
-        def client = createConnection(TEST_PLAYER2)
+        def client = createAPITarget(TEST_PLAYER2)
         def features = client
-                .target(API_URI)
                 .path("features")
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .get(new GenericType<Map<String, String>>() {
@@ -68,7 +71,7 @@ class TwistedHangmanIntegration extends AbstractGameIntegration {
                 ),
                 MediaType.APPLICATION_JSON)
 
-        def P1 = createConnection(TEST_PLAYER1).target(PLAYER_API)
+        def P1 = createPlayerAPITarget(TEST_PLAYER1)
 
         MaskedGame game
         game = P1.path("new")
@@ -78,9 +81,9 @@ class TwistedHangmanIntegration extends AbstractGameIntegration {
         assert game.gamePhase == GamePhase.Challenged
         assert game.solverStates[TEST_PLAYER1.md5] != null
         assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase != ""
-        def P1G = P1.path("game").path(game.idAsString)
+        def P1G = createGameTarget(P1, game)
 
-        game = putMG(P1G.path("quit"))
+        game = quitGame(P1G)
         assert game.gamePhase == GamePhase.Quit
         assert game.playerStates[TEST_PLAYER1.md5] == PlayerState.Quit
     }
@@ -94,9 +97,7 @@ class TwistedHangmanIntegration extends AbstractGameIntegration {
                 ),
                 MediaType.APPLICATION_JSON)
 
-        def P1 = createConnection(TEST_PLAYER1).target(PLAYER_API)
-        def P2 = createConnection(TEST_PLAYER2).target(PLAYER_API)
-        def P3 = createConnection(TEST_PLAYER3).target(PLAYER_API)
+        def P1 = createPlayerAPITarget(TEST_PLAYER1)
 
         MaskedGame game
         game = P1.path("new")
@@ -106,18 +107,18 @@ class TwistedHangmanIntegration extends AbstractGameIntegration {
         assert game.gamePhase == GamePhase.Challenged
         assert game.solverStates[TEST_PLAYER1.md5] != null
         assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase == "_____ _____"
-        def P1G = P1.path("game").path(game.idAsString)
-        def P2G = P2.path("game").path(game.idAsString)
-        def P3G = P3.path("game").path(game.idAsString)
+        def P1G = createGameTarget(P1, game)
+        def P2G = createGameTarget(createPlayerAPITarget(TEST_PLAYER2), game)
+        def P3G = createGameTarget(createPlayerAPITarget(TEST_PLAYER3), game)
 
 
-        game = putMG(P2G.path("accept"))
-        game = P2G.request(MediaType.APPLICATION_JSON).get(MaskedGame.class)
+        game = acceptGame(P2G)
+        game = getGame(P2G)
         assert game.gamePhase == GamePhase.Challenged
         assert game.solverStates[TEST_PLAYER2.md5] != null
         assert game.solverStates[TEST_PLAYER2.md5].workingWordPhrase == "_____ _____"
-        game = putMG(P3G.path("accept"))
-        game = P3G.request(MediaType.APPLICATION_JSON).get(MaskedGame.class)
+        game = acceptGame(P3G)
+        game = getGame(P3G)
         assert game.gamePhase == GamePhase.Playing
         assert game.solverStates[TEST_PLAYER3.md5] != null
         assert game.solverStates[TEST_PLAYER3.md5].workingWordPhrase == "_____ _____"
@@ -160,7 +161,7 @@ class TwistedHangmanIntegration extends AbstractGameIntegration {
         assert game.playerRunningScores == [(TEST_PLAYER1.md5): 0, (TEST_PLAYER2.md5): 0, (TEST_PLAYER3.md5): 1]
         assert game.featureData[GameFeature.SingleWinner] == TEST_PLAYER3.md5
 
-        MaskedGame newGame = putMG(P2G.path("rematch"))
+        MaskedGame newGame = rematchGame(P2G)
         assert newGame.id != dbLoaded1.id
         Game dbLoaded2 = (Game) gameRepository.findOne(new ObjectId(newGame.idAsString))
         dbLoaded1 = (Game) gameRepository.findOne(dbLoaded1.id)
@@ -178,11 +179,13 @@ class TwistedHangmanIntegration extends AbstractGameIntegration {
         assert games.find { MaskedGame g -> g.id == dbLoaded1.idAsString }
         assert games.find { MaskedGame g -> g.id == dbLoaded2.idAsString }
 
-        newGame = putMG(P1.path("game").path(newGame.idAsString).path("reject"))
+
+        newGame = rejectGame(createGameTarget(P1, newGame))
         assert newGame.gamePhase == GamePhase.Declined
     }
 
     private static MaskedGame putMG(final WebTarget webTarget) {
         return webTarget.request(MediaType.APPLICATION_JSON).put(EMPTY_PUT_POST, MaskedGame.class)
     }
+
 }
