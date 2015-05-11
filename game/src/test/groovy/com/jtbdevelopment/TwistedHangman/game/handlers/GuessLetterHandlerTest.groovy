@@ -1,11 +1,11 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
-import com.jtbdevelopment.TwistedHangman.exceptions.input.GameIsNotInPlayModeException
 import com.jtbdevelopment.TwistedHangman.exceptions.input.PlayerNotSolvingAPuzzleException
 import com.jtbdevelopment.TwistedHangman.game.mechanics.HangmanGameActions
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
+import com.jtbdevelopment.games.exceptions.input.GameIsNotInPlayModeException
 import com.jtbdevelopment.games.state.GamePhase
 
 /**
@@ -39,12 +39,9 @@ class GuessLetterHandlerTest extends TwistedHangmanTestCase {
         IndividualGameState state = new IndividualGameState(wordPhrase: "Test", category: "Test")
         game.solverStates = [(PONE): state]
 
-        try {
+        shouldFail(PlayerNotSolvingAPuzzleException.class, {
             handler.handleActionInternal(PTHREE, game, letter)
-            fail()
-        } catch (PlayerNotSolvingAPuzzleException e) {
-
-        }
+        })
     }
 
 
@@ -54,11 +51,8 @@ class GuessLetterHandlerTest extends TwistedHangmanTestCase {
         IndividualGameState state = new IndividualGameState(wordPhrase: "Test", category: "Test")
         game.solverStates = [(PONE): state]
 
-        try {
+        shouldFail(GameIsNotInPlayModeException.class, {
             handler.handleActionInternal(PTHREE, game, letter)
-            fail()
-        } catch (GameIsNotInPlayModeException e) {
-
-        }
+        })
     }
 }
