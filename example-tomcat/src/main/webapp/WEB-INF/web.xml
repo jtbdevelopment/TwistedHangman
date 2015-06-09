@@ -40,6 +40,7 @@
         <async-supported>true</async-supported>
         <load-on-startup>0</load-on-startup>
     </servlet>
+    <!--  TODO - switch to application annotation?  -->
     <servlet>
         <servlet-name>REST</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
@@ -52,7 +53,9 @@
         <!-- Register my custom provider (not needed if it's in my.package) AND LoggingFilter. -->
         <init-param>
             <param-name>jersey.config.server.provider.classnames</param-name>
-            <param-value>org.glassfish.jersey.filter.LoggingFilter</param-value>
+            <param-value>
+                org.glassfish.jersey.filter.LoggingFilter;org.glassfish.jersey.message.DeflateEncoder;org.glassfish.jersey.message.GZipEncoder;org.glassfish.jersey.server.filter.EncodingFilter
+            </param-value>
         </init-param>
 
         <!-- Enable Tracing support. -->
