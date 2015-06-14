@@ -57,6 +57,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
         $location.path('/error');
       });
 
+      //  TODO - what is this?
       $scope.friend = {};
       $scope.thieving = 'Thieving';
       $scope.drawGallows = '';
