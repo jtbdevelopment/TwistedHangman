@@ -136,10 +136,6 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
           $http.post(jtbPlayerService.currentPlayerBaseURL() + '/new', playersAndFeatures).success(function (data) {
             jtbGameCache.putUpdatedGame(data);
             $location.path('/show/' + data.id);
-            $rootScope.$broadcast('event', 'created_game', 1, {
-              players: players.length + 1,
-              generated: $scope.wordPhraseSetter === SYSTEM_PUZZLES
-            });
           }).error(function (data, status, headers, config) {
             $scope.alerts.push({type: 'danger', msg: 'Error creating game:' + data});
             console.error(data + status + headers + config);

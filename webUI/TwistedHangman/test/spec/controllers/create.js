@@ -473,7 +473,6 @@ describe('Controller: CreateCtrl', function () {
       expect(gameCache.putUpdatedGame).toHaveBeenCalledWith(createdGame);
       expect(location.path).toHaveBeenCalledWith('/show/anid');
       expect(adsCalled).toEqual(true);
-      expect(rootScope.$broadcast).toHaveBeenCalledWith('event', 'created_game', 1, {players: 1, generated: true});
     });
 
     it('test create game submission 2player', function () {
@@ -496,7 +495,6 @@ describe('Controller: CreateCtrl', function () {
       expect(gameCache.putUpdatedGame).toHaveBeenCalledWith(createdGame);
       expect(location.path).toHaveBeenCalledWith('/show/anid');
       expect(adsCalled).toEqual(true);
-      expect(rootScope.$broadcast).toHaveBeenCalledWith('event', 'created_game', 1, {players: 2, generated: false});
     });
 
     it('test create game submission 3+player', function () {
@@ -517,7 +515,6 @@ describe('Controller: CreateCtrl', function () {
       expect(gameCache.putUpdatedGame).toHaveBeenCalledWith(createdGame);
       expect(location.path).toHaveBeenCalledWith('/show/anid');
       expect(adsCalled).toEqual(true);
-      expect(rootScope.$broadcast).toHaveBeenCalledWith('event', 'created_game', 1, {players: 3, generated: true});
     });
 
     it('test closing alerts', function () {
