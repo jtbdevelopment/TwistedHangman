@@ -15,9 +15,6 @@
         <option name="sourcesTypes" value="source, src, sources, srcs" />
       </ArtifactTypeSettings>
     </option>
-    <option name="propertiesSettings">
-      <PropertiesSettings />
-    </option>
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
