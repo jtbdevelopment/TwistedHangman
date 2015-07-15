@@ -1,120 +1,144 @@
 <!doctype html>
 <html class="no-js">
 <head>
-  <meta charset="utf-8">
-  <title>Twisted Hangman!</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-  <!-- build:css(.) styles/vendor.css -->
-  <!-- bower:css -->
-  <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
-  <link rel="stylesheet" href="bower_components/animate.css/animate.css" />
-  <!-- endbower -->
-  <!-- endbuild -->
-  <!-- build:css(.tmp) styles/main.css -->
-  <link rel="stylesheet" href="styles/main.css">
-  <!-- endbuild -->
+    <meta charset="utf-8">
+    <title>Twisted Hangman!</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css"/>
+    <link rel="stylesheet" href="bower_components/animate.css/animate.css"/>
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
 </head>
 <body ng-app="twistedHangmanApp" ng-controller="MainCtrl">
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-  your browser</a> to improve your experience.</p>
+    your browser</a> to improve your experience.</p>
 <![endif]-->
 
 <!-- Add your site or application content here -->
 <div class="container-fluid">
-  <div class="header">
-    <ul class="nav nav-pills pull-right">
-      <li>
-        <div class="alerts">
-          <div class="btn-group alertDiv" dropdown>
-            <div class="alertButton">
-              <button type="button" class="btn dropdown-toggle" dropdown-toggle ng-disabled="alerts.length < 1">
-                <span class="glyphicon glyphicon-exclamation-sign"></span><span class="badge alertBadge pull-right"
-                                                                                ng-hide="alerts.length === 0">{{alerts.length}}</span>
-              </button>
-            </div>
-            <ul class="dropdown-menu">
-              <li ng-repeat="alert in alerts">
-                <a ng-click="goToGame($index)">{{alert.message}}</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </li>
-      <li><a ng-href="#/about">About</a></li>
-      <li><a ng-href="#/admin" ng-show="showAdmin">Admin</a></li>
-      <li><a ng-click="logout()" ng-show="showLogout">Logout</a></li>
-      <li>
-        <div class="beta">BETA</div>
-      </li>
-    </ul>
-    <a href="#/">
-      <h3 class="text-muted">
-        <img ng-src="images/hangman13.png" width="30px" height="30px"/>Twisted Hangman
-        <small>{{playerGreeting}}</small>
-        <div class="pull-right">
-          <small>Free Games Played: {{currentPlayer.gameSpecificPlayerAttributes.freeGamesUsedToday}}</small>
-          <small>Paid Games Remaining: {{currentPlayer.gameSpecificPlayerAttributes.availablePurchasedGames}}</small>
-        </div>
-      </h3>
-    </a>
-  </div>
+    <div class="header">
+        <ul class="nav nav-pills pull-right">
+            <li>
+                <div class="alerts">
+                    <div class="btn-group alertDiv" dropdown>
+                        <div class="alertButton">
+                            <button type="button" class="btn dropdown-toggle" dropdown-toggle
+                                    ng-disabled="alerts.length < 1">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span><span
+                                    class="badge alertBadge pull-right"
+                                    ng-hide="alerts.length === 0">{{alerts.length}}</span>
+                            </button>
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="alert in alerts">
+                                <a ng-click="goToGame($index)">{{alert.message}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <li><a ng-href="#/about">About</a></li>
+            <li><a ng-href="#/admin" ng-show="showAdmin">Admin</a></li>
+            <li><a ng-click="logout()" ng-show="showLogout">Logout</a></li>
+            <li>
+                <div class="beta">BETA</div>
+            </li>
+        </ul>
+        <a href="#/">
+            <h3 class="text-muted">
+                <img ng-src="images/hangman13.png" width="30px" height="30px"/>Twisted Hangman
+                <small>{{playerGreeting}}</small>
+                <div class="pull-right">
+                    <small>Free Games Played: {{currentPlayer.gameSpecificPlayerAttributes.freeGamesUsedToday}}</small>
+                    <small>Paid Games Remaining:
+                        {{currentPlayer.gameSpecificPlayerAttributes.availablePurchasedGames}}
+                    </small>
+                </div>
+            </h3>
+        </a>
+    </div>
 </div>
 
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-2 sidebar">
-      <div class="btn-group-vertical gameButtonGroup" ng-show="createRefreshEnabled">
-        <a href="#/create" role="button" class="btn-group btn gameButton createGameButton">
-          <span class="glyphicon glyphicon-plus"></span>
-          <span>Start New Series</span>
-        </a>
-        <a href="javascript:void(0);" ng-click="refreshGames()" role="button"
-           class="btn-group btn gameButton refreshButton"
-           ng-controller="MainCtrl">
-          <span class="glyphicon glyphicon-refresh"></span>
-          <span>Refresh</span>
-        </a>
-      </div>
+    <div class="row">
+        <div class="col-sm-2 sidebar">
+            <div class="btn-group-vertical gameButtonGroup" ng-show="createRefreshEnabled">
+                <a href="#/create" role="button" class="btn-group btn gameButton createGameButton">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span>Start New Series</span>
+                </a>
+                <a href="javascript:void(0);" ng-click="refreshGames()" role="button"
+                   class="btn-group btn gameButton refreshButton"
+                   ng-controller="MainCtrl">
+                    <span class="glyphicon glyphicon-refresh"></span>
+                    <span>Refresh</span>
+                </a>
+            </div>
 
-      <twisted-game-button ng-controller="SetupGames" ng-show="games.length > 0"></twisted-game-button>
-      <twisted-game-button ng-controller="RoundOverGames" ng-show="games.length > 0"></twisted-game-button>
-      <twisted-game-button ng-controller="ChallengedGames" ng-show="games.length > 0"></twisted-game-button>
-      <twisted-game-button ng-controller="PlayingGames" ng-show="games.length > 0"></twisted-game-button>
-      <twisted-game-button ng-controller="NextRoundStartedGames" ng-show="games.length > 0"></twisted-game-button>
-      <twisted-game-button ng-controller="DeclinedGames" ng-show="games.length > 0"></twisted-game-button>
-      <twisted-game-button ng-controller="QuitGames" ng-show="games.length > 0"></twisted-game-button>
+            <twisted-game-button ng-controller="SetupGames" ng-show="games.length > 0"></twisted-game-button>
+            <twisted-game-button ng-controller="RoundOverGames" ng-show="games.length > 0"></twisted-game-button>
+            <twisted-game-button ng-controller="ChallengedGames" ng-show="games.length > 0"></twisted-game-button>
+            <twisted-game-button ng-controller="PlayingGames" ng-show="games.length > 0"></twisted-game-button>
+            <twisted-game-button ng-controller="NextRoundStartedGames" ng-show="games.length > 0"></twisted-game-button>
+            <twisted-game-button ng-controller="DeclinedGames" ng-show="games.length > 0"></twisted-game-button>
+            <twisted-game-button ng-controller="QuitGames" ng-show="games.length > 0"></twisted-game-button>
+        </div>
+
+
+        <div ng-view="" class="col-sm-10 col-sm-offset-2"></div>
+
     </div>
 
-
-    <div ng-view="" class="col-sm-10 col-sm-offset-2"></div>
-
-  </div>
-
-  <!--div class="footer">
-    <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
-  </div-->
 </div>
 
+<div class="footer">
+    <div class="container">
+        <!--/* Ad4Game Javascript Tag */-->
+
+        <script type='text/javascript'><!--//<![CDATA[
+        var m3_u = (location.protocol == 'https:' ? 'https://ads.ad4game.com/www/delivery/ajs.php' : 'http://ads.ad4game.com/www/delivery/ajs.php');
+        var m3_r = Math.floor(Math.random() * 99999999999);
+        if (!document.MAX_used) document.MAX_used = ',';
+        document.write("<scr" + "ipt type='text/javascript' src='" + m3_u);
+        document.write("?zoneid=51332&amp;block=1&amp;blockcampaign=1");
+        document.write('&amp;cb=' + m3_r);
+        if (document.MAX_used != ',') document.write("&amp;exclude=" + document.MAX_used);
+        document.write(document.charset ? '&amp;charset=' + document.charset : (document.characterSet ? '&amp;charset=' + document.characterSet : ''));
+        if (document.context) document.write("&context=" + escape(document.context));
+        if (document.mmm_fo) document.write("&amp;mmm_fo=1");
+        document.write("'><\/scr" + "ipt>");
+        //]]>--></script>
+        <noscript><a href='http://ads.ad4game.com/www/delivery/dck.php?n=aed02bab' target='_blank'><img
+                src='//ads.ad4game.com/www/delivery/avw.php?zoneid=51332&amp;n=aed02bab' border='0' alt=''/></a>
+        </noscript>
+
+    </div>
+</div>
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
 <script>
-  (function (i, s, o, g, r, a, m) {
-    i['GoogleAnalyticsObject'] = r;
-    i[r] = i[r] || function () {
-      (i[r].q = i[r].q || []).push(arguments)
-    }, i[r].l = 1 * new Date();
-    a = s.createElement(o),
-      m = s.getElementsByTagName(o)[0];
-    a.async = 1;
-    a.src = g;
-    m.parentNode.insertBefore(a, m)
-  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-  ga('create', 'UA-61544215-1', 'auto');
-  ga('send', 'pageview');
+    ga('create', 'UA-61544215-1', 'auto');
+    ga('send', 'pageview');
 </script>
 
 <!-- build:js(.) scripts/oldieshim.js -->
