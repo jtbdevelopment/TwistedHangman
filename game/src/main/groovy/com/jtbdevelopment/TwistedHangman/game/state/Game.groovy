@@ -16,6 +16,8 @@ import org.springframework.data.mongodb.core.mapping.Document
 @CompileStatic
 @CompoundIndexes([
         @CompoundIndex(name = "player_phase", def = "{'players._id': 1, 'gamePhase': 1, 'lastUpdate': 1}"),
+        @CompoundIndex(name = "created", def = "{'created': 1}"),
+        @CompoundIndex(name = "lastUpdated", def = "{'lastUpdate': 1}"),
 ])
 public class Game extends AbstractMongoMultiPlayerGame<GameFeature> implements Cloneable {
     ObjectId wordPhraseSetter

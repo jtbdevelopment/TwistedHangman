@@ -48,18 +48,14 @@
             <li><a ng-href="#/about">About</a></li>
             <li><a ng-href="#/admin" ng-show="showAdmin">Admin</a></li>
             <li><a ng-click="logout()" ng-show="showLogout">Logout</a></li>
-            <li>
-                <div class="beta">BETA</div>
-            </li>
         </ul>
         <a href="#/">
             <h3 class="text-muted">
                 <img ng-src="images/hangman13.png" width="30px" height="30px"/>Twisted Hangman
                 <small>{{playerGreeting}}</small>
                 <div class="pull-right">
-                    <small>Free Games Played: {{currentPlayer.gameSpecificPlayerAttributes.freeGamesUsedToday}}</small>
-                    <small>Paid Games Remaining:
-                        {{currentPlayer.gameSpecificPlayerAttributes.availablePurchasedGames}}
+                    <!--  TODO - the 20 should come from server -->
+                    <small>Free Games Played: {{currentPlayer.gameSpecificPlayerAttributes.freeGamesUsedToday}} / 20
                     </small>
                 </div>
             </h3>
@@ -97,31 +93,31 @@
 
     </div>
 
-</div>
+    <div class="footer">
+        <div class="container">
+            <!--/* Ad4Game Javascript Tag */-->
 
-<div class="footer">
-    <div class="container">
-        <!--/* Ad4Game Javascript Tag */-->
+            <script type='text/javascript'><!--//<![CDATA[
+            var m3_u = (location.protocol == 'https:' ? 'https://ads.ad4game.com/www/delivery/ajs.php' : 'http://ads.ad4game.com/www/delivery/ajs.php');
+            var m3_r = Math.floor(Math.random() * 99999999999);
+            if (!document.MAX_used) document.MAX_used = ',';
+            document.write("<scr" + "ipt type='text/javascript' src='" + m3_u);
+            document.write("?zoneid=51332&amp;block=1&amp;blockcampaign=1");
+            document.write('&amp;cb=' + m3_r);
+            if (document.MAX_used != ',') document.write("&amp;exclude=" + document.MAX_used);
+            document.write(document.charset ? '&amp;charset=' + document.charset : (document.characterSet ? '&amp;charset=' + document.characterSet : ''));
+            if (document.context) document.write("&context=" + escape(document.context));
+            if (document.mmm_fo) document.write("&amp;mmm_fo=1");
+            document.write("'><\/scr" + "ipt>");
+            //]]>--></script>
+            <noscript><a href='http://ads.ad4game.com/www/delivery/dck.php?n=aed02bab' target='_blank'><img
+                    src='//ads.ad4game.com/www/delivery/avw.php?zoneid=51332&amp;n=aed02bab' border='0' alt=''/></a>
+            </noscript>
 
-        <script type='text/javascript'><!--//<![CDATA[
-        var m3_u = (location.protocol == 'https:' ? 'https://ads.ad4game.com/www/delivery/ajs.php' : 'http://ads.ad4game.com/www/delivery/ajs.php');
-        var m3_r = Math.floor(Math.random() * 99999999999);
-        if (!document.MAX_used) document.MAX_used = ',';
-        document.write("<scr" + "ipt type='text/javascript' src='" + m3_u);
-        document.write("?zoneid=51332&amp;block=1&amp;blockcampaign=1");
-        document.write('&amp;cb=' + m3_r);
-        if (document.MAX_used != ',') document.write("&amp;exclude=" + document.MAX_used);
-        document.write(document.charset ? '&amp;charset=' + document.charset : (document.characterSet ? '&amp;charset=' + document.characterSet : ''));
-        if (document.context) document.write("&context=" + escape(document.context));
-        if (document.mmm_fo) document.write("&amp;mmm_fo=1");
-        document.write("'><\/scr" + "ipt>");
-        //]]>--></script>
-        <noscript><a href='http://ads.ad4game.com/www/delivery/dck.php?n=aed02bab' target='_blank'><img
-                src='//ads.ad4game.com/www/delivery/avw.php?zoneid=51332&amp;n=aed02bab' border='0' alt=''/></a>
-        </noscript>
-
+        </div>
     </div>
 </div>
+
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
 <script>

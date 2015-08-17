@@ -18,6 +18,7 @@ angular.module('twistedHangmanApp')
       $scope.showAdmin = false;
       $scope.showLogout = false;
       $scope.currentPlayer = {};
+      $scope.currentPlayer = {gameSpecificPlayerAttributes: {freeGamesUsedToday: 0}};
 
       function gamePath(id) {
         return '/show/' + id;

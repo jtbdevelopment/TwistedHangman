@@ -39,7 +39,7 @@ describe('Controller: MainCtrl', function () {
     expect(scope.createRefreshEnabled).toEqual(false);
     expect(scope.showAdmin).toEqual(false);
     expect(scope.showLogout).toEqual(false);
-    expect(scope.currentPlayer).toEqual({});
+    expect(scope.currentPlayer).toEqual({gameSpecificPlayerAttributes: {freeGamesUsedToday: 0}});
     rootScope.$broadcast('playerLoaded');
     rootScope.$apply();
     expect(scope.currentPlayer).toEqual(player);

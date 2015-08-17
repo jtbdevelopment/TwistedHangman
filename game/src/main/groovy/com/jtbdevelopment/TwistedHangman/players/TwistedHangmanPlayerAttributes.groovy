@@ -9,7 +9,7 @@ import groovy.transform.CompileStatic
  */
 @CompileStatic
 class TwistedHangmanPlayerAttributes extends AbstractPlayerGameTrackingAttributes {
-    public static final int DEFAULT_FREE_GAMES_PER_DAY = 10;
-    public static final int DEFAULT_PREMIUM_PLAYER_GAMES_PER_DAY = 25;
+    public static final int DEFAULT_FREE_GAMES_PER_DAY = 20;
+    public static final int DEFAULT_PREMIUM_PLAYER_GAMES_PER_DAY = 30;
 
 }
