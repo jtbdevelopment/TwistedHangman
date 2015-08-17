@@ -12,7 +12,7 @@ angular.module('twistedHangmanApp').controller('AdminCtrl',
       $scope.playersCreated30days = 0;
       $scope.playersLastLogin24hours = 0;
       $scope.playersLastLogin7days = 0;
-      $scope.playersLstLogin30days = 0;
+      $scope.playersLastLogin30days = 0;
       $scope.last24hours = 0;
       $scope.last7days = 0;
       $scope.last30days = 0;
@@ -44,7 +44,7 @@ angular.module('twistedHangmanApp').controller('AdminCtrl',
         $scope.playersLastLogin7days = data;
       });
       $http.get('/api/player/admin/playersLoggedIn/' + time30).success(function (data) {
-        $scope.playersLstLogin30days = data;
+        $scope.playersLastLogin30days = data;
       });
 
       $http.get('/api/player/admin/gamesSince/' + time24).success(function (data) {
