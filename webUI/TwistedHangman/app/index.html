@@ -54,8 +54,8 @@
                 <img ng-src="images/hangman13.png" width="30px" height="30px"/>Twisted Hangman
                 <small>{{playerGreeting}}</small>
                 <div class="pull-right">
-                    <!--  TODO - the 20 should come from server -->
-                    <small>Free Games Played: {{currentPlayer.gameSpecificPlayerAttributes.freeGamesUsedToday}} / 20
+                    <small>Free Games Played Today: {{currentPlayer.gameSpecificPlayerAttributes.freeGamesUsedToday}} /
+                        {{currentPlayer.gameSpecificPlayerAttributes.maxDailyFreeGames}}
                     </small>
                 </div>
             </h3>
