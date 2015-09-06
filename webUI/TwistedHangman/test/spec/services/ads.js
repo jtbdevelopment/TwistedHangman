@@ -23,11 +23,12 @@ describe('Service: twAds', function () {
     service = $injector.get('twAds');
   }));
 
+  /*
   it('test open', function () {
     expect(modalOpened).toEqual(false);
     var t = service.showAdPopup();
     expect(modalOpened).toEqual(true);
     expect(t).toEqual(deferred.promise);
   });
-
+   */
 });

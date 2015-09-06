@@ -64,6 +64,12 @@
 </div>
 
 <div class="container-fluid">
+    <!--  Applixir, customized by adding z-index  -->
+    <div id="applixir_vanishing_div" style="position:absolute; top: 1%; left: 1%; margin: -250px -316px; z-index: 9999">
+        <iframe width="8px" height="8px" name="applixir_iframe" id="applixir_vanishing_frame"
+                src="/applixir_richmediaframe_f1f6ba399dfbd5e75b301bb824519d18.html" frameborder=0
+                ALLOWTRANSPARENCY="true"></iframe>
+    </div>
     <div class="row">
         <div class="col-sm-2 sidebar">
             <div class="btn-group-vertical gameButtonGroup" ng-show="createRefreshEnabled">
@@ -136,6 +142,9 @@
     ga('create', 'UA-61544215-1', 'auto');
     ga('send', 'pageview');
 </script>
+
+<!--  Applixir  -->
+<script type="text/javascript" src="//developer.appprizes.com/applixir_richmedia.js"></script>
 
 <!-- build:js(.) scripts/oldieshim.js -->
 <!--[if lt IE 9]>
