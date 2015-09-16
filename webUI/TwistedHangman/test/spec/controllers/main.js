@@ -40,6 +40,7 @@ describe('Controller: MainCtrl', function () {
     expect(scope.showAdmin).toEqual(false);
     expect(scope.showLogout).toEqual(false);
     expect(scope.currentPlayer).toEqual({gameSpecificPlayerAttributes: {freeGamesUsedToday: 0}});
+    expect(scope.includeTemplate).toEqual("views/empty.html");
     rootScope.$broadcast('playerLoaded');
     rootScope.$apply();
     expect(scope.currentPlayer).toEqual(player);
@@ -48,6 +49,7 @@ describe('Controller: MainCtrl', function () {
     expect(scope.createRefreshEnabled).toEqual(true);
     expect(scope.showAdmin).toEqual(true);
     expect(scope.showLogout).toEqual(false);
+    expect(scope.includeTemplate).toEqual("views/sidebar.html");
   });
 
   it('test refresh button', function () {
@@ -57,12 +59,14 @@ describe('Controller: MainCtrl', function () {
 
   it('refreshes on "playerLoaded" broadcast', function () {
     expect(scope.playerGreeting).toEqual('');
+    expect(scope.includeTemplate).toEqual("views/empty.html");
     rootScope.$broadcast('playerLoaded');
     rootScope.$apply();
     expect(scope.playerGreeting).toEqual('Welcome XYZ');
     expect(scope.alerts).toEqual([]);
     expect(scope.showAdmin).toEqual(true);
     expect(scope.showLogout).toEqual(false);
+    expect(scope.includeTemplate).toEqual("views/sidebar.html");
 
     scope.alerts.push('x');
     player = {displayName: 'ABC', md5: '6666', adminUser: false, source: 'MANUAL'};
@@ -74,12 +78,17 @@ describe('Controller: MainCtrl', function () {
     expect(scope.alerts).toEqual([]);
     expect(scope.showAdmin).toEqual(true);
     expect(scope.showLogout).toEqual(true);
+    expect(scope.includeTemplate).toEqual("views/sidebar.html");
   });
 
   it('logout', function () {
+    rootScope.$broadcast('playerLoaded');
+    rootScope.$apply();
+    expect(scope.includeTemplate).toEqual("views/sidebar.html");
     expect(logoutCalled).toEqual(false);
     scope.logout();
     expect(logoutCalled).toEqual(true);
+    expect(scope.includeTemplate).toEqual("views/empty.html");
   });
 
   describe('go to game', function () {
