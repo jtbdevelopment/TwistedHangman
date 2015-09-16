@@ -7,9 +7,7 @@
           <element id="module-output" name="example-tomcat" />
         </element>
         <element id="directory" name="lib">
-          <element id="archive" name="game-1.0-SNAPSHOT.jar">
-            <element id="module-output" name="game" />
-          </element>
+          <element id="library" level="project" name="Maven: com.jtbdevelopment.TwistedHangman:game:1.0-SNAPSHOT" />
           <element id="library" level="project" name="Maven: com.jtbdevelopment.core-common:core-spring-web-mongo:1.5-SNAPSHOT" />
           <element id="library" level="project" name="Maven: com.jtbdevelopment.core-common:core-spring-web:1.5-SNAPSHOT" />
           <element id="library" level="project" name="Maven: com.jtbdevelopment.core-common:core-spring:1.5-SNAPSHOT" />
