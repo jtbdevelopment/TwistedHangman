@@ -64,64 +64,13 @@
 </div>
 
 <div class="container-fluid">
-    <!--  Applixir, customized by adding z-index  -->
-    <div id="applixir_vanishing_div" style="position:absolute; top: 1%; left: 1%; margin: -250px -316px; z-index: 9999">
-        <iframe width="8px" height="8px" name="applixir_iframe" id="applixir_vanishing_frame"
-                src="/applixir_richmediaframe_f1f6ba399dfbd5e75b301bb824519d18.html" frameborder=0
-                ALLOWTRANSPARENCY="true"></iframe>
-    </div>
     <div class="row">
-        <div class="col-sm-2 sidebar">
-            <div class="btn-group-vertical gameButtonGroup" ng-show="createRefreshEnabled">
-                <a href="#/create" role="button" class="btn-group btn gameButton createGameButton">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span>Start New Series</span>
-                </a>
-                <a href="javascript:void(0);" ng-click="refreshGames()" role="button"
-                   class="btn-group btn gameButton refreshButton"
-                   ng-controller="MainCtrl">
-                    <span class="glyphicon glyphicon-refresh"></span>
-                    <span>Refresh</span>
-                </a>
-            </div>
-
-            <twisted-game-button ng-controller="SetupGames" ng-show="games.length > 0"></twisted-game-button>
-            <twisted-game-button ng-controller="RoundOverGames" ng-show="games.length > 0"></twisted-game-button>
-            <twisted-game-button ng-controller="ChallengedGames" ng-show="games.length > 0"></twisted-game-button>
-            <twisted-game-button ng-controller="PlayingGames" ng-show="games.length > 0"></twisted-game-button>
-            <twisted-game-button ng-controller="NextRoundStartedGames" ng-show="games.length > 0"></twisted-game-button>
-            <twisted-game-button ng-controller="DeclinedGames" ng-show="games.length > 0"></twisted-game-button>
-            <twisted-game-button ng-controller="QuitGames" ng-show="games.length > 0"></twisted-game-button>
-        </div>
-
-
+        <div ng-include="includeTemplate"></div>
         <div ng-view="" class="col-sm-10 col-sm-offset-2"></div>
 
-    </div>
+    </
+    --div>
 
-    <div class="footer">
-        <div class="container">
-            <!--/* Ad4Game Javascript Tag */-->
-
-            <script type='text/javascript'><!--//<![CDATA[
-            var m3_u = (location.protocol == 'https:' ? 'https://ads.ad4game.com/www/delivery/ajs.php' : 'http://ads.ad4game.com/www/delivery/ajs.php');
-            var m3_r = Math.floor(Math.random() * 99999999999);
-            if (!document.MAX_used) document.MAX_used = ',';
-            document.write("<scr" + "ipt type='text/javascript' src='" + m3_u);
-            document.write("?zoneid=51332&amp;block=1&amp;blockcampaign=1");
-            document.write('&amp;cb=' + m3_r);
-            if (document.MAX_used != ',') document.write("&amp;exclude=" + document.MAX_used);
-            document.write(document.charset ? '&amp;charset=' + document.charset : (document.characterSet ? '&amp;charset=' + document.characterSet : ''));
-            if (document.context) document.write("&context=" + escape(document.context));
-            if (document.mmm_fo) document.write("&amp;mmm_fo=1");
-            document.write("'><\/scr" + "ipt>");
-            //]]>--></script>
-            <noscript><a href='http://ads.ad4game.com/www/delivery/dck.php?n=aed02bab' target='_blank'><img
-                    src='//ads.ad4game.com/www/delivery/avw.php?zoneid=51332&amp;n=aed02bab' border='0' alt=''/></a>
-            </noscript>
-
-        </div>
-    </div>
 </div>
 
 
@@ -200,6 +149,7 @@
 <script src="scripts/controllers/showgame.js"></script>
 <script src="scripts/controllers/create.js"></script>
 <script src="scripts/controllers/popupAd.js"></script>
+<script src="scripts/controllers/signedin.js"></script>
 <!-- endbuild -->
 </body>
 </html>

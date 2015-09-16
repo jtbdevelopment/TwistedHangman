@@ -151,6 +151,9 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
           resolve: {
             invitableFriends: function () {
               return $scope.invitableFBFriends;
+            },
+            message: function () {
+              return 'Come play Twisted Hangman with me!';
             }
           }
         });
