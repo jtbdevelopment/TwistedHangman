@@ -22,7 +22,7 @@ angular
     ])
     .config(function ($routeProvider) {
         $routeProvider
-            .when('/', {
+            .when('/main', {
                 templateUrl: 'views/main.html'
             })
             .when('/error', {
@@ -53,6 +53,6 @@ angular
                 controller: 'CoreSignedInCtrl'
             })
             .otherwise({
-                redirectTo: '/'
+                redirectTo: '/signin'
             });
     });

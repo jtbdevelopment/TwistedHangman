@@ -14,7 +14,7 @@ angular.module('twistedHangmanApp')
                 console.log('Logged in');
                 clearHttpCache();
                 $rootScope.$broadcast('login');
-                $location.path('/');
+                $location.path('/main');
             }
 
             onSuccessfulLogin();
