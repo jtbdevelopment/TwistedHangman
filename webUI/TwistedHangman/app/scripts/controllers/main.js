@@ -9,8 +9,8 @@
  */
 angular.module('twistedHangmanApp')
   .controller('MainCtrl',
-  ['$rootScope', '$scope', '$location', '$timeout', 'jtbPlayerService', 'twGameDetails',
-    function ($rootScope, $scope, $location, $timeout, jtbPlayerService, twGameDetails) {
+      ['$rootScope', '$scope', '$location', '$timeout', 'jtbGameCache', 'jtbPlayerService', 'twGameDetails',
+        function ($rootScope, $scope, $location, $timeout, jtbGameCache, jtbPlayerService, twGameDetails) {
       $scope.playerGreeting = '';
       //  TODO - initialize from local storage?
       $scope.alerts = [];
@@ -19,7 +19,8 @@ angular.module('twistedHangmanApp')
       $scope.showLogout = false;
       $scope.currentPlayer = {};
       $scope.currentPlayer = {gameSpecificPlayerAttributes: {freeGamesUsedToday: 0}};
-      $scope.includeTemplate = "views/empty.html";
+          $scope.includeTemplate = 'views/empty.html';
+          console.log(jtbGameCache);
 
       function gamePath(id) {
         return '/show/' + id;
@@ -39,7 +40,7 @@ angular.module('twistedHangmanApp')
       };
 
       $scope.logout = function () {
-        $scope.includeTemplate = "views/empty.html";
+        $scope.includeTemplate = 'views/empty.html';
         jtbPlayerService.signOutAndRedirect();
       };
 
@@ -50,7 +51,7 @@ angular.module('twistedHangmanApp')
         $scope.showAdmin = $scope.currentPlayer.adminUser || $scope.showAdmin;
         $scope.showLogout = $scope.currentPlayer.source === 'MANUAL';
         $scope.createRefreshEnabled = true;
-        $scope.includeTemplate = "views/sidebar.html";
+        $scope.includeTemplate = 'views/sidebar.html';
       });
 
       function generateAlert(gameId, alertMessage) {
