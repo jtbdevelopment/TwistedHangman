@@ -8,7 +8,8 @@
 
   </div>
   <div class="btn-group-vertical {{hideGames ? 'hideGames' : 'showGames'}}" uib-collapse="hideGames">
-    <a ng-repeat="game in games | orderBy:['-lastUpdate', '-created']" href="#/show/{{game.id}}" role="button"
+    <a ng-repeat="game in games track by game.id | orderBy:['-lastUpdate', '-created']" href="#/show/{{game.id}}"
+       role="button"
        class="btn-group btn gameButton {{style}}" id="{{game.id}}">
     <span class="glyphicon {{glyph}}">
             <span ng-repeat="(key, value) in game.players">{{value}}, </span>
