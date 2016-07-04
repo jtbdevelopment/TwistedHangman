@@ -5,6 +5,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
+import com.jtbdevelopment.games.factory.GameInitializer
 
 /**
  * Date: 11/5/14
@@ -13,6 +14,9 @@ import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreat
 class PuzzleInitializerTest extends TwistedHangmanTestCase {
     PuzzleInitializer initializer = new PuzzleInitializer()
 
+    public void testOrder() {
+        assert GameInitializer.DEFAULT_ORDER == initializer.order
+    }
 
     public void testInitializesPuzzlesForAllWhenSystemPuzzler() {
         Game game = new Game()

@@ -22,4 +22,9 @@ class TurnInitializer implements GameInitializer<Game> {
             }
         }
     }
+
+    @Override
+    int getOrder() {
+        return DEFAULT_ORDER
+    }
 }

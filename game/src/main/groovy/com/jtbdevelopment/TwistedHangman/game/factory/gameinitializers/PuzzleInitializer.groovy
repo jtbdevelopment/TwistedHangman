@@ -23,4 +23,9 @@ class PuzzleInitializer implements GameInitializer<Game> {
                 game.solverStates[it.id] = new IndividualGameState(game.features)
         }
     }
+
+    @Override
+    int getOrder() {
+        return DEFAULT_ORDER
+    }
 }

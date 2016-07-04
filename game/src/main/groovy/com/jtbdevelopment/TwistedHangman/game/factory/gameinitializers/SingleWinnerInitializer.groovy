@@ -19,4 +19,9 @@ class SingleWinnerInitializer implements GameInitializer<Game> {
             game.featureData[GameFeature.SingleWinner] = ""
         }
     }
+
+    @Override
+    int getOrder() {
+        return DEFAULT_ORDER
+    }
 }

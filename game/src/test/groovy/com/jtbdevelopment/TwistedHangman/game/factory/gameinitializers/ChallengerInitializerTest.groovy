@@ -4,6 +4,7 @@ import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
+import com.jtbdevelopment.games.factory.GameInitializer
 
 /**
  * Date: 11/5/14
@@ -12,6 +13,9 @@ import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreat
 class ChallengerInitializerTest extends TwistedHangmanTestCase {
     ChallengerInitializer initializer = new ChallengerInitializer()
 
+    public void testOrder() {
+        assert GameInitializer.DEFAULT_ORDER == initializer.order
+    }
 
     public void testSystemPuzzles() {
         def expectedSolvers = [(PONE.id): null, (PTHREE.id): null]

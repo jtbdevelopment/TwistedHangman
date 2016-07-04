@@ -24,4 +24,9 @@ class PlayerScoreInitializer implements GameInitializer<Game> {
                 }
         }
     }
+
+    @Override
+    int getOrder() {
+        return DEFAULT_ORDER
+    }
 }

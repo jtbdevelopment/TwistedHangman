@@ -28,4 +28,9 @@ class ChallengerInitializer implements GameInitializer<Game> {
             game.solverStates.remove(game.wordPhraseSetter)
         }
     }
+
+    @Override
+    int getOrder() {
+        return DEFAULT_ORDER
+    }
 }

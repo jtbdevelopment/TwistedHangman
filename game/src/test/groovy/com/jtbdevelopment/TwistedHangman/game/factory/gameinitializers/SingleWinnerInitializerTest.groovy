@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.games.factory.GameInitializer
 
 /**
  * Date: 11/5/14
@@ -10,6 +11,9 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 class SingleWinnerInitializerTest extends GroovyTestCase {
     SingleWinnerInitializer initializer = new SingleWinnerInitializer()
 
+    public void testOrder() {
+        assert GameInitializer.DEFAULT_ORDER == initializer.order
+    }
 
     public void testInitializesWinner() {
         Game game = new Game()
