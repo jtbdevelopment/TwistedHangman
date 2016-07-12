@@ -2,27 +2,25 @@
   "name": "twisted-hangman",
   "version": "0.0.0",
   "dependencies": {
-    "angular": "~1.4.12",
+    "angular": "~1.5.0",
     "json3": "~3.3.0",
     "es5-shim": "~4.3.0",
     "bootstrap-sass-official": "~3.3.0",
-    "angular-animate": "~1.4.12",
-    "angular-cookies": "~1.4.12",
-    "angular-resource": "~1.4.12",
-    "angular-route": "~1.4.12",
-    "angular-sanitize": "~1.4.12",
-    "angular-touch": "~1.4.12",
+    "angular-animate": "~1.5.0",
+    "angular-cookies": "~1.5.0",
+    "angular-resource": "~1.5.0",
+    "angular-route": "~1.5.0",
+    "angular-sanitize": "~1.5.0",
+    "angular-touch": "~1.5.0",
     "angular-bootstrap": "~0.14.0",
     "angular-ui-select": "~0.13.0",
     "animate.css": "~3.4.0",
-    "jtb-core-games-ui": "~1.4.2"
+    "jtb-core-games-ui": "~2.1.0",
+    "jquery": "2.2.4"
   },
   "devDependencies": {
-    "angular-mocks": "~1.4.12",
-    "angular-scenario": "~1.4.12"
+    "angular-mocks": "~1.5.0",
+    "angular-scenario": "~1.5.0"
   },
-  "appPath": "app",
-  "resolutions": {
-    "angular": "1.4.12"
-  }
+  "appPath": "app"
 }

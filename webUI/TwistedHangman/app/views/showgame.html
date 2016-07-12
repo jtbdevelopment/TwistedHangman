@@ -76,12 +76,12 @@
         <p>
           <span ng-repeat="position in workingWordPhraseArray track by $index"
                 class="wordphrase {{workingWordPhraseClasses[$index]}}"
-                ng-click="stealLetter({{$index}})">{{position}}</span>
+                ng-click="stealLetter($index)">{{position}}</span>
         </p>
 
         <p>
          <span ng-repeat="letter in letters track by $index">
-           <span ng-click="sendGuess('{{letter}}')" class="keyboard {{letterClasses[$index]}}">{{letter}}</span> </span>
+           <span ng-click="sendGuess(letter)" class="keyboard {{letterClasses[$index]}}">{{letter}}</span> </span>
 
         </p>
       </div>
@@ -106,7 +106,7 @@
 </div>
 
 <div class="row playerThumbnails">
-  <div class="col-sm-2 text-center" ng-repeat="(md5, name) in game.players | orderBy:name">
+  <div class="col-sm-2 text-center" ng-repeat="(md5, name) in game.players">
     <div class="thumbnail">
       <img
         ng-src="{{gameDetails.imageForPlayer(game, md5) ? gameDetails.imageForPlayer(game, md5) : 'images/hangman13.png'}}"
