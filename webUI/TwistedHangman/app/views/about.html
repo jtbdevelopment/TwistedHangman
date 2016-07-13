@@ -1,6 +1,6 @@
 <div>
-  <carousel interval="0" disable-animation="true">
-    <slide ng-repeat="slide in slides" active="slide.active">
+  <uib-carousel no-transition="true" active="0">
+    <uib-slide ng-repeat="slide in slides" index="slide.id">
       <img ng-src="{{slide.image}}">
 
       <div class="carousel-caption">
@@ -8,8 +8,8 @@
 
         <p>{{slide.text}}</p>
       </div>
-    </slide>
-  </carousel>
+    </uib-slide>
+  </uib-carousel>
 </div>
 
 <div class="footer">

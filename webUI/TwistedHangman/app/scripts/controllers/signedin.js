@@ -1,24 +1,24 @@
 'use strict';
 
 angular.module('twistedHangmanApp')
-    //  TODO - finish and move to core?
+//  TODO - finish and move to core?
     .controller('CoreSignedInCtrl',
-    ['$location', '$rootScope', '$cacheFactory',
-        function ($location, $rootScope, $cacheFactory) {
+        ['$location', '$rootScope', '$cacheFactory',
+            function ($location, $rootScope, $cacheFactory) {
 
-            function clearHttpCache() {
-                $cacheFactory.get('$http').removeAll();
+                function clearHttpCache() {
+                    $cacheFactory.get('$http').removeAll();
+                }
+
+                function onSuccessfulLogin() {
+                    console.log('Logged in');
+                    clearHttpCache();
+                    $rootScope.$broadcast('login');
+                    $location.path('/main');
+                }
+
+                onSuccessfulLogin();
+
             }
-
-            function onSuccessfulLogin() {
-                console.log('Logged in');
-                clearHttpCache();
-                $rootScope.$broadcast('login');
-                $location.path('/main');
-            }
-
-            onSuccessfulLogin();
-
-        }
-    ]
-);
+        ]
+    );

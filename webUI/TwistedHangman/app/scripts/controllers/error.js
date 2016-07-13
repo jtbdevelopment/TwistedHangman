@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('twistedHangmanApp').controller('ErrorCtrl',
-  ['$modalInstance', '$scope', 'message',
-    function ($modalInstance, $scope, message) {
-      $scope.message = message;
-      $scope.ok = function () {
-        $modalInstance.dismiss();
-      };
-    }]);
+    ['$uibModalInstance', '$scope', 'message',
+        function ($uibModalInstance, $scope, message) {
+            $scope.message = message;
+            $scope.ok = function () {
+                $uibModalInstance.dismiss();
+            };
+        }]);

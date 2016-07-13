@@ -8,15 +8,15 @@
       <div class="col-sm-10">
         <div class="btn-group btn-group-justified">
           <label class="btn btn-default form-control" ng-model="desiredPlayerCount" ng-click="setSinglePlayer()"
-                 btn-radio="'SinglePlayer'">
+                 uib-btn-radio="'SinglePlayer'">
             Single Player
           </label>
           <label class="btn btn-default form-control" ng-model="desiredPlayerCount" ng-click="setTwoPlayers()"
-                 btn-radio="'TwoPlayer'">
+                 uib-btn-radio="'TwoPlayer'">
             Two Players
           </label>
           <label class="btn btn-default form-control" ng-model="desiredPlayerCount" ng-click="setThreePlayers()"
-                 btn-radio="'ThreePlus'">
+                 uib-btn-radio="'ThreePlus'">
             3+ Players
           </label>
         </div>
@@ -28,18 +28,18 @@
 
       <div class="col-sm-10">
         <div class="btn-group btn-group-justified">
-          <label class="btn btn-default form-control" ng-model="wordPhraseSetter" btn-radio="'SystemPuzzles'"
-                 tooltip-placement="bottom" tooltip="{{featureData.SystemPuzzles}}" tooltip-append-to-body="true">
+          <label class="btn btn-default form-control" ng-model="wordPhraseSetter" uib-btn-radio="'SystemPuzzles'"
+                 tooltip-placement="bottom" uib-tooltip="{{featureData.SystemPuzzles}}" tooltip-append-to-body="true">
             Generated Puzzles
           </label>
           <label class="btn btn-default form-control" ng-disabled="!h2hEnabled" ng-model="wordPhraseSetter"
-                 btn-radio="'Head2Head'" tooltip-placement="bottom" tooltip="{{featureData.Head2Head}}"
+                 uib-btn-radio="'Head2Head'" tooltip-placement="bottom" uib-tooltip="{{featureData.Head2Head}}"
                  tooltip-append-to-body="true">
             Head 2 Head
           </label>
           <label class="btn btn-default form-control" ng-disabled="!alternatingEnabled" ng-model="wordPhraseSetter"
-                 btn-radio="'AlternatingPuzzleSetter'" tooltip-append-to-body="true"
-                 tooltip-placement="bottom" tooltip="{{featureData.AlternatingPuzzleSetter}}">
+                 uib-btn-radio="'AlternatingPuzzleSetter'" tooltip-append-to-body="true"
+                 tooltip-placement="bottom" uib-tooltip="{{featureData.AlternatingPuzzleSetter}}">
             Alternating Player
           </label>
         </div>
@@ -52,12 +52,12 @@
       <div class="col-sm-10">
         <div class="btn-group btn-group-justified">
           <label class="btn btn-default form-control" ng-disabled="!allFinishedEnabled" ng-model="winners"
-                 btn-radio="'AllComplete'" tooltip-append-to-body="true" tooltip-placement="bottom"
-                 tooltip="{{featureData.AllComplete}}">
+                 uib-btn-radio="'AllComplete'" tooltip-append-to-body="true" tooltip-placement="bottom"
+                 uib-tooltip="{{featureData.AllComplete}}">
             All Players Finish
           </label>
-          <label class="btn btn-default form-control" ng-model="winners" btn-radio="'SingleWinner'"
-                 tooltip-placement="bottom" tooltip="{{featureData.SingleWinner}}" tooltip-append-to-body="true">
+          <label class="btn btn-default form-control" ng-model="winners" uib-btn-radio="'SingleWinner'"
+                 tooltip-placement="bottom" uib-tooltip="{{featureData.SingleWinner}}" tooltip-append-to-body="true">
             First Player Solves Puzzle
           </label>
         </div>
@@ -69,15 +69,15 @@
 
       <div class="col-sm-10">
         <div class="btn-group btn-group-justified">
-          <label class="btn btn-default form-control" ng-model="gamePace" btn-radio="'Live'"
+          <label class="btn btn-default form-control" ng-model="gamePace" uib-btn-radio="'Live'"
                  tooltip-placement="bottom"
-                 tooltip="{{featureData.Live}}"
+                 uib-tooltip="{{featureData.Live}}"
                  tooltip-append-to-body="true">
             Live
           </label>
           <label class="btn btn-default form-control" ng-disabled="!turnBasedEnabled" ng-model="gamePace"
-                 btn-radio="'TurnBased'" tooltip-append-to-body="true" tooltip-placement="bottom"
-                 tooltip="{{featureData.TurnBased}}">
+                 uib-btn-radio="'TurnBased'" tooltip-append-to-body="true" tooltip-placement="bottom"
+                 uib-tooltip="{{featureData.TurnBased}}">
             Turn Based
           </label>
         </div>
@@ -91,13 +91,13 @@
 
       <div class="col-sm-10">
         <div class="btn-group btn-group-justified">
-          <label class="btn btn-default form-control" ng-model="thieving" btn-radio="'Thieving'"
-                 tooltip-placement="bottom" tooltip="{{featureData.Thieving}}"
+          <label class="btn btn-default form-control" ng-model="thieving" uib-btn-radio="'Thieving'"
+                 tooltip-placement="bottom" uib-tooltip="{{featureData.Thieving}}"
                  tooltip-append-to-body="true">
             Yes
           </label>
-          <label class="btn btn-default form-control" ng-model="thieving" btn-radio="''" tooltip-placement="bottom"
-                 tooltip="Thieving is not allowed."
+          <label class="btn btn-default form-control" ng-model="thieving" uib-btn-radio="''" tooltip-placement="bottom"
+                 uib-tooltip="Thieving is not allowed."
                  tooltip-append-to-body="true">
             No
           </label>
@@ -112,13 +112,13 @@
 
       <div class="col-sm-10">
         <div class="btn-group btn-group-justified">
-          <label class="btn btn-default form-control" ng-model="drawFace" btn-radio="'DrawFace'"
-                 tooltip-placement="bottom" tooltip="{{featureData.DrawFace}}"
+          <label class="btn btn-default form-control" ng-model="drawFace" uib-btn-radio="'DrawFace'"
+                 tooltip-placement="bottom" uib-tooltip="{{featureData.DrawFace}}"
                  tooltip-append-to-body="true">
             Yes
           </label>
-          <label class="btn btn-default form-control" ng-model="drawFace" btn-radio="''" tooltip-placement="bottom"
-                 tooltip="Face drawn automatically at end."
+          <label class="btn btn-default form-control" ng-model="drawFace" uib-btn-radio="''" tooltip-placement="bottom"
+                 uib-tooltip="Face drawn automatically at end."
                  tooltip-append-to-body="true">
             No
           </label>
@@ -134,12 +134,13 @@
       <div class="col-sm-10">
         <div class="btn-group btn-group-justified">
           <label class="btn btn-default form-control" ng-model="drawGallows"
-                 btn-radio="'DrawGallows'" tooltip-placement="bottom" tooltip="{{featureData.DrawGallows}}"
+                 uib-btn-radio="'DrawGallows'" tooltip-placement="bottom" uib-tooltip="{{featureData.DrawGallows}}"
                  tooltip-append-to-body="true">
             Yes
           </label>
-          <label class="btn btn-default form-control" ng-model="drawGallows" btn-radio="''" tooltip-placement="bottom"
-                 tooltip="Game starts with gallows drawn."
+          <label class="btn btn-default form-control" ng-model="drawGallows" uib-btn-radio="''"
+                 tooltip-placement="bottom"
+                 uib-tooltip="Game starts with gallows drawn."
                  tooltip-append-to-body="true">
             No
           </label>
@@ -177,7 +178,7 @@
     </div>
   </form>
   <div class="col-sm-12">
-    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+    <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
   </div>
 </div>
 

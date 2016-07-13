@@ -28,16 +28,16 @@
         <ul class="nav nav-pills pull-right">
             <li>
                 <div class="alerts">
-                    <div class="btn-group alertDiv" dropdown>
+                    <div class="btn-group alertDiv" uib-dropdown>
                         <div class="alertButton">
-                            <button type="button" class="btn uib-dropdown-toggle" dropdown-toggle
+                            <button type="button" class="btn uib-dropdown-toggle" uib-dropdown-toggle
                                     ng-disabled="alerts.length < 1">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span><span
                                     class="badge alertBadge pull-right"
                                     ng-hide="alerts.length === 0">{{alerts.length}}</span>
                             </button>
                         </div>
-                        <ul class="uib-dropdown-menu">
+                        <ul class="dropdown-menu" uib-dropdown-menu>
                             <li ng-repeat="alert in alerts">
                                 <a ng-click="goToGame($index)">{{alert.message}}</a>
                             </li>
