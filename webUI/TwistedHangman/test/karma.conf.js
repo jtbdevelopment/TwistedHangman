@@ -30,6 +30,7 @@ module.exports = function (config) {
       'bower_components//angular-bootstrap/ui-bootstrap-tpls.js',
       'bower_components/angular-ui-select/dist/select.js',
       'bower_components/jtb-core-games-ui/dist/core-games-ui.js',
+      'bower_components/jtb-core-games-bootstrap-ui/dist/core-games-bootstrap-ui.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
       'test/spec/**/*.js'

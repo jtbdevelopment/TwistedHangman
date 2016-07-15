@@ -18,7 +18,8 @@ angular
         'ngTouch',
         'ui.bootstrap',
         'ui.select',
-        'coreGamesUi'
+        'coreGamesUi',
+        'coreGamesBootstrapUi'
     ])
     .config(function ($routeProvider) {
         $routeProvider
