@@ -29,6 +29,7 @@ class GameFactory extends AbstractMultiPlayerGameFactory<Game, GameFeature> {
 
     @Override
     protected void initializeGame(final Game game) {
+        //  TODO - convert feature exapnders/individual game initializers to standard initializers with early/late ordering
         featureExpanders.each {
             FeatureExpander it ->
                 it.enhanceFeatureSet(game.features, game.players)
@@ -50,6 +51,7 @@ class GameFactory extends AbstractMultiPlayerGameFactory<Game, GameFeature> {
     protected Game createFreshGame(
             final Set<GameFeature> features, final List<Player> players, final Player initiatingPlayer) {
         Game game = (Game) super.createFreshGame(features, players, initiatingPlayer)
+        //   TODO - seems like something we could do in initializer
         game.wordPhraseSetter = null
         game
     }
