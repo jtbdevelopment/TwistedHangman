@@ -7,6 +7,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.utility.PreMadePuzzle
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerServices
+import com.jtbdevelopment.games.dao.AbstractGameRepository
 import com.jtbdevelopment.games.dev.utilities.integrationtesting.AbstractGameIntegration
 import com.jtbdevelopment.games.state.GamePhase
 import com.jtbdevelopment.games.state.PlayerState
@@ -23,13 +24,27 @@ import javax.ws.rs.core.MediaType
  * Date: 11/15/2014
  * Time: 3:29 PM
  */
-class TwistedHangmanIntegration extends AbstractGameIntegration<MaskedGame> {
+class TwistedHangmanIntegration extends AbstractGameIntegration<Game, MaskedGame> {
     public static final String LOREMIPSUM = 'Lorem ipsum'
 
     @Override
     Class<MaskedGame> returnedGameClass() {
         return MaskedGame.class
     }
+
+    Class<Game> internalGameClass() {
+        return Game.class
+    }
+
+    Game newGame() {
+        return new Game()
+    }
+
+    AbstractGameRepository gameRepository() {
+        return gameRepository
+    }
+
+    static GameRepository gameRepository
 
     @BeforeClass
     static void createPuzzle() {
@@ -38,6 +53,7 @@ class TwistedHangmanIntegration extends AbstractGameIntegration<MaskedGame> {
         puzzle.wordPhrase = LOREMIPSUM
         puzzle.source = 'test'
         applicationContext.getBean(PreMadePuzzleRepository.class).save(puzzle)
+        gameRepository = applicationContext.getBean(GameRepository.class)
     }
 
     @Test
@@ -50,12 +66,12 @@ class TwistedHangmanIntegration extends AbstractGameIntegration<MaskedGame> {
         })
         assert features == [
                 "Thieving"               : GameFeature.Thieving.description,
-                "Live"       : GameFeature.Live.description,
+                "Live"                   : GameFeature.Live.description,
                 "TurnBased"              : GameFeature.TurnBased.description,
-                "Head2Head"  : GameFeature.Head2Head.description,
+                "Head2Head"              : GameFeature.Head2Head.description,
                 "SystemPuzzles"          : GameFeature.SystemPuzzles.description,
                 "AlternatingPuzzleSetter": GameFeature.AlternatingPuzzleSetter.description,
-                "AllComplete": GameFeature.AllComplete.description,
+                "AllComplete"            : GameFeature.AllComplete.description,
                 "SingleWinner"           : GameFeature.SingleWinner.description,
                 "DrawGallows"            : GameFeature.DrawGallows.description,
                 "DrawFace"               : GameFeature.DrawFace.description
@@ -171,14 +187,6 @@ class TwistedHangmanIntegration extends AbstractGameIntegration<MaskedGame> {
         assert newGame.players == game.players
         assert newGame.playerRunningScores == game.playerRunningScores
         assert newGame.round == 2
-
-
-        GenericType<List<MaskedGame>> type = new GenericType<List<MaskedGame>>() {}
-        List<MaskedGame> games = P1.path("games").request(MediaType.APPLICATION_JSON).get(type)
-        assert games.size() >= 2 // other tests make this ambiguous
-        assert games.find { MaskedGame g -> g.id == dbLoaded1.idAsString }
-        assert games.find { MaskedGame g -> g.id == dbLoaded2.idAsString }
-
 
         newGame = rejectGame(createGameTarget(P1, newGame))
         assert newGame.gamePhase == GamePhase.Declined
