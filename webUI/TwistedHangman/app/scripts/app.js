@@ -47,11 +47,13 @@ angular
             })
             .when('/signin', {
                 templateUrl: 'views/signin.html',
-                controller: 'CoreBootstrapSignInCtrl'
+                controller: 'CoreBootstrapSignInCtrl',
+                controllerAs: 'signIn'
             })
             .when('/signedin', {
                 templateUrl: 'views/signedin.html',
-                controller: 'CoreBootstrapSignedInCtrl'
+                controller: 'CoreBootstrapSignedInCtrl',
+                controllerAs: 'signedIn'
             })
             .otherwise({
                 redirectTo: '/signin'

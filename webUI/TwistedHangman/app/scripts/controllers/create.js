@@ -147,6 +147,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
                 $uibModal.open({
                     templateUrl: 'views/inviteDialog.html',
                     controller: 'CoreBootstrapInviteCtrl',
+                    controllerAs: 'invite',
                     size: 'lg',
                     resolve: {
                         invitableFriends: function () {

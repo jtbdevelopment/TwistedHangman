@@ -1,27 +1,27 @@
-<div ng-controller="CoreBootstrapSignInCtrl" ng-cloak="">
+<div ng-cloak="">
     <div class="container">
         <div class="row text-center">
             <div class="center">
-                <p>{{message}}</p>
+                <p>{{signIn.message}}</p>
             </div>
         </div>
     </div>
 
-    <div class="container" ng-show="showFacebook">
+    <div class="container" ng-show="signIn.showFacebook">
         <div class="row text-center">
             <div class="center">
-                <a href="#" ng-click="fbLogin()"><img ng-src="/images/sign-in-with-facebook.png"/></a>
+                <a href="#" ng-click="signIn.fbLogin()"><img ng-src="/images/sign-in-with-facebook.png"/></a>
             </div>
         </div>
     </div>
 
 
-    <div class="container" ng-show="showManual">
+    <div class="container" ng-show="signIn.showManual">
         <div class="row text-center">
             <p>Don't want to login with Facebook?</p>
 
             <form id="signin" action="/signin/authenticate" method="post" class="form-group">
-                <input id="_csrf" name="_csrf" type="hidden" value="{{csrf}}"/>
+                <input id="_csrf" name="_csrf" type="hidden" value="{{signIn.csrf}}"/>
 
                 <div class="form-group">
                     <label for="username">Username</label>
