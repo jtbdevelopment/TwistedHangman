@@ -7,6 +7,7 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.PuzzlesAreAlreadySetEx
 import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
+import com.jtbdevelopment.games.dictionary.DictionaryType
 import com.jtbdevelopment.games.dictionary.Validator
 import com.jtbdevelopment.games.state.GamePhase
 
@@ -28,7 +29,8 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
         handler.validator = [
                 validateWordPhrase: {
-                    String it ->
+                    String it, DictionaryType type ->
+                        assert DictionaryType.USEnglishMaximum == type
                         assert it == wp || it == c
                         []
                 }
@@ -65,7 +67,8 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
         handler.validator = [
                 validateWordPhrase: {
-                    String it ->
+                    String it, DictionaryType type ->
+                        assert DictionaryType.USEnglishMaximum == type
                         assert it == wp || it == c
                         []
                 }
@@ -102,7 +105,8 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
         handler.validator = [
                 validateWordPhrase: {
-                    String it ->
+                    String it, DictionaryType type ->
+                        assert DictionaryType.USEnglishMaximum == type
                         assert it == wp || it == c
                         []
                 }
@@ -148,8 +152,9 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
         handler.validator = [
                 validateWordPhrase: {
-                    String it ->
+                    String it, DictionaryType type ->
                         assert it == wp || it == c
+                        assert DictionaryType.USEnglishMaximum == type
                         []
                 }
 
@@ -194,7 +199,8 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
         handler.validator = [
                 validateWordPhrase: {
-                    String it ->
+                    String it, DictionaryType type ->
+                        assert DictionaryType.USEnglishMaximum == type
                         assert it == wp || it == c
                         if (it == wp) {
                             return ["1", "2"]
@@ -228,7 +234,8 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
         handler.validator = [
                 validateWordPhrase: {
-                    String it ->
+                    String it, DictionaryType type ->
+                        assert DictionaryType.USEnglishMaximum == type
                         assert it == wp || it == c
                         if (it == wp) {
                             return ["1", "2"]
@@ -262,7 +269,8 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
         handler.validator = [
                 validateWordPhrase: {
-                    String it ->
+                    String it, DictionaryType type ->
+                        assert DictionaryType.USEnglishMaximum == type
                         assert it == wp || it == c
                         []
                 }

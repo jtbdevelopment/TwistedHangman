@@ -31,7 +31,7 @@ class GamePhaseTransitionEngine extends AbstractGamePhaseTransitionEngine<Game> 
         def pending = game.solverStates.values().find { IndividualGameState it -> !it.puzzleOver }
         if (pending == null || (won != null && game.features.contains(GameFeature.SingleWinner))) {
             game.completedTimestamp = ZonedDateTime.now(GMT)
-            return (Game) gameScorer.scoreGame(changeStateAndReevaluate(GamePhase.RoundOver, game))
+            return (Game) changeStateAndReevaluate(GamePhase.RoundOver, game)
         }
         return game
     }

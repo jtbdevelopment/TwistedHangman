@@ -6,6 +6,7 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.PuzzlesAreAlreadySetEx
 import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
+import com.jtbdevelopment.games.dictionary.DictionaryType
 import com.jtbdevelopment.games.dictionary.Validator
 import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.state.GamePhase
@@ -51,8 +52,8 @@ class SetPuzzleHandler extends AbstractPlayerRotatingGameActionHandler<CategoryA
     }
 
     protected void validateWordPhraseAndCategory(final String wordPhrase, final String category) {
-        List<String> invalid = validator.validateWordPhrase(wordPhrase)
-        invalid.addAll(validator.validateWordPhrase(category))
+        List<String> invalid = validator.validateWordPhrase(wordPhrase, DictionaryType.USEnglishMaximum)
+        invalid.addAll(validator.validateWordPhrase(category, DictionaryType.USEnglishMaximum))
         if (invalid.size() > 0) {
             throw new InvalidPuzzleWordsException(invalid)
         }
@@ -73,10 +74,13 @@ class SetPuzzleHandler extends AbstractPlayerRotatingGameActionHandler<CategoryA
 
     protected static Map<String, IndividualGameState> findPuzzlesToSetForPlayer(
             final Game game, final Player<ObjectId> player) {
-        game.solverStates.findAll {
+        (Map<String, IndividualGameState>) game.solverStates.findAll {
             ObjectId gamePlayer, IndividualGameState gameState ->
                 (player.id != gamePlayer) &&
                         StringUtils.isEmpty(gameState.wordPhraseString)
+        }.collectEntries {
+            ObjectId gamePlayer, IndividualGameState gameState ->
+                return [(gamePlayer.toHexString()): gameState]
         }
     }
 }
