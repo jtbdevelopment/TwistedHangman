@@ -43,7 +43,7 @@ describe('Controller: ShowCtrl', function () {
             showAdPopup: function () {
                 adPopupModalResult = q.defer();
                 adsCalled = true;
-                return {result: adPopupModalResult.promise};
+                return adPopupModalResult.promise;
             }
         };
         adsCalled = false;

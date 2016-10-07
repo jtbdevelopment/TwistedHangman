@@ -6,19 +6,16 @@ angular.module('twistedHangmanApp').factory('twAds',
         function ($uibModal, $q) {
             return {
                 showAdPopup: function () {
-                    //  TODO - see how video ads work and revisit
-                    /*
-                     return $modal.open({
-                     templateUrl: 'views/popupAdDialog.html',
-                     controller: 'PopupAdCtrl',
-                     size: 'lg'
-                     });
-                     */
                     var adPromise = $q.defer();
-                    invokeApplixirVideoUnitExtended(false, 'middle', function () {
+                    try {
+                        invokeApplixirVideoUnitExtended(false, 'middle', function () {
+                            adPromise.resolve();
+                        });
+                    } catch (ex) {
+                        console.log(JSON.stringify(ex));
                         adPromise.resolve();
-                    });
-                    return {result: adPromise.promise};
+                    }
+                    return adPromise.promise;
                 }
             };
         }

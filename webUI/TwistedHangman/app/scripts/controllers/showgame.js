@@ -59,7 +59,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
             //  TODO - refresh game on error on action?
 
             $scope.startNextRound = function () {
-                twAds.showAdPopup().result.then(function () {
+                twAds.showAdPopup().then(function () {
                     $http.put(jtbPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/rematch').success(function (data) {
                         twGameDisplay.processGameUpdateForScope($scope, data);
                         $location.path('/show/' + data.id);
@@ -71,7 +71,7 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
             };
 
             $scope.accept = function () {
-                twAds.showAdPopup().result.then(function () {
+                twAds.showAdPopup().then(function () {
                     $http.put(jtbPlayerService.currentPlayerBaseURL() + '/game/' + $scope.gameID + '/accept').success(function (data) {
                         twGameDisplay.processGameUpdateForScope($scope, data);
                     }).error(function (data, status, headers, config) {

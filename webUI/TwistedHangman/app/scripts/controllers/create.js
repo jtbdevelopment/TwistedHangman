@@ -115,7 +115,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
             };
 
             $scope.createGame = function () {
-                twAds.showAdPopup().result.then(function () {
+                twAds.showAdPopup().then(function () {
                     var featureNames = ['wordPhraseSetter', 'desiredPlayerCount', 'thieving', 'drawGallows', 'drawFace', 'gamePace', 'winners'];
                     var featureSet = [];
                     featureSet = featureSet.concat(featureNames.map(function (name) {

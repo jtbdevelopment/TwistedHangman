@@ -66,7 +66,7 @@ describe('Controller: CreateCtrl', function () {
         showAdPopup: function () {
             adPopupModalResult = q.defer();
             adsCalled = true;
-            return {result: adPopupModalResult.promise};
+            return adPopupModalResult.promise;
         }
     };
 

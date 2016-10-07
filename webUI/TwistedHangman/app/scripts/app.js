@@ -30,8 +30,9 @@ angular
                 templateUrl: 'views/error.html'
             })
             .when('/admin', {
-                templateUrl: 'views/admin.html',
-                controller: 'AdminCtrl'
+                templateUrl: 'views/admin/admin.html',
+                controller: 'CoreAdminCtrl',
+                controllerAs: 'admin'
             })
             .when('/show/:gameID', {
                 templateUrl: 'views/showgame.html',
