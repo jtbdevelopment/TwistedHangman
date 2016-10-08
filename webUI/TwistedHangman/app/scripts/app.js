@@ -30,7 +30,7 @@ angular
                 templateUrl: 'views/error.html'
             })
             .when('/admin', {
-                templateUrl: 'views/admin/admin.html',
+                templateUrl: 'views/core-bs/admin/admin.html',
                 controller: 'CoreAdminCtrl',
                 controllerAs: 'admin'
             })
@@ -47,12 +47,12 @@ angular
                 controller: 'AboutCtrl'
             })
             .when('/signin', {
-                templateUrl: 'views/signin.html',
+                templateUrl: 'views/core-bs/sign-in/sign-in.html',
                 controller: 'CoreBootstrapSignInCtrl',
                 controllerAs: 'signIn'
             })
             .when('/signedin', {
-                templateUrl: 'views/signedin.html',
+                templateUrl: 'views/core-bs/sign-in/signed-in.html',
                 controller: 'CoreBootstrapSignedInCtrl',
                 controllerAs: 'signedIn'
             })
