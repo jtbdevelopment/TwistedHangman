@@ -1,6 +1,5 @@
 'use strict';
 
-//  TODO - should all the playing failures refresh game?
 angular.module('twistedHangmanApp').controller('ShowCtrl',
     ['$scope', '$routeParams', '$http', '$location', 'jtbBootstrapGameActions',
         'jtbPlayerService', 'twGameDisplay', 'jtbGameCache', 'twGameDetails', 'twAds',
@@ -32,7 +31,6 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
 
             $scope.$on('gameUpdated', function (event, oldGame, newGame) {
                 if (angular.isDefined($scope.game) && $scope.game.id === newGame.id) {
-                    //  TODO - this generates a stale update warning as game cache is also listening
                     twGameDisplay.processGameUpdateForScope($scope, newGame);
                 }
             });
