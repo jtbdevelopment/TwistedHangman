@@ -31,6 +31,10 @@ angular
                 controller: 'CoreAdminCtrl',
                 controllerAs: 'admin'
             })
+            .when('/game/:gamePhase/:gameID', {
+                templateUrl: 'views/showgame.html',
+                controller: 'ShowCtrl'
+            })
             .when('/show/:gameID', {
                 templateUrl: 'views/showgame.html',
                 controller: 'ShowCtrl'

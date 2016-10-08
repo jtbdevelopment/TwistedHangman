@@ -50,14 +50,6 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
             });
         }));
 
-        describe('error initialization tests', function () {
-            it('goes to error page if phase errors', function () {
-                phaseDeferred.reject();
-                rootScope.$apply();
-                expect(location.path).toHaveBeenCalledWith('/error');
-            });
-        });
-
         describe('normal initialization tests', function () {
             beforeEach(function () {
                 phaseDeferred.resolve(phaseDesc);

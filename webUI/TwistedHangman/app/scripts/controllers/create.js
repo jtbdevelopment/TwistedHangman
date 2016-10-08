@@ -27,8 +27,6 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
             $scope.featureData = {};
             twGameFeatureService.features().then(function (data) {
                 $scope.featureData = data;
-            }, function () {
-                //  TODO
             });
 
             $scope.friends = [];
@@ -53,12 +51,8 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
                         $scope.invitableFBFriends.push(invite);
                     });
                 }
-            }, function () {
-                //  TODO
             });
 
-            //  TODO - what is this?
-            $scope.friend = {};
             $scope.thieving = 'Thieving';
             $scope.drawGallows = '';
             $scope.drawFace = 'DrawFace';

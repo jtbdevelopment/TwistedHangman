@@ -152,15 +152,6 @@ describe('Controller: ShowCtrl', function () {
             });
         });
 
-        describe('listens for playerLoaded broadcasts', function () {
-            it('test playerLoaded', function () {
-                $rootScope.$broadcast('playerLoaded');
-                $rootScope.$apply();
-                expect($location.path).toHaveBeenCalledWith('/');
-                expect(adsCalled).toEqual(false);
-            });
-        });
-
         describe('listens for gameUpdate broadcasts', function () {
             it('listens for gameUpdate and updates if same game id', function () {
                 $scope.game = game;
