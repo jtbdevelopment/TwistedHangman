@@ -35,14 +35,10 @@ describe('Service: showGameSevice', function () {
         md5: 'md1'
     };
 
-    var service, rootscope, gameCacheSpy, scope, twGameDetails, phaseDeferred;
+    var service, rootscope, scope, twGameDetails, phaseDeferred;
 
     describe('using real game details ', function () {
         beforeEach(module(function ($provide) {
-            gameCacheSpy = jasmine.createSpyObj('gameCacheSpy', ['putUpdatedGame']);
-            $provide.factory('jtbGameCache', function () {
-                return gameCacheSpy;
-            });
             $provide.factory('jtbGamePhaseService', ['$q', function ($q) {
                 return {
                     phases: function () {
@@ -199,7 +195,6 @@ describe('Service: showGameSevice', function () {
                 expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
                 expect(scope.image).toEqual('hangman6.png');
                 expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'badguesskb']);
-                expect(gameCacheSpy.putUpdatedGame).toHaveBeenCalledWith(update);
             });
 
         });
@@ -208,7 +203,6 @@ describe('Service: showGameSevice', function () {
     describe('using mock game details ', function () {
         var game;
         beforeEach(module(function ($provide) {
-            gameCacheSpy = jasmine.createSpyObj('gameCacheSpy', ['putUpdatedGame']);
             twGameDetails = {
                 playerIsSetter: function () {
                     return false;
@@ -220,9 +214,6 @@ describe('Service: showGameSevice', function () {
                     return 'Show Me';
                 }
             };
-            $provide.factory('jtbGameCache', function () {
-                return gameCacheSpy;
-            });
             $provide.factory('twGameDetails', function () {
                 return twGameDetails;
             });

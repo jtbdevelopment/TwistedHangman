@@ -18,41 +18,39 @@ describe('Controller: ShowCtrl', function () {
     };
 
     var player = {'player': 'player'};
-    var ctrl, scope, http, rootScope, gameDisplay, q, location, quitModal, quitModalResult, controller;
+    var ctrl, $scope, $http, $rootScope, gameDisplay, $q, $location, controller;
     var adPopupModalResult, ads, adsCalled;
     var gameCacheExpectedId, gameCacheReturnResult, mockPlayerService, mockGameCache, routeParams, mockGameDetails;
+    var mockGameActions;
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($rootScope, $httpBackend, $q, $controller) {
-        rootScope = $rootScope;
-        http = $httpBackend;
-        controller = $controller;
-        q = $q;
-        spyOn(rootScope, '$broadcast').and.callThrough();
+    beforeEach(inject(function (_$rootScope_, $httpBackend, _$q_, _$controller_) {
+        $rootScope = _$rootScope_;
+        $http = $httpBackend;
+        controller = _$controller_;
+        $q = _$q_;
+        spyOn($rootScope, '$broadcast').and.callThrough();
         gameDisplay = jasmine.createSpyObj('gameDisplay', ['initializeScope', 'processGameUpdateForScope', 'updateScopeForGame']);
-        location = {path: jasmine.createSpy()};
-        quitModal = {
-            open: function (params) {
-                expect(params.controller).toEqual('ConfirmCtrl');
-                expect(params.templateUrl).toEqual('views/confirmDialog.html');
-                quitModalResult = q.defer();
-                return {result: quitModalResult.promise};
-            }
-        };
+        $location = {path: jasmine.createSpy()};
         ads = {
             showAdPopup: function () {
-                adPopupModalResult = q.defer();
+                adPopupModalResult = $q.defer();
                 adsCalled = true;
                 return adPopupModalResult.promise;
             }
         };
         adsCalled = false;
+        mockGameActions = jasmine.createSpyObj('gameActions', ['quit', 'reject', 'accept', 'reject', 'rematch', 'wrapActionOnGame']);
+        var playerUrl = 'http://xx.com/api/player/MANUAL1';
+        mockGameActions.getGameURL = function (game) {
+            return playerUrl + '/game/' + game.id + '/';
+        };
 
-        scope = rootScope.$new();
+        $scope = $rootScope.$new();
 
         mockPlayerService = {
             currentPlayerBaseURL: function () {
-                return '/api/player/MANUAL1';
+                return playerUrl;
             },
             currentPlayer: function () {
                 return player;
@@ -82,25 +80,24 @@ describe('Controller: ShowCtrl', function () {
 
             ctrl = controller('ShowCtrl', {
                 $routeParams: routeParams,
-                $rootScope: rootScope,
-                $scope: scope,
-                $location: location,
-                $window: window,
-                $uibModal: quitModal,
+                $rootScope: $rootScope,
+                $scope: $scope,
+                $location: $location,
                 jtbPlayerService: mockPlayerService,
                 twGameDisplay: gameDisplay,
                 jtbGameCache: mockGameCache,
                 twGameDetails: mockGameDetails,
+                jtbBootstrapGameActions: mockGameActions,
                 twAds: ads
             });
         });
 
         it('initializes', function () {
-            expect(gameDisplay.initializeScope).toHaveBeenCalledWith(scope);
+            expect(gameDisplay.initializeScope).toHaveBeenCalledWith($scope);
 
-            expect(scope.player).toEqual(player);
-            expect(gameDisplay.updateScopeForGame).toHaveBeenCalledWith(scope, game);
-            expect(scope.gameDetails).toBe(mockGameDetails);
+            expect($scope.player).toEqual(player);
+            expect(gameDisplay.updateScopeForGame).toHaveBeenCalledWith($scope, game);
+            expect($scope.gameDetails).toBe(mockGameDetails);
             expect(adsCalled).toEqual(false);
         });
     });
@@ -112,25 +109,25 @@ describe('Controller: ShowCtrl', function () {
 
             ctrl = controller('ShowCtrl', {
                 $routeParams: routeParams,
-                $rootScope: rootScope,
-                $scope: scope,
-                $location: location,
+                $rootScope: $rootScope,
+                $scope: $scope,
+                $location: $location,
                 $window: window,
-                $uibModal: quitModal,
                 jtbPlayerService: mockPlayerService,
                 twGameDisplay: gameDisplay,
                 jtbGameCache: mockGameCache,
+                jtbBootstrapGameActions: mockGameActions,
                 twGameDetails: mockGameDetails,
                 twAds: ads
             });
         });
 
         it('initializes with no game', function () {
-            expect(scope.gameDetails).toBe(mockGameDetails);
-            expect(gameDisplay.initializeScope).toHaveBeenCalledWith(scope);
-            expect(scope.player).toEqual(player);
-            expect(scope.game).toBeUndefined();
-            expect(gameDisplay.updateScopeForGame).not.toHaveBeenCalledWith(scope, game);
+            expect($scope.gameDetails).toBe(mockGameDetails);
+            expect(gameDisplay.initializeScope).toHaveBeenCalledWith($scope);
+            expect($scope.player).toEqual(player);
+            expect($scope.game).toBeUndefined();
+            expect(gameDisplay.updateScopeForGame).not.toHaveBeenCalledWith($scope, game);
             expect(adsCalled).toEqual(false);
         });
     });
@@ -142,12 +139,12 @@ describe('Controller: ShowCtrl', function () {
 
             ctrl = controller('ShowCtrl', {
                 $routeParams: routeParams,
-                $rootScope: rootScope,
-                $scope: scope,
-                $location: location,
+                $rootScope: $rootScope,
+                $scope: $scope,
+                $location: $location,
                 $window: window,
-                $uibModal: quitModal,
                 jtbPlayerService: mockPlayerService,
+                jtbBootstrapGameActions: mockGameActions,
                 twGameDisplay: gameDisplay,
                 jtbGameCache: mockGameCache,
                 twGameDetails: mockGameDetails,
@@ -155,267 +152,130 @@ describe('Controller: ShowCtrl', function () {
             });
         });
 
-        describe('checking for posting errors using game error quitModal', function () {
-            var modalMessage, confirmModalOpen;
-            beforeEach(function () {
-                confirmModalOpen = quitModal.open;
-                quitModal.open = function (params) {
-                    expect(params.controller).toEqual('ErrorCtrl');
-                    expect(params.templateUrl).toEqual('views/gameErrorDialog.html');
-                    expect(params.resolve.message()).toEqual(modalMessage);
-                    quitModalResult = q.defer();
-                    return {result: quitModalResult.promise};
-                };
-            });
-
-            it('reject match fails', function () {
-                //  Two modals in this one
-                http.expectPUT('/api/player/MANUAL1/game/gameid/reject').respond(502, 'more bad stuff');
-                var errorOpen = quitModal.open;
-                quitModal.open = confirmModalOpen;
-                scope.reject();
-                quitModalResult.resolve();
-                quitModal.open = errorOpen;
-                modalMessage = 'more bad stuff';
-                quitModalResult.resolve();
-                http.flush();
-            });
-
-            it('steal letter fails', function () {
-                scope.allowPlayMoves = true;
-                http.expectPUT('/api/player/MANUAL1/game/gameid/steal/2').respond(601, 'bad stuff');
-                scope.stealLetter('2');
-                modalMessage = 'bad stuff';
-                http.flush();
-                expect(adsCalled).toEqual(false);
-            });
-
-            it('steal letter when not allowed', function () {
-                scope.allowPlayMoves = false;
-                modalMessage = 'Not currently playable.';
-                scope.stealLetter('2');
-                expect(adsCalled).toEqual(false);
-            });
-
-            it('post rematch fails', function () {
-                http.expectPUT('/api/player/MANUAL1/game/gameid/rematch').respond(501, 'bad stuff');
-                scope.startNextRound();
-                adPopupModalResult.resolve();
-                modalMessage = 'bad stuff';
-                http.flush();
-                expect(adsCalled).toEqual(true);
-            });
-
-            it('accept match fails', function () {
-                http.expectPUT('/api/player/MANUAL1/game/gameid/accept').respond(501, 'bad stuff');
-                scope.accept();
-                adPopupModalResult.resolve();
-                modalMessage = 'bad stuff';
-                http.flush();
-                expect(adsCalled).toEqual(true);
-            });
-
-            it('set puzzle fails', function () {
-                scope.enteredCategory = 'cat';
-                scope.enteredWordPhrase = 'wp';
-                http.expectPUT('/api/player/MANUAL1/game/gameid/puzzle', {
-                    category: 'cat',
-                    wordPhrase: 'wp'
-                }).respond(503, 'something');
-                scope.setPuzzle();
-                modalMessage = 'something';
-                http.flush();
-                expect(adsCalled).toEqual(false);
-            });
-
-            it('quit match fails', function () {
-
-                //  Two modals in this one
-
-                http.expectPUT('/api/player/MANUAL1/game/gameid/quit').respond(503, 'something');
-                var errorOpen = quitModal.open;
-                quitModal.open = confirmModalOpen;
-                scope.quit();
-                quitModalResult.resolve();
-                quitModal.open = errorOpen;
-                modalMessage = 'something';
-                http.flush();
-                expect(adsCalled).toEqual(false);
-            });
-
-            it('guess letter fails', function () {
-                scope.allowPlayMoves = true;
-                http.expectPUT('/api/player/MANUAL1/game/gameid/guess/a').respond(601, 'bad stuff');
-                scope.sendGuess('a');
-                modalMessage = 'bad stuff';
-                http.flush();
-                expect(adsCalled).toEqual(false);
-            });
-
-            it('guess letter out of turn', function () {
-                scope.allowPlayMoves = false;
-                modalMessage = 'Not currently playable.';
-                scope.sendGuess('a');
-                expect(adsCalled).toEqual(false);
-            });
-
-        });
-
         describe('listens for playerLoaded broadcasts', function () {
             it('test playerLoaded', function () {
-                rootScope.$broadcast('playerLoaded');
-                rootScope.$apply();
-                expect(location.path).toHaveBeenCalledWith('/');
+                $rootScope.$broadcast('playerLoaded');
+                $rootScope.$apply();
+                expect($location.path).toHaveBeenCalledWith('/');
                 expect(adsCalled).toEqual(false);
             });
         });
 
         describe('listens for gameUpdate broadcasts', function () {
             it('listens for gameUpdate and updates if same game id', function () {
-                scope.game = game;
+                $scope.game = game;
                 var gameUpdate = angular.copy(game);
-                rootScope.$broadcast('gameUpdate', game.id, game);
-                rootScope.$apply();
-                expect(gameDisplay.updateScopeForGame).toHaveBeenCalledWith(scope, gameUpdate);
+                $rootScope.$broadcast('gameUpdated', game, gameUpdate);
+                $rootScope.$apply();
+                expect(gameDisplay.updateScopeForGame).toHaveBeenCalledWith($scope, gameUpdate);
                 expect(adsCalled).toEqual(false);
             });
 
             it('listens for gameUpdate and ignores if different game id', function () {
-                scope.game = game;
+                $scope.game = game;
                 var gameUpdate = angular.copy(game);
                 gameUpdate.id = 'notid';
-                rootScope.$broadcast('gameUpdate', game.id, game);
-                rootScope.$apply();
-                expect(gameDisplay.updateScopeForGame).not.toHaveBeenCalledWith(scope, gameUpdate);
+                $rootScope.$broadcast('gameUpdated', gameUpdate, gameUpdate);
+                $rootScope.$apply();
+                expect(gameDisplay.updateScopeForGame).not.toHaveBeenCalledWith($scope, gameUpdate);
                 expect(adsCalled).toEqual(false);
             });
 
             it('listens for gameUpdate and ignores if scope has no game', function () {
                 var gameUpdate = angular.copy(game);
                 gameUpdate.id = 'notid';
-                rootScope.$broadcast('gameUpdate', game.id, game);
-                rootScope.$apply();
-                expect(gameDisplay.updateScopeForGame).not.toHaveBeenCalledWith(scope, gameUpdate);
+                $rootScope.$broadcast('gameUpdated', game, gameUpdate);
+                $rootScope.$apply();
+                expect(gameDisplay.updateScopeForGame).not.toHaveBeenCalledWith($scope, gameUpdate);
                 expect(adsCalled).toEqual(false);
             });
         });
 
         describe('listens for gameCachesLoaded broadcasts', function () {
             it('listens for gameCachesLoaded and updates from game', function () {
-                scope.game = game;
+                $scope.game = game;
                 var gameUpdate = angular.copy(game);
                 gameCacheReturnResult = gameUpdate;
-                rootScope.$broadcast('gameCachesLoaded');
-                rootScope.$apply();
-                expect(gameDisplay.updateScopeForGame).toHaveBeenCalledWith(scope, gameUpdate);
+                $rootScope.$broadcast('gameCachesLoaded');
+                $rootScope.$apply();
+                expect(gameDisplay.updateScopeForGame).toHaveBeenCalledWith($scope, gameUpdate);
                 expect(adsCalled).toEqual(false);
             });
 
             it('listens for gameCachesLoaded and goes to main page if no longer valid', function () {
-                scope.game = game;
+                $scope.game = game;
                 var gameUpdate;
                 gameCacheReturnResult = gameUpdate;
-                rootScope.$broadcast('gameCachesLoaded');
-                rootScope.$apply();
-                expect(gameDisplay.updateScopeForGame).not.toHaveBeenCalledWith(scope, gameUpdate);
-                expect(location.path).toHaveBeenCalledWith('/');
+                $rootScope.$broadcast('gameCachesLoaded');
+                $rootScope.$apply();
+                expect(gameDisplay.updateScopeForGame).not.toHaveBeenCalledWith($scope, gameUpdate);
+                expect($location.path).toHaveBeenCalledWith('/');
                 expect(adsCalled).toEqual(false);
             });
         });
 
         describe('test various action processing', function () {
             it('post rematch', function () {
-                var newGame = {id: 'newid', gamePhase: 'X'};
-                http.expectPUT('/api/player/MANUAL1/game/gameid/rematch').respond(newGame);
-                scope.startNextRound();
+                $scope.startNextRound();
                 adPopupModalResult.resolve();
-                http.flush();
+                $rootScope.$apply();
 
-                expect(location.path).toHaveBeenCalledWith('/show/newid');
-                expect(gameDisplay.processGameUpdateForScope).toHaveBeenCalledWith(scope, newGame);
-                expect(adsCalled).toEqual(true);
+                expect(mockGameActions.rematch).toHaveBeenCalledWith(game);
             });
 
             it('accept match', function () {
-                var updatedGame = {id: 'newid', gamePhase: 'X'};
-                http.expectPUT('/api/player/MANUAL1/game/gameid/accept').respond(updatedGame);
-                scope.accept();
+                $scope.accept();
                 adPopupModalResult.resolve();
-                http.flush();
+                $rootScope.$apply();
 
-                expect(gameDisplay.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
-                expect(adsCalled).toEqual(true);
+                expect(mockGameActions.accept).toHaveBeenCalledWith(game);
             });
 
             it('reject match', function () {
-                var updatedGame = {id: 'newid', gamePhase: 'X'};
-                http.expectPUT('/api/player/MANUAL1/game/gameid/reject').respond(updatedGame);
-                scope.reject();
-                quitModalResult.resolve();
-                http.flush();
-
-                expect(gameDisplay.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
-                expect(adsCalled).toEqual(false);
-            });
-
-            it('reject match with cancel on confirm', function () {
-                scope.reject();
-                quitModalResult.reject();
-                expect(adsCalled).toEqual(false);
+                $scope.reject();
+                expect(mockGameActions.reject).toHaveBeenCalledWith(game);
             });
 
             it('quit match', function () {
-                var updatedGame = {id: 'newid', gamePhase: 'X'};
-                http.expectPUT('/api/player/MANUAL1/game/gameid/quit').respond(updatedGame);
-                scope.quit();
-                quitModalResult.resolve();
-                http.flush();
+                $scope.quit();
 
-                expect(gameDisplay.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
-                expect(adsCalled).toEqual(false);
-            });
-
-            it('quit match with cancel on confirm', function () {
-                scope.quit();
-                quitModalResult.reject();
+                expect(mockGameActions.quit).toHaveBeenCalledWith(game);
                 expect(adsCalled).toEqual(false);
             });
 
             it('set puzzle', function () {
-                var updatedGame = {id: 'newid', gamePhase: 'X'};
-                scope.enteredCategory = 'cat';
-                scope.enteredWordPhrase = 'wp';
-                http.expectPUT('/api/player/MANUAL1/game/gameid/puzzle', {
+                $scope.enteredCategory = 'cat';
+                $scope.enteredWordPhrase = 'wp';
+
+                $http.expectPUT('http://xx.com/api/player/MANUAL1/game/gameid/puzzle', {
                     category: 'cat',
                     wordPhrase: 'wp'
-                }).respond(updatedGame);
-                scope.setPuzzle();
-                http.flush();
+                }).respond(200);
+                $scope.setPuzzle();
+                $http.flush();
 
-                expect(gameDisplay.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
-                expect(adsCalled).toEqual(false);
+                expect(mockGameActions.wrapActionOnGame).toHaveBeenCalled();
+                expect(mockGameActions.wrapActionOnGame.calls.mostRecent().args[0]).toBeDefined();
             });
 
             it('guess letter', function () {
-                scope.allowPlayMoves = true;
-                var updatedGame = {id: 'newid', gamePhase: 'X'};
-                http.expectPUT('/api/player/MANUAL1/game/gameid/guess/a').respond(updatedGame);
-                scope.sendGuess('a');
-                http.flush();
+                $scope.allowPlayMoves = true;
+                $http.expectPUT('http://xx.com/api/player/MANUAL1/game/gameid/guess/a').respond(200);
+                $scope.sendGuess('a');
+                $http.flush();
 
-                expect(gameDisplay.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
-                expect(adsCalled).toEqual(false);
+                expect(mockGameActions.wrapActionOnGame).toHaveBeenCalled();
+                expect(mockGameActions.wrapActionOnGame.calls.mostRecent().args[0]).toBeDefined();
             });
 
             it('steal letter', function () {
-                scope.allowPlayMoves = true;
-                var updatedGame = {id: 'newid', gamePhase: 'X'};
-                http.expectPUT('/api/player/MANUAL1/game/gameid/steal/2').respond(updatedGame);
-                scope.stealLetter('2');
-                http.flush();
+                $scope.allowPlayMoves = true;
+                $http.expectPUT('http://xx.com/api/player/MANUAL1/game/id/steal/2').respond(200);
+                $scope.stealLetter('2');
+                $http.flush();
 
-                expect(gameDisplay.processGameUpdateForScope).toHaveBeenCalledWith(scope, updatedGame);
-                expect(adsCalled).toEqual(false);
+                expect(mockGameActions.wrapActionOnGame).toHaveBeenCalled();
+                expect(mockGameActions.wrapActionOnGame.calls.mostRecent().args[0]).toBeDefined();
             });
         });
     });

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twistedHangmanApp').factory('twGameDisplay',
-    ['$rootScope', '$location', 'jtbGamePhaseService', 'jtbGameCache', 'twGameDetails',
-        function ($rootScope, $location, jtbGamePhaseService, jtbGameCache, twGameDetails) {
+    ['$rootScope', '$location', 'jtbGamePhaseService', 'twGameDetails',
+        function ($rootScope, $location, jtbGamePhaseService, twGameDetails) {
             var LETTERA = 'A'.charCodeAt(0);
 
             function computeImage(scope) {
@@ -164,7 +164,6 @@ angular.module('twistedHangmanApp').factory('twGameDisplay',
 
                 processGameUpdateForScope: function (scope, game) {
                     this.updateScopeForGame(scope, game);
-                    jtbGameCache.putUpdatedGame(game);
                 }
             };
 
