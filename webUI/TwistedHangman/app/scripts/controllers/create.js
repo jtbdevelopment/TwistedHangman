@@ -28,7 +28,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
             twGameFeatureService.features().then(function (data) {
                 $scope.featureData = data;
             }, function () {
-                $location.path('/error');
+                //  TODO
             });
 
             $scope.friends = [];
@@ -54,7 +54,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
                     });
                 }
             }, function () {
-                $location.path('/error');
+                //  TODO
             });
 
             //  TODO - what is this?

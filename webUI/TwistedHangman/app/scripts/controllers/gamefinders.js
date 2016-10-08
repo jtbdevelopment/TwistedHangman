@@ -30,7 +30,7 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
                 jtbGamePhaseService.phases().then(function (phases) {
                     $scope.label = phases[phase][1];
                 }, function () {
-                    $location.path('/error');
+                    //  TODO
                 });
 
                 function loadGames() {

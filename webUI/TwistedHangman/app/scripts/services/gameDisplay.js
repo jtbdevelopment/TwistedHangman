@@ -149,7 +149,7 @@ angular.module('twistedHangmanApp').factory('twGameDisplay',
                         jtbGamePhaseService.phases().then(function (phases) {
                             scope.phaseDescription = phases[scope.game.gamePhase][0];
                         }, function () {
-                            $location.path('/error');
+                            //  TODO
                         });
 
                         scope.lastUpdate = parseDate(scope.game.lastUpdate);

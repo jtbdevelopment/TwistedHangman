@@ -26,9 +26,6 @@ angular
             .when('/main', {
                 templateUrl: 'views/main.html'
             })
-            .when('/error', {
-                templateUrl: 'views/error.html'
-            })
             .when('/admin', {
                 templateUrl: 'views/core-bs/admin/admin.html',
                 controller: 'CoreAdminCtrl',
