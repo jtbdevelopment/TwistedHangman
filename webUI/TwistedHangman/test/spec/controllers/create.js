@@ -190,6 +190,7 @@ describe('Controller: CreateCtrl', function () {
             open: function (params) {
                 expect(params.controller).toEqual('CoreBootstrapInviteCtrl');
                 expect(params.templateUrl).toEqual('views/inviteDialog.html');
+                expect(params.controllerAs).toEqual('invite');
                 expect(params.size).toEqual('lg');
                 expect(params.resolve.invitableFriends()).toEqual(scope.invitableFBFriends);
                 modalOpened = true;
