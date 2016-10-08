@@ -13,8 +13,8 @@ var phasesAndSymbols = {
 angular.forEach(phasesAndSymbols, function (glyph, phase) {
     var name = phase + 'Games';
     angular.module('twistedHangmanApp').controller(name,
-        ['$scope', '$location', '$animate', '$timeout', 'jtbGamePhaseService', 'jtbGameCache', 'twGameDetails',
-            function ($scope, $location, $animate, $timeout, jtbGamePhaseService, jtbGameCache, twGameDetails) {
+        ['$scope', '$animate', '$timeout', 'jtbGamePhaseService', 'jtbGameCache', 'twGameDetails',
+            function ($scope, $animate, $timeout, jtbGamePhaseService, jtbGameCache, twGameDetails) {
                 $scope.games = [];
                 $scope.style = phase.toLowerCase() + 'Button';
                 $scope.glyph = 'glyphicon-' + glyph;
@@ -29,8 +29,6 @@ angular.forEach(phasesAndSymbols, function (glyph, phase) {
 
                 jtbGamePhaseService.phases().then(function (phases) {
                     $scope.label = phases[phase][1];
-                }, function () {
-                    $location.path('/error');
                 });
 
                 function loadGames() {

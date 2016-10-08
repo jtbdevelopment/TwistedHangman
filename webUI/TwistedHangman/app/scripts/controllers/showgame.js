@@ -16,10 +16,6 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
                 twGameDisplay.updateScopeForGame($scope, game);
             }
 
-            $scope.$on('playerLoaded', function () {
-                $location.path('/');
-            });
-
             $scope.$on('gameCachesLoaded', function () {
                 var game = jtbGameCache.getGameForID($scope.gameID);
                 if (angular.isDefined(game)) {

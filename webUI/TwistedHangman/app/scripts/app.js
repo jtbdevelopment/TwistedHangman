@@ -26,13 +26,14 @@ angular
             .when('/main', {
                 templateUrl: 'views/main.html'
             })
-            .when('/error', {
-                templateUrl: 'views/error.html'
-            })
             .when('/admin', {
                 templateUrl: 'views/core-bs/admin/admin.html',
                 controller: 'CoreAdminCtrl',
                 controllerAs: 'admin'
+            })
+            .when('/game/:gamePhase/:gameID', {
+                templateUrl: 'views/showgame.html',
+                controller: 'ShowCtrl'
             })
             .when('/show/:gameID', {
                 templateUrl: 'views/showgame.html',
