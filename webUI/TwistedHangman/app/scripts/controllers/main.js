@@ -15,7 +15,6 @@ angular.module('twistedHangmanApp')
                     console.log(JSON.stringify(twGameAlerts));
                 }
                 $scope.playerGreeting = '';
-                //  TODO - initialize from local storage?
                 $scope.alerts = [];
                 $scope.createRefreshEnabled = false;
                 $scope.showAdmin = false;
