@@ -26,25 +26,6 @@
 <div class="container-fluid">
     <div class="header">
         <ul class="nav nav-pills pull-right">
-            <li>
-                <div class="alerts">
-                    <div class="btn-group alertDiv" uib-dropdown>
-                        <div class="alertButton">
-                            <button type="button" class="btn uib-dropdown-toggle" uib-dropdown-toggle
-                                    ng-disabled="alerts.length < 1">
-                                <span class="glyphicon glyphicon-exclamation-sign"></span><span
-                                    class="badge alertBadge pull-right"
-                                    ng-hide="alerts.length === 0">{{alerts.length}}</span>
-                            </button>
-                        </div>
-                        <ul class="dropdown-menu" uib-dropdown-menu>
-                            <li ng-repeat="alert in alerts">
-                                <a ng-click="goToGame($index)">{{alert.message}}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
             <li><a ng-href="#/about">About</a></li>
             <li><a ng-href="#/admin" ng-show="showAdmin">Admin</a></li>
             <li><a ng-click="logout()" ng-show="showLogout">Logout</a></li>
@@ -122,7 +103,6 @@
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
 <script src="scripts/app.js"></script>
 <script src="scripts/services/ads.js"></script>
-<script src="scripts/services/gameAlerts.js"></script>
 <script src="scripts/services/gameDetails.js"></script>
 <script src="scripts/directives/gameButtons.js"></script>
 <script src="scripts/services/gameFeatures.js"></script>
