@@ -14,13 +14,13 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
             function calcSubmitEnabled() {
                 switch ($scope.desiredPlayerCount) {
                     case    SINGLE_PLAYER:
-                        $scope.submitEnabled = ($scope.playerChoices.length === 0);
+                        $scope.submitEnabled = ($scope.chosenFriends.length === 0);
                         break;
                     case    TWO_PLAYERS:
-                        $scope.submitEnabled = ($scope.playerChoices.length === 1);
+                        $scope.submitEnabled = ($scope.chosenFriends.length === 1);
                         break;
                     case    MULTI_PLAYER:
-                        $scope.submitEnabled = ($scope.playerChoices.length > 1);
+                        $scope.submitEnabled = ($scope.chosenFriends.length > 1);
                         break;
                 }
             }
@@ -32,6 +32,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
 
             $scope.friends = [];
             $scope.invitableFBFriends = [];
+            $scope.chosenFriends = [];
             jtbPlayerService.currentPlayerFriends().then(function (data) {
                 angular.forEach(data.maskedFriends, function (displayName, hash) {
                     var friend = {
@@ -59,13 +60,12 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
             $scope.drawFace = 'DrawFace';
             $scope.gamePace = 'Live';
             $scope.submitEnabled = false;
-            $scope.playerChoices = [];
             $scope.desiredPlayerCount = '';
             $scope.playersEnabled = false;
-            $scope.$watchCollection('playerChoices', calcSubmitEnabled);
+            $scope.$watchCollection('chosenFriends', calcSubmitEnabled);
 
             $scope.clearPlayers = function () {
-                $scope.playerChoices = [];
+                $scope.chosenFriends = [];
                 calcSubmitEnabled();
             };
 
@@ -79,7 +79,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
                 $scope.alternatingEnabled = false;
                 $scope.allFinishedEnabled = false;
                 $scope.turnBasedEnabled = false;
-                $scope.playerChoices = [];
+                $scope.chosenFriends = [];
                 calcSubmitEnabled();
             };
 
@@ -90,8 +90,8 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
                 $scope.alternatingEnabled = true;
                 $scope.allFinishedEnabled = true;
                 $scope.turnBasedEnabled = true;
-                if ($scope.playerChoices.length > 1) {
-                    $scope.playerChoices = [];
+                if ($scope.chosenFriends.length > 1) {
+                    $scope.chosenFriends = [];
                 }
                 calcSubmitEnabled();
             };
@@ -124,7 +124,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
                         return item !== '';
                     }));
 
-                    var players = $scope.playerChoices.map(function (player) {
+                    var players = $scope.chosenFriends.map(function (player) {
                         return player.md5;
                     });
                     var playersAndFeatures = {'players': players, 'features': featureSet};

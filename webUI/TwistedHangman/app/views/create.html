@@ -154,7 +154,7 @@
       </label>
 
       <div class="col-sm-8">
-        <ui-select multiple ng-model="$parent.playerChoices" theme="bootstrap" reset-search-input="true">
+        <ui-select multiple ng-model="$parent.chosenFriends" theme="bootstrap" reset-search-input="true">
           <ui-select-match placeholder="Select friends...">{{$item.displayName}}</ui-select-match>
           <ui-select-choices repeat="friend in friends | propsFilter: {displayName: $select.search}">
             <div ng-bind-html="friend.displayName | highlight: $select.search"></div>

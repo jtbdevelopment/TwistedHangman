@@ -214,7 +214,7 @@ describe('Controller: CreateCtrl', function () {
             //  should change
             scope.desiredPlayerCount = 'X';
             scope.gamePace = 'TurnBased';
-            scope.playerChoices.push(scope.friends[1]);
+            scope.chosenFriends.push(scope.friends[1]);
             scope.$apply();
             scope.wordPhraseSetter = 'Y';
             scope.winners = 'X';
@@ -228,7 +228,7 @@ describe('Controller: CreateCtrl', function () {
             expect(scope.thieving).toEqual('');
             expect(scope.drawGallows).toEqual('DrawGallows');
             expect(scope.drawFace).toEqual('');
-            expect(scope.playerChoices).toEqual([]);
+            expect(scope.chosenFriends).toEqual([]);
             expect(scope.gamePace).toEqual('Live');
             expect(scope.desiredPlayerCount).toEqual('SinglePlayer');
             expect(scope.wordPhraseSetter).toEqual('SystemPuzzles');
@@ -252,8 +252,8 @@ describe('Controller: CreateCtrl', function () {
 
             //  should change
             scope.desiredPlayerCount = 'X';
-            scope.playerChoices.push(scope.friends[1]);
-            scope.playerChoices.push(scope.friends[2]);
+            scope.chosenFriends.push(scope.friends[1]);
+            scope.chosenFriends.push(scope.friends[2]);
             scope.$apply();
             scope.h2hEnabled = false;
             scope.alternatingEnabled = false;
@@ -268,7 +268,7 @@ describe('Controller: CreateCtrl', function () {
             expect(scope.gamePace).toEqual('TurnBased');
 
             expect(scope.desiredPlayerCount).toEqual('TwoPlayer');
-            expect(scope.playerChoices).toEqual([]);
+            expect(scope.chosenFriends).toEqual([]);
             expect(scope.gamePace).toEqual('TurnBased');
             expect(scope.wordPhraseSetter).toEqual('SystemPuzzles');
             expect(scope.winners).toEqual('AllComplete');
@@ -281,10 +281,10 @@ describe('Controller: CreateCtrl', function () {
         });
 
         it('changes to two player from multiplayer with only one opponent', function () {
-            scope.playerChoices.push(scope.friends[1]);
+            scope.chosenFriends.push(scope.friends[1]);
             scope.$apply();
             scope.setTwoPlayers();
-            expect(scope.playerChoices).toEqual([scope.friends[1]]);
+            expect(scope.chosenFriends).toEqual([scope.friends[1]]);
             expect(scope.submitEnabled).toBe(true);
             expect(adsCalled).toEqual(false);
         });
@@ -296,8 +296,8 @@ describe('Controller: CreateCtrl', function () {
             scope.drawFace = '';
             scope.gamePace = 'TurnBased';
             scope.winners = 'AllComplete';
-            scope.playerChoices.push(scope.friends[0]);
-            scope.playerChoices.push(scope.friends[1]);
+            scope.chosenFriends.push(scope.friends[0]);
+            scope.chosenFriends.push(scope.friends[1]);
             scope.$apply();
 
             //  should change
@@ -316,7 +316,7 @@ describe('Controller: CreateCtrl', function () {
             expect(scope.gamePace).toEqual('TurnBased');
 
             expect(scope.desiredPlayerCount).toEqual('ThreePlus');
-            expect(scope.playerChoices).toEqual([scope.friends[0], scope.friends[1]]);
+            expect(scope.chosenFriends).toEqual([scope.friends[0], scope.friends[1]]);
             expect(scope.gamePace).toEqual('TurnBased');
             expect(scope.wordPhraseSetter).toEqual('SystemPuzzles');
             expect(scope.winners).toEqual('AllComplete');
@@ -334,14 +334,14 @@ describe('Controller: CreateCtrl', function () {
             scope.setSinglePlayer();
             expect(scope.submitEnabled).toBe(true);
 
-            scope.playerChoices.push(scope.friends[0]);
+            scope.chosenFriends.push(scope.friends[0]);
             scope.$apply();
 
-            expect(scope.playerChoices).toEqual([scope.friends[0]]);
+            expect(scope.chosenFriends).toEqual([scope.friends[0]]);
             expect(scope.submitEnabled).toBe(false);
 
             scope.clearPlayers();
-            expect(scope.playerChoices).toEqual([]);
+            expect(scope.chosenFriends).toEqual([]);
             expect(scope.submitEnabled).toBe(true);
             expect(adsCalled).toEqual(false);
         });
@@ -350,29 +350,29 @@ describe('Controller: CreateCtrl', function () {
         it('test submit enable for two player game', function () {
             scope.setTwoPlayers();
             scope.$apply();
-            expect(scope.playerChoices).toEqual([]);
+            expect(scope.chosenFriends).toEqual([]);
             expect(scope.submitEnabled).toBe(false);
 
-            scope.playerChoices.push(scope.friends[0]);
+            scope.chosenFriends.push(scope.friends[0]);
             scope.$apply();
 
-            expect(scope.playerChoices).toEqual([scope.friends[0]]);
+            expect(scope.chosenFriends).toEqual([scope.friends[0]]);
             expect(scope.submitEnabled).toBe(true);
 
-            scope.playerChoices.push(scope.friends[1]);
+            scope.chosenFriends.push(scope.friends[1]);
             scope.$apply();
 
-            expect(scope.playerChoices).toEqual([scope.friends[0], scope.friends[1]]);
+            expect(scope.chosenFriends).toEqual([scope.friends[0], scope.friends[1]]);
             expect(scope.submitEnabled).toBe(false);
 
-            scope.playerChoices.splice(0, 1);
+            scope.chosenFriends.splice(0, 1);
             scope.$apply();
 
-            expect(scope.playerChoices).toEqual([scope.friends[1]]);
+            expect(scope.chosenFriends).toEqual([scope.friends[1]]);
             expect(scope.submitEnabled).toBe(true);
 
             scope.clearPlayers();
-            expect(scope.playerChoices).toEqual([]);
+            expect(scope.chosenFriends).toEqual([]);
             expect(scope.submitEnabled).toBe(false);
             expect(adsCalled).toEqual(false);
         });
@@ -380,26 +380,26 @@ describe('Controller: CreateCtrl', function () {
         it('test submit enable for multi player game', function () {
             scope.setThreePlayers();
             scope.$apply();
-            expect(scope.playerChoices).toEqual([]);
+            expect(scope.chosenFriends).toEqual([]);
             expect(scope.submitEnabled).toBe(false);
 
-            scope.playerChoices.push(scope.friends[0]);
+            scope.chosenFriends.push(scope.friends[0]);
             scope.$apply();
-            expect(scope.playerChoices).toEqual([scope.friends[0]]);
+            expect(scope.chosenFriends).toEqual([scope.friends[0]]);
             expect(scope.submitEnabled).toBe(false);
 
-            scope.playerChoices.push(scope.friends[1]);
+            scope.chosenFriends.push(scope.friends[1]);
             scope.$apply();
-            expect(scope.playerChoices).toEqual([scope.friends[0], scope.friends[1]]);
+            expect(scope.chosenFriends).toEqual([scope.friends[0], scope.friends[1]]);
             expect(scope.submitEnabled).toBe(true);
 
-            scope.playerChoices.push(scope.friends[2]);
+            scope.chosenFriends.push(scope.friends[2]);
             scope.$apply();
-            expect(scope.playerChoices).toEqual([scope.friends[0], scope.friends[1], scope.friends[2]]);
+            expect(scope.chosenFriends).toEqual([scope.friends[0], scope.friends[1], scope.friends[2]]);
             expect(scope.submitEnabled).toBe(true);
 
             scope.clearPlayers();
-            expect(scope.playerChoices).toEqual([]);
+            expect(scope.chosenFriends).toEqual([]);
             expect(scope.submitEnabled).toBe(false);
             expect(adsCalled).toEqual(false);
         });
@@ -419,7 +419,7 @@ describe('Controller: CreateCtrl', function () {
         it('test create game submission 2player', function () {
             scope.setTwoPlayers();
             scope.thieving = '';
-            scope.playerChoices = [{md5: 'x'}];
+            scope.chosenFriends = [{md5: 'x'}];
             scope.winners = 'SingleWinner';
             scope.gamePace = 'TurnBased';
             scope.drawFace = '';
@@ -437,7 +437,7 @@ describe('Controller: CreateCtrl', function () {
         it('test create game submission 3+player', function () {
             scope.setThreePlayers();
             scope.thieving = '';
-            scope.playerChoices = [{md5: 'x'}, {md5: 'y'}];
+            scope.chosenFriends = [{md5: 'x'}, {md5: 'y'}];
             scope.winners = 'AllComplete';
             scope.gamePace = 'TurnBased';
             scope.createGame();
