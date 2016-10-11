@@ -5,39 +5,12 @@ describe('Controller: CreateCtrl', function () {
     // load the controller's module
     beforeEach(module('twistedHangmanApp'));
 
-    var ctrl, scope, q, rootScope, featureDeferred, friendsDeferred;
+    var ctrl, scope, q, rootScope, featureDeferred;
     var jtbGameActions = {
         new: jasmine.createSpy('new')
     };
+
     var longName = 'AppName';
-    var friends = {
-        maskedFriends: {
-            md1: 'friend1',
-            md2: 'friend2',
-            md3: 'friend3',
-            md4: 'friend4'
-        },
-        invitableFriends: [
-            {
-                id: 'if1',
-                name: 'ifriend1'
-            },
-            {
-                id: 'if2',
-                name: 'ifriend2',
-                picture: {}
-            },
-            {
-                id: 'if3',
-                name: 'ifriend3',
-                picture: {
-                    url: 'http://ifriend3image.png'
-                }
-            }
-        ]
-
-
-    };
     var manualPlayer = {source: 'MANUAL'};
     var fbPlayer = {source: 'facebook'};
     var currentPlayer = manualPlayer;
@@ -52,10 +25,7 @@ describe('Controller: CreateCtrl', function () {
         currentPlayerBaseURL: function () {
             return '/api/player/MANUAL1';
         },
-        currentPlayerFriends: function () {
-            friendsDeferred = q.defer();
-            return friendsDeferred.promise;
-        }
+        initializeFriendsForController: jasmine.createSpy('initializeFriends')
     };
 
     var mockFeatureService = {
@@ -98,7 +68,6 @@ describe('Controller: CreateCtrl', function () {
         it('initializes', function () {
             var featureData = {X: 'Y'};
             featureDeferred.resolve(featureData);
-            friendsDeferred.resolve(friends);
             rootScope.$apply();
 
             expect(ctrl.featureData).toEqual(featureData);
@@ -108,13 +77,7 @@ describe('Controller: CreateCtrl', function () {
             expect(ctrl.gamePace).toEqual('Live');
 
             expect(ctrl.desiredPlayerCount).toEqual('SinglePlayer');
-            expect(ctrl.friends).toEqual([
-                {md5: 'md1', displayName: 'friend1'},
-                {md5: 'md2', displayName: 'friend2'},
-                {md5: 'md3', displayName: 'friend3'},
-                {md5: 'md4', displayName: 'friend4'}
-            ]);
-            expect(ctrl.invitableFBFriends).toEqual([]);
+            expect(mockPlayerService.initializeFriendsForController).toHaveBeenCalledWith(ctrl);
             expect(ctrl.gamePace).toEqual('Live');
             expect(ctrl.wordPhraseSetter).toEqual('SystemPuzzles');
             expect(ctrl.winners).toEqual('SingleWinner');
@@ -159,9 +122,9 @@ describe('Controller: CreateCtrl', function () {
         it('initializes invitable friends too', function () {
             var featureData = {X: 'Y'};
             featureDeferred.resolve(featureData);
-            friendsDeferred.resolve(friends);
             rootScope.$apply();
 
+            expect(mockPlayerService.initializeFriendsForController).toHaveBeenCalledWith(ctrl);
             expect(ctrl.featureData).toEqual(featureData);
             expect(ctrl.thieving).toEqual('Thieving');
             expect(ctrl.drawGallows).toEqual('');
@@ -169,17 +132,6 @@ describe('Controller: CreateCtrl', function () {
             expect(ctrl.gamePace).toEqual('Live');
 
             expect(ctrl.desiredPlayerCount).toEqual('SinglePlayer');
-            expect(ctrl.friends).toEqual([
-                {md5: 'md1', displayName: 'friend1'},
-                {md5: 'md2', displayName: 'friend2'},
-                {md5: 'md3', displayName: 'friend3'},
-                {md5: 'md4', displayName: 'friend4'}
-            ]);
-            expect(ctrl.invitableFBFriends).toEqual([
-                {id: 'if1', name: 'ifriend1'},
-                {id: 'if2', name: 'ifriend2'},
-                {id: 'if3', name: 'ifriend3', url: 'http://ifriend3image.png'}
-            ]);
             expect(ctrl.gamePace).toEqual('Live');
             expect(ctrl.wordPhraseSetter).toEqual('SystemPuzzles');
             expect(ctrl.winners).toEqual('SingleWinner');
@@ -200,8 +152,19 @@ describe('Controller: CreateCtrl', function () {
 
     describe('post initialization', function () {
         beforeEach(function () {
+            ctrl.chosenFriends = [];
+            ctrl.friends = [
+                {md5: 'md1', displayName: 'friend1'},
+                {md5: 'md2', displayName: 'friend2'},
+                {md5: 'md3', displayName: 'friend3'},
+                {md5: 'md4', displayName: 'friend4'}
+            ];
+            ctrl.invitableFBFriends = [
+                {id: 'if1', name: 'ifriend1'},
+                {id: 'if2', name: 'ifriend2'},
+                {id: 'if3', name: 'ifriend3', url: 'http://ifriend3image.png'}
+            ];
             featureDeferred.resolve({});
-            friendsDeferred.resolve(friends);
             rootScope.$apply();
         });
 

@@ -16,12 +16,15 @@
     "angular-ui-select": "~0.18.1",
     "animate.css": "~3.5.2",
     "jtb-core-games-bootstrap-ui": "~0.10.1",
-    "jtb-core-games-ui": "~2.5.0",
+    "jtb-core-games-ui": "~2.6.0",
     "jquery": "2.2.4"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.0",
     "angular-scenario": "~1.5.0"
   },
-  "appPath": "app"
+  "appPath": "app",
+  "resolutions": {
+    "jtb-core-games-ui": "~2.6.0"
+  }
 }

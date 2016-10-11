@@ -31,30 +31,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
                 controller.featureData = data;
             });
 
-            controller.friends = [];
-            controller.invitableFBFriends = [];
-            controller.chosenFriends = [];
-            jtbPlayerService.currentPlayerFriends().then(function (data) {
-                angular.forEach(data.maskedFriends, function (displayName, hash) {
-                    var friend = {
-                        md5: hash,
-                        displayName: displayName
-                    };
-                    controller.friends.push(friend);
-                });
-                if (jtbPlayerService.currentPlayer().source === 'facebook') {
-                    angular.forEach(data.invitableFriends, function (friend) {
-                        var invite = {
-                            id: friend.id,
-                            name: friend.name
-                        };
-                        if (angular.isDefined(friend.picture) && angular.isDefined(friend.picture.url)) {
-                            invite.url = friend.picture.url;
-                        }
-                        controller.invitableFBFriends.push(invite);
-                    });
-                }
-            });
+            jtbPlayerService.initializeFriendsForController(controller);
 
             controller.thieving = 'Thieving';
             controller.drawGallows = '';
