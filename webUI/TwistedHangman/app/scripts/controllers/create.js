@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('twistedHangmanApp').controller('CreateCtrl',
-    ['$rootScope', '$scope', 'jtbGameCache', 'twGameFeatureService', 'jtbPlayerService', '$http', '$location', '$uibModal', 'twAds',
-        function ($rootScope, $scope, jtbGameCache, twGameFeatureService, jtbPlayerService, $http, $location, $uibModal, twAds) {
+    ['$rootScope', '$scope', 'jtbBootstrapGameActions', 'jtbAppLongName',
+        'twGameFeatureService', 'jtbPlayerService', '$uibModal', 'twAds',
+        function ($rootScope, $scope, jtbBootstrapGameActions, jtbAppLongName,
+                  twGameFeatureService, jtbPlayerService, $uibModal, twAds) {
 
             var SINGLE_PLAYER = 'SinglePlayer';
             var TWO_PLAYERS = 'TwoPlayer';
@@ -23,7 +25,6 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
                 }
             }
 
-            $scope.alerts = [];
             $scope.featureData = {};
             twGameFeatureService.features().then(function (data) {
                 $scope.featureData = data;
@@ -127,19 +128,13 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
                         return player.md5;
                     });
                     var playersAndFeatures = {'players': players, 'features': featureSet};
-                    $http.post(jtbPlayerService.currentPlayerBaseURL() + '/new', playersAndFeatures).success(function (data) {
-                        jtbGameCache.putUpdatedGame(data);
-                        $location.path('/show/' + data.id);
-                    }).error(function (data, status, headers, config) {
-                        $scope.alerts.push({type: 'danger', msg: 'Error creating game:' + data});
-                        console.error(data + status + headers + config);
-                    });
+                    jtbBootstrapGameActions.new(playersAndFeatures);
                 });
             };
 
             $scope.showInvite = function () {
                 $uibModal.open({
-                    templateUrl: 'views/inviteDialog.html',
+                    templateUrl: 'views/core-bs/friends/invite-friends.html',
                     controller: 'CoreBootstrapInviteCtrl',
                     controllerAs: 'invite',
                     size: 'lg',
@@ -148,17 +143,12 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
                             return $scope.invitableFBFriends;
                         },
                         message: function () {
-                            return 'Come play Twisted Hangman with me!';
+                            return 'Come play ' + jtbAppLongName + ' with me!';
                         }
                     }
                 });
             };
 
-            $scope.closeAlert = function (index) {
-                if (angular.isDefined(index) && index >= 0 && index < $scope.alerts.length) {
-                    $scope.alerts.splice(index, 1);
-                }
-            };
             //  Initialize
             $scope.setSinglePlayer();
         }

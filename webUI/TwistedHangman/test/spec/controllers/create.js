@@ -5,7 +5,11 @@ describe('Controller: CreateCtrl', function () {
     // load the controller's module
     beforeEach(module('twistedHangmanApp'));
 
-    var ctrl, scope, http, q, rootScope, featureDeferred, location, friendsDeferred, gameCache;
+    var ctrl, scope, q, rootScope, featureDeferred, friendsDeferred;
+    var jtbGameActions = {
+        new: jasmine.createSpy('new')
+    };
+    var longName = 'AppName';
     var friends = {
         maskedFriends: {
             md1: 'friend1',
@@ -71,21 +75,19 @@ describe('Controller: CreateCtrl', function () {
     };
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($rootScope, $httpBackend, $q, $controller) {
+    beforeEach(inject(function ($rootScope, $q, $controller) {
         rootScope = $rootScope;
-        http = $httpBackend;
         q = $q;
         spyOn(rootScope, '$broadcast').and.callThrough();
-        gameCache = {putUpdatedGame: jasmine.createSpy()};
-        location = {path: jasmine.createSpy()};
         scope = rootScope.$new();
+        jtbGameActions.new.calls.reset();
         ctrl = $controller('CreateCtrl', {
             $scope: scope,
-            jtbGameCache: gameCache,
+            jtbAppLongName: longName,
             twGameFeatureService: mockFeatureService,
             jtbPlayerService: mockPlayerService,
             twAds: ads,
-            $location: location
+            jtbBootstrapGameActions: jtbGameActions
         });
 
         adsCalled = false;
@@ -100,7 +102,6 @@ describe('Controller: CreateCtrl', function () {
             rootScope.$apply();
 
             expect(scope.featureData).toEqual(featureData);
-            expect(scope.alerts).toEqual([]);
             expect(scope.thieving).toEqual('Thieving');
             expect(scope.drawGallows).toEqual('');
             expect(scope.drawFace).toEqual('DrawFace');
@@ -122,7 +123,6 @@ describe('Controller: CreateCtrl', function () {
             expect(scope.allFinishedEnabled).toBe(false);
             expect(scope.turnBasedEnabled).toBe(false);
             expect(scope.submitEnabled).toBe(true);
-            expect(location.path).not.toHaveBeenCalled();
             expect(adsCalled).toEqual(false);
         });
 
@@ -133,10 +133,11 @@ describe('Controller: CreateCtrl', function () {
         var modal = {
             open: function (params) {
                 expect(params.controller).toEqual('CoreBootstrapInviteCtrl');
-                expect(params.templateUrl).toEqual('views/inviteDialog.html');
+                expect(params.templateUrl).toEqual('views/core-bs/friends/invite-friends.html');
                 expect(params.controllerAs).toEqual('invite');
                 expect(params.size).toEqual('lg');
                 expect(params.resolve.invitableFriends()).toEqual(scope.invitableFBFriends);
+                expect(params.resolve.message()).toEqual('Come play ' + longName + ' with me!');
                 modalOpened = true;
             }
         };
@@ -144,12 +145,13 @@ describe('Controller: CreateCtrl', function () {
         beforeEach(inject(function ($rootScope, $httpBackend, $q, $controller) {
             currentPlayer = fbPlayer;
             modalOpened = false;
+            jtbGameActions.new.calls.reset();
             ctrl = $controller('CreateCtrl', {
                 $scope: scope,
-                jtbGameCache: gameCache,
+                jtbAppLongName: longName,
                 twGameFeatureService: mockFeatureService,
                 jtbPlayerService: mockPlayerService,
-                $location: location,
+                jtbBootstrapGameActions: jtbGameActions,
                 $uibModal: modal
             });
         }));
@@ -161,7 +163,6 @@ describe('Controller: CreateCtrl', function () {
             rootScope.$apply();
 
             expect(scope.featureData).toEqual(featureData);
-            expect(scope.alerts).toEqual([]);
             expect(scope.thieving).toEqual('Thieving');
             expect(scope.drawGallows).toEqual('');
             expect(scope.drawFace).toEqual('DrawFace');
@@ -187,7 +188,6 @@ describe('Controller: CreateCtrl', function () {
             expect(scope.allFinishedEnabled).toBe(false);
             expect(scope.turnBasedEnabled).toBe(false);
             expect(scope.submitEnabled).toBe(true);
-            expect(location.path).not.toHaveBeenCalled();
             expect(adsCalled).toEqual(false);
         });
 
@@ -406,17 +406,13 @@ describe('Controller: CreateCtrl', function () {
 
         it('test create game submission sp', function () {
             scope.setSinglePlayer();
-            var varid = 'anid';
-            var createdGame = {gamePhase: 'test', id: varid};
-            http.expectPOST('/api/player/MANUAL1/new', {
-                players: [],
-                features: ['SystemPuzzles', 'SinglePlayer', 'Thieving', 'DrawFace', 'Live', 'SingleWinner']
-            }).respond(createdGame);
             scope.createGame();
             adPopupModalResult.resolve();
-            http.flush();
-            expect(gameCache.putUpdatedGame).toHaveBeenCalledWith(createdGame);
-            expect(location.path).toHaveBeenCalledWith('/show/anid');
+            rootScope.$apply();
+            expect(jtbGameActions.new).toHaveBeenCalledWith({
+                players: [],
+                features: ['SystemPuzzles', 'SinglePlayer', 'Thieving', 'DrawFace', 'Live', 'SingleWinner']
+            });
             expect(adsCalled).toEqual(true);
         });
 
@@ -428,18 +424,14 @@ describe('Controller: CreateCtrl', function () {
             scope.gamePace = 'TurnBased';
             scope.drawFace = '';
             scope.wordPhraseSetter = 'Head2Head';
-            var varid = 'anid';
-            var createdGame = {gamePhase: 'test2', id: varid};
-            http.expectPOST('/api/player/MANUAL1/new', {
-                players: ['x'],
-                features: ['Head2Head', 'TwoPlayer', 'TurnBased', 'SingleWinner']
-            }).respond(createdGame);
             scope.createGame();
             adPopupModalResult.resolve();
-            http.flush();
-            expect(gameCache.putUpdatedGame).toHaveBeenCalledWith(createdGame);
-            expect(location.path).toHaveBeenCalledWith('/show/anid');
+            rootScope.$apply();
             expect(adsCalled).toEqual(true);
+            expect(jtbGameActions.new).toHaveBeenCalledWith({
+                players: ['x'],
+                features: ['Head2Head', 'TwoPlayer', 'TurnBased', 'SingleWinner']
+            });
         });
 
         it('test create game submission 3+player', function () {
@@ -448,53 +440,14 @@ describe('Controller: CreateCtrl', function () {
             scope.playerChoices = [{md5: 'x'}, {md5: 'y'}];
             scope.winners = 'AllComplete';
             scope.gamePace = 'TurnBased';
-            var varid = 'anid';
-            var createdGame = {gamePhase: 'test3', id: varid};
-            http.expectPOST('/api/player/MANUAL1/new', {
+            scope.createGame();
+            adPopupModalResult.resolve();
+            rootScope.$apply();
+            expect(adsCalled).toEqual(true);
+            expect(jtbGameActions.new).toHaveBeenCalledWith({
                 players: ['x', 'y'],
                 features: ['SystemPuzzles', 'ThreePlus', 'DrawFace', 'TurnBased', 'AllComplete']
-            }).respond(createdGame);
-            scope.createGame();
-            adPopupModalResult.resolve();
-            http.flush();
-            expect(gameCache.putUpdatedGame).toHaveBeenCalledWith(createdGame);
-            expect(location.path).toHaveBeenCalledWith('/show/anid');
-            expect(adsCalled).toEqual(true);
-        });
-
-        it('test closing alerts', function () {
-            scope.alerts = ['1', '2'];
-            scope.closeAlert(0);
-            expect(scope.alerts).toEqual(['2']);
-            expect(adsCalled).toEqual(false);
-        });
-
-        it('test closing alerts with bad values', function () {
-            scope.alerts = ['1', '2'];
-            scope.closeAlert(-1);
-            expect(scope.alerts).toEqual(['1', '2']);
-            scope.closeAlert(2);
-            expect(scope.alerts).toEqual(['1', '2']);
-            scope.closeAlert();
-            expect(scope.alerts).toEqual(['1', '2']);
-        });
-
-        it('test alerts game submission failure', function () {
-            scope.setThreePlayers();
-            scope.thieving = '';
-            scope.playerChoices = [{md5: 'x'}, {md5: 'y'}];
-            scope.winners = 'AllComplete';
-            scope.gamePace = 'Live';
-            scope.drawFace = '';
-            http.expectPOST('/api/player/MANUAL1/new', {
-                players: ['x', 'y'],
-                features: ['SystemPuzzles', 'ThreePlus', 'Live', 'AllComplete']
-            }).respond(404, 'badstuff');
-            scope.createGame();
-            adPopupModalResult.resolve();
-            http.flush();
-            expect(scope.alerts).toEqual([{type: 'danger', msg: 'Error creating game:badstuff'}]);
-            expect(adsCalled).toEqual(true);
+            });
         });
     });
 });

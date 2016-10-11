@@ -9,8 +9,8 @@
  */
 angular.module('twistedHangmanApp')
     .controller('MainCtrl',
-        ['$rootScope', '$scope', '$location', '$timeout', 'jtbGameCache', 'jtbPlayerService', 'twGameDetails', 'twGameAlerts',
-            function ($rootScope, $scope, $location, $timeout, jtbGameCache, jtbPlayerService, twGameDetails, twGameAlerts) {
+        ['$rootScope', '$scope', '$location', 'jtbAppLongName', '$timeout', 'jtbGameCache', 'jtbPlayerService', 'twGameDetails', 'twGameAlerts',
+            function ($rootScope, $scope, $location, jtbAppLongName, $timeout, jtbGameCache, jtbPlayerService, twGameDetails, twGameAlerts) {
                 if (1 === 2) {
                     console.log(JSON.stringify(twGameAlerts));
                 }
@@ -22,6 +22,7 @@ angular.module('twistedHangmanApp')
                 $scope.currentPlayer = {};
                 $scope.currentPlayer = {gameSpecificPlayerAttributes: {freeGamesUsedToday: 0}};
                 $scope.includeTemplate = 'views/empty.html';
+                $scope.appName = jtbAppLongName;
                 console.log(jtbGameCache);
 
                 function gamePath(id) {

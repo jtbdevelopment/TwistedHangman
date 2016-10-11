@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twistedHangmanApp').factory('twGameDisplay',
-    ['$rootScope', '$location', 'jtbGamePhaseService', 'twGameDetails',
-        function ($rootScope, $location, jtbGamePhaseService, twGameDetails) {
+    ['$rootScope', 'jtbGamePhaseService', 'twGameDetails',
+        function ($rootScope, jtbGamePhaseService, twGameDetails) {
             var LETTERA = 'A'.charCodeAt(0);
 
             function computeImage(scope) {

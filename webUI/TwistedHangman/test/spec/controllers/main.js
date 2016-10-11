@@ -6,6 +6,7 @@ describe('Controller: MainCtrl', function () {
     beforeEach(module('twistedHangmanApp'));
 
     var MainCtrl, rootScope, scope, playerService, gameCache, location, timeout, player, gameDetails;
+    var longName = 'long name';
     var logoutCalled;
     var gameAlerts = {};
 
@@ -31,6 +32,7 @@ describe('Controller: MainCtrl', function () {
         MainCtrl = $controller('MainCtrl', {
             $scope: scope,
             $location: location,
+            jtbAppLongName: longName,
             jtbPlayerService: playerService,
             jtbGameCache: gameCache,
             twGameDetails: gameDetails,
@@ -54,6 +56,7 @@ describe('Controller: MainCtrl', function () {
         expect(scope.showAdmin).toEqual(true);
         expect(scope.showLogout).toEqual(false);
         expect(scope.includeTemplate).toEqual('views/sidebar.html');
+        expect(scope.appName).toEqual(longName);
     });
 
     it('test refresh button', function () {

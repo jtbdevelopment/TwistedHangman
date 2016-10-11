@@ -49,14 +49,11 @@ describe('Service: showGameSevice', function () {
             }]);
         }));
 
-        var location;
         // Initialize the controller and a mock scope
-        beforeEach(inject(function ($rootScope, $injector, $location) {
+        beforeEach(inject(function ($rootScope, $injector) {
             rootscope = $rootScope;
             scope = rootscope.$new();
-            location = $location;
             spyOn($rootScope, '$broadcast').and.callThrough();
-            spyOn(location, 'path');
             service = $injector.get('twGameDisplay');
         }));
 
@@ -69,18 +66,10 @@ describe('Service: showGameSevice', function () {
             expect(scope.letterClasses).toEqual(['regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular']);
         });
 
-        it('computeState with phase error', function () {
-            service.updateScopeForGame(scope, testGame);
-            phaseDeferred.reject();
-            rootscope.$apply();
-            expect(location.path).toHaveBeenCalledWith('/error');
-        });
-
         it('computeState with phase description', function () {
             service.updateScopeForGame(scope, testGame);
             phaseDeferred.resolve({something: ['X', 'Y'], Playing: ['havefun', 'ornot']});
             rootscope.$apply();
-            expect(location.path).not.toHaveBeenCalledWith('/error');
             expect(scope.phaseDescription).toEqual('havefun');
         });
 

@@ -21,6 +21,7 @@ angular
         'coreGamesUi',
         'coreGamesBootstrapUi'
     ])
+    .constant('jtbAppLongName', 'Twisted Hangman')
     .config(function ($routeProvider) {
         $routeProvider
             .when('/main', {
