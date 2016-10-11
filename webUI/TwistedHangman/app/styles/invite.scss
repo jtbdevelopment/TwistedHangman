@@ -1,7 +1,10 @@
 @import "variables";
 
-.inviteDialog {
+.invite-dialog {
+  background-color: $et_richbrownlight;
+
   .ui-select-match-item.btn.btn-default {
-    background-color: $et_flatbrownlight;
+    background-color: $et_greendark;
+    color: white;
   }
 }
