@@ -12,8 +12,8 @@ import org.springframework.data.annotation.Transient
  */
 @CompileStatic
 class TwistedHangmanPlayerAttributes extends AbstractPlayerGameTrackingAttributes {
-    public static final int DEFAULT_FREE_GAMES_PER_DAY = 50;
-    public static final int DEFAULT_PREMIUM_PLAYER_GAMES_PER_DAY = 100;
+    public static final int DEFAULT_FREE_GAMES_PER_DAY = 1000;
+    public static final int DEFAULT_PREMIUM_PLAYER_GAMES_PER_DAY = 5000;
 
     @Transient
     int maxDailyFreeGames
