@@ -101,28 +101,28 @@ describe('Controller: CreateCtrl', function () {
             friendsDeferred.resolve(friends);
             rootScope.$apply();
 
-            expect(scope.featureData).toEqual(featureData);
-            expect(scope.thieving).toEqual('Thieving');
-            expect(scope.drawGallows).toEqual('');
-            expect(scope.drawFace).toEqual('DrawFace');
-            expect(scope.gamePace).toEqual('Live');
+            expect(ctrl.featureData).toEqual(featureData);
+            expect(ctrl.thieving).toEqual('Thieving');
+            expect(ctrl.drawGallows).toEqual('');
+            expect(ctrl.drawFace).toEqual('DrawFace');
+            expect(ctrl.gamePace).toEqual('Live');
 
-            expect(scope.desiredPlayerCount).toEqual('SinglePlayer');
-            expect(scope.friends).toEqual([
+            expect(ctrl.desiredPlayerCount).toEqual('SinglePlayer');
+            expect(ctrl.friends).toEqual([
                 {md5: 'md1', displayName: 'friend1'},
                 {md5: 'md2', displayName: 'friend2'},
                 {md5: 'md3', displayName: 'friend3'},
                 {md5: 'md4', displayName: 'friend4'}
             ]);
-            expect(scope.invitableFBFriends).toEqual([]);
-            expect(scope.gamePace).toEqual('Live');
-            expect(scope.wordPhraseSetter).toEqual('SystemPuzzles');
-            expect(scope.winners).toEqual('SingleWinner');
-            expect(scope.h2hEnabled).toBe(false);
-            expect(scope.alternatingEnabled).toBe(false);
-            expect(scope.allFinishedEnabled).toBe(false);
-            expect(scope.turnBasedEnabled).toBe(false);
-            expect(scope.submitEnabled).toBe(true);
+            expect(ctrl.invitableFBFriends).toEqual([]);
+            expect(ctrl.gamePace).toEqual('Live');
+            expect(ctrl.wordPhraseSetter).toEqual('SystemPuzzles');
+            expect(ctrl.winners).toEqual('SingleWinner');
+            expect(ctrl.h2hEnabled).toBe(false);
+            expect(ctrl.alternatingEnabled).toBe(false);
+            expect(ctrl.allFinishedEnabled).toBe(false);
+            expect(ctrl.turnBasedEnabled).toBe(false);
+            expect(ctrl.submitEnabled).toBe(true);
             expect(adsCalled).toEqual(false);
         });
 
@@ -136,7 +136,7 @@ describe('Controller: CreateCtrl', function () {
                 expect(params.templateUrl).toEqual('views/core-bs/friends/invite-friends.html');
                 expect(params.controllerAs).toEqual('invite');
                 expect(params.size).toEqual('lg');
-                expect(params.resolve.invitableFriends()).toEqual(scope.invitableFBFriends);
+                expect(params.resolve.invitableFriends()).toEqual(ctrl.invitableFBFriends);
                 expect(params.resolve.message()).toEqual('Come play ' + longName + ' with me!');
                 modalOpened = true;
             }
@@ -162,37 +162,37 @@ describe('Controller: CreateCtrl', function () {
             friendsDeferred.resolve(friends);
             rootScope.$apply();
 
-            expect(scope.featureData).toEqual(featureData);
-            expect(scope.thieving).toEqual('Thieving');
-            expect(scope.drawGallows).toEqual('');
-            expect(scope.drawFace).toEqual('DrawFace');
-            expect(scope.gamePace).toEqual('Live');
+            expect(ctrl.featureData).toEqual(featureData);
+            expect(ctrl.thieving).toEqual('Thieving');
+            expect(ctrl.drawGallows).toEqual('');
+            expect(ctrl.drawFace).toEqual('DrawFace');
+            expect(ctrl.gamePace).toEqual('Live');
 
-            expect(scope.desiredPlayerCount).toEqual('SinglePlayer');
-            expect(scope.friends).toEqual([
+            expect(ctrl.desiredPlayerCount).toEqual('SinglePlayer');
+            expect(ctrl.friends).toEqual([
                 {md5: 'md1', displayName: 'friend1'},
                 {md5: 'md2', displayName: 'friend2'},
                 {md5: 'md3', displayName: 'friend3'},
                 {md5: 'md4', displayName: 'friend4'}
             ]);
-            expect(scope.invitableFBFriends).toEqual([
+            expect(ctrl.invitableFBFriends).toEqual([
                 {id: 'if1', name: 'ifriend1'},
                 {id: 'if2', name: 'ifriend2'},
                 {id: 'if3', name: 'ifriend3', url: 'http://ifriend3image.png'}
             ]);
-            expect(scope.gamePace).toEqual('Live');
-            expect(scope.wordPhraseSetter).toEqual('SystemPuzzles');
-            expect(scope.winners).toEqual('SingleWinner');
-            expect(scope.h2hEnabled).toBe(false);
-            expect(scope.alternatingEnabled).toBe(false);
-            expect(scope.allFinishedEnabled).toBe(false);
-            expect(scope.turnBasedEnabled).toBe(false);
-            expect(scope.submitEnabled).toBe(true);
+            expect(ctrl.gamePace).toEqual('Live');
+            expect(ctrl.wordPhraseSetter).toEqual('SystemPuzzles');
+            expect(ctrl.winners).toEqual('SingleWinner');
+            expect(ctrl.h2hEnabled).toBe(false);
+            expect(ctrl.alternatingEnabled).toBe(false);
+            expect(ctrl.allFinishedEnabled).toBe(false);
+            expect(ctrl.turnBasedEnabled).toBe(false);
+            expect(ctrl.submitEnabled).toBe(true);
             expect(adsCalled).toEqual(false);
         });
 
         it('show invite opens dialog', function () {
-            scope.showInvite();
+            ctrl.showInvite();
             expect(modalOpened).toEqual(true);
             expect(adsCalled).toEqual(false);
         });
@@ -207,206 +207,206 @@ describe('Controller: CreateCtrl', function () {
 
         it('resets to single player', function () {
             //  should not change
-            scope.thieving = '';
-            scope.drawGallows = 'DrawGallows';
-            scope.drawFace = '';
+            ctrl.thieving = '';
+            ctrl.drawGallows = 'DrawGallows';
+            ctrl.drawFace = '';
 
             //  should change
-            scope.desiredPlayerCount = 'X';
-            scope.gamePace = 'TurnBased';
-            scope.chosenFriends.push(scope.friends[1]);
+            ctrl.desiredPlayerCount = 'X';
+            ctrl.gamePace = 'TurnBased';
+            ctrl.chosenFriends.push(ctrl.friends[1]);
             scope.$apply();
-            scope.wordPhraseSetter = 'Y';
-            scope.winners = 'X';
-            scope.h2hEnabled = true;
-            scope.alternatingEnabled = true;
-            scope.alternatingEnabled = true;
-            scope.turnBasedEnabled = true;
+            ctrl.wordPhraseSetter = 'Y';
+            ctrl.winners = 'X';
+            ctrl.h2hEnabled = true;
+            ctrl.alternatingEnabled = true;
+            ctrl.alternatingEnabled = true;
+            ctrl.turnBasedEnabled = true;
 
-            scope.setSinglePlayer();
+            ctrl.setSinglePlayer();
 
-            expect(scope.thieving).toEqual('');
-            expect(scope.drawGallows).toEqual('DrawGallows');
-            expect(scope.drawFace).toEqual('');
-            expect(scope.chosenFriends).toEqual([]);
-            expect(scope.gamePace).toEqual('Live');
-            expect(scope.desiredPlayerCount).toEqual('SinglePlayer');
-            expect(scope.wordPhraseSetter).toEqual('SystemPuzzles');
-            expect(scope.winners).toEqual('SingleWinner');
-            expect(scope.h2hEnabled).toBe(false);
-            expect(scope.alternatingEnabled).toBe(false);
-            expect(scope.allFinishedEnabled).toBe(false);
-            expect(scope.turnBasedEnabled).toBe(false);
-            expect(scope.submitEnabled).toBe(true);
+            expect(ctrl.thieving).toEqual('');
+            expect(ctrl.drawGallows).toEqual('DrawGallows');
+            expect(ctrl.drawFace).toEqual('');
+            expect(ctrl.chosenFriends).toEqual([]);
+            expect(ctrl.gamePace).toEqual('Live');
+            expect(ctrl.desiredPlayerCount).toEqual('SinglePlayer');
+            expect(ctrl.wordPhraseSetter).toEqual('SystemPuzzles');
+            expect(ctrl.winners).toEqual('SingleWinner');
+            expect(ctrl.h2hEnabled).toBe(false);
+            expect(ctrl.alternatingEnabled).toBe(false);
+            expect(ctrl.allFinishedEnabled).toBe(false);
+            expect(ctrl.turnBasedEnabled).toBe(false);
+            expect(ctrl.submitEnabled).toBe(true);
             expect(adsCalled).toEqual(false);
         });
 
         it('changes to two player from multiplayer', function () {
             //  should not change
-            scope.thieving = '';
-            scope.drawGallows = 'DrawGallows';
-            scope.drawFace = '';
-            scope.gamePace = 'TurnBased';
-            scope.wordPhraseSetter = 'SystemPuzzles';
-            scope.winners = 'AllComplete';
+            ctrl.thieving = '';
+            ctrl.drawGallows = 'DrawGallows';
+            ctrl.drawFace = '';
+            ctrl.gamePace = 'TurnBased';
+            ctrl.wordPhraseSetter = 'SystemPuzzles';
+            ctrl.winners = 'AllComplete';
 
             //  should change
-            scope.desiredPlayerCount = 'X';
-            scope.chosenFriends.push(scope.friends[1]);
-            scope.chosenFriends.push(scope.friends[2]);
+            ctrl.desiredPlayerCount = 'X';
+            ctrl.chosenFriends.push(ctrl.friends[1]);
+            ctrl.chosenFriends.push(ctrl.friends[2]);
             scope.$apply();
-            scope.h2hEnabled = false;
-            scope.alternatingEnabled = false;
-            scope.alternatingEnabled = false;
-            scope.turnBasedEnabled = false;
+            ctrl.h2hEnabled = false;
+            ctrl.alternatingEnabled = false;
+            ctrl.alternatingEnabled = false;
+            ctrl.turnBasedEnabled = false;
 
-            scope.setTwoPlayers();
+            ctrl.setTwoPlayers();
 
-            expect(scope.thieving).toEqual('');
-            expect(scope.drawGallows).toEqual('DrawGallows');
-            expect(scope.drawFace).toEqual('');
-            expect(scope.gamePace).toEqual('TurnBased');
+            expect(ctrl.thieving).toEqual('');
+            expect(ctrl.drawGallows).toEqual('DrawGallows');
+            expect(ctrl.drawFace).toEqual('');
+            expect(ctrl.gamePace).toEqual('TurnBased');
 
-            expect(scope.desiredPlayerCount).toEqual('TwoPlayer');
-            expect(scope.chosenFriends).toEqual([]);
-            expect(scope.gamePace).toEqual('TurnBased');
-            expect(scope.wordPhraseSetter).toEqual('SystemPuzzles');
-            expect(scope.winners).toEqual('AllComplete');
-            expect(scope.h2hEnabled).toBe(true);
-            expect(scope.alternatingEnabled).toBe(true);
-            expect(scope.allFinishedEnabled).toBe(true);
-            expect(scope.turnBasedEnabled).toBe(true);
-            expect(scope.submitEnabled).toBe(false);
+            expect(ctrl.desiredPlayerCount).toEqual('TwoPlayer');
+            expect(ctrl.chosenFriends).toEqual([]);
+            expect(ctrl.gamePace).toEqual('TurnBased');
+            expect(ctrl.wordPhraseSetter).toEqual('SystemPuzzles');
+            expect(ctrl.winners).toEqual('AllComplete');
+            expect(ctrl.h2hEnabled).toBe(true);
+            expect(ctrl.alternatingEnabled).toBe(true);
+            expect(ctrl.allFinishedEnabled).toBe(true);
+            expect(ctrl.turnBasedEnabled).toBe(true);
+            expect(ctrl.submitEnabled).toBe(false);
             expect(adsCalled).toEqual(false);
         });
 
         it('changes to two player from multiplayer with only one opponent', function () {
-            scope.chosenFriends.push(scope.friends[1]);
+            ctrl.chosenFriends.push(ctrl.friends[1]);
             scope.$apply();
-            scope.setTwoPlayers();
-            expect(scope.chosenFriends).toEqual([scope.friends[1]]);
-            expect(scope.submitEnabled).toBe(true);
+            ctrl.setTwoPlayers();
+            expect(ctrl.chosenFriends).toEqual([ctrl.friends[1]]);
+            expect(ctrl.submitEnabled).toBe(true);
             expect(adsCalled).toEqual(false);
         });
 
         it('changes to multi player from multiplayer', function () {
             //  should not change
-            scope.thieving = '';
-            scope.drawGallows = 'DrawGallows';
-            scope.drawFace = '';
-            scope.gamePace = 'TurnBased';
-            scope.winners = 'AllComplete';
-            scope.chosenFriends.push(scope.friends[0]);
-            scope.chosenFriends.push(scope.friends[1]);
+            ctrl.thieving = '';
+            ctrl.drawGallows = 'DrawGallows';
+            ctrl.drawFace = '';
+            ctrl.gamePace = 'TurnBased';
+            ctrl.winners = 'AllComplete';
+            ctrl.chosenFriends.push(ctrl.friends[0]);
+            ctrl.chosenFriends.push(ctrl.friends[1]);
             scope.$apply();
 
             //  should change
-            scope.wordPhraseSetter = 'Head2Head';
-            scope.desiredPlayerCount = 'X';
-            scope.h2hEnabled = true;
-            scope.alternatingEnabled = false;
-            scope.alternatingEnabled = false;
-            scope.turnBasedEnabled = false;
+            ctrl.wordPhraseSetter = 'Head2Head';
+            ctrl.desiredPlayerCount = 'X';
+            ctrl.h2hEnabled = true;
+            ctrl.alternatingEnabled = false;
+            ctrl.alternatingEnabled = false;
+            ctrl.turnBasedEnabled = false;
 
-            scope.setThreePlayers();
+            ctrl.setThreePlayers();
 
-            expect(scope.thieving).toEqual('');
-            expect(scope.drawGallows).toEqual('DrawGallows');
-            expect(scope.drawFace).toEqual('');
-            expect(scope.gamePace).toEqual('TurnBased');
+            expect(ctrl.thieving).toEqual('');
+            expect(ctrl.drawGallows).toEqual('DrawGallows');
+            expect(ctrl.drawFace).toEqual('');
+            expect(ctrl.gamePace).toEqual('TurnBased');
 
-            expect(scope.desiredPlayerCount).toEqual('ThreePlus');
-            expect(scope.chosenFriends).toEqual([scope.friends[0], scope.friends[1]]);
-            expect(scope.gamePace).toEqual('TurnBased');
-            expect(scope.wordPhraseSetter).toEqual('SystemPuzzles');
-            expect(scope.winners).toEqual('AllComplete');
-            expect(scope.h2hEnabled).toBe(false);
-            expect(scope.alternatingEnabled).toBe(true);
-            expect(scope.allFinishedEnabled).toBe(true);
-            expect(scope.turnBasedEnabled).toBe(true);
-            expect(scope.submitEnabled).toBe(true);
+            expect(ctrl.desiredPlayerCount).toEqual('ThreePlus');
+            expect(ctrl.chosenFriends).toEqual([ctrl.friends[0], ctrl.friends[1]]);
+            expect(ctrl.gamePace).toEqual('TurnBased');
+            expect(ctrl.wordPhraseSetter).toEqual('SystemPuzzles');
+            expect(ctrl.winners).toEqual('AllComplete');
+            expect(ctrl.h2hEnabled).toBe(false);
+            expect(ctrl.alternatingEnabled).toBe(true);
+            expect(ctrl.allFinishedEnabled).toBe(true);
+            expect(ctrl.turnBasedEnabled).toBe(true);
+            expect(ctrl.submitEnabled).toBe(true);
             expect(adsCalled).toEqual(false);
         });
 
         it('test submit enable for single player game', function () {
             //  Hopefully not possible to achieve this state in the first place
             //  but added protection to make sure button is disabled
-            scope.setSinglePlayer();
-            expect(scope.submitEnabled).toBe(true);
+            ctrl.setSinglePlayer();
+            expect(ctrl.submitEnabled).toBe(true);
 
-            scope.chosenFriends.push(scope.friends[0]);
+            ctrl.chosenFriends.push(ctrl.friends[0]);
             scope.$apply();
 
-            expect(scope.chosenFriends).toEqual([scope.friends[0]]);
-            expect(scope.submitEnabled).toBe(false);
+            expect(ctrl.chosenFriends).toEqual([ctrl.friends[0]]);
+            expect(ctrl.submitEnabled).toBe(false);
 
-            scope.clearPlayers();
-            expect(scope.chosenFriends).toEqual([]);
-            expect(scope.submitEnabled).toBe(true);
+            ctrl.clearPlayers();
+            expect(ctrl.chosenFriends).toEqual([]);
+            expect(ctrl.submitEnabled).toBe(true);
             expect(adsCalled).toEqual(false);
         });
 
 
         it('test submit enable for two player game', function () {
-            scope.setTwoPlayers();
+            ctrl.setTwoPlayers();
             scope.$apply();
-            expect(scope.chosenFriends).toEqual([]);
-            expect(scope.submitEnabled).toBe(false);
+            expect(ctrl.chosenFriends).toEqual([]);
+            expect(ctrl.submitEnabled).toBe(false);
 
-            scope.chosenFriends.push(scope.friends[0]);
-            scope.$apply();
-
-            expect(scope.chosenFriends).toEqual([scope.friends[0]]);
-            expect(scope.submitEnabled).toBe(true);
-
-            scope.chosenFriends.push(scope.friends[1]);
+            ctrl.chosenFriends.push(ctrl.friends[0]);
             scope.$apply();
 
-            expect(scope.chosenFriends).toEqual([scope.friends[0], scope.friends[1]]);
-            expect(scope.submitEnabled).toBe(false);
+            expect(ctrl.chosenFriends).toEqual([ctrl.friends[0]]);
+            expect(ctrl.submitEnabled).toBe(true);
 
-            scope.chosenFriends.splice(0, 1);
+            ctrl.chosenFriends.push(ctrl.friends[1]);
             scope.$apply();
 
-            expect(scope.chosenFriends).toEqual([scope.friends[1]]);
-            expect(scope.submitEnabled).toBe(true);
+            expect(ctrl.chosenFriends).toEqual([ctrl.friends[0], ctrl.friends[1]]);
+            expect(ctrl.submitEnabled).toBe(false);
 
-            scope.clearPlayers();
-            expect(scope.chosenFriends).toEqual([]);
-            expect(scope.submitEnabled).toBe(false);
+            ctrl.chosenFriends.splice(0, 1);
+            scope.$apply();
+
+            expect(ctrl.chosenFriends).toEqual([ctrl.friends[1]]);
+            expect(ctrl.submitEnabled).toBe(true);
+
+            ctrl.clearPlayers();
+            expect(ctrl.chosenFriends).toEqual([]);
+            expect(ctrl.submitEnabled).toBe(false);
             expect(adsCalled).toEqual(false);
         });
 
         it('test submit enable for multi player game', function () {
-            scope.setThreePlayers();
+            ctrl.setThreePlayers();
             scope.$apply();
-            expect(scope.chosenFriends).toEqual([]);
-            expect(scope.submitEnabled).toBe(false);
+            expect(ctrl.chosenFriends).toEqual([]);
+            expect(ctrl.submitEnabled).toBe(false);
 
-            scope.chosenFriends.push(scope.friends[0]);
+            ctrl.chosenFriends.push(ctrl.friends[0]);
             scope.$apply();
-            expect(scope.chosenFriends).toEqual([scope.friends[0]]);
-            expect(scope.submitEnabled).toBe(false);
+            expect(ctrl.chosenFriends).toEqual([ctrl.friends[0]]);
+            expect(ctrl.submitEnabled).toBe(false);
 
-            scope.chosenFriends.push(scope.friends[1]);
+            ctrl.chosenFriends.push(ctrl.friends[1]);
             scope.$apply();
-            expect(scope.chosenFriends).toEqual([scope.friends[0], scope.friends[1]]);
-            expect(scope.submitEnabled).toBe(true);
+            expect(ctrl.chosenFriends).toEqual([ctrl.friends[0], ctrl.friends[1]]);
+            expect(ctrl.submitEnabled).toBe(true);
 
-            scope.chosenFriends.push(scope.friends[2]);
+            ctrl.chosenFriends.push(ctrl.friends[2]);
             scope.$apply();
-            expect(scope.chosenFriends).toEqual([scope.friends[0], scope.friends[1], scope.friends[2]]);
-            expect(scope.submitEnabled).toBe(true);
+            expect(ctrl.chosenFriends).toEqual([ctrl.friends[0], ctrl.friends[1], ctrl.friends[2]]);
+            expect(ctrl.submitEnabled).toBe(true);
 
-            scope.clearPlayers();
-            expect(scope.chosenFriends).toEqual([]);
-            expect(scope.submitEnabled).toBe(false);
+            ctrl.clearPlayers();
+            expect(ctrl.chosenFriends).toEqual([]);
+            expect(ctrl.submitEnabled).toBe(false);
             expect(adsCalled).toEqual(false);
         });
 
         it('test create game submission sp', function () {
-            scope.setSinglePlayer();
-            scope.createGame();
+            ctrl.setSinglePlayer();
+            ctrl.createGame();
             adPopupModalResult.resolve();
             rootScope.$apply();
             expect(jtbGameActions.new).toHaveBeenCalledWith({
@@ -417,14 +417,14 @@ describe('Controller: CreateCtrl', function () {
         });
 
         it('test create game submission 2player', function () {
-            scope.setTwoPlayers();
-            scope.thieving = '';
-            scope.chosenFriends = [{md5: 'x'}];
-            scope.winners = 'SingleWinner';
-            scope.gamePace = 'TurnBased';
-            scope.drawFace = '';
-            scope.wordPhraseSetter = 'Head2Head';
-            scope.createGame();
+            ctrl.setTwoPlayers();
+            ctrl.thieving = '';
+            ctrl.chosenFriends = [{md5: 'x'}];
+            ctrl.winners = 'SingleWinner';
+            ctrl.gamePace = 'TurnBased';
+            ctrl.drawFace = '';
+            ctrl.wordPhraseSetter = 'Head2Head';
+            ctrl.createGame();
             adPopupModalResult.resolve();
             rootScope.$apply();
             expect(adsCalled).toEqual(true);
@@ -435,12 +435,12 @@ describe('Controller: CreateCtrl', function () {
         });
 
         it('test create game submission 3+player', function () {
-            scope.setThreePlayers();
-            scope.thieving = '';
-            scope.chosenFriends = [{md5: 'x'}, {md5: 'y'}];
-            scope.winners = 'AllComplete';
-            scope.gamePace = 'TurnBased';
-            scope.createGame();
+            ctrl.setThreePlayers();
+            ctrl.thieving = '';
+            ctrl.chosenFriends = [{md5: 'x'}, {md5: 'y'}];
+            ctrl.winners = 'AllComplete';
+            ctrl.gamePace = 'TurnBased';
+            ctrl.createGame();
             adPopupModalResult.resolve();
             rootScope.$apply();
             expect(adsCalled).toEqual(true);

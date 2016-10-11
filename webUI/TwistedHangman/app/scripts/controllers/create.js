@@ -6,40 +6,41 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
         function ($rootScope, $scope, jtbBootstrapGameActions, jtbAppLongName,
                   twGameFeatureService, jtbPlayerService, $uibModal, twAds) {
 
+            var controller = this;
             var SINGLE_PLAYER = 'SinglePlayer';
             var TWO_PLAYERS = 'TwoPlayer';
             var MULTI_PLAYER = 'ThreePlus';
             var SYSTEM_PUZZLES = 'SystemPuzzles';
 
             function calcSubmitEnabled() {
-                switch ($scope.desiredPlayerCount) {
+                switch (controller.desiredPlayerCount) {
                     case    SINGLE_PLAYER:
-                        $scope.submitEnabled = ($scope.chosenFriends.length === 0);
+                        controller.submitEnabled = (controller.chosenFriends.length === 0);
                         break;
                     case    TWO_PLAYERS:
-                        $scope.submitEnabled = ($scope.chosenFriends.length === 1);
+                        controller.submitEnabled = (controller.chosenFriends.length === 1);
                         break;
                     case    MULTI_PLAYER:
-                        $scope.submitEnabled = ($scope.chosenFriends.length > 1);
+                        controller.submitEnabled = (controller.chosenFriends.length > 1);
                         break;
                 }
             }
 
-            $scope.featureData = {};
+            controller.featureData = {};
             twGameFeatureService.features().then(function (data) {
-                $scope.featureData = data;
+                controller.featureData = data;
             });
 
-            $scope.friends = [];
-            $scope.invitableFBFriends = [];
-            $scope.chosenFriends = [];
+            controller.friends = [];
+            controller.invitableFBFriends = [];
+            controller.chosenFriends = [];
             jtbPlayerService.currentPlayerFriends().then(function (data) {
                 angular.forEach(data.maskedFriends, function (displayName, hash) {
                     var friend = {
                         md5: hash,
                         displayName: displayName
                     };
-                    $scope.friends.push(friend);
+                    controller.friends.push(friend);
                 });
                 if (jtbPlayerService.currentPlayer().source === 'facebook') {
                     angular.forEach(data.invitableFriends, function (friend) {
@@ -50,71 +51,73 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
                         if (angular.isDefined(friend.picture) && angular.isDefined(friend.picture.url)) {
                             invite.url = friend.picture.url;
                         }
-                        $scope.invitableFBFriends.push(invite);
+                        controller.invitableFBFriends.push(invite);
                     });
                 }
             });
 
-            $scope.thieving = 'Thieving';
-            $scope.drawGallows = '';
-            $scope.drawFace = 'DrawFace';
-            $scope.gamePace = 'Live';
-            $scope.submitEnabled = false;
-            $scope.desiredPlayerCount = '';
-            $scope.playersEnabled = false;
-            $scope.$watchCollection('chosenFriends', calcSubmitEnabled);
+            controller.thieving = 'Thieving';
+            controller.drawGallows = '';
+            controller.drawFace = 'DrawFace';
+            controller.gamePace = 'Live';
+            controller.submitEnabled = false;
+            controller.desiredPlayerCount = '';
+            controller.playersEnabled = false;
+            $scope.$watchCollection(function () {
+                return controller.chosenFriends;
+            }, calcSubmitEnabled);
 
-            $scope.clearPlayers = function () {
-                $scope.chosenFriends = [];
+            controller.clearPlayers = function () {
+                controller.chosenFriends = [];
                 calcSubmitEnabled();
             };
 
-            $scope.setSinglePlayer = function () {
-                $scope.playersEnabled = false;
-                $scope.desiredPlayerCount = SINGLE_PLAYER;
-                $scope.gamePace = 'Live';
-                $scope.wordPhraseSetter = SYSTEM_PUZZLES;
-                $scope.winners = 'SingleWinner';
-                $scope.h2hEnabled = false;
-                $scope.alternatingEnabled = false;
-                $scope.allFinishedEnabled = false;
-                $scope.turnBasedEnabled = false;
-                $scope.chosenFriends = [];
+            controller.setSinglePlayer = function () {
+                controller.playersEnabled = false;
+                controller.desiredPlayerCount = SINGLE_PLAYER;
+                controller.gamePace = 'Live';
+                controller.wordPhraseSetter = SYSTEM_PUZZLES;
+                controller.winners = 'SingleWinner';
+                controller.h2hEnabled = false;
+                controller.alternatingEnabled = false;
+                controller.allFinishedEnabled = false;
+                controller.turnBasedEnabled = false;
+                controller.chosenFriends = [];
                 calcSubmitEnabled();
             };
 
-            $scope.setTwoPlayers = function () {
-                $scope.playersEnabled = true;
-                $scope.desiredPlayerCount = TWO_PLAYERS;
-                $scope.h2hEnabled = true;
-                $scope.alternatingEnabled = true;
-                $scope.allFinishedEnabled = true;
-                $scope.turnBasedEnabled = true;
-                if ($scope.chosenFriends.length > 1) {
-                    $scope.chosenFriends = [];
+            controller.setTwoPlayers = function () {
+                controller.playersEnabled = true;
+                controller.desiredPlayerCount = TWO_PLAYERS;
+                controller.h2hEnabled = true;
+                controller.alternatingEnabled = true;
+                controller.allFinishedEnabled = true;
+                controller.turnBasedEnabled = true;
+                if (controller.chosenFriends.length > 1) {
+                    controller.chosenFriends = [];
                 }
                 calcSubmitEnabled();
             };
 
-            $scope.setThreePlayers = function () {
-                $scope.playersEnabled = true;
-                $scope.desiredPlayerCount = MULTI_PLAYER;
-                $scope.h2hEnabled = false;
-                $scope.alternatingEnabled = true;
-                $scope.allFinishedEnabled = true;
-                $scope.turnBasedEnabled = true;
-                if ($scope.wordPhraseSetter === 'Head2Head') {
-                    $scope.wordPhraseSetter = SYSTEM_PUZZLES;
+            controller.setThreePlayers = function () {
+                controller.playersEnabled = true;
+                controller.desiredPlayerCount = MULTI_PLAYER;
+                controller.h2hEnabled = false;
+                controller.alternatingEnabled = true;
+                controller.allFinishedEnabled = true;
+                controller.turnBasedEnabled = true;
+                if (controller.wordPhraseSetter === 'Head2Head') {
+                    controller.wordPhraseSetter = SYSTEM_PUZZLES;
                 }
                 calcSubmitEnabled();
             };
 
-            $scope.createGame = function () {
+            controller.createGame = function () {
                 twAds.showAdPopup().then(function () {
                     var featureNames = ['wordPhraseSetter', 'desiredPlayerCount', 'thieving', 'drawGallows', 'drawFace', 'gamePace', 'winners'];
                     var featureSet = [];
                     featureSet = featureSet.concat(featureNames.map(function (name) {
-                            var data = $scope[name];
+                        var data = controller[name];
                             if ((angular.isDefined(data)) && (data !== '')) {
                                 return data;
                             }
@@ -124,7 +127,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
                         return item !== '';
                     }));
 
-                    var players = $scope.chosenFriends.map(function (player) {
+                    var players = controller.chosenFriends.map(function (player) {
                         return player.md5;
                     });
                     var playersAndFeatures = {'players': players, 'features': featureSet};
@@ -132,7 +135,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
                 });
             };
 
-            $scope.showInvite = function () {
+            controller.showInvite = function () {
                 $uibModal.open({
                     templateUrl: 'views/core-bs/friends/invite-friends.html',
                     controller: 'CoreBootstrapInviteCtrl',
@@ -140,7 +143,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
                     size: 'lg',
                     resolve: {
                         invitableFriends: function () {
-                            return $scope.invitableFBFriends;
+                            return controller.invitableFBFriends;
                         },
                         message: function () {
                             return 'Come play ' + jtbAppLongName + ' with me!';
@@ -150,7 +153,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
             };
 
             //  Initialize
-            $scope.setSinglePlayer();
+            controller.setSinglePlayer();
         }
     ]
 );

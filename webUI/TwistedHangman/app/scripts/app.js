@@ -42,7 +42,8 @@ angular
             })
             .when('/create', {
                 templateUrl: 'views/create.html',
-                controller: 'CreateCtrl'
+                controller: 'CreateCtrl',
+                controllerAs: 'create'
             })
             .when('/about', {
                 templateUrl: 'views/about.html',
