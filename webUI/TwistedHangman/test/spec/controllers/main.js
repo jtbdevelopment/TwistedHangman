@@ -5,17 +5,14 @@ describe('Controller: MainCtrl', function () {
     // load the controller's module
     beforeEach(module('twistedHangmanApp'));
 
-    var MainCtrl, rootScope, scope, playerService, gameCache, location, timeout, player, gameDetails;
+    var MainCtrl, rootScope, scope, playerService, gameCache, player;
     var longName = 'long name';
     var logoutCalled;
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function ($controller, $rootScope, $timeout, $location) {
+    beforeEach(inject(function ($controller, $rootScope) {
         scope = $rootScope.$new();
         rootScope = $rootScope;
-        timeout = $timeout;
-        location = $location;
-        gameDetails = {};
         spyOn(rootScope, '$broadcast').and.callThrough();
         logoutCalled = false;
         gameCache = {};
@@ -30,11 +27,9 @@ describe('Controller: MainCtrl', function () {
         player = {displayName: 'XYZ', md5: '1234', adminUser: true};
         MainCtrl = $controller('MainCtrl', {
             $scope: scope,
-            $location: location,
             jtbAppLongName: longName,
             jtbPlayerService: playerService,
-            jtbGameCache: gameCache,
-            twGameDetails: gameDetails
+            jtbGameCache: gameCache
         });
     }));
 
