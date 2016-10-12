@@ -3,7 +3,7 @@
 angular.module('twistedHangmanApp').factory('twGameDisplay',
     ['$rootScope', 'jtbGamePhaseService', 'twGameDetails',
         function ($rootScope, jtbGamePhaseService, twGameDetails) {
-            var LETTERA = 'A'.charCodeAt(0);
+            var LETTER_A = 'A'.charCodeAt(0);
 
             function computeImage(scope) {
                 if (angular.isUndefined(scope.gameState)) {
@@ -46,14 +46,14 @@ angular.module('twistedHangmanApp').factory('twGameDisplay',
             function computeKeyboardDisplay(scope) {
                 if (angular.isDefined(scope.gameState)) {
                     scope.gameState.guessedLetters.forEach(function (item) {
-                        scope.letterClasses[item.charCodeAt(0) - LETTERA] = 'guessedkb';
+                        scope.letterClasses[item.charCodeAt(0) - LETTER_A] = 'guessedkb';
                     });
                     scope.gameState.badlyGuessedLetters.forEach(function (item) {
-                        scope.letterClasses[item.charCodeAt(0) - LETTERA] = 'badguesskb';
+                        scope.letterClasses[item.charCodeAt(0) - LETTER_A] = 'badguesskb';
                     });
                     if (angular.isDefined(scope.gameState.featureData.ThievingLetters)) {
                         scope.gameState.featureData.ThievingLetters.forEach(function (item) {
-                            scope.letterClasses[item.charCodeAt(0) - LETTERA] = 'stolenkb';
+                            scope.letterClasses[item.charCodeAt(0) - LETTER_A] = 'stolenkb';
                         });
                     }
                 }
