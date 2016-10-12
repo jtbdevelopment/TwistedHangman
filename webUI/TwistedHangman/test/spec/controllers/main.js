@@ -13,7 +13,6 @@ describe('Controller: MainCtrl', function () {
     beforeEach(inject(function ($controller, $rootScope) {
         scope = $rootScope.$new();
         rootScope = $rootScope;
-        spyOn(rootScope, '$broadcast').and.callThrough();
         logoutCalled = false;
         gameCache = {};
         playerService = {
@@ -49,11 +48,6 @@ describe('Controller: MainCtrl', function () {
         expect(scope.showLogout).toEqual(false);
         expect(scope.includeTemplate).toEqual('views/sidebar.html');
         expect(scope.appName).toEqual(longName);
-    });
-
-    it('test refresh button', function () {
-        scope.refreshGames();
-        expect(rootScope.$broadcast).toHaveBeenCalledWith('refreshGames', '');
     });
 
     it('refreshes on "playerLoaded" broadcast', function () {

@@ -9,8 +9,8 @@
  */
 angular.module('twistedHangmanApp')
     .controller('MainCtrl',
-        ['$rootScope', '$scope', 'jtbAppLongName', 'jtbGameCache', 'jtbPlayerService',
-            function ($rootScope, $scope, jtbAppLongName, jtbGameCache, jtbPlayerService) {
+        ['$scope', 'jtbAppLongName', 'jtbGameCache', 'jtbPlayerService',
+            function ($scope, jtbAppLongName, jtbGameCache, jtbPlayerService) {
                 $scope.playerGreeting = '';
                 $scope.createRefreshEnabled = false;
                 $scope.showAdmin = false;
@@ -20,10 +20,6 @@ angular.module('twistedHangmanApp')
                 $scope.includeTemplate = 'views/empty.html';
                 $scope.appName = jtbAppLongName;
                 console.log(jtbGameCache);
-
-                $scope.refreshGames = function () {
-                    $rootScope.$broadcast('refreshGames', '');
-                };
 
                 $scope.logout = function () {
                     $scope.includeTemplate = 'views/empty.html';
