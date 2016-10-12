@@ -2,6 +2,8 @@
 @import "compass/css3/opacity";
 
 .createGame {
+  margin-right: 15px;
+
   .btn-default {
     color: #ffffff;
     padding: 6px 6px;
@@ -24,6 +26,7 @@
   .ui-select-match-item.btn.btn-default {
     background-color: $et_greenmedium;
   }
+
   .createButton {
     background-color: $et_greenmedium;
   }
