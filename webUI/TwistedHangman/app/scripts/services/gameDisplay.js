@@ -148,8 +148,6 @@ angular.module('twistedHangmanApp').factory('twGameDisplay',
                     if (angular.isDefined(scope.game)) {
                         jtbGamePhaseService.phases().then(function (phases) {
                             scope.phaseDescription = phases[scope.game.gamePhase][0];
-                        }, function () {
-                            //  TODO
                         });
 
                         scope.lastUpdate = parseDate(scope.game.lastUpdate);

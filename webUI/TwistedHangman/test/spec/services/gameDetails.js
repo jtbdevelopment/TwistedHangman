@@ -100,8 +100,10 @@ describe('Service: twGameDetails', function () {
         it('player response needed for game in challenged ', function () {
             game.gamePhase = 'Challenged';
             expect(service.playerChallengeResponseNeeded(game, 'md1')).toEqual(true);
+            expect(service.playerActionRequired(game, 'md1')).toEqual(true);
             ['md2', 'md3', 'md4', 'md5'].forEach(function (md) {
                 expect(service.playerChallengeResponseNeeded(game, md)).toEqual(false);
+                expect(service.playerActionRequired(game, md)).toEqual(false);
             });
         });
 
@@ -127,6 +129,7 @@ describe('Service: twGameDetails', function () {
             expect(service.playerCanPlay(game, 'md1', 'md2', 'md4', 'md5')).toEqual(false);
             ['md3'].forEach(function (md) {
                 expect(service.playerCanPlay(game, md)).toEqual(true);
+                expect(service.playerActionRequired(game, md)).toEqual(true);
             });
         });
 
@@ -137,8 +140,11 @@ describe('Service: twGameDetails', function () {
             game.featureData = {TurnBased: 'md3'};
             expect(service.playerCanPlay(game, 'md1')).toEqual(false);
             expect(service.playerCanPlay(game, 'md3')).toEqual(true);
+            expect(service.playerActionRequired(game, 'md1')).toEqual(false);
+            expect(service.playerActionRequired(game, 'md3')).toEqual(true);
             ['md2', 'md4', 'md5'].forEach(function (md) {
                 expect(service.playerCanPlay(game, md)).toEqual(false);
+                expect(service.playerActionRequired(game, md)).toEqual(false);
             });
         });
 
@@ -162,6 +168,7 @@ describe('Service: twGameDetails', function () {
             game.wordPhraseSetter = '';
             ['md1', 'md2', 'md3', 'md4', 'md5'].forEach(function (md) {
                 expect(service.playerSetupEntryRequired(game, md)).toEqual(false);
+                expect(service.playerActionRequired(game, md)).toEqual(false);
             });
         });
 
@@ -169,8 +176,10 @@ describe('Service: twGameDetails', function () {
             game.gamePhase = 'Setup';
             game.wordPhraseSetter = 'md1';
             expect(service.playerSetupEntryRequired(game, 'md1')).toEqual(true);
+            expect(service.playerActionRequired(game, 'md1')).toEqual(true);
             ['md2', 'md3', 'md4', 'md5'].forEach(function (md) {
                 expect(service.playerSetupEntryRequired(game, md)).toEqual(false);
+                expect(service.playerActionRequired(game, md)).toEqual(false);
             });
         });
 
@@ -184,8 +193,11 @@ describe('Service: twGameDetails', function () {
             };
 
             expect(service.playerSetupEntryRequired(game, 'md1')).toEqual(false);
+            expect(service.playerActionRequired(game, 'md1')).toEqual(false);
             expect(service.playerSetupEntryRequired(game, 'md2')).toEqual(true);
+            expect(service.playerActionRequired(game, 'md2')).toEqual(true);
             expect(service.playerSetupEntryRequired(game, 'md3')).toEqual(false);
+            expect(service.playerActionRequired(game, 'md3')).toEqual(false);
         });
 
         it('role for player', function () {

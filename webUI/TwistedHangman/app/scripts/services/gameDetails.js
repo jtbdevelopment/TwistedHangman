@@ -6,7 +6,7 @@ angular.module('twistedHangmanApp').factory('twGameDetails',
             return !(angular.isUndefined(game) || angular.isUndefined(md5) || md5.trim() === '');
         }
 
-        return {
+        var service = {
             playerChallengeResponseNeeded: function (game, md5) {
                 if (!checkParams(game, md5)) {
                     return false;
@@ -65,6 +65,12 @@ angular.module('twistedHangmanApp').factory('twGameDetails',
                 } else {
                     return game.wordPhraseSetter === md5;
                 }
+            },
+
+            playerActionRequired: function (game, md5) {
+                return service.playerSetupEntryRequired(game, md5) ||
+                    service.playerChallengeResponseNeeded(game, md5) ||
+                    service.playerCanPlay(game, md5);
             },
 
             roleForPlayer: function (game, md5) {
@@ -236,6 +242,7 @@ angular.module('twistedHangmanApp').factory('twGameDetails',
                 return t;
             }
         };
+        return service;
     }
 );
 
