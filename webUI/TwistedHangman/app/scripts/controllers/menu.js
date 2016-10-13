@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('twistedHangmanApp').controller('MenuCtrl',
-    ['$scope', 'jtbGameCache', 'jtbGameClassifier', 'twGameDetails',
-        function ($scope, jtbGameCache, jtbGameClassifier, twGameDetails) {
+    ['$scope', 'jtbGameCache', 'jtbGameClassifier', 'twGameDetails', '$timeout', '$animate',
+        function ($scope, jtbGameCache, jtbGameClassifier, twGameDetails, $timeout, $animate) {
             var controller = this;
 
             controller.phases = [];
@@ -34,6 +34,20 @@ angular.module('twistedHangmanApp').controller('MenuCtrl',
                 });
             }
 
+            function shakeIt(game) {
+                $timeout(function () {
+                    console.log('Shaking ' + JSON.stringify(game));
+                    var buttonId = '#' + game.id;
+                    var prop = angular.element(buttonId);
+                    if (angular.isDefined(prop)) {
+                        $animate.addClass(prop, 'animated shake').then(function () {
+                            var prop = angular.element(buttonId);
+                            $animate.removeClass(prop, 'animated shake');
+                        });
+                    }
+                }, 200);  // give render time
+            }
+
             $scope.$on('gameCachesLoaded', function () {
                 updateGames();
             });
@@ -42,12 +56,16 @@ angular.module('twistedHangmanApp').controller('MenuCtrl',
                 updateGames();
             });
 
-            $scope.$on('gameAdded', function () {
+            $scope.$on('gameAdded', function (event, game) {
                 updateGames();
+                shakeIt(game);
             });
 
-            $scope.$on('gameUpdated', function () {
+            $scope.$on('gameUpdated', function (event, oldGame, newGame) {
                 updateGames();
+                if (oldGame.gamePhase !== newGame.gamePhase) {
+                    shakeIt(newGame);
+                }
             });
         }
     ]
