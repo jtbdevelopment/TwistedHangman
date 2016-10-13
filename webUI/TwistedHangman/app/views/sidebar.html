@@ -4,21 +4,38 @@
             src="/applixir_richmediaframe_f1f6ba399dfbd5e75b301bb824519d18.html" frameborder=0
             ALLOWTRANSPARENCY="true"></iframe>
 </div>
-<div class="col-sm-2 sidebar">
-    <div class="btn-group-vertical gameButtonGroup" ng-show="createRefreshEnabled">
-        <a href="#/create" role="button" class="btn-group btn gameButton createGameButton">
+<div class="game-bar" ng-controller="MenuCtrl as menu">
+    <div class="btn-group-vertical game-button-group" ng-show="createRefreshEnabled">
+        <a href="#/create" role="button" class="btn-group btn game-button create-game-button">
             <span class="glyphicon glyphicon-plus"></span>
             <span>New Game</span>
         </a>
     </div>
-
-    <twisted-game-button ng-controller="SetupGames" ng-show="games.length > 0"></twisted-game-button>
-    <twisted-game-button ng-controller="RoundOverGames" ng-show="games.length > 0"></twisted-game-button>
-    <twisted-game-button ng-controller="ChallengedGames" ng-show="games.length > 0"></twisted-game-button>
-    <twisted-game-button ng-controller="PlayingGames" ng-show="games.length > 0"></twisted-game-button>
-    <twisted-game-button ng-controller="NextRoundStartedGames" ng-show="games.length > 0"></twisted-game-button>
-    <twisted-game-button ng-controller="DeclinedGames" ng-show="games.length > 0"></twisted-game-button>
-    <twisted-game-button ng-controller="QuitGames" ng-show="games.length > 0"></twisted-game-button>
+    <div ng-repeat="phase in menu.phases">
+        <div class="list-group list-group-games list-group-{{menu.phaseStyles[phase]}}"
+             ng-hide="menu.games[phase].length == 0">
+            <button class="list-group-item btn-group-{{menu.phaseStyles[phase]}}"
+                    ng-click="menu.phaseCollapsed[phase] = !menu.phaseCollapsed[phase]">
+                <span class="glyphicon glyphicon-{{menu.phaseGlyphicons[phase]}}"></span>
+                {{menu.phaseLabels[phase]}}
+                <span class="badge">{{menu.games[phase].length}}</span>
+            </button>
+        </div>
+        <div class="{{menu.games[phase].length == 0 ? 'list-group-hidden' : ''}}"
+             uib-collapse="menu.phaseCollapsed[phase]">
+            <div class="btn-group-vertical btn-group-games">
+                <div ng-repeat="game in menu.games[phase] track by game.id"
+                     id="{{game.id}}" class="game-wrapper">
+                    <a ng-href="#/game/{{game.gamePhase.toLowerCase()}}/{{game.id}}"
+                       class="btn-group btn btn-default btn-group-game btn-group-game-{{menu.phaseStyles[phase]}}">
+                        <div class="player-images">
+                            <img ng-src="{{game.playerImages[md5]}}" class="player-image"
+                                 ng-repeat="(md5, name) in game.players"/>
+                        </div>
+                        <span class="game-description">{{menu.descriptions[game.id]}}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-
