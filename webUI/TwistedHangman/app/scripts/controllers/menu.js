@@ -6,6 +6,7 @@ angular.module('twistedHangmanApp').controller('MenuCtrl',
             var controller = this;
 
             controller.phases = [];
+            controller.phaseGlyphicons = jtbGameClassifier.getIcons();
             controller.phaseStyles = {};
             controller.phaseLabels = {};
             controller.phaseDescriptions = {};
@@ -13,8 +14,6 @@ angular.module('twistedHangmanApp').controller('MenuCtrl',
             controller.games = {};
             controller.descriptions = {};
 
-            controller.phaseGlyphicons = jtbGameClassifier.getIcons();
-            controller.phases = [];
             angular.forEach(jtbGameClassifier.getClassifications(), function (value) {
                 controller.phases.push(value);
                 controller.phaseLabels[value] = value;
@@ -36,11 +35,13 @@ angular.module('twistedHangmanApp').controller('MenuCtrl',
 
             function shakeIt(game) {
                 $timeout(function () {
-                    console.log('Shaking ' + JSON.stringify(game));
+                    console.log('looking for ' + game.id);
                     var buttonId = '#' + game.id;
                     var prop = angular.element(buttonId);
                     if (angular.isDefined(prop)) {
+                        console.log('shaking ' + game.id);
                         $animate.addClass(prop, 'animated shake').then(function () {
+                            console.log('stabilizing ' + game.id);
                             var prop = angular.element(buttonId);
                             $animate.removeClass(prop, 'animated shake');
                         });
