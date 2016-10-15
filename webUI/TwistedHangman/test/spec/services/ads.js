@@ -1,7 +1,6 @@
 'use strict';
 
 describe('Service: twAds', function () {
-    // load the controller's module
     beforeEach(module('twistedHangmanApp'));
 
     var appCB;

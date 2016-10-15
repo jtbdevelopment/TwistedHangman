@@ -2,15 +2,17 @@
 
 describe('Controller: MainCtrl', function () {
 
-    // load the controller's module
     beforeEach(module('twistedHangmanApp'));
 
     var MainCtrl, rootScope, scope, playerService, gameCache, player;
+    var versionNotesService;
     var longName = 'long name';
     var logoutCalled;
 
-    // Initialize the controller and a mock scope
     beforeEach(inject(function ($controller, $rootScope) {
+        versionNotesService = {
+            displayVersionNotesIfAppropriate: jasmine.createSpy('displayVersion')
+        };
         scope = $rootScope.$new();
         rootScope = $rootScope;
         logoutCalled = false;
@@ -28,6 +30,7 @@ describe('Controller: MainCtrl', function () {
             $scope: scope,
             jtbAppLongName: longName,
             jtbPlayerService: playerService,
+            jtbBootstrapVersionNotesService: versionNotesService,
             jtbGameCache: gameCache
         });
     }));
@@ -50,6 +53,7 @@ describe('Controller: MainCtrl', function () {
         expect(scope.appName).toEqual(longName);
     });
 
+
     it('refreshes on "playerLoaded" broadcast', function () {
         expect(scope.playerGreeting).toEqual('');
         expect(scope.includeTemplate).toEqual('views/empty.html');
@@ -69,6 +73,8 @@ describe('Controller: MainCtrl', function () {
         expect(scope.showAdmin).toEqual(true);
         expect(scope.showLogout).toEqual(true);
         expect(scope.includeTemplate).toEqual('views/sidebar.html');
+        expect(versionNotesService.displayVersionNotesIfAppropriate).toHaveBeenCalledWith(1.3,
+            'Reorganized the game lists.');
     });
 
     it('logout', function () {

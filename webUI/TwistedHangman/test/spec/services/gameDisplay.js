@@ -1,7 +1,6 @@
 'use strict';
 
 describe('Service: showGameSevice', function () {
-    // load the controller's module
     beforeEach(module('twistedHangmanApp'));
 
     var md1SS = {
@@ -49,7 +48,6 @@ describe('Service: showGameSevice', function () {
             }]);
         }));
 
-        // Initialize the controller and a mock scope
         beforeEach(inject(function ($rootScope, $injector) {
             rootscope = $rootScope;
             scope = rootscope.$new();
@@ -208,7 +206,6 @@ describe('Service: showGameSevice', function () {
             });
         }));
 
-        // Initialize the controller and a mock scope
         beforeEach(inject(function ($rootScope, $injector) {
             rootscope = $rootScope;
             scope = rootscope.$new();

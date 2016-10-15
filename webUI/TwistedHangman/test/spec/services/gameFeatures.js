@@ -1,13 +1,11 @@
 'use strict';
 
 describe('Service: gameFeatures', function () {
-    // load the controller's module
     beforeEach(module('twistedHangmanApp'));
 
     var service, httpBackend;
     var result = {DrawGallows: 'Draw the gallows', Thieving: 'Yee-haw!'};
 
-    // Initialize the controller and a mock scope
     beforeEach(inject(function ($httpBackend, $injector) {
         httpBackend = $httpBackend;
         service = $injector.get('twGameFeatureService');

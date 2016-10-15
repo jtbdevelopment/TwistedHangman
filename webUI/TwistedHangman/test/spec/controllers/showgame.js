@@ -1,7 +1,6 @@
 'use strict';
 
 describe('Controller: ShowCtrl', function () {
-    // load the controller's module
     beforeEach(module('twistedHangmanApp'));
 
     var game = {
@@ -23,7 +22,6 @@ describe('Controller: ShowCtrl', function () {
     var gameCacheExpectedId, gameCacheReturnResult, mockPlayerService, mockGameCache, routeParams, mockGameDetails;
     var mockGameActions;
 
-    // Initialize the controller and a mock scope
     beforeEach(inject(function (_$rootScope_, $httpBackend, _$q_, _$controller_) {
         $rootScope = _$rootScope_;
         $http = $httpBackend;

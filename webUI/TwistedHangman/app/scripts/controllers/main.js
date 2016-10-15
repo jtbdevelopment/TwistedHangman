@@ -7,10 +7,12 @@
  * # MainCtrl
  * Controller of the twistedHangmanApp
  */
+var CURRENT_VERSION = 1.3;
+var RELEASE_NOTES = 'Reorganized the game lists.';
 angular.module('twistedHangmanApp')
     .controller('MainCtrl',
-        ['$scope', 'jtbAppLongName', 'jtbGameCache', 'jtbPlayerService',
-            function ($scope, jtbAppLongName, jtbGameCache, jtbPlayerService) {
+        ['$scope', 'jtbAppLongName', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapVersionNotesService',
+            function ($scope, jtbAppLongName, jtbGameCache, jtbPlayerService, jtbBootstrapVersionNotesService) {
                 $scope.playerGreeting = '';
                 $scope.createRefreshEnabled = false;
                 $scope.showAdmin = false;
@@ -33,6 +35,7 @@ angular.module('twistedHangmanApp')
                     $scope.showLogout = $scope.currentPlayer.source === 'MANUAL';
                     $scope.createRefreshEnabled = true;
                     $scope.includeTemplate = 'views/sidebar.html';
+                    jtbBootstrapVersionNotesService.displayVersionNotesIfAppropriate(CURRENT_VERSION, RELEASE_NOTES);
                 });
 
             }

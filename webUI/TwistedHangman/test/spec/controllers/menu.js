@@ -38,7 +38,6 @@ describe('Controller: MenuCtrl', function () {
         }
     };
 
-    // Initialize the controller and a mock scope
     beforeEach(inject(function ($controller, _$rootScope_, _$document_, _$timeout_, _$animate_) {
         $scope = _$rootScope_.$new();
         $rootScope = _$rootScope_;

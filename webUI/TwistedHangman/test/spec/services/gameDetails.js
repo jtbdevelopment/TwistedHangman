@@ -1,7 +1,6 @@
 'use strict';
 
 describe('Service: twGameDetails', function () {
-    // load the controller's module
     beforeEach(module('twistedHangmanApp'));
 
     var game;
@@ -39,7 +38,6 @@ describe('Service: twGameDetails', function () {
     var undef;
     var service;
 
-    // Initialize the controller and a mock scope
     beforeEach(inject(function ($injector) {
         game = angular.copy(gameBase);
         service = $injector.get('twGameDetails');

@@ -2,7 +2,6 @@
 
 describe('Controller: CreateCtrl', function () {
 
-    // load the controller's module
     beforeEach(module('twistedHangmanApp'));
 
     var ctrl, scope, q, rootScope, featureDeferred;
@@ -44,7 +43,6 @@ describe('Controller: CreateCtrl', function () {
         }
     };
 
-    // Initialize the controller and a mock scope
     beforeEach(inject(function ($rootScope, $q, $controller) {
         rootScope = $rootScope;
         q = $q;
