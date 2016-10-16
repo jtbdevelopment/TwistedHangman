@@ -72,9 +72,15 @@ describe('Controller: ShowCtrl', function () {
     }));
 
     describe('good initialization', function () {
-        beforeEach(function () {
+        var element;
+        beforeEach(inject(function ($document) {
             gameCacheExpectedId = 'gameid';
             gameCacheReturnResult = game;
+
+            element = angular.element('<div class="x" id="game-wrapper"></div>');
+            spyOn(element[0], 'focus');
+            angular.element($document).find('body').append(element);
+            $rootScope.$digest();
 
             ctrl = controller('ShowCtrl', {
                 $routeParams: routeParams,
@@ -88,7 +94,7 @@ describe('Controller: ShowCtrl', function () {
                 jtbBootstrapGameActions: mockGameActions,
                 twAds: ads
             });
-        });
+        }));
 
         it('initializes', function () {
             expect(gameDisplay.initializeScope).toHaveBeenCalledWith($scope);
@@ -97,6 +103,7 @@ describe('Controller: ShowCtrl', function () {
             expect(gameDisplay.updateScopeForGame).toHaveBeenCalledWith($scope, game);
             expect($scope.gameDetails).toBe(mockGameDetails);
             expect(adsCalled).toEqual(false);
+            expect(element[0].focus).toHaveBeenCalled();
         });
     });
 
@@ -251,6 +258,16 @@ describe('Controller: ShowCtrl', function () {
                 $scope.allowPlayMoves = true;
                 $http.expectPUT('http://xx.com/api/player/MANUAL1/game/gameid/guess/a').respond(200);
                 $scope.sendGuess('a');
+                $http.flush();
+
+                expect(mockGameActions.wrapActionOnGame).toHaveBeenCalled();
+                expect(mockGameActions.wrapActionOnGame.calls.mostRecent().args[0]).toBeDefined();
+            });
+
+            it('guess letter via keypress', function () {
+                $scope.allowPlayMoves = true;
+                $http.expectPUT('http://xx.com/api/player/MANUAL1/game/gameid/guess/a').respond(200);
+                $scope.onKeyPress({key: 'a'});
                 $http.flush();
 
                 expect(mockGameActions.wrapActionOnGame).toHaveBeenCalled();

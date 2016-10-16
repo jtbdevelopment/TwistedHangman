@@ -72,9 +72,17 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
                 }
             };
 
+            $scope.onKeyPress = function (event) {
+                if (event.key !== '') {
+                    $scope.sendGuess(event.key);
+                }
+            };
+
             $scope.quit = function () {
                 jtbBootstrapGameActions.quit(game);
             };
+
+            angular.element('#game-wrapper').focus();
         }
     ])
 ;

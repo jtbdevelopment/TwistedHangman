@@ -1,171 +1,177 @@
-<div class="row">
-  <div class="col-sm-6 text-center"><h5><b>Round {{game.round}} - {{phaseDescription}}</b></h5></div>
-  <div class="col-sm-6 text-center"><h5><b>{{generalInfo}}</b></h5></div>
-</div>
-<div class="row">
-
-  <!-- Main display row which consists of hangman image in first half  -->
-  <div class="col-sm-6 imagearea" ng-show="showPlaySection">
-    <img ng-src="images/{{image}}"/>
-  </div>
-  <div class="col-sm-6 wordphrasesetter" ng-hide="showPlaySection">
-    <p>
-      You are the puzzle setter this round. Monitor the other players below.
-    </p>
-  </div>
-
-  <!-- Main display row which consists of various player action points in second half  -->
-  <div class="col-sm-6 playarea">
-    <div ng-show="showChallengeButtons" class="row">
-      <div class="btn-group {{showAcceptButton ? 'col-sm-6' : 'col-sm-3'}}">
-        <button ng-show="showAcceptButton" ng-click="accept()" class="btn btn-group acceptButton">
-          <span class="glyphicon glyphicon-thumbs-up"> Accept</span>
-        </button>
-        <button ng-click="reject()" class="btn btn-group rejectButton">
-          <span class="glyphicon glyphicon-thumbs-down"> Reject</span>
-        </button>
-      </div>
-      <div class=" col-sm-6" ng-hide="showAcceptButton">
-        <span class="changeMind">Accepted but changed your mind?</span>
-      </div>
+<div ng-keypress="onKeyPress($event)" tabindex="1" id="game-wrapper">
+    <div class="row">
+        <div class="col-sm-6 text-center"><h5><b>Round {{game.round}} - {{phaseDescription}}</b></h5></div>
+        <div class="col-sm-6 text-center"><h5><b>{{generalInfo}}</b></h5></div>
     </div>
+    <div class="row" ng-keypress="onKeyPress($event)" tabindex="1">
 
-    <div ng-show="showPuzzleEnty" class="row">
-      <form ng-show="allowPuzzleEntry" class="form-horizontal">
-        <div class="form-group">
-          <label for="categoryInput" class="col-sm-2 control-label">Category:</label>
-
-          <div class="col-sm-10">
-            <input id="categoryInput" ng-model="enteredCategory" type="text" class="form-control"
-                   placeholder="Enter category."/>
-          </div>
+        <!-- Main display row which consists of hangman image in first half  -->
+        <div class="col-sm-6 imagearea" ng-show="showPlaySection">
+            <img ng-src="images/{{image}}"/>
         </div>
-        <div class="form-group">
-          <label for="wordPhraseInput" class="col-sm-2 control-label">Word Or Phrase:</label>
-
-          <div class="col-sm-10">
-            <input id="wordPhraseInput" ng-model="enteredWordPhrase" type="text" class="form-control"
-                   placeholder="Enter word or phrase."/>
-          </div>
+        <div class="col-sm-6 wordphrasesetter" ng-hide="showPlaySection">
+            <p>
+                You are the puzzle setter this round. Monitor the other players below.
+            </p>
         </div>
-        <div class="btn-group pull-left">
-          <button ng-click="setPuzzle()" class="btn btn-group puzzleButton">
-            <span class="glyphicon glyphicon-comment"> Set The Puzzle!</span>
-          </button>
-        </div>
-      </form>
-      <div ng-hide="allowPuzzleEntry">
-        <p><span>{{setPuzzleMessage}}</span></p>
-      </div>
-    </div>
 
-    <div ng-show="showRematchButtons" class="row">
-      <div class="btn-group pull-left">
-        <button ng-click="startNextRound()" class="btn btn-group rematchButton"><span
-          class="glyphicon glyphicon-repeat"></span> Start Next Round
-        </button>
-      </div>
-    </div>
+        <!-- Main display row which consists of various player action points in second half  -->
+        <div class="col-sm-6 playarea">
+            <div ng-show="showChallengeButtons" class="row">
+                <div class="btn-group {{showAcceptButton ? 'col-sm-6' : 'col-sm-3'}}">
+                    <button ng-show="showAcceptButton" ng-click="accept()" class="btn btn-group acceptButton">
+                        <span class="glyphicon glyphicon-thumbs-up"> Accept</span>
+                    </button>
+                    <button ng-click="reject()" class="btn btn-group rejectButton">
+                        <span class="glyphicon glyphicon-thumbs-down"> Reject</span>
+                    </button>
+                </div>
+                <div class=" col-sm-6" ng-hide="showAcceptButton">
+                    <span class="changeMind">Accepted but changed your mind?</span>
+                </div>
+            </div>
 
-    <div ng-show="showPlaySection">
-      <h3>{{gameState.category}}</h3>
+            <div ng-show="showPuzzleEnty" class="row">
+                <form ng-show="allowPuzzleEntry" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="categoryInput" class="col-sm-2 control-label">Category:</label>
 
-      <h3>{{gameState.wordPhrase}}</h3> <!--  Server Blanks it most of the time  -->
+                        <div class="col-sm-10">
+                            <input id="categoryInput" ng-model="enteredCategory" type="text" class="form-control"
+                                   placeholder="Enter category."/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="wordPhraseInput" class="col-sm-2 control-label">Word Or Phrase:</label>
 
-      <div class="{{allowPlayMoves ? 'activeKeyboard' : 'inactiveKeyboard'}}">
-        <p>
+                        <div class="col-sm-10">
+                            <input id="wordPhraseInput" ng-model="enteredWordPhrase" type="text" class="form-control"
+                                   placeholder="Enter word or phrase."/>
+                        </div>
+                    </div>
+                    <div class="btn-group pull-left">
+                        <button ng-click="setPuzzle()" class="btn btn-group puzzleButton">
+                            <span class="glyphicon glyphicon-comment"> Set The Puzzle!</span>
+                        </button>
+                    </div>
+                </form>
+                <div ng-hide="allowPuzzleEntry">
+                    <p><span>{{setPuzzleMessage}}</span></p>
+                </div>
+            </div>
+
+            <div ng-show="showRematchButtons" class="row">
+                <div class="btn-group pull-left">
+                    <button ng-click="startNextRound()" class="btn btn-group rematchButton"><span
+                            class="glyphicon glyphicon-repeat"></span> Start Next Round
+                    </button>
+                </div>
+            </div>
+
+            <div ng-show="showPlaySection">
+                <h3>{{gameState.category}}</h3>
+
+                <h3>{{gameState.wordPhrase}}</h3> <!--  Server Blanks it most of the time  -->
+
+                <div class="{{allowPlayMoves ? 'activeKeyboard' : 'inactiveKeyboard'}}">
+                    <p>
           <span ng-repeat="position in workingWordPhraseArray track by $index"
                 class="wordphrase {{workingWordPhraseClasses[$index]}}"
                 ng-click="stealLetter($index)">{{position}}</span>
-        </p>
+                    </p>
 
-        <p>
+                    <p>
          <span ng-repeat="letter in letters track by $index">
            <span ng-click="sendGuess(letter)" class="keyboard {{letterClasses[$index]}}">{{letter}}</span> </span>
 
-        </p>
-      </div>
-    </div>
-    <div class="gameState container" ng-show="showPlaySection">
-      <div class="row">
-        <div class="col-sm-1 "><label>Your Game:</label></div>
-        <div class="col-sm-1 text-center">{{gameDetails.gameEndForPlayer(game, player.md5)}}</div>
-        <div class="col-sm-1 "><label>Moves:</label></div>
-        <div class="col-sm-1 text-center">{{gameState.moveCount}}</div>
-        <div class="col-sm-1 "><label>Blanks Left:</label></div>
-        <div class="col-sm-1 text-center">{{gameState.blanksRemaining}}</div>
-        <div class="col-sm-1 "><label>Chances Left:</label></div>
-        <div class="col-sm-1 text-center">{{gameState.penaltiesRemaining}}</div>
-      </div>
-    </div>
-    <div class="btn-group pull-left">
-      <button ng-show="showQuitButton" class="btn btn-group iQuitButton" ng-click="quit()"><span
-        class="glyphicon glyphicon-flag"> I Quit!</span></button>
-    </div>
-  </div>
-</div>
-
-<div class="row playerThumbnails">
-  <div class="col-sm-2 text-center" ng-repeat="(md5, name) in game.players">
-    <div class="thumbnail">
-      <img
-        ng-src="{{gameDetails.imageForPlayer(game, md5) ? gameDetails.imageForPlayer(game, md5) : 'images/hangman13.png'}}"
-        class="playerImage">
-
-      <div class="caption">
-        <h5 class="center-block">{{name}}</h5>
-
-        <div class="center-block">
-          <span class="glyphicon glyphicon-{{gameDetails.stateIconForPlayer(game, md5)}}"></span>
-          <span class="glyphicon glyphicon-{{gameDetails.roleIconForPlayer(game, md5)}}"></span>
-          <span class="glyphicon glyphicon-{{gameDetails.gameStateIconForPlayer(game, md5)}}"></span>
+                    </p>
+                </div>
+            </div>
+            <div class="gameState container" ng-show="showPlaySection">
+                <div class="row">
+                    <div class="col-sm-1 "><label>Your Game:</label></div>
+                    <div class="col-sm-1 text-center">{{gameDetails.gameEndForPlayer(game, player.md5)}}</div>
+                    <div class="col-sm-1 "><label>Moves:</label></div>
+                    <div class="col-sm-1 text-center">{{gameState.moveCount}}</div>
+                    <div class="col-sm-1 "><label>Blanks Left:</label></div>
+                    <div class="col-sm-1 text-center">{{gameState.blanksRemaining}}</div>
+                    <div class="col-sm-1 "><label>Chances Left:</label></div>
+                    <div class="col-sm-1 text-center">{{gameState.penaltiesRemaining}}</div>
+                </div>
+            </div>
+            <div class="btn-group pull-left">
+                <button ng-show="showQuitButton" class="btn btn-group iQuitButton" ng-click="quit()"><span
+                        class="glyphicon glyphicon-flag"> I Quit!</span></button>
+            </div>
         </div>
-      </div>
-      <div>
-        <h6>
-          <p><strong>{{gameDetails.stateForPlayer(game, md5, 'category')}}</strong></p>
-
-          <p><strong>{{gameDetails.stateForPlayer(game, md5, 'wordPhrase')}}<strong></p>
-
-          <p>{{gameDetails.stateForPlayer(game, md5, 'workingWordPhrase')}}</p>
-
-          <p>Moves: {{gameDetails.stateForPlayer(game, md5, 'moveCount')}}, Left: {{gameDetails.stateForPlayer(game,
-            md5, 'blanksRemaining')}}, Til Hung: {{gameDetails.stateForPlayer(game, md5, 'penaltiesRemaining')}}</p>
-
-          <p>Round Score: {{gameDetails.gameScoreForPlayer(game, md5)}}, Total Score:
-            {{gameDetails.runningScoreForPlayer(game, md5)}}</p>
-        </h6>
-      </div>
     </div>
-  </div>
-</div>
 
-<!--  General game timestamps row -->
-<div class="row">
-  <table class="table col-sm-10 gameTimes">
-    <tbody>
-    <tr>
-      <td><b>Created:</b></td>
-      <td>{{created |date:'short'}}</td>
-      <td><b>Last Change:</b></td>
-      <td>{{lastUpdate |date:'short'}}</td>
-      <td><b>Completed:</b></td>
-      <td>{{completed |date:'short'}}</td>
-      <td><b>Declined:</b></td>
-      <td>{{declined |date:'short'}}</td>
-      <td><b>Next Round Started:</b></td>
-      <td>{{rematched |date:'short'}}</td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+    <div class="row playerThumbnails">
+        <div class="col-sm-2 text-center" ng-repeat="(md5, name) in game.players">
+            <div class="thumbnail">
+                <img
+                        ng-src="{{gameDetails.imageForPlayer(game, md5) ? gameDetails.imageForPlayer(game, md5) : 'images/hangman13.png'}}"
+                        class="playerImage">
 
-<div class="footer">
-  <div class="container">
-    <!--/* Ad4Game iFrame Tag */-->
-    <iframe src='//ads.ad4game.com/www/delivery/afr.php?zoneid=51332' framespacing='0' frameborder='no' scrolling='no'
-            width='728' height='90'><a href='http://ads.ad4game.com/www/delivery/dck.php?n=a979ba49'
-                                       target='_blank'><img
-            src='//ads.ad4game.com/www/delivery/avw.php?zoneid=51332&amp;n=a979ba49' border='0' alt=''/></a></iframe>
-  </div>
+                <div class="caption">
+                    <h5 class="center-block">{{name}}</h5>
+
+                    <div class="center-block">
+                        <span class="glyphicon glyphicon-{{gameDetails.stateIconForPlayer(game, md5)}}"></span>
+                        <span class="glyphicon glyphicon-{{gameDetails.roleIconForPlayer(game, md5)}}"></span>
+                        <span class="glyphicon glyphicon-{{gameDetails.gameStateIconForPlayer(game, md5)}}"></span>
+                    </div>
+                </div>
+                <div>
+                    <h6>
+                        <p><strong>{{gameDetails.stateForPlayer(game, md5, 'category')}}</strong></p>
+
+                        <p><strong>{{gameDetails.stateForPlayer(game, md5, 'wordPhrase')}}<strong></p>
+
+                        <p>{{gameDetails.stateForPlayer(game, md5, 'workingWordPhrase')}}</p>
+
+                        <p>Moves: {{gameDetails.stateForPlayer(game, md5, 'moveCount')}}, Left:
+                            {{gameDetails.stateForPlayer(game,
+                            md5, 'blanksRemaining')}}, Til Hung: {{gameDetails.stateForPlayer(game, md5,
+                            'penaltiesRemaining')}}</p>
+
+                        <p>Round Score: {{gameDetails.gameScoreForPlayer(game, md5)}}, Total Score:
+                            {{gameDetails.runningScoreForPlayer(game, md5)}}</p>
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--  General game timestamps row -->
+    <div class="row">
+        <table class="table col-sm-10 gameTimes">
+            <tbody>
+            <tr>
+                <td><b>Created:</b></td>
+                <td>{{created |date:'short'}}</td>
+                <td><b>Last Change:</b></td>
+                <td>{{lastUpdate |date:'short'}}</td>
+                <td><b>Completed:</b></td>
+                <td>{{completed |date:'short'}}</td>
+                <td><b>Declined:</b></td>
+                <td>{{declined |date:'short'}}</td>
+                <td><b>Next Round Started:</b></td>
+                <td>{{rematched |date:'short'}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <!--/* Ad4Game iFrame Tag */-->
+            <iframe src='//ads.ad4game.com/www/delivery/afr.php?zoneid=51332' framespacing='0' frameborder='no'
+                    scrolling='no'
+                    width='728' height='90'><a href='http://ads.ad4game.com/www/delivery/dck.php?n=a979ba49'
+                                               target='_blank'><img
+                    src='//ads.ad4game.com/www/delivery/avw.php?zoneid=51332&amp;n=a979ba49' border='0' alt=''/></a>
+            </iframe>
+        </div>
+    </div>
 </div>
