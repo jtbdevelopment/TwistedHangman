@@ -78,7 +78,7 @@ describe('Controller: ShowCtrl', function () {
             gameCacheExpectedId = 'gameid';
             gameCacheReturnResult = game;
 
-            element = angular.element('<div class="x" id="game-wrapper"></div>');
+            element = angular.element('<div class="x" id="show-game-wrapper"></div>');
             spyOn(element[0], 'focus');
             angular.element($document).find('body').append(element);
             $rootScope.$digest();

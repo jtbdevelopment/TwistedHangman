@@ -122,3 +122,15 @@
     font-weight: bold;
   }
 }
+
+.show-game-wrapper {
+  outline: none !important;
+  box-shadow: none;
+  border: 0;
+}
+
+.show-game-wrapper:focus {
+  outline: none !important;
+  box-shadow: none;
+  border: 0;
+}

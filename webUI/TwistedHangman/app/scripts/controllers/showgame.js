@@ -83,8 +83,8 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
             };
 
             $timeout(function () {
-                angular.element('#game-wrapper').focus();
-            }, 200);
+                angular.element('#show-game-wrapper').focus();
+            }, 600);
         }
     ])
 ;

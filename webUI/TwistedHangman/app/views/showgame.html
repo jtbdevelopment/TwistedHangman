@@ -1,9 +1,9 @@
-<div ng-keypress="onKeyPress($event)" tabindex="1" id="game-wrapper">
+<div ng-keypress="onKeyPress($event)" tabindex="1" id="show-game-wrapper" class="show-game-wrapper">
     <div class="row">
         <div class="col-sm-6 text-center"><h5><b>Round {{game.round}} - {{phaseDescription}}</b></h5></div>
         <div class="col-sm-6 text-center"><h5><b>{{generalInfo}}</b></h5></div>
     </div>
-    <div class="row" ng-keypress="onKeyPress($event)" tabindex="1">
+    <div class="row">
 
         <!-- Main display row which consists of hangman image in first half  -->
         <div class="col-sm-6 imagearea" ng-show="showPlaySection">
