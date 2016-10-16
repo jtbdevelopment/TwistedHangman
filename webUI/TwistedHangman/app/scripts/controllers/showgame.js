@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('twistedHangmanApp').controller('ShowCtrl',
-    ['$scope', '$routeParams', '$http', '$location', 'jtbBootstrapGameActions',
+    ['$scope', '$timeout', '$routeParams', '$http', '$location', 'jtbBootstrapGameActions',
         'jtbPlayerService', 'twGameDisplay', 'jtbGameCache', 'twGameDetails', 'twAds',
-        function ($scope, $routeParams, $http, $location, jtbBootstrapGameActions,
+        function ($scope, $timeout, $routeParams, $http, $location, jtbBootstrapGameActions,
                   jtbPlayerService, twGameDisplay, jtbGameCache, twGameDetails, twAds) {
             twGameDisplay.initializeScope($scope);
             $scope.gameID = $routeParams.gameID;
@@ -82,7 +82,9 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
                 jtbBootstrapGameActions.quit(game);
             };
 
-            angular.element('#game-wrapper').focus();
+            $timeout(function () {
+                angular.element('#game-wrapper').focus();
+            }, 200);
         }
     ])
 ;

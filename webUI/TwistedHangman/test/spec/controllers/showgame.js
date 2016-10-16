@@ -17,16 +17,17 @@ describe('Controller: ShowCtrl', function () {
     };
 
     var player = {'player': 'player'};
-    var ctrl, $scope, $http, $rootScope, gameDisplay, $q, $location, controller;
+    var ctrl, $scope, $http, $rootScope, gameDisplay, $q, $location, controller, $timeout;
     var adPopupModalResult, ads, adsCalled;
     var gameCacheExpectedId, gameCacheReturnResult, mockPlayerService, mockGameCache, routeParams, mockGameDetails;
     var mockGameActions;
 
-    beforeEach(inject(function (_$rootScope_, $httpBackend, _$q_, _$controller_) {
+    beforeEach(inject(function (_$rootScope_, $httpBackend, _$q_, _$controller_, _$timeout_) {
         $rootScope = _$rootScope_;
         $http = $httpBackend;
         controller = _$controller_;
         $q = _$q_;
+        $timeout = _$timeout_;
         spyOn($rootScope, '$broadcast').and.callThrough();
         gameDisplay = jasmine.createSpyObj('gameDisplay', ['initializeScope', 'processGameUpdateForScope', 'updateScopeForGame']);
         $location = {path: jasmine.createSpy()};
@@ -103,6 +104,8 @@ describe('Controller: ShowCtrl', function () {
             expect(gameDisplay.updateScopeForGame).toHaveBeenCalledWith($scope, game);
             expect($scope.gameDetails).toBe(mockGameDetails);
             expect(adsCalled).toEqual(false);
+            expect(element[0].focus).not.toHaveBeenCalled();
+            $timeout.flush();
             expect(element[0].focus).toHaveBeenCalled();
         });
     });
