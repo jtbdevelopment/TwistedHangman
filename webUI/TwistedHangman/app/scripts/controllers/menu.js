@@ -35,13 +35,10 @@ angular.module('twistedHangmanApp').controller('MenuCtrl',
 
             function shakeIt(game) {
                 $timeout(function () {
-                    console.log('looking for ' + game.id);
                     var buttonId = '#' + game.id;
                     var prop = angular.element(buttonId);
                     if (angular.isDefined(prop)) {
-                        console.log('shaking ' + game.id);
                         $animate.addClass(prop, 'animated shake').then(function () {
-                            console.log('stabilizing ' + game.id);
                             var prop = angular.element(buttonId);
                             $animate.removeClass(prop, 'animated shake');
                         });

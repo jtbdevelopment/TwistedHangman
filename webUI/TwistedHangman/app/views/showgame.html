@@ -9,14 +9,14 @@
         <div class="col-sm-6 imagearea" ng-show="showPlaySection">
             <img ng-src="images/{{image}}"/>
         </div>
-        <div class="col-sm-6 wordphrasesetter" ng-hide="showPlaySection">
+        <div class="col-sm-6 word-phrase-setter" ng-hide="showPlaySection">
             <p>
                 You are the puzzle setter this round. Monitor the other players below.
             </p>
         </div>
 
         <!-- Main display row which consists of various player action points in second half  -->
-        <div class="col-sm-6 playarea">
+        <div class="col-sm-6 play-area">
             <div ng-show="showChallengeButtons" class="row">
                 <div class="btn-group {{showAcceptButton ? 'col-sm-6' : 'col-sm-3'}}">
                     <button ng-show="showAcceptButton" ng-click="accept()" class="btn btn-group acceptButton">
