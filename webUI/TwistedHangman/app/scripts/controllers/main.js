@@ -8,7 +8,7 @@
  * Controller of the twistedHangmanApp
  */
 var CURRENT_VERSION = 1.3;
-var RELEASE_NOTES = 'Reorganized the game lists.';
+var RELEASE_NOTES = 'Reorganized the game lists, more games per day and fewer ads.';
 angular.module('twistedHangmanApp')
     .controller('MainCtrl',
         ['$scope', 'jtbAppLongName', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapVersionNotesService',

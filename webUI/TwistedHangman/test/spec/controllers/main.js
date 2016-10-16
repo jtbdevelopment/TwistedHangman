@@ -73,8 +73,9 @@ describe('Controller: MainCtrl', function () {
         expect(scope.showAdmin).toEqual(true);
         expect(scope.showLogout).toEqual(true);
         expect(scope.includeTemplate).toEqual('views/sidebar.html');
-        expect(versionNotesService.displayVersionNotesIfAppropriate).toHaveBeenCalledWith(1.3,
-            'Reorganized the game lists.');
+        expect(versionNotesService.displayVersionNotesIfAppropriate).toHaveBeenCalledWith(
+            1.3,
+            'Reorganized the game lists, more games per day and fewer ads.');
     });
 
     it('logout', function () {
