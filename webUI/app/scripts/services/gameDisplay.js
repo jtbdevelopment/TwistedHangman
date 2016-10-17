@@ -5,13 +5,32 @@ angular.module('twistedHangmanApp').factory('twGameDisplay',
         function ($rootScope, jtbGamePhaseService, twGameDetails) {
             var LETTER_A = 'A'.charCodeAt(0);
 
+            //  this map allows image compression rewrite to change names
+            var imageMap = {
+                0: '/images/hangman0.png',
+                1: '/images/hangman1.png',
+                2: '/images/hangman2.png',
+                3: '/images/hangman3.png',
+                4: '/images/hangman4.png',
+                5: '/images/hangman5.png',
+                6: '/images/hangman6.png',
+                7: '/images/hangman7.png',
+                8: '/images/hangman8.png',
+                9: '/images/hangman9.png',
+                10: '/images/hangman10.png',
+                11: '/images/hangman11.png',
+                12: '/images/hangman12.png',
+                13: '/images/hangman13.png'
+            };
+
             function computeImage(scope) {
+                var n;
                 if (angular.isUndefined(scope.gameState)) {
-                    scope.image = 'hangman0.png';
+                    n = 0;
                 } else if (scope.gameState.penalties === scope.gameState.maxPenalties) {
-                    scope.image = 'hangman13.png';
+                    n = 13;
                 } else {
-                    var n = 0;
+                    n = 0;
                     switch (scope.gameState.maxPenalties) {
                         case 6:
                         case 10:
@@ -21,8 +40,8 @@ angular.module('twistedHangmanApp').factory('twGameDisplay',
                             n = scope.gameState.penalties;
                             break;
                     }
-                    scope.image = 'hangman' + n + '.png';
                 }
+                scope.image = imageMap[n];
             }
 
             function computeWordPhraseDisplay(scope) {

@@ -97,7 +97,7 @@ describe('Service: showGameSevice', function () {
                 service.updateScopeForGame(scope, testGame);
                 expect(scope.gameState).toBe(md1SS);
                 expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
-                expect(scope.image).toEqual('hangman5.png');
+                expect(scope.image).toEqual('/images/hangman5.png');
                 expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'regular']);
             });
 
@@ -107,23 +107,23 @@ describe('Service: showGameSevice', function () {
                 game.solverStates.md1.maxPenalties = 13;
                 delete scope.gameState;
                 service.updateScopeForGame(scope, game);
-                expect(scope.image).toEqual('hangman0.png');
+                expect(scope.image).toEqual('/images/hangman0.png');
             });
 
             it('computeState image for diff max penalties', function () {
                 var game = angular.copy(testGame);
                 game.solverStates.md1.maxPenalties = 13;
                 service.updateScopeForGame(scope, game);
-                expect(scope.image).toEqual('hangman2.png');
+                expect(scope.image).toEqual('/images/hangman2.png');
                 game.solverStates.md1.maxPenalties = 10;
                 service.updateScopeForGame(scope, game);
-                expect(scope.image).toEqual('hangman5.png');
+                expect(scope.image).toEqual('/images/hangman5.png');
                 game.solverStates.md1.maxPenalties = 9;
                 service.updateScopeForGame(scope, game);
-                expect(scope.image).toEqual('hangman2.png');
+                expect(scope.image).toEqual('/images/hangman2.png');
                 game.solverStates.md1.maxPenalties = 2;
                 service.updateScopeForGame(scope, game);
-                expect(scope.image).toEqual('hangman13.png');
+                expect(scope.image).toEqual('/images/hangman13.png');
             });
 
             it('computeState for thieving game', function () {
@@ -132,7 +132,7 @@ describe('Service: showGameSevice', function () {
                 game.solverStates.md1.featureData.ThievingLetters = ['B'];
                 service.updateScopeForGame(scope, game);
                 expect(scope.workingWordPhraseClasses).toEqual(['stealablewp', 'stolenwp', 'regularwp', 'regularwp', 'stolenwp']);
-                expect(scope.image).toEqual('hangman5.png');
+                expect(scope.image).toEqual('/images/hangman5.png');
                 expect(scope.letterClasses).toEqual(['guessedkb', 'stolenkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'regular']);
             });
 
@@ -144,7 +144,7 @@ describe('Service: showGameSevice', function () {
                 game.solverStates.md1.penaltiesRemaining = 1;
                 service.updateScopeForGame(scope, game);
                 expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'stolenwp', 'regularwp', 'regularwp', 'stolenwp']);
-                expect(scope.image).toEqual('hangman8.png');
+                expect(scope.image).toEqual('/images/hangman8.png');
                 expect(scope.letterClasses).toEqual(['guessedkb', 'stolenkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'regular']);
             });
 
@@ -162,7 +162,7 @@ describe('Service: showGameSevice', function () {
                 expect(scope.lastUpdate).toEqual(new Date(1345100));
                 expect(scope.created).toEqual(new Date(1345000));
                 expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
-                expect(scope.image).toEqual('hangman6.png');
+                expect(scope.image).toEqual('/images/hangman6.png');
                 expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'badguesskb']);
             });
 
@@ -180,7 +180,7 @@ describe('Service: showGameSevice', function () {
                 expect(scope.lastUpdate).toEqual(new Date(1345100));
                 expect(scope.created).toEqual(new Date(1345000));
                 expect(scope.workingWordPhraseClasses).toEqual(['regularwp', 'regularwp', 'regularwp', 'regularwp', 'regularwp']);
-                expect(scope.image).toEqual('hangman6.png');
+                expect(scope.image).toEqual('/images/hangman6.png');
                 expect(scope.letterClasses).toEqual(['guessedkb', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'regular', 'badguesskb', 'badguesskb', 'badguesskb']);
             });
 

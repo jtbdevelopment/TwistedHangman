@@ -3,7 +3,7 @@
     <properties>
       <option name="frameworkName" value="jQuery" />
       <sourceFilesUrls>
-        <item url="file://$PROJECT_DIR$/webUI/TwistedHangman/bower_components" />
+        <item url="file://$PROJECT_DIR$/webUI/bower_components" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>

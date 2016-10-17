@@ -4,98 +4,94 @@
 // generator-karma 0.8.3
 
 module.exports = function (config) {
-  'use strict';
+    'use strict';
 
-  config.set({
-    // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
+    config.set({
+        // enable / disable watching file and executing tests whenever any file changes
+        autoWatch: true,
 
-    // base path, that will be used to resolve files and exclude
-    basePath: '../',
+        // base path, that will be used to resolve files and exclude
+        basePath: '../',
 
-    // testing framework to use (jasmine/mocha/qunit/...)
-    frameworks: ['jasmine'],
+        // testing framework to use (jasmine/mocha/qunit/...)
+        frameworks: ['jasmine'],
 
-    // list of files / patterns to load in the browser
-    files: [
-      'bower_components/jquery/dist/jquery.js',
-      'bower_components/angular/angular.js',
-      'bower_components/angular-mocks/angular-mocks.js',
-      'bower_components/angular-animate/angular-animate.js',
-      'bower_components/angular-cookies/angular-cookies.js',
-      'bower_components/angular-resource/angular-resource.js',
-      'bower_components/angular-route/angular-route.js',
-      'bower_components/angular-sanitize/angular-sanitize.js',
-      'bower_components/angular-touch/angular-touch.js',
-      'bower_components//angular-bootstrap/ui-bootstrap-tpls.js',
-      'bower_components/angular-ui-select/dist/select.js',
-      'bower_components/jtb-core-games-ui/dist/core-games-ui.js',
-      'bower_components/jtb-core-games-bootstrap-ui/dist/core-games-bootstrap-ui.js',
-      'app/scripts/**/*.js',
-      'test/mock/**/*.js',
-      'test/spec/**/*.js'
-    ],
+        // list of files / patterns to load in the browser
+        files: [
+            'bower_components/jquery/dist/jquery.js',
+            'bower_components/angular/angular.js',
+            'bower_components/angular-mocks/angular-mocks.js',
+            'bower_components/angular-animate/angular-animate.js',
+            'bower_components/angular-cookies/angular-cookies.js',
+            'bower_components/angular-resource/angular-resource.js',
+            'bower_components/angular-route/angular-route.js',
+            'bower_components/angular-sanitize/angular-sanitize.js',
+            'bower_components/angular-touch/angular-touch.js',
+            'bower_components//angular-bootstrap/ui-bootstrap-tpls.js',
+            'bower_components/angular-ui-select/dist/select.js',
+            'bower_components/jtb-core-games-ui/dist/core-games-ui.js',
+            'bower_components/jtb-core-games-bootstrap-ui/dist/core-games-bootstrap-ui.js',
+            'app/scripts/**/*.js',
+            'test/mock/**/*.js',
+            'test/spec/**/*.js'
+        ],
 
-    // list of files / patterns to exclude
-    exclude: [
-      'app/scripts/atmosphereplay.js'
-    ],
+        // list of files / patterns to exclude
+        exclude: [],
 
-    // coverage reporter generates the coverage
-    reporters: ['progress', 'coverage'],
+        // coverage reporter generates the coverage
+        reporters: ['progress', 'coverage'],
 
-    preprocessors: {
-      // source files, that you wanna generate coverage for
-      // do not include tests or libraries
-      // (these files will be instrumented by Istanbul)
-      'app/**/*.js': ['coverage']
-    },
+        preprocessors: {
+            // source files, that you wanna generate coverage for
+            // do not include tests or libraries
+            // (these files will be instrumented by Istanbul)
+            'app/**/*.js': ['coverage']
+        },
 
-    // optionally, configure the reporter
-    coverageReporter: {
-      type: 'html',
-      dir: 'coverage/'
-    },
+        // optionally, configure the reporter
+        coverageReporter: {
+            type: 'html',
+            dir: 'coverage/'
+        },
 
-    // web server port
-    port: 8085,
+        // web server port
+        port: 8085,
 
-    // Start these browsers, currently available:
-    // - Chrome
-    // - ChromeCanary
-    // - Firefox
-    // - Opera
-    // - Safari (only Mac)
-    // - PhantomJS
-    // - IE (only Windows)
-    browsers: [
-      'PhantomJS'
-    ],
+        // Start these browsers, currently available:
+        // - Chrome
+        // - ChromeCanary
+        // - Firefox
+        // - Opera
+        // - Safari (only Mac)
+        // - PhantomJS
+        // - IE (only Windows)
+        browsers: [
+            'PhantomJS'
+        ],
 
-    // Which plugins to enable
-    plugins: [
-      'karma-phantomjs-launcher',
-      'karma-chrome-launcher',
-      'karma-firefox-launcher',
-      'karma-jasmine',
-      'karma-coverage'
-    ],
+        // Which plugins to enable
+        plugins: [
+            'karma-phantomjs-launcher',
+            'karma-jasmine',
+            'karma-coverage'
+        ],
 
-    // Continuous Integration mode
-    // if true, it capture browsers, run tests and exit
-    singleRun: false,
+        // Continuous Integration mode
+        // if true, it capture browsers, run tests and exit
+        singleRun: false,
 
-    colors: true,
+        colors: true,
 
-    // level of logging
-    // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
-    logLevel: config.LOG_INFO,
+        // level of logging
+        // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
+        logLevel: config.LOG_INFO
 
-    // Uncomment the following lines if you are using grunt's server to run the tests
-    // proxies: {
-    //   '/': 'http://localhost:9000/'
-    // },
-    // URL root prevent conflicts with the site root
-    // urlRoot: '_karma_'
-  });
+        // Uncomment the following lines if you are using grunt's server to run the tests
+        // proxies: {
+        //   '/': 'http://localhost:9000/'
+        // },
+        // URL root prevent conflicts with the site root
+        // urlRoot: '_karma_'
+    });
 };
