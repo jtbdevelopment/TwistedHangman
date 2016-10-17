@@ -7,7 +7,7 @@
       </sourceFilesUrls>
     </properties>
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/webUI/TwistedHangman/bower_components" />
+      <root url="file://$PROJECT_DIR$/webUI/bower_components" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

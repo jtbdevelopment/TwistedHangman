@@ -18,7 +18,7 @@
                 <configuration>
                     <webResources>
                         <resource>
-                            <directory>../webUI/TwistedHangman/dist</directory>
+                            <directory>../webUI/dist</directory>
                         </resource>
                     </webResources>
                 </configuration>
