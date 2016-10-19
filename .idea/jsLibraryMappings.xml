@@ -2,6 +2,7 @@
 <project version="4">
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$/webUI" libraries="{TwistedHangman/webUI/node_modules}" />
+    <file url="file://$PROJECT_DIR$/webUI/node/npm" libraries="{TwistedHangman/webUI/node/npm/node_modules}" />
     <file url="PROJECT" libraries="{angular-scenario-DefinitelyTyped, angularjs-DefinitelyTyped, jasmine-DefinitelyTyped, karma-DefinitelyTyped, modules}" />
   </component>
 </project>

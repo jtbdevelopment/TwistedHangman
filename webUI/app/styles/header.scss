@@ -1,6 +1,10 @@
 @import "variables";
 
 .header {
+  img {
+    height: 30px;
+    width: 30px;
+  }
   margin-bottom: 0;
   a {
     text-decoration: none;
