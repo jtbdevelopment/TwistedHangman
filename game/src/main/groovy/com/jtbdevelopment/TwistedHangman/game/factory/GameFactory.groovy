@@ -4,7 +4,6 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.utility.SystemPuzzlerSetter
 import com.jtbdevelopment.games.factory.AbstractMultiPlayerGameFactory
-import com.jtbdevelopment.games.players.Player
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -45,14 +44,5 @@ class GameFactory extends AbstractMultiPlayerGameFactory<Game, GameFeature> {
     @Override
     protected Game newGame() {
         return new Game()
-    }
-
-    @Override
-    protected Game createFreshGame(
-            final Set<GameFeature> features, final List<Player> players, final Player initiatingPlayer) {
-        Game game = (Game) super.createFreshGame(features, players, initiatingPlayer)
-        //   TODO - seems like something we could do in initializer
-        game.wordPhraseSetter = null
-        game
     }
 }
