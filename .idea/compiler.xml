@@ -30,6 +30,7 @@
         <module name="gamecore-mongo" />
         <module name="model" />
         <module name="security" />
+        <module name="war" />
         <module name="webUI" />
       </profile>
     </annotationProcessing>
@@ -40,6 +41,7 @@
       <module name="rest" target="1.8" />
       <module name="TwistedHangman" target="1.5" />
       <module name="utilities" target="1.8" />
+      <module name="war" target="1.5" />
       <module name="webUI" target="1.5" />
     </bytecodeTargetLevel>
   </component>

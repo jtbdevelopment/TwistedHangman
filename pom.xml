@@ -10,7 +10,7 @@
     <modules>
         <module>game</module>
         <module>webUI</module>
-        <module>example-tomcat</module>
+        <module>war</module>
     </modules>
 
     <properties>

@@ -4,7 +4,7 @@
     <entry_points version="2.0" />
   </component>
   <component name="FrameworkDetectionExcludesConfiguration">
-    <file type="web" url="file://$PROJECT_DIR$/example-tomcat" />
+    <file type="web" url="file://$PROJECT_DIR$/war" />
   </component>
   <component name="IdProvider" IDEtalkID="96610BEE5DB0445377B965BB8AAC5721" />
   <component name="IvyIDEA.ProjectSettings">
