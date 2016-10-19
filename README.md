@@ -53,11 +53,6 @@ The front-end development presumes you have the following available:
 The front end development module was kick-started with yeoman.
 
 The front end depends on a backend to be up and running to work.  Grunt proxy has been configured to point api calls to localhost 9998.  You can use the JettyServer command to run an embedded jetty backend for testing.
-__Please note the signin redirect is not currently working and you will need to manually load /signin/index.html__
-
-__Please note on the first bower build it will generate a warning about angular conflict.  Choose option 3.__
-
-TODO - fix these issues.
 
 If your webUI build fails it may be for this reason and you will need to do a one time manual bower build.
 
