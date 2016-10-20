@@ -20,11 +20,13 @@ angular.module('twistedHangmanApp')
                 $scope.currentPlayer = {};
                 $scope.currentPlayer = {gameSpecificPlayerAttributes: {freeGamesUsedToday: 0}};
                 $scope.includeTemplate = 'views/empty.html';
+                $scope.adTemplate = 'views/ads/empty.html';
                 $scope.appName = jtbAppLongName;
                 console.log(jtbGameCache);
 
                 $scope.logout = function () {
                     $scope.includeTemplate = 'views/empty.html';
+                    $scope.adTemplate = 'views/ads/empty.html';
                     jtbPlayerService.signOutAndRedirect();
                 };
 
@@ -35,6 +37,7 @@ angular.module('twistedHangmanApp')
                     $scope.showLogout = $scope.currentPlayer.source === 'MANUAL';
                     $scope.createRefreshEnabled = true;
                     $scope.includeTemplate = 'views/sidebar.html';
+                    $scope.adTemplate = 'views/ads/ad-holder.html';
                     jtbBootstrapVersionNotesService.displayVersionNotesIfAppropriate(CURRENT_VERSION, RELEASE_NOTES);
                 });
 

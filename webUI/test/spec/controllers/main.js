@@ -42,6 +42,7 @@ describe('Controller: MainCtrl', function () {
         expect(scope.showLogout).toEqual(false);
         expect(scope.currentPlayer).toEqual({gameSpecificPlayerAttributes: {freeGamesUsedToday: 0}});
         expect(scope.includeTemplate).toEqual('views/empty.html');
+        expect(scope.adTemplate).toEqual('views/ads/empty.html');
         rootScope.$broadcast('playerLoaded');
         rootScope.$apply();
         expect(scope.currentPlayer).toEqual(player);
@@ -50,6 +51,7 @@ describe('Controller: MainCtrl', function () {
         expect(scope.showAdmin).toEqual(true);
         expect(scope.showLogout).toEqual(false);
         expect(scope.includeTemplate).toEqual('views/sidebar.html');
+        expect(scope.adTemplate).toEqual('views/ads/ad-holder.html');
         expect(scope.appName).toEqual(longName);
     });
 
@@ -63,6 +65,7 @@ describe('Controller: MainCtrl', function () {
         expect(scope.showAdmin).toEqual(true);
         expect(scope.showLogout).toEqual(false);
         expect(scope.includeTemplate).toEqual('views/sidebar.html');
+        expect(scope.adTemplate).toEqual('views/ads/ad-holder.html');
 
         player = {displayName: 'ABC', md5: '6666', adminUser: false, source: 'MANUAL'};
         rootScope.$broadcast('playerLoaded');
@@ -73,6 +76,7 @@ describe('Controller: MainCtrl', function () {
         expect(scope.showAdmin).toEqual(true);
         expect(scope.showLogout).toEqual(true);
         expect(scope.includeTemplate).toEqual('views/sidebar.html');
+        expect(scope.adTemplate).toEqual('views/ads/ad-holder.html');
         expect(versionNotesService.displayVersionNotesIfAppropriate).toHaveBeenCalledWith(
             1.3,
             'Reorganized the game lists, more games per day and fewer ads.');
@@ -82,10 +86,12 @@ describe('Controller: MainCtrl', function () {
         rootScope.$broadcast('playerLoaded');
         rootScope.$apply();
         expect(scope.includeTemplate).toEqual('views/sidebar.html');
+        expect(scope.adTemplate).toEqual('views/ads/ad-holder.html');
         expect(logoutCalled).toEqual(false);
         scope.logout();
         expect(logoutCalled).toEqual(true);
         expect(scope.includeTemplate).toEqual('views/empty.html');
+        expect(scope.adTemplate).toEqual('views/ads/empty.html');
     });
 
 });
