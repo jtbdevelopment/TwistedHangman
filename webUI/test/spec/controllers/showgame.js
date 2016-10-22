@@ -18,7 +18,6 @@ describe('Controller: ShowCtrl', function () {
 
     var player = {'player': 'player'};
     var ctrl, $scope, $http, $rootScope, gameDisplay, $q, $location, controller, $timeout;
-    var adPopupModalResult, ads, adsCalled;
     var gameCacheExpectedId, gameCacheReturnResult, mockPlayerService, mockGameCache, routeParams, mockGameDetails;
     var mockGameActions;
 
@@ -31,14 +30,6 @@ describe('Controller: ShowCtrl', function () {
         spyOn($rootScope, '$broadcast').and.callThrough();
         gameDisplay = jasmine.createSpyObj('gameDisplay', ['initializeScope', 'processGameUpdateForScope', 'updateScopeForGame']);
         $location = {path: jasmine.createSpy()};
-        ads = {
-            showAdPopup: function () {
-                adPopupModalResult = $q.defer();
-                adsCalled = true;
-                return adPopupModalResult.promise;
-            }
-        };
-        adsCalled = false;
         mockGameActions = jasmine.createSpyObj('gameActions', ['quit', 'reject', 'accept', 'reject', 'rematch', 'wrapActionOnGame']);
         var playerUrl = 'http://xx.com/api/player/MANUAL1';
         mockGameActions.getGameURL = function (game) {
@@ -92,8 +83,7 @@ describe('Controller: ShowCtrl', function () {
                 twGameDisplay: gameDisplay,
                 jtbGameCache: mockGameCache,
                 twGameDetails: mockGameDetails,
-                jtbBootstrapGameActions: mockGameActions,
-                jtbBootstrapAds: ads
+                jtbBootstrapGameActions: mockGameActions
             });
         }));
 
@@ -103,7 +93,6 @@ describe('Controller: ShowCtrl', function () {
             expect($scope.player).toEqual(player);
             expect(gameDisplay.updateScopeForGame).toHaveBeenCalledWith($scope, game);
             expect($scope.gameDetails).toBe(mockGameDetails);
-            expect(adsCalled).toEqual(false);
             expect(element[0].focus).not.toHaveBeenCalled();
             $timeout.flush();
             expect(element[0].focus).toHaveBeenCalled();
@@ -125,8 +114,7 @@ describe('Controller: ShowCtrl', function () {
                 twGameDisplay: gameDisplay,
                 jtbGameCache: mockGameCache,
                 jtbBootstrapGameActions: mockGameActions,
-                twGameDetails: mockGameDetails,
-                jtbBootstrapAds: ads
+                twGameDetails: mockGameDetails
             });
         });
 
@@ -136,7 +124,6 @@ describe('Controller: ShowCtrl', function () {
             expect($scope.player).toEqual(player);
             expect($scope.game).toBeUndefined();
             expect(gameDisplay.updateScopeForGame).not.toHaveBeenCalledWith($scope, game);
-            expect(adsCalled).toEqual(false);
         });
     });
 
@@ -155,8 +142,7 @@ describe('Controller: ShowCtrl', function () {
                 jtbBootstrapGameActions: mockGameActions,
                 twGameDisplay: gameDisplay,
                 jtbGameCache: mockGameCache,
-                twGameDetails: mockGameDetails,
-                jtbBootstrapAds: ads
+                twGameDetails: mockGameDetails
             });
         });
 
@@ -167,7 +153,6 @@ describe('Controller: ShowCtrl', function () {
                 $rootScope.$broadcast('gameUpdated', game, gameUpdate);
                 $rootScope.$apply();
                 expect(gameDisplay.updateScopeForGame).toHaveBeenCalledWith($scope, gameUpdate);
-                expect(adsCalled).toEqual(false);
             });
 
             it('listens for gameUpdate and ignores if different game id', function () {
@@ -177,7 +162,6 @@ describe('Controller: ShowCtrl', function () {
                 $rootScope.$broadcast('gameUpdated', gameUpdate, gameUpdate);
                 $rootScope.$apply();
                 expect(gameDisplay.updateScopeForGame).not.toHaveBeenCalledWith($scope, gameUpdate);
-                expect(adsCalled).toEqual(false);
             });
 
             it('listens for gameUpdate and ignores if scope has no game', function () {
@@ -186,7 +170,6 @@ describe('Controller: ShowCtrl', function () {
                 $rootScope.$broadcast('gameUpdated', game, gameUpdate);
                 $rootScope.$apply();
                 expect(gameDisplay.updateScopeForGame).not.toHaveBeenCalledWith($scope, gameUpdate);
-                expect(adsCalled).toEqual(false);
             });
         });
 
@@ -198,7 +181,6 @@ describe('Controller: ShowCtrl', function () {
                 $rootScope.$broadcast('gameCachesLoaded');
                 $rootScope.$apply();
                 expect(gameDisplay.updateScopeForGame).toHaveBeenCalledWith($scope, gameUpdate);
-                expect(adsCalled).toEqual(false);
             });
 
             it('listens for gameCachesLoaded and goes to main page if no longer valid', function () {
@@ -209,23 +191,18 @@ describe('Controller: ShowCtrl', function () {
                 $rootScope.$apply();
                 expect(gameDisplay.updateScopeForGame).not.toHaveBeenCalledWith($scope, gameUpdate);
                 expect($location.path).toHaveBeenCalledWith('/');
-                expect(adsCalled).toEqual(false);
             });
         });
 
         describe('test various action processing', function () {
             it('post rematch', function () {
                 $scope.startNextRound();
-                adPopupModalResult.resolve();
-                $rootScope.$apply();
 
                 expect(mockGameActions.rematch).toHaveBeenCalledWith(game);
             });
 
             it('accept match', function () {
                 $scope.accept();
-                adPopupModalResult.resolve();
-                $rootScope.$apply();
 
                 expect(mockGameActions.accept).toHaveBeenCalledWith(game);
             });
@@ -239,7 +216,6 @@ describe('Controller: ShowCtrl', function () {
                 $scope.quit();
 
                 expect(mockGameActions.quit).toHaveBeenCalledWith(game);
-                expect(adsCalled).toEqual(false);
             });
 
             it('set puzzle', function () {

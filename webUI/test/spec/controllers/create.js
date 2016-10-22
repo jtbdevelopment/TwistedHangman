@@ -34,15 +34,6 @@ describe('Controller: CreateCtrl', function () {
         }
     };
 
-    var adPopupModalResult, ads, adsCalled;
-    ads = {
-        showAdPopup: function () {
-            adPopupModalResult = q.defer();
-            adsCalled = true;
-            return adPopupModalResult.promise;
-        }
-    };
-
     beforeEach(inject(function ($rootScope, $q, $controller) {
         rootScope = $rootScope;
         q = $q;
@@ -54,11 +45,8 @@ describe('Controller: CreateCtrl', function () {
             jtbAppLongName: longName,
             twGameFeatureService: mockFeatureService,
             jtbPlayerService: mockPlayerService,
-            jtbBootstrapAds: ads,
             jtbBootstrapGameActions: jtbGameActions
         });
-
-        adsCalled = false;
     }));
 
     describe('core initialization tests', function () {
@@ -84,7 +72,6 @@ describe('Controller: CreateCtrl', function () {
             expect(ctrl.allFinishedEnabled).toBe(false);
             expect(ctrl.turnBasedEnabled).toBe(false);
             expect(ctrl.submitEnabled).toBe(true);
-            expect(adsCalled).toEqual(false);
         });
 
     });
@@ -138,13 +125,11 @@ describe('Controller: CreateCtrl', function () {
             expect(ctrl.allFinishedEnabled).toBe(false);
             expect(ctrl.turnBasedEnabled).toBe(false);
             expect(ctrl.submitEnabled).toBe(true);
-            expect(adsCalled).toEqual(false);
         });
 
         it('show invite opens dialog', function () {
             ctrl.showInvite();
             expect(modalOpened).toEqual(true);
-            expect(adsCalled).toEqual(false);
         });
     });
 
@@ -199,7 +184,6 @@ describe('Controller: CreateCtrl', function () {
             expect(ctrl.allFinishedEnabled).toBe(false);
             expect(ctrl.turnBasedEnabled).toBe(false);
             expect(ctrl.submitEnabled).toBe(true);
-            expect(adsCalled).toEqual(false);
         });
 
         it('changes to two player from multiplayer', function () {
@@ -238,7 +222,6 @@ describe('Controller: CreateCtrl', function () {
             expect(ctrl.allFinishedEnabled).toBe(true);
             expect(ctrl.turnBasedEnabled).toBe(true);
             expect(ctrl.submitEnabled).toBe(false);
-            expect(adsCalled).toEqual(false);
         });
 
         it('changes to two player from multiplayer with only one opponent', function () {
@@ -247,7 +230,6 @@ describe('Controller: CreateCtrl', function () {
             ctrl.setTwoPlayers();
             expect(ctrl.chosenFriends).toEqual([ctrl.friends[1]]);
             expect(ctrl.submitEnabled).toBe(true);
-            expect(adsCalled).toEqual(false);
         });
 
         it('changes to multi player from multiplayer', function () {
@@ -286,7 +268,6 @@ describe('Controller: CreateCtrl', function () {
             expect(ctrl.allFinishedEnabled).toBe(true);
             expect(ctrl.turnBasedEnabled).toBe(true);
             expect(ctrl.submitEnabled).toBe(true);
-            expect(adsCalled).toEqual(false);
         });
 
         it('test submit enable for single player game', function () {
@@ -304,7 +285,6 @@ describe('Controller: CreateCtrl', function () {
             ctrl.clearPlayers();
             expect(ctrl.chosenFriends).toEqual([]);
             expect(ctrl.submitEnabled).toBe(true);
-            expect(adsCalled).toEqual(false);
         });
 
 
@@ -335,7 +315,6 @@ describe('Controller: CreateCtrl', function () {
             ctrl.clearPlayers();
             expect(ctrl.chosenFriends).toEqual([]);
             expect(ctrl.submitEnabled).toBe(false);
-            expect(adsCalled).toEqual(false);
         });
 
         it('test submit enable for multi player game', function () {
@@ -362,19 +341,15 @@ describe('Controller: CreateCtrl', function () {
             ctrl.clearPlayers();
             expect(ctrl.chosenFriends).toEqual([]);
             expect(ctrl.submitEnabled).toBe(false);
-            expect(adsCalled).toEqual(false);
         });
 
         it('test create game submission sp', function () {
             ctrl.setSinglePlayer();
             ctrl.createGame();
-            adPopupModalResult.resolve();
-            rootScope.$apply();
             expect(jtbGameActions.new).toHaveBeenCalledWith({
                 players: [],
                 features: ['SystemPuzzles', 'SinglePlayer', 'Thieving', 'DrawFace', 'Live', 'SingleWinner']
             });
-            expect(adsCalled).toEqual(true);
         });
 
         it('test create game submission 2player', function () {
@@ -386,9 +361,6 @@ describe('Controller: CreateCtrl', function () {
             ctrl.drawFace = '';
             ctrl.wordPhraseSetter = 'Head2Head';
             ctrl.createGame();
-            adPopupModalResult.resolve();
-            rootScope.$apply();
-            expect(adsCalled).toEqual(true);
             expect(jtbGameActions.new).toHaveBeenCalledWith({
                 players: ['x'],
                 features: ['Head2Head', 'TwoPlayer', 'TurnBased', 'SingleWinner']
@@ -402,9 +374,6 @@ describe('Controller: CreateCtrl', function () {
             ctrl.winners = 'AllComplete';
             ctrl.gamePace = 'TurnBased';
             ctrl.createGame();
-            adPopupModalResult.resolve();
-            rootScope.$apply();
-            expect(adsCalled).toEqual(true);
             expect(jtbGameActions.new).toHaveBeenCalledWith({
                 players: ['x', 'y'],
                 features: ['SystemPuzzles', 'ThreePlus', 'DrawFace', 'TurnBased', 'AllComplete']

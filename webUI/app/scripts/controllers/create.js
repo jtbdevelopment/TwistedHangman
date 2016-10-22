@@ -2,9 +2,9 @@
 
 angular.module('twistedHangmanApp').controller('CreateCtrl',
     ['$rootScope', '$scope', 'jtbBootstrapGameActions', 'jtbAppLongName',
-        'twGameFeatureService', 'jtbPlayerService', '$uibModal', 'jtbBootstrapAds',
+        'twGameFeatureService', 'jtbPlayerService', '$uibModal',
         function ($rootScope, $scope, jtbBootstrapGameActions, jtbAppLongName,
-                  twGameFeatureService, jtbPlayerService, $uibModal, jtbBootstrapAds) {
+                  twGameFeatureService, jtbPlayerService, $uibModal) {
 
             var controller = this;
             var SINGLE_PLAYER = 'SinglePlayer';
@@ -90,26 +90,24 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
             };
 
             controller.createGame = function () {
-                jtbBootstrapAds.showAdPopup().then(function () {
-                    var featureNames = ['wordPhraseSetter', 'desiredPlayerCount', 'thieving', 'drawGallows', 'drawFace', 'gamePace', 'winners'];
-                    var featureSet = [];
-                    featureSet = featureSet.concat(featureNames.map(function (name) {
+                var featureNames = ['wordPhraseSetter', 'desiredPlayerCount', 'thieving', 'drawGallows', 'drawFace', 'gamePace', 'winners'];
+                var featureSet = [];
+                featureSet = featureSet.concat(featureNames.map(function (name) {
                         var data = controller[name];
-                            if ((angular.isDefined(data)) && (data !== '')) {
-                                return data;
-                            }
-                            return '';
+                        if ((angular.isDefined(data)) && (data !== '')) {
+                            return data;
                         }
-                    ).filter(function (item) {
-                        return item !== '';
-                    }));
+                        return '';
+                    }
+                ).filter(function (item) {
+                    return item !== '';
+                }));
 
-                    var players = controller.chosenFriends.map(function (player) {
-                        return player.md5;
-                    });
-                    var playersAndFeatures = {'players': players, 'features': featureSet};
-                    jtbBootstrapGameActions.new(playersAndFeatures);
+                var players = controller.chosenFriends.map(function (player) {
+                    return player.md5;
                 });
+                var playersAndFeatures = {'players': players, 'features': featureSet};
+                jtbBootstrapGameActions.new(playersAndFeatures);
             };
 
             controller.showInvite = function () {

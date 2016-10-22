@@ -2,9 +2,9 @@
 
 angular.module('twistedHangmanApp').controller('ShowCtrl',
     ['$scope', '$timeout', '$routeParams', '$http', '$location', 'jtbBootstrapGameActions',
-        'jtbPlayerService', 'twGameDisplay', 'jtbGameCache', 'twGameDetails', 'jtbBootstrapAds',
+        'jtbPlayerService', 'twGameDisplay', 'jtbGameCache', 'twGameDetails',
         function ($scope, $timeout, $routeParams, $http, $location, jtbBootstrapGameActions,
-                  jtbPlayerService, twGameDisplay, jtbGameCache, twGameDetails, jtbBootstrapAds) {
+                  jtbPlayerService, twGameDisplay, jtbGameCache, twGameDetails) {
             twGameDisplay.initializeScope($scope);
             $scope.gameID = $routeParams.gameID;
             $scope.enteredCategory = '';
@@ -32,15 +32,11 @@ angular.module('twistedHangmanApp').controller('ShowCtrl',
             });
 
             $scope.startNextRound = function () {
-                jtbBootstrapAds.showAdPopup().then(function () {
-                    jtbBootstrapGameActions.rematch(game);
-                });
+                jtbBootstrapGameActions.rematch(game);
             };
 
             $scope.accept = function () {
-                jtbBootstrapAds.showAdPopup().then(function () {
-                    jtbBootstrapGameActions.accept(game);
-                });
+                jtbBootstrapGameActions.accept(game);
             };
 
             $scope.reject = function () {
