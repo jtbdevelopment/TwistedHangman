@@ -2,9 +2,9 @@
 
 angular.module('twistedHangmanApp').controller('CreateCtrl',
     ['$rootScope', '$scope', 'jtbBootstrapGameActions', 'jtbAppLongName',
-        'twGameFeatureService', 'jtbPlayerService', '$uibModal', 'twAds',
+        'twGameFeatureService', 'jtbPlayerService', '$uibModal', 'jtbBootstrapAds',
         function ($rootScope, $scope, jtbBootstrapGameActions, jtbAppLongName,
-                  twGameFeatureService, jtbPlayerService, $uibModal, twAds) {
+                  twGameFeatureService, jtbPlayerService, $uibModal, jtbBootstrapAds) {
 
             var controller = this;
             var SINGLE_PLAYER = 'SinglePlayer';
@@ -90,7 +90,7 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
             };
 
             controller.createGame = function () {
-                twAds.showAdPopup().then(function () {
+                jtbBootstrapAds.showAdPopup().then(function () {
                     var featureNames = ['wordPhraseSetter', 'desiredPlayerCount', 'thieving', 'drawGallows', 'drawFace', 'gamePace', 'winners'];
                     var featureSet = [];
                     featureSet = featureSet.concat(featureNames.map(function (name) {

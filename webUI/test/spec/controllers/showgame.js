@@ -93,7 +93,7 @@ describe('Controller: ShowCtrl', function () {
                 jtbGameCache: mockGameCache,
                 twGameDetails: mockGameDetails,
                 jtbBootstrapGameActions: mockGameActions,
-                twAds: ads
+                jtbBootstrapAds: ads
             });
         }));
 
@@ -126,7 +126,7 @@ describe('Controller: ShowCtrl', function () {
                 jtbGameCache: mockGameCache,
                 jtbBootstrapGameActions: mockGameActions,
                 twGameDetails: mockGameDetails,
-                twAds: ads
+                jtbBootstrapAds: ads
             });
         });
 
@@ -156,7 +156,7 @@ describe('Controller: ShowCtrl', function () {
                 twGameDisplay: gameDisplay,
                 jtbGameCache: mockGameCache,
                 twGameDetails: mockGameDetails,
-                twAds: ads
+                jtbBootstrapAds: ads
             });
         });
 

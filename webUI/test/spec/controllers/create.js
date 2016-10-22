@@ -54,7 +54,7 @@ describe('Controller: CreateCtrl', function () {
             jtbAppLongName: longName,
             twGameFeatureService: mockFeatureService,
             jtbPlayerService: mockPlayerService,
-            twAds: ads,
+            jtbBootstrapAds: ads,
             jtbBootstrapGameActions: jtbGameActions
         });
 
