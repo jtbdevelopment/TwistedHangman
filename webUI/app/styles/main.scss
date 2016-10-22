@@ -9,25 +9,19 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "header";
 @import "create";
 @import "invite";
+@import "ads";
 
 //  current scheme based on http://www.creativecolorschemes.com/resources/free-color-schemes/earth-tone-color-scheme.shtml
 body {
   background-color: $et_richbrownlight;
 }
 
-.imagearea img {
+.image-area img {
   align-content: center;
   width: 300px;
   height: 300px;
   display: block;
   margin: auto;
-}
-
-.alert {
-  margin-left: 5px;
-  margin-right: 5px;
-  margin-top: 5px;
-  text-align: center;
 }
 
 .carousel-inner {

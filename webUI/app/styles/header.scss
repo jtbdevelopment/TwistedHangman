@@ -39,42 +39,4 @@
     background-color: $et_bluemedium;
   }
 
-  .alertDiv {
-    background-color: $et_richbrownlight;
-    color: #ffffff;
-
-    .alertButton {
-      .btn {
-        padding: 4px 10px;
-        background-color: $et_richbrownlight;
-
-        .alertBadge {
-          background-color: red;
-          font-size: x-small;
-          position: relative;
-          top: -5px;
-        }
-      }
-      :hover {
-        background-color: $et_bluedark;
-      }
-
-      :focus {
-        background-color: $et_bluemedium;
-      }
-    }
-
-    .dropdown-menu {
-      right: 0;
-      left: auto;
-
-      li {
-        :hover {
-          background-color: $et_bluedark;
-        }
-      }
-    }
-
-  }
-
 }
