@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 </head>
-<body ng-app="twistedHangmanApp" ng-controller="MainCtrl">
+<body ng-app="twistedHangmanApp" ng-controller="MainCtrl as main">
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
@@ -27,16 +27,17 @@
     <div class="header">
         <ul class="nav nav-pills pull-right">
             <li><a ng-href="#/about">About</a></li>
-            <li><a ng-href="#/admin" ng-show="showAdmin">Admin</a></li>
-            <li><a ng-click="logout()" ng-show="showLogout">Logout</a></li>
+            <li><a ng-href="#/admin" ng-show="main.showAdmin">Admin</a></li>
+            <li><a ng-click="main.logout()" ng-show="main.showLogout">Logout</a></li>
         </ul>
         <a href="#/" ng-cloak>
             <h3 class="text-muted">
-                <img src="images/hangman13.png"/>{{appName}}
-                <small>{{playerGreeting}}</small>
+                <img src="images/hangman13.png"/>{{main.appName}}
+                <small>{{main.playerGreeting}}</small>
                 <div class="pull-right">
-                    <small>Free Games Played Today: {{currentPlayer.gameSpecificPlayerAttributes.freeGamesUsedToday}} /
-                        {{currentPlayer.gameSpecificPlayerAttributes.maxDailyFreeGames}}
+                    <small>Free Games Played Today:
+                        {{main.currentPlayer.gameSpecificPlayerAttributes.freeGamesUsedToday}} /
+                        {{main.currentPlayer.gameSpecificPlayerAttributes.maxDailyFreeGames}}
                     </small>
                 </div>
             </h3>
@@ -47,10 +48,10 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-2">
-            <div ng-include="includeTemplate"></div>
+            <div ng-include="main.includeTemplate"></div>
         </div>
         <div ng-view="" class="col-sm-10"></div>
-        <div ng-include="adTemplate"></div>
+        <div ng-include="main.adTemplate"></div>
     </div>
 </div>
 
