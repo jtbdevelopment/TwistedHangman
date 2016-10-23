@@ -11,8 +11,8 @@ var CURRENT_VERSION = 1.3;
 var RELEASE_NOTES = 'Reorganized the game lists, more games per day and fewer ads.';
 angular.module('twistedHangmanApp')
     .controller('MainCtrl',
-        ['$scope', 'jtbAppLongName', 'jtbGameCache', 'jtbPlayerService', 'jtbBootstrapVersionNotesService',
-            function ($scope, jtbAppLongName, jtbGameCache, jtbPlayerService, jtbBootstrapVersionNotesService) {
+        ['$scope', 'jtbAppLongName', 'jtbPlayerService', 'jtbBootstrapVersionNotesService',
+            function ($scope, jtbAppLongName, jtbPlayerService, jtbBootstrapVersionNotesService) {
                 $scope.playerGreeting = '';
                 $scope.createRefreshEnabled = false;
                 $scope.showAdmin = false;
@@ -22,7 +22,6 @@ angular.module('twistedHangmanApp')
                 $scope.includeTemplate = 'views/empty.html';
                 $scope.adTemplate = 'views/ads/empty.html';
                 $scope.appName = jtbAppLongName;
-                console.log(jtbGameCache);
 
                 $scope.logout = function () {
                     $scope.includeTemplate = 'views/empty.html';
