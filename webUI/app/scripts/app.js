@@ -47,7 +47,8 @@ angular
             })
             .when('/about', {
                 templateUrl: 'views/about.html',
-                controller: 'AboutCtrl'
+                controller: 'AboutCtrl',
+                controllerAs: 'about'
             })
             .when('/signin', {
                 templateUrl: 'views/core-bs/sign-in/sign-in.html',

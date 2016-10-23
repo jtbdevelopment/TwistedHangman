@@ -4,18 +4,15 @@ describe('Controller: AboutCtrl', function () {
 
     beforeEach(module('twistedHangmanApp'));
 
-    var AboutCtrl,
-        scope;
+    var AboutCtrl;
 
-    beforeEach(inject(function ($controller, $rootScope) {
-        scope = $rootScope.$new();
+    beforeEach(inject(function ($controller) {
         AboutCtrl = $controller('AboutCtrl', {
-            $scope: scope
         });
     }));
 
     it('initializes slides', function () {
-        expect(scope.slides).toEqual(
+        expect(AboutCtrl.slides).toEqual(
             [
                 {
                     title: 'Welcome to Twisted Hangman!',

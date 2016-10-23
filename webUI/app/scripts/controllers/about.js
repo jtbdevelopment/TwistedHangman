@@ -9,9 +9,10 @@
  */
 angular.module('twistedHangmanApp')
     .controller('AboutCtrl',
-        ['$scope',
-            function ($scope) {
-                $scope.slides = [
+        [
+            function () {
+                var controller = this;
+                controller.slides = [
                     {
                         title: 'Welcome to Twisted Hangman!',
                         image: '/images/info/basicgame.png',
