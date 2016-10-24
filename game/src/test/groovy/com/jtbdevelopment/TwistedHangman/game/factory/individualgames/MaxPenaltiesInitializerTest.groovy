@@ -3,21 +3,25 @@ package com.jtbdevelopment.TwistedHangman.game.factory.individualgames
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
+import com.jtbdevelopment.games.factory.GameInitializer
 
 /**
  * Date: 11/5/2014
  * Time: 9:51 PM
  */
-class MaxPenaltiesGameInitializerTest extends GroovyTestCase {
-    MaxPenaltiesGameInitializer initializer = new MaxPenaltiesGameInitializer()
+class MaxPenaltiesInitializerTest extends GroovyTestCase {
+    MaxPenaltiesInitializer initializer = new MaxPenaltiesInitializer()
 
+    public void testOrder() {
+        assert GameInitializer.LATE_ORDER == initializer.order
+    }
 
     public void testBaseGame() {
         Game game = new Game()
         game.features += GameFeature.Thieving
         game.solverStates = ["1": new IndividualGameState([] as Set), "2": new IndividualGameState([] as Set)]
 
-        initializer.initializeIndividualGameStates(game)
+        initializer.initializeGame(game)
         game.solverStates.values().each {
             assert it.maxPenalties == IndividualGameState.BASE_PENALTIES
         }
@@ -31,7 +35,7 @@ class MaxPenaltiesGameInitializerTest extends GroovyTestCase {
         game.features += GameFeature.DrawGallows
         game.solverStates = ["1": new IndividualGameState([] as Set), "2": new IndividualGameState([] as Set)]
 
-        initializer.initializeIndividualGameStates(game)
+        initializer.initializeGame(game)
         game.solverStates.values().each {
             assert it.maxPenalties == (IndividualGameState.BASE_PENALTIES + IndividualGameState.FACE_PENALTIES + IndividualGameState.GALLOWS_PENALTIES)
         }
@@ -44,7 +48,7 @@ class MaxPenaltiesGameInitializerTest extends GroovyTestCase {
         game.features += GameFeature.DrawGallows
         game.solverStates = ["1": new IndividualGameState([] as Set), "2": new IndividualGameState([] as Set)]
 
-        initializer.initializeIndividualGameStates(game)
+        initializer.initializeGame(game)
         game.solverStates.values().each {
             assert it.maxPenalties == (IndividualGameState.BASE_PENALTIES + IndividualGameState.GALLOWS_PENALTIES)
         }
@@ -57,7 +61,7 @@ class MaxPenaltiesGameInitializerTest extends GroovyTestCase {
         game.features += GameFeature.DrawFace
         game.solverStates = ["1": new IndividualGameState([] as Set), "2": new IndividualGameState([] as Set)]
 
-        initializer.initializeIndividualGameStates(game)
+        initializer.initializeGame(game)
         game.solverStates.values().each {
             assert it.maxPenalties == (IndividualGameState.BASE_PENALTIES + IndividualGameState.FACE_PENALTIES)
         }

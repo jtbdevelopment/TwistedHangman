@@ -1,9 +1,9 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.individualgames
 
-import com.jtbdevelopment.TwistedHangman.game.factory.IndividualGamesInitializer
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
+import com.jtbdevelopment.games.factory.GameInitializer
 import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
 
@@ -13,12 +13,15 @@ import org.springframework.stereotype.Component
  */
 @Component
 @CompileStatic
-class MaxPenaltiesGameInitializer implements IndividualGamesInitializer {
-    @Override
-    void initializeIndividualGameStates(final Game game) {
+class MaxPenaltiesInitializer implements GameInitializer<Game> {
+    void initializeGame(final Game game) {
         int penalties = IndividualGameState.BASE_PENALTIES +
                 (game.features.contains(GameFeature.DrawFace) ? IndividualGameState.FACE_PENALTIES : 0) +
                 (game.features.contains(GameFeature.DrawGallows) ? IndividualGameState.GALLOWS_PENALTIES : 0)
         game.solverStates.values().each { IndividualGameState gameState -> gameState.maxPenalties = penalties }
+    }
+
+    int getOrder() {
+        return LATE_ORDER
     }
 }

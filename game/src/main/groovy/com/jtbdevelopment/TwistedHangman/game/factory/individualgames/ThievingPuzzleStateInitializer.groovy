@@ -1,9 +1,9 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.individualgames
 
-import com.jtbdevelopment.TwistedHangman.game.factory.IndividualGamesInitializer
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
+import com.jtbdevelopment.games.factory.GameInitializer
 import org.springframework.stereotype.Component
 
 /**
@@ -11,9 +11,8 @@ import org.springframework.stereotype.Component
  * Time: 9:04 PM
  */
 @Component
-class InitializeThievingSubGames implements IndividualGamesInitializer {
-    @Override
-    void initializeIndividualGameStates(final Game game) {
+class ThievingPuzzleStateInitializer implements GameInitializer<Game> {
+    void initializeGame(final Game game) {
         if (game.features.contains(GameFeature.Thieving)) {
             game.solverStates.values().each {
                 IndividualGameState gameState ->
@@ -22,5 +21,9 @@ class InitializeThievingSubGames implements IndividualGamesInitializer {
                     gameState.featureData[GameFeature.ThievingLetters] = []
             }
         }
+    }
+
+    int getOrder() {
+        return LATE_ORDER
     }
 }
