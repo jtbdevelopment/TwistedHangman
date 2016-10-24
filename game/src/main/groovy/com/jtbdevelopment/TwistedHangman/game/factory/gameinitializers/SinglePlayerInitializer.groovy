@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.game.factory.featureexpanders
+package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
@@ -7,15 +7,18 @@ import groovy.transform.CompileStatic
 import org.springframework.stereotype.Component
 
 /**
- * Date: 11/3/14
- * Time: 9:39 PM
+ * Date: 11/6/14
+ * Time: 6:48 AM
  */
 @CompileStatic
 @Component
-class TwoPlayerInitializer implements GameInitializer<Game> {
+class SinglePlayerInitializer implements GameInitializer<Game> {
+
     void initializeGame(final Game game) {
-        if (game.players.size() == 2) {
-            game.features.add(GameFeature.TwoPlayer)
+        if (game.players.size() == 1) {
+            game.features.add(GameFeature.SinglePlayer)
+            game.features.add(GameFeature.SingleWinner)
+            game.features.add(GameFeature.SystemPuzzles)
         }
     }
 

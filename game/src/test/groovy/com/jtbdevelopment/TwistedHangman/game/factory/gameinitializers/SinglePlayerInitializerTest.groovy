@@ -1,4 +1,4 @@
-package com.jtbdevelopment.TwistedHangman.game.factory.featureexpanders
+package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
