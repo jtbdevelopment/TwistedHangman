@@ -18,7 +18,6 @@ class GameFactoryTest extends TwistedHangmanTestCase {
 
     public void testCreatingNewGame() {
         int validatorsCalled = 0
-        int expandersCalled = 0
         int initializersCalled = 0
         int individualCalled = 0
         boolean systemPhraseSetterCalled = false
@@ -28,10 +27,8 @@ class GameFactoryTest extends TwistedHangmanTestCase {
                 errorMessage: {
                     fail("Should not be called")
                 }] as GameValidator
-        def expander = [enhanceFeatureSet: { a, b -> expandersCalled++ }] as FeatureExpander
         def individual = [initializeIndividualGameStates: { individualCalled++ }] as IndividualGamesInitializer
 
-        gameFactory.featureExpanders = [expander, expander, expander]
         gameFactory.gameValidators = [validator, validator]
         gameFactory.gameInitializers = [initializer, initializer, initializer, initializer]
         gameFactory.individualGamesInitializers = [individual, individual]
@@ -52,7 +49,6 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assertNotNull game
         assert validatorsCalled == 2
         assert initializersCalled == 4
-        assert expandersCalled == 3
         assert individualCalled == 2
         assert systemPhraseSetterCalled
         assert game.features == expectedFeatures
@@ -67,7 +63,6 @@ class GameFactoryTest extends TwistedHangmanTestCase {
 
     public void testCreatingRematchGame() {
         int validatorsCalled = 0
-        int expandersCalled = 0
         int initializersCalled = 0
         int individualCalled = 0
         boolean systemPhraseSetterCalled = false
@@ -77,7 +72,6 @@ class GameFactoryTest extends TwistedHangmanTestCase {
                 errorMessage: {
                     fail("Should not be called")
                 }] as GameValidator
-        def expander = [enhanceFeatureSet: { a, b -> expandersCalled++ }] as FeatureExpander
         def individual = [initializeIndividualGameStates: { individualCalled++ }] as IndividualGamesInitializer
         gameFactory.systemPuzzlerSetter = [
                 setWordPhraseFromSystem: {
@@ -87,7 +81,6 @@ class GameFactoryTest extends TwistedHangmanTestCase {
                 }
         ] as SystemPuzzlerSetter
 
-        gameFactory.featureExpanders = [expander, expander, expander]
         gameFactory.gameValidators = [validator, validator]
         gameFactory.gameInitializers = [initializer, initializer, initializer, initializer]
         gameFactory.individualGamesInitializers = [individual, individual]
@@ -109,7 +102,6 @@ class GameFactoryTest extends TwistedHangmanTestCase {
         assertNotNull game
         assert validatorsCalled == 2
         assert initializersCalled == 4
-        assert expandersCalled == 3
         assert individualCalled == 2
         assert systemPhraseSetterCalled
         assert game.features == expectedFeatures
