@@ -14,8 +14,6 @@ import org.springframework.stereotype.Component
 @Component
 class GameFactory extends AbstractMultiPlayerGameFactory<Game, GameFeature> {
     @Autowired
-    List<IndividualGamesInitializer> individualGamesInitializers = []
-    @Autowired
     protected SystemPuzzlerSetter systemPuzzlerSetter
 
     @Override
@@ -28,10 +26,6 @@ class GameFactory extends AbstractMultiPlayerGameFactory<Game, GameFeature> {
     protected void initializeGame(final Game game) {
         //  TODO - convert feature exapnders/individual game initializers to standard initializers with early/late ordering
         super.initializeGame(game)
-        individualGamesInitializers.each {
-            IndividualGamesInitializer it ->
-                it.initializeIndividualGameStates(game)
-        }
         systemPuzzlerSetter.setWordPhraseFromSystem(game)
     }
 
