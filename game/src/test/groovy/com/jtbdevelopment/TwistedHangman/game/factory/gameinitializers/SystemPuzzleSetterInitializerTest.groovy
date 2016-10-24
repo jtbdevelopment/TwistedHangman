@@ -1,10 +1,12 @@
-package com.jtbdevelopment.TwistedHangman.game.utility
+package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
+import com.jtbdevelopment.TwistedHangman.game.utility.PreMadePuzzle
+import com.jtbdevelopment.TwistedHangman.game.utility.RandomCannedGameFinder
 import com.jtbdevelopment.games.factory.GameInitializer
 import org.springframework.util.StringUtils
 
