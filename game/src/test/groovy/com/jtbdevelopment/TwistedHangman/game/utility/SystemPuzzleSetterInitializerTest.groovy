@@ -5,17 +5,18 @@ import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
+import com.jtbdevelopment.games.factory.GameInitializer
 import org.springframework.util.StringUtils
 
 /**
  * Date: 11/6/14
  * Time: 9:13 PM
  */
-class SystemPuzzlerSetterTest extends TwistedHangmanTestCase {
+class SystemPuzzleSetterInitializerTest extends TwistedHangmanTestCase {
     private static final String phrase = "WHO LET THE DOGS OUT?"
     private static final String category = "SONG"
     private static final PreMadePuzzle cannedGame = new PreMadePuzzle(wordPhrase: phrase, category: category)
-    SystemPuzzlerSetter puzzlerSetter = new SystemPuzzlerSetter()
+    SystemPuzzleSetterInitializer puzzlerSetter = new SystemPuzzleSetterInitializer()
 
     @Override
     public void setUp() {
@@ -24,14 +25,17 @@ class SystemPuzzlerSetterTest extends TwistedHangmanTestCase {
                 setWordPhrase: {
                     IndividualGameState gameState, String phrase, String category ->
                         assert gameState != null
-                        assert phrase == SystemPuzzlerSetterTest.phrase
-                        assert category == SystemPuzzlerSetterTest.category
+                        assert phrase == SystemPuzzleSetterInitializerTest.phrase
+                        assert category == SystemPuzzleSetterInitializerTest.category
                         gameState.wordPhrase = phrase.toCharArray()
                         gameState.category = category
                 }
         ] as PhraseSetter
     }
 
+    public void testOrder() {
+        assert GameInitializer.LATE_ORDER == puzzlerSetter.order
+    }
 
     public void testSystemPuzzler() {
         puzzlerSetter
@@ -40,7 +44,7 @@ class SystemPuzzlerSetterTest extends TwistedHangmanTestCase {
         game.solverStates = ["1": new IndividualGameState([] as Set),
                              "2": new IndividualGameState([] as Set),
                              "3": new IndividualGameState([] as Set)]
-        assert game.is(puzzlerSetter.setWordPhraseFromSystem(game))
+        puzzlerSetter.initializeGame(game)
         game.solverStates.values().each {
             assert it.category == category
             assert it.wordPhraseString == phrase
@@ -53,7 +57,7 @@ class SystemPuzzlerSetterTest extends TwistedHangmanTestCase {
         game.solverStates = ["1": new IndividualGameState([] as Set),
                              "2": new IndividualGameState([] as Set),
                              "3": new IndividualGameState([] as Set)]
-        assert game.is(puzzlerSetter.setWordPhraseFromSystem(game))
+        puzzlerSetter.initializeGame(game)
         game.solverStates.values().each {
             assert StringUtils.isEmpty(it.category)
             assert StringUtils.isEmpty(it.wordPhraseString)

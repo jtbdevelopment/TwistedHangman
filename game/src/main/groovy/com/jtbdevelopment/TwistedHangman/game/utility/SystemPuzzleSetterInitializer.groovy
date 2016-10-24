@@ -4,6 +4,7 @@ import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
+import com.jtbdevelopment.games.factory.GameInitializer
 import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -16,14 +17,14 @@ import org.springframework.stereotype.Component
  */
 @CompileStatic
 @Component
-class SystemPuzzlerSetter {
-    private static final Logger logger = LoggerFactory.getLogger(SystemPuzzlerSetter.class)
+class SystemPuzzleSetterInitializer implements GameInitializer<Game> {
+    private static final Logger logger = LoggerFactory.getLogger(SystemPuzzleSetterInitializer.class)
     @Autowired
     RandomCannedGameFinder randomCannedGameFinder
     @Autowired
     PhraseSetter phraseSetter
 
-    public Game setWordPhraseFromSystem(final Game game) {
+    void initializeGame(final Game game) {
         if (game.features.contains(GameFeature.SystemPuzzles)) {
             PreMadePuzzle cannedGame = randomCannedGameFinder.getRandomGame()
             logger.info("System Challenger setting for " + game.id + " using canned id " + cannedGame.id)
@@ -32,6 +33,9 @@ class SystemPuzzlerSetter {
                     phraseSetter.setWordPhrase(gameState, cannedGame.wordPhrase, cannedGame.category)
             }
         }
-        return game
+    }
+
+    int getOrder() {
+        return LATE_ORDER
     }
 }
