@@ -38,6 +38,6 @@ class SystemPuzzleSetterInitializer implements GameInitializer<Game> {
     }
 
     int getOrder() {
-        return LATE_ORDER
+        return LATE_ORDER + 100
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component
 @Component
 class ThievingHangmanGameActions {
 
+    @SuppressWarnings("GrMethodMayBeStatic")
     void stealLetter(final IndividualGameState gameState, int position) {
         boolean[] markers = (boolean[]) gameState.featureData[GameFeature.ThievingPositionTracking]
         validateSteal(gameState, position, markers)

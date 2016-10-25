@@ -36,7 +36,7 @@ class SystemPuzzleSetterInitializerTest extends TwistedHangmanTestCase {
     }
 
     public void testOrder() {
-        assert GameInitializer.LATE_ORDER == puzzlerSetter.order
+        assert (GameInitializer.LATE_ORDER + 100) == puzzlerSetter.order
     }
 
     public void testSystemPuzzler() {
