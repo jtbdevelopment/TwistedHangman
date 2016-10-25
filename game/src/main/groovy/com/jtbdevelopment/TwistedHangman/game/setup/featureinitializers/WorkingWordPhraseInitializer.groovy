@@ -20,7 +20,7 @@ class WorkingWordPhraseInitializer implements PhraseFeatureInitializer {
         int blanks = 0;
         for (int i = 0; i < length; ++i) {
             if (Character.isLetter(gameState.wordPhrase[i])) {
-                workingWordPhrase[i] = '_';
+                workingWordPhrase[i] = '_' as char;
                 ++blanks;
             } else {
                 workingWordPhrase[i] = gameState.wordPhrase[i];

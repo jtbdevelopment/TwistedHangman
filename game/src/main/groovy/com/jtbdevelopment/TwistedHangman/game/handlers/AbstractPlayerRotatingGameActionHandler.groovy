@@ -7,8 +7,6 @@ import com.jtbdevelopment.games.rest.handlers.AbstractGameActionHandler
 import com.jtbdevelopment.games.state.GamePhase
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 
 /**
  * Date: 11/9/2014
@@ -16,8 +14,6 @@ import org.slf4j.LoggerFactory
  */
 @CompileStatic
 abstract class AbstractPlayerRotatingGameActionHandler<T> extends AbstractGameActionHandler<T, Game> {
-    private static final Logger logger = LoggerFactory.getLogger(AbstractPlayerRotatingGameActionHandler.class)
-
     @Override
     protected Game rotateTurnBasedGame(
             final Game game) {
