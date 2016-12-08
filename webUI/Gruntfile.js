@@ -80,27 +80,27 @@ module.exports = function (grunt) {
                 {
                     context: '/api', // the context of the data service
                     host: 'localhost', // wherever the data service is running
-                    port: 9998 // the port that the data service is running on
+                    port: 8080 // the port that the data service is running on
                 },
                 {
                     context: '/auth', // the context of the data service
                     host: 'localhost', // wherever the data service is running
-                    port: 9998 // the port that the data service is running on
+                    port: 8080 // the port that the data service is running on
                 },
                 {
                     context: '/signin/authenticate', // the context of the data service
                     host: 'localhost', // wherever the data service is running
-                    port: 9998 // the port that the data service is running on
+                    port: 8080 // the port that the data service is running on
                 },
                 {
                     context: '/signout', // the context of the data service
                     host: 'localhost', // wherever the data service is running
-                    port: 9998 // the port that the data service is running on
+                    port: 8080 // the port that the data service is running on
                 },
                 {
                     context: '/livefeed', // the context of the data service
                     host: 'localhost', // wherever the data service is running
-                    port: 9998, // the port that the data service is running on
+                    port: 8080, // the port that the data service is running on
                     ws: true
                 }
             ],
