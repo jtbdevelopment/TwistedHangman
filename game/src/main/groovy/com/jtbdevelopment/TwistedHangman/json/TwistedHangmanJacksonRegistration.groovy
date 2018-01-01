@@ -20,6 +20,7 @@ class TwistedHangmanJacksonRegistration implements JacksonModuleCustomization {
     void customizeModule(final SimpleModule module) {
         module.addAbstractTypeMapping(GameSpecificPlayerAttributes.class, TwistedHangmanPlayerAttributes.class)
         module.addAbstractTypeMapping(MaskedMultiPlayerGame.class, MaskedGame.class)
+        module.addAbstractTypeMapping(com.jtbdevelopment.games.state.masking.MaskedGame.class, MaskedGame.class)
         module.registerSubtypes(MaskedGame.class)
     }
 }

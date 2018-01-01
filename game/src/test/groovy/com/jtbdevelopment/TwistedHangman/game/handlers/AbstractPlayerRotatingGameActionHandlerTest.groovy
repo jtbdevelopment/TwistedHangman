@@ -26,9 +26,9 @@ import org.bson.types.ObjectId
  */
 class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanTestCase {
     private static final String testParam = "TESTPARAM"
-    private Game handledGame = new Game();
+    private Game handledGame = new Game()
     private final Game gameParam = new Game()
-    private final ObjectId gameId = new ObjectId();
+    private final ObjectId gameId = new ObjectId()
 
     private class TestHandler extends AbstractPlayerRotatingGameActionHandler<String> {
         boolean checkEligibility = false
@@ -60,10 +60,10 @@ class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanTestCase
         }.requiresEligibilityCheck(null)
     }
 
-    public void testAbstractHandlerBasic() {
-        Game saved = new Game();
-        Game transitioned = new Game();
-        Game published = new Game();
+    void testAbstractHandlerBasic() {
+        Game saved = new Game()
+        Game transitioned = new Game()
+        Game published = new Game()
         gameParam.players = [PONE, PTWO]
         handler.gameRepository = [
                 findOne: {
@@ -74,7 +74,7 @@ class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanTestCase
                 save   : {
                     Game it ->
                         assert it.is(transitioned)
-                        return saveFd
+                        return saved
                 }
         ] as GameRepository
         handler.playerRepository = [

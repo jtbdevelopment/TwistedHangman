@@ -14,9 +14,9 @@
     </modules>
 
     <properties>
-        <core.common.version>1.9-SNAPSHOT</core.common.version>
-        <core.games.version>1.7-SNAPSHOT</core.games.version>
-        <core.games.devutilities.version>1.7-SNAPSHOT</core.games.devutilities.version>
+        <core.common.version>1.9</core.common.version>
+        <core.games.version>1.7</core.games.version>
+        <core.games.devutilities.version>1.7</core.games.devutilities.version>
         <jersey.version>2.25</jersey.version>
         <spring.version>4.3.6.RELEASE</spring.version>
         <junit.version>4.12</junit.version>

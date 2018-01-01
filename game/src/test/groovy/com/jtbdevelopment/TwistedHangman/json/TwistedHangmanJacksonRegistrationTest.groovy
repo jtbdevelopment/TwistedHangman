@@ -15,6 +15,7 @@ class TwistedHangmanJacksonRegistrationTest extends GroovyTestCase {
         TwistedHangmanJacksonRegistration registration = new TwistedHangmanJacksonRegistration()
         boolean registeredGameAttributes = false
         boolean registeredMaskedGame = false
+        boolean registeredBaseMaskedGame = false;
         def module = [
                 addAbstractTypeMapping: {
                     Class iface, Class impl ->
@@ -28,11 +29,17 @@ class TwistedHangmanJacksonRegistrationTest extends GroovyTestCase {
                             registeredMaskedGame = true
                             return null
                         }
+                        if (com.jtbdevelopment.games.state.masking.MaskedGame.class.is(iface)) {
+                            assert MaskedGame.class.is(impl)
+                            registeredBaseMaskedGame = true
+                            return null
+                        }
                         fail('unexpected attributes')
                 }
         ] as SimpleModule
         registration.customizeModule(module)
         assert registeredGameAttributes
         assert registeredMaskedGame
+        assert registeredBaseMaskedGame
     }
 }
