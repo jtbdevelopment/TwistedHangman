@@ -21,7 +21,7 @@ abstract class AbstractPlayerRotatingGameActionHandler<T> extends AbstractGameAc
             rotateOnePlayer(game)
 
             if (game.featureData[GameFeature.TurnBased] == game.wordPhraseSetter) {
-                rotateOnePlayer(game);
+                rotateOnePlayer(game)
             }
         }
         game

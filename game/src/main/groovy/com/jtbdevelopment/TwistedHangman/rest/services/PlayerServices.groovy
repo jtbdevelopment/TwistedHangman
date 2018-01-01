@@ -3,8 +3,6 @@ package com.jtbdevelopment.TwistedHangman.rest.services
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.games.rest.AbstractMultiPlayerServices
 import com.jtbdevelopment.games.rest.handlers.NewGameHandler
-import com.jtbdevelopment.games.state.masking.AbstractMaskedMultiPlayerGame
-import com.jtbdevelopment.games.state.masking.MaskedMultiPlayerGame
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.beans.factory.annotation.Autowired
@@ -36,8 +34,8 @@ class PlayerServices extends AbstractMultiPlayerServices<ObjectId> {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("new")
-    MaskedMultiPlayerGame createNewGame(final FeaturesAndPlayers featuresAndPlayers) {
-        (AbstractMaskedMultiPlayerGame) newGameHandler.handleCreateNewGame(
+    Object createNewGame(final FeaturesAndPlayers featuresAndPlayers) {
+        newGameHandler.handleCreateNewGame(
                 (Serializable) playerID.get(),
                 featuresAndPlayers.players,
                 featuresAndPlayers.features)

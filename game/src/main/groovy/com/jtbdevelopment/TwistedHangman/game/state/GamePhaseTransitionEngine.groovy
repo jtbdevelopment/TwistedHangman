@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.games.state.GamePhase
-import com.jtbdevelopment.games.state.transition.AbstractGamePhaseTransitionEngine
+import com.jtbdevelopment.games.state.transition.AbstractMPGamePhaseTransitionEngine
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
 
@@ -13,7 +13,7 @@ import java.time.ZonedDateTime
  * Time: 4:18 PM
  */
 @Component
-class GamePhaseTransitionEngine extends AbstractGamePhaseTransitionEngine<Game> {
+class GamePhaseTransitionEngine extends AbstractMPGamePhaseTransitionEngine<Game> {
     private static final ZoneId GMT = ZoneId.of('GMT')
 
     @Override

@@ -11,7 +11,7 @@ import com.jtbdevelopment.games.events.GamePublisher
 import com.jtbdevelopment.games.exceptions.input.PlayerOutOfTurnException
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.players.Player
-import com.jtbdevelopment.games.state.masking.MultiPlayerGameMasker
+import com.jtbdevelopment.games.state.masking.GameMasker
 import org.bson.types.ObjectId
 
 /**
@@ -76,7 +76,7 @@ class AbstractGamePlayActionHandlerTest extends TwistedHangmanTestCase {
                         assert p.is(PONE)
                         return maskedGame
                 }
-        ] as MultiPlayerGameMasker
+        ] as GameMasker
 
         assert maskedGame.is(handler.handleAction(PONE.id, gameId, null))
     }
@@ -130,7 +130,7 @@ class AbstractGamePlayActionHandlerTest extends TwistedHangmanTestCase {
                         assert p.is(PONE)
                         return maskedGame
                 }
-        ] as MultiPlayerGameMasker
+        ] as GameMasker
 
         assert maskedGame.is(handler.handleAction(PONE.id, gameId, null))
     }
@@ -184,7 +184,7 @@ class AbstractGamePlayActionHandlerTest extends TwistedHangmanTestCase {
                         assert p.is(PONE)
                         return maskedGame
                 }
-        ] as MultiPlayerGameMasker
+        ] as GameMasker
 
         try {
             handler.handleAction(PONE.id, gameId, null)

@@ -23,7 +23,7 @@ class PlayerGatewayService extends AbstractPlayerGatewayService<ObjectId> {
     @Path("features")
     @Produces(MediaType.APPLICATION_JSON)
     @SuppressWarnings("GrMethodMayBeStatic")
-    public Map<GameFeature, String> featuresAndDescriptions() {
+    Map<GameFeature, String> featuresAndDescriptions() {
         GameFeature.values().findAll { GameFeature it -> !it.internal }.collectEntries() {
             GameFeature it ->
                 [(it): it.description]

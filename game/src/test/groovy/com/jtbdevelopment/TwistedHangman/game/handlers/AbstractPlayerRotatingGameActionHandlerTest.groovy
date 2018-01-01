@@ -15,7 +15,7 @@ import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.player.tracking.PlayerGameTracker
 import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.state.GamePhase
-import com.jtbdevelopment.games.state.masking.MultiPlayerGameMasker
+import com.jtbdevelopment.games.state.masking.GameMasker
 import com.jtbdevelopment.games.tracking.PlayerGameEligibility
 import com.jtbdevelopment.games.tracking.PlayerGameEligibilityResult
 import org.bson.types.ObjectId
@@ -74,7 +74,7 @@ class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanTestCase
                 save   : {
                     Game it ->
                         assert it.is(transitioned)
-                        return saved
+                        return saveFd
                 }
         ] as GameRepository
         handler.playerRepository = [
@@ -107,7 +107,7 @@ class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanTestCase
                         assert p.is(PONE)
                         return maskedGame
                 }
-        ] as MultiPlayerGameMasker
+        ] as GameMasker
 
         assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
     }
@@ -167,7 +167,7 @@ class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanTestCase
                         assert p.is(PONE)
                         return maskedGame
                 }
-        ] as MultiPlayerGameMasker
+        ] as GameMasker
 
         assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
     }
@@ -456,7 +456,7 @@ class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanTestCase
                         assert p.is(PONE)
                         return maskedGame
                 }
-        ] as MultiPlayerGameMasker
+        ] as GameMasker
 
         assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
     }
@@ -522,7 +522,7 @@ class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanTestCase
                         assert p.is(PONE)
                         return maskedGame
                 }
-        ] as MultiPlayerGameMasker
+        ] as GameMasker
 
         assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
     }
@@ -586,7 +586,7 @@ class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanTestCase
                         assert p.is(PONE)
                         return maskedGame
                 }
-        ] as MultiPlayerGameMasker
+        ] as GameMasker
 
         assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
     }
@@ -651,7 +651,7 @@ class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanTestCase
                         assert p.is(PONE)
                         return maskedGame
                 }
-        ] as MultiPlayerGameMasker
+        ] as GameMasker
 
         assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
     }
