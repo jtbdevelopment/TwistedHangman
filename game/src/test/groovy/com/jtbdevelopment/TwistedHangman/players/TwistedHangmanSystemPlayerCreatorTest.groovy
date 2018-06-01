@@ -1,16 +1,22 @@
 package com.jtbdevelopment.TwistedHangman.players
 
-import com.jtbdevelopment.games.dao.AbstractPlayerRepository
+import com.jtbdevelopment.games.mongo.dao.MongoPlayerRepository
+import com.jtbdevelopment.games.mongo.players.MongoPlayerFactory
 import com.jtbdevelopment.games.mongo.players.MongoSystemPlayer
-import com.jtbdevelopment.games.players.PlayerFactory
-import org.bson.types.ObjectId
+import org.mockito.Mockito
+import org.mockito.invocation.InvocationOnMock
+import org.mockito.stubbing.Answer
+
+import static org.mockito.Matchers.isA
 
 /**
  * Date: 1/13/15
  * Time: 6:59 AM
  */
 class TwistedHangmanSystemPlayerCreatorTest extends GroovyTestCase {
-    TwistedHangmanSystemPlayerCreator systemPlayer = new TwistedHangmanSystemPlayerCreator()
+    private MongoPlayerRepository playerRepository = Mockito.mock(MongoPlayerRepository.class)
+    private MongoPlayerFactory playerFactory = Mockito.mock(MongoPlayerFactory.class)
+    private TwistedHangmanSystemPlayerCreator systemPlayer = new TwistedHangmanSystemPlayerCreator(playerRepository, playerFactory)
 
     void testLoadsSystemPlayerIfExists() {
         def md5 = 'XA135'
@@ -19,13 +25,7 @@ class TwistedHangmanSystemPlayerCreatorTest extends GroovyTestCase {
                     return md5
                 }
         ] as MongoSystemPlayer
-        systemPlayer.playerRepository = [
-                findOne: {
-                    ObjectId id ->
-                        assert id == TwistedHangmanSystemPlayerCreator.TH_ID
-                        return p
-                }
-        ] as AbstractPlayerRepository
+        Mockito.when(playerRepository.findById(TwistedHangmanSystemPlayerCreator.TH_ID)).thenReturn(Optional.of(p))
 
         systemPlayer.loadOrCreateSystemPlayers()
         assert p.is(TwistedHangmanSystemPlayerCreator.TH_PLAYER)
@@ -39,28 +39,20 @@ class TwistedHangmanSystemPlayerCreatorTest extends GroovyTestCase {
                     return md5
                 }
         ] as MongoSystemPlayer
-        systemPlayer.playerRepository = [
-                findOne: {
-                    ObjectId id ->
-                        assert id == TwistedHangmanSystemPlayerCreator.TH_ID
-                        return null
-                },
-                save   : {
-                    MongoSystemPlayer save ->
-                        assert save
-                        assertFalse save.adminUser
-                        assertFalse save.disabled
-                        assert save.displayName == TwistedHangmanSystemPlayerCreator.TH_DISPLAY_NAME
-                        assert save.id == TwistedHangmanSystemPlayerCreator.TH_ID
-                        assert save.sourceId == TwistedHangmanSystemPlayerCreator.TH_ID.toHexString()
-                        return p
-                }
-        ] as AbstractPlayerRepository
-        systemPlayer.playerFactory = [
-                newSystemPlayer: {
-                    return new MongoSystemPlayer()
-                }
-        ] as PlayerFactory<ObjectId>
+        Mockito.when(playerRepository.findById(TwistedHangmanSystemPlayerCreator.TH_ID)).thenReturn(Optional.empty())
+        Mockito.when(playerRepository.save(isA(MongoSystemPlayer.class))).then(new Answer<Object>() {
+            @Override
+            Object answer(InvocationOnMock invocation) throws Throwable {
+                MongoSystemPlayer save = invocation.arguments[0]
+                assertFalse save.adminUser
+                assertFalse save.disabled
+                assert save.displayName == TwistedHangmanSystemPlayerCreator.TH_DISPLAY_NAME
+                assert save.id == TwistedHangmanSystemPlayerCreator.TH_ID
+                assert save.sourceId == TwistedHangmanSystemPlayerCreator.TH_ID.toHexString()
+                return p
+            }
+        })
+        Mockito.when(playerFactory.newSystemPlayer()).thenReturn(new MongoSystemPlayer())
 
         systemPlayer.loadOrCreateSystemPlayers()
     }

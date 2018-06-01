@@ -1,7 +1,11 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
+import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
+import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
+import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.rest.services.AbstractPlayerGatewayService
+import com.jtbdevelopment.games.rest.services.AbstractPlayerServices
 import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
@@ -18,7 +22,12 @@ import javax.ws.rs.core.MediaType
 @Path("/")
 @Component
 @CompileStatic
-class PlayerGatewayService extends AbstractPlayerGatewayService<ObjectId> {
+class PlayerGatewayService extends AbstractPlayerGatewayService<ObjectId, GameFeature, Game, MaskedGame, MongoPlayer> {
+    protected PlayerGatewayService(
+            final AbstractPlayerServices<ObjectId, GameFeature, Game, MaskedGame, MongoPlayer> playerServices) {
+        super(playerServices)
+    }
+
     @GET
     @Path("features")
     @Produces(MediaType.APPLICATION_JSON)

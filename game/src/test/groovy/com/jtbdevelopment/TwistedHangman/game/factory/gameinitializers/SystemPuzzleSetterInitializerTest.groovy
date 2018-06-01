@@ -8,6 +8,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.TwistedHangman.game.utility.PreMadePuzzle
 import com.jtbdevelopment.TwistedHangman.game.utility.RandomCannedGameFinder
 import com.jtbdevelopment.games.factory.GameInitializer
+import org.junit.Before
 import org.springframework.util.StringUtils
 
 /**
@@ -20,7 +21,7 @@ class SystemPuzzleSetterInitializerTest extends TwistedHangmanTestCase {
     private static final PreMadePuzzle cannedGame = new PreMadePuzzle(wordPhrase: phrase, category: category)
     SystemPuzzleSetterInitializer puzzlerSetter = new SystemPuzzleSetterInitializer()
 
-    @Override
+    @Before
     public void setUp() {
         puzzlerSetter.randomCannedGameFinder = [getRandomGame: cannedGame] as RandomCannedGameFinder
         puzzlerSetter.phraseSetter = [

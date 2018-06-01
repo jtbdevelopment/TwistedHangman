@@ -6,19 +6,21 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine
 import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
+import com.jtbdevelopment.games.dao.AbstractGameRepository
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository
 import com.jtbdevelopment.games.events.GamePublisher
-import com.jtbdevelopment.games.exceptions.input.OutOfGamesForTodayException
-import com.jtbdevelopment.games.exceptions.input.PlayerNotPartOfGameException
-import com.jtbdevelopment.games.exceptions.system.FailedToFindGameException
+import com.jtbdevelopment.games.mongo.dao.MongoPlayerRepository
 import com.jtbdevelopment.games.mongo.players.MongoPlayer
-import com.jtbdevelopment.games.player.tracking.PlayerGameTracker
-import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.state.GamePhase
 import com.jtbdevelopment.games.state.masking.GameMasker
-import com.jtbdevelopment.games.tracking.PlayerGameEligibility
-import com.jtbdevelopment.games.tracking.PlayerGameEligibilityResult
+import com.jtbdevelopment.games.state.transition.GameTransitionEngine
+import com.jtbdevelopment.games.tracking.GameEligibilityTracker
 import org.bson.types.ObjectId
+import org.junit.Before
+import org.junit.Test
+import org.mockito.Mockito
+
+import static org.junit.Assert.*
 
 /**
  * Date: 11/10/14
@@ -34,14 +36,23 @@ class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanTestCase
         boolean checkEligibility = false
         boolean internalException = false
 
+        TestHandler(
+                AbstractPlayerRepository<ObjectId, MongoPlayer> playerRepository,
+                AbstractGameRepository<ObjectId, GameFeature, Game> gameRepository,
+                GameTransitionEngine<Game> transitionEngine,
+                GamePublisher<Game, MongoPlayer> gamePublisher,
+                GameEligibilityTracker gameTracker,
+                GameMasker<ObjectId, Game, MaskedGame> gameMasker) {
+            super(playerRepository, gameRepository, transitionEngine, gamePublisher, gameTracker, gameMasker)
+        }
+
         @Override
         protected boolean requiresEligibilityCheck(final String param) {
             return checkEligibility
         }
 
         @Override
-        protected Game handleActionInternal(
-                final Player player, final Game game, final String param) {
+        protected Game handleActionInternal(MongoPlayer player, Game game, String param) {
             assert param == testParam
             assert gameParam.is(game)
             if (internalException) {
@@ -50,354 +61,41 @@ class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanTestCase
             return handledGame
         }
     }
-    private TestHandler handler = new TestHandler()
+    private MongoPlayerRepository playerRepository = Mockito.mock(MongoPlayerRepository.class)
+    private GameRepository gameRepository = Mockito.mock(GameRepository.class)
+    private GamePhaseTransitionEngine transitionEngine = Mockito.mock(GamePhaseTransitionEngine.class)
+    private GamePublisher gamePublisher = Mockito.mock(GamePublisher.class)
+    private GameEligibilityTracker eligibilityTracker = Mockito.mock(GameEligibilityTracker.class)
+    private com.jtbdevelopment.TwistedHangman.game.state.masking.GameMasker gameMasker = Mockito.mock(com.jtbdevelopment.TwistedHangman.game.state.masking.GameMasker.class)
+    private TestHandler handler = new TestHandler(playerRepository, gameRepository, transitionEngine, gamePublisher, eligibilityTracker, gameMasker)
 
-
-    void testDefaultRequiresEligibility() {
-        assertFalse new AbstractPlayerRotatingGameActionHandler<String>() {
-            protected Game handleActionInternal(final Player player, final Game game, final String param) {
-            }
-        }.requiresEligibilityCheck(null)
+    @Before
+    void setup() {
+        Mockito.when(gameRepository.findById(gameId)).thenReturn(Optional.of(gameParam))
+        Mockito.when(playerRepository.findById(PONE.id)).thenReturn(Optional.of(PONE))
     }
 
+    @Test
+    void testDefaultRequiresEligibility() {
+        assertFalse handler.checkEligibility(null)
+    }
+
+    @Test
     void testAbstractHandlerBasic() {
         Game saved = new Game()
         Game transitioned = new Game()
         Game published = new Game()
         gameParam.players = [PONE, PTWO]
-        handler.gameRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == gameId
-                        return gameParam
-                },
-                save   : {
-                    Game it ->
-                        assert it.is(transitioned)
-                        return saved
-                }
-        ] as GameRepository
-        handler.playerRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == PONE.id
-                        return PONE
-                }
-        ] as AbstractPlayerRepository<ObjectId>
-        handler.transitionEngine = [
-                evaluateGame: {
-                    Game it ->
-                        assert it.is(handledGame)
-                        return transitioned
-                }
-        ] as GamePhaseTransitionEngine
-        handler.gamePublisher = [
-                publish: {
-                    Game g, MongoPlayer p ->
-                        assert g.is(saved)
-                        assert p.is(PONE)
-                        published
-                }
-        ] as GamePublisher
+        Mockito.when(gameRepository.save(transitioned)).thenReturn(saved)
+        Mockito.when(transitionEngine.evaluateGame(handledGame)).thenReturn(transitioned)
+        Mockito.when(gamePublisher.publish(saved, PONE)).thenReturn(published)
         MaskedGame maskedGame = new MaskedGame()
-        handler.gameMasker = [
-                maskGameForPlayer: {
-                    Game g, MongoPlayer p ->
-                        assert g.is(published)
-                        assert p.is(PONE)
-                        return maskedGame
-                }
-        ] as GameMasker
-
-        assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
+        Mockito.when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame)
+        assertSame(maskedGame, handler.handleAction(PONE.id, gameId, testParam))
     }
 
-    public void testAbstractHandlerWithEligibilityCheckAndEligible() {
-        handler.checkEligibility = true
-        Game saved = new Game();
-        Game transitioned = new Game();
-        Game published = new Game();
-        gameParam.players = [PONE, PTWO]
-        handler.gameRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == gameId
-                        return gameParam
-                },
-                save   : {
-                    Game it ->
-                        assert it.is(transitioned)
-                        return saved
-                }
-        ] as GameRepository
-        handler.gameTracker = [
-                getGameEligibility: {
-                    Player p ->
-                        assert p.is(PONE)
-                        return new PlayerGameEligibilityResult(eligibility: PlayerGameEligibility.FreeGameUsed)
-                }
-        ] as PlayerGameTracker
-        handler.playerRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == PONE.id
-                        return PONE
-                }
-        ] as AbstractPlayerRepository<ObjectId>
-        handler.transitionEngine = [
-                evaluateGame: {
-                    Game it ->
-                        assert it.is(handledGame)
-                        return transitioned
-                }
-        ] as GamePhaseTransitionEngine
-        handler.gamePublisher = [
-                publish: {
-                    Game g, MongoPlayer p ->
-                        assert g.is(saved)
-                        assert p.is(PONE)
-                        published
-                }
-        ] as GamePublisher
-        MaskedGame maskedGame = new MaskedGame()
-        handler.gameMasker = [
-                maskGameForPlayer: {
-                    Game g, MongoPlayer p ->
-                        assert g.is(published)
-                        assert p.is(PONE)
-                        return maskedGame
-                }
-        ] as GameMasker
-
-        assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
-    }
-
-    public void testAbstractHandlerWithEligibilityCheckAndNotEligible() {
-        handler.checkEligibility = true
-        gameParam.players = [PONE, PTWO]
-        handler.gameRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == gameId
-                        return gameParam
-                }
-        ] as GameRepository
-        handler.gameTracker = [
-                getGameEligibility: {
-                    Player p ->
-                        assert p.is(PONE)
-                        return new PlayerGameEligibilityResult(eligibility: PlayerGameEligibility.NoGamesAvailable)
-                }
-        ] as PlayerGameTracker
-        handler.playerRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == PONE.id
-                        return PONE
-                }
-        ] as AbstractPlayerRepository<ObjectId>
-
-        try {
-            handler.handleAction(PONE.id, gameId, testParam)
-            fail('should have exceptioned')
-        } catch (OutOfGamesForTodayException e) {
-            //
-        }
-    }
-
-    public void testAbstractHandlerWithEligibilityCheckAndHandleInternalExceptions() {
-        handler.checkEligibility = true
-        handler.internalException = true
-        boolean revertCalled = false
-        def eligibilityResult = new PlayerGameEligibilityResult(eligibility: PlayerGameEligibility.FreeGameUsed)
-        gameParam.players = [PONE, PTWO]
-        handler.gameRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == gameId
-                        return gameParam
-                }
-        ] as GameRepository
-        handler.gameTracker = [
-                getGameEligibility   : {
-                    Player p ->
-                        assert p.is(PONE)
-                        return eligibilityResult
-                },
-                revertGameEligibility: {
-                    PlayerGameEligibilityResult r ->
-                        assert r.is(eligibilityResult)
-                        revertCalled = true
-                        return
-                }
-        ] as PlayerGameTracker
-        handler.playerRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == PONE.id
-                        return PONE
-                }
-        ] as AbstractPlayerRepository<ObjectId>
-
-        try {
-            handler.handleAction(PONE.id, gameId, testParam)
-            fail('should have exception')
-        } catch (IllegalStateException e) {
-            assert revertCalled
-        }
-    }
-
-    public void testAbstractHandlerWithEligibilityCheckAndTransitionExceptions() {
-        handler.checkEligibility = true
-        gameParam.players = [PONE, PTWO]
-        boolean revertCalled = false
-        def eligibilityResult = new PlayerGameEligibilityResult(eligibility: PlayerGameEligibility.FreeGameUsed)
-        handler.gameRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == gameId
-                        return gameParam
-                }
-        ] as GameRepository
-        handler.gameTracker = [
-                getGameEligibility   : {
-                    Player p ->
-                        assert p.is(PONE)
-                        return eligibilityResult
-                },
-                revertGameEligibility: {
-                    PlayerGameEligibilityResult r ->
-                        assert r.is(eligibilityResult)
-                        revertCalled = true
-                        return
-                }
-        ] as PlayerGameTracker
-        handler.playerRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == PONE.id
-                        return PONE
-                }
-        ] as AbstractPlayerRepository<ObjectId>
-        handler.transitionEngine = [
-                evaluateGame: {
-                    Game it ->
-                        assert it.is(handledGame)
-                        throw new IllegalArgumentException()
-                }
-        ] as GamePhaseTransitionEngine
-
-        try {
-            handler.handleAction(PONE.id, gameId, testParam)
-            fail('should have exceptioned')
-        } catch (IllegalArgumentException e) {
-            assert revertCalled
-        }
-    }
-
-    public void testAbstractHandlerWithEligibilityCheckAndRevertExceptionsAlso() {
-        handler.checkEligibility = true
-        gameParam.players = [PONE, PTWO]
-        boolean revertCalled = false
-        def eligibilityResult = new PlayerGameEligibilityResult(eligibility: PlayerGameEligibility.FreeGameUsed)
-        handler.gameRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == gameId
-                        return gameParam
-                }
-        ] as GameRepository
-        handler.gameTracker = [
-                getGameEligibility   : {
-                    Player p ->
-                        assert p.is(PONE)
-                        return eligibilityResult
-                },
-                revertGameEligibility: {
-                    PlayerGameEligibilityResult r ->
-                        assert r.is(eligibilityResult)
-                        revertCalled = true
-                        throw new IllegalAccessException()
-                }
-        ] as PlayerGameTracker
-        handler.playerRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == PONE.id
-                        return PONE
-                }
-        ] as AbstractPlayerRepository<ObjectId>
-        handler.transitionEngine = [
-                evaluateGame: {
-                    Game it ->
-                        assert it.is(handledGame)
-                        throw new IllegalArgumentException()
-                }
-        ] as GamePhaseTransitionEngine
-
-        try {
-            handler.handleAction(PONE.id, gameId, testParam)
-            fail('should have exceptioned')
-        } catch (IllegalArgumentException e) {
-            assert revertCalled
-        } catch (IllegalAccessException e) {
-            fail('Should have caught and discarded IllegalAccessException')
-        }
-    }
-
-    public void testAbstractHandlerCantLoadGame() {
-        gameParam.players = [PONE, PTWO]
-        handler.gameRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == gameId
-                        return null
-                }
-        ] as GameRepository
-        handler.playerRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == PONE.id
-                        return PONE
-                }
-        ] as AbstractPlayerRepository<ObjectId>
-
-        try {
-            handler.handleAction(PONE.id, gameId, testParam)
-            fail("should have failed")
-        } catch (FailedToFindGameException e) {
-
-        }
-    }
-
-
-    public void testAbstractHandlerInvalidPlayer() {
-        gameParam.players = [PONE, PTWO]
-        handler.gameRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == gameId
-                        return gameParam
-                }
-        ] as GameRepository
-        handler.playerRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == PTHREE.id
-                        return PTHREE
-                }
-        ] as AbstractPlayerRepository<ObjectId>
-
-        try {
-            handler.handleAction(PTHREE.id, gameId, testParam)
-            fail("should have failed")
-        } catch (PlayerNotPartOfGameException e) {
-            //
-        }
-    }
-
-
-    public void testAbstractHandlerBaseRotatesTurn() {
+    @Test
+    void testAbstractHandlerBaseRotatesTurn() {
         gameParam.players = [PTWO, PONE]
         gameParam.features.add(GameFeature.TurnBased)
         gameParam.featureData[GameFeature.TurnBased] = PONE.id
@@ -413,55 +111,18 @@ class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanTestCase
         Game saved = gameParam.clone()
         Game transitioned = gameParam.clone();
         Game published = gameParam.clone()
-        handler.gameRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == gameId
-                        return gameParam
-                },
-                save   : {
-                    Game it ->
-                        assert it.is(transitioned)
-                        return saved
-                }
-        ] as GameRepository
-        handler.playerRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == PONE.id
-                        return PONE
-                }
-        ] as AbstractPlayerRepository<ObjectId>
-        handler.transitionEngine = [
-                evaluateGame: {
-                    Game it ->
-                        assert it.is(handledGame)
-                        assert handledGame.featureData[GameFeature.TurnBased] == PTWO.id
-                        return transitioned
-                }
-        ] as GamePhaseTransitionEngine
-        handler.gamePublisher = [
-                publish: {
-                    Game g, MongoPlayer p ->
-                        assert g.is(saved)
-                        assert p.is(PONE)
-                        published
-                }
-        ] as GamePublisher
+        Mockito.when(gameRepository.save(transitioned)).thenReturn(saved)
+        Mockito.when(transitionEngine.evaluateGame(handledGame)).thenReturn(transitioned)
+        Mockito.when(gamePublisher.publish(saved, PONE)).thenReturn(published)
         MaskedGame maskedGame = new MaskedGame()
-        handler.gameMasker = [
-                maskGameForPlayer: {
-                    Game g, MongoPlayer p ->
-                        assert g.is(published)
-                        assert p.is(PONE)
-                        return maskedGame
-                }
-        ] as GameMasker
+        Mockito.when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame)
 
-        assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
+        assertSame(maskedGame, handler.handleAction(PONE.id, gameId, testParam))
+        assertEquals(PTWO.id, handledGame.featureData[GameFeature.TurnBased])
     }
 
-    public void testAbstractHandlerBaseRotatesTurnPastWordPhraseSetter() {
+    @Test
+    void testAbstractHandlerBaseRotatesTurnPastWordPhraseSetter() {
         gameParam.players = [PTWO, PONE, PTHREE]
         gameParam.features.add(GameFeature.TurnBased)
         gameParam.featureData[GameFeature.TurnBased] = PONE.id
@@ -479,55 +140,18 @@ class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanTestCase
         Game saved = (Game) gameParam.clone()
         Game transitioned = (Game) gameParam.clone()
         Game published = (Game) gameParam.clone()
-        handler.gameRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == gameId
-                        return gameParam
-                },
-                save   : {
-                    Game it ->
-                        assert it.is(transitioned)
-                        return saved
-                }
-        ] as GameRepository
-        handler.playerRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == PONE.id
-                        return PONE
-                }
-        ] as AbstractPlayerRepository<ObjectId>
-        handler.transitionEngine = [
-                evaluateGame: {
-                    Game it ->
-                        assert it.is(handledGame)
-                        assert handledGame.featureData[GameFeature.TurnBased] == PTWO.id
-                        return transitioned
-                }
-        ] as GamePhaseTransitionEngine
-        handler.gamePublisher = [
-                publish: {
-                    Game g, MongoPlayer p ->
-                        assert g.is(saved)
-                        assert p.is(PONE)
-                        published
-                }
-        ] as GamePublisher
+        Mockito.when(gameRepository.save(transitioned)).thenReturn(saved)
+        Mockito.when(transitionEngine.evaluateGame(handledGame)).thenReturn(transitioned)
+        Mockito.when(gamePublisher.publish(saved, PONE)).thenReturn(published)
         MaskedGame maskedGame = new MaskedGame()
-        handler.gameMasker = [
-                maskGameForPlayer: {
-                    Game g, MongoPlayer p ->
-                        assert g.is(published)
-                        assert p.is(PONE)
-                        return maskedGame
-                }
-        ] as GameMasker
+        Mockito.when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame)
 
-        assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
+        assertSame(maskedGame, handler.handleAction(PONE.id, gameId, testParam))
+        assertEquals(PTWO.id, handledGame.featureData[GameFeature.TurnBased])
     }
 
-    public void testAbstractHandlerBaseDoesNotRotateTurnWhenNotPlaying() {
+    @Test
+    void testAbstractHandlerBaseDoesNotRotateTurnWhenNotPlaying() {
         gameParam.players = [PTWO, PONE]
         gameParam.features.add(GameFeature.TurnBased)
         gameParam.featureData[GameFeature.TurnBased] = PONE.id
@@ -543,56 +167,18 @@ class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanTestCase
         Game saved = (Game) gameParam.clone()
         Game transitioned = (Game) gameParam.clone();
         Game published = (Game) gameParam.clone()
-        handler.gameRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == gameId
-                        return gameParam
-                },
-                save   : {
-                    Game it ->
-                        assert it.is(transitioned)
-                        return saved
-                }
-        ] as GameRepository
-        handler.playerRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == PONE.id
-                        return PONE
-                }
-        ] as AbstractPlayerRepository<ObjectId>
-        handler.transitionEngine = [
-                evaluateGame: {
-                    Game it ->
-                        assert it.is(handledGame)
-                        assert handledGame.featureData[GameFeature.TurnBased] == PONE.id
-                        return transitioned
-                }
-        ] as GamePhaseTransitionEngine
-        handler.gamePublisher = [
-                publish: {
-                    Game g, MongoPlayer p ->
-                        assert g.is(saved)
-                        assert p.is(PONE)
-                        published
-                }
-        ] as GamePublisher
+        Mockito.when(gameRepository.save(transitioned)).thenReturn(saved)
+        Mockito.when(transitionEngine.evaluateGame(handledGame)).thenReturn(transitioned)
+        Mockito.when(gamePublisher.publish(saved, PONE)).thenReturn(published)
         MaskedGame maskedGame = new MaskedGame()
-        handler.gameMasker = [
-                maskGameForPlayer: {
-                    Game g, MongoPlayer p ->
-                        assert g.is(published)
-                        assert p.is(PONE)
-                        return maskedGame
-                }
-        ] as GameMasker
+        Mockito.when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame)
 
-        assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
+        assertSame(maskedGame, handler.handleAction(PONE.id, gameId, testParam))
+        assertEquals(PONE.id, handledGame.featureData[GameFeature.TurnBased])
     }
 
-
-    public void testAbstractHandlerBaseDoesNotRotateTurnWhenPlayingNonTurnedBasedGame() {
+    @Test
+    void testAbstractHandlerBaseDoesNotRotateTurnWhenPlayingNonTurnedBasedGame() {
         gameParam.players = [PTWO, PONE]
         gameParam.features.remove(GameFeature.TurnBased)
         gameParam.featureData = [(GameFeature.TurnBased): PONE.id]
@@ -608,51 +194,13 @@ class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanTestCase
         Game saved = (Game) gameParam.clone()
         Game transitioned = (Game) gameParam.clone();
         Game published = (Game) gameParam.clone()
-        handler.gameRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == gameId
-                        return gameParam
-                },
-                save   : {
-                    Game it ->
-                        assert it.is(transitioned)
-                        return saved
-                }
-        ] as GameRepository
-        handler.playerRepository = [
-                findOne: {
-                    ObjectId it ->
-                        assert it == PONE.id
-                        return PONE
-                }
-        ] as AbstractPlayerRepository<ObjectId>
-        handler.transitionEngine = [
-                evaluateGame: {
-                    Game it ->
-                        assert it.is(handledGame)
-                        assert handledGame.featureData[GameFeature.TurnBased] == PONE.id
-                        return transitioned
-                }
-        ] as GamePhaseTransitionEngine
-        handler.gamePublisher = [
-                publish: {
-                    Game g, MongoPlayer p ->
-                        assert g.is(saved)
-                        assert p.is(PONE)
-                        published
-                }
-        ] as GamePublisher
+        Mockito.when(gameRepository.save(transitioned)).thenReturn(saved)
+        Mockito.when(transitionEngine.evaluateGame(handledGame)).thenReturn(transitioned)
+        Mockito.when(gamePublisher.publish(saved, PONE)).thenReturn(published)
         MaskedGame maskedGame = new MaskedGame()
-        handler.gameMasker = [
-                maskGameForPlayer: {
-                    Game g, MongoPlayer p ->
-                        assert g.is(published)
-                        assert p.is(PONE)
-                        return maskedGame
-                }
-        ] as GameMasker
+        Mockito.when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame)
 
-        assert maskedGame.is(handler.handleAction(PONE.id, gameId, testParam))
+        assertSame(maskedGame, handler.handleAction(PONE.id, gameId, testParam))
+        assertEquals(PONE.id, handledGame.featureData[GameFeature.TurnBased])
     }
 }

@@ -6,12 +6,14 @@ import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
 import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedIndividualGameState
 import com.jtbdevelopment.TwistedHangman.json.TwistedHangmanJacksonRegistration
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
+import com.jtbdevelopment.core.spring.jackson.ObjectMapperFactory
 import com.jtbdevelopment.games.mongo.json.MongoPlayerJacksonRegistration
 import com.jtbdevelopment.games.state.GamePhase
 import com.jtbdevelopment.games.state.PlayerState
 import com.jtbdevelopment.games.websocket.WebSocketJSONConverter
 import com.jtbdevelopment.games.websocket.WebSocketMessage
-import com.jtbdevelopment.spring.jackson.ObjectMapperFactory
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Date: 12/9/14
@@ -19,7 +21,7 @@ import com.jtbdevelopment.spring.jackson.ObjectMapperFactory
  *
  */
 class WebSocketJSONConverterIntegrationTest extends TwistedHangmanTestCase {
-    WebSocketJSONConverter webSocketJsonConverter = new WebSocketJSONConverter()
+    private WebSocketJSONConverter webSocketJsonConverter = new WebSocketJSONConverter()
 
     MaskedGame maskedGame = new MaskedGame(
             completedTimestamp: 100,
@@ -58,18 +60,20 @@ class WebSocketJSONConverterIntegrationTest extends TwistedHangmanTestCase {
 
     String expectedString = "{\"messageType\":\"Game\",\"game\":{\"id\":\"XYZ\",\"previousId\":null,\"version\":null,\"round\":10,\"created\":1000,\"lastUpdate\":5000,\"completedTimestamp\":100,\"gamePhase\":\"Setup\",\"players\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":\"1\"},\"playerImages\":{},\"playerProfiles\":{},\"features\":[\"DrawFace\",\"TurnBased\"],\"featureData\":{\"DrawFace\":\"A String\"},\"maskedForPlayerID\":\"100000000000000000000000\",\"maskedForPlayerMD5\":\"ee02ab36f4f4b92d0a2316022a11cce2\",\"declinedTimestamp\":null,\"rematchTimestamp\":null,\"initiatingPlayer\":null,\"playerStates\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":\"Accepted\"},\"wordPhraseSetter\":\"eb3e279a50b4c330f8d4a9e2abc678fe\",\"solverStates\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":{\"wordPhrase\":\"555\",\"workingWordPhrase\":\"____\",\"badlyGuessedLetters\":[\"A\",\"B\"],\"guessedLetters\":[\"B\"],\"featureData\":{\"Thieving\":10,\"DrawGallows\":\"X\"},\"category\":\"Test\",\"maxPenalties\":13,\"moveCount\":4,\"penalties\":3,\"blanksRemaining\":10,\"features\":[\"AllComplete\"],\"isPuzzleSolved\":false,\"isPlayerHung\":true,\"isPuzzleOver\":false,\"penaltiesRemaining\":5}},\"playerRoundScores\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":10},\"playerRunningScores\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":13},\"allPlayers\":null},\"player\":null,\"message\":null}"
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp()
-        ObjectMapperFactory objectMapperFactory = new ObjectMapperFactory()
-        objectMapperFactory.customizations = [
-                new TwistedHangmanJacksonRegistration(),
-                new MongoPlayerJacksonRegistration()
-        ]
-        objectMapperFactory.initializeMapper()
-        webSocketJsonConverter.setObjectMapper(objectMapperFactory.getObject())
+    @Before
+    void setUp() throws Exception {
+        ObjectMapperFactory objectMapperFactory = new ObjectMapperFactory(
+                Collections.emptyList(),
+                Collections.emptyList(),
+                [
+                        new TwistedHangmanJacksonRegistration(),
+                        new MongoPlayerJacksonRegistration()
+                ]
+        )
+        webSocketJsonConverter.setMapper(objectMapperFactory.getObject())
     }
 
+    @Test
     void testToJson() {
         assert expectedString == webSocketJsonConverter.encode(new WebSocketMessage(
                 messageType:
@@ -77,6 +81,7 @@ class WebSocketJSONConverterIntegrationTest extends TwistedHangmanTestCase {
                 game: maskedGame))
     }
 
+    @Test
     void testFromJson() {
         WebSocketMessage message = webSocketJsonConverter.decode(expectedString)
         assert WebSocketMessage.MessageType.Game == message.messageType

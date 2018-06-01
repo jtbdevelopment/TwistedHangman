@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component
 @CompileStatic
 @Component
 class HangmanGameActions {
-    public static int guessLetter(final IndividualGameState gameState, final char letter) {
+    public int guessLetter(final IndividualGameState gameState, final char letter) {
         char uppercaseLetter = letter.toUpperCase();
 
         validateGuess(gameState, letter, uppercaseLetter)
@@ -41,7 +41,7 @@ class HangmanGameActions {
         return found;
     }
 
-    protected static void validateGuess(IndividualGameState gameState, char letter, char uppercaseLetter) {
+    protected void validateGuess(IndividualGameState gameState, char letter, char uppercaseLetter) {
         if (gameState.puzzleOver) {
             throw new GameOverException()
         }

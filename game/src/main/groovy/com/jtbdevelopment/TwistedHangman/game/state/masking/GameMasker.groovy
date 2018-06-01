@@ -7,7 +7,6 @@ import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreat
 import com.jtbdevelopment.games.mongo.state.masking.AbstractMongoMultiPlayerGameMasker
 import com.jtbdevelopment.games.players.Player
 import com.jtbdevelopment.games.state.GamePhase
-import groovy.transform.CompileStatic
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component
 
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component
  * Time: 6:17 PM
  */
 @Component
-@CompileStatic
 class GameMasker extends AbstractMongoMultiPlayerGameMasker<GameFeature, Game, MaskedGame> {
     @Override
     protected void copyMaskedData(
