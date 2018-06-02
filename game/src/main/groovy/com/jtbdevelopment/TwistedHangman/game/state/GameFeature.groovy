@@ -37,7 +37,8 @@ public enum GameFeature {
     final String description
 
 
-    public GameFeature(final String description, boolean internal = false, validate = true, broadCategory = false) {
+    public GameFeature(
+            final String description, boolean internal = false, validate = true, broadCategory = false) {
         this.internal = internal
         this.description = description
         this.validate = validate

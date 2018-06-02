@@ -50,7 +50,8 @@ class IndividualGameState implements Serializable {
 
     @PersistenceConstructor
     public IndividualGameState(
-            final Set<GameFeature> features, final String wordPhraseString, final String workingWordPhraseString) {
+            final Set<GameFeature> features,
+            final String wordPhraseString, final String workingWordPhraseString) {
         this.features = features
         setWorkingWordPhraseString(workingWordPhraseString)
         setWordPhraseString(wordPhraseString)
