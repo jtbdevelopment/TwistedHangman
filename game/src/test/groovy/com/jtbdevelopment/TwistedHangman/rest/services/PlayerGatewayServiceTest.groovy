@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import groovy.transform.TypeChecked
+import org.junit.Assert
 
 import javax.ws.rs.GET
 import javax.ws.rs.Path
@@ -16,18 +17,18 @@ class PlayerGatewayServiceTest extends GroovyTestCase {
     PlayerGatewayService playerGatewayService = new PlayerGatewayService()
 
     void testGetFeatures() {
-        assert playerGatewayService.featuresAndDescriptions() == [
+        Assert.assertEquals([
                 (GameFeature.DrawFace)               : GameFeature.DrawFace.description,
                 (GameFeature.DrawGallows)            : GameFeature.DrawGallows.description,
                 (GameFeature.TurnBased)              : GameFeature.TurnBased.description,
-                (GameFeature.Live)        : GameFeature.Live.description,
-                (GameFeature.SingleWinner): GameFeature.SingleWinner.description,
-                (GameFeature.AllComplete) : GameFeature.AllComplete.description,
+                (GameFeature.Live)                   : GameFeature.Live.description,
+                (GameFeature.SingleWinner)           : GameFeature.SingleWinner.description,
+                (GameFeature.AllComplete)            : GameFeature.AllComplete.description,
                 (GameFeature.AlternatingPuzzleSetter): GameFeature.AlternatingPuzzleSetter.description,
                 (GameFeature.SystemPuzzles)          : GameFeature.SystemPuzzles.description,
-                (GameFeature.Head2Head)   : GameFeature.Head2Head.description,
+                (GameFeature.Head2Head)              : GameFeature.Head2Head.description,
                 (GameFeature.Thieving)               : GameFeature.Thieving.description
-        ]
+        ], playerGatewayService.featuresAndDescriptions())
     }
 
     void testGetFeaturesAnnotations() {
