@@ -58,8 +58,7 @@ class WebSocketJSONConverterIntegrationTest extends TwistedHangmanTestCase {
             wordPhraseSetter: TwistedHangmanSystemPlayerCreator.TH_MD5
     )
 
-    String expectedString = "{\"messageType\":\"Game\",\"game\":{\"id\":\"XYZ\",\"previousId\":null,\"version\":null,\"round\":10,\"created\":1000,\"lastUpdate\":5000,\"completedTimestamp\":100,\"gamePhase\":\"Setup\",\"players\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":\"1\"},\"playerImages\":{},\"playerProfiles\":{},\"features\":[\"DrawFace\",\"TurnBased\"],\"featureData\":{\"DrawFace\":\"A String\"},\"maskedForPlayerID\":\"100000000000000000000000\",\"maskedForPlayerMD5\":\"ee02ab36f4f4b92d0a2316022a11cce2\",\"declinedTimestamp\":null,\"rematchTimestamp\":null,\"initiatingPlayer\":null,\"playerStates\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":\"Accepted\"},\"wordPhraseSetter\":\"eb3e279a50b4c330f8d4a9e2abc678fe\",\"solverStates\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":{\"wordPhrase\":\"555\",\"workingWordPhrase\":\"____\",\"badlyGuessedLetters\":[\"A\",\"B\"],\"guessedLetters\":[\"B\"],\"featureData\":{\"Thieving\":10,\"DrawGallows\":\"X\"},\"category\":\"Test\",\"maxPenalties\":13,\"moveCount\":4,\"penalties\":3,\"blanksRemaining\":10,\"features\":[\"AllComplete\"],\"isPuzzleSolved\":false,\"isPlayerHung\":true,\"isPuzzleOver\":false,\"penaltiesRemaining\":5}},\"playerRoundScores\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":10},\"playerRunningScores\":{\"ee02ab36f4f4b92d0a2316022a11cce2\":13},\"allPlayers\":null},\"player\":null,\"message\":null}"
-
+    String expectedString = "{\"messageType\":\"Game\",\"game\":{\"id\":\"XYZ\",\"previousId\":null,\"version\":null,\"round\":10,\"created\":1000,\"lastUpdate\":5000,\"completedTimestamp\":100,\"gamePhase\":\"Setup\",\"players\":{\"196c643ff2d27ff53cbd574c08c7726f\":\"100000000000000000000000\"},\"playerImages\":{},\"playerProfiles\":{},\"features\":[\"DrawFace\",\"TurnBased\"],\"featureData\":{\"DrawFace\":\"A String\"},\"maskedForPlayerID\":\"100000000000000000000000\",\"maskedForPlayerMD5\":\"196c643ff2d27ff53cbd574c08c7726f\",\"declinedTimestamp\":null,\"rematchTimestamp\":null,\"initiatingPlayer\":null,\"playerStates\":{\"196c643ff2d27ff53cbd574c08c7726f\":\"Accepted\"},\"wordPhraseSetter\":\"eb3e279a50b4c330f8d4a9e2abc678fe\",\"solverStates\":{\"196c643ff2d27ff53cbd574c08c7726f\":{\"wordPhrase\":\"555\",\"workingWordPhrase\":\"____\",\"badlyGuessedLetters\":[\"A\",\"B\"],\"guessedLetters\":[\"B\"],\"featureData\":{\"Thieving\":10,\"DrawGallows\":\"X\"},\"category\":\"Test\",\"maxPenalties\":13,\"moveCount\":4,\"penalties\":3,\"blanksRemaining\":10,\"features\":[\"AllComplete\"],\"isPuzzleSolved\":false,\"isPlayerHung\":true,\"isPuzzleOver\":false,\"penaltiesRemaining\":5}},\"playerRoundScores\":{\"196c643ff2d27ff53cbd574c08c7726f\":10},\"playerRunningScores\":{\"196c643ff2d27ff53cbd574c08c7726f\":13},\"allPlayers\":null},\"player\":null,\"message\":null}"
     @Before
     void setUp() throws Exception {
         ObjectMapperFactory objectMapperFactory = new ObjectMapperFactory(
@@ -75,10 +74,11 @@ class WebSocketJSONConverterIntegrationTest extends TwistedHangmanTestCase {
 
     @Test
     void testToJson() {
-        assert expectedString == webSocketJsonConverter.encode(new WebSocketMessage(
+        def encoded = webSocketJsonConverter.encode(new WebSocketMessage(
                 messageType:
                         WebSocketMessage.MessageType.Game,
                 game: maskedGame))
+        assert expectedString == encoded
     }
 
     @Test

@@ -52,34 +52,42 @@ class AbstractGamePlayActionHandlerTest extends TwistedHangmanTestCase {
     private GameEligibilityTracker gameEligibilityTracker = Mockito.mock(GameEligibilityTracker.class)
     private com.jtbdevelopment.TwistedHangman.game.state.masking.GameMasker gameMasker = Mockito.mock(com.jtbdevelopment.TwistedHangman.game.state.masking.GameMasker.class)
     private TestHandler handler = new TestHandler(playerRepository, gameRepository, transitionEngine, gamePublisher, gameEligibilityTracker, gameMasker)
-    private Game gameParam = new Game();
+    private Game gameParam = new Game()
     private ObjectId gameId = new ObjectId()
 
     @Before
     void setup() {
         Mockito.when(gameRepository.findById(gameId)).thenReturn(Optional.of(gameParam))
         Mockito.when(playerRepository.findById(PONE.id)).thenReturn(Optional.of(PONE))
+        gameParam.setId(new ObjectId())
     }
 
     @Test
     void testIgnoresNonTurnBasedGame() {
-        Game saved = new Game();
-        Game transitioned = new Game();
-        Game published = new Game();
+        Game saved = new Game()
+        saved.setId(new ObjectId())
+        Game transitioned = new Game()
+        transitioned.setId(new ObjectId())
+        Game published = new Game()
+        published.setId(new ObjectId())
         gameParam.players = [PONE, PTWO]
         Mockito.when(gameRepository.save(transitioned)).thenReturn(saved)
         Mockito.when(transitionEngine.evaluateGame(gameParam)).thenReturn(transitioned)
         Mockito.when(gamePublisher.publish(saved, PONE)).thenReturn(published)
         MaskedGame maskedGame = new MaskedGame()
+        maskedGame.setId("X")
         Mockito.when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame)
         assertSame(maskedGame, handler.handleAction(PONE.id, gameId, null))
     }
 
     @Test
     void testOKForCorrectPlayerTurn() {
-        Game saved = new Game();
-        Game transitioned = new Game();
-        Game published = new Game();
+        Game saved = new Game()
+        saved.setId(new ObjectId())
+        Game transitioned = new Game()
+        transitioned.setId(new ObjectId())
+        Game published = new Game()
+        published.setId(new ObjectId())
         gameParam.players = [PONE, PTWO]
         gameParam.featureData[GameFeature.TurnBased] = PONE.id
         gameParam.features += GameFeature.TurnBased
@@ -87,6 +95,7 @@ class AbstractGamePlayActionHandlerTest extends TwistedHangmanTestCase {
         Mockito.when(transitionEngine.evaluateGame(gameParam)).thenReturn(transitioned)
         Mockito.when(gamePublisher.publish(saved, PONE)).thenReturn(published)
         MaskedGame maskedGame = new MaskedGame()
+        maskedGame.setId("X")
         Mockito.when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame)
         assertSame(maskedGame, handler.handleAction(PONE.id, gameId, null))
     }

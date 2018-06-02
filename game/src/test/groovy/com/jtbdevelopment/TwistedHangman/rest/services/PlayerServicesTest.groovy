@@ -5,6 +5,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame
 import com.jtbdevelopment.games.rest.handlers.NewGameHandler
 import groovy.transform.TypeChecked
 import org.bson.types.ObjectId
+import org.mockito.Mockito
 
 import javax.ws.rs.Consumes
 import javax.ws.rs.POST
@@ -17,7 +18,8 @@ import javax.ws.rs.core.MediaType
  * Time: 12:02 PM
  */
 class PlayerServicesTest extends GroovyTestCase {
-    PlayerServices playerServices = new PlayerServices()
+    private NewGameHandler newGameHandler = Mockito.mock(NewGameHandler.class)
+    private PlayerServices playerServices = new PlayerServices(null, null, null, null, null, newGameHandler)
 
     void testCreateNewGame() {
         def APLAYER = new ObjectId()
@@ -26,15 +28,7 @@ class PlayerServicesTest extends GroovyTestCase {
         def players = ["1", "2", "3"]
         PlayerServices.FeaturesAndPlayers input = new PlayerServices.FeaturesAndPlayers(features: features, players: players)
         MaskedGame game = new MaskedGame()
-        playerServices.newGameHandler = [
-                handleCreateNewGame: {
-                    ObjectId i, List<String> p, Set<GameFeature> f ->
-                        assert i == APLAYER
-                        assert p == players
-                        assert f == features
-                        game
-                }
-        ] as NewGameHandler
+        Mockito.when(newGameHandler.handleCreateNewGame(APLAYER, players, features)).thenReturn(game)
         assert game.is(playerServices.createNewGame(input))
     }
 

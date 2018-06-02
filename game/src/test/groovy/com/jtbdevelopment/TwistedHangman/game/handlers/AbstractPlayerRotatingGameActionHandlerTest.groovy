@@ -20,7 +20,8 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertSame
 
 /**
  * Date: 11/10/14
@@ -73,23 +74,24 @@ class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanTestCase
     void setup() {
         Mockito.when(gameRepository.findById(gameId)).thenReturn(Optional.of(gameParam))
         Mockito.when(playerRepository.findById(PONE.id)).thenReturn(Optional.of(PONE))
-    }
-
-    @Test
-    void testDefaultRequiresEligibility() {
-        assertFalse handler.checkEligibility(null)
+        gameParam.setId(new ObjectId())
+        handledGame.setId(new ObjectId())
     }
 
     @Test
     void testAbstractHandlerBasic() {
         Game saved = new Game()
+        saved.setId(new ObjectId())
         Game transitioned = new Game()
+        transitioned.setId(new ObjectId())
         Game published = new Game()
+        published.setId(new ObjectId())
         gameParam.players = [PONE, PTWO]
         Mockito.when(gameRepository.save(transitioned)).thenReturn(saved)
         Mockito.when(transitionEngine.evaluateGame(handledGame)).thenReturn(transitioned)
         Mockito.when(gamePublisher.publish(saved, PONE)).thenReturn(published)
         MaskedGame maskedGame = new MaskedGame()
+        maskedGame.setId(gameParam.id.toHexString())
         Mockito.when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame)
         assertSame(maskedGame, handler.handleAction(PONE.id, gameId, testParam))
     }

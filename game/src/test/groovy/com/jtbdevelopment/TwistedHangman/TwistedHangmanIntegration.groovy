@@ -140,7 +140,7 @@ class TwistedHangmanIntegration extends AbstractGameIntegration<Game, MaskedGame
         assert game.solverStates[TEST_PLAYER3.md5].workingWordPhrase == "_____ _____"
 
         GameRepository gameRepository = applicationContext.getBean(GameRepository.class)
-        Game dbLoaded1 = (Game) gameRepository.findOne(new ObjectId(game.idAsString))
+        Game dbLoaded1 = (Game) gameRepository.findById(new ObjectId(game.idAsString)).get()
 
         def phraseArray = LOREMIPSUM.toCharArray()
         int position = 0
@@ -179,8 +179,8 @@ class TwistedHangmanIntegration extends AbstractGameIntegration<Game, MaskedGame
 
         MaskedGame newGame = rematchGame(P2G)
         assert newGame.id != dbLoaded1.id
-        Game dbLoaded2 = (Game) gameRepository.findOne(new ObjectId(newGame.idAsString))
-        dbLoaded1 = (Game) gameRepository.findOne(dbLoaded1.id)
+        Game dbLoaded2 = (Game) gameRepository.findById(new ObjectId(newGame.idAsString)).get()
+        dbLoaded1 = (Game) gameRepository.findById(dbLoaded1.id).get()
         assert dbLoaded2.previousId == dbLoaded1.id
         assert dbLoaded1.rematchTimestamp != null
         assert newGame.gamePhase == GamePhase.Challenged
