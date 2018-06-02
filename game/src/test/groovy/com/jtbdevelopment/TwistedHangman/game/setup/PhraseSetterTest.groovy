@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.setup
 
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
+import org.junit.Test
 
 /**
  * Date: 11/7/14
@@ -14,8 +15,8 @@ class PhraseSetterTest extends GroovyTestCase {
 
     PhraseSetter phraseSetter = new PhraseSetter()
 
-
-    public void testPhraseSetting() {
+    @Test
+    void testPhraseSetting() {
         IndividualGameState gameState = new IndividualGameState([] as Set)
         boolean initCalled = false
         phraseSetter.phraseFeatureInitializers = [

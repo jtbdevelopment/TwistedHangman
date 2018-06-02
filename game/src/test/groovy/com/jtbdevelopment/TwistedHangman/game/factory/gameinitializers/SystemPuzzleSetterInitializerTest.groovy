@@ -8,8 +8,10 @@ import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.TwistedHangman.game.utility.PreMadePuzzle
 import com.jtbdevelopment.TwistedHangman.game.utility.RandomCannedGameFinder
 import com.jtbdevelopment.games.factory.GameInitializer
+import org.bson.types.ObjectId
 import org.junit.Before
-import org.springframework.util.StringUtils
+import org.junit.Test
+import org.mockito.Mockito
 
 /**
  * Date: 11/6/14
@@ -18,52 +20,47 @@ import org.springframework.util.StringUtils
 class SystemPuzzleSetterInitializerTest extends TwistedHangmanTestCase {
     private static final String phrase = "WHO LET THE DOGS OUT?"
     private static final String category = "SONG"
-    private static final PreMadePuzzle cannedGame = new PreMadePuzzle(wordPhrase: phrase, category: category)
-    SystemPuzzleSetterInitializer puzzlerSetter = new SystemPuzzleSetterInitializer()
+    private static
+    final PreMadePuzzle cannedGame = new PreMadePuzzle(wordPhrase: phrase, category: category)
+    private RandomCannedGameFinder cannedGameFinder = Mockito.mock(RandomCannedGameFinder.class);
+    private PhraseSetter phraseSetter = Mockito.mock(PhraseSetter.class);
+    private SystemPuzzleSetterInitializer puzzlerSetter = new SystemPuzzleSetterInitializer(cannedGameFinder, phraseSetter)
 
     @Before
-    public void setUp() {
-        puzzlerSetter.randomCannedGameFinder = [getRandomGame: cannedGame] as RandomCannedGameFinder
-        puzzlerSetter.phraseSetter = [
-                setWordPhrase: {
-                    IndividualGameState gameState, String phrase, String category ->
-                        assert gameState != null
-                        assert phrase == SystemPuzzleSetterInitializerTest.phrase
-                        assert category == SystemPuzzleSetterInitializerTest.category
-                        gameState.wordPhrase = phrase.toCharArray()
-                        gameState.category = category
-                }
-        ] as PhraseSetter
+    void setUp() {
+        Mockito.when(cannedGameFinder.getRandomGame()).thenReturn(cannedGame)
     }
 
-    public void testOrder() {
+    @Test
+    void testOrder() {
         assert (GameInitializer.LATE_ORDER + 100) == puzzlerSetter.order
     }
 
-    public void testSystemPuzzler() {
+    @Test
+    void testSystemPuzzler() {
         puzzlerSetter
         Game game = new Game()
         game.features.add(GameFeature.SystemPuzzles)
-        game.solverStates = ["1": new IndividualGameState([] as Set),
-                             "2": new IndividualGameState([] as Set),
-                             "3": new IndividualGameState([] as Set)]
+
+        game.setSolverStates([(new ObjectId()): new IndividualGameState([] as Set),
+                              (new ObjectId()): new IndividualGameState([] as Set),
+                              (new ObjectId()): new IndividualGameState([] as Set)])
         puzzlerSetter.initializeGame(game)
+
         game.solverStates.values().each {
-            assert it.category == category
-            assert it.wordPhraseString == phrase
+            Mockito.verify(phraseSetter).setWordPhrase(it, phrase, category)
         }
     }
 
-
-    public void testNonSystemPuzzler() {
+    @Test
+    void testNonSystemPuzzler() {
         Game game = new Game()
-        game.solverStates = ["1": new IndividualGameState([] as Set),
-                             "2": new IndividualGameState([] as Set),
-                             "3": new IndividualGameState([] as Set)]
+        game.setSolverStates([(new ObjectId()): new IndividualGameState([] as Set),
+                              (new ObjectId()): new IndividualGameState([] as Set),
+                              (new ObjectId()): new IndividualGameState([] as Set)])
         puzzlerSetter.initializeGame(game)
         game.solverStates.values().each {
-            assert StringUtils.isEmpty(it.category)
-            assert StringUtils.isEmpty(it.wordPhraseString)
+            Mockito.verify(phraseSetter, Mockito.never()).setWordPhrase(it, phrase, category)
         }
     }
 }
