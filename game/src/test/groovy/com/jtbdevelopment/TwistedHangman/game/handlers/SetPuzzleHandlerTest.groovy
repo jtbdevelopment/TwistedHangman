@@ -10,16 +10,23 @@ import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.games.dictionary.DictionaryType
 import com.jtbdevelopment.games.dictionary.Validator
 import com.jtbdevelopment.games.state.GamePhase
+import org.junit.Test
+import org.mockito.Mockito
+
+import static org.junit.Assert.assertSame
+
 
 /**
  * Date: 11/10/14
  * Time: 7:04 AM
  */
 class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
-    SetPuzzleHandler handler = new SetPuzzleHandler()
+    private Validator validator = Mockito.mock(Validator.class)
+    private PhraseSetter phraseSetter = Mockito.mock(PhraseSetter.class)
+    private SetPuzzleHandler handler = new SetPuzzleHandler(null, null, null, null, null, null, validator, phraseSetter)
 
-
-    public void testMultiPlayerSettingPuzzle() {
+    @Test
+    void testMultiPlayerSettingPuzzle() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
         Game game = new Game(gamePhase: GamePhase.Setup)
@@ -27,37 +34,20 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
         game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
-        handler.validator = [
-                validateWordPhrase: {
-                    String it, DictionaryType type ->
-                        assert DictionaryType.USEnglishMaximum == type
-                        assert it == wp || it == c
-                        []
-                }
+        Mockito.when(validator.validateWordPhrase(wp, DictionaryType.USEnglishMaximum)).thenReturn(new ArrayList<String>())
+        Mockito.when(validator.validateWordPhrase(c, DictionaryType.USEnglishMaximum)).thenReturn(new ArrayList<String>())
 
-        ] as Validator
-        Set<IndividualGameState> gamesSeen = [] as Set
-        handler.phraseSetter = [
-                setWordPhrase: {
-                    IndividualGameState gameState, String wordPhrase, String category ->
-                        assert wordPhrase == wp
-                        assert category == c
-                        assert gameState.is(poneState) || gameState.is(ptwoState)
-                        gameState.wordPhrase = wp.toCharArray()
-                        gameState.category = c
-                        gamesSeen.add(gameState)
-                }
-        ] as PhraseSetter
-
-        assert game.is(handler.handleActionInternal(
+        assertSame(game, handler.handleActionInternal(
                 PTHREE,
                 game,
                 new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp)))
-        assert gamesSeen.size() == 2
+        Mockito.verify(phraseSetter).setWordPhrase(poneState, wp, c)
+        Mockito.verify(phraseSetter).setWordPhrase(ptwoState, wp, c)
     }
 
 
-    public void testTwoPlayerSettingPuzzle() {
+    @Test
+    void testTwoPlayerSettingPuzzle() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
         Game game = new Game(gamePhase: GamePhase.Setup)
@@ -65,37 +55,18 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
         game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
-        handler.validator = [
-                validateWordPhrase: {
-                    String it, DictionaryType type ->
-                        assert DictionaryType.USEnglishMaximum == type
-                        assert it == wp || it == c
-                        []
-                }
-
-        ] as Validator
-        Set<IndividualGameState> gamesSeen = [] as Set
-        handler.phraseSetter = [
-                setWordPhrase: {
-                    IndividualGameState gameState, String wordPhrase, String category ->
-                        assert wordPhrase == wp
-                        assert category == c
-                        assert gameState.is(ptwoState)
-                        gameState.wordPhrase = wp.toCharArray()
-                        gameState.category = c
-                        gamesSeen.add(gameState)
-                }
-        ] as PhraseSetter
-
+        Mockito.when(validator.validateWordPhrase(wp, DictionaryType.USEnglishMaximum)).thenReturn(new ArrayList<String>())
+        Mockito.when(validator.validateWordPhrase(c, DictionaryType.USEnglishMaximum)).thenReturn(new ArrayList<String>())
         assert game.is(handler.handleActionInternal(
                 PONE,
                 game,
                 new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp)))
-        assert gamesSeen.size() == 1
+        Mockito.verify(phraseSetter, Mockito.never()).setWordPhrase(poneState, wp, c)
+        Mockito.verify(phraseSetter).setWordPhrase(ptwoState, wp, c)
     }
 
-
-    public void testMultiPlayerSettingPuzzleSecondTimeExceptions() {
+    @Test(expected = PuzzlesAreAlreadySetException.class)
+    void testMultiPlayerSettingPuzzleSecondTimeExceptions() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
         Game game = new Game(gamePhase: GamePhase.Setup)
@@ -103,46 +74,27 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
         game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
-        handler.validator = [
-                validateWordPhrase: {
-                    String it, DictionaryType type ->
-                        assert DictionaryType.USEnglishMaximum == type
-                        assert it == wp || it == c
-                        []
-                }
-
-        ] as Validator
-        Set<IndividualGameState> gamesSeen = [] as Set
-        handler.phraseSetter = [
-                setWordPhrase: {
-                    IndividualGameState gameState, String wordPhrase, String category ->
-                        assert wordPhrase == wp
-                        assert category == c
-                        assert gameState.is(poneState) || gameState.is(ptwoState)
-                        gameState.wordPhrase = wp.toCharArray()
-                        gameState.category = c
-                        gamesSeen.add(gameState)
-                }
-        ] as PhraseSetter
+        Mockito.when(validator.validateWordPhrase(wp, DictionaryType.USEnglishMaximum)).thenReturn(new ArrayList<String>())
+        Mockito.when(validator.validateWordPhrase(c, DictionaryType.USEnglishMaximum)).thenReturn(new ArrayList<String>())
 
         assert game.is(handler.handleActionInternal(
                 PTHREE,
                 game,
                 new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp)))
-        assert gamesSeen.size() == 2
-        try {
-            handler.handleActionInternal(
-                    PTHREE,
-                    game,
-                    new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp))
-            fail("should not get here")
-        } catch (PuzzlesAreAlreadySetException e) {
-            //
-        }
+        Mockito.verify(phraseSetter).setWordPhrase(poneState, wp, c)
+        Mockito.verify(phraseSetter).setWordPhrase(ptwoState, wp, c)
+
+        poneState.setWordPhrase("SET".toCharArray())
+        ptwoState.setWordPhrase("SET".toCharArray())
+        handler.handleActionInternal(
+                PTHREE,
+                game,
+                new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp))
     }
 
 
-    public void testTwoPlayerSettingPuzzleSecondTimeExceptions() {
+    @Test(expected = PuzzlesAreAlreadySetException.class)
+    void testTwoPlayerSettingPuzzleSecondTimeExceptions() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
         Game game = new Game(gamePhase: GamePhase.Setup)
@@ -150,46 +102,26 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
         game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
-        handler.validator = [
-                validateWordPhrase: {
-                    String it, DictionaryType type ->
-                        assert it == wp || it == c
-                        assert DictionaryType.USEnglishMaximum == type
-                        []
-                }
-
-        ] as Validator
-        Set<IndividualGameState> gamesSeen = [] as Set
-        handler.phraseSetter = [
-                setWordPhrase: {
-                    IndividualGameState gameState, String wordPhrase, String category ->
-                        assert wordPhrase == wp
-                        assert category == c
-                        assert gameState.is(ptwoState)
-                        gameState.wordPhrase = wp.toCharArray()
-                        gameState.category = c
-                        gamesSeen.add(gameState)
-                }
-        ] as PhraseSetter
+        Mockito.when(validator.validateWordPhrase(wp, DictionaryType.USEnglishMaximum)).thenReturn(new ArrayList<String>())
+        Mockito.when(validator.validateWordPhrase(c, DictionaryType.USEnglishMaximum)).thenReturn(new ArrayList<String>())
 
         assert game.is(handler.handleActionInternal(
                 PONE,
                 game,
                 new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp)))
-        assert gamesSeen.size() == 1
-        try {
-            handler.handleActionInternal(
-                    PONE,
-                    game,
-                    new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp))
-            fail("Should not get here")
-        } catch (PuzzlesAreAlreadySetException e) {
+        Mockito.verify(phraseSetter, Mockito.never()).setWordPhrase(poneState, wp, c)
+        Mockito.verify(phraseSetter).setWordPhrase(ptwoState, wp, c)
 
-        }
+        ptwoState.setWordPhrase("SET".toCharArray())
+        handler.handleActionInternal(
+                PONE,
+                game,
+                new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp))
     }
 
 
-    public void testInvalidWordPhraseCategory() {
+    @Test(expected = InvalidPuzzleWordsException.class)
+    void testInvalidWordPhraseCategory() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
         Game game = new Game(gamePhase: GamePhase.Setup)
@@ -197,34 +129,18 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
         game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
-        handler.validator = [
-                validateWordPhrase: {
-                    String it, DictionaryType type ->
-                        assert DictionaryType.USEnglishMaximum == type
-                        assert it == wp || it == c
-                        if (it == wp) {
-                            return ["1", "2"]
-                        } else {
-                            return [""]
-                        }
+        Mockito.when(validator.validateWordPhrase(wp, DictionaryType.USEnglishMaximum)).thenReturn(Arrays.asList("1", "2"))
+        Mockito.when(validator.validateWordPhrase(c, DictionaryType.USEnglishMaximum)).thenReturn(Collections.emptyList())
 
-                }
-
-        ] as Validator
-
-        try {
-            handler.handleActionInternal(
-                    PONE,
-                    game,
-                    new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp))
-            fail("Should not get here")
-        } catch (InvalidPuzzleWordsException e) {
-            assert e.message == "Your puzzle has invalid words [1, 2, ]."
-        }
+        handler.handleActionInternal(
+                PONE,
+                game,
+                new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp))
     }
 
 
-    public void testPuzzleNotInSetupPhase() {
+    @Test(expected = GameIsNotInSetupPhaseException.class)
+    void testPuzzleNotInSetupPhase() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
         Game game = new Game(gamePhase: GamePhase.Playing)
@@ -232,34 +148,16 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
         game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
-        handler.validator = [
-                validateWordPhrase: {
-                    String it, DictionaryType type ->
-                        assert DictionaryType.USEnglishMaximum == type
-                        assert it == wp || it == c
-                        if (it == wp) {
-                            return ["1", "2"]
-                        } else {
-                            return [""]
-                        }
 
-                }
-
-        ] as Validator
-
-        try {
-            handler.handleActionInternal(
-                    PONE,
-                    game,
-                    new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp))
-            fail("Should not get here")
-        } catch (GameIsNotInSetupPhaseException e) {
-
-        }
+        handler.handleActionInternal(
+                PONE,
+                game,
+                new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp))
     }
 
 
-    public void testMultiPlayerInvalidPlayerSettingPuzzle() {
+    @Test(expected = PuzzlesAreAlreadySetException.class)
+    void testMultiPlayerInvalidPlayerSettingPuzzle() {
         String wp = "A PUZZLE"
         String c = "CATEGORY"
         Game game = new Game(gamePhase: GamePhase.Setup)
@@ -267,25 +165,12 @@ class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
         IndividualGameState poneState = new IndividualGameState()
         IndividualGameState ptwoState = new IndividualGameState()
         game.solverStates = [(PONE.id): poneState, (PTWO.id): ptwoState]
-        handler.validator = [
-                validateWordPhrase: {
-                    String it, DictionaryType type ->
-                        assert DictionaryType.USEnglishMaximum == type
-                        assert it == wp || it == c
-                        []
-                }
+        Mockito.when(validator.validateWordPhrase(wp, DictionaryType.USEnglishMaximum)).thenReturn(new ArrayList<String>())
+        Mockito.when(validator.validateWordPhrase(c, DictionaryType.USEnglishMaximum)).thenReturn(new ArrayList<String>())
 
-        ] as Validator
-
-        try {
-            handler.handleActionInternal(
-                    PONE,
-                    game,
-                    new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp))
-            fail("should have failed")
-        } catch (PuzzlesAreAlreadySetException e) {
-
-        }
-
+        handler.handleActionInternal(
+                PONE,
+                game,
+                new SetPuzzleHandler.CategoryAndWordPhrase(category: c, wordPhrase: wp))
     }
 }

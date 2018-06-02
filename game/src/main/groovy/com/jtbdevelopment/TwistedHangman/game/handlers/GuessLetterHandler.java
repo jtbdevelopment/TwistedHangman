@@ -26,7 +26,8 @@ public class GuessLetterHandler extends AbstractPlayerRotatingGameActionHandler<
 
   private final HangmanGameActions gameActions;
 
-  public GuessLetterHandler(final AbstractPlayerRepository<ObjectId, MongoPlayer> playerRepository,
+  public GuessLetterHandler(
+      final AbstractPlayerRepository<ObjectId, MongoPlayer> playerRepository,
       final AbstractGameRepository<ObjectId, GameFeature, Game> gameRepository,
       final GameTransitionEngine<Game> transitionEngine,
       final GamePublisher<Game, MongoPlayer> gamePublisher,

@@ -24,6 +24,6 @@ class ThievingPositionTrackerPhraseInitializerTest extends GroovyTestCase {
         gameState.featureData[GameFeature.ThievingPositionTracking] = "X"
         gameState.wordPhrase = "XYZ".toCharArray()
         initializer.initializeForPhrase(gameState)
-        assert gameState.featureData[GameFeature.ThievingPositionTracking] == [false, false, false]
+        assert gameState.featureData[GameFeature.ThievingPositionTracking] == Arrays.asList(false, false, false)
     }
 }

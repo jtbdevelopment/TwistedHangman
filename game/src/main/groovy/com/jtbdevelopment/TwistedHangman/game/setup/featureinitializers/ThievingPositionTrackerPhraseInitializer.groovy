@@ -17,7 +17,7 @@ class ThievingPositionTrackerPhraseInitializer implements PhraseFeatureInitializ
     void initializeForPhrase(final IndividualGameState gameState) {
         if (gameState.features.contains(GameFeature.Thieving)) {
             gameState.featureData[GameFeature.ThievingPositionTracking] =
-                    (1..(gameState.wordPhrase.length)).collect() { int c -> false }.toArray()
+                    (1..(gameState.wordPhrase.length)).collect() { int c -> false }
 
         }
     }

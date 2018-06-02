@@ -33,11 +33,11 @@ class IndividualGameState implements Serializable {
     SortedSet<Character> guessedLetters = [] as SortedSet
     Map<GameFeature, Object> featureData = [:];
 
-    public IndividualGameState() {
+    IndividualGameState() {
         this([] as Set)
     }
 
-    public IndividualGameState(final Set<GameFeature> features) {
+    IndividualGameState(final Set<GameFeature> features) {
         this.wordPhrase = new char[0]
         this.workingWordPhrase = new char[0]
         this.wordPhraseString = ""
@@ -45,11 +45,11 @@ class IndividualGameState implements Serializable {
         this.category = ""
         this.blanksRemaining = 0;
         this.maxPenalties = BASE_PENALTIES
-        this.features = Collections.unmodifiableSet(features ?: Collections.emptySet())
+        this.features = Collections.unmodifiableSet(features ?: Collections.<GameFeature> emptySet())
     }
 
     @PersistenceConstructor
-    public IndividualGameState(
+    IndividualGameState(
             final Set<GameFeature> features,
             final String wordPhraseString, final String workingWordPhraseString) {
         this.features = features
@@ -57,36 +57,36 @@ class IndividualGameState implements Serializable {
         setWordPhraseString(wordPhraseString)
     }
 
-    public boolean isPuzzleSolved() {
+    boolean isPuzzleSolved() {
         wordPhrase == workingWordPhrase && wordPhrase.length > 0
     }
 
-    public boolean isPlayerHung() {
+    boolean isPlayerHung() {
         penalties >= maxPenalties;
     }
 
-    public boolean isPuzzleOver() {
+    boolean isPuzzleOver() {
         (isPlayerHung() || isPuzzleSolved());
     }
 
-    public int getPenaltiesRemaining() {
+    int getPenaltiesRemaining() {
         maxPenalties - penalties;
     }
 
-    public String getWordPhraseString() {
+    String getWordPhraseString() {
         wordPhraseString
     }
 
-    public void setWordPhraseString(final String wordPhraseString) {
+    void setWordPhraseString(final String wordPhraseString) {
         this.wordPhraseString = wordPhraseString
         this.wordPhrase = wordPhraseString.toCharArray()
     }
 
-    public String getWorkingWordPhraseString() {
+    String getWorkingWordPhraseString() {
         workingWordPhraseString
     }
 
-    public void setWorkingWordPhraseString(final String workingWordPhraseString) {
+    void setWorkingWordPhraseString(final String workingWordPhraseString) {
         this.workingWordPhraseString = workingWordPhraseString
         this.workingWordPhrase = workingWordPhraseString.toCharArray()
     }
@@ -110,7 +110,7 @@ class IndividualGameState implements Serializable {
     }
 
     @Override
-    public String toString() {
+    String toString() {
         return "IndividualGameState{" +
                 "category='" + category + '\'' +
                 ", wordPhrase=" + Arrays.toString(wordPhrase) +

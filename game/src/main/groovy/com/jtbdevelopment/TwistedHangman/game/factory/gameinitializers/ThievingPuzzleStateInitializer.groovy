@@ -17,7 +17,7 @@ class ThievingPuzzleStateInitializer implements GameInitializer<Game> {
             game.solverStates.values().each {
                 IndividualGameState gameState ->
                     gameState.featureData[GameFeature.ThievingCountTracking] = 0
-                    gameState.featureData[GameFeature.ThievingPositionTracking] = new boolean[0]
+                    gameState.featureData[GameFeature.ThievingPositionTracking] = Collections.emptyList()
                     gameState.featureData[GameFeature.ThievingLetters] = []
             }
         }

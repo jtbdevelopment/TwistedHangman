@@ -21,7 +21,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         gameState.featureData[GameFeature.ThievingLetters] = []
         gameState.featureData[GameFeature.ThievingPositionTracking] = (1..(gameState.wordPhrase.length)).collect({
             int c -> false
-        }).toArray(new boolean[gameState.wordPhrase.length])
+        })
         gameState
     }
 
@@ -30,7 +30,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
     }
 
 
-    public void testThievingGameWithoutTheft() {
+    void testThievingGameWithoutTheft() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 3)
         hangmanGameActions.guessLetter(gameState, (char) 'F')
         hangmanGameActions.guessLetter(gameState, (char) 'r')
@@ -42,15 +42,14 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.penalties == 2
         assert gameState.penaltiesRemaining == 1
         assert gameState.featureData[GameFeature.ThievingCountTracking] == 0
-        assert gameState.featureData[GameFeature.ThievingPositionTracking] == [false, false, false, false]
+        assert gameState.featureData[GameFeature.ThievingPositionTracking] == Arrays.asList(false, false, false, false)
         assert gameState.featureData[GameFeature.ThievingLetters] == []
         assert gameState.workingWordPhraseString == "FR__"
         assert gameState.blanksRemaining == 2;
         assert gameState.moveCount == 4
     }
 
-
-    public void testStealingALetter() {
+    void testStealingALetter() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 4)
         hangmanGameActions.guessLetter(gameState, (char) 'F')
         hangmanGameActions.guessLetter(gameState, (char) 'r')
@@ -62,7 +61,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.penalties == 2
         assert gameState.penaltiesRemaining == 2
         assert gameState.featureData[GameFeature.ThievingCountTracking] == 1
-        assert gameState.featureData[GameFeature.ThievingPositionTracking] == [false, false, false, true]
+        assert gameState.featureData[GameFeature.ThievingPositionTracking] == Arrays.asList(false, false, false, true)
         assert gameState.featureData[GameFeature.ThievingLetters] == [(char) 'G']
         assert gameState.workingWordPhraseString == "FR_G"
         assert gameState.blanksRemaining == 1;
@@ -70,7 +69,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.moveCount == 4
     }
 
-    public void testStealingALetterWithMultiplePlaces() {
+    void testStealingALetterWithMultiplePlaces() {
         IndividualGameState gameState = makeGameState("Elephantine", "Animal", 4)
         hangmanGameActions.guessLetter(gameState, (char) 'p')
         thievingHangmanGameActions.stealLetter(gameState, 2)
@@ -80,7 +79,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.penalties == 1
         assert gameState.penaltiesRemaining == 3
         assert gameState.featureData[GameFeature.ThievingCountTracking] == 1
-        assert gameState.featureData[GameFeature.ThievingPositionTracking] == [true, false, true, false, false, false, false, false, false, false, true]
+        assert gameState.featureData[GameFeature.ThievingPositionTracking] == Arrays.asList(true, false, true, false, false, false, false, false, false, false, true)
         assert gameState.featureData[GameFeature.ThievingLetters] == [(char) 'E']
         assert gameState.workingWordPhraseString == "E_EP______E"
         assert gameState.guessedLetters == new TreeSet(['P'])
@@ -88,7 +87,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.blanksRemaining == 7;
     }
 
-    public void testStealingToWin() {
+    void testStealingToWin() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 3)
         hangmanGameActions.guessLetter(gameState, (char) 'F')
         hangmanGameActions.guessLetter(gameState, (char) 'r')
@@ -100,7 +99,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         assert gameState.penalties == 1
         assert gameState.penaltiesRemaining == 2
         assert gameState.featureData[GameFeature.ThievingCountTracking] == 1
-        assert gameState.featureData[GameFeature.ThievingPositionTracking] == [false, false, false, true]
+        assert gameState.featureData[GameFeature.ThievingPositionTracking] == Arrays.asList(false, false, false, true)
         assert gameState.featureData[GameFeature.ThievingLetters] == [(char) 'G']
         assert gameState.workingWordPhraseString == "FROG"
         assert gameState.guessedLetters == new TreeSet<>(['F', 'R', 'O'])
@@ -110,7 +109,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
     }
 
 
-    public void testExceptionOnStealingPreviouslyStolenLetter() {
+    void testExceptionOnStealingPreviouslyStolenLetter() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 3)
         thievingHangmanGameActions.stealLetter(gameState, 3)
         try {
@@ -122,7 +121,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
     }
 
 
-    public void testExceptionOnStealingPreviouslyGuessedLetter() {
+    void testExceptionOnStealingPreviouslyGuessedLetter() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 3)
         hangmanGameActions.guessLetter(gameState, (char) 'F')
         try {
@@ -134,7 +133,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
     }
 
 
-    public void testExceptionOnStealingOnFinalPenalty() {
+    void testExceptionOnStealingOnFinalPenalty() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 2)
         hangmanGameActions.guessLetter(gameState, (char) 'F')
         hangmanGameActions.guessLetter(gameState, (char) 'r')
@@ -148,7 +147,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
     }
 
 
-    public void testStealingNegativePosition() {
+    void testStealingNegativePosition() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 2)
         try {
             thievingHangmanGameActions.stealLetter(gameState, -1)
@@ -159,7 +158,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
     }
 
 
-    public void testStealingTooLongPosition() {
+    void testStealingTooLongPosition() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 2)
         try {
             thievingHangmanGameActions.stealLetter(gameState, 4)
@@ -170,7 +169,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
     }
 
 
-    public void testStealingLostGame() {
+    void testStealingLostGame() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 1)
         hangmanGameActions.guessLetter(gameState, (char) "x")
         assert gameState.playerHung
@@ -184,7 +183,7 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
     }
 
 
-    public void testStealingWonGame() {
+    void testStealingWonGame() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 1)
         hangmanGameActions.guessLetter(gameState, (char) "f")
         hangmanGameActions.guessLetter(gameState, (char) "r")

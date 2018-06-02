@@ -38,7 +38,8 @@ public class SetPuzzleHandler extends
   private final Validator validator;
   private final PhraseSetter phraseSetter;
 
-  public SetPuzzleHandler(final AbstractPlayerRepository<ObjectId, MongoPlayer> playerRepository,
+  public SetPuzzleHandler(
+      final AbstractPlayerRepository<ObjectId, MongoPlayer> playerRepository,
       final AbstractGameRepository<ObjectId, GameFeature, Game> gameRepository,
       final GameTransitionEngine<Game> transitionEngine,
       final GamePublisher<Game, MongoPlayer> gamePublisher,
@@ -98,10 +99,12 @@ public class SetPuzzleHandler extends
       final Game game,
       final MongoPlayer player) {
 
-    return game.getSolverStates().entrySet().stream().filter(e ->
-        StringUtils.isEmpty(e.getValue().getWordPhraseString()) &&
-            !player.getId().equals(e.getKey())
-    ).map(Entry::getValue).collect(Collectors.toList());
+    return game.getSolverStates().entrySet()
+        .stream()
+        .filter(e -> !e.getKey().equals(player.getId()))
+        .filter(e -> StringUtils.isEmpty(e.getValue().getWordPhraseString()))
+        .map(Entry::getValue)
+        .collect(Collectors.toList());
   }
 
   public static class CategoryAndWordPhrase {

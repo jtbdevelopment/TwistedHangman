@@ -16,7 +16,6 @@ import com.jtbdevelopment.games.state.masking.GameMasker;
 import com.jtbdevelopment.games.state.transition.GameTransitionEngine;
 import com.jtbdevelopment.games.tracking.GameEligibilityTracker;
 import org.bson.types.ObjectId;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,7 +26,8 @@ public class StealLetterHandler extends AbstractGamePlayActionHandler<Integer> {
 
   private final ThievingHangmanGameActions gameActions;
 
-  public StealLetterHandler(final AbstractPlayerRepository<ObjectId, MongoPlayer> playerRepository,
+  public StealLetterHandler(
+      final AbstractPlayerRepository<ObjectId, MongoPlayer> playerRepository,
       final AbstractGameRepository<ObjectId, GameFeature, Game> gameRepository,
       final GameTransitionEngine<Game> transitionEngine,
       final GamePublisher<Game, MongoPlayer> gamePublisher,
@@ -49,7 +49,7 @@ public class StealLetterHandler extends AbstractGamePlayActionHandler<Integer> {
     }
 
     IndividualGameState state = game.getSolverStates().get(player.getId());
-    if (DefaultGroovyMethods.asBoolean(state)) {
+    if (state != null) {
       gameActions.stealLetter(state, param);
     } else {
       throw new PlayerNotSolvingAPuzzleException();

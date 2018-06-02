@@ -7,52 +7,44 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.games.exceptions.input.GameIsNotInPlayModeException
 import com.jtbdevelopment.games.state.GamePhase
+import org.junit.Test
+import org.mockito.Mockito
 
 /**
  * Date: 11/10/14
  * Time: 9:23 PM
  */
 class GuessLetterHandlerTest extends TwistedHangmanTestCase {
-    GuessLetterHandler handler = new GuessLetterHandler()
+    private HangmanGameActions gameActions = Mockito.mock(HangmanGameActions.class)
+    private GuessLetterHandler handler = new GuessLetterHandler(null, null, null, null, null, null, gameActions)
 
-
-    public void testHandleGoodMove() {
+    @Test
+    void testHandleGoodMove() {
         Game game = new Game(gamePhase: GamePhase.Playing)
         char letter = 'e'
         IndividualGameState state = new IndividualGameState(wordPhrase: "Test", category: "Test")
-        game.solverStates = [(PONE.id): state]
-        handler.gameActions = [
-                guessLetter: {
-                    IndividualGameState s, char c ->
-                        assert c == letter
-                        assert state.is(s)
-                }
-        ] as HangmanGameActions
-
+        game.getSolverStates().put(PONE.id, state)
         handler.handleActionInternal(PONE, game, letter)
+        Mockito.verify(gameActions).guessLetter(state, letter)
     }
 
-
-    public void testHandleBadPlayer() {
+    @Test(expected = PlayerNotSolvingAPuzzleException.class)
+    void testHandleBadPlayer() {
         Game game = new Game(gamePhase: GamePhase.Playing)
         char letter = 'e'
         IndividualGameState state = new IndividualGameState(wordPhrase: "Test", category: "Test")
-        game.solverStates = [(PONE): state]
+        game.getSolverStates().put(PONE.id, state)
 
-        shouldFail(PlayerNotSolvingAPuzzleException.class, {
-            handler.handleActionInternal(PTHREE, game, letter)
-        })
+        handler.handleActionInternal(PTHREE, game, letter)
     }
 
-
-    public void testHandleBadGame() {
+    @Test(expected = GameIsNotInPlayModeException.class)
+    void testHandleBadGame() {
         Game game = new Game(gamePhase: GamePhase.Setup)
         char letter = 'e'
         IndividualGameState state = new IndividualGameState(wordPhrase: "Test", category: "Test")
-        game.solverStates = [(PONE): state]
+        game.getSolverStates().put(PONE.id, state)
 
-        shouldFail(GameIsNotInPlayModeException.class, {
-            handler.handleActionInternal(PTHREE, game, letter)
-        })
+        handler.handleActionInternal(PTHREE, game, letter)
     }
 }

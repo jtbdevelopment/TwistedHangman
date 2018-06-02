@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.rest.services;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 import com.jtbdevelopment.TwistedHangman.game.handlers.GuessLetterHandler;
 import com.jtbdevelopment.TwistedHangman.game.handlers.SetPuzzleHandler;
@@ -23,7 +24,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.bson.types.ObjectId;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -115,33 +115,33 @@ public class GameServicesTest {
     wordPhrase.setCategory(c);
     wordPhrase.setWordPhrase(w);
     Mockito.when(puzzleHandler.handleAction(PID, GID, wordPhrase)).thenReturn(result);
-    assert DefaultGroovyMethods.is(result, services.setPuzzle(wordPhrase));
+    assertSame(result, services.setPuzzle(wordPhrase));
   }
 
   @Test
   public void testStealLetter() {
     int pos = 4;
     Mockito.when(stealLetterHandler.handleAction(PID, GID, pos)).thenReturn(result);
-    assert DefaultGroovyMethods.is(result, services.stealLetter(pos));
+    assertSame(result, services.stealLetter(pos));
   }
 
   @Test
   public void testGuessLetter() {
     String guess = "G";
     Mockito.when(guessLetterHandler.handleAction(PID, GID, "G".charAt(0))).thenReturn(result);
-    assert DefaultGroovyMethods.is(result, services.guessLetter(guess));
+    assertSame(result, services.guessLetter(guess));
   }
 
   @Test
   public void testGuessLetterNull() {
     Mockito.when(guessLetterHandler.handleAction(PID, GID, " ".charAt(0))).thenReturn(result);
-    assert DefaultGroovyMethods.is(result, services.guessLetter(null));
+    assertSame(result, services.guessLetter(null));
   }
 
   @Test
   public void testGuessLetterEmpty() {
     String guess = "";
     Mockito.when(guessLetterHandler.handleAction(PID, GID, " ".charAt(0))).thenReturn(result);
-    assert DefaultGroovyMethods.is(result, services.guessLetter(guess));
+    assertSame(result, services.guessLetter(guess));
   }
 }

@@ -21,7 +21,7 @@ class ThievingPuzzleStateInitializerTest extends GroovyTestCase {
         initializer.initializeGame(game)
         game.solverStates.values().each {
             assert it.featureData[GameFeature.ThievingCountTracking] == 0
-            assert it.featureData[GameFeature.ThievingPositionTracking] == new char[0]
+            assert it.featureData[GameFeature.ThievingPositionTracking] == Collections.emptyList()
             assert it.featureData[GameFeature.ThievingLetters] == []
         }
     }
