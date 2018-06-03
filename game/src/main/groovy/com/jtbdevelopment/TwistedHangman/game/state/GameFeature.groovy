@@ -7,7 +7,7 @@ import groovy.transform.CompileStatic
  * Time: 6:45 AM
  */
 @CompileStatic
-public enum GameFeature {
+enum GameFeature {
     SinglePlayer("Single Player", true, true, true),
     TwoPlayer("2 Players", true, true, true),
     ThreePlus("3+ Players", true, true, true),
@@ -37,7 +37,7 @@ public enum GameFeature {
     final String description
 
 
-    public GameFeature(
+    GameFeature(
             final String description, boolean internal = false, validate = true, broadCategory = false) {
         this.internal = internal
         this.description = description

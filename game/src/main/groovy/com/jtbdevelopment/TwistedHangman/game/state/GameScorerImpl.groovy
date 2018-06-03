@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component
 @CompileStatic
 class GameScorerImpl implements GameScorer<Game> {
     @Override
-    public Game scoreGame(final Game game) {
+    Game scoreGame(final Game game) {
         int winners = 0
         int losers = 0
         game.solverStates.each {

@@ -5,14 +5,14 @@ package com.jtbdevelopment.TwistedHangman.game.state
  */
 class IndividualGameStateTest extends GroovyTestCase {
 
-    public void testGameOverWhenGameNotSetYet() {
+    void testGameOverWhenGameNotSetYet() {
         IndividualGameState gameState = new IndividualGameState([] as Set)
         assert !gameState.puzzleSolved
         assert !gameState.playerHung
         assert !gameState.puzzleOver
     }
 
-    public void testPersistenceConstructor() {
+    void testPersistenceConstructor() {
         Set<GameFeature> features = [GameFeature.AllComplete] as Set
         String wordPhrase = "wp"
         String workingWordPhrase = "__ _"
@@ -23,7 +23,7 @@ class IndividualGameStateTest extends GroovyTestCase {
     }
 
 
-    public void testInitialGameStateWithDefaultFeatures() {
+    void testInitialGameStateWithDefaultFeatures() {
         IndividualGameState gameState = new IndividualGameState([] as Set)
         gameState.wordPhrase = "cat".toCharArray()
         gameState.workingWordPhrase = "xxx".toCharArray()
@@ -46,7 +46,7 @@ class IndividualGameStateTest extends GroovyTestCase {
     }
 
 
-    public void testInitialGameStateWithFeatures() {
+    void testInitialGameStateWithFeatures() {
         def features = [GameFeature.Thieving, GameFeature.ThievingCountTracking] as Set
         IndividualGameState gameState = new IndividualGameState(features)
         gameState.wordPhrase = "CaT".toCharArray()
@@ -67,21 +67,5 @@ class IndividualGameStateTest extends GroovyTestCase {
         assert gameState.penaltiesRemaining == 7
         assert gameState.featureData.isEmpty()
         assert gameState.features == features
-    }
-
-
-    public void testToString() {
-        assert new IndividualGameState(
-                badlyGuessedLetters: [(char) 'A'] as SortedSet,
-                category: "CATEGORY",
-                features: [GameFeature.SingleWinner] as Set,
-                featureData: [(GameFeature.DrawFace): "da"],
-                guessedLetters: [(char) 'B'] as SortedSet,
-                maxPenalties: 10,
-                moveCount: 5,
-                penalties: 4,
-                blanksRemaining: 4,
-                wordPhrase: "WORD",
-                workingWordPhrase: "W___D",).toString() == "IndividualGameState{category='CATEGORY', wordPhrase=[W, O, R, D], workingWordPhrase=[W, _, _, _, D], maxPenalties=10, moveCount=5, penalties=4, features=[SingleWinner], badlyGuessedLetters=[A], guessedLetters=[B], featureData=[DrawFace:da], blanksRemaining=4}"
     }
 }
