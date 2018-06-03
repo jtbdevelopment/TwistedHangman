@@ -4,7 +4,6 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.GameOverException;
 import com.jtbdevelopment.TwistedHangman.exceptions.input.LetterAlreadyGuessedException;
 import com.jtbdevelopment.TwistedHangman.exceptions.input.NotALetterGuessException;
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class HangmanGameActions {
 
   public int guessLetter(final IndividualGameState gameState, final char letter) {
-    char uppercaseLetter = DefaultGroovyMethods.toUpperCase(letter);
+    char uppercaseLetter = Character.toUpperCase(letter);
 
     validateGuess(gameState, letter, uppercaseLetter);
 
@@ -47,7 +46,7 @@ public class HangmanGameActions {
       throw new GameOverException();
     }
 
-    if (!DefaultGroovyMethods.isLetter(letter)) {
+    if (!Character.isLetter(letter)) {
       throw new NotALetterGuessException();
     }
 

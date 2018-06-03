@@ -4,7 +4,6 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator;
 import com.jtbdevelopment.games.factory.GameInitializer;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.springframework.stereotype.Component;
 
 /**
@@ -23,7 +22,7 @@ public class ChallengerInitializer implements GameInitializer<Game> {
       game.setWordPhraseSetter(null);
     }
 
-    if (DefaultGroovyMethods.asBoolean(game.getWordPhraseSetter())) {
+    if (game.getWordPhraseSetter() != null) {
       game.getSolverStates().remove(game.getWordPhraseSetter());
     }
 
