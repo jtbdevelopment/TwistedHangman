@@ -6,6 +6,7 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
 import com.jtbdevelopment.games.factory.GameInitializer
+import org.junit.Test
 
 /**
  * Date: 11/5/14
@@ -14,10 +15,12 @@ import com.jtbdevelopment.games.factory.GameInitializer
 class PuzzleInitializerTest extends TwistedHangmanTestCase {
     PuzzleInitializer initializer = new PuzzleInitializer()
 
+    @Test
     public void testOrder() {
         assert GameInitializer.DEFAULT_ORDER == initializer.order
     }
 
+    @Test
     public void testInitializesPuzzlesForAllWhenSystemPuzzler() {
         Game game = new Game()
         def players = [PONE, PTWO, PTHREE]
@@ -37,6 +40,7 @@ class PuzzleInitializerTest extends TwistedHangmanTestCase {
     }
 
 
+    @Test
     public void testInitializesPuzzlesForTwoPlayerSimultaneous() {
         Game game = new Game()
         def players = [PONE, PTWO, PTHREE]
@@ -56,6 +60,7 @@ class PuzzleInitializerTest extends TwistedHangmanTestCase {
     }
 
 
+    @Test
     public void testInitializesPuzzlesForPlayerSetter() {
         Game game = new Game()
         def players = [PONE, PTWO, PTHREE]

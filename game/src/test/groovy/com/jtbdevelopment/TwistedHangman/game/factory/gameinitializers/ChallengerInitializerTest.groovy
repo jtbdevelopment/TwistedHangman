@@ -5,6 +5,9 @@ import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
 import com.jtbdevelopment.games.factory.GameInitializer
+import org.junit.Test
+
+import static org.junit.Assert.assertNull
 
 /**
  * Date: 11/5/14
@@ -13,11 +16,13 @@ import com.jtbdevelopment.games.factory.GameInitializer
 class ChallengerInitializerTest extends TwistedHangmanTestCase {
     ChallengerInitializer initializer = new ChallengerInitializer()
 
-    public void testOrder() {
+    @Test
+    void testOrder() {
         assert GameInitializer.DEFAULT_ORDER == initializer.order
     }
 
-    public void testSystemPuzzles() {
+    @Test
+    void testSystemPuzzles() {
         def expectedSolvers = [(PONE.id): null, (PTHREE.id): null]
         Game game = new Game()
         game.features += GameFeature.SystemPuzzles
@@ -29,7 +34,8 @@ class ChallengerInitializerTest extends TwistedHangmanTestCase {
     }
 
 
-    public void testTwoPlayerSystemPuzzles() {
+    @Test
+    void testTwoPlayerSystemPuzzles() {
         def expectedSolvers = [(PONE.id): null, (PTHREE.id): null]
         Game game = new Game()
         game.features += GameFeature.SystemPuzzles
@@ -42,7 +48,8 @@ class ChallengerInitializerTest extends TwistedHangmanTestCase {
     }
 
 
-    public void testAlternatingChallenger() {
+    @Test
+    void testAlternatingChallenger() {
         def expectedSolvers = [(PTHREE.id): null]
 
         Game game = new Game()
@@ -56,7 +63,8 @@ class ChallengerInitializerTest extends TwistedHangmanTestCase {
     }
 
 
-    public void testTwoPlayerAlternatingChallenger() {
+    @Test
+    void testTwoPlayerAlternatingChallenger() {
         def expectedSolvers = [(PTHREE.id): null]
 
         Game game = new Game()
@@ -71,7 +79,8 @@ class ChallengerInitializerTest extends TwistedHangmanTestCase {
     }
 
 
-    public void testTwoPlayerSimulataneous() {
+    @Test
+    void testTwoPlayerSimulataneous() {
         def expectedSolvers = [(PONE.id): null, (PTHREE.id): null]
 
         Game game = new Game()

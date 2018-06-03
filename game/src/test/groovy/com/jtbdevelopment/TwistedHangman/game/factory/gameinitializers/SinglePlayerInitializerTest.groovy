@@ -4,6 +4,7 @@ import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.games.factory.GameInitializer
+import org.junit.Test
 
 /**
  * Date: 11/6/14
@@ -13,6 +14,7 @@ class SinglePlayerInitializerTest extends TwistedHangmanTestCase {
     SinglePlayerInitializer initializer = new SinglePlayerInitializer()
 
 
+    @Test
     public void testIgnoresNonSinglePlayer() {
         Set<GameFeature> expected = [GameFeature.AlternatingPuzzleSetter, GameFeature.Thieving]
         Game game = new Game(players: [PONE, PTWO], features: expected)
@@ -21,6 +23,7 @@ class SinglePlayerInitializerTest extends TwistedHangmanTestCase {
     }
 
 
+    @Test
     public void testSetsForSinglePlayer() {
         Set<GameFeature> expected = [GameFeature.SystemPuzzles, GameFeature.SinglePlayer, GameFeature.SingleWinner]
         Game game = new Game(players: [PONE])
@@ -29,6 +32,7 @@ class SinglePlayerInitializerTest extends TwistedHangmanTestCase {
     }
 
 
+    @Test
     public void testSetsForSinglePlayerWithConflictingOptions() {
         Set<GameFeature> expected = [GameFeature.SystemPuzzles, GameFeature.SinglePlayer, GameFeature.SingleWinner, GameFeature.TwoPlayer, GameFeature.AlternatingPuzzleSetter]
         Game game = new Game(players: [PONE], features: [GameFeature.TwoPlayer, GameFeature.AlternatingPuzzleSetter] as Set)
@@ -36,6 +40,7 @@ class SinglePlayerInitializerTest extends TwistedHangmanTestCase {
         assert expected == game.features
     }
 
+    @Test
     public void testOrder() {
         assert GameInitializer.EARLY_ORDER == initializer.order
     }

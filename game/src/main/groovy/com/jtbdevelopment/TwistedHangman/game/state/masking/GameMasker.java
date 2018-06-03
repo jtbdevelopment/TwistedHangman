@@ -49,7 +49,7 @@ public class GameMasker extends AbstractMongoMultiPlayerGameMasker<GameFeature, 
         game.getGamePhase().equals(GamePhase.NextRoundStarted) ||
         game.getGamePhase().equals(GamePhase.Quit) ||
         playerMaskingFor.equals(gameStatePlayer) ||
-        game.getWordPhraseSetter().equals(playerMaskingFor.getId()) ||
+        playerMaskingFor.getId().equals(game.getWordPhraseSetter()) ||
         (game.getWordPhraseSetter() == null && !playerMaskingFor.equals(gameStatePlayer))) {
       masked.workingWordPhrase = gameState.getWorkingWordPhraseString();
       masked.guessedLetters.addAll(gameState.getGuessedLetters());
@@ -68,7 +68,7 @@ public class GameMasker extends AbstractMongoMultiPlayerGameMasker<GameFeature, 
     if (game.getGamePhase().equals(GamePhase.RoundOver) ||
         game.getGamePhase().equals(GamePhase.NextRoundStarted) ||
         game.getGamePhase().equals(GamePhase.Quit) ||
-        game.getWordPhraseSetter().equals(playerMaskingFor.getId()) ||
+        playerMaskingFor.getId().equals(game.getWordPhraseSetter()) ||
         (game.getWordPhraseSetter() == null && !playerMaskingFor.equals(gameStatePlayer))) {
       masked.wordPhrase = gameState.getWordPhraseString();
     } else {

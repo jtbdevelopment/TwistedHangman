@@ -4,6 +4,9 @@ import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import org.bson.types.ObjectId
+import org.junit.Test
+
+import static org.junit.Assert.assertFalse
 
 /**
  * Date: 11/6/14
@@ -13,11 +16,13 @@ class ValidFeatureSetGameValidatorTest extends TwistedHangmanTestCase {
     ValidFeatureSetGameValidator validator = new ValidFeatureSetGameValidator()
 
 
+    @Test
     void testErrorMessage() {
         assert "System Error - Combination of features is not valid somehow." == validator.errorMessage()
     }
 
 
+    @Test
     void testValidAreValid() {
         GameFeature.ALLOWED_COMBINATIONS.each {
             Set<GameFeature> it ->
@@ -28,6 +33,7 @@ class ValidFeatureSetGameValidatorTest extends TwistedHangmanTestCase {
     }
 
 
+    @Test
     void testValidAreValidWithNonValidatedField() {
         List<GameFeature> nonValidated = GameFeature.values().findAll { GameFeature it -> !it.validate }.toList()
         GameFeature.ALLOWED_COMBINATIONS.each {
@@ -41,6 +47,7 @@ class ValidFeatureSetGameValidatorTest extends TwistedHangmanTestCase {
     }
 
 
+    @Test
     void testInvalidAreInvalidPartialSet() {
         //  Full set takes too long for unit
         List<GameFeature> features = [GameFeature.SingleWinner, GameFeature.SystemPuzzles, GameFeature.ThreePlus, GameFeature.AlternatingPuzzleSetter, GameFeature.TwoPlayer, GameFeature.DrawFace]

@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.utility
 
 import com.jtbdevelopment.TwistedHangman.dao.PreMadePuzzleRepository
 import com.jtbdevelopment.TwistedHangman.exceptions.system.PreMadePuzzleFinderException
+import org.junit.Test
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 
@@ -13,7 +14,8 @@ class RandomPreMadePuzzleFinderTest extends GroovyTestCase {
     RandomCannedGameFinder finder = new RandomCannedGameFinder()
 
 
-    public void testReturnsARandomGameFromSingleItemUniverse() {
+    @Test
+    void testReturnsARandomGameFromSingleItemUniverse() {
         PreMadePuzzle game = [] as PreMadePuzzle
         Page<PreMadePuzzle> page = [getContent: { [game] }] as Page<PreMadePuzzle>
         finder.repository = [
@@ -31,7 +33,8 @@ class RandomPreMadePuzzleFinderTest extends GroovyTestCase {
     }
 
 
-    public void testExceptionIfNoGames() {
+    @Test
+    void testExceptionIfNoGames() {
         finder.repository = [
                 count: {
                     0L
@@ -45,7 +48,8 @@ class RandomPreMadePuzzleFinderTest extends GroovyTestCase {
     }
 
 
-    public void testExceptionIfNoContent() {
+    @Test
+    void testExceptionIfNoContent() {
         Page<PreMadePuzzle> page = [getContent: { [] }] as Page<PreMadePuzzle>
         finder.repository = [
                 count  : {
@@ -66,7 +70,8 @@ class RandomPreMadePuzzleFinderTest extends GroovyTestCase {
     }
 
 
-    public void testExceptionIfTooMuchContent() {
+    @Test
+    void testExceptionIfTooMuchContent() {
         PreMadePuzzle game = [] as PreMadePuzzle
         Page<PreMadePuzzle> page = [getContent: { [game, game] }] as Page<PreMadePuzzle>
         finder.repository = [
@@ -88,7 +93,8 @@ class RandomPreMadePuzzleFinderTest extends GroovyTestCase {
     }
 
 
-    public void testReturnsARandomGameFromLargeUniverse() {
+    @Test
+    void testReturnsARandomGameFromLargeUniverse() {
         PreMadePuzzle game = [] as PreMadePuzzle
         long top = Long.MAX_VALUE / 2
         Page<PreMadePuzzle> page = [getContent: { [game] }] as Page<PreMadePuzzle>
@@ -107,7 +113,8 @@ class RandomPreMadePuzzleFinderTest extends GroovyTestCase {
     }
 
 
-    public void testReturnsARandomGameFromWithSource() {
+    @Test
+    void testReturnsARandomGameFromWithSource() {
         String source = "Interwebs"
         PreMadePuzzle game = [] as PreMadePuzzle
         long top = Integer.MAX_VALUE / 2

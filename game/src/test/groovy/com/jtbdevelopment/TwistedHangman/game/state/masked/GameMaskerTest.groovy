@@ -12,8 +12,9 @@ import com.jtbdevelopment.games.mongo.players.MongoPlayer
 import com.jtbdevelopment.games.state.GamePhase
 import com.jtbdevelopment.games.state.PlayerState
 import org.bson.types.ObjectId
+import org.junit.Test
 
-import java.time.ZonedDateTime
+import java.time.Instant
 
 /**
  * Date: 11/14/14
@@ -22,7 +23,8 @@ import java.time.ZonedDateTime
 class GameMaskerTest extends TwistedHangmanTestCase {
     GameMasker masker = new GameMasker()
 
-    public void testMaskingSinglePlayerGame() {
+    @Test
+    void testMaskingSinglePlayerGame() {
         IndividualGameState state = new IndividualGameState(
                 badlyGuessedLetters: [(char) 'A', (char) 'B'] as SortedSet,
                 category: "cat",
@@ -40,19 +42,19 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 gamePhase: GamePhase.Playing,
                 players: [PONE],
                 wordPhraseSetter: (ObjectId) TwistedHangmanSystemPlayerCreator.TH_PLAYER.id,
-                created: ZonedDateTime.now(),
-                completedTimestamp: ZonedDateTime.now(),
-                declinedTimestamp: ZonedDateTime.now(),
+                created: Instant.now(),
+                completedTimestamp: Instant.now(),
+                declinedTimestamp: Instant.now(),
                 featureData: [(GameFeature.DrawFace): ""],
                 features: [GameFeature.SystemPuzzles, GameFeature.SinglePlayer],
                 id: new ObjectId("1234".padRight(24, "0")),
                 initiatingPlayer: PONE.id,
-                lastUpdate: ZonedDateTime.now(),
+                lastUpdate: Instant.now(),
                 playerStates: [(PONE.id): PlayerState.Accepted],
                 playerRunningScores: [(PONE.id): 5],
                 playerRoundScores: [(PONE.id): 0],
                 previousId: new ObjectId("34".padRight(24, "0")),
-                rematchTimestamp: ZonedDateTime.now(),
+                rematchTimestamp: Instant.now(),
                 round: new Random().nextInt(1000),
                 solverStates: [(PONE.id): state],
                 version: 10,
@@ -86,7 +88,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         assert maskedState.wordPhrase == state.wordPhraseString
     }
 
-    public void testMaskingTwoPlayerHeadToHead() {
+    @Test
+    void testMaskingTwoPlayerHeadToHead() {
         IndividualGameState state1 = new IndividualGameState(
                 badlyGuessedLetters: [(char) 'A', (char) 'B'] as SortedSet,
                 category: "cat1",
@@ -117,19 +120,19 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 gamePhase: GamePhase.Playing,
                 players: [PONE, PTWO],
                 wordPhraseSetter: null,
-                created: ZonedDateTime.now(),
-                completedTimestamp: ZonedDateTime.now(),
-                declinedTimestamp: ZonedDateTime.now(),
+                created: Instant.now(),
+                completedTimestamp: Instant.now(),
+                declinedTimestamp: Instant.now(),
                 featureData: [(GameFeature.DrawFace): "", (GameFeature.SingleWinner): PTWO.id],
                 features: [GameFeature.SystemPuzzles, GameFeature.SinglePlayer],
                 id: new ObjectId("1234".padRight(24, "0")),
                 initiatingPlayer: PTWO.id,
-                lastUpdate: ZonedDateTime.now(),
+                lastUpdate: Instant.now(),
                 playerStates: [(PONE.id): PlayerState.Accepted, (PTWO.id): PlayerState.Rejected],
                 playerRunningScores: [(PONE.id): 5, (PTWO.id): 7],
                 playerRoundScores: [(PONE.id): 1, (PTWO.id): 0],
                 previousId: new ObjectId("34".padRight(24, "0")),
-                rematchTimestamp: ZonedDateTime.now(),
+                rematchTimestamp: Instant.now(),
                 solverStates: [(PONE.id): state1, (PTWO.id): state2],
                 round: new Random().nextInt(1000),
                 version: 10,
@@ -181,7 +184,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         assert maskedState.guessedLetters == state2.guessedLetters
     }
 
-    public void testMaskingMultiPlayerSystemPuzzler() {
+    @Test
+    void testMaskingMultiPlayerSystemPuzzler() {
         IndividualGameState state1 = new IndividualGameState(
                 badlyGuessedLetters: [(char) 'A', (char) 'B'] as SortedSet,
                 category: "cat1",
@@ -274,7 +278,8 @@ class GameMaskerTest extends TwistedHangmanTestCase {
         assert maskedState.wordPhrase == state1.wordPhraseString
     }
 
-    public void testMaskingMultiPlayerNonSystemPuzzler() {
+    @Test
+    void testMaskingMultiPlayerNonSystemPuzzler() {
         IndividualGameState state1 = new IndividualGameState(
                 badlyGuessedLetters: [(char) 'A', (char) 'B'] as SortedSet,
                 category: "cat1",
@@ -383,10 +388,10 @@ class GameMaskerTest extends TwistedHangmanTestCase {
 
     protected void checkUnmaskedGameFields(MaskedGame maskedGame, Game game) {
         assert maskedGame.id == game.id.toHexString()
-        assert maskedGame.completedTimestamp == (game.completedTimestamp ? game.completedTimestamp.toInstant().toEpochMilli() : null)
-        assert maskedGame.created == (game.created ? game.created.toInstant().toEpochMilli() : null)
-        assert maskedGame.declinedTimestamp == (game.declinedTimestamp ? game.declinedTimestamp.toInstant().toEpochMilli() : null)
-        assert maskedGame.lastUpdate == (game.lastUpdate ? game.lastUpdate.toInstant().toEpochMilli() : null)
+        assert maskedGame.completedTimestamp == (game.completedTimestamp ? game.completedTimestamp.toEpochMilli() : null)
+        assert maskedGame.created == (game.created ? game.created.toEpochMilli() : null)
+        assert maskedGame.declinedTimestamp == (game.declinedTimestamp ? game.declinedTimestamp.toEpochMilli() : null)
+        assert maskedGame.lastUpdate == (game.lastUpdate ? game.lastUpdate.toEpochMilli() : null)
         assert maskedGame.features == game.features
     }
 
@@ -407,19 +412,19 @@ class GameMaskerTest extends TwistedHangmanTestCase {
                 gamePhase: GamePhase.Playing,
                 players: [PONE, PTWO, PTHREE],
                 wordPhraseSetter: puzzler.id,
-                created: ZonedDateTime.now(),
-                completedTimestamp: ZonedDateTime.now(),
-                declinedTimestamp: ZonedDateTime.now(),
+                created: Instant.now(),
+                completedTimestamp: Instant.now(),
+                declinedTimestamp: Instant.now(),
                 featureData: [(GameFeature.DrawFace): "", (GameFeature.SingleWinner): PTWO.id],
                 features: [GameFeature.SystemPuzzles, GameFeature.SinglePlayer],
                 id: new ObjectId("1234".padRight(24, "0")),
                 initiatingPlayer: PTWO.id,
-                lastUpdate: ZonedDateTime.now(),
+                lastUpdate: Instant.now(),
                 playerStates: [(PONE.id): PlayerState.Accepted, (PTWO.id): PlayerState.Rejected, (PTHREE.id): PlayerState.Pending],
                 playerRunningScores: [(PONE.id): 5, (PTWO.id): 7, (PTHREE.id): -10],
                 playerRoundScores: [(PONE.id): 1, (PTWO.id): 0, (PTHREE.id): -1],
                 previousId: new ObjectId("34".padRight(24, "0")),
-                rematchTimestamp: ZonedDateTime.now(),
+                rematchTimestamp: Instant.now(),
                 solverStates: states,
                 round: new Random().nextInt(1000),
                 version: 10,

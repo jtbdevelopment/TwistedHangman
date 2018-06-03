@@ -33,7 +33,7 @@ public class GamePhaseTransitionEngine extends
     boolean oneSolved = game.getSolverStates().values().stream()
         .anyMatch(IndividualGameState::isPuzzleSolved);
     long pending = game.getSolverStates().values().stream()
-        .filter(gameState -> !gameState.isPuzzleSolved()).count();
+        .filter(gameState -> !gameState.isPuzzleOver()).count();
     if (pending == 0 || (oneSolved && game.getFeatures().contains(GameFeature.SingleWinner))) {
       game.setCompletedTimestamp(Instant.now());
       return changeStateAndReevaluate(GamePhase.RoundOver, game);

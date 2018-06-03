@@ -3,6 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.games.factory.GameInitializer
+import org.junit.Test
 
 /**
  * Date: 11/5/14
@@ -11,11 +12,13 @@ import com.jtbdevelopment.games.factory.GameInitializer
 class PlayerScoreInitializerTest extends TwistedHangmanTestCase {
     PlayerScoreInitializer initializer = new PlayerScoreInitializer()
 
+    @Test
     public void testOrder() {
         assert GameInitializer.DEFAULT_ORDER == initializer.order
     }
 
 
+    @Test
     public void testInitializesScoresToZeroForAllPlayersIfNotSet() {
         Game game = new Game()
         def players = [PONE, PTWO, PTHREE, PFOUR]
@@ -30,6 +33,7 @@ class PlayerScoreInitializerTest extends TwistedHangmanTestCase {
     }
 
 
+    @Test
     public void testLeavesExistingScoresAlone() {
         Game game = new Game()
         Map<String, Integer> players = [(PONE.id): 2, (PTWO.id): 0, (PTHREE.id): 1, (PFOUR.id): 0]

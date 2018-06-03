@@ -3,17 +3,22 @@ package com.jtbdevelopment.TwistedHangman.game.state
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.games.state.GamePhase
 import com.jtbdevelopment.games.state.PlayerState
+import com.jtbdevelopment.games.state.scoring.GameScorer
+import org.bson.types.ObjectId
+import org.junit.Test
+import org.mockito.Mockito
 
 /**
  * Date: 11/9/14
  * Time: 9:33 AM
  */
 class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
-    GamePhaseTransitionEngine transitionEngine = new GamePhaseTransitionEngine()
+    private GameScorer gameScorer = Mockito.mock(GameScorer.class)
+    private GamePhaseTransitionEngine transitionEngine = new GamePhaseTransitionEngine(gameScorer)
 
 
-    public void testSinglePlayerChallengeTransitionsToPlaying() {
-        assert transitionEngine.gameScorer == null
+    @Test
+    void testSinglePlayerChallengeTransitionsToPlaying() {
         Game game = new Game(
                 gamePhase: GamePhase.Challenged,
                 features: [GameFeature.SinglePlayer, GameFeature.SystemPuzzles] as Set,
@@ -26,8 +31,8 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     }
 
 
-    public void testSetupToSetup() {
-        assert transitionEngine.gameScorer == null
+    @Test
+    void testSetupToSetup() {
         Game game = new Game(
                 gamePhase: GamePhase.Setup,
                 features: [GameFeature.SystemPuzzles] as Set,
@@ -41,8 +46,8 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     }
 
 
-    public void testSetupToPlaying() {
-        assert transitionEngine.gameScorer == null
+    @Test
+    void testSetupToPlaying() {
         Game game = new Game(
                 gamePhase: GamePhase.Setup,
                 features: [GameFeature.SystemPuzzles] as Set,
@@ -57,8 +62,8 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     }
 
 
-    public void testPlayingToPlaying() {
-        assert transitionEngine.gameScorer == null
+    @Test
+    void testPlayingToPlaying() {
         Game game = new Game(
                 gamePhase: GamePhase.Playing,
                 features: [] as Set,
@@ -72,8 +77,10 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     }
 
 
-    public void testPlayingToRematchMultipleWinners() {
+    @Test
+    void testPlayingToRematchMultipleWinners() {
         Game game = new Game(
+                id: new ObjectId(),
                 gamePhase: GamePhase.Playing,
                 features: [] as Set,
                 solverStates: [
@@ -83,23 +90,17 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                 ]
         )
         Game scored = (Game) game.clone()
-        transitionEngine.gameScorer = [
-                scoreGame: {
-                    Game it ->
-                        assert it.is(game)
-                        assert it.gamePhase == GamePhase.RoundOver
-                        assert it.completedTimestamp
-                        return scored
-                }
-        ] as GameScorerImpl
+        Mockito.when(gameScorer.scoreGame(game)).thenReturn(scored)
 
 
         assert scored.is(transitionEngine.evaluateGame(game))
     }
 
 
-    public void testPlayingToRematchSingleWinner() {
+    @Test
+    void testPlayingToRematchSingleWinner() {
         Game game = new Game(
+                id: new ObjectId(),
                 gamePhase: GamePhase.Playing,
                 features: [GameFeature.SingleWinner] as Set,
                 solverStates: [
@@ -109,15 +110,7 @@ class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
                 ]
         )
         Game scored = (Game) game.clone()
-        transitionEngine.gameScorer = [
-                scoreGame: {
-                    Game it ->
-                        assert it.is(game)
-                        assert it.gamePhase == GamePhase.RoundOver
-                        assert it.completedTimestamp
-                        return scored
-                }
-        ] as GameScorerImpl
+        Mockito.when(gameScorer.scoreGame(game)).thenReturn(scored)
 
         assert scored.is(transitionEngine.evaluateGame(game))
     }

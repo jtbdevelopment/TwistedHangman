@@ -2,6 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.state
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator
+import org.junit.Test
 
 /**
  * Date: 11/8/2014
@@ -10,8 +11,8 @@ import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreat
 class GameScorerImplTest extends TwistedHangmanTestCase {
     GameScorerImpl gameScorer = new GameScorerImpl()
 
-
-    public void testScoreForMultiWinMultiPlayerSystemGame() {
+    @Test
+    void testScoreForMultiWinMultiPlayerSystemGame() {
         Game game = new Game()
         game.players = [PONE, PTWO, PTHREE, PFOUR]
         game.playerRunningScores = [(PONE.id): 1, (PTWO.id): -2, (PTHREE.id): 4, (PFOUR.id): 0]
@@ -43,7 +44,8 @@ class GameScorerImplTest extends TwistedHangmanTestCase {
     }
 
 
-    public void testScoreForMultiWinMultiPlayerAlternatingGame() {
+    @Test
+    void testScoreForMultiWinMultiPlayerAlternatingGame() {
         Game game = new Game()
         game.players = [PONE, PTWO, PTHREE, PFOUR]
         game.wordPhraseSetter = PTHREE.id
@@ -73,7 +75,8 @@ class GameScorerImplTest extends TwistedHangmanTestCase {
     }
 
 
-    public void testScoreForMultiWinTwoPlayerHeadToHead() {
+    @Test
+    void testScoreForMultiWinTwoPlayerHeadToHead() {
         Game game = new Game()
         game.players = [PONE, PTWO]
         game.wordPhraseSetter = null
@@ -97,7 +100,8 @@ class GameScorerImplTest extends TwistedHangmanTestCase {
     }
 
 
-    public void testScoreForSingleWinMultiPlayerSystemGame() {
+    @Test
+    void testScoreForSingleWinMultiPlayerSystemGame() {
         Game game = new Game()
         game.features.add(GameFeature.SingleWinner)
         game.players = [PONE, PTWO, PTHREE, PFOUR]
@@ -132,7 +136,8 @@ class GameScorerImplTest extends TwistedHangmanTestCase {
     }
 
 
-    public void testScoreForSingleWinMultiPlayerAlternatingGame() {
+    @Test
+    void testScoreForSingleWinMultiPlayerAlternatingGame() {
         Game game = new Game()
         game.features.add(GameFeature.SingleWinner)
         game.players = [PONE, PTWO, PTHREE, PFOUR]
@@ -164,7 +169,8 @@ class GameScorerImplTest extends TwistedHangmanTestCase {
     }
 
 
-    public void testScoreForSingleWinTwoPlayerHeadToHead() {
+    @Test
+    void testScoreForSingleWinTwoPlayerHeadToHead() {
         Game game = new Game()
         game.features.add(GameFeature.SingleWinner)
         game.players = [PONE, PTWO]
@@ -189,7 +195,8 @@ class GameScorerImplTest extends TwistedHangmanTestCase {
     }
 
 
-    public void testScoreWinForSinglePlayerGame() {
+    @Test
+    void testScoreWinForSinglePlayerGame() {
         Game game = new Game()
         game.players = [PONE]
         game.wordPhraseSetter = TwistedHangmanSystemPlayerCreator.TH_PLAYER.id
@@ -207,7 +214,8 @@ class GameScorerImplTest extends TwistedHangmanTestCase {
     }
 
 
-    public void testLossWinForSinglePlayerGame() {
+    @Test
+    void testLossWinForSinglePlayerGame() {
         Game game = new Game()
         game.players = [PONE]
         game.wordPhraseSetter = TwistedHangmanSystemPlayerCreator.TH_PLAYER.id

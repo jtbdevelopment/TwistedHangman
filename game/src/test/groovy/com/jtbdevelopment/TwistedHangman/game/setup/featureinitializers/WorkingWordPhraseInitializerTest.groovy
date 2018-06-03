@@ -10,7 +10,7 @@ class WorkingWordPhraseInitializerTest extends GroovyTestCase {
     WorkingWordPhraseInitializer initializer = new WorkingWordPhraseInitializer()
 
 
-    public void testInitSimplePhrase() {
+    void testInitSimplePhrase() {
         IndividualGameState gameState = new IndividualGameState([] as Set)
         gameState.wordPhrase = "cat".toCharArray()
         initializer.initializeForPhrase(gameState)
@@ -19,7 +19,7 @@ class WorkingWordPhraseInitializerTest extends GroovyTestCase {
     }
 
 
-    public void testInitPunctuation() {
+    void testInitPunctuation() {
         IndividualGameState gameState = new IndividualGameState([] as Set)
         gameState.wordPhrase = "'cat'".toCharArray()
         initializer.initializeForPhrase(gameState)
@@ -28,7 +28,7 @@ class WorkingWordPhraseInitializerTest extends GroovyTestCase {
     }
 
 
-    public void testNumerics() {
+    void testNumerics() {
         IndividualGameState gameState = new IndividualGameState([] as Set)
         gameState.wordPhrase = "1 cat".toCharArray()
         initializer.initializeForPhrase(gameState)

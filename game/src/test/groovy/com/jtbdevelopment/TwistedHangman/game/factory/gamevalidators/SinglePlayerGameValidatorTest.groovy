@@ -4,6 +4,9 @@ import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import org.bson.types.ObjectId
+import org.junit.Test
+
+import static org.junit.Assert.assertFalse
 
 /**
  * Date: 11/5/2014
@@ -13,11 +16,13 @@ class SinglePlayerGameValidatorTest extends TwistedHangmanTestCase {
     SinglePlayerGameValidator validator = new SinglePlayerGameValidator()
 
 
+    @Test
     void testErrorMessage() {
         assert "Game's single player marker is wrong." == validator.errorMessage()
     }
 
 
+    @Test
     void testSinglePlayersIsGood() {
         Game game = new Game(id: new ObjectId("a".padRight(24, "0")))
         game.features += GameFeature.SinglePlayer
@@ -27,6 +32,7 @@ class SinglePlayerGameValidatorTest extends TwistedHangmanTestCase {
     }
 
 
+    @Test
     void testThreePlayersWithFlagIsGood() {
         Game game = new Game(id: new ObjectId("a".padRight(24, "0")))
         game.features += GameFeature.SinglePlayer
@@ -36,6 +42,7 @@ class SinglePlayerGameValidatorTest extends TwistedHangmanTestCase {
     }
 
 
+    @Test
     void testSinglePlayerWithoutFlagIsBad() {
         Game game = new Game(id: new ObjectId("a".padRight(24, "0")))
         game.players = [PONE]

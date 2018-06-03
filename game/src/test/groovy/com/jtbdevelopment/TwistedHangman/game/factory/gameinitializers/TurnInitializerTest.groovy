@@ -4,6 +4,7 @@ import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase
 import com.jtbdevelopment.TwistedHangman.game.state.Game
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.games.factory.GameInitializer
+import org.junit.Test
 
 /**
  * Date: 11/5/14
@@ -12,11 +13,13 @@ import com.jtbdevelopment.games.factory.GameInitializer
 class TurnInitializerTest extends TwistedHangmanTestCase {
     TurnInitializer initializer = new TurnInitializer()
 
-    public void testOrder() {
+    @Test
+    void testOrder() {
         assert GameInitializer.DEFAULT_ORDER == initializer.order
     }
 
-    public void testInitializesTurnToFirstPlayer() {
+    @Test
+    void testInitializesTurnToFirstPlayer() {
         Game game = new Game()
         game.features += GameFeature.TurnBased
         game.players = [PFOUR, PONE, PTWO, PTHREE]
@@ -25,7 +28,8 @@ class TurnInitializerTest extends TwistedHangmanTestCase {
         assert game.featureData[GameFeature.TurnBased] == PFOUR.id
     }
 
-    public void testInitializesTurnToSecondPlayerIfFirstPlayerAlsoPuzzleSetter() {
+    @Test
+    void testInitializesTurnToSecondPlayerIfFirstPlayerAlsoPuzzleSetter() {
         Game game = new Game()
         game.features += GameFeature.TurnBased
         game.players = [PFOUR, PONE, PTWO, PTHREE]
@@ -35,7 +39,8 @@ class TurnInitializerTest extends TwistedHangmanTestCase {
         assert game.featureData[GameFeature.TurnBased] == PONE.id
     }
 
-    public void testNotSetWhenNotAFeature() {
+    @Test
+    void testNotSetWhenNotAFeature() {
         Game game = new Game()
         game.players = [PONE, PTWO, PTHREE]
         initializer.initializeGame(game)
