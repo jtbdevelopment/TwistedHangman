@@ -1,7 +1,6 @@
 package com.jtbdevelopment.TwistedHangman.rest.services
 
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
-import groovy.transform.TypeChecked
 import org.junit.Assert
 
 import javax.ws.rs.GET
@@ -33,9 +32,7 @@ class PlayerGatewayServiceTest extends GroovyTestCase {
 
     void testGetFeaturesAnnotations() {
         def gameServices = PlayerGatewayService.getMethod("featuresAndDescriptions", [] as Class[])
-        assert (gameServices.annotations.size() == 3 ||
-                (gameServices.isAnnotationPresent(TypeChecked.TypeCheckingInfo) && gameServices.annotations.size() == 4)
-        )
+        assert gameServices.annotations.size() == 3
         assert gameServices.isAnnotationPresent(Path.class)
         assert gameServices.getAnnotation(Path.class).value() == "features"
         assert gameServices.isAnnotationPresent(GET.class)
