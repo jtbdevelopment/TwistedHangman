@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ws.rs.GET;
@@ -51,7 +51,7 @@ public class PlayerGatewayServiceTest {
     assertTrue(gameServices.isAnnotationPresent(GET.class));
     assertTrue(gameServices.isAnnotationPresent(Produces.class));
     assertArrayEquals(
-        Arrays.asList(MediaType.APPLICATION_JSON).toArray(),
+        Collections.singletonList(MediaType.APPLICATION_JSON).toArray(),
         gameServices.getAnnotation(Produces.class).value());
     Annotation[][] params = gameServices.getParameterAnnotations();
     assertEquals(0, params.length);
