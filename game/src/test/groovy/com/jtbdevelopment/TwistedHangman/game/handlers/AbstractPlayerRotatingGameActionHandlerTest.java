@@ -1,5 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase;
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository;
 import com.jtbdevelopment.TwistedHangman.game.state.Game;
@@ -19,8 +22,6 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 import org.bson.types.ObjectId;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -67,7 +68,7 @@ public class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanT
     MaskedGame maskedGame = new MaskedGame();
     maskedGame.setId(gameParam.getId().toHexString());
     Mockito.when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame);
-    Assert.assertSame(maskedGame, handler.handleAction(PONE.getId(), gameId, testParam));
+    assertSame(maskedGame, handler.handleAction(PONE.getId(), gameId, testParam));
   }
 
   @Test
@@ -93,8 +94,8 @@ public class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanT
     MaskedGame maskedGame = new MaskedGame();
     Mockito.when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame);
 
-    Assert.assertSame(maskedGame, handler.handleAction(PONE.getId(), gameId, testParam));
-    Assert.assertEquals(PTWO.getId(), handledGame.getFeatureData().get(GameFeature.TurnBased));
+    assertSame(maskedGame, handler.handleAction(PONE.getId(), gameId, testParam));
+    assertEquals(PTWO.getId(), handledGame.getFeatureData().get(GameFeature.TurnBased));
   }
 
   @Test
@@ -122,7 +123,7 @@ public class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanT
     MaskedGame maskedGame = new MaskedGame();
     Mockito.when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame);
 
-    Assert.assertSame(maskedGame, handler.handleAction(PONE.getId(), gameId, testParam));
+    assertSame(maskedGame, handler.handleAction(PONE.getId(), gameId, testParam));
   }
 
   @Test
@@ -148,8 +149,8 @@ public class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanT
     MaskedGame maskedGame = new MaskedGame();
     Mockito.when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame);
 
-    Assert.assertSame(maskedGame, handler.handleAction(PONE.getId(), gameId, testParam));
-    Assert.assertEquals(PONE.getId(), handledGame.getFeatureData().get(GameFeature.TurnBased));
+    assertSame(maskedGame, handler.handleAction(PONE.getId(), gameId, testParam));
+    assertEquals(PONE.getId(), handledGame.getFeatureData().get(GameFeature.TurnBased));
   }
 
   @Test
@@ -177,8 +178,8 @@ public class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanT
     MaskedGame maskedGame = new MaskedGame();
     Mockito.when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame);
 
-    Assert.assertSame(maskedGame, handler.handleAction(PONE.getId(), gameId, testParam));
-    Assert.assertEquals(PONE.getId(), handledGame.getFeatureData().get(GameFeature.TurnBased));
+    assertSame(maskedGame, handler.handleAction(PONE.getId(), gameId, testParam));
+    assertEquals(PONE.getId(), handledGame.getFeatureData().get(GameFeature.TurnBased));
   }
 
   private class TestHandler extends AbstractPlayerRotatingGameActionHandler<String> {
@@ -203,8 +204,8 @@ public class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanT
 
     @Override
     protected Game handleActionInternal(MongoPlayer player, Game game, String param) {
-      assert param.equals(testParam);
-      assert DefaultGroovyMethods.is(gameParam, game);
+      assertEquals(testParam, param);
+      assertSame(game, gameParam);
       if (internalException) {
         throw new IllegalStateException();
       }

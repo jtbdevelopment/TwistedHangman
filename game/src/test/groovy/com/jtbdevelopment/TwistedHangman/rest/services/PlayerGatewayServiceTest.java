@@ -14,7 +14,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.junit.Test;
 
 /**
@@ -45,7 +44,7 @@ public class PlayerGatewayServiceTest {
   public void testGetFeaturesAnnotations() throws NoSuchMethodException {
     Method gameServices = PlayerGatewayService.class
         .getMethod("featuresAndDescriptions");
-    assertEquals(3, DefaultGroovyMethods.size(gameServices.getAnnotations()));
+    assertEquals(3, gameServices.getAnnotations().length);
     assertTrue(gameServices.isAnnotationPresent(Path.class));
     assertEquals("features", gameServices.getAnnotation(Path.class).value());
     assertTrue(gameServices.isAnnotationPresent(GET.class));

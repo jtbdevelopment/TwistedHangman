@@ -24,7 +24,6 @@ import java.util.LinkedHashMap;
 import java.util.Random;
 import java.util.TreeSet;
 import org.bson.types.ObjectId;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.junit.Test;
 
 /**
@@ -534,16 +533,16 @@ public class GameMaskerTest extends TwistedHangmanTestCase {
   private void checkUnmaskedGameFields(MaskedGame maskedGame, Game game) {
     assertEquals(game.getId().toHexString(), maskedGame.getId());
     assertEquals(
-        (DefaultGroovyMethods.asBoolean(game.getCompletedTimestamp()) ? game.getCompletedTimestamp()
+        (game.getCompletedTimestamp() != null ? game.getCompletedTimestamp()
             .toEpochMilli() : null), maskedGame.getCompletedTimestamp());
     assertEquals(
-        (DefaultGroovyMethods.asBoolean(game.getCreated()) ? game.getCreated().toEpochMilli()
+        (game.getCreated() != null ? game.getCreated().toEpochMilli()
             : null), maskedGame.getCreated());
     assertEquals(
-        (DefaultGroovyMethods.asBoolean(game.getDeclinedTimestamp()) ? game.getDeclinedTimestamp()
+        (game.getDeclinedTimestamp() != null ? game.getDeclinedTimestamp()
             .toEpochMilli() : null), maskedGame.getDeclinedTimestamp());
     assertEquals(
-        (DefaultGroovyMethods.asBoolean(game.getLastUpdate()) ? game.getLastUpdate().toEpochMilli()
+        (game.getLastUpdate() != null ? game.getLastUpdate().toEpochMilli()
             : null), maskedGame.getLastUpdate());
     assertEquals(game.getFeatures(), maskedGame.getFeatures());
   }

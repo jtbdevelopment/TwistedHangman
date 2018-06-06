@@ -23,7 +23,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.bson.types.ObjectId;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -55,7 +54,7 @@ public class PlayerServicesTest {
   public void testCreateNewGameAnnotations() throws NoSuchMethodException {
     Method gameServices = PlayerServices.class.getMethod("createNewGame", FeaturesAndPlayers.class);
 
-    assertEquals(4, DefaultGroovyMethods.size(gameServices.getAnnotations()));
+    assertEquals(4, gameServices.getAnnotations().length);
     assertTrue(gameServices.isAnnotationPresent(Path.class));
     assertEquals("new", gameServices.getAnnotation(Path.class).value());
     assertTrue(gameServices.isAnnotationPresent(Consumes.class));
