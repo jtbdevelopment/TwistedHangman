@@ -20,6 +20,10 @@ abstract class TwistedHangmanTestCase extends MongoGameCoreTestCase {
         TwistedHangmanSystemPlayerCreator.TH_MD5 = TwistedHangmanSystemPlayerCreator.TH_PLAYER.md5
     }
 
+    protected static Game makeSimpleGame() {
+        return new Game(id: new ObjectId())
+    }
+
     protected static Game makeSimpleGame(final String id) {
         return new Game(id: new ObjectId(id.padRight(24, "0")))
     }
