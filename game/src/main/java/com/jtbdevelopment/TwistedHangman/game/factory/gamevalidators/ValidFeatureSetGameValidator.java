@@ -28,7 +28,7 @@ public class ValidFeatureSetGameValidator implements GameValidator<Game> {
     Set<GameFeature> validatingFeatures = game.getFeatures().stream()
         .filter(GameFeature::getValidate)
         .collect(Collectors.toSet());
-    if (!GameFeature.getALLOWED_COMBINATIONS().contains(validatingFeatures)) {
+    if (!GameFeature.getAllowedCombinations().contains(validatingFeatures)) {
       LOGGER.warn(
           "Managed to create game with invalid features - " + validatingFeatures + "\n" + game);
       return false;

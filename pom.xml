@@ -25,6 +25,7 @@
     <spring.version>5.0.5.RELEASE</spring.version>
     <junit.version>4.12</junit.version>
     <mockito.version>1.9.5</mockito.version>
+    <guava.version>25.1-jre</guava.version>
     <groovy.version>2.4.8</groovy.version>
     <gpars.version>1.2.1</gpars.version>
     <jsoup.version>1.11.3</jsoup.version>
@@ -188,6 +189,12 @@
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
       <version>${mockito.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
       <scope>test</scope>
     </dependency>
 

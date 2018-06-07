@@ -123,7 +123,7 @@ public enum GameFeature {
     this(description, false, true, false);
   }
 
-  public static Set<Set<GameFeature>> getALLOWED_COMBINATIONS() {
+  public static Set<Set<GameFeature>> getAllowedCombinations() {
     return ALLOWED_COMBINATIONS;
   }
 
