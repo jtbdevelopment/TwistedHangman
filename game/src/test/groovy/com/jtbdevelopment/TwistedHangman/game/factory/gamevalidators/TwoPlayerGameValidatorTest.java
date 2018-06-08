@@ -21,7 +21,7 @@ public class TwoPlayerGameValidatorTest extends TwistedHangmanTestCase {
 
   @Test
   public void testTwoPlayersIsGood() {
-    Game game = TwistedHangmanTestCase.makeSimpleGame("1");
+    Game game = TwistedHangmanTestCase.makeSimpleGame();
     game.getFeatures().add(GameFeature.TwoPlayer);
     game.setPlayers(Arrays.asList(PTWO, PTHREE));
 
@@ -30,7 +30,7 @@ public class TwoPlayerGameValidatorTest extends TwistedHangmanTestCase {
 
   @Test
   public void testThreePlayersWithFlagIsGood() {
-    Game game = TwistedHangmanTestCase.makeSimpleGame("1");
+    Game game = TwistedHangmanTestCase.makeSimpleGame();
     game.getFeatures().add(GameFeature.TwoPlayer);
     game.setPlayers(Arrays.asList(PTWO, PTHREE, PFOUR));
 
@@ -39,7 +39,7 @@ public class TwoPlayerGameValidatorTest extends TwistedHangmanTestCase {
 
   @Test
   public void testTwoPlayersWithoutFlagIsBad() {
-    Game game = TwistedHangmanTestCase.makeSimpleGame("1");
+    Game game = TwistedHangmanTestCase.makeSimpleGame();
     game.setPlayers(Arrays.asList(PTWO, PTHREE));
 
     Assert.assertFalse(validator.validateGame(game));
