@@ -1,6 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.websocket;
 
 import static groovy.util.GroovyTestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 
 import com.google.common.collect.Sets;
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase;
@@ -21,7 +22,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -111,30 +111,28 @@ public class WebSocketJSONConverterIntegrationTest extends TwistedHangmanTestCas
   @Test
   public void testFromJson() {
     WebSocketMessage message = webSocketJsonConverter.decode(expectedString);
-    assert MessageType.Game.equals(message.getMessageType());
-    assert message.getGame() instanceof MaskedGame;
+    assertEquals(MessageType.Game, message.getMessageType());
+    assertTrue(message.getGame() instanceof MaskedGame);
     //  Selected comparisons
-    assert ((MaskedGame) message.getGame()).getSolverStates().size() == maskedGame
-        .getSolverStates().size();
-    assert DefaultGroovyMethods
-        .equals(((MaskedGame) message.getGame()).getSolverStates().keySet(),
-            maskedGame.getSolverStates().keySet());
-    MaskedIndividualGameState poneState = ((MaskedGame) message.getGame())
+    MaskedGame readMaskedGame = (MaskedGame) message.getGame();
+    assertEquals(maskedGame.getSolverStates().size(), readMaskedGame.getSolverStates().size());
+    assertEquals(maskedGame.getSolverStates().keySet(), readMaskedGame.getSolverStates().keySet());
+    MaskedIndividualGameState poneState = readMaskedGame
         .getSolverStates().get(PONE.getMd5());
-    assert poneState.featureData
-        .equals(maskedGame.getSolverStates().get(PONE.getMd5()).featureData);
-    assert poneState.features.equals(maskedGame.getSolverStates().get(PONE.getMd5()).features);
-    assert poneState.badlyGuessedLetters
-        .equals(maskedGame.getSolverStates().get(PONE.getMd5()).badlyGuessedLetters);
+    assertEquals(maskedGame.getSolverStates().get(PONE.getMd5()).featureData,
+        poneState.featureData);
+    assertEquals(maskedGame.getSolverStates().get(PONE.getMd5()).features, poneState.features);
+    assertEquals(maskedGame.getSolverStates().get(PONE.getMd5()).badlyGuessedLetters,
+        poneState.badlyGuessedLetters);
     assertEquals(maskedGame.getFeatures(), message.getGame().getFeatures());
     assertEquals(maskedGame.getFeatureData(), message.getGame().getFeatureData());
     assertEquals(maskedGame.getMaskedForPlayerMD5(),
-        ((MaskedGame) message.getGame()).getMaskedForPlayerMD5());
-    assertEquals(maskedGame.getPlayerStates(), ((MaskedGame) message.getGame()).getPlayerStates());
+        readMaskedGame.getMaskedForPlayerMD5());
+    assertEquals(maskedGame.getPlayerStates(), readMaskedGame.getPlayerStates());
     assertEquals(maskedGame.getPlayerRunningScores(),
-        ((MaskedGame) message.getGame()).getPlayerRunningScores());
+        readMaskedGame.getPlayerRunningScores());
     assertEquals(maskedGame.getPlayerRoundScores(),
-        ((MaskedGame) message.getGame()).getPlayerRoundScores());
+        readMaskedGame.getPlayerRoundScores());
 
   }
 }
