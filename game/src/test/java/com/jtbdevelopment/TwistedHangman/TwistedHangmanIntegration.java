@@ -16,7 +16,7 @@ import com.jtbdevelopment.games.dev.utilities.integrationtesting.AbstractGameInt
 import com.jtbdevelopment.games.state.GamePhase;
 import com.jtbdevelopment.games.state.PlayerState;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -75,7 +75,7 @@ public class TwistedHangmanIntegration extends AbstractGameIntegration<THGame, T
     Map<String, String> features = client.path("features").request(MediaType.APPLICATION_JSON_TYPE)
         .get(new GenericType<Map<String, String>>() {
         });
-    LinkedHashMap<String, String> map = new LinkedHashMap<>(10);
+    Map<String, String> map = new HashMap<>();
     map.put("Thieving", GameFeature.Thieving.getDescription());
     map.put("Live", GameFeature.Live.getDescription());
     map.put("TurnBased", GameFeature.TurnBased.getDescription());
@@ -196,7 +196,7 @@ public class TwistedHangmanIntegration extends AbstractGameIntegration<THGame, T
     assertEquals(GamePhase.RoundOver, game.getGamePhase());
     assertEquals(chars,
         game.getSolverStates().get(TEST_PLAYER3.getMd5()).guessedLetters);
-    LinkedHashMap<String, Integer> map = new LinkedHashMap<>(3);
+    Map<String, Integer> map = new HashMap<>();
     map.put(TEST_PLAYER1.getMd5(), 0);
     map.put(TEST_PLAYER2.getMd5(), 0);
     map.put(TEST_PLAYER3.getMd5(), 1);

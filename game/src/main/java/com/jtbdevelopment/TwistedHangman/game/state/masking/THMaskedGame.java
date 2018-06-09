@@ -2,7 +2,7 @@ package com.jtbdevelopment.TwistedHangman.game.state.masking;
 
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
 import com.jtbdevelopment.games.state.masking.AbstractMaskedMultiPlayerGame;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -13,9 +13,10 @@ import java.util.Map;
 public class THMaskedGame extends AbstractMaskedMultiPlayerGame<GameFeature> implements Cloneable {
 
   private String wordPhraseSetter;
-  private Map<String, MaskedIndividualGameState> solverStates = new LinkedHashMap<>();
-  private Map<String, Integer> playerRoundScores = new LinkedHashMap<>();
-  private Map<String, Integer> playerRunningScores = new LinkedHashMap<>();
+  private Map<String, MaskedIndividualGameState> solverStates = new HashMap<>();
+  private Map<String, Integer> playerRoundScores = new HashMap<>();
+  private Map<String, Integer> playerRunningScores = new HashMap<>();
+  private Map<GameFeature, Object> featureData = new HashMap<>();
 
   public String getWordPhraseSetter() {
     return wordPhraseSetter;
@@ -47,5 +48,13 @@ public class THMaskedGame extends AbstractMaskedMultiPlayerGame<GameFeature> imp
 
   public void setPlayerRunningScores(Map<String, Integer> playerRunningScores) {
     this.playerRunningScores = playerRunningScores;
+  }
+
+  public Map<GameFeature, Object> getFeatureData() {
+    return featureData;
+  }
+
+  public void setFeatureData(Map<GameFeature, Object> featureData) {
+    this.featureData = featureData;
   }
 }

@@ -8,6 +8,8 @@ import com.jtbdevelopment.games.mongo.state.masking.AbstractMongoMultiPlayerGame
 import com.jtbdevelopment.games.players.Player;
 import com.jtbdevelopment.games.state.GamePhase;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +24,14 @@ public class THGameMasker extends
   protected void copyMaskedData(final THGame game, final Player<ObjectId> player,
       final THMaskedGame playerMaskedGame, final Map<ObjectId, Player<ObjectId>> idMap) {
     super.copyMaskedData(game, player, playerMaskedGame, idMap);
+    //noinspection SuspiciousMethodCalls
+    playerMaskedGame
+        .setFeatureData(game.getFeatureData().entrySet().stream().collect(Collectors.toMap(
+            Entry::getKey,
+            entry -> ObjectId.class.isInstance(entry.getValue()) ? idMap.get(entry.getValue())
+                .getMd5()
+                : entry.getValue()
+        )));
     game.getPlayerRunningScores().forEach((id, score) -> playerMaskedGame.getPlayerRunningScores()
         .put(idMap.get(id).getMd5(), score));
     game.getPlayerRoundScores().forEach(

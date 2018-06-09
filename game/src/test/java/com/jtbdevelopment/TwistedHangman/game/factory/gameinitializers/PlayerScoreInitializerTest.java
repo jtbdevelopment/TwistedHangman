@@ -9,7 +9,6 @@ import com.jtbdevelopment.games.factory.GameInitializer;
 import com.jtbdevelopment.games.players.Player;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.bson.types.ObjectId;
@@ -44,13 +43,13 @@ public class PlayerScoreInitializerTest extends TwistedHangmanTestCase {
   @Test
   public void testLeavesExistingScoresAlone() {
     final THGame game = new THGame();
-    Map<ObjectId, Integer> players = new LinkedHashMap<>(4);
+    Map<ObjectId, Integer> players = new HashMap<>();
     players.put(PONE.getId(), 2);
     players.put(PTWO.getId(), 0);
     players.put(PTHREE.getId(), 1);
     players.put(PFOUR.getId(), 0);
     game.setPlayers(Arrays.asList(PONE, PTWO, PTHREE, PFOUR));
-    Map<ObjectId, Integer> runningScores = new LinkedHashMap<>(2);
+    Map<ObjectId, Integer> runningScores = new HashMap<>();
     runningScores.put(PONE.getId(), 2);
     runningScores.put(PTHREE.getId(), 1);
     runningScores.put(PTWO.getId(), 0);

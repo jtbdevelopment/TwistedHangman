@@ -8,7 +8,6 @@ import com.jtbdevelopment.games.dao.AbstractPlayerRepository;
 import com.jtbdevelopment.games.events.GamePublisher;
 import com.jtbdevelopment.games.exceptions.input.PlayerOutOfTurnException;
 import com.jtbdevelopment.games.mongo.players.MongoPlayer;
-import com.jtbdevelopment.games.players.Player;
 import com.jtbdevelopment.games.state.masking.GameMasker;
 import com.jtbdevelopment.games.state.transition.GameTransitionEngine;
 import com.jtbdevelopment.games.tracking.GameEligibilityTracker;
@@ -32,8 +31,7 @@ public abstract class AbstractGamePlayActionHandler<T> extends
   }
 
   @Override
-  protected void validatePlayerForGame(final com.jtbdevelopment.games.state.Game game,
-      final Player player) {
+  protected void validatePlayerForGame(THGame game, MongoPlayer player) {
     super.validatePlayerForGame(game, player);
     if (game.getFeatures().contains(GameFeature.TurnBased)) {
       if (!game.getFeatureData().get(GameFeature.TurnBased).equals(player.getId())) {
@@ -41,5 +39,4 @@ public abstract class AbstractGamePlayActionHandler<T> extends
       }
     }
   }
-
 }

@@ -19,8 +19,10 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.TreeSet;
 import org.bson.types.ObjectId;
@@ -37,7 +39,7 @@ public class THGameMaskerTest extends TwistedHangmanTestCase {
   public void testMaskingSinglePlayerGame() {
     IndividualGameState state = new IndividualGameState();
 
-    LinkedHashMap<GameFeature, Object> map = new LinkedHashMap<>(2);
+    Map<GameFeature, Object> map = new HashMap<>();
     map.put(GameFeature.DrawGallows, PONE.getId());
     map.put(GameFeature.Thieving, new ArrayList<>(Arrays.asList(true, true, false)));
 
@@ -54,20 +56,19 @@ public class THGameMaskerTest extends TwistedHangmanTestCase {
     state.setWordPhraseString("SAY'S");
     THGame game = new THGame();
 
-    LinkedHashMap<GameFeature, Object> featureData = new LinkedHashMap<>(1);
+    Map<GameFeature, Object> featureData = new HashMap<>();
     featureData.put(GameFeature.DrawFace, "");
 
-    LinkedHashMap<ObjectId, PlayerState> playerStates = new LinkedHashMap<>(1);
+    Map<ObjectId, PlayerState> playerStates = new HashMap<>();
     playerStates.put(PONE.getId(), PlayerState.Accepted);
 
-    LinkedHashMap<ObjectId, Integer> runningScores = new LinkedHashMap<>(1);
+    Map<ObjectId, Integer> runningScores = new HashMap<>();
     runningScores.put(PONE.getId(), 5);
 
-    LinkedHashMap<ObjectId, Integer> roundScores = new LinkedHashMap<>(1);
+    Map<ObjectId, Integer> roundScores = new HashMap<>();
     roundScores.put(PONE.getId(), 0);
 
-    LinkedHashMap<ObjectId, IndividualGameState> gameStates = new LinkedHashMap<>(
-        1);
+    Map<ObjectId, IndividualGameState> gameStates = new HashMap<>();
     gameStates.put(PONE.getId(), state);
 
     game.setGamePhase(GamePhase.Playing);
@@ -397,7 +398,7 @@ public class THGameMaskerTest extends TwistedHangmanTestCase {
   public void testMaskingMultiPlayerNonSystemPuzzler() {
     IndividualGameState state = new IndividualGameState();
 
-    LinkedHashMap<GameFeature, Object> map = new LinkedHashMap<>(2);
+    Map<GameFeature, Object> map = new HashMap<>(2);
     map.put(GameFeature.DrawGallows, PONE.getId());
     map.put(GameFeature.Thieving, new ArrayList<>(Arrays.asList(true, true, false)));
 

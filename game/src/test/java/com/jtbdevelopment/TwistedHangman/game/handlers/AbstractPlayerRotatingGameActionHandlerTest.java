@@ -19,7 +19,8 @@ import com.jtbdevelopment.games.state.GamePhase;
 import com.jtbdevelopment.games.state.transition.GameTransitionEngine;
 import com.jtbdevelopment.games.tracking.GameEligibilityTracker;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.junit.Before;
@@ -157,7 +158,7 @@ public class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanT
   public void testAbstractHandlerBaseDoesNotRotateTurnWhenPlayingNonTurnedBasedGame() {
     gameParam.setPlayers(Arrays.asList(PTWO, PONE));
     gameParam.getFeatures().remove(GameFeature.TurnBased);
-    LinkedHashMap<GameFeature, Object> map = new LinkedHashMap<>(1);
+    Map<GameFeature, Object> map = new HashMap<>();
     map.put(GameFeature.TurnBased, PONE.getId());
     gameParam.setFeatureData(map);
     handledGame.getFeatureData().clear();

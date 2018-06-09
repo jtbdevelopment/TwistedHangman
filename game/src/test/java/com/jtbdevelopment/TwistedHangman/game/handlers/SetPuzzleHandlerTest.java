@@ -16,7 +16,9 @@ import com.jtbdevelopment.games.state.GamePhase;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import org.bson.types.ObjectId;
 import org.junit.Assert;
 import org.junit.Test;
@@ -42,8 +44,7 @@ public class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
     game.setWordPhraseSetter(PTHREE.getId());
     IndividualGameState poneState = new IndividualGameState();
     IndividualGameState ptwoState = new IndividualGameState();
-    LinkedHashMap<ObjectId, IndividualGameState> map = new LinkedHashMap<>(
-        2);
+    Map<ObjectId, IndividualGameState> map = new HashMap<>();
     map.put(PONE.getId(), poneState);
     map.put(PTWO.getId(), ptwoState);
     game.setSolverStates(map);

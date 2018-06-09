@@ -22,6 +22,7 @@ public class THGame extends AbstractMongoMultiPlayerGame<GameFeature> implements
   private Map<ObjectId, IndividualGameState> solverStates = new HashMap<>();
   private Map<ObjectId, Integer> playerRoundScores = new HashMap<>();
   private Map<ObjectId, Integer> playerRunningScores = new HashMap<>();
+  private Map<GameFeature, Object> featureData = new HashMap<>();
 
   public ObjectId getWordPhraseSetter() {
     return wordPhraseSetter;
@@ -53,5 +54,13 @@ public class THGame extends AbstractMongoMultiPlayerGame<GameFeature> implements
 
   public void setPlayerRunningScores(Map<ObjectId, Integer> playerRunningScores) {
     this.playerRunningScores = playerRunningScores;
+  }
+
+  public Map<GameFeature, Object> getFeatureData() {
+    return featureData;
+  }
+
+  public void setFeatureData(Map<GameFeature, Object> featureData) {
+    this.featureData = featureData;
   }
 }

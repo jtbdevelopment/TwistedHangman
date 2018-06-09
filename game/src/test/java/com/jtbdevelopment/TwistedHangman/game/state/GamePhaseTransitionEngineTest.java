@@ -10,7 +10,6 @@ import com.jtbdevelopment.games.state.PlayerState;
 import com.jtbdevelopment.games.state.scoring.GameScorer;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import org.bson.types.ObjectId;
 import org.junit.Test;
@@ -28,7 +27,7 @@ public class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
   public void testSinglePlayerChallengeTransitionsToPlaying() {
     THGame game = new THGame();
 
-    LinkedHashMap<ObjectId, PlayerState> map = new LinkedHashMap<ObjectId, PlayerState>(1);
+    Map<ObjectId, PlayerState> map = new HashMap<>(1);
     map.put(PONE.getId(), PlayerState.Accepted);
 
     Map<ObjectId, IndividualGameState> map1 = new HashMap<>();
