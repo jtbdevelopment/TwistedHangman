@@ -3,6 +3,9 @@ package com.jtbdevelopment.TwistedHangman.game.mechanics
 import com.jtbdevelopment.TwistedHangman.exceptions.input.*
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
+import org.junit.Test
+
+import static org.junit.Assert.*
 
 /**
  * Date: 10/25/14
@@ -29,173 +32,144 @@ class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
         return [GameFeature.ThievingCountTracking, GameFeature.ThievingPositionTracking, GameFeature.Thieving] as Set
     }
 
-
+    @Test
     void testThievingGameWithoutTheft() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 3)
         hangmanGameActions.guessLetter(gameState, (char) 'F')
         hangmanGameActions.guessLetter(gameState, (char) 'r')
         hangmanGameActions.guessLetter(gameState, (char) 'a')
         hangmanGameActions.guessLetter(gameState, (char) 'l')
-        assert !gameState.playerHung
-        assert !gameState.puzzleSolved
-        assert !gameState.puzzleOver
-        assert gameState.penalties == 2
-        assert gameState.penaltiesRemaining == 1
-        assert gameState.featureData[GameFeature.ThievingCountTracking] == 0
-        assert gameState.featureData[GameFeature.ThievingPositionTracking] == Arrays.asList(false, false, false, false)
-        assert gameState.featureData[GameFeature.ThievingLetters] == []
-        assert gameState.workingWordPhraseString == "FR__"
-        assert gameState.blanksRemaining == 2;
-        assert gameState.moveCount == 4
+        assertFalse gameState.playerHung
+        assertFalse gameState.puzzleSolved
+        assertFalse gameState.puzzleOver
+        assertEquals 2, gameState.penalties
+        assertEquals 1, gameState.penaltiesRemaining
+        assertEquals 0, gameState.featureData[GameFeature.ThievingCountTracking]
+        assertEquals Arrays.asList(false, false, false, false), gameState.featureData[GameFeature.ThievingPositionTracking]
+        assertEquals([], gameState.featureData[GameFeature.ThievingLetters])
+        assertEquals "FR__", gameState.workingWordPhraseString
+        assertEquals 2, gameState.blanksRemaining
+        assertEquals 4, gameState.moveCount
     }
 
+    @Test
     void testStealingALetter() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 4)
         hangmanGameActions.guessLetter(gameState, (char) 'F')
         hangmanGameActions.guessLetter(gameState, (char) 'r')
         hangmanGameActions.guessLetter(gameState, (char) 'a')
         thievingHangmanGameActions.stealLetter(gameState, 3)
-        assert !gameState.playerHung
-        assert !gameState.puzzleSolved
-        assert !gameState.puzzleOver
-        assert gameState.penalties == 2
-        assert gameState.penaltiesRemaining == 2
-        assert gameState.featureData[GameFeature.ThievingCountTracking] == 1
-        assert gameState.featureData[GameFeature.ThievingPositionTracking] == Arrays.asList(false, false, false, true)
-        assert gameState.featureData[GameFeature.ThievingLetters] == [(char) 'G']
-        assert gameState.workingWordPhraseString == "FR_G"
-        assert gameState.blanksRemaining == 1;
-        assert gameState.guessedLetters == new TreeSet(['F', 'R', 'A'])
-        assert gameState.moveCount == 4
+        assertFalse gameState.playerHung
+        assertFalse gameState.puzzleSolved
+        assertFalse gameState.puzzleOver
+        assertEquals 2, gameState.penalties
+        assertEquals 2, gameState.penaltiesRemaining
+        assertEquals 1, gameState.featureData[GameFeature.ThievingCountTracking]
+        assertEquals Arrays.asList(false, false, false, true), gameState.featureData[GameFeature.ThievingPositionTracking]
+        assertEquals([(char) 'G'], gameState.featureData[GameFeature.ThievingLetters])
+        assertEquals "FR_G", gameState.workingWordPhraseString
+        assertEquals 1, gameState.blanksRemaining
+        assertEquals new TreeSet<>([(char) 'F', (char) 'R', (char) 'A']), gameState.guessedLetters
+        assertEquals 4, gameState.moveCount
     }
 
+    @Test
     void testStealingALetterWithMultiplePlaces() {
         IndividualGameState gameState = makeGameState("Elephantine", "Animal", 4)
         hangmanGameActions.guessLetter(gameState, (char) 'p')
         thievingHangmanGameActions.stealLetter(gameState, 2)
-        assert !gameState.playerHung
-        assert !gameState.puzzleSolved
-        assert !gameState.puzzleOver
-        assert gameState.penalties == 1
-        assert gameState.penaltiesRemaining == 3
-        assert gameState.featureData[GameFeature.ThievingCountTracking] == 1
-        assert gameState.featureData[GameFeature.ThievingPositionTracking] == Arrays.asList(true, false, true, false, false, false, false, false, false, false, true)
-        assert gameState.featureData[GameFeature.ThievingLetters] == [(char) 'E']
-        assert gameState.workingWordPhraseString == "E_EP______E"
-        assert gameState.guessedLetters == new TreeSet(['P'])
-        assert gameState.moveCount == 2
-        assert gameState.blanksRemaining == 7;
+        assertFalse gameState.playerHung
+        assertFalse gameState.puzzleSolved
+        assertFalse gameState.puzzleOver
+        assertEquals 1, gameState.penalties
+        assertEquals 3, gameState.penaltiesRemaining
+        assertEquals 1, gameState.featureData[GameFeature.ThievingCountTracking]
+        assertEquals Arrays.asList(true, false, true, false, false, false, false, false, false, false, true), gameState.featureData[GameFeature.ThievingPositionTracking]
+        assertEquals([(char) 'E'], gameState.featureData[GameFeature.ThievingLetters])
+        assertEquals "E_EP______E", gameState.workingWordPhraseString
+        assertEquals new TreeSet<>([(char) 'P']), gameState.guessedLetters
+        assertEquals 2, gameState.moveCount
+        assertEquals 7, gameState.blanksRemaining
     }
 
+    @Test
     void testStealingToWin() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 3)
         hangmanGameActions.guessLetter(gameState, (char) 'F')
         hangmanGameActions.guessLetter(gameState, (char) 'r')
         hangmanGameActions.guessLetter(gameState, (char) 'o')
         thievingHangmanGameActions.stealLetter(gameState, 3)
-        assert !gameState.playerHung
-        assert gameState.puzzleSolved
-        assert gameState.puzzleOver
-        assert gameState.penalties == 1
-        assert gameState.penaltiesRemaining == 2
-        assert gameState.featureData[GameFeature.ThievingCountTracking] == 1
-        assert gameState.featureData[GameFeature.ThievingPositionTracking] == Arrays.asList(false, false, false, true)
-        assert gameState.featureData[GameFeature.ThievingLetters] == [(char) 'G']
-        assert gameState.workingWordPhraseString == "FROG"
-        assert gameState.guessedLetters == new TreeSet<>(['F', 'R', 'O'])
-        assert gameState.badlyGuessedLetters.empty
-        assert gameState.moveCount == 4
-        assert gameState.blanksRemaining == 0;
+        assertFalse gameState.playerHung
+        assertTrue gameState.puzzleSolved
+        assertTrue gameState.puzzleOver
+        assertEquals 1, gameState.penalties
+        assertEquals 2, gameState.penaltiesRemaining
+        assertEquals 1, gameState.featureData[GameFeature.ThievingCountTracking]
+        assertEquals Arrays.asList(false, false, false, true), gameState.featureData[GameFeature.ThievingPositionTracking]
+        assertEquals([(char) 'G'], gameState.featureData[GameFeature.ThievingLetters])
+        assertEquals "FROG", gameState.workingWordPhraseString
+        assertEquals new TreeSet<>([(char) 'F', (char) 'R', (char) 'O']), gameState.guessedLetters
+        assertTrue gameState.badlyGuessedLetters.empty
+        assertEquals 4, gameState.moveCount
+        assertEquals 0, gameState.blanksRemaining
     }
 
 
+    @Test(expected = StealingKnownLetterException.class)
     void testExceptionOnStealingPreviouslyStolenLetter() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 3)
         thievingHangmanGameActions.stealLetter(gameState, 3)
-        try {
-            thievingHangmanGameActions.stealLetter(gameState, 3)
-            fail("Should not get here.")
-        } catch (StealingKnownLetterException e) {
-            assert e.message == StealingKnownLetterException.STEALING_KNOWN_LETTER_ERROR
-        }
+        thievingHangmanGameActions.stealLetter(gameState, 3)
     }
 
-
+    @Test(expected = StealingKnownLetterException.class)
     void testExceptionOnStealingPreviouslyGuessedLetter() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 3)
         hangmanGameActions.guessLetter(gameState, (char) 'F')
-        try {
-            thievingHangmanGameActions.stealLetter(gameState, 0)
-            fail("Should not get here.")
-        } catch (StealingKnownLetterException e) {
-            assert e.message == StealingKnownLetterException.STEALING_KNOWN_LETTER_ERROR
-        }
+        thievingHangmanGameActions.stealLetter(gameState, 0)
     }
 
-
+    @Test(expected = StealingOnFinalPenaltyException.class)
     void testExceptionOnStealingOnFinalPenalty() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 2)
         hangmanGameActions.guessLetter(gameState, (char) 'F')
         hangmanGameActions.guessLetter(gameState, (char) 'r')
         hangmanGameActions.guessLetter(gameState, (char) 'a')
-        try {
-            thievingHangmanGameActions.stealLetter(gameState, 3)
-            fail("Should not get here")
-        } catch (StealingOnFinalPenaltyException e) {
-            assert e.message == StealingOnFinalPenaltyException.CANT_STEAL_ON_FINAL_PENALTY_ERROR
-        }
+        thievingHangmanGameActions.stealLetter(gameState, 3)
     }
 
 
+    @Test(expected = StealingNegativePositionException.class)
     void testStealingNegativePosition() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 2)
-        try {
-            thievingHangmanGameActions.stealLetter(gameState, -1)
-            fail("Should not get here")
-        } catch (StealingNegativePositionException e) {
-            assert StealingNegativePositionException.NEGATIVE_POSITION_ERROR == e.message
-        }
+        thievingHangmanGameActions.stealLetter(gameState, -1)
     }
 
-
+    @Test(expected = StealingPositionBeyondEndException.class)
     void testStealingTooLongPosition() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 2)
-        try {
-            thievingHangmanGameActions.stealLetter(gameState, 4)
-            fail("Should not get here")
-        } catch (StealingPositionBeyondEndException e) {
-            assert StealingPositionBeyondEndException.POSITION_BEYOND_END_ERROR == e.message
-        }
+        thievingHangmanGameActions.stealLetter(gameState, 4)
     }
 
-
+    @Test(expected = GameOverException.class)
     void testStealingLostGame() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 1)
         hangmanGameActions.guessLetter(gameState, (char) "x")
-        assert gameState.playerHung
-        assert gameState.puzzleOver
-        try {
-            thievingHangmanGameActions.stealLetter(gameState, 1)
-            fail("Should not get here")
-        } catch (GameOverException e) {
-            assert GameOverException.GAME_OVER_ERROR == e.message
-        }
+        assertTrue gameState.playerHung
+        assertTrue gameState.puzzleOver
+        thievingHangmanGameActions.stealLetter(gameState, 1)
     }
 
 
+    @Test(expected = GameOverException.class)
     void testStealingWonGame() {
         IndividualGameState gameState = makeGameState("Frog", "Animal", 1)
         hangmanGameActions.guessLetter(gameState, (char) "f")
         hangmanGameActions.guessLetter(gameState, (char) "r")
         hangmanGameActions.guessLetter(gameState, (char) "o")
         hangmanGameActions.guessLetter(gameState, (char) "g")
-        assert gameState.puzzleSolved
-        assert gameState.puzzleOver
-        try {
-            thievingHangmanGameActions.stealLetter(gameState, 1)
-            fail("Should not get here")
-        } catch (GameOverException e) {
-            assert GameOverException.GAME_OVER_ERROR == e.message
-        }
+        assertTrue gameState.puzzleSolved
+        assertTrue gameState.puzzleOver
+        thievingHangmanGameActions.stealLetter(gameState, 1)
     }
 }
