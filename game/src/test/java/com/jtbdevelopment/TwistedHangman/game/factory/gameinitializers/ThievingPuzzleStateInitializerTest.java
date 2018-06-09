@@ -33,11 +33,11 @@ public class ThievingPuzzleStateInitializerTest {
 
     initializer.initializeGame(game);
     game.getSolverStates().values().forEach(state -> {
-      assertEquals(0, state.getFeatureData().get(GameFeature.ThievingCountTracking));
+      assertEquals(0, (int) state.getFeatureData(GameFeature.ThievingCountTracking));
       assertEquals(Collections.emptyList(),
-          state.getFeatureData().get(GameFeature.ThievingPositionTracking));
+          state.getFeatureData(GameFeature.ThievingPositionTracking));
       assertEquals(Collections.emptyList(),
-          state.getFeatureData().get(GameFeature.ThievingLetters));
+          state.getFeatureData(GameFeature.ThievingLetters));
     });
   }
 

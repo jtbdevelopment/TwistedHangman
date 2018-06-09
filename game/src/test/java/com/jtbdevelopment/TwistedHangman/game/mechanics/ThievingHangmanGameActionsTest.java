@@ -62,8 +62,8 @@ public class ThievingHangmanGameActionsTest extends AbstractGameActionsTest {
     assertEquals(1, gameState.getPenaltiesRemaining());
     assertEquals(0, gameState.getFeatureData().get(GameFeature.ThievingCountTracking));
     assertEquals(Arrays.asList(false, false, false, false),
-        gameState.getFeatureData().get(GameFeature.ThievingPositionTracking));
-    assertEquals(new ArrayList<>(), gameState.getFeatureData().get(GameFeature.ThievingLetters));
+        gameState.getFeatureData(GameFeature.ThievingPositionTracking));
+    assertEquals(new ArrayList<>(), gameState.getFeatureData(GameFeature.ThievingLetters));
     assertEquals("FR__", gameState.getWorkingWordPhraseString());
     assertEquals(2, gameState.getBlanksRemaining());
     assertEquals(4, gameState.getMoveCount());

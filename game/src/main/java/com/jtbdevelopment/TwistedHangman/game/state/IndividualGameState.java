@@ -182,6 +182,10 @@ public class IndividualGameState implements Serializable {
     return featureData;
   }
 
+  public <T> T getFeatureData(final GameFeature feature) {
+    return (T) featureData.get(feature);
+  }
+
   public void setFeatureData(Map<GameFeature, Object> featureData) {
     this.featureData = featureData;
   }

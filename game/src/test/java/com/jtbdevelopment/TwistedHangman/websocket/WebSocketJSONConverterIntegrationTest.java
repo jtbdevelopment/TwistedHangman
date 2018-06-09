@@ -72,7 +72,6 @@ public class WebSocketJSONConverterIntegrationTest extends TwistedHangmanTestCas
     setCompletedTimestamp(100L);
     setCreated(1000L);
     setFeatureData(featureData);
-    //  force order to keep consistent from run to run
     setFeatures(Sets.newHashSet(Arrays.asList(GameFeature.DrawFace, GameFeature.TurnBased)));
     setGamePhase(GamePhase.Setup);
     setId("XYZ");

@@ -27,7 +27,7 @@ public class SingleWinnerInitializerTest {
 
     initializer.initializeGame(game);
 
-    assertEquals("", game.getFeatureData().get(GameFeature.SingleWinner));
+    assertEquals("", game.getFeatureData(GameFeature.SingleWinner));
   }
 
   @Test
@@ -38,7 +38,7 @@ public class SingleWinnerInitializerTest {
 
     initializer.initializeGame(game);
 
-    assertEquals("", game.getFeatureData().get(GameFeature.SingleWinner));
+    assertEquals("", game.getFeatureData(GameFeature.SingleWinner));
   }
 
   @Test

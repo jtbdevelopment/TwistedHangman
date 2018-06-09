@@ -15,7 +15,7 @@ public class TurnInitializer implements GameInitializer<THGame> {
   public void initializeGame(final THGame game) {
     if (game.getFeatures().contains(GameFeature.TurnBased)) {
       game.getFeatureData().put(GameFeature.TurnBased, game.getPlayers().get(0).getId());
-      if (game.getFeatureData().get(GameFeature.TurnBased).equals(game.getWordPhraseSetter())) {
+      if (game.getFeatureData(GameFeature.TurnBased).equals(game.getWordPhraseSetter())) {
         game.getFeatureData().put(GameFeature.TurnBased, game.getPlayers().get(1).getId());
       }
 

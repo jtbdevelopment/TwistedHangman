@@ -27,7 +27,7 @@ public class TurnInitializerTest extends TwistedHangmanTestCase {
     game.setPlayers(Arrays.asList(PFOUR, PONE, PTWO, PTHREE));
     initializer.initializeGame(game);
 
-    Assert.assertEquals(PFOUR.getId(), game.getFeatureData().get(GameFeature.TurnBased));
+    Assert.assertEquals(PFOUR.getId(), game.getFeatureData(GameFeature.TurnBased));
   }
 
   @Test

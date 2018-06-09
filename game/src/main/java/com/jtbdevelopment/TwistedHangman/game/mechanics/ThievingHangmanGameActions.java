@@ -44,14 +44,13 @@ public class ThievingHangmanGameActions {
   }
 
   public void stealLetter(final IndividualGameState gameState, int position) {
-    List<Boolean> markers = (List<Boolean>) gameState.getFeatureData()
-        .get(GameFeature.ThievingPositionTracking);
+    List<Boolean> markers = gameState.getFeatureData(GameFeature.ThievingPositionTracking);
     validateSteal(gameState, position, markers);
 
-    Integer counter = (Integer) gameState.getFeatureData().get(GameFeature.ThievingCountTracking);
+    Integer counter = gameState.getFeatureData(GameFeature.ThievingCountTracking);
     counter += 1;
     char c = gameState.getWordPhrase()[position];
-    ((List<Character>) gameState.getFeatureData().get(GameFeature.ThievingLetters)).add(c);
+    ((List<Character>) gameState.getFeatureData(GameFeature.ThievingLetters)).add(c);
     int found = 0;
     for (int i = 0; i < gameState.getWorkingWordPhrase().length; i++) {
       if (gameState.getWordPhrase()[i] == c) {

@@ -411,7 +411,7 @@ public class THGameScorerTest extends TwistedHangmanTestCase {
     });
     game.setSolverStates(map2);
     assertSame(game, gameScorer.scoreGame(game));
-    assertEquals(PONE.getId(), game.getFeatureData().get(GameFeature.SingleWinner));
+    assertEquals(PONE.getId(), game.getFeatureData(GameFeature.SingleWinner));
     assertEquals(2, (int) game.getPlayerRunningScores().get(PONE.getId()));
     assertEquals(-2, (int) game.getPlayerRunningScores().get(PTWO.getId()));
 
@@ -443,7 +443,7 @@ public class THGameScorerTest extends TwistedHangmanTestCase {
     });
     game.setSolverStates(map1);
     assertSame(game, gameScorer.scoreGame(game));
-    assertNull(game.getFeatureData().get(GameFeature.SingleWinner));
+    assertNull(game.getFeatureData(GameFeature.SingleWinner));
     assertEquals(2, (int) game.getPlayerRunningScores().get(PONE.getId()));
 
     assertEquals(1, (int) game.getPlayerRoundScores().get(PONE.getId()));
@@ -473,7 +473,7 @@ public class THGameScorerTest extends TwistedHangmanTestCase {
     });
     game.setSolverStates(map1);
     assertSame(game, gameScorer.scoreGame(game));
-    assertNull(game.getFeatureData().get(GameFeature.SingleWinner));
+    assertNull(game.getFeatureData(GameFeature.SingleWinner));
     assertEquals(0, (int) game.getPlayerRunningScores().get(PONE.getId()));
 
     assertEquals(-1, (int) game.getPlayerRoundScores().get(PONE.getId()));
