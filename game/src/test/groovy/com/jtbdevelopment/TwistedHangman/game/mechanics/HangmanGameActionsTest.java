@@ -113,25 +113,6 @@ public class HangmanGameActionsTest extends AbstractGameActionsTest {
     assertEquals(0, gameState.getBlanksRemaining());
   }
 
-  private IndividualGameState setUpAlmostFinishedGame() {
-    final IndividualGameState gameState = makeGameState("Winner", "Not a Loser", 5);
-    Arrays.asList('w', 'i', 'e', 'r').forEach(letter -> {
-      hangmanGameActions.guessLetter(gameState, letter);
-      assertFalse(gameState.isPuzzleOver());
-      assertFalse(gameState.isPuzzleSolved());
-      assertFalse(gameState.isPlayerHung());
-    });
-    Arrays.asList('g', 'x', 'l', 'm').forEach(letter -> {
-      hangmanGameActions.guessLetter(gameState, letter);
-      assertFalse(gameState.isPuzzleOver());
-      assertFalse(gameState.isPuzzleSolved());
-      assertFalse(gameState.isPlayerHung());
-    });
-    assertEquals(4, gameState.getPenalties());
-    assertEquals("WI__ER", gameState.getWorkingWordPhraseString());
-    return gameState;
-  }
-
   @Test(expected = GameOverException.class)
   public void testGuessingLostGame() {
     IndividualGameState gameState = makeGameState("Frog", "Animal", 1);
@@ -165,5 +146,24 @@ public class HangmanGameActionsTest extends AbstractGameActionsTest {
     IndividualGameState gameState = makeGameState("Frog", "Animal", 1);
     hangmanGameActions.guessLetter(gameState, 'f');
     hangmanGameActions.guessLetter(gameState, '1');
+  }
+
+  private IndividualGameState setUpAlmostFinishedGame() {
+    final IndividualGameState gameState = makeGameState("Winner", "Not a Loser", 5);
+    Arrays.asList('w', 'i', 'e', 'r').forEach(letter -> {
+      hangmanGameActions.guessLetter(gameState, letter);
+      assertFalse(gameState.isPuzzleOver());
+      assertFalse(gameState.isPuzzleSolved());
+      assertFalse(gameState.isPlayerHung());
+    });
+    Arrays.asList('g', 'x', 'l', 'm').forEach(letter -> {
+      hangmanGameActions.guessLetter(gameState, letter);
+      assertFalse(gameState.isPuzzleOver());
+      assertFalse(gameState.isPuzzleSolved());
+      assertFalse(gameState.isPlayerHung());
+    });
+    assertEquals(4, gameState.getPenalties());
+    assertEquals("WI__ER", gameState.getWorkingWordPhraseString());
+    return gameState;
   }
 }
