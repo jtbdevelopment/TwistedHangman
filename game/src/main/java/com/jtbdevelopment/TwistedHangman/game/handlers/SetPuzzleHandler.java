@@ -5,10 +5,10 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.InvalidPuzzleWordsExce
 import com.jtbdevelopment.TwistedHangman.exceptions.input.PuzzlesAreAlreadySetException;
 import com.jtbdevelopment.TwistedHangman.game.handlers.SetPuzzleHandler.CategoryAndWordPhrase;
 import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter;
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState;
-import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
+import com.jtbdevelopment.TwistedHangman.game.state.masking.THMaskedGame;
 import com.jtbdevelopment.games.dao.AbstractGameRepository;
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository;
 import com.jtbdevelopment.games.dictionary.DictionaryType;
@@ -38,13 +38,13 @@ public class SetPuzzleHandler extends
   private final Validator validator;
   private final PhraseSetter phraseSetter;
 
-  public SetPuzzleHandler(
+  SetPuzzleHandler(
       final AbstractPlayerRepository<ObjectId, MongoPlayer> playerRepository,
-      final AbstractGameRepository<ObjectId, GameFeature, Game> gameRepository,
-      final GameTransitionEngine<Game> transitionEngine,
-      final GamePublisher<Game, MongoPlayer> gamePublisher,
+      final AbstractGameRepository<ObjectId, GameFeature, THGame> gameRepository,
+      final GameTransitionEngine<THGame> transitionEngine,
+      final GamePublisher<THGame, MongoPlayer> gamePublisher,
       final GameEligibilityTracker gameTracker,
-      final GameMasker<ObjectId, Game, MaskedGame> gameMasker,
+      final GameMasker<ObjectId, THGame, THMaskedGame> gameMasker,
       final Validator validator,
       final PhraseSetter phraseSetter
   ) {
@@ -54,9 +54,9 @@ public class SetPuzzleHandler extends
     this.phraseSetter = phraseSetter;
   }
 
-  protected Game handleActionInternal(
+  protected THGame handleActionInternal(
       final MongoPlayer player,
-      final Game game,
+      final THGame game,
       final CategoryAndWordPhrase param) {
     validatePuzzleStates(game, player);
 
@@ -79,7 +79,7 @@ public class SetPuzzleHandler extends
 
   }
 
-  private void validatePuzzleStates(final Game game, final MongoPlayer player) {
+  private void validatePuzzleStates(final THGame game, final MongoPlayer player) {
     if (!game.getGamePhase().equals(GamePhase.Setup)) {
       throw new GameIsNotInSetupPhaseException();
     }
@@ -96,7 +96,7 @@ public class SetPuzzleHandler extends
   }
 
   private List<IndividualGameState> findPuzzlesToSetForPlayer(
-      final Game game,
+      final THGame game,
       final MongoPlayer player) {
 
     return game.getSolverStates().entrySet()

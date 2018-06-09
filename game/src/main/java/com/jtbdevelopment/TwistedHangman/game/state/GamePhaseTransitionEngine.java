@@ -13,14 +13,14 @@ import org.springframework.util.StringUtils;
  */
 @Component
 public class GamePhaseTransitionEngine extends
-    AbstractMPGamePhaseTransitionEngine<ObjectId, GameFeature, Game> {
+    AbstractMPGamePhaseTransitionEngine<ObjectId, GameFeature, THGame> {
 
-  public GamePhaseTransitionEngine(final GameScorer<Game> gameScorer) {
+  GamePhaseTransitionEngine(final GameScorer<THGame> gameScorer) {
     super(gameScorer);
   }
 
   @Override
-  protected Game evaluateSetupPhase(final Game game) {
+  protected THGame evaluateSetupPhase(final THGame game) {
     if (game.getSolverStates().values().stream()
         .anyMatch(gameState -> StringUtils.isEmpty(gameState.getWordPhraseString()))) {
       return game;
@@ -29,7 +29,7 @@ public class GamePhaseTransitionEngine extends
   }
 
   @Override
-  protected Game evaluatePlayingPhase(final Game game) {
+  protected THGame evaluatePlayingPhase(final THGame game) {
     boolean oneSolved = game.getSolverStates().values().stream()
         .anyMatch(IndividualGameState::isPuzzleSolved);
     long pending = game.getSolverStates().values().stream()

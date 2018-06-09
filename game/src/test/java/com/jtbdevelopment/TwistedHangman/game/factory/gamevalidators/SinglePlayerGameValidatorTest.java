@@ -4,8 +4,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase;
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import java.util.Arrays;
 import java.util.Collections;
 import org.junit.Assert;
@@ -25,7 +25,7 @@ public class SinglePlayerGameValidatorTest extends TwistedHangmanTestCase {
 
   @Test
   public void testSinglePlayersIsGood() {
-    Game game = makeSimpleGame();
+    THGame game = makeSimpleGame();
 
     game.getFeatures().add(GameFeature.SinglePlayer);
     game.setPlayers(Collections.singletonList(PONE));
@@ -35,7 +35,7 @@ public class SinglePlayerGameValidatorTest extends TwistedHangmanTestCase {
 
   @Test
   public void testThreePlayersWithFlagIsGood() {
-    Game game = makeSimpleGame();
+    THGame game = makeSimpleGame();
 
     game.getFeatures().add(GameFeature.SinglePlayer);
     game.setPlayers(Arrays.asList(PONE, PTWO, PTHREE));
@@ -45,7 +45,7 @@ public class SinglePlayerGameValidatorTest extends TwistedHangmanTestCase {
 
   @Test
   public void testSinglePlayerWithoutFlagIsBad() {
-    Game game = new Game();
+    THGame game = new THGame();
 
     game.setPlayers(Collections.singletonList(PONE));
 

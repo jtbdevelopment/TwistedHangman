@@ -8,8 +8,8 @@ import com.jtbdevelopment.TwistedHangman.exceptions.input.InvalidPuzzleWordsExce
 import com.jtbdevelopment.TwistedHangman.exceptions.input.PuzzlesAreAlreadySetException;
 import com.jtbdevelopment.TwistedHangman.game.handlers.SetPuzzleHandler.CategoryAndWordPhrase;
 import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter;
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import com.jtbdevelopment.games.dictionary.DictionaryType;
 import com.jtbdevelopment.games.dictionary.Validator;
 import com.jtbdevelopment.games.state.GamePhase;
@@ -36,7 +36,7 @@ public class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
   public void testMultiPlayerSettingPuzzle() {
     String wp = "A PUZZLE";
     String c = "CATEGORY";
-    Game game = new Game();
+    THGame game = new THGame();
 
     game.setGamePhase(GamePhase.Setup);
     game.setWordPhraseSetter(PTHREE.getId());
@@ -65,7 +65,7 @@ public class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
   public void testTwoPlayerSettingPuzzle() {
     String wp = "A PUZZLE";
     String c = "CATEGORY";
-    Game game = new Game();
+    THGame game = new THGame();
 
     game.setGamePhase(GamePhase.Setup);
     game.setWordPhraseSetter(null);
@@ -93,7 +93,7 @@ public class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
   public void testMultiPlayerSettingPuzzleSecondTimeExceptions() {
     String wp = "A PUZZLE";
     String c = "CATEGORY";
-    Game game = new Game();
+    THGame game = new THGame();
 
     game.setGamePhase(GamePhase.Setup);
     game.setWordPhraseSetter(PTHREE.getId());
@@ -129,7 +129,7 @@ public class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
   public void testTwoPlayerSettingPuzzleSecondTimeExceptions() {
     String wp = "A PUZZLE";
     String c = "CATEGORY";
-    Game game = new Game();
+    THGame game = new THGame();
 
     game.setGamePhase(GamePhase.Setup);
     game.setWordPhraseSetter(null);
@@ -164,7 +164,7 @@ public class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
   public void testInvalidWordPhraseCategory() {
     String wp = "A PUZZLE";
     String c = "CATEGORY";
-    Game game = new Game();
+    THGame game = new THGame();
 
     game.setGamePhase(GamePhase.Setup);
     game.setWordPhraseSetter(null);
@@ -190,7 +190,7 @@ public class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
   public void testPuzzleNotInSetupPhase() {
     String wp = "A PUZZLE";
     String c = "CATEGORY";
-    Game game = new Game();
+    THGame game = new THGame();
 
     game.setGamePhase(GamePhase.Playing);
     game.setWordPhraseSetter(null);
@@ -212,7 +212,7 @@ public class SetPuzzleHandlerTest extends TwistedHangmanTestCase {
   public void testMultiPlayerInvalidPlayerSettingPuzzle() {
     String wp = "A PUZZLE";
     String c = "CATEGORY";
-    Game game = new Game();
+    THGame game = new THGame();
 
     game.setGamePhase(GamePhase.Setup);
     game.setWordPhraseSetter(PTHREE.getId());

@@ -6,11 +6,11 @@ import static org.mockito.Mockito.when;
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase;
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository;
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine;
-import com.jtbdevelopment.TwistedHangman.game.state.masking.GameMasker;
-import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
+import com.jtbdevelopment.TwistedHangman.game.state.masking.THGameMasker;
+import com.jtbdevelopment.TwistedHangman.game.state.masking.THMaskedGame;
 import com.jtbdevelopment.games.dao.AbstractGameRepository;
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository;
 import com.jtbdevelopment.games.events.GamePublisher;
@@ -33,12 +33,12 @@ public class AbstractGamePlayActionHandlerTest extends TwistedHangmanTestCase {
   private GameRepository gameRepository = mock(GameRepository.class);
   private MongoPlayerRepository playerRepository = mock(MongoPlayerRepository.class);
   private GamePhaseTransitionEngine transitionEngine = mock(GamePhaseTransitionEngine.class);
-  private GamePublisher<Game, MongoPlayer> gamePublisher = mock(GamePublisher.class);
+  private GamePublisher<THGame, MongoPlayer> gamePublisher = mock(GamePublisher.class);
   private GameEligibilityTracker gameEligibilityTracker = mock(GameEligibilityTracker.class);
-  private GameMasker gameMasker = mock(GameMasker.class);
+  private THGameMasker gameMasker = mock(THGameMasker.class);
   private TestHandler handler = new TestHandler(playerRepository, gameRepository, transitionEngine,
       gamePublisher, gameEligibilityTracker, gameMasker);
-  private Game gameParam = new Game();
+  private THGame gameParam = new THGame();
   private ObjectId gameId = new ObjectId();
 
   @Before
@@ -50,17 +50,17 @@ public class AbstractGamePlayActionHandlerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testIgnoresNonTurnBasedGame() {
-    Game saved = new Game();
+    THGame saved = new THGame();
     saved.setId(new ObjectId());
-    Game transitioned = new Game();
+    THGame transitioned = new THGame();
     transitioned.setId(new ObjectId());
-    Game published = new Game();
+    THGame published = new THGame();
     published.setId(new ObjectId());
     gameParam.setPlayers(Arrays.asList(PONE, PTWO));
     when(gameRepository.save(transitioned)).thenReturn(saved);
     when(transitionEngine.evaluateGame(gameParam)).thenReturn(transitioned);
     when(gamePublisher.publish(saved, PONE)).thenReturn(published);
-    MaskedGame maskedGame = new MaskedGame();
+    THMaskedGame maskedGame = new THMaskedGame();
     maskedGame.setId("X");
     when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame);
     assertSame(maskedGame, handler.handleAction(PONE.getId(), gameId, null));
@@ -68,11 +68,11 @@ public class AbstractGamePlayActionHandlerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testOKForCorrectPlayerTurn() {
-    Game saved = new Game();
+    THGame saved = new THGame();
     saved.setId(new ObjectId());
-    Game transitioned = new Game();
+    THGame transitioned = new THGame();
     transitioned.setId(new ObjectId());
-    Game published = new Game();
+    THGame published = new THGame();
     published.setId(new ObjectId());
     gameParam.setPlayers(Arrays.asList(PONE, PTWO));
     gameParam.getFeatureData().put(GameFeature.TurnBased, PONE.getId());
@@ -80,7 +80,7 @@ public class AbstractGamePlayActionHandlerTest extends TwistedHangmanTestCase {
     when(gameRepository.save(transitioned)).thenReturn(saved);
     when(transitionEngine.evaluateGame(gameParam)).thenReturn(transitioned);
     when(gamePublisher.publish(saved, PONE)).thenReturn(published);
-    MaskedGame maskedGame = new MaskedGame();
+    THMaskedGame maskedGame = new THMaskedGame();
     maskedGame.setId("X");
     when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame);
     assertSame(maskedGame, handler.handleAction(PONE.getId(), gameId, null));
@@ -98,16 +98,17 @@ public class AbstractGamePlayActionHandlerTest extends TwistedHangmanTestCase {
 
     public TestHandler(
         AbstractPlayerRepository<ObjectId, MongoPlayer> playerRepository,
-        AbstractGameRepository<ObjectId, GameFeature, Game> gameRepository,
-        GameTransitionEngine<Game> transitionEngine, GamePublisher<Game, MongoPlayer> gamePublisher,
+        AbstractGameRepository<ObjectId, GameFeature, THGame> gameRepository,
+        GameTransitionEngine<THGame> transitionEngine,
+        GamePublisher<THGame, MongoPlayer> gamePublisher,
         GameEligibilityTracker gameTracker,
-        com.jtbdevelopment.games.state.masking.GameMasker<ObjectId, Game, MaskedGame> gameMasker) {
+        com.jtbdevelopment.games.state.masking.GameMasker<ObjectId, THGame, THMaskedGame> gameMasker) {
       super(playerRepository, gameRepository, transitionEngine, gamePublisher, gameTracker,
           gameMasker);
     }
 
     @Override
-    protected Game handleActionInternal(MongoPlayer player, Game game, Object param) {
+    protected THGame handleActionInternal(MongoPlayer player, THGame game, Object param) {
       return game;
     }
 

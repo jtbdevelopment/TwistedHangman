@@ -3,8 +3,8 @@ package com.jtbdevelopment.TwistedHangman.game.handlers;
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase;
 import com.jtbdevelopment.TwistedHangman.exceptions.input.PlayerNotSolvingAPuzzleException;
 import com.jtbdevelopment.TwistedHangman.game.mechanics.HangmanGameActions;
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import com.jtbdevelopment.games.exceptions.input.GameIsNotInPlayModeException;
 import com.jtbdevelopment.games.state.GamePhase;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class GuessLetterHandlerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testHandleGoodMove() {
-    Game game = new Game();
+    THGame game = new THGame();
 
     game.setGamePhase(GamePhase.Playing);
     char letter = 'e';
@@ -36,7 +36,7 @@ public class GuessLetterHandlerTest extends TwistedHangmanTestCase {
 
   @Test(expected = PlayerNotSolvingAPuzzleException.class)
   public void testHandleBadPlayer() {
-    Game game = new Game();
+    THGame game = new THGame();
 
     game.setGamePhase(GamePhase.Playing);
     char letter = 'e';
@@ -51,7 +51,7 @@ public class GuessLetterHandlerTest extends TwistedHangmanTestCase {
 
   @Test(expected = GameIsNotInPlayModeException.class)
   public void testHandleBadGame() {
-    Game game = new Game();
+    THGame game = new THGame();
 
     game.setGamePhase(GamePhase.Setup);
     char letter = 'e';

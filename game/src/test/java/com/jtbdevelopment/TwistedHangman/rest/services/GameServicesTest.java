@@ -8,7 +8,7 @@ import com.jtbdevelopment.TwistedHangman.game.handlers.GuessLetterHandler;
 import com.jtbdevelopment.TwistedHangman.game.handlers.SetPuzzleHandler;
 import com.jtbdevelopment.TwistedHangman.game.handlers.SetPuzzleHandler.CategoryAndWordPhrase;
 import com.jtbdevelopment.TwistedHangman.game.handlers.StealLetterHandler;
-import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame;
+import com.jtbdevelopment.TwistedHangman.game.state.masking.THMaskedGame;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +35,7 @@ public class GameServicesTest {
 
   private ObjectId PID = new ObjectId();
   private ObjectId GID = new ObjectId();
-  private MaskedGame result = new MaskedGame();
+  private THMaskedGame result = new THMaskedGame();
   private SetPuzzleHandler puzzleHandler = Mockito.mock(SetPuzzleHandler.class);
   private StealLetterHandler stealLetterHandler = Mockito.mock(StealLetterHandler.class);
   private GuessLetterHandler guessLetterHandler = Mockito.mock(GuessLetterHandler.class);

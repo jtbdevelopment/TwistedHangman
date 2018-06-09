@@ -4,9 +4,9 @@ import com.jtbdevelopment.TwistedHangman.game.handlers.GuessLetterHandler;
 import com.jtbdevelopment.TwistedHangman.game.handlers.SetPuzzleHandler;
 import com.jtbdevelopment.TwistedHangman.game.handlers.SetPuzzleHandler.CategoryAndWordPhrase;
 import com.jtbdevelopment.TwistedHangman.game.handlers.StealLetterHandler;
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
-import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
+import com.jtbdevelopment.TwistedHangman.game.state.masking.THMaskedGame;
 import com.jtbdevelopment.games.mongo.players.MongoPlayer;
 import com.jtbdevelopment.games.rest.AbstractMultiPlayerGameServices;
 import com.jtbdevelopment.games.rest.handlers.ChallengeResponseHandler;
@@ -29,18 +29,18 @@ import org.springframework.util.StringUtils;
  */
 @Component
 public class GameServices extends
-    AbstractMultiPlayerGameServices<ObjectId, GameFeature, Game, MaskedGame, MongoPlayer> {
+    AbstractMultiPlayerGameServices<ObjectId, GameFeature, THGame, THMaskedGame, MongoPlayer> {
 
   private final StealLetterHandler stealLetterHandler;
   private final GuessLetterHandler guessLetterHandler;
   private final SetPuzzleHandler puzzleHandler;
 
-  public GameServices(
-      final GameGetterHandler<ObjectId, GameFeature, Game, MaskedGame, MongoPlayer> gameGetterHandler,
-      final DeclineRematchOptionHandler<ObjectId, GameFeature, Game, MaskedGame, MongoPlayer> declineRematchOptionHandler,
-      final ChallengeResponseHandler<ObjectId, GameFeature, Game, MaskedGame, MongoPlayer> responseHandler,
-      final ChallengeToRematchHandler<ObjectId, GameFeature, Game, MaskedGame, MongoPlayer> rematchHandler,
-      final QuitHandler<ObjectId, GameFeature, Game, MaskedGame, MongoPlayer> quitHandler,
+  GameServices(
+      final GameGetterHandler<ObjectId, GameFeature, THGame, THMaskedGame, MongoPlayer> gameGetterHandler,
+      final DeclineRematchOptionHandler<ObjectId, GameFeature, THGame, THMaskedGame, MongoPlayer> declineRematchOptionHandler,
+      final ChallengeResponseHandler<ObjectId, GameFeature, THGame, THMaskedGame, MongoPlayer> responseHandler,
+      final ChallengeToRematchHandler<ObjectId, GameFeature, THGame, THMaskedGame, MongoPlayer> rematchHandler,
+      final QuitHandler<ObjectId, GameFeature, THGame, THMaskedGame, MongoPlayer> quitHandler,
       final StealLetterHandler stealLetterHandler, final GuessLetterHandler guessLetterHandler,
       final SetPuzzleHandler setPuzzleHandler) {
     super(gameGetterHandler, declineRematchOptionHandler, responseHandler, rematchHandler,

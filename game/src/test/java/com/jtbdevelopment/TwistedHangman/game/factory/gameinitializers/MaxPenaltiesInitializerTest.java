@@ -2,9 +2,9 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers;
 
 import static org.junit.Assert.assertEquals;
 
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import com.jtbdevelopment.games.factory.GameInitializer;
 import java.util.Arrays;
 import java.util.Collections;
@@ -27,7 +27,7 @@ public class MaxPenaltiesInitializerTest {
 
   @Test
   public void testBaseGame() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.getFeatures().addAll(Collections.singletonList(GameFeature.Thieving));
     Map<ObjectId, IndividualGameState> map = new HashMap<>();
     map.put(new ObjectId(), new IndividualGameState(game.getFeatures()));
@@ -41,7 +41,7 @@ public class MaxPenaltiesInitializerTest {
 
   @Test
   public void testDrawBoth() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.getFeatures()
         .addAll(Arrays.asList(GameFeature.Thieving, GameFeature.DrawFace, GameFeature.DrawGallows));
     Map<ObjectId, IndividualGameState> map = new HashMap<>();
@@ -57,7 +57,7 @@ public class MaxPenaltiesInitializerTest {
 
   @Test
   public void testDrawGallows() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.getFeatures()
         .addAll(Arrays.asList(GameFeature.Thieving, GameFeature.DrawGallows));
     Map<ObjectId, IndividualGameState> map = new HashMap<>();
@@ -73,7 +73,7 @@ public class MaxPenaltiesInitializerTest {
 
   @Test
   public void testDrawFace() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.getFeatures()
         .addAll(Arrays.asList(GameFeature.Thieving, GameFeature.DrawFace));
     Map<ObjectId, IndividualGameState> map = new HashMap<>();

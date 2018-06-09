@@ -7,7 +7,7 @@ import com.jtbdevelopment.games.exceptions.GameInputException;
  */
 public class StealingNegativePositionException extends GameInputException {
 
-    public static final String NEGATIVE_POSITION_ERROR = "Can't steal before beginning of word/phrase.";
+    private static final String NEGATIVE_POSITION_ERROR = "Can't steal before beginning of word/phrase.";
 
     public StealingNegativePositionException() {
         super(NEGATIVE_POSITION_ERROR);

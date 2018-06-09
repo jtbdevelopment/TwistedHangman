@@ -5,12 +5,12 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase;
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState;
-import com.jtbdevelopment.TwistedHangman.game.state.masking.GameMasker;
-import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedIndividualGameState;
+import com.jtbdevelopment.TwistedHangman.game.state.masking.THGameMasker;
+import com.jtbdevelopment.TwistedHangman.game.state.masking.THMaskedGame;
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator;
 import com.jtbdevelopment.games.mongo.players.MongoPlayer;
 import com.jtbdevelopment.games.state.GamePhase;
@@ -29,9 +29,9 @@ import org.junit.Test;
 /**
  * Date: 11/14/14 Time: 9:15 PM
  */
-public class GameMaskerTest extends TwistedHangmanTestCase {
+public class THGameMaskerTest extends TwistedHangmanTestCase {
 
-  private GameMasker masker = new GameMasker();
+  private THGameMasker masker = new THGameMasker();
 
   @Test
   public void testMaskingSinglePlayerGame() {
@@ -52,7 +52,7 @@ public class GameMaskerTest extends TwistedHangmanTestCase {
     state.setBlanksRemaining(4);
     state.setWorkingWordPhraseString("__'_");
     state.setWordPhraseString("SAY'S");
-    Game game = new Game();
+    THGame game = new THGame();
 
     LinkedHashMap<GameFeature, Object> featureData = new LinkedHashMap<>(1);
     featureData.put(GameFeature.DrawFace, "");
@@ -91,7 +91,7 @@ public class GameMaskerTest extends TwistedHangmanTestCase {
     game.setSolverStates(gameStates);
     game.setVersion(10);
 
-    MaskedGame maskedGame = masker.maskGameForPlayer(game, PONE);
+    THMaskedGame maskedGame = masker.maskGameForPlayer(game, PONE);
     checkUnmaskedGameFields(maskedGame, game);
 
     LinkedHashMap<String, Integer> expectedRunningScores = new LinkedHashMap<>(1);
@@ -160,7 +160,7 @@ public class GameMaskerTest extends TwistedHangmanTestCase {
     state2.setBlanksRemaining(3);
     state2.setWorkingWordPhraseString("__");
     state2.setWordPhraseString("SAY");
-    Game game = new Game();
+    THGame game = new THGame();
 
     LinkedHashMap<GameFeature, Object> featureData = new LinkedHashMap<>(
         2);
@@ -206,7 +206,7 @@ public class GameMaskerTest extends TwistedHangmanTestCase {
     game.setRound(new Random().nextInt(1000));
     game.setVersion(10);
 
-    MaskedGame maskedGame = masker.maskGameForPlayer(game, PONE);
+    THMaskedGame maskedGame = masker.maskGameForPlayer(game, PONE);
     checkUnmaskedGameFields(maskedGame, game);
 
     LinkedHashMap<String, Integer> expectedRunningScores = new LinkedHashMap<>(2);
@@ -328,9 +328,9 @@ public class GameMaskerTest extends TwistedHangmanTestCase {
     states.put(PONE.getId(), state);
     states.put(PTWO.getId(), state2);
     states.put(PTHREE.getId(), state3);
-    Game game = makeMultiPlayerGame(TwistedHangmanSystemPlayerCreator.TH_PLAYER, states);
+    THGame game = makeMultiPlayerGame(TwistedHangmanSystemPlayerCreator.TH_PLAYER, states);
 
-    MaskedGame maskedGame = masker.maskGameForPlayer(game, PONE);
+    THMaskedGame maskedGame = masker.maskGameForPlayer(game, PONE);
     checkUnmaskedGameFields(maskedGame, game);
     checkMultiPlayerGame(maskedGame);
     assertEquals(TwistedHangmanSystemPlayerCreator.TH_PLAYER.getMd5(),
@@ -434,9 +434,9 @@ public class GameMaskerTest extends TwistedHangmanTestCase {
         2);
     states.put(PONE.getId(), state);
     states.put(PTHREE.getId(), state2);
-    Game game = makeMultiPlayerGame(PTWO, states);
+    THGame game = makeMultiPlayerGame(PTWO, states);
 
-    MaskedGame maskedGame = masker.maskGameForPlayer(game, PTWO);
+    THMaskedGame maskedGame = masker.maskGameForPlayer(game, PTWO);
     checkUnmaskedGameFields(maskedGame, game);
     checkMultiPlayerGame(maskedGame);
     assertEquals(PTWO.getId().toHexString(), maskedGame.getMaskedForPlayerID());
@@ -530,7 +530,7 @@ public class GameMaskerTest extends TwistedHangmanTestCase {
     assertTrue(maskedState.guessedLetters.isEmpty());
   }
 
-  private void checkUnmaskedGameFields(MaskedGame maskedGame, Game game) {
+  private void checkUnmaskedGameFields(THMaskedGame maskedGame, THGame game) {
     assertEquals(game.getId().toHexString(), maskedGame.getId());
     assertEquals(
         (game.getCompletedTimestamp() != null ? game.getCompletedTimestamp()
@@ -547,7 +547,7 @@ public class GameMaskerTest extends TwistedHangmanTestCase {
     assertEquals(game.getFeatures(), maskedGame.getFeatures());
   }
 
-  private void checkMultiPlayerGame(MaskedGame maskedGame) {
+  private void checkMultiPlayerGame(THMaskedGame maskedGame) {
     LinkedHashMap<String, String> map = new LinkedHashMap<>(3);
     map.put(PONE.getMd5(), PONE.getDisplayName());
     map.put(PTWO.getMd5(), PTWO.getDisplayName());
@@ -586,9 +586,9 @@ public class GameMaskerTest extends TwistedHangmanTestCase {
     assertEquals(map6, maskedGame.getFeatureData());
   }
 
-  private Game makeMultiPlayerGame(MongoPlayer puzzler,
+  private THGame makeMultiPlayerGame(MongoPlayer puzzler,
       LinkedHashMap<ObjectId, IndividualGameState> states) {
-    Game game = new Game();
+    THGame game = new THGame();
 
     LinkedHashMap<GameFeature, Object> featureDate = new LinkedHashMap<>(
         2);

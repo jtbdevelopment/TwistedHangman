@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.game.handlers;
 
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
-import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
+import com.jtbdevelopment.TwistedHangman.game.state.masking.THMaskedGame;
 import com.jtbdevelopment.games.dao.AbstractGameRepository;
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository;
 import com.jtbdevelopment.games.events.GamePublisher;
@@ -20,13 +20,13 @@ import org.bson.types.ObjectId;
 public abstract class AbstractGamePlayActionHandler<T> extends
     AbstractPlayerRotatingGameActionHandler<T> {
 
-  public AbstractGamePlayActionHandler(
+  AbstractGamePlayActionHandler(
       final AbstractPlayerRepository<ObjectId, MongoPlayer> playerRepository,
-      final AbstractGameRepository<ObjectId, GameFeature, Game> gameRepository,
-      final GameTransitionEngine<Game> transitionEngine,
-      final GamePublisher<Game, MongoPlayer> gamePublisher,
+      final AbstractGameRepository<ObjectId, GameFeature, THGame> gameRepository,
+      final GameTransitionEngine<THGame> transitionEngine,
+      final GamePublisher<THGame, MongoPlayer> gamePublisher,
       final GameEligibilityTracker gameTracker,
-      final GameMasker<ObjectId, Game, MaskedGame> gameMasker) {
+      final GameMasker<ObjectId, THGame, THMaskedGame> gameMasker) {
     super(playerRepository, gameRepository, transitionEngine, gamePublisher, gameTracker,
         gameMasker);
   }

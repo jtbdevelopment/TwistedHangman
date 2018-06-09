@@ -3,8 +3,8 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import com.jtbdevelopment.games.factory.GameInitializer;
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ public class SingleWinnerInitializerTest {
 
   @Test
   public void testInitializesWinner() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.getFeatures().add(GameFeature.SingleWinner);
 
     initializer.initializeGame(game);
@@ -32,7 +32,7 @@ public class SingleWinnerInitializerTest {
 
   @Test
   public void testOverwritesWinner() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.getFeatures().add(GameFeature.SingleWinner);
     game.getFeatureData().put(GameFeature.SingleWinner, 12);
 
@@ -43,7 +43,7 @@ public class SingleWinnerInitializerTest {
 
   @Test
   public void testLeavesUnsetIfNotInFeatures() {
-    Game game = new Game();
+    THGame game = new THGame();
 
     initializer.initializeGame(game);
 

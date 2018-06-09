@@ -7,7 +7,7 @@ import com.jtbdevelopment.games.exceptions.GameInputException;
  */
 public class GameOverException extends GameInputException {
 
-    public static final String GAME_OVER_ERROR = "Game is already over.";
+    private static final String GAME_OVER_ERROR = "Game is already over.";
 
     public GameOverException() {
         super(GAME_OVER_ERROR);

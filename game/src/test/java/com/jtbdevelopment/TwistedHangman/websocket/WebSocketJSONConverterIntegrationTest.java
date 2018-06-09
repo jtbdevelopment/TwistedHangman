@@ -6,8 +6,8 @@ import static org.junit.Assert.assertEquals;
 import com.google.common.collect.Sets;
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
-import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame;
 import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedIndividualGameState;
+import com.jtbdevelopment.TwistedHangman.game.state.masking.THMaskedGame;
 import com.jtbdevelopment.TwistedHangman.json.TwistedHangmanJacksonRegistration;
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator;
 import com.jtbdevelopment.core.spring.jackson.ObjectMapperFactory;
@@ -31,7 +31,7 @@ import org.junit.Test;
 public class WebSocketJSONConverterIntegrationTest extends TwistedHangmanTestCase {
 
   private WebSocketJSONConverter webSocketJsonConverter = new WebSocketJSONConverter();
-  private MaskedGame maskedGame = new MaskedGame() {{
+  private THMaskedGame maskedGame = new THMaskedGame() {{
     Map<GameFeature, Object> featureData = new HashMap<>(1);
     featureData.put(GameFeature.DrawFace, "A String");
 
@@ -114,9 +114,9 @@ public class WebSocketJSONConverterIntegrationTest extends TwistedHangmanTestCas
   public void testFromJson() {
     WebSocketMessage message = webSocketJsonConverter.decode(expectedString1);
     assertEquals(MessageType.Game, message.getMessageType());
-    assertTrue(message.getGame() instanceof MaskedGame);
+    assertTrue(message.getGame() instanceof THMaskedGame);
     //  Selected comparisons
-    MaskedGame readMaskedGame = (MaskedGame) message.getGame();
+    THMaskedGame readMaskedGame = (THMaskedGame) message.getGame();
     assertEquals(maskedGame.getSolverStates().size(), readMaskedGame.getSolverStates().size());
     assertEquals(maskedGame.getSolverStates().keySet(), readMaskedGame.getSolverStates().keySet());
     MaskedIndividualGameState poneState = readMaskedGame

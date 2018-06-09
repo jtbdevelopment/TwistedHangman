@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers;
 
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator;
 import com.jtbdevelopment.games.factory.GameInitializer;
 import org.springframework.stereotype.Component;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
  * Date: 11/4/14 Time: 6:54 AM
  */
 @Component
-public class ChallengerInitializer implements GameInitializer<Game> {
+public class ChallengerInitializer implements GameInitializer<THGame> {
 
   @Override
-  public void initializeGame(final Game game) {
+  public void initializeGame(final THGame game) {
     if (game.getFeatures().contains(GameFeature.SystemPuzzles)) {
       game.setWordPhraseSetter(TwistedHangmanSystemPlayerCreator.TH_PLAYER.getId());
     } else if (game.getFeatures().contains(GameFeature.AlternatingPuzzleSetter)) {

@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase;
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import com.jtbdevelopment.games.factory.GameInitializer;
 import com.jtbdevelopment.games.players.Player;
 import java.util.Arrays;
@@ -29,7 +29,7 @@ public class PlayerScoreInitializerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testInitializesScoresToZeroForAllPlayersIfNotSet() {
-    final Game game = new Game();
+    final THGame game = new THGame();
     List<Player<ObjectId>> players = Arrays.asList(PONE, PTWO, PTHREE, PFOUR);
     game.setPlayers(players);
     initializer.initializeGame(game);
@@ -43,7 +43,7 @@ public class PlayerScoreInitializerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testLeavesExistingScoresAlone() {
-    final Game game = new Game();
+    final THGame game = new THGame();
     Map<ObjectId, Integer> players = new LinkedHashMap<>(4);
     players.put(PONE.getId(), 2);
     players.put(PTWO.getId(), 0);

@@ -3,9 +3,9 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import com.jtbdevelopment.games.factory.GameInitializer;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ public class ThievingPuzzleStateInitializerTest {
 
   @Test
   public void testInitializedThievingVariables() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.getFeatures().add(GameFeature.Thieving);
     Map<ObjectId, IndividualGameState> map = new HashMap<>();
     map.put(new ObjectId(),
@@ -43,7 +43,7 @@ public class ThievingPuzzleStateInitializerTest {
 
   @Test
   public void testNoInitializedIfNoThievingVariables() {
-    Game game = new Game();
+    THGame game = new THGame();
     Map<ObjectId, IndividualGameState> map = new HashMap<>();
     map.put(new ObjectId(),
         new IndividualGameState(Collections.emptySet()));

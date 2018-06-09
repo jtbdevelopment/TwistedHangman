@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers;
 
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import com.jtbdevelopment.games.factory.GameInitializer;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
  * Date: 11/4/2014 Time: 9:04 PM
  */
 @Component
-public class ThievingPuzzleStateInitializer implements GameInitializer<Game> {
+public class ThievingPuzzleStateInitializer implements GameInitializer<THGame> {
 
-  public void initializeGame(final Game game) {
+  public void initializeGame(final THGame game) {
     if (game.getFeatures().contains(GameFeature.Thieving)) {
       game.getSolverStates().values().forEach(gameState -> {
         gameState.getFeatureData().put(GameFeature.ThievingCountTracking, 0);

@@ -5,8 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Sets;
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase;
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -30,7 +30,7 @@ public class ValidFeatureSetGameValidatorTest extends TwistedHangmanTestCase {
   @Test
   public void testValidAreValid() {
     GameFeature.getAllowedCombinations().forEach(combo -> {
-      Game game = makeSimpleGame();
+      THGame game = makeSimpleGame();
       game.setFeatures(combo);
       assertTrue(validator.validateGame(game));
     });
@@ -41,7 +41,7 @@ public class ValidFeatureSetGameValidatorTest extends TwistedHangmanTestCase {
     final List<GameFeature> nonValidated = Arrays.stream(GameFeature.values())
         .filter(f -> !f.getValidate()).collect(Collectors.toList());
     GameFeature.getAllowedCombinations().forEach(combo -> {
-      Game game = makeSimpleGame();
+      THGame game = makeSimpleGame();
       game.setFeatures(new HashSet<>(combo));
       game.getFeatures().addAll(nonValidated);
       assertTrue(validator.validateGame(game));
@@ -54,7 +54,7 @@ public class ValidFeatureSetGameValidatorTest extends TwistedHangmanTestCase {
     Set<GameFeature> features = Sets.newHashSet(
         GameFeature.SingleWinner, GameFeature.SystemPuzzles, GameFeature.ThreePlus,
         GameFeature.AlternatingPuzzleSetter, GameFeature.TwoPlayer, GameFeature.DrawFace);
-    final Game game = makeSimpleGame();
+    final THGame game = makeSimpleGame();
 
     Sets.powerSet(features).forEach(powerSet -> {
       game.setFeatures(powerSet);

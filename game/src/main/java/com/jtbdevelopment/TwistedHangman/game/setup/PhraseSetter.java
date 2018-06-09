@@ -12,7 +12,7 @@ public class PhraseSetter {
 
   private final List<PhraseFeatureInitializer> phraseFeatureInitializers;
 
-  public PhraseSetter(
+  PhraseSetter(
       final List<PhraseFeatureInitializer> phraseFeatureInitializers) {
     this.phraseFeatureInitializers = phraseFeatureInitializers;
   }

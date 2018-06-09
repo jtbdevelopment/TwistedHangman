@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.rest.services;
 
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
-import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
+import com.jtbdevelopment.TwistedHangman.game.state.masking.THMaskedGame;
 import com.jtbdevelopment.games.mongo.players.MongoPlayer;
 import com.jtbdevelopment.games.rest.services.AbstractPlayerGatewayService;
 import com.jtbdevelopment.games.rest.services.AbstractPlayerServices;
@@ -22,10 +22,10 @@ import org.springframework.stereotype.Component;
 @Path("/")
 @Component
 public class PlayerGatewayService extends
-    AbstractPlayerGatewayService<ObjectId, GameFeature, Game, MaskedGame, MongoPlayer> {
+    AbstractPlayerGatewayService<ObjectId, GameFeature, THGame, THMaskedGame, MongoPlayer> {
 
-  protected PlayerGatewayService(
-      final AbstractPlayerServices<ObjectId, GameFeature, Game, MaskedGame, MongoPlayer> playerServices) {
+  PlayerGatewayService(
+      final AbstractPlayerServices<ObjectId, GameFeature, THGame, THMaskedGame, MongoPlayer> playerServices) {
     super(playerServices);
   }
 

@@ -6,9 +6,9 @@ import static org.junit.Assert.assertNotNull;
 import com.google.common.collect.Sets;
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository;
 import com.jtbdevelopment.TwistedHangman.dao.PreMadePuzzleRepository;
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
-import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
+import com.jtbdevelopment.TwistedHangman.game.state.masking.THMaskedGame;
 import com.jtbdevelopment.TwistedHangman.game.utility.PreMadePuzzle;
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerServices.FeaturesAndPlayers;
 import com.jtbdevelopment.games.dao.AbstractGameRepository;
@@ -33,7 +33,7 @@ import org.junit.Test;
 /**
  * Date: 11/15/2014 Time: 3:29 PM
  */
-public class TwistedHangmanIntegration extends AbstractGameIntegration<Game, MaskedGame> {
+public class TwistedHangmanIntegration extends AbstractGameIntegration<THGame, THMaskedGame> {
 
   private static final String LOREMIPSUM = "Lorem ipsum";
   private static GameRepository gameRepository;
@@ -48,21 +48,21 @@ public class TwistedHangmanIntegration extends AbstractGameIntegration<Game, Mas
     gameRepository = applicationContext.getBean(GameRepository.class);
   }
 
-  private static MaskedGame putMG(final WebTarget webTarget) {
-    return webTarget.request(MediaType.APPLICATION_JSON).put(EMPTY_PUT_POST, MaskedGame.class);
+  private static THMaskedGame putMG(final WebTarget webTarget) {
+    return webTarget.request(MediaType.APPLICATION_JSON).put(EMPTY_PUT_POST, THMaskedGame.class);
   }
 
   @Override
-  public Class<MaskedGame> returnedGameClass() {
-    return MaskedGame.class;
+  public Class<THMaskedGame> returnedGameClass() {
+    return THMaskedGame.class;
   }
 
-  public Class<Game> internalGameClass() {
-    return Game.class;
+  public Class<THGame> internalGameClass() {
+    return THGame.class;
   }
 
-  public Game newGame() {
-    return new Game();
+  public THGame newGame() {
+    return new THGame();
   }
 
   public AbstractGameRepository gameRepository() {
@@ -101,8 +101,8 @@ public class TwistedHangmanIntegration extends AbstractGameIntegration<Game, Mas
 
     WebTarget P1 = AbstractGameIntegration.createPlayerAPITarget(TEST_PLAYER1);
 
-    MaskedGame game;
-    game = P1.path("new").request(MediaType.APPLICATION_JSON).post(entity, MaskedGame.class);
+    THMaskedGame game;
+    game = P1.path("new").request(MediaType.APPLICATION_JSON).post(entity, THMaskedGame.class);
 
     assertEquals(GamePhase.Challenged, game.getGamePhase());
     assertNotNull(game.getSolverStates().get(TEST_PLAYER1.getMd5()));
@@ -126,8 +126,8 @@ public class TwistedHangmanIntegration extends AbstractGameIntegration<Game, Mas
 
     WebTarget P1 = AbstractGameIntegration.createPlayerAPITarget(TEST_PLAYER1);
 
-    MaskedGame game = P1.path("new").request(MediaType.APPLICATION_JSON)
-        .post(entity, MaskedGame.class);
+    THMaskedGame game = P1.path("new").request(MediaType.APPLICATION_JSON)
+        .post(entity, THMaskedGame.class);
 
     assertEquals(GamePhase.Challenged, game.getGamePhase());
     assertNotNull(game.getSolverStates().get(TEST_PLAYER1.getMd5()));
@@ -153,7 +153,7 @@ public class TwistedHangmanIntegration extends AbstractGameIntegration<Game, Mas
         game.getSolverStates().get(TEST_PLAYER3.getMd5()).workingWordPhrase);
 
     GameRepository gameRepository = applicationContext.getBean(GameRepository.class);
-    Game dbLoaded1 = gameRepository.findById(new ObjectId(game.getIdAsString())).get();
+    THGame dbLoaded1 = gameRepository.findById(new ObjectId(game.getIdAsString())).get();
 
     char[] phraseArray = LOREMIPSUM.toCharArray();
     int position = 0;
@@ -190,7 +190,7 @@ public class TwistedHangmanIntegration extends AbstractGameIntegration<Game, Mas
         Sets.newHashSet(letter),
         game.getSolverStates().get(TEST_PLAYER2.getMd5()).guessedLetters);
 
-    MaskedGame[] gameRef = new MaskedGame[1];
+    THMaskedGame[] gameRef = new THMaskedGame[1];
     chars.forEach(c -> gameRef[0] = putMG(P3G.path("guess").path(c.toString())));
     game = gameRef[0];
     assertEquals(GamePhase.RoundOver, game.getGamePhase());
@@ -204,9 +204,9 @@ public class TwistedHangmanIntegration extends AbstractGameIntegration<Game, Mas
     assertEquals(TEST_PLAYER3.getMd5(),
         game.getFeatureData().get(GameFeature.SingleWinner));
 
-    MaskedGame newGame = rematchGame(P2G);
+    THMaskedGame newGame = rematchGame(P2G);
     Assert.assertNotEquals(newGame.getId(), dbLoaded1.getId());
-    Game dbLoaded2 = gameRepository.findById(new ObjectId(newGame.getIdAsString())).get();
+    THGame dbLoaded2 = gameRepository.findById(new ObjectId(newGame.getIdAsString())).get();
     dbLoaded1 = gameRepository.findById(dbLoaded1.getId()).get();
     assertEquals(dbLoaded1.getId(), dbLoaded2.getPreviousId());
     assertNotNull(dbLoaded1.getRematchTimestamp());

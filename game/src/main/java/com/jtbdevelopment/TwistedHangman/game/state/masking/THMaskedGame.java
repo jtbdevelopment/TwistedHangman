@@ -10,7 +10,7 @@ import java.util.Map;
  *
  * Represents the Game as masked for a specific player
  */
-public class MaskedGame extends AbstractMaskedMultiPlayerGame<GameFeature> implements Cloneable {
+public class THMaskedGame extends AbstractMaskedMultiPlayerGame<GameFeature> implements Cloneable {
 
   private String wordPhraseSetter;
   private Map<String, MaskedIndividualGameState> solverStates = new LinkedHashMap<>();

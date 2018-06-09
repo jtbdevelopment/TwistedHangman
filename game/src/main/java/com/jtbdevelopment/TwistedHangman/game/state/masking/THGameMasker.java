@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.game.state.masking;
 
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator;
 import com.jtbdevelopment.games.mongo.state.masking.AbstractMongoMultiPlayerGameMasker;
 import com.jtbdevelopment.games.players.Player;
@@ -15,11 +15,12 @@ import org.springframework.stereotype.Component;
  * Date: 11/14/14 Time: 6:17 PM
  */
 @Component
-public class GameMasker extends AbstractMongoMultiPlayerGameMasker<GameFeature, Game, MaskedGame> {
+public class THGameMasker extends
+    AbstractMongoMultiPlayerGameMasker<GameFeature, THGame, THMaskedGame> {
 
   @Override
-  protected void copyMaskedData(final Game game, final Player<ObjectId> player,
-      final MaskedGame playerMaskedGame, final Map<ObjectId, Player<ObjectId>> idMap) {
+  protected void copyMaskedData(final THGame game, final Player<ObjectId> player,
+      final THMaskedGame playerMaskedGame, final Map<ObjectId, Player<ObjectId>> idMap) {
     super.copyMaskedData(game, player, playerMaskedGame, idMap);
     game.getPlayerRunningScores().forEach((id, score) -> playerMaskedGame.getPlayerRunningScores()
         .put(idMap.get(id).getMd5(), score));
@@ -39,7 +40,7 @@ public class GameMasker extends AbstractMongoMultiPlayerGameMasker<GameFeature, 
 
   private MaskedIndividualGameState maskGameState(
       final Player<ObjectId> playerMaskingFor,
-      final Game game,
+      final THGame game,
       final Player<ObjectId> gameStatePlayer,
       final IndividualGameState gameState,
       final Map<ObjectId, Player<ObjectId>> idMap) {
@@ -89,7 +90,7 @@ public class GameMasker extends AbstractMongoMultiPlayerGameMasker<GameFeature, 
   }
 
   @Override
-  protected MaskedGame newMaskedGame() {
-    return new MaskedGame();
+  protected THMaskedGame newMaskedGame() {
+    return new THMaskedGame();
   }
 }

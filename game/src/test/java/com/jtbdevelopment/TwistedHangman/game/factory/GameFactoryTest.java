@@ -3,7 +3,7 @@ package com.jtbdevelopment.TwistedHangman.game.factory;
 import static org.junit.Assert.assertEquals;
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase;
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,7 @@ public class GameFactoryTest extends TwistedHangmanTestCase {
 
   @Test
   public void testCreatingNewGame() {
-    assertEquals(Game.class, gameFactory.newGame().getClass());
+    assertEquals(THGame.class, gameFactory.newGame().getClass());
   }
 
   @Test
@@ -28,9 +28,9 @@ public class GameFactoryTest extends TwistedHangmanTestCase {
     Map<ObjectId, Integer> expected = new HashMap<>();
     expected.put(PONE.getId(), 5);
     expected.put(PTWO.getId(), 15);
-    Game originalGame = new Game();
+    THGame originalGame = new THGame();
     originalGame.setPlayerRunningScores(expected);
-    Game newGame = new Game();
+    THGame newGame = new THGame();
 
     gameFactory.copyFromPreviousGame(originalGame, newGame);
     assertEquals(expected, newGame.getPlayerRunningScores());

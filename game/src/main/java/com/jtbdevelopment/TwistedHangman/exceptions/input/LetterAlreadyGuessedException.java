@@ -7,7 +7,7 @@ import com.jtbdevelopment.games.exceptions.GameInputException;
  */
 public class LetterAlreadyGuessedException extends GameInputException {
 
-    public static final String ALREADY_GUESSED_ERROR = "Letter previously guessed.";
+    private static final String ALREADY_GUESSED_ERROR = "Letter previously guessed.";
 
     public LetterAlreadyGuessedException() {
         super(ALREADY_GUESSED_ERROR);

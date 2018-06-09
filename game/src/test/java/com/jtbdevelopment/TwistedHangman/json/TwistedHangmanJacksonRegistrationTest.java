@@ -3,7 +3,7 @@ package com.jtbdevelopment.TwistedHangman.json;
 import static org.mockito.Mockito.verify;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame;
+import com.jtbdevelopment.TwistedHangman.game.state.masking.THMaskedGame;
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanPlayerAttributes;
 import com.jtbdevelopment.games.players.GameSpecificPlayerAttributes;
 import com.jtbdevelopment.games.state.masking.MaskedMultiPlayerGame;
@@ -22,9 +22,9 @@ public class TwistedHangmanJacksonRegistrationTest {
     registration.customizeModule(module);
     verify(module).addAbstractTypeMapping(GameSpecificPlayerAttributes.class,
         TwistedHangmanPlayerAttributes.class);
-    verify(module).addAbstractTypeMapping(MaskedMultiPlayerGame.class, MaskedGame.class);
+    verify(module).addAbstractTypeMapping(MaskedMultiPlayerGame.class, THMaskedGame.class);
     verify(module).addAbstractTypeMapping(com.jtbdevelopment.games.state.masking.MaskedGame.class,
-        MaskedGame.class);
+        THMaskedGame.class);
   }
 
 }

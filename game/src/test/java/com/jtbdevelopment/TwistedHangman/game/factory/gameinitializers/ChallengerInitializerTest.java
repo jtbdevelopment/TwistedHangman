@@ -4,9 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase;
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator;
 import com.jtbdevelopment.games.factory.GameInitializer;
 import java.util.Arrays;
@@ -32,7 +32,7 @@ public class ChallengerInitializerTest extends TwistedHangmanTestCase {
     Map<ObjectId, IndividualGameState> expectedSolvers = new HashMap<>();
     expectedSolvers.put(PONE.getId(), null);
     expectedSolvers.put(PTHREE.getId(), null);
-    Game game = new Game();
+    THGame game = new THGame();
     game.getFeatures().add(GameFeature.SystemPuzzles);
     game.setSolverStates(expectedSolvers);
     initializer.initializeGame(game);
@@ -47,7 +47,7 @@ public class ChallengerInitializerTest extends TwistedHangmanTestCase {
     Map<ObjectId, IndividualGameState> expectedSolvers = new HashMap<>();
     expectedSolvers.put(PONE.getId(), null);
     expectedSolvers.put(PTHREE.getId(), null);
-    Game game = new Game();
+    THGame game = new THGame();
     game.getFeatures().addAll(Arrays.asList(GameFeature.TwoPlayer, GameFeature.SystemPuzzles));
     game.setSolverStates(expectedSolvers);
     initializer.initializeGame(game);
@@ -63,7 +63,7 @@ public class ChallengerInitializerTest extends TwistedHangmanTestCase {
     expectedSolvers.put(PTHREE.getId(), null);
     expectedSolvers.put(PONE.getId(), null);
 
-    Game game = new Game();
+    THGame game = new THGame();
     game.getFeatures().addAll(Arrays.asList(GameFeature.AlternatingPuzzleSetter));
     game.setSolverStates(expectedSolvers);
     game.setPlayers(Arrays.asList(PONE, PTHREE));
@@ -79,7 +79,7 @@ public class ChallengerInitializerTest extends TwistedHangmanTestCase {
     expectedSolvers.put(PONE.getId(), null);
     expectedSolvers.put(PTHREE.getId(), null);
 
-    Game game = new Game();
+    THGame game = new THGame();
     game.getFeatures()
         .addAll(Arrays.asList(GameFeature.AlternatingPuzzleSetter, GameFeature.TwoPlayer));
     game.setSolverStates(expectedSolvers);
@@ -96,7 +96,7 @@ public class ChallengerInitializerTest extends TwistedHangmanTestCase {
     expectedSolvers.put(PONE.getId(), null);
     expectedSolvers.put(PTHREE.getId(), null);
 
-    Game game = new Game();
+    THGame game = new THGame();
     game.getFeatures().addAll(Arrays.asList(GameFeature.TwoPlayer));
     game.setSolverStates(expectedSolvers);
     initializer.initializeGame(game);

@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
  * Date: 11/8/2014 Time: 4:59 PM
  */
 @Component
-public class GameScorerImpl implements GameScorer<Game> {
+public class THGameScorer implements GameScorer<THGame> {
 
   @Override
-  public Game scoreGame(final Game game) {
+  public THGame scoreGame(final THGame game) {
     int[] winners = {0};
     int[] losers = {0};
     game.getSolverStates().forEach((playerId, gameState) -> {

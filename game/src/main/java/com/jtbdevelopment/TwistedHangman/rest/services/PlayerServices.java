@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.rest.services;
 
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
-import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
+import com.jtbdevelopment.TwistedHangman.game.state.masking.THMaskedGame;
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository;
 import com.jtbdevelopment.games.dao.StringToIDConverter;
 import com.jtbdevelopment.games.mongo.players.MongoPlayer;
@@ -26,17 +26,17 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class PlayerServices extends
-    AbstractMultiPlayerServices<ObjectId, GameFeature, Game, MaskedGame, MongoPlayer> {
+    AbstractMultiPlayerServices<ObjectId, GameFeature, THGame, THMaskedGame, MongoPlayer> {
 
-  private final NewGameHandler<ObjectId, GameFeature, Game, MaskedGame, MongoPlayer> newGameHandler;
+  private final NewGameHandler<ObjectId, GameFeature, THGame, THMaskedGame, MongoPlayer> newGameHandler;
 
-  protected PlayerServices(
-      final AbstractGameServices<ObjectId, GameFeature, Game, MaskedGame, MongoPlayer> gamePlayServices,
+  PlayerServices(
+      final AbstractGameServices<ObjectId, GameFeature, THGame, THMaskedGame, MongoPlayer> gamePlayServices,
       final AbstractPlayerRepository<ObjectId, MongoPlayer> playerRepository,
-      final AbstractAdminServices<ObjectId, GameFeature, Game, MongoPlayer> adminServices,
+      final AbstractAdminServices<ObjectId, GameFeature, THGame, MongoPlayer> adminServices,
       final StringToIDConverter<ObjectId> stringToIDConverter,
-      final PlayerGamesFinderHandler<ObjectId, GameFeature, Game, MaskedGame, MongoPlayer> playerGamesFinderHandler,
-      final NewGameHandler<ObjectId, GameFeature, Game, MaskedGame, MongoPlayer> newGameHandler) {
+      final PlayerGamesFinderHandler<ObjectId, GameFeature, THGame, THMaskedGame, MongoPlayer> playerGamesFinderHandler,
+      final NewGameHandler<ObjectId, GameFeature, THGame, THMaskedGame, MongoPlayer> newGameHandler) {
     super(gamePlayServices, playerRepository, adminServices, stringToIDConverter,
         playerGamesFinderHandler);
     this.newGameHandler = newGameHandler;

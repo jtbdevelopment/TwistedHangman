@@ -26,7 +26,7 @@ public class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
 
   @Test
   public void testSinglePlayerChallengeTransitionsToPlaying() {
-    Game game = new Game();
+    THGame game = new THGame();
 
     LinkedHashMap<ObjectId, PlayerState> map = new LinkedHashMap<ObjectId, PlayerState>(1);
     map.put(PONE.getId(), PlayerState.Accepted);
@@ -48,7 +48,7 @@ public class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
 
   @Test
   public void testSetupToSetup() {
-    Game game = new Game();
+    THGame game = new THGame();
 
     Map<ObjectId, IndividualGameState> map = new HashMap<>();
     IndividualGameState state = new IndividualGameState();
@@ -68,7 +68,7 @@ public class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
 
   @Test
   public void testSetupToPlaying() {
-    Game game = new Game();
+    THGame game = new THGame();
 
     Map<ObjectId, IndividualGameState> map = new HashMap<>();
     IndividualGameState state = new IndividualGameState();
@@ -90,7 +90,7 @@ public class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
 
   @Test
   public void testPlayingToPlaying() {
-    Game game = new Game();
+    THGame game = new THGame();
 
     Map<ObjectId, IndividualGameState> map = new HashMap<>();
     IndividualGameState state = new IndividualGameState();
@@ -109,7 +109,7 @@ public class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
 
   @Test
   public void testPlayingToRematchMultipleWinners() {
-    Game game = new Game();
+    THGame game = new THGame();
 
     Map<ObjectId, IndividualGameState> map = new HashMap<>();
     IndividualGameState state = new IndividualGameState();
@@ -129,7 +129,7 @@ public class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     game.setGamePhase(GamePhase.Playing);
     game.setFeatures(new HashSet<>());
     game.setSolverStates(map);
-    Game scored = makeSimpleGame();
+    THGame scored = makeSimpleGame();
     Mockito.when(gameScorer.scoreGame(game)).thenReturn(scored);
 
     assertSame(scored, transitionEngine.evaluateGame(game));
@@ -137,7 +137,7 @@ public class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
 
   @Test
   public void testPlayingToRematchSingleWinner() {
-    Game game = new Game();
+    THGame game = new THGame();
 
     Map<ObjectId, IndividualGameState> map = new HashMap<>();
     IndividualGameState state = new IndividualGameState();
@@ -157,7 +157,7 @@ public class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     game.setGamePhase(GamePhase.Playing);
     game.setFeatures(Sets.newHashSet(GameFeature.SingleWinner));
     game.setSolverStates(map);
-    Game scored = makeSimpleGame();
+    THGame scored = makeSimpleGame();
     Mockito.when(gameScorer.scoreGame(game)).thenReturn(scored);
 
     assertSame(scored, transitionEngine.evaluateGame(game));

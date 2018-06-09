@@ -7,7 +7,7 @@ import com.jtbdevelopment.games.exceptions.GameInputException;
  */
 public class NotALetterGuessException extends GameInputException {
 
-    public static final String NOT_A_LETTER_ERROR = "Guess is not a letter.";
+    private static final String NOT_A_LETTER_ERROR = "Guess is not a letter.";
 
     public NotALetterGuessException() {
         super(NOT_A_LETTER_ERROR);

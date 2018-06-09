@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.Sets;
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase;
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import com.jtbdevelopment.games.factory.GameInitializer;
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,7 +24,7 @@ public class SinglePlayerInitializerTest extends TwistedHangmanTestCase {
   public void testIgnoresNonSinglePlayer() {
     Set<GameFeature> expected = Sets
         .newHashSet(GameFeature.AlternatingPuzzleSetter, GameFeature.Thieving);
-    Game game = new Game();
+    THGame game = new THGame();
     game.setPlayers(Arrays.asList(PONE, PTWO));
     game.setFeatures(new HashSet<>(expected));
     initializer.initializeGame(game);
@@ -35,7 +35,7 @@ public class SinglePlayerInitializerTest extends TwistedHangmanTestCase {
   public void testSetsForSinglePlayer() {
     Set<GameFeature> expected = Sets
         .newHashSet(GameFeature.SystemPuzzles, GameFeature.SinglePlayer, GameFeature.SingleWinner);
-    Game game = new Game();
+    THGame game = new THGame();
     game.setPlayers(Collections.singletonList(PONE));
     game.setFeatures(new HashSet<>(expected));
     initializer.initializeGame(game);
@@ -47,7 +47,7 @@ public class SinglePlayerInitializerTest extends TwistedHangmanTestCase {
     Set<GameFeature> expected = Sets
         .newHashSet(GameFeature.SystemPuzzles, GameFeature.SinglePlayer, GameFeature.SingleWinner,
             GameFeature.TwoPlayer, GameFeature.AlternatingPuzzleSetter);
-    Game game = new Game();
+    THGame game = new THGame();
     game.setPlayers(Collections.singletonList(PONE));
     game.setFeatures(new HashSet<>(expected));
     initializer.initializeGame(game);

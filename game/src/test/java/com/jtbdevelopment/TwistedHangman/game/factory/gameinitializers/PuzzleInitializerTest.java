@@ -6,8 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Sets;
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase;
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import com.jtbdevelopment.TwistedHangman.players.TwistedHangmanSystemPlayerCreator;
 import com.jtbdevelopment.games.factory.GameInitializer;
 import com.jtbdevelopment.games.players.Player;
@@ -31,7 +31,7 @@ public class PuzzleInitializerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testInitializesPuzzlesForAllWhenSystemPuzzler() {
-    Game game = new Game();
+    THGame game = new THGame();
     List<Player<ObjectId>> players = Arrays.asList(PONE, PTWO, PTHREE);
     Set<GameFeature> features = Sets
         .newHashSet(GameFeature.DrawFace, GameFeature.ThievingCountTracking);
@@ -50,7 +50,7 @@ public class PuzzleInitializerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testInitializesPuzzlesForTwoPlayerSimultaneous() {
-    Game game = new Game();
+    THGame game = new THGame();
     List<Player<ObjectId>> players = Arrays.asList(PONE, PTWO, PTHREE);
     Set<GameFeature> features = Sets
         .newHashSet(GameFeature.DrawFace, GameFeature.ThievingCountTracking);
@@ -69,7 +69,7 @@ public class PuzzleInitializerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testInitializesPuzzlesForPlayerSetter() {
-    Game game = new Game();
+    THGame game = new THGame();
     List<Player<ObjectId>> players = Arrays.asList(PONE, PTWO, PTHREE);
     Set<GameFeature> features = Sets
         .newHashSet(GameFeature.DrawFace, GameFeature.ThievingCountTracking);

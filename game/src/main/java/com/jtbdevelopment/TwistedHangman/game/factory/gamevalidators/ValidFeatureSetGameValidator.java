@@ -1,7 +1,7 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.gamevalidators;
 
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import com.jtbdevelopment.games.factory.GameValidator;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * Date: 11/4/14 Time: 6:36 PM
  */
 @Component
-public class ValidFeatureSetGameValidator implements GameValidator<Game> {
+public class ValidFeatureSetGameValidator implements GameValidator<THGame> {
 
   private static final String ERROR = "System Error - Combination of features is not valid somehow.";
   private static final Logger LOGGER = LoggerFactory.getLogger(ValidFeatureSetGameValidator.class);
@@ -24,7 +24,7 @@ public class ValidFeatureSetGameValidator implements GameValidator<Game> {
   }
 
   @Override
-  public boolean validateGame(final Game game) {
+  public boolean validateGame(final THGame game) {
     Set<GameFeature> validatingFeatures = game.getFeatures().stream()
         .filter(GameFeature::getValidate)
         .collect(Collectors.toSet());

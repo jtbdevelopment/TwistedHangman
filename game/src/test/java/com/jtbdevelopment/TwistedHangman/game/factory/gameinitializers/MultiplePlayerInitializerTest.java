@@ -4,8 +4,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase;
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import com.jtbdevelopment.games.factory.GameInitializer;
 import java.util.Arrays;
 import org.junit.Assert;
@@ -20,7 +20,7 @@ public class MultiplePlayerInitializerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testExpandsWhenThreePlayers() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.setPlayers(Arrays.asList(PONE, PTWO, PTHREE));
     initializer.initializeGame(game);
     assertTrue(game.getFeatures().contains(GameFeature.ThreePlus));
@@ -28,7 +28,7 @@ public class MultiplePlayerInitializerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testExpandsWhenFivePlayers() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.setPlayers(Arrays.asList(PONE, PTWO, PTHREE, PFOUR, PFIVE));
     initializer.initializeGame(game);
     assertTrue(game.getFeatures().contains(GameFeature.ThreePlus));
@@ -36,7 +36,7 @@ public class MultiplePlayerInitializerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testDoesNotExpandsWhenTwoPlayers() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.setPlayers(Arrays.asList(PONE, PTWO));
     initializer.initializeGame(game);
     assertFalse(game.getFeatures().contains(GameFeature.ThreePlus));
@@ -44,7 +44,7 @@ public class MultiplePlayerInitializerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testDoesNotExpandsWhenSinglePlayer() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.setPlayers(Arrays.asList(PONE));
     initializer.initializeGame(game);
     assertFalse(game.getFeatures().contains(GameFeature.ThreePlus));

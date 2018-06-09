@@ -3,8 +3,8 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers;
 import static org.junit.Assert.assertEquals;
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase;
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import com.jtbdevelopment.games.factory.GameInitializer;
 import java.util.Arrays;
 import jersey.repackaged.com.google.common.collect.Sets;
@@ -19,7 +19,7 @@ public class TwoPlayerInitializerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testExpandsWhenTwoPlayers() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.setPlayers(Arrays.asList(PONE, PTWO));
     initializer.initializeGame(game);
     assertEquals(Sets.newHashSet(GameFeature.TwoPlayer), game.getFeatures());
@@ -27,7 +27,7 @@ public class TwoPlayerInitializerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testDoesNotExpandsWhenLessThanTwoPlayers() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.setPlayers(Arrays.asList(PTWO));
     initializer.initializeGame(game);
     assertEquals(Sets.newHashSet(), game.getFeatures());
@@ -35,7 +35,7 @@ public class TwoPlayerInitializerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testDoesNotExpandsWhenMoreThanTwoPlayers() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.setPlayers(Arrays.asList(PONE, PTWO, PTHREE));
     initializer.initializeGame(game);
     assertEquals(Sets.newHashSet(), game.getFeatures());

@@ -16,13 +16,13 @@ import org.junit.Test;
 /**
  * Date: 11/8/2014 Time: 6:57 PM
  */
-public class GameScorerImplTest extends TwistedHangmanTestCase {
+public class THGameScorerTest extends TwistedHangmanTestCase {
 
-  private GameScorerImpl gameScorer = new GameScorerImpl();
+  private THGameScorer gameScorer = new THGameScorer();
 
   @Test
   public void testScoreForMultiWinMultiPlayerSystemGame() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.setPlayers(Arrays.asList(PONE, PTWO, PTHREE, PFOUR));
     Map<ObjectId, Integer> map = new HashMap<>();
     map.put(PONE.getId(), 1);
@@ -99,7 +99,7 @@ public class GameScorerImplTest extends TwistedHangmanTestCase {
 
   @Test
   public void testScoreForMultiWinMultiPlayerAlternatingGame() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.setPlayers(Arrays.asList(PONE, PTWO, PTHREE, PFOUR));
     game.setWordPhraseSetter(PTHREE.getId());
     Map<ObjectId, Integer> map = new HashMap<>();
@@ -164,7 +164,7 @@ public class GameScorerImplTest extends TwistedHangmanTestCase {
 
   @Test
   public void testScoreForMultiWinTwoPlayerHeadToHead() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.setPlayers(Arrays.asList(PONE, PTWO));
     game.setWordPhraseSetter(null);
     Map<ObjectId, Integer> map = new HashMap<>();
@@ -214,7 +214,7 @@ public class GameScorerImplTest extends TwistedHangmanTestCase {
 
   @Test
   public void testScoreForSingleWinMultiPlayerSystemGame() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.getFeatures().add(GameFeature.SingleWinner);
     game.setPlayers(Arrays.asList(PONE, PTWO, PTHREE, PFOUR));
     Map<ObjectId, Integer> map = new HashMap<>();
@@ -298,7 +298,7 @@ public class GameScorerImplTest extends TwistedHangmanTestCase {
 
   @Test
   public void testScoreForSingleWinMultiPlayerAlternatingGame() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.getFeatures().add(GameFeature.SingleWinner);
     game.setPlayers(Arrays.asList(PONE, PTWO, PTHREE, PFOUR));
     game.setWordPhraseSetter(PTHREE.getId());
@@ -370,7 +370,7 @@ public class GameScorerImplTest extends TwistedHangmanTestCase {
 
   @Test
   public void testScoreForSingleWinTwoPlayerHeadToHead() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.getFeatures().add(GameFeature.SingleWinner);
     game.setPlayers(Arrays.asList(PONE, PTWO));
     game.setWordPhraseSetter(null);
@@ -421,7 +421,7 @@ public class GameScorerImplTest extends TwistedHangmanTestCase {
 
   @Test
   public void testScoreWinForSinglePlayerGame() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.setPlayers(Collections.singletonList(PONE));
     game.setWordPhraseSetter(TwistedHangmanSystemPlayerCreator.TH_PLAYER.getId());
     Map<ObjectId, Integer> map = new HashMap<>();
@@ -451,7 +451,7 @@ public class GameScorerImplTest extends TwistedHangmanTestCase {
 
   @Test
   public void testLossWinForSinglePlayerGame() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.setPlayers(Collections.singletonList(PONE));
     game.setWordPhraseSetter(TwistedHangmanSystemPlayerCreator.TH_PLAYER.getId());
     Map<ObjectId, Integer> map = new HashMap<>();

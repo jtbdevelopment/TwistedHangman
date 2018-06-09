@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
-import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame;
+import com.jtbdevelopment.TwistedHangman.game.state.masking.THMaskedGame;
 import com.jtbdevelopment.TwistedHangman.rest.services.PlayerServices.FeaturesAndPlayers;
 import com.jtbdevelopment.games.rest.handlers.NewGameHandler;
 import java.lang.annotation.Annotation;
@@ -45,7 +45,7 @@ public class PlayerServicesTest {
     FeaturesAndPlayers input = new FeaturesAndPlayers();
     input.setFeatures(features);
     input.setPlayers(players);
-    MaskedGame game = new MaskedGame();
+    THMaskedGame game = new THMaskedGame();
     when(newGameHandler.handleCreateNewGame(APLAYER, players, features)).thenReturn(game);
     assertSame(game, playerServices.createNewGame(input));
   }

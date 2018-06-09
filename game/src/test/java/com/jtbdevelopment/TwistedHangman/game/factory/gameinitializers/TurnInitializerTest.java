@@ -1,8 +1,8 @@
 package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers;
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase;
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import com.jtbdevelopment.games.factory.GameInitializer;
 import java.util.Arrays;
 import org.junit.Assert;
@@ -22,7 +22,7 @@ public class TurnInitializerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testInitializesTurnToFirstPlayer() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.getFeatures().add(GameFeature.TurnBased);
     game.setPlayers(Arrays.asList(PFOUR, PONE, PTWO, PTHREE));
     initializer.initializeGame(game);
@@ -32,7 +32,7 @@ public class TurnInitializerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testInitializesTurnToSecondPlayerIfFirstPlayerAlsoPuzzleSetter() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.getFeatures().add(GameFeature.TurnBased);
     game.setPlayers(Arrays.asList(PFOUR, PONE, PTWO, PTHREE));
     game.setWordPhraseSetter(PFOUR.getId());
@@ -43,7 +43,7 @@ public class TurnInitializerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testNotSetWhenNotAFeature() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.setPlayers(Arrays.asList(PONE, PTWO, PTHREE));
     initializer.initializeGame(game);
 

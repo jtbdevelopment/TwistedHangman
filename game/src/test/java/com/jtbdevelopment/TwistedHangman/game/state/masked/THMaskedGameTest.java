@@ -1,17 +1,17 @@
 package com.jtbdevelopment.TwistedHangman.game.state.masked;
 
-import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame;
+import com.jtbdevelopment.TwistedHangman.game.state.masking.THMaskedGame;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * Date: 2/19/15 Time: 6:56 PM
  */
-public class MaskedGameTest {
+public class THMaskedGameTest {
 
   @Test
   public void testInit() {
-    MaskedGame maskedGame = new MaskedGame();
+    THMaskedGame maskedGame = new THMaskedGame();
 
     Assert.assertNull(maskedGame.getWordPhraseSetter());
     Assert.assertTrue(maskedGame.getPlayerRoundScores().isEmpty());

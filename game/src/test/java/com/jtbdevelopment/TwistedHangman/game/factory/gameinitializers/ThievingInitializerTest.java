@@ -2,8 +2,8 @@ package com.jtbdevelopment.TwistedHangman.game.factory.gameinitializers;
 
 import static org.junit.Assert.assertEquals;
 
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import com.jtbdevelopment.games.factory.GameInitializer;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -24,7 +24,7 @@ public class ThievingInitializerTest {
     Arrays.stream(GameFeature.values()).filter(f -> !GameFeature.Thieving.equals(f))
         .forEach(feature -> {
           Set<GameFeature> expected = Sets.newHashSet(feature);
-          Game game = new Game();
+          THGame game = new THGame();
           game.setFeatures(new HashSet<>(expected));
           expander.initializeGame(game);
           assertEquals(expected, game.getFeatures());
@@ -36,7 +36,7 @@ public class ThievingInitializerTest {
     Set<GameFeature> expected = Sets
         .newHashSet(GameFeature.ThievingPositionTracking, GameFeature.Thieving,
             GameFeature.ThievingCountTracking, GameFeature.ThievingLetters);
-    Game game = new Game();
+    THGame game = new THGame();
 
     game.getFeatures().add(GameFeature.Thieving);
     expander.initializeGame(game);

@@ -5,11 +5,11 @@ import static org.junit.Assert.assertSame;
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase;
 import com.jtbdevelopment.TwistedHangman.dao.GameRepository;
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
 import com.jtbdevelopment.TwistedHangman.game.state.GamePhaseTransitionEngine;
-import com.jtbdevelopment.TwistedHangman.game.state.masking.GameMasker;
-import com.jtbdevelopment.TwistedHangman.game.state.masking.MaskedGame;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
+import com.jtbdevelopment.TwistedHangman.game.state.masking.THGameMasker;
+import com.jtbdevelopment.TwistedHangman.game.state.masking.THMaskedGame;
 import com.jtbdevelopment.games.dao.AbstractGameRepository;
 import com.jtbdevelopment.games.dao.AbstractPlayerRepository;
 import com.jtbdevelopment.games.events.GamePublisher;
@@ -32,16 +32,16 @@ import org.mockito.Mockito;
 public class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanTestCase {
 
   private static final String testParam = "TESTPARAM";
-  private final Game gameParam = new Game();
+  private final THGame gameParam = new THGame();
   private final ObjectId gameId = new ObjectId();
-  private Game handledGame = new Game();
+  private THGame handledGame = new THGame();
   private MongoPlayerRepository playerRepository = Mockito.mock(MongoPlayerRepository.class);
   private GameRepository gameRepository = Mockito.mock(GameRepository.class);
   private GamePhaseTransitionEngine transitionEngine = Mockito
       .mock(GamePhaseTransitionEngine.class);
   private GamePublisher gamePublisher = Mockito.mock(GamePublisher.class);
   private GameEligibilityTracker eligibilityTracker = Mockito.mock(GameEligibilityTracker.class);
-  private GameMasker gameMasker = Mockito.mock(GameMasker.class);
+  private THGameMasker gameMasker = Mockito.mock(THGameMasker.class);
   private TestHandler handler = new TestHandler(playerRepository, gameRepository, transitionEngine,
       gamePublisher, eligibilityTracker, gameMasker);
 
@@ -55,17 +55,17 @@ public class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanT
 
   @Test
   public void testAbstractHandlerBasic() {
-    Game saved = new Game();
+    THGame saved = new THGame();
     saved.setId(new ObjectId());
-    Game transitioned = new Game();
+    THGame transitioned = new THGame();
     transitioned.setId(new ObjectId());
-    Game published = new Game();
+    THGame published = new THGame();
     published.setId(new ObjectId());
     gameParam.setPlayers(Arrays.asList(PONE, PTWO));
     Mockito.when(gameRepository.save(transitioned)).thenReturn(saved);
     Mockito.when(transitionEngine.evaluateGame(handledGame)).thenReturn(transitioned);
     Mockito.when(gamePublisher.publish(saved, PONE)).thenReturn(published);
-    MaskedGame maskedGame = new MaskedGame();
+    THMaskedGame maskedGame = new THMaskedGame();
     maskedGame.setId(gameParam.getId().toHexString());
     Mockito.when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame);
     assertSame(maskedGame, handler.handleAction(PONE.getId(), gameId, testParam));
@@ -85,13 +85,13 @@ public class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanT
     handledGame.setGamePhase(GamePhase.Playing);
     gameParam.setGamePhase(GamePhase.Playing);
 
-    Game saved = makeSimpleGame();
-    Game transitioned = makeSimpleGame();
-    Game published = makeSimpleGame();
+    THGame saved = makeSimpleGame();
+    THGame transitioned = makeSimpleGame();
+    THGame published = makeSimpleGame();
     Mockito.when(gameRepository.save(transitioned)).thenReturn(saved);
     Mockito.when(transitionEngine.evaluateGame(handledGame)).thenReturn(transitioned);
     Mockito.when(gamePublisher.publish(saved, PONE)).thenReturn(published);
-    MaskedGame maskedGame = new MaskedGame();
+    THMaskedGame maskedGame = new THMaskedGame();
     Mockito.when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame);
 
     assertSame(maskedGame, handler.handleAction(PONE.getId(), gameId, testParam));
@@ -114,13 +114,13 @@ public class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanT
     gameParam.setGamePhase(GamePhase.Playing);
 
     handledGame = makeSimpleGame();
-    Game saved = makeSimpleGame();
-    Game transitioned = makeSimpleGame();
-    Game published = makeSimpleGame();
+    THGame saved = makeSimpleGame();
+    THGame transitioned = makeSimpleGame();
+    THGame published = makeSimpleGame();
     Mockito.when(gameRepository.save(transitioned)).thenReturn(saved);
     Mockito.when(transitionEngine.evaluateGame(handledGame)).thenReturn(transitioned);
     Mockito.when(gamePublisher.publish(saved, PONE)).thenReturn(published);
-    MaskedGame maskedGame = new MaskedGame();
+    THMaskedGame maskedGame = new THMaskedGame();
     Mockito.when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame);
 
     assertSame(maskedGame, handler.handleAction(PONE.getId(), gameId, testParam));
@@ -140,13 +140,13 @@ public class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanT
     handledGame.setGamePhase(GamePhase.Setup);
     gameParam.setGamePhase(GamePhase.Setup);
 
-    Game saved = makeSimpleGame();
-    Game transitioned = makeSimpleGame();
-    Game published = makeSimpleGame();
+    THGame saved = makeSimpleGame();
+    THGame transitioned = makeSimpleGame();
+    THGame published = makeSimpleGame();
     Mockito.when(gameRepository.save(transitioned)).thenReturn(saved);
     Mockito.when(transitionEngine.evaluateGame(handledGame)).thenReturn(transitioned);
     Mockito.when(gamePublisher.publish(saved, PONE)).thenReturn(published);
-    MaskedGame maskedGame = new MaskedGame();
+    THMaskedGame maskedGame = new THMaskedGame();
     Mockito.when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame);
 
     assertSame(maskedGame, handler.handleAction(PONE.getId(), gameId, testParam));
@@ -169,13 +169,13 @@ public class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanT
     handledGame.setGamePhase(GamePhase.Playing);
     gameParam.setGamePhase(GamePhase.Playing);
 
-    Game saved = makeSimpleGame();
-    Game transitioned = makeSimpleGame();
-    Game published = makeSimpleGame();
+    THGame saved = makeSimpleGame();
+    THGame transitioned = makeSimpleGame();
+    THGame published = makeSimpleGame();
     Mockito.when(gameRepository.save(transitioned)).thenReturn(saved);
     Mockito.when(transitionEngine.evaluateGame(handledGame)).thenReturn(transitioned);
     Mockito.when(gamePublisher.publish(saved, PONE)).thenReturn(published);
-    MaskedGame maskedGame = new MaskedGame();
+    THMaskedGame maskedGame = new THMaskedGame();
     Mockito.when(gameMasker.maskGameForPlayer(published, PONE)).thenReturn(maskedGame);
 
     assertSame(maskedGame, handler.handleAction(PONE.getId(), gameId, testParam));
@@ -189,10 +189,11 @@ public class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanT
 
     public TestHandler(
         AbstractPlayerRepository<ObjectId, MongoPlayer> playerRepository,
-        AbstractGameRepository<ObjectId, GameFeature, Game> gameRepository,
-        GameTransitionEngine<Game> transitionEngine, GamePublisher<Game, MongoPlayer> gamePublisher,
+        AbstractGameRepository<ObjectId, GameFeature, THGame> gameRepository,
+        GameTransitionEngine<THGame> transitionEngine,
+        GamePublisher<THGame, MongoPlayer> gamePublisher,
         GameEligibilityTracker gameTracker,
-        com.jtbdevelopment.games.state.masking.GameMasker<ObjectId, Game, MaskedGame> gameMasker) {
+        com.jtbdevelopment.games.state.masking.GameMasker<ObjectId, THGame, THMaskedGame> gameMasker) {
       super(playerRepository, gameRepository, transitionEngine, gamePublisher, gameTracker,
           gameMasker);
     }
@@ -203,7 +204,7 @@ public class AbstractPlayerRotatingGameActionHandlerTest extends TwistedHangmanT
     }
 
     @Override
-    protected Game handleActionInternal(MongoPlayer player, Game game, String param) {
+    protected THGame handleActionInternal(MongoPlayer player, THGame game, String param) {
       assertEquals(testParam, param);
       assertSame(game, gameParam);
       if (internalException) {

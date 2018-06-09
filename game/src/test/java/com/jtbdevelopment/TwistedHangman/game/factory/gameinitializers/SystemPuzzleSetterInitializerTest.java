@@ -7,9 +7,9 @@ import static org.mockito.Mockito.verify;
 
 import com.jtbdevelopment.TwistedHangman.TwistedHangmanTestCase;
 import com.jtbdevelopment.TwistedHangman.game.setup.PhraseSetter;
-import com.jtbdevelopment.TwistedHangman.game.state.Game;
 import com.jtbdevelopment.TwistedHangman.game.state.GameFeature;
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState;
+import com.jtbdevelopment.TwistedHangman.game.state.THGame;
 import com.jtbdevelopment.TwistedHangman.game.utility.PreMadePuzzle;
 import com.jtbdevelopment.TwistedHangman.game.utility.RandomCannedGameFinder;
 import com.jtbdevelopment.games.factory.GameInitializer;
@@ -48,7 +48,7 @@ public class SystemPuzzleSetterInitializerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testSystemPuzzler() {
-    Game game = new Game();
+    THGame game = new THGame();
     game.getFeatures().add(GameFeature.SystemPuzzles);
 
     Map<ObjectId, IndividualGameState> map = new HashMap<>();
@@ -64,7 +64,7 @@ public class SystemPuzzleSetterInitializerTest extends TwistedHangmanTestCase {
 
   @Test
   public void testNonSystemPuzzler() {
-    Game game = new Game();
+    THGame game = new THGame();
     Map<ObjectId, IndividualGameState> map = new HashMap<>();
     map.put(new ObjectId(), new IndividualGameState(game.getFeatures()));
     map.put(new ObjectId(), new IndividualGameState(game.getFeatures()));
