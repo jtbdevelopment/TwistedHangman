@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.bson.types.ObjectId;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -133,7 +132,7 @@ public class GamePhaseTransitionEngineTest extends TwistedHangmanTestCase {
     Game scored = makeSimpleGame();
     Mockito.when(gameScorer.scoreGame(game)).thenReturn(scored);
 
-    assert DefaultGroovyMethods.is(scored, transitionEngine.evaluateGame(game));
+    assertSame(scored, transitionEngine.evaluateGame(game));
   }
 
   @Test

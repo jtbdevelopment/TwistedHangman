@@ -72,7 +72,8 @@ public class WebSocketJSONConverterIntegrationTest extends TwistedHangmanTestCas
     setCompletedTimestamp(100L);
     setCreated(1000L);
     setFeatureData(featureData);
-    setFeatures(Sets.newHashSet(GameFeature.DrawFace, GameFeature.TurnBased));
+    //  force order to keep consistent from run to run
+    setFeatures(Sets.newLinkedHashSet(Arrays.asList(GameFeature.DrawFace, GameFeature.TurnBased)));
     setGamePhase(GamePhase.Setup);
     setId("XYZ");
     setLastUpdate(5000L);
@@ -86,7 +87,7 @@ public class WebSocketJSONConverterIntegrationTest extends TwistedHangmanTestCas
     setSolverStates(solverStates);
     setWordPhraseSetter(TwistedHangmanSystemPlayerCreator.TH_MD5);
   }};
-  private String expectedString = "{\"messageType\":\"Game\",\"game\":{\"id\":\"XYZ\",\"previousId\":null,\"version\":null,\"round\":10,\"created\":1000,\"lastUpdate\":5000,\"completedTimestamp\":100,\"gamePhase\":\"Setup\",\"players\":{\"196c643ff2d27ff53cbd574c08c7726f\":\"100000000000000000000000\"},\"playerImages\":{},\"playerProfiles\":{},\"features\":[\"DrawFace\",\"TurnBased\"],\"featureData\":{\"DrawFace\":\"A String\"},\"maskedForPlayerID\":\"100000000000000000000000\",\"maskedForPlayerMD5\":\"196c643ff2d27ff53cbd574c08c7726f\",\"declinedTimestamp\":null,\"rematchTimestamp\":null,\"initiatingPlayer\":null,\"playerStates\":{\"196c643ff2d27ff53cbd574c08c7726f\":\"Accepted\"},\"wordPhraseSetter\":\"eb3e279a50b4c330f8d4a9e2abc678fe\",\"solverStates\":{\"196c643ff2d27ff53cbd574c08c7726f\":{\"wordPhrase\":\"555\",\"workingWordPhrase\":\"____\",\"badlyGuessedLetters\":[\"A\",\"B\"],\"guessedLetters\":[\"B\"],\"featureData\":{\"Thieving\":10,\"DrawGallows\":\"X\"},\"category\":\"Test\",\"maxPenalties\":13,\"moveCount\":4,\"penalties\":3,\"blanksRemaining\":10,\"features\":[\"AllComplete\"],\"isPuzzleSolved\":false,\"isPlayerHung\":true,\"isPuzzleOver\":false,\"penaltiesRemaining\":5}},\"playerRoundScores\":{\"196c643ff2d27ff53cbd574c08c7726f\":10},\"playerRunningScores\":{\"196c643ff2d27ff53cbd574c08c7726f\":13},\"allPlayers\":null},\"player\":null,\"message\":null}";
+  private String expectedString = "{\"messageType\":\"Game\",\"game\":{\"id\":\"XYZ\",\"previousId\":null,\"version\":null,\"round\":10,\"created\":1000,\"lastUpdate\":5000,\"completedTimestamp\":100,\"gamePhase\":\"Setup\",\"players\":{\"196c643ff2d27ff53cbd574c08c7726f\":\"100000000000000000000000\"},\"playerImages\":{},\"playerProfiles\":{},\"features\":[\"DrawFace\",\"TurnBased\"],\"featureData\":{\"DrawFace\":\"A String\"},\"maskedForPlayerID\":\"100000000000000000000000\",\"maskedForPlayerMD5\":\"196c643ff2d27ff53cbd574c08c7726f\",\"declinedTimestamp\":null,\"rematchTimestamp\":null,\"initiatingPlayer\":null,\"playerStates\":{\"196c643ff2d27ff53cbd574c08c7726f\":\"Accepted\"},\"wordPhraseSetter\":\"eb3e279a50b4c330f8d4a9e2abc678fe\",\"solverStates\":{\"196c643ff2d27ff53cbd574c08c7726f\":{\"wordPhrase\":\"555\",\"workingWordPhrase\":\"____\",\"badlyGuessedLetters\":[\"A\",\"B\"],\"guessedLetters\":[\"B\"],\"featureData\":{\"DrawGallows\":\"X\",\"Thieving\":10},\"category\":\"Test\",\"maxPenalties\":13,\"moveCount\":4,\"penalties\":3,\"blanksRemaining\":10,\"features\":[\"AllComplete\"],\"isPuzzleSolved\":false,\"isPlayerHung\":true,\"isPuzzleOver\":false,\"penaltiesRemaining\":5}},\"playerRoundScores\":{\"196c643ff2d27ff53cbd574c08c7726f\":10},\"playerRunningScores\":{\"196c643ff2d27ff53cbd574c08c7726f\":13},\"allPlayers\":null},\"player\":null,\"message\":null}";
 
   @Before
   public void setUp() throws Exception {
