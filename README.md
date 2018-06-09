@@ -7,7 +7,7 @@ Offering online variations of the classic game, including live or turn-based pac
 The default stack is:
 
 *  Mongo DB data store (run against 2.4 and 2.6 versions)
-*  1.8 JVM-based (most code is groovy 2.3.x) backend
+*  1.8 JVM-based backend
 *  REST provided by Jersey/Jackson module
 *  Bootstrap/Angular/SASS/Compass front-end
 *  Spring, Spring-Data, slf4j, logback are the other main components
