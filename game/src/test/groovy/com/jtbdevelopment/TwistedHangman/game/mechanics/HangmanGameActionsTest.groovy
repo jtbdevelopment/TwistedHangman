@@ -7,6 +7,8 @@ import com.jtbdevelopment.TwistedHangman.game.state.GameFeature
 import com.jtbdevelopment.TwistedHangman.game.state.IndividualGameState
 import org.junit.Test
 
+import static org.aspectj.bridge.MessageUtil.fail
+
 /**
  * Date: 10/25/2014
  * Time: 6:28 PM
