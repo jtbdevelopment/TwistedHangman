@@ -20,6 +20,8 @@ import javax.ws.rs.client.WebTarget
 import javax.ws.rs.core.GenericType
 import javax.ws.rs.core.MediaType
 
+import static org.junit.Assert.*
+
 /**
  * Date: 11/15/2014
  * Time: 3:29 PM
@@ -64,7 +66,7 @@ class TwistedHangmanIntegration extends AbstractGameIntegration<Game, MaskedGame
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .get(new GenericType<Map<String, String>>() {
         })
-        assert features == [
+        assertEquals([
                 "Thieving"               : GameFeature.Thieving.description,
                 "Live"                   : GameFeature.Live.description,
                 "TurnBased"              : GameFeature.TurnBased.description,
@@ -75,7 +77,7 @@ class TwistedHangmanIntegration extends AbstractGameIntegration<Game, MaskedGame
                 "SingleWinner"           : GameFeature.SingleWinner.description,
                 "DrawGallows"            : GameFeature.DrawGallows.description,
                 "DrawFace"               : GameFeature.DrawFace.description
-        ]
+        ], features)
     }
 
     @Test
@@ -94,14 +96,14 @@ class TwistedHangmanIntegration extends AbstractGameIntegration<Game, MaskedGame
                 .request(MediaType.APPLICATION_JSON)
                 .post(entity, MaskedGame.class)
 
-        assert game.gamePhase == GamePhase.Challenged
-        assert game.solverStates[TEST_PLAYER1.md5] != null
-        assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase != ""
+        assertEquals GamePhase.Challenged, game.gamePhase
+        assertNotNull game.solverStates[TEST_PLAYER1.md5]
+        assertNotEquals("", game.solverStates[TEST_PLAYER1.md5].workingWordPhrase)
         def P1G = createGameTarget(P1, game)
 
         game = quitGame(P1G)
-        assert game.gamePhase == GamePhase.Quit
-        assert game.playerStates[TEST_PLAYER1.md5] == PlayerState.Quit
+        assertEquals(GamePhase.Quit, game.gamePhase)
+        assertEquals(PlayerState.Quit, game.playerStates[TEST_PLAYER1.md5])
     }
 
     @Test
@@ -120,9 +122,9 @@ class TwistedHangmanIntegration extends AbstractGameIntegration<Game, MaskedGame
                 .request(MediaType.APPLICATION_JSON)
                 .post(entity, MaskedGame.class)
 
-        assert game.gamePhase == GamePhase.Challenged
-        assert game.solverStates[TEST_PLAYER1.md5] != null
-        assert game.solverStates[TEST_PLAYER1.md5].workingWordPhrase == "_____ _____"
+        assertEquals(GamePhase.Challenged, game.gamePhase)
+        assertNotNull(game.solverStates[TEST_PLAYER1.md5])
+        assertEquals("_____ _____", game.solverStates[TEST_PLAYER1.md5].workingWordPhrase)
         def P1G = createGameTarget(P1, game)
         def P2G = createGameTarget(createPlayerAPITarget(TEST_PLAYER2), game)
         def P3G = createGameTarget(createPlayerAPITarget(TEST_PLAYER3), game)
@@ -130,14 +132,14 @@ class TwistedHangmanIntegration extends AbstractGameIntegration<Game, MaskedGame
 
         game = acceptGame(P2G)
         game = getGame(P2G)
-        assert game.gamePhase == GamePhase.Challenged
-        assert game.solverStates[TEST_PLAYER2.md5] != null
-        assert game.solverStates[TEST_PLAYER2.md5].workingWordPhrase == "_____ _____"
+        assertEquals(GamePhase.Challenged, game.gamePhase)
+        assertNotNull game.solverStates[TEST_PLAYER2.md5]
+        assertEquals("_____ _____", game.solverStates[TEST_PLAYER2.md5].workingWordPhrase)
         game = acceptGame(P3G)
         game = getGame(P3G)
-        assert game.gamePhase == GamePhase.Playing
-        assert game.solverStates[TEST_PLAYER3.md5] != null
-        assert game.solverStates[TEST_PLAYER3.md5].workingWordPhrase == "_____ _____"
+        assertEquals(GamePhase.Playing, game.gamePhase)
+        assertNotNull(game.solverStates[TEST_PLAYER3.md5])
+        assertEquals("_____ _____", game.solverStates[TEST_PLAYER3.md5].workingWordPhrase)
 
         GameRepository gameRepository = applicationContext.getBean(GameRepository.class)
         Game dbLoaded1 = (Game) gameRepository.findById(new ObjectId(game.idAsString)).get()
@@ -149,47 +151,49 @@ class TwistedHangmanIntegration extends AbstractGameIntegration<Game, MaskedGame
         }
 
         game = putMG(P1G.path("steal").path("0"))
-        assert game.gamePhase == GamePhase.Playing
-        assert ((Character) game.solverStates[TEST_PLAYER1.md5].workingWordPhrase.charAt(0))
-        assert game.solverStates[TEST_PLAYER1.md5].penalties == 1
-        assert game.solverStates[TEST_PLAYER1.md5].wordPhrase == ""
-        assert game.solverStates[TEST_PLAYER1.md5].penaltiesRemaining == 9
-        assert game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingCountTracking] == 1
-        assert game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingLetters] == [game.solverStates[TEST_PLAYER1.md5].workingWordPhrase.charAt(0)]
-        assert ((Object[]) game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingPositionTracking])[0] == true
-        assert ((Object[]) game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingPositionTracking])[1] == false
-        assert game.solverStates[TEST_PLAYER3.md5]
-        assert game.solverStates[TEST_PLAYER3.md5].wordPhrase == ""
+        assertEquals(GamePhase.Playing, game.gamePhase)
+        assertNotNull((Character) game.solverStates[TEST_PLAYER1.md5].workingWordPhrase.charAt(0))
+        assertEquals(1, game.solverStates[TEST_PLAYER1.md5].penalties)
+        assertEquals("", game.solverStates[TEST_PLAYER1.md5].wordPhrase)
+        assertEquals(9, game.solverStates[TEST_PLAYER1.md5].penaltiesRemaining)
+        assertEquals(1, game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingCountTracking])
+        assertEquals(
+                Arrays.asList('L'),
+                game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingLetters])
+        assertTrue(((List<Boolean>) game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingPositionTracking])[0])
+        assertFalse(((List<Boolean>) game.solverStates[TEST_PLAYER1.md5].featureData[GameFeature.ThievingPositionTracking])[1])
+        assertNotNull game.solverStates[TEST_PLAYER3.md5]
+        assertEquals "", game.solverStates[TEST_PLAYER3.md5].wordPhrase
 
         Set<Character> chars = LOREMIPSUM.toCharArray().findAll { char it -> Character.isAlphabetic((int) it) }.collect {
             it.toUpperCase()
         } as Set
         def letter = chars.iterator().next()
         game = putMG(P2G.path("guess").path(letter.toString()))
-        assert game.gamePhase == GamePhase.Playing
-        assert game.solverStates[TEST_PLAYER2.md5].guessedLetters == [letter] as Set
+        assertEquals GamePhase.Playing, game.gamePhase
+        assertEquals([letter] as Set, game.solverStates[TEST_PLAYER2.md5].guessedLetters)
 
         chars.each {
             game = putMG(P3G.path("guess").path(it.toString()))
         }
-        assert game.gamePhase == GamePhase.RoundOver
-        assert game.solverStates[TEST_PLAYER3.md5].guessedLetters == chars
-        assert game.playerRunningScores == [(TEST_PLAYER1.md5): 0, (TEST_PLAYER2.md5): 0, (TEST_PLAYER3.md5): 1]
-        assert game.featureData[GameFeature.SingleWinner] == TEST_PLAYER3.md5
+        assertEquals GamePhase.RoundOver, game.gamePhase
+        assertEquals(chars, game.solverStates[TEST_PLAYER3.md5].guessedLetters)
+        assertEquals([(TEST_PLAYER1.md5): 0, (TEST_PLAYER2.md5): 0, (TEST_PLAYER3.md5): 1], game.playerRunningScores)
+        assertEquals(TEST_PLAYER3.md5, game.featureData[GameFeature.SingleWinner])
 
         MaskedGame newGame = rematchGame(P2G)
-        assert newGame.id != dbLoaded1.id
+        assertNotEquals(newGame.id, dbLoaded1.id)
         Game dbLoaded2 = (Game) gameRepository.findById(new ObjectId(newGame.idAsString)).get()
         dbLoaded1 = (Game) gameRepository.findById(dbLoaded1.id).get()
-        assert dbLoaded2.previousId == dbLoaded1.id
-        assert dbLoaded1.rematchTimestamp != null
-        assert newGame.gamePhase == GamePhase.Challenged
-        assert newGame.players == game.players
-        assert newGame.playerRunningScores == game.playerRunningScores
-        assert newGame.round == 2
+        assertEquals(dbLoaded1.id, dbLoaded2.previousId)
+        assertNotNull(dbLoaded1.rematchTimestamp)
+        assertEquals(GamePhase.Challenged, newGame.gamePhase)
+        assertEquals(game.players, newGame.players)
+        assertEquals(game.playerRunningScores, newGame.playerRunningScores)
+        assertEquals(2, newGame.round)
 
         newGame = rejectGame(createGameTarget(P1, newGame))
-        assert newGame.gamePhase == GamePhase.Declined
+        assertEquals(GamePhase.Declined, newGame.gamePhase)
     }
 
     private static MaskedGame putMG(final WebTarget webTarget) {
