@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
@@ -20,22 +19,26 @@ public class RandomCannedGameFinder {
 
   private static final Logger logger = LoggerFactory.getLogger(RandomCannedGameFinder.class);
   private final Random random = new Random();
-  @Autowired
-  private PreMadePuzzleRepository repository;
+  private final PreMadePuzzleRepository repository;
+
+  public RandomCannedGameFinder(
+      final PreMadePuzzleRepository repository) {
+    this.repository = repository;
+  }
 
   public PreMadePuzzle getRandomGame(final String source) {
     if (StringUtils.isEmpty(source)) {
       long count = repository.count();
       int index = getRandomIndex(count);
 
-      Page<PreMadePuzzle> all = repository.findAll(new PageRequest(index, 1));
+      Page<PreMadePuzzle> all = repository.findAll(PageRequest.of(index, 1));
 
       List<PreMadePuzzle> content = all.getContent();
       return extractGame(content);
     } else {
       long max = repository.countBySource(source);
       int index = getRandomIndex(max);
-      return extractGame(repository.findBySource(source, new PageRequest(index, 1)));
+      return extractGame(repository.findBySource(source, PageRequest.of(index, 1)));
     }
 
   }
@@ -60,19 +63,11 @@ public class RandomCannedGameFinder {
 
   private PreMadePuzzle extractGame(final List<PreMadePuzzle> games) {
     if (games.size() == 1) {
-      return ((PreMadePuzzle) (games.get(0)));
+      return games.get(0);
     } else {
       logger.warn("Failed to load random games! (" + games + ")");
       throw new PreMadePuzzleFinderException(PreMadePuzzleFinderException.GAME_NOT_LOADED);
     }
 
-  }
-
-  public PreMadePuzzleRepository getRepository() {
-    return repository;
-  }
-
-  public void setRepository(PreMadePuzzleRepository repository) {
-    this.repository = repository;
   }
 }
