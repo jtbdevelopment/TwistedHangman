@@ -36,7 +36,7 @@ angular.module('twistedHangmanApp')
                     controller.showLogout = controller.currentPlayer.source === 'MANUAL';
                     controller.createRefreshEnabled = true;
                     controller.includeTemplate = 'views/sidebar.html';
-                    controller.adTemplate = 'views/ads/ad-holder.html';
+                  controller.adTemplate = 'views/ads/empty.html';
                     jtbBootstrapVersionNotesService.displayVersionNotesIfAppropriate(CURRENT_VERSION, RELEASE_NOTES);
                 });
 

@@ -50,7 +50,7 @@ describe('Controller: MainCtrl', function () {
         expect(MainCtrl.showAdmin).toEqual(true);
         expect(MainCtrl.showLogout).toEqual(false);
         expect(MainCtrl.includeTemplate).toEqual('views/sidebar.html');
-        expect(MainCtrl.adTemplate).toEqual('views/ads/ad-holder.html');
+      expect(MainCtrl.adTemplate).toEqual('views/ads/empty.html');
         expect(MainCtrl.appName).toEqual(longName);
     });
 
@@ -64,7 +64,7 @@ describe('Controller: MainCtrl', function () {
         expect(MainCtrl.showAdmin).toEqual(true);
         expect(MainCtrl.showLogout).toEqual(false);
         expect(MainCtrl.includeTemplate).toEqual('views/sidebar.html');
-        expect(MainCtrl.adTemplate).toEqual('views/ads/ad-holder.html');
+      expect(MainCtrl.adTemplate).toEqual('views/ads/empty.html');
 
         player = {displayName: 'ABC', md5: '6666', adminUser: false, source: 'MANUAL'};
         $rootScope.$broadcast('playerLoaded');
@@ -75,7 +75,7 @@ describe('Controller: MainCtrl', function () {
         expect(MainCtrl.showAdmin).toEqual(true);
         expect(MainCtrl.showLogout).toEqual(true);
         expect(MainCtrl.includeTemplate).toEqual('views/sidebar.html');
-        expect(MainCtrl.adTemplate).toEqual('views/ads/ad-holder.html');
+      expect(MainCtrl.adTemplate).toEqual('views/ads/empty.html');
         expect(versionNotesService.displayVersionNotesIfAppropriate).toHaveBeenCalledWith(
             1.3,
             'Reorganized the game lists, more games per day and fewer ads.');
@@ -85,7 +85,7 @@ describe('Controller: MainCtrl', function () {
         $rootScope.$broadcast('playerLoaded');
         $rootScope.$apply();
         expect(MainCtrl.includeTemplate).toEqual('views/sidebar.html');
-        expect(MainCtrl.adTemplate).toEqual('views/ads/ad-holder.html');
+      expect(MainCtrl.adTemplate).toEqual('views/ads/empty.html');
         expect(logoutCalled).toEqual(false);
         MainCtrl.logout();
         expect(logoutCalled).toEqual(true);

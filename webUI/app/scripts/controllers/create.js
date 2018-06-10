@@ -2,9 +2,9 @@
 
 angular.module('twistedHangmanApp').controller('CreateCtrl',
     ['$rootScope', '$scope', 'jtbBootstrapGameActions', 'jtbAppLongName',
-        'twGameFeatureService', 'jtbPlayerService', '$uibModal',
+      'twGameFeatureService', 'jtbPlayerService', 'jtbFacebook',
         function ($rootScope, $scope, jtbBootstrapGameActions, jtbAppLongName,
-                  twGameFeatureService, jtbPlayerService, $uibModal) {
+          twGameFeatureService, jtbPlayerService, jtbFacebook) {
 
             var controller = this;
             var SINGLE_PLAYER = 'SinglePlayer';
@@ -111,20 +111,9 @@ angular.module('twistedHangmanApp').controller('CreateCtrl',
             };
 
             controller.showInvite = function () {
-                $uibModal.open({
-                    templateUrl: 'views/core-bs/friends/invite-friends.html',
-                    controller: 'CoreBootstrapInviteCtrl',
-                    controllerAs: 'invite',
-                    size: 'lg',
-                    resolve: {
-                        invitableFriends: function () {
-                            return controller.invitableFBFriends;
-                        },
-                        message: function () {
-                            return 'Come play ' + jtbAppLongName + ' with me!';
-                        }
-                    }
-                });
+              jtbFacebook.inviteFriends(
+                [],
+                'Come play ' + jtbAppLongName + ' with me!');
             };
 
             //  Initialize

@@ -202,7 +202,7 @@ public class TwistedHangmanIntegration extends AbstractGameIntegration<THGame, T
     map.put(TEST_PLAYER3.getMd5(), 1);
     assertEquals(map, game.getPlayerRunningScores());
     assertEquals(TEST_PLAYER3.getMd5(),
-        game.getFeatureData(GameFeature.SinglePlayer));
+        game.getFeatureData(GameFeature.SingleWinner));
 
     THMaskedGame newGame = rematchGame(P2G);
     Assert.assertNotEquals(newGame.getId(), dbLoaded1.getId());

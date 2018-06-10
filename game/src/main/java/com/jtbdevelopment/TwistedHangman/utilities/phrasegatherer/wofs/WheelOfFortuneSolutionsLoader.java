@@ -43,7 +43,7 @@ public class WheelOfFortuneSolutionsLoader {
               puzzle.setWordPhrase(i);
               logger.info("Accepting {}/{}", c, i);
               counter.incrementAndGet();
-//              repository.save(puzzle);
+              repository.save(puzzle);
             }
 
           }
