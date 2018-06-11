@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://maven.apache.org/POM/4.0.0"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.jtbdevelopment.TwistedHangman</groupId>
   <artifactId>TwistedHangman</artifactId>
   <packaging>pom</packaging>
-  <version>1.5-SNAPSHOT</version>
+  <version>1.5</version>
   <modules>
     <module>game</module>
     <module>webUI</module>
@@ -51,7 +49,7 @@
     <developerConnection>scm:git:git@github.com:jtbdevelopment/TwistedHangman.git
     </developerConnection>
     <url>https://github.com/jtbdevelopment/TwistedHangman.git</url>
-    <tag>HEAD</tag>
+    <tag>TwistedHangman-1.5</tag>
   </scm>
 
   <repositories>
