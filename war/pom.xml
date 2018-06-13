@@ -3,7 +3,7 @@
     <parent>
         <artifactId>TwistedHangman</artifactId>
         <groupId>com.jtbdevelopment.TwistedHangman</groupId>
-        <version>1.5-SNAPSHOT</version>
+        <version>1.6</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>war</packaging>
@@ -30,7 +30,7 @@
         <dependency>
             <groupId>com.jtbdevelopment.TwistedHangman</groupId>
             <artifactId>game</artifactId>
-            <version>1.5-SNAPSHOT</version>
+            <version>1.6</version>
         </dependency>
 
         <dependency>
